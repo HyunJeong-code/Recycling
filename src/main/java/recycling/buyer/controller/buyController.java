@@ -43,6 +43,7 @@ public class buyController {
 		
 		if(buyer == null || buyer.getbOut().equals("Y")) {
 			session.invalidate();
+			
 		}
 		session.setAttribute("bCode", buyer.getbCode());
 		
