@@ -6,10 +6,10 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- DB 접속 정보 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
-		<property name="username" value="scott"></property>
-		<property name="password" value="tiger"></property>
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g3bd2566cb57229_recycling_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))"/>
+		<property name="username" value="admin"/>
+		<property name="password" value="Kdw123456789"/>
 	</bean>
 	
 	<!-- 마이바티스 수행 객체 설정 (SqlSession) -->
@@ -19,10 +19,6 @@
 		<!-- 빈끼리 연결, DI, 다른 빈을 이용한 setter DI -->
 		<property name="dataSource" ref="dataSource"/>
 		
-		<!-- 1. 마이바티스 설정 파일(XML) 위치 지정 -->
-<!-- 		<property name="configLocation" value="classpath:/mybatis-config.xml"/> -->
-		
-		<!-- 2. 마이바티스 설정 파일(XML) 위치 지정 -->
 		<!-- Configuration XML 파일 없이 설정 항목 적용 -->
 		<property name="configuration">
 			<bean class="org.apache.ibatis.session.Configuration">

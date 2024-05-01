@@ -77,11 +77,34 @@
 				 </exclusion>
 			</exclusions>
 		</dependency>
+		
+		<!-- 오라클 클라우드 DB -->
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/oraclepki -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>com.oracle.database.security</groupId>
+            <artifactId>oraclepki</artifactId>
+            <version>21.13.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_cert -->
+        <dependency>
+            <groupId>com.oracle.database.security</groupId>
+            <artifactId>osdt_cert</artifactId>
+            <version>21.13.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_core -->
+        <dependency>
+            <groupId>com.oracle.database.security</groupId>
+            <artifactId>osdt_core</artifactId>
+            <version>21.13.0.0</version>
+        </dependency>
 				
 		<!-- AspectJ -->
 		<dependency>
@@ -89,13 +112,6 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
 		</dependency>	
-		
-		<!-- AspectJ -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${org.aspectj-version}</version>
-		</dependency>
 		
 		<!-- AspectJ Weaver -->
 		<dependency>
