@@ -7,14 +7,15 @@ public class Cmp {
 	private String cmpName;
 	private String cmpCeo;
 	private int cmpNum;
-	private int cmpPostcode;
+	private String cmpPostcode;
 	private String cmpAddr;
 	private String cmpDetail;
 	
 	public Cmp() {}
 
-	public Cmp(int cmpNo, String bCode, String cmpName, String cmpCeo, int cmpNum, int cmpPostcode, String cmpAddr,
+	public Cmp(int cmpNo, String bCode, String cmpName, String cmpCeo, int cmpNum, String cmpPostcode, String cmpAddr,
 			String cmpDetail) {
+		super();
 		this.cmpNo = cmpNo;
 		this.bCode = bCode;
 		this.cmpName = cmpName;
@@ -71,11 +72,11 @@ public class Cmp {
 		this.cmpNum = cmpNum;
 	}
 
-	public int getCmpPostcode() {
+	public String getCmpPostcode() {
 		return cmpPostcode;
 	}
 
-	public void setCmpPostcode(int cmpPostcode) {
+	public void setCmpPostcode(String cmpPostcode) {
 		this.cmpPostcode = cmpPostcode;
 	}
 
