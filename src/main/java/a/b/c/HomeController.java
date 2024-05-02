@@ -36,6 +36,6 @@ public class HomeController {
 		return "home";
 	}
 	
-	// 싸없새 asd
+	// 싸없새 asd aaa
 	
 }
