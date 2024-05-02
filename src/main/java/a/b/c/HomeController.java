@@ -35,5 +35,6 @@ public class HomeController {
 		
 		return "home";
 	}
+	//우 리 김
 	
 }
