@@ -35,6 +35,5 @@ public class HomeController {
 		
 		return "home";
 	}
-	// 바보입니다
 	
 }
