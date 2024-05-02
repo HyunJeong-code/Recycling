@@ -7,7 +7,7 @@ public class Seller {
 	private String accName;
 	private String accBank;
 	private int accNo;
-	private int sPostcode;
+	private String sPostcode;
 	private String sAddr;
 	private String sDetail;
 	private String sEntDate;
@@ -15,10 +15,11 @@ public class Seller {
 	private String sOut;
 	private String sOutDate;
 	
-	public Seller() {}
+	public Seller() {}	
 
-	public Seller(String sCode, String bCode, String accName, String accBank, int accNo, int sPostcode, String sAddr,
+	public Seller(String sCode, String bCode, String accName, String accBank, int accNo, String sPostcode, String sAddr,
 			String sDetail, String sEntDate, String sChk, String sOut, String sOutDate) {
+		super();
 		this.sCode = sCode;
 		this.bCode = bCode;
 		this.accName = accName;
@@ -80,11 +81,11 @@ public class Seller {
 		this.accNo = accNo;
 	}
 
-	public int getsPostcode() {
+	public String getsPostcode() {
 		return sPostcode;
 	}
 
-	public void setsPostcode(int sPostcode) {
+	public void setsPostcode(String sPostcode) {
 		this.sPostcode = sPostcode;
 	}
 

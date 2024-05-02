@@ -17,10 +17,11 @@ import recycling.buyer.service.face.BuyerService;
 
 @Controller
 @RequestMapping("/buyer/mypage")
-public class buyerController {
+public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+<<<<<<< HEAD:src/main/java/recycling/buyer/controller/buyerController.java
 	@Autowired BuyerService buyerService;
 	
 	@GetMapping("/mymain")
@@ -58,3 +59,6 @@ public class buyerController {
 	
 	
 }
+=======
+}
+>>>>>>> 0e11946d699200f986d8a280ee4154511a5bb8ff:src/main/java/recycling/buyer/controller/BuyerController.java

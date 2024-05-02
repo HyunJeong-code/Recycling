@@ -6,14 +6,14 @@ public class BuyerAdr {
 	private String bCode;
 	private String adrName;
 	private String adrPhone;
-	private int adrPostcode;
+	private String adrPostcode;
 	private String adrAddr;
 	private String adrDetail;
 	private String adrChk;
 	
 	public BuyerAdr() {}
 
-	public BuyerAdr(String adrCode, String bCode, String adrName, String adrPhone, int adrPostcode, String adrAddr,
+	public BuyerAdr(String adrCode, String bCode, String adrName, String adrPhone, String adrPostcode, String adrAddr,
 			String adrDetail, String adrChk) {
 		this.adrCode = adrCode;
 		this.bCode = bCode;
@@ -64,11 +64,11 @@ public class BuyerAdr {
 		this.adrPhone = adrPhone;
 	}
 
-	public int getAdrPostcode() {
+	public String getAdrPostcode() {
 		return adrPostcode;
 	}
 
-	public void setAdrPostcode(int adrPostcode) {
+	public void setAdrPostcode(String adrPostcode) {
 		this.adrPostcode = adrPostcode;
 	}
 
