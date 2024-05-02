@@ -4,4 +4,19 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.BuyerDao">
+
+	<insert id="insertOrder" parameterType="Orders">
+		<!-- <selectKey order="BEFORE" keyProperty="ordCode" resultType="String">
+			SELECT orders_seq.nextval FROM dual
+		</selectKey> -->
+		INSERT INTO orders (ORD_CODE,B_CODE,ORD_NAME,ORD_PHONE,SEND_NAME,SEND_PHONE,ORD_POSTCODE,ORD_ADDR,ORD_DETAIL,ORD_MEMO,ORD_DATE,ORD_PAY,ORD_SUM,STT_NO)
+		VALUES(#{ordCode},1,#{ordName},#{ordPhone},1,1,#{ordPostcode},#{ordAddr},#{ordDetail},#{ordMemo},sysdate,#{ordPay},1,1)
+	</insert>
+	
+	<select id="selectAllCart" parameterType="String" resultType="Cart">
+		SELECT * FROM Cart
+		WHERE B_CODE = #{bCode}
+		ORDER BY C_CODE
+	</select>
+
 </mapper>
