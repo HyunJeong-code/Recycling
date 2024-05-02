@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,7 +82,7 @@
         //가맹점 식별코드 초기화
         IMP.init('imp40731343')
 
-        function requsetPay(){
+        function requestPay(){
             IMP.request_pay({
             pg: "tosspay", // PG사
             pay_method: "card", //결제 수단 (필수)
@@ -115,7 +118,7 @@
             			, url: "./pay"
             			, data: {
             				ordCode: rsp.merchant_uid,
-            				ordPay: rsp.amount,
+            				ordPay: rsp.paid_amount,
             				ordName: $("#ordName").val(),
             				ordPhone: $("#ordPhone").val(),
             				ordPostcode: $("#ordPostcode").val(),
@@ -127,12 +130,15 @@
             			, success: function(res) {
             				console.log("AJAX 성공");
             				
-            				window.location.replace("./payinfo");
+            				//window.location.replace("./payinfo");
+            				//window.location.replace("./payinfo?ordCode=${order.ordCode }");
+            		        window.location.href = "./payinfo?ordCode=" + res.order.ordCode;
+
             			}
             			, error: function() {
             				console.log("AJAX 실패");
             			}
-            		})
+            	})
                 //결제 실패시
                 } else {
                 	alert("결제실패");
@@ -167,6 +173,27 @@
 <h1>주문하기</h1>
 <hr>
 
+<table>
+	
+		<thead>
+			<tr>
+				<th>카트 코드</th>
+				<th>상품 이름</th>
+				<th>수량</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="cart" items="${clist }">
+				<tr>
+			 		<td>${cart.cCode }</td>
+			 		<td>${cart.bCode }</td>
+			 		<td>${cart.cCnt }</td>
+			 	</tr>
+			</c:forEach>
+		 	
+	 	</tbody>
+	</table>
+
 상품: <span id="product_name">친환경 컵</span>
 
 <br><br>
@@ -192,7 +219,7 @@
 </label><br>
 
 <br><br>
-<button type="button" onclick="requsetPay();">결제하기</button>
+<button type="button" onclick="requestPay();">결제하기</button>
 
 </form>
 

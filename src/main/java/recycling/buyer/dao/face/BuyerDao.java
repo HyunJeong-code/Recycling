@@ -13,15 +13,32 @@ public interface BuyerDao {
 	 * 주문 추가
 	 * 
 	 * @param order - 주문 정보
+	 * @return INSERT 결과
 	 */
-	public void insertOrder(Orders order);
+	public int insertOrder(Orders order);
 	
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 sesison
+	 * @param bCode - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
 	public List<Cart> selectAllCart(String bCode);
+
+	/**
+	 * cCode로 Cart 조회하기
+	 * 
+	 * @param c - 받아오는 cCode
+	 * @return - 조회한 Cart 정보
+	 */
+	public Cart selectBycCode(String c);
+
+	/**
+	 * ordCode로 Orders 조회하기
+	 * 
+	 * @param ordCode - 조회할 ordCode
+	 * @return - 조회한 Orders 정보
+	 */
+	public Orders selectByordCode(String ordCode);
 	
 }

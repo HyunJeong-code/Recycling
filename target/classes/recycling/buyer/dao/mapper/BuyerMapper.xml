@@ -14,9 +14,21 @@
 	</insert>
 	
 	<select id="selectAllCart" parameterType="String" resultType="Cart">
-		SELECT * FROM Cart
+		SELECT * FROM cart
 		WHERE B_CODE = #{bCode}
 		ORDER BY C_CODE
+	</select>
+	
+	<select id="selectBycCode" parameterType="String" resultType="Cart">
+		SELECT * FROM cart
+		WHERE C_CODE = #{c}
+		ORDER BY C_CODE
+	</select>
+	
+	<select id="selectByordCode" parameterType="String" resultType="Orders">
+		SELECT * FROM orders
+		WHERE ORD_CODE = #{ordCode}
+		ORDER BY ORD_CODE
 	</select>
 
 </mapper>

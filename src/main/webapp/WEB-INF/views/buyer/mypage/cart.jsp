@@ -20,11 +20,28 @@
 		        if($(this).is(":checked")==true){
 		        	//let map = new Map();
 		        	//map.set("cCode",$(this).attr('id').replace("c",""))
-		        	let res = $(this).attr('id').replace("c","");
+		        	let res = $(this).val();
 		        	arr.push(res);
 		        }
 		    });
 		    
+			/* $.ajax({
+				type: "get"
+				, url: "./pay"
+				, data: {
+					arr: arr 
+				}
+				, dataType : "Json"
+				, success: function(res) {
+					console.log("AJAX 성공");
+					
+					location.href="./pay";
+					
+				}
+				, error: function() {
+					console.log("AJAX 실패");
+				}
+			}) */
 		    
 		    console.log(arr);
 		}); // #ord_btn click end
@@ -48,7 +65,7 @@
 			<c:forEach var="cart" items="${list }">
 				<tr>
 					<td>
-						<input type="checkbox" class="checkList" name="checkList" id="c${cart.cCode }">
+						<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
 					</td>
 			 		<td>${cart.cCode }</td>
 			 		<td>${cart.bCode }</td>
@@ -60,6 +77,7 @@
 	</table>
 
 	<button id="ord_btn">주문하기</button>
+	
 	</form>
 
 </body>

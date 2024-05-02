@@ -1,5 +1,6 @@
 package recycling.buyer.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -46,9 +47,26 @@ public class BuyerController {
 	
 	@GetMapping("/pay")
 	public void pay(
-			//@RequestParam String checkList
+			@RequestParam(defaultValue="test") List<String> checkList,
+			Model model
+			
 			) {
-		logger.info("checkList : {}");
+		logger.info("checkList : {}", checkList);
+		
+		List<Cart> list = new ArrayList<Cart>();
+		
+		for (String c : checkList) {
+            Cart cart = buyerService.selectBycCode(c);
+            
+            list.add(cart);
+        }
+		
+		logger.info("list : {}", list);
+		
+		model.addAttribute("clist", list);
+		
+		//List<Cart> list = buyerService.selectAllCart(bCode);
+		
 	}
 	
 	@PostMapping("/pay")
@@ -58,7 +76,7 @@ public class BuyerController {
 		
 		//카트 딜리트
 		
-		buyerService.order(order);
+		int res = buyerService.order(order);
 		
 		model.addAttribute("order", order);
 		
@@ -66,8 +84,12 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/payinfo")
-	public void payinfo() {
+	public void payinfo(@RequestParam("ordCode") String ordCode, Model model) {
+		logger.info("{}",ordCode);
 		
+		Orders order = buyerService.selectByordCode(ordCode);
+		
+		model.addAttribute("order", order);
 	}
 	
 }

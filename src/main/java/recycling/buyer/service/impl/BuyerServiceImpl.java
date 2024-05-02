@@ -20,8 +20,10 @@ public class BuyerServiceImpl implements BuyerService {
 	@Autowired BuyerDao buyerDao;
 	
 	@Override
-	public void order(Orders order) {
-		buyerDao.insertOrder(order);
+	public int order(Orders order) {
+		int res = buyerDao.insertOrder(order);
+		
+		return res;
 	}
 	
 	@Override
@@ -30,5 +32,16 @@ public class BuyerServiceImpl implements BuyerService {
 		List<Cart> list = buyerDao.selectAllCart(bCode);
 		
 		return list;
+	}
+	
+	@Override
+	public Cart selectBycCode(String c) {
+		logger.info(c);
+		return buyerDao.selectBycCode(c);
+	}
+	
+	@Override
+	public Orders selectByordCode(String ordCode) {
+		return buyerDao.selectByordCode(ordCode);
 	}
 }
