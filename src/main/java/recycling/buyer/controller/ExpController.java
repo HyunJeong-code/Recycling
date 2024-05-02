@@ -25,7 +25,7 @@ public class ExpController {
 	@Autowired private ExpService expService;
 	
 	
-	@GetMapping("/main")
+	@RequestMapping("/main")
 	public void main(
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage,
@@ -36,8 +36,10 @@ public class ExpController {
 		
 		List<Exp> list = expService.selectAllExp(paging);
 		
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
+		
+		
+//		model.addAttribute("paging", paging);
+//		model.addAttribute("list", list);
 	}
 	
 }

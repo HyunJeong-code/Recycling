@@ -7,8 +7,8 @@ import recycling.util.Paging;
 
 public interface ExpService {
 
-	Paging getPaging(int curPage);
+	public Paging getPaging(int curPage);
 
-	List<Exp> selectAllExp(Paging paging);
+	public List<Exp> selectAllExp(Paging paging);
 
 }

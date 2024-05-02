@@ -4,4 +4,10 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.seller.dao.face.SellingDao">
+	<select id="selectMyExpList" resultType="Exp">
+		SELECT exp_code, exp_name, exp_price
+		FROM Exp
+		ORDER BY 
+	</select>
+
 </mapper>

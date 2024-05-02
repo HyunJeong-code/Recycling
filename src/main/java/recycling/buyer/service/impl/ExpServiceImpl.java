@@ -2,6 +2,8 @@ package recycling.buyer.service.impl;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ public class ExpServiceImpl implements ExpService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private ExpDao expDao;
+	@Autowired private ServletContext servletContext;
 	
 	@Override
 	public Paging getPaging(int curPage) {
