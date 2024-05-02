@@ -36,4 +36,6 @@ public class HomeController {
 		return "home";
 	}
 	
+	//안녕하세요
+	
 }
