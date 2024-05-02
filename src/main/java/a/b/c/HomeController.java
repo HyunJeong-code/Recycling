@@ -36,6 +36,4 @@ public class HomeController {
 		return "home";
 	}
 	
-	//push 할혀고 합니다
-	
 }
