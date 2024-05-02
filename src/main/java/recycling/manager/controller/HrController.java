@@ -10,4 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HrController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
+
 }
