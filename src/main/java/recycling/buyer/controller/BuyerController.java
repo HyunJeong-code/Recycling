@@ -74,6 +74,8 @@ public class BuyerController {
 		
 		//카트담긴것 Order_detail로 인서트
 		
+		//Prd 수량 update --증감
+		
 		//카트 딜리트
 		
 		int res = buyerService.order(order);

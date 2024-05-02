@@ -88,10 +88,9 @@
             pay_method: "card", //결제 수단 (필수)
             merchant_uid: 'ORD_' + new Date().getTime(),   // 주문번호
             name: "노르웨이 회전 의자",             // 주문 상품 이름
-            amount: 64900,                         // 결제 금액 (필수)
+            amount: 64900,                        	// 결제 금액 (필수)
 
-            buyer_email: "gildong@gmail.com",      // 주문자 정보들
-            buyer_name: $("#ordName").val(),                   
+            buyer_name: $("#ordName").val(),     	// 주문자 정보들
             buyer_tel: $("#ordPhone").val(),
             buyer_addr: $("#ordAddr").val(),
             buyer_postcode: $("#ordPostcode").val()
