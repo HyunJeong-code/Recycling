@@ -10,7 +10,7 @@ public class Wash {
 	private String wCmpName;
 	private String wCmpCeo;
 	private int wCmpNum;
-	private int wPostcode;
+	private String wPostcode;
 	private String wAddr;
 	private String wDetail;
 	private String wDate;
@@ -18,7 +18,8 @@ public class Wash {
 	public Wash() {}
 
 	public Wash(String wCode, String mgrCode, String wName, String wPhone, String wEmail, String wCmpName,
-			String wCmpCeo, int wCmpNum, int wPostcode, String wAddr, String wDetail, String wDate) {
+			String wCmpCeo, int wCmpNum, String wPostcode, String wAddr, String wDetail, String wDate) {
+		super();
 		this.wCode = wCode;
 		this.mgrCode = mgrCode;
 		this.wName = wName;
@@ -104,12 +105,40 @@ public class Wash {
 		this.wCmpNum = wCmpNum;
 	}
 
-	public int getwPostcode() {
+	public String getwPostcode() {
 		return wPostcode;
 	}
 
-	public void setwPostcode(int wPostcode) {
+	public void setwPostcode(String wPostcode) {
 		this.wPostcode = wPostcode;
+	}
+
+	public String getwAddr() {
+		return wAddr;
+	}
+
+	public void setwAddr(String wAddr) {
+		this.wAddr = wAddr;
+	}
+
+	public String getwDetail() {
+		return wDetail;
+	}
+
+	public void setwDetail(String wDetail) {
+		this.wDetail = wDetail;
+	}
+
+	public String getwDate() {
+		return wDate;
+	}
+
+	public void setwDate(String wDate) {
+		this.wDate = wDate;
+	}
+
+	public int getwCmpNum() {
+		return wCmpNum;
 	}
 
 	public String getW_addr() {

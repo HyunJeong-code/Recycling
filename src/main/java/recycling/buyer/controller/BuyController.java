@@ -18,7 +18,7 @@ import recycling.dto.buyer.Buyer;
 
 @Controller
 @RequestMapping("/buyer")
-public class buyController {
+public class BuyController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired BuyService buyService;

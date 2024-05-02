@@ -8,7 +8,7 @@ public class Orders {
 	private String ordPhone;
 	private String sendName;
 	private String sendPhone;
-	private int ordPostcode;
+	private String ordPostcode;
 	private String ordAddr;
 	private String ordDetail;
 	private String ordMemo;
@@ -17,12 +17,11 @@ public class Orders {
 	private int ordSum; // ordFee와 상세주문들 총 금액의 합
 	private int ordFee;
 	private int sttNo;
-	
-	public Orders() {}
 
 	public Orders(String ordCode, String bCode, String ordName, String ordPhone, String sendName, String sendPhone,
-			int ordPostcode, String ordAddr, String ordDetail, String ordMemo, String ordDate, String ordPay,
+			String ordPostcode, String ordAddr, String ordDetail, String ordMemo, String ordDate, String ordPay,
 			int ordSum, int ordFee, int sttNo) {
+		super();
 		this.ordCode = ordCode;
 		this.bCode = bCode;
 		this.ordName = ordName;
@@ -96,11 +95,11 @@ public class Orders {
 		this.sendPhone = sendPhone;
 	}
 
-	public int getOrdPostcode() {
+	public String getOrdPostcode() {
 		return ordPostcode;
 	}
 
-	public void setOrdPostcode(int ordPostcode) {
+	public void setOrdPostcode(String ordPostcode) {
 		this.ordPostcode = ordPostcode;
 	}
 
