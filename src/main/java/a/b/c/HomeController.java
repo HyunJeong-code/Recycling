@@ -36,4 +36,5 @@ public class HomeController {
 		return "home";
 	}
 	
+	// 문민수 바보
 }
