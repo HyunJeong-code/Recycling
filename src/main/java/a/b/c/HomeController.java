@@ -36,11 +36,4 @@ public class HomeController {
 		return "home";
 	}
 	
-<<<<<<< HEAD
-	//안녕하세요
-=======
-	//test
-	
->>>>>>> ff5efabf850fdc0ad42012ea1b1e83d0ef1226d2
-	
 }
