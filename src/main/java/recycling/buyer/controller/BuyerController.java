@@ -13,5 +13,4 @@ public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	
 }
