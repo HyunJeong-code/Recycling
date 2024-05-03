@@ -15,7 +15,11 @@ public interface CsDao {
 	 * @param paging
 	 * @return
 	 */
+<<<<<<< HEAD
 	public List<Oto> selectAllOto(Paging paging);
+=======
+	public List<Oto> selectAllAns(Paging paging);
+>>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 
 	/**
 	 * 총 게시글 조회

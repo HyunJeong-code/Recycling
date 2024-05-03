@@ -5,20 +5,32 @@
   
 <mapper namespace="recycling.manager.dao.face.CsDao">
 
+<<<<<<< HEAD
 	<!-- 문의 sql 아이디 -->
+=======
+	<!-- 문의 아이디 -->
+>>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 	<sql id="selectAll">
 		SELECT
 			oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email, oto_date, oto_hit
 		FROM oto
 	</sql>
 	
+<<<<<<< HEAD
 	<!-- 구매자 sql 아이디 -->
+=======
+	<!-- 구매자 아이디 -->
+>>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 	<sql id="selectBuyerList">
 		SELECT * FROM buyer
 	</sql>	
 
 	<!-- 문의글 목록 -->
+<<<<<<< HEAD
 	<select id="selectAllOto" resultType="Oto" parameterType="recycling.util.Paging">
+=======
+	<select id="selectAllAns" resultType="Ans" parameterType="recycling.util.Paging">
+>>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				<include refid="selectAll" />

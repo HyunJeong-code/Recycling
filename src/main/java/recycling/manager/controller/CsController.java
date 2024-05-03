@@ -37,8 +37,12 @@ public class CsController {
 
 		// 게시글 목록 조회
 		List<Oto> list = csService.list(paging);
+<<<<<<< HEAD
 		logger.info("controller list: {}", list);
 		
+=======
+
+>>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 
@@ -62,8 +66,11 @@ public class CsController {
 		model.addAttribute("buyerList", buyerList);
 
 		return "manager/cs/buyerlist";
+<<<<<<< HEAD
 		
 		// 테스트용 주석
+=======
+>>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 
 	}
 
