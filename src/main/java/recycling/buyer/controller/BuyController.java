@@ -46,6 +46,7 @@ public class BuyController {
 			
 		}
 		session.setAttribute("bCode", buyer.getbCode());
+		session.setAttribute("bCtCode", buyer.getbCtCode());
 		
 		return "redirect:./main";
 	}
