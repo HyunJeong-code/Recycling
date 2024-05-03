@@ -100,15 +100,16 @@ th {
                 <td class="price">${exp.expPrice}</td>
                 <td class="hit">${exp.expHit}</td>
                 <td>
-               		<fmt:formatDate value="${exp.expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                	<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
+               		<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                 </td>
-                <td class="resdetail"><a href="#"><button>예약하기</button></a></td>
+                <td class="resdetail"><a href="./expresdetail?expCode"><button>예약하기</button></a></td>
                 <td class="expdetail"><a href="#"><button>상세 보기</button></a></td>
             </tr>
         </c:forEach>
     </tbody>
 </table>
 </div>
-
+<c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </body>
 </html>

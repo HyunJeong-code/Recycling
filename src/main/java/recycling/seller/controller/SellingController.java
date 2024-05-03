@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpSch;
 import recycling.seller.service.face.SellingService;
+import recycling.util.Paging;
 
 // 상품-판매 관리
 
@@ -26,18 +28,37 @@ public class SellingController {
 	@GetMapping("/explist")
 	public void expList(
 			Model model,
-			ExpSch expSch
+			@RequestParam(defaultValue = "0")int curPage, 
+			@RequestParam(defaultValue = "") String search
 			) {
 		logger.info("/explist [GET]");
 		
-		List<Exp> list = sellingService.selectMyExpList();
+		Paging paging = new Paging();
 		
-		for(Exp e : list) {
-			logger.debug("{}", e);
+		paging = sellingService.getSearchPaging(curPage, search);
+		
+		List<Exp> list = sellingService.selectMyExpList(paging);
+		
+//		for(Exp e : list) {
+//			logger.debug("{}", e);
+//		model.addAttribute("list", list);
+//		
+//			
+//		}
+		
+		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
-			
-		}
+	}
+	
+	@GetMapping("/expdetail")
+	public void expDetail() {
+		
+	}
+	
+	@GetMapping("/expresdetail")
+	public void expResDetail() {
+		
 		
 	}
 }
