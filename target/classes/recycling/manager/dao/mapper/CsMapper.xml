@@ -4,4 +4,50 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.manager.dao.face.CsDao">
+
+	<!-- 문의 아이디 -->
+	<sql id="selectAll">
+		SELECT
+			oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email, oto_date, oto_hit
+		FROM oto
+	</sql>
+	
+	<!-- 구매자 아이디 -->
+	<sql id="selectBuyerList">
+		SELECT * FROM buyer
+	</sql>	
+
+	<!-- 문의글 목록 -->
+	<select id="selectAllAns" resultType="Ans" parameterType="recycling.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectAll" />
+				ORDER BY oto_code DESC
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 총 게시글 조회 -->
+	<select id="selectCntAll" resultType="int">
+		SELECT count(*) FROM (
+			<include refid="selectAll" />
+		)
+	</select>
+	
+	<!-- 구매자 목록 -->
+	<select id="selectAllBuyer" resultType="Buyer" parameterType="recycling.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectBuyerList" />
+				ORDER BY b_code DESC
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
 </mapper>
