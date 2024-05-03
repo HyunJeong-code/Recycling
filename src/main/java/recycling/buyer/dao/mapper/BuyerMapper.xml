@@ -5,13 +5,29 @@
   
 <mapper namespace="recycling.buyer.dao.face.BuyerDao">
 
-	<select id="selectByPwAndCt" resultType="boolean">
-		SELECT count(*)
-		FROM Buyer
+	<select id="selectBuyerById" resultType="recycling.dto.buyer.Buyer">
+		SELECT * FROM Buyer
 		<where>
-			AND bPw = #{bPw }
-			AND bCtCode = #{bCtCode }
+			AND bId = #{bId }
 		</where>
+	</select>
+	
+	<update id="updateBuyer">
+		UPDATE Buyer
+		SET
+			bPw = #{bPw }
+			bName = #{bName }
+			bPhone = #{bPhone }
+			bEmail = #{bEmail }
+			adSms = #{adSms }
+			adEmail = #{adEmail }
+		<where>
+			AND bId = #{bId }
+		</where>			
+	</update>
+	
+	<select id="selectBuyerAdr" resultType="recycling.dto.buyer.Buyer">
+		SELECT * FROM Buyer_Adr
 	</select>
 
 </mapper>

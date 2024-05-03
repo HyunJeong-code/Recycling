@@ -1,17 +1,15 @@
 package recycling.buyer.service.impl;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.Cmp;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
@@ -21,27 +19,57 @@ public class BuyerServiceImpl implements BuyerService {
 	@Autowired private BuyerDao buyerDao;
 
 	@Override
-	public boolean selectByPwAndCt(String bPw, String bCtCode) {
+	public Buyer getBuyerById(String bId) {
 
-		return buyerDao.selectByPwAndCt(bPw, bCtCode);
+		return buyerDao.selectBuyerById(bId);
 	
 	}
 
 	@Override
-	public List<BuyerAdr> getBuyerAdr(String bCode) {
+	public Buyer getBuyerTypeByCode(String bCode) {
 
-		return buyerDao.selectBuyerAdr(bCode);
+		return buyerDao.selectBuyerTypeByCode(bCode);
+	
+	}
+	
+	@Override
+	public BuyerAdr getBuyerAdr(String bCode) {
+
+		return buyerDao.selectByBuyerAdr(bCode);
+
+	}
+
+	@Override
+	public Cmp getCmpDetail(String bCode) {
+
+		return buyerDao.selectByCmpDetail(bCode);
 	
 	}
 
 	@Override
-	@Transactional
-	public void updateBuyerInfo(Buyer buyer, BuyerAdr buyerAdr) {
-		
+	public void updateBuyer(Buyer buyer) {
+
 		buyerDao.updateBuyer(buyer);
-		buyerDao.upadateBuyerAdr(buyerAdr);
 		
 	}
+
+	@Override
+	public void updateBuyerAdr(BuyerAdr buyerAdr) {
+		
+		buyerDao.updateBuyerAdr(buyerAdr);
+		
+	}
+
+	@Override
+	public void updateCmpDetail(Cmp cmp) {
+		
+		buyerDao.updateCmpDetail(cmp);
+		
+	}
+
+	
+
+	
 
 	
 	
