@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpSch;
 import recycling.seller.service.face.SellingService;
 
 // 상품-판매 관리
@@ -24,7 +25,8 @@ public class SellingController {
 	
 	@GetMapping("/explist")
 	public void expList(
-			Model model
+			Model model,
+			ExpSch expSch
 			) {
 		logger.info("/explist [GET]");
 		
@@ -32,8 +34,8 @@ public class SellingController {
 		
 		for(Exp e : list) {
 			logger.debug("{}", e);
-			model.addAttribute("list", list);
-			
+		model.addAttribute("list", list);
+		
 			
 		}
 		

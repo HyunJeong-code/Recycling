@@ -5,9 +5,10 @@
   
 <mapper namespace="recycling.seller.dao.face.SellingDao">
 	<select id="selectMyExpList" resultType="Exp">
-		SELECT exp_code, exp_name, exp_price
-		FROM Exp
-		ORDER BY 
+		SELECT * FROM Exp
+		ORDER BY exp_code
 	</select>
+
+
 
 </mapper>

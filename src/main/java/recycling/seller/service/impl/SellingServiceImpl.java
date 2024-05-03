@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpSch;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
 
@@ -20,5 +21,6 @@ public class SellingServiceImpl implements SellingService {
 		
 		return sellingDao.selectMyExpList();
 	}
+
 
 }
