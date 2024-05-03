@@ -33,6 +33,8 @@ public class SellingController {
 		for(Exp e : list) {
 			logger.debug("{}", e);
 			model.addAttribute("list", list);
+			
+			
 		}
 		
 	}
