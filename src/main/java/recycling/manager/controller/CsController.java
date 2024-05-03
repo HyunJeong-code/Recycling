@@ -61,6 +61,8 @@ public class CsController {
 		model.addAttribute("buyerList", buyerList);
 
 		return "manager/cs/buyerlist";
+		
+		// 테스트용 주석
 
 	}
 
