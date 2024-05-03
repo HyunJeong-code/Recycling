@@ -1,7 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="recycling.manager.dao.face.HrDao">
+
+	<!-- 반복되는 Manager 전체조회기능 추출 -->	
+	<sql id="selectByManager">
+		SELECT
+			mgr_code, deptno, mgr_id, mgr_pw, mgr_name
+			, mgr_phone, mgr_email, mgr_birth, mgr_gender, mgr_entdate
+			, mgr_out, mgr_out_date
+		FROM Manager			
+	</sql>
+
+	<!-- 조회 -->	
+	<select id="selectAll" resultType="Manager">
+		<include refid="selectByManager"/>
+	</select>
+	
+	<!-- 세부 조회 -->
+	<select id="selectDetail" resultType="Manager" parameterType="Manager">
+		<include refid="selectByManager"/>
+		WHERE mgr_code = #{mgrCode }
+	</select>
+	
+	<!-- 데이터 삽입 -->
+	<insert id="insert" parameterType="Manager">
+		<selectKey order="BEFORE" keyProperty="mgrCode" resultType="String">
+			SELECT mgr_code_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO manager
+		(	mgr_code, dept_no
+		, mgr_id, mgr_pw
+		, mgr_name, mgr_phone
+		, mgr_email, mgr_birth
+		, mgr_gender, mgr_ent_date
+		)
+		VALUES
+		(	
+			#{mgrCode }, #{deptNo }
+			, #{mgrId }, #{mgrPw }
+			, #{mgrName }, #{mgrPhone }
+			, #{mgrEmail }, #{mgrBirth }
+			, #{mgrGender }, #{mgrEntDate }
+		)
+		
+	</insert>
+	
+		<!-- 체크 유무에 따른 삭제 -->
+		<delete id="listDel" parameterType="String">
+			DELETE FROM manager
+			<where> mgr_code = #{mgrCode } </where>
+		</delete>
+
+
 </mapper>
