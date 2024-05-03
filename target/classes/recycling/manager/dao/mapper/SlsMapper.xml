@@ -4,4 +4,35 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.manager.dao.face.SlsDao">
+	
+	<!-- 체험단 기본 조회구조  -->
+	<sql id="expBoard">
+	SELECT 
+    	exp_code
+	    , s_code
+	    , exp_name
+	    , exp_price
+	    , exp_detail
+	    , exp_hit
+	    , exp_date
+	FROM exp
+	</sql>
+	
+	<!-- 체험단 조회 -->
+	<select id="selectAll" resultType="Exp">
+			<include refid="expBoard"/>
+	</select>
+	
+	<!-- 체험단 세부 조회 -->
+	<select id="selectDetail" resultType="Exp" parameterType="Exp">
+		<include refid="expBoard"/>
+		<where>exp_code = #{exp_code }</where>
+	</select>
+	
+		<!-- 세부조회에 따른 조회수 증가 -->
+	<update id="hit" parameterType="Exp">
+		UPDATE notice SET exp_hit = exp_hit + 1
+		<where>exp_code = #{exp_code }</where>
+	</update>
+	
 </mapper>
