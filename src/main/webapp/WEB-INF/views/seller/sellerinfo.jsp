@@ -9,10 +9,11 @@
 </head>
 <body>
 
-<c:if test="${seller eq null }">
+<c:if test="${sCode eq null }">
 	<div class="full">
 		<div class="wrap">
 			<div class="page">
+			<h1>판매자 겸용 신청서</h1>
 			</div>
 			
 			<div class="section">
@@ -73,9 +74,23 @@
 	</div>
 </c:if>
 
-<c:if test="${seller.sChk eq 'N' }">
+<!-- html 구조 변경 -->
+<c:if test="${sChk eq 'N' }">
 	<div>
 		<p>현재 판매자 검토 중입니다.</p>
+	</div>
+</c:if>
+
+<!-- 가입 후, 안내 페이지 -->
+<c:if test="${res eq 0 }">
+	<div>
+		<p>가입 실패! 다시 시도해주세요.</p>
+	</div>
+</c:if>
+
+<c:if test="${res eq 1 }">
+	<div>
+		<p>가입 성공, 내부 검토 후 허가되면 판매가 가능합니다.</p>
 	</div>
 </c:if>
 

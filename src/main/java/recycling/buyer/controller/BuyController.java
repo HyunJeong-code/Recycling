@@ -24,7 +24,7 @@ public class BuyController {
 	@Autowired BuyService buyService;
 	
 	@GetMapping("/main")
-	public void main(Model model) {
+	public void main() {
 		logger.info("/buyer/main [GET]");
 	}
 	

@@ -1,5 +1,7 @@
 package recycling.seller.service.impl;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +22,13 @@ public class SellServiceImpl implements SellService {
 		return sellDao.selectSeller(bCode);
 	}
 	
+	@Override
+	public Map<String, Object> selectBuyerAdr(String getbCode) {
+		return sellDao.selectBuyerAdr(getbCode);
+	}
+	
+	@Override
+	public int insertSeller(Seller seller) {
+		return sellDao.insertSeller(seller);
+	}
 }
