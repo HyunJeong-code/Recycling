@@ -78,14 +78,14 @@
 			</exclusions>
 		</dependency>
 		
-		<!-- 오라클 클라우드 DB -->
-		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/oraclepki -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
+		<!-- 오라클 클라우드 DB -->
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/oraclepki -->
 		<dependency>
             <groupId>com.oracle.database.security</groupId>
             <artifactId>oraclepki</artifactId>
