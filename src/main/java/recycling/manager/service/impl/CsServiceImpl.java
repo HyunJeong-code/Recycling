@@ -23,12 +23,8 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public List<Oto> list(Paging paging) {
-<<<<<<< HEAD
 		logger.info("service");
 		return csDao.selectAllOto(paging);
-=======
-		return csDao.selectAllAns(paging);
->>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 	}
 
 	@Override
