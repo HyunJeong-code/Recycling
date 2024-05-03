@@ -23,6 +23,7 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public List<Oto> list(Paging paging) {
+		logger.info("service");
 		return csDao.selectAllOto(paging);
 	}
 

@@ -37,7 +37,8 @@ public class CsController {
 
 		// 게시글 목록 조회
 		List<Oto> list = csService.list(paging);
-
+		logger.info("controller list: {}", list);
+		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 

@@ -5,14 +5,14 @@
   
 <mapper namespace="recycling.manager.dao.face.CsDao">
 
-	<!-- 문의 아이디 -->
+	<!-- 문의 sql 아이디 -->
 	<sql id="selectAll">
 		SELECT
 			oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email, oto_date, oto_hit
 		FROM oto
 	</sql>
 	
-	<!-- 구매자 아이디 -->
+	<!-- 구매자 sql 아이디 -->
 	<sql id="selectBuyerList">
 		SELECT * FROM buyer
 	</sql>	

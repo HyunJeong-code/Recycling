@@ -43,14 +43,15 @@
 			<c:forEach var="oto" items="${list }">
 				<tr>
 					<td>${oto.otoCode }</td>
-					<%-- <td>
+					<td>
 						<a href="./view?boardNo=${oto.otoCode }">${oto.otoTitle }</a>
-					</td> --%>
-					<td>${oto.otoTitle }</td>
+					</td>
+					<%-- <td>${oto.otoTitle }</td> --%>
 					<td>${oto.otoName }</td>
 					<td>${oto.otoHit }</td>
 					<td>
-						<fmt:formatDate value="${oto.otoDate }" pattern="yyyy-MM-dd HH:mm:ss"/>
+						<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd" />
+						<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd" />
 					</td>
 				</tr>
 			</c:forEach>
