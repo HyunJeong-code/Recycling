@@ -10,4 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CsController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	
 }
