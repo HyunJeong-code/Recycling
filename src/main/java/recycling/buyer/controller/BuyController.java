@@ -28,6 +28,18 @@ public class BuyController {
 		logger.info("/buyer/main [GET]");
 	}
 	
+	@GetMapping("/join")
+	public void join() {
+		logger.info("/buyer/join [GET]");
+	}
+	
+	@PostMapping("join")
+	public void joinProc() {
+		logger.info("buyer/join [POST]");
+		
+		
+	}
+	
 	@GetMapping("/login")
 	public void login() {
 		logger.info("/buyer/login [GET]");
