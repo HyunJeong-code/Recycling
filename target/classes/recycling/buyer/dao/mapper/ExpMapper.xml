@@ -4,4 +4,26 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.ExpDao">
+
+	<sql id="selectExp">
+	SELECT * FROM Exp
+	</sql>
+	
+<!-- 	<select id="selectAllExp" parameterType="util.Paging" resultType="Exp"> -->
+<!-- 		SELECT * FROM ( -->
+<!-- 			SELECT rownum rnum, E.* FROM ( -->
+<!-- 				<include refid="selectExp"/> -->
+<!-- 				ORDER BY exp_code -->
+<!-- 			) E -->
+<!-- 		) -->
+<!-- 		<where> -->
+<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="selectCntAll" resultType="int"> -->
+<!-- 		SELECT count(*) FROM ( -->
+<!-- 		SELECT * FROM Exp -->
+<!-- 		) -->
+<!-- 	</select> -->
 </mapper>
