@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import recycling.dto.buyer.ExpRes;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpSch;
 import recycling.seller.dao.face.SellingDao;
@@ -36,6 +37,28 @@ public class SellingServiceImpl implements SellingService {
 			paging = new Paging(totalCount, curPage, search);
 		}
 		return paging;
+	}
+
+	@Override
+	public Exp selectByExp(String expCode) {
+		
+		return sellingDao.selectByExp(expCode);
+	}
+
+	@Override
+	public Paging getPaging(int curPage) {
+		
+		int totalCount = sellingDao.selectPageAll();
+		
+		Paging paging = new Paging(totalCount, curPage);
+		
+		return paging;
+	}
+
+	@Override
+	public List<ExpRes> selectResList(Paging paging) {
+		
+		return sellingDao.selectResList(paging);
 	}
 
 
