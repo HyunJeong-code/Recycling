@@ -22,14 +22,11 @@
 					<p style="color: red;">${error }</p>
 				</c:if>
 			
-				<form action="${pageContext.request.contextPath}/buyer/mypage/mymain" method="post">
-			
+				<form action="${pageContext.request.contextPath }/buyer/mypage/mymain" method="post">
 					<h3>개인 정보 변경을 위해 비밀번호를 입력해주세요.</h3>
-					<label for="bPw">비밀번호 </label>
-					<input type="password" name="bPw" required>
-					<input type="hidden" name="bCtCode" value="bCtCode">
+					<label for="password">비밀번호 </label>
+					<input type="password" id="password" name="password" required="required">
 					<button type="submit">확인</button>
-					
 				</form>
 			</div>
 		</div>

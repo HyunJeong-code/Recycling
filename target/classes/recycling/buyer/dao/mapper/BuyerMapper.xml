@@ -5,13 +5,101 @@
   
 <mapper namespace="recycling.buyer.dao.face.BuyerDao">
 
-	<select id="selectByPwAndCt" resultType="boolean">
-		SELECT count(*)
+	<!-- 비밀번호 일치 확인 -->
+	<select id="chkPw" parameterType="map" resultType="boolean">
+		SELECT count(*) > 0
 		FROM Buyer
 		<where>
-			AND bPw = #{bPw }
-			AND bCtCode = #{bCtCode }
+			AND B_Code = #{bCode }
+			AND B_Pw = #{password }
 		</where>
 	</select>
+	
+	<!-- 구매자 타입 조회 -->
+	<select id="getBuyerType" parameterType="string" resultType="string">
+		SELECT B_Ct_Code
+		FROM Buyer
+		<where>
+			AND B_Code = #{bCode }
+		</where>
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="changePw" parameterType="map">
+		UPDATE Buyer
+		SET bPw = #{newPw }
+		<where>
+			AND B_Code = #{bCode }
+		</where>			
+	</update>
+	
+	<!-- 구매자 상세정보 조회 -->
+	<select id="getBuyerDetail" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT *
+		FROM Buyer
+		<where>
+			AND B_Code = #{bCode }
+		</where>
+	</select>
+	
+	<!-- 구매자 배송지 정보 조회 -->
+	<select id="getBuyerAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
+		SELECT *
+		FROM Buyer_Adr
+		<where>
+			AND B_Code = #{bCode }
+		</where>
+	</select>
+	
+	<!-- 구매자 정보 업데이트 -->
+	<update id="updateBuyerDetail" parameterType="recycling.dto.buyer.Buyer">
+		UPDATE Buyer
+		SET
+			B_Name = #{B_Name },
+			B_Phone = #{B_Phone},
+            B_Email = #{B_Email},
+            Ad_Sms = #{Ad_Sms},
+            Ad_Email = #{Ad_Email}
+		<where>
+			B_Code = #{bCode }
+		</where>
+	</update>
+	
+	<!-- 구매자 배송지 정보 업데이트 -->
+    <update id="updateBuyerAdr" parameterType="recycling.dto.buyer.BuyerAdr">
+        UPDATE Buyer_Adr
+        SET Adr_Name = #{adrName },
+            Adr_Phone = #{adrPhone },
+            Adr_Postcode = #{adrPostcode },
+            Adr_Addr = #{adrAddr },
+            Adr_Detail = #{adrDetail },
+            Adr_Chk = #{adrChk }
+        <where>
+        	AND B_Code = #{bCode }
+        </where>
+    </update>
 
+    <!-- 기업 정보 조회 -->
+    <select id="getCmpDetail" parameterType="string" resultType="recycling.dto.buyer.Cmp">
+        SELECT *
+        FROM Cmp
+        <where>
+			AND B_Code = #{bCode }        
+        </where>
+    </select>
+
+    <!-- 기업 정보 업데이트 -->
+    <update id="updateCmpDetail" parameterType="recycling.dto.buyer.Cmp">
+        UPDATE Cmp
+        SET Cmp_Name = #{cmpName },
+            Cmp_Ceo = #{cmpCeo },
+            Cmp_No = #{cmpNo },
+            Cmp_Postcode = #{cmpPostcode },
+            Cmp_Addr = #{cmpAddr },
+            Cmp_Detail = #{cmpDetail }
+        <where>
+        	AND B_Code = #{bCode }
+        </where>
+    </update>
+	
 </mapper>
