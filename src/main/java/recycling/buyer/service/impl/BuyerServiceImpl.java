@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Orders;
 
 @Service
@@ -27,15 +28,15 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public List<Cart> selectAllCart(String bCode) {
+	public List<CartOrder> selectAllCart(String bCode) {
 		
-		List<Cart> list = buyerDao.selectAllCart(bCode);
+		List<CartOrder> list = buyerDao.selectAllCart(bCode);
 		
 		return list;
 	}
 	
 	@Override
-	public Cart selectBycCode(String c) {
+	public CartOrder selectBycCode(String c) {
 		logger.info(c);
 		return buyerDao.selectBycCode(c);
 	}
@@ -43,5 +44,10 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public Orders selectByordCode(String ordCode) {
 		return buyerDao.selectByordCode(ordCode);
+	}
+	
+	@Override
+	public Integer selectByprdCode(String prdCode) {
+		return buyerDao.selectByprdCode(prdCode);
 	}
 }

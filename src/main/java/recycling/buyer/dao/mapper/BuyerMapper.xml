@@ -13,22 +13,49 @@
 		VALUES(#{ordCode},1,#{ordName},#{ordPhone},1,1,#{ordPostcode},#{ordAddr},#{ordDetail},#{ordMemo},sysdate,#{ordPay},1,1)
 	</insert>
 	
-	<select id="selectAllCart" parameterType="String" resultType="Cart">
+	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
+		SELECT C_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRD_FEE, stored_name
+		FROM cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE =p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE
+			AND B_CODE = #{bCode}
+		</where>
+	</select>
+	
+	<!-- <select id="selectAllCart" parameterType="String" resultType="Cart">
 		SELECT * FROM cart
 		WHERE B_CODE = #{bCode}
 		ORDER BY C_CODE
+	</select> -->
+	
+	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
+		SELECT C_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRD_FEE, stored_name
+		FROM cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE =p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE
+			AND C_CODE = #{c}
+		</where>
 	</select>
 	
-	<select id="selectBycCode" parameterType="String" resultType="Cart">
+	<!-- <select id="selectBycCode" parameterType="String" resultType="Cart">
 		SELECT * FROM cart
 		WHERE C_CODE = #{c}
 		ORDER BY C_CODE
-	</select>
+	</select> -->
 	
 	<select id="selectByordCode" parameterType="String" resultType="Orders">
 		SELECT * FROM orders
 		WHERE ORD_CODE = #{ordCode}
 		ORDER BY ORD_CODE
+	</select>
+	
+	<select id="selectByprdCode" parameterType="String" resultType="Integer">
+		SELECT prd_cnt FROM prd
+		<where>
+			PRD_CODE = #{prdCode}
+		</where>
 	</select>
 
 </mapper>

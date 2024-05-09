@@ -1,8 +1,19 @@
+<%@page import="java.util.List"%>
+<%@page import="recycling.dto.buyer.CartOrder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+
+<!-- gson -->
+<%@ page import="com.google.gson.Gson" %>
+
+<!-- clist gson으로 직렬화 하여 가져오기 -->
+<%
+    List<CartOrder> clist = (List<CartOrder>) request.getAttribute("clist");
+    Gson gson = new Gson();
+    String jsonData = gson.toJson(clist);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +36,7 @@
     <script type="text/javascript">
     
     $(function(){
+    	//api 활용하여 주소값 가져오기
         $("#btnPostcode").click(function() {
             
             new daum.Postcode({
@@ -82,15 +94,38 @@
         //가맹점 식별코드 초기화
         IMP.init('imp40731343')
 
+        //json 데이터 가져오기
+        var clist = <%= jsonData %>;
+	    console.log(clist);
+	    
+	    let prdName = "";
+	    let prdAmount = 0;
+	    
+	    for (let i = 0; i < clist.length; i++) {
+	    	if(i !== 0){
+	    		prdName += ","
+	    	}
+	    	prdName += clist[i].prdName;
+	        
+	    }
+	    console.log(prdName);
+	    
+	    for (let i = 0; i < clist.length; i++) {
+	    	prdAmount += clist[i].prdFee * clist[i].cCnt;
+	    }
+	    
+	    console.log(prdAmount);
+
+
         function requestPay(){
             IMP.request_pay({
-            pg: "tosspay", // PG사
+            pg: "html5_inicis", // PG사
             pay_method: "card", //결제 수단 (필수)
             merchant_uid: 'ORD_' + new Date().getTime(),   // 주문번호
-            name: "노르웨이 회전 의자",             // 주문 상품 이름
-            amount: 64900,                        	// 결제 금액 (필수)
+            name: prdName,             // 주문 상품 이름
+            amount: prdAmount,                         // 결제 금액 (필수)
 
-            buyer_name: $("#ordName").val(),     	// 주문자 정보들
+            buyer_name: $("#ordName").val(), 		// 주문자 정보들                   
             buyer_tel: $("#ordPhone").val(),
             buyer_addr: $("#ordAddr").val(),
             buyer_postcode: $("#ordPostcode").val()
@@ -177,16 +212,24 @@
 		<thead>
 			<tr>
 				<th>카트 코드</th>
+				<th>상품 이미지</th>
 				<th>상품 이름</th>
+				<th>상품 가격</th>
 				<th>수량</th>
+				<th>총 금액</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="cart" items="${clist }">
 				<tr>
 			 		<td>${cart.cCode }</td>
-			 		<td>${cart.bCode }</td>
+			 		<td>${cart.storedName }</td>
+			 		<td>${cart.prdName }</td>
+			 		<td>${cart.prdFee }</td>
 			 		<td>${cart.cCnt }</td>
+			 		<td>
+			 			${cart.cCnt * cart.prdFee }
+			 		</td>
 			 	</tr>
 			</c:forEach>
 		 	
@@ -203,6 +246,7 @@
 <label>연락처
 	<input type="text" name="ordPhone" id="ordPhone">
 </label><br>
+<!-- 클릭시 주소 모달창 활성화 -->
 <button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#exampleModal">주소 찾기</button>
 <label>우편 번호
 	<input type="text" name="ordPostcode" id="ordPostcode">

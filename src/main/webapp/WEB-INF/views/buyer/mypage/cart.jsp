@@ -57,8 +57,11 @@
 			<tr>
 				<th></th>
 				<th>카트 코드</th>
+				<th>상품 이미지</th>
 				<th>상품 이름</th>
+				<th>상품 가격</th>
 				<th>수량</th>
+				<th>총 금액</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -68,8 +71,13 @@
 						<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
 					</td>
 			 		<td>${cart.cCode }</td>
-			 		<td>${cart.bCode }</td>
+			 		<td>${cart.storedName }</td>
+			 		<td>${cart.prdName }</td>
+			 		<td>${cart.prdFee }</td>
 			 		<td>${cart.cCnt }</td>
+			 		<td>
+			 			${cart.cCnt * cart.prdFee }
+			 		</td>
 			 	</tr>
 			</c:forEach>
 		 	
