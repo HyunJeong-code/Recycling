@@ -49,5 +49,13 @@ public interface BuyerDao {
 	 * @return - 해당 상품 수량
 	 */
 	public Integer selectByprdCode(String prdCode);
+
+	/**
+	 * 선택된 상품 삭제
+	 * 
+	 * @param cCode - 삭제할 cCode
+	 * @return - 삭제 결과
+	 */
+	public int deleteCart(String cCode);
 	
 }

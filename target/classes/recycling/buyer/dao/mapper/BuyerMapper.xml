@@ -14,7 +14,7 @@
 	</insert>
 	
 	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
-		SELECT C_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRD_FEE, stored_name
+		SELECT C_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
 		FROM cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE =p.PRD_CODE
@@ -30,7 +30,7 @@
 	</select> -->
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
-		SELECT C_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRD_FEE, stored_name
+		SELECT C_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
 		FROM cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE =p.PRD_CODE
@@ -57,5 +57,10 @@
 			PRD_CODE = #{prdCode}
 		</where>
 	</select>
+	
+	<delete id="deleteCart" parameterType="String">
+		DELETE FROM cart
+		WHERE c_code = #{cCode}
+	</delete>
 
 </mapper>

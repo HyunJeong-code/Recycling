@@ -24,6 +24,13 @@
 		        	arr.push(res);
 		        }
 		    });
+			
+			// 체크된 상품이 없을 때 알림
+			if(arr.length == 0){
+				alert("선택된 상품이 없습니다.");
+			}else{
+				$("#ord_form").submit();
+			}
 		    
 			/* $.ajax({
 				type: "get"
@@ -45,12 +52,18 @@
 		    
 		    console.log(arr);
 		}); // #ord_btn click end
+		
+		//상품의 수량이 부족할시 장바구니 제외 알림
+		if(${msg != ""}){
+			alert("${msg}");
+		}
+		
 	}); //$ end
 </script>
 </head>
 <body>
 
-	<form action="./pay" method="get">
+	<form action="./pay" method="get" id="ord_form">
 	<table>
 	
 		<thead>
@@ -60,6 +73,7 @@
 				<th>상품 이미지</th>
 				<th>상품 이름</th>
 				<th>상품 가격</th>
+				<th>배송비</th>
 				<th>수량</th>
 				<th>총 금액</th>
 			</tr>
@@ -73,10 +87,11 @@
 			 		<td>${cart.cCode }</td>
 			 		<td>${cart.storedName }</td>
 			 		<td>${cart.prdName }</td>
+			 		<td>${cart.price }</td>
 			 		<td>${cart.prdFee }</td>
 			 		<td>${cart.cCnt }</td>
 			 		<td>
-			 			${cart.cCnt * cart.prdFee }
+			 			${cart.cCnt * cart.price + cart.prdFee }
 			 		</td>
 			 	</tr>
 			</c:forEach>
@@ -84,7 +99,7 @@
 	 	</tbody>
 	</table>
 
-	<button id="ord_btn">주문하기</button>
+	<button type="button" id="ord_btn">주문하기</button>
 	
 	</form>
 

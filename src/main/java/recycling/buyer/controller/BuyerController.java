@@ -32,19 +32,20 @@ public class BuyerController {
 	
 	@GetMapping("/cart")
 	public void cart(HttpSession session, Model model) {
-		//테스트용 세션
-		session.setAttribute("bCode", "1");
+		
+		//테스트용 세션***********************************************테스트
+		session.setAttribute("bCode", "BUY0000002");
 		
 		String bCode = (String)session.getAttribute("bCode");
 		
 		//해당 session의 Cart List 정보
-		List<CartOrder> list = buyerService.selectAllCart(bCode);
+		List<CartOrder> bf_list = buyerService.selectAllCart(bCode);
 		
 		//재고 부족 알림 메시지
 		String msg = "";
 		
 		//현재 상품 재고과 장바구니에 담긴 상품 수량 확인
-		for(CartOrder e : list) {
+		for(CartOrder e : bf_list) {
 			Integer count = buyerService.selectByprdCode(e.getPrdCode());
 			logger.info("prd count : {}", count);
 			logger.info("cart count : {}", e.getcCnt());
@@ -62,18 +63,24 @@ public class BuyerController {
 				msg += e.getPrdName();
 				
 				logger.info("{} 상품의 재고가 부족합니다", e.getPrdName());
-				//buyerService.deleteCart(e.getPrdCode());
+				int res = buyerService.deleteCart(e.getcCode());
 				
 			}
 		}
 		
-		msg += " 상품의 수량이 부족하여 장바구니에서 제외되었습니다.";
+		//msg가 빈칸이 아닐시 메시지 추가
+		if(msg != "") {
+			msg += " 상품의 수량이 부족하여 장바구니에서 제외되었습니다.";
+		}
+		
+		List<CartOrder> list = buyerService.selectAllCart(bCode);
 		
 		logger.info("{}",msg);
 		
 		logger.info("{}", list);
 		
 		model.addAttribute("list", list);
+		model.addAttribute("msg", msg);
 	}
 	
 	@GetMapping("/login")

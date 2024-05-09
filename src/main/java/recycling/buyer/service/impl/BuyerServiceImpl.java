@@ -29,8 +29,11 @@ public class BuyerServiceImpl implements BuyerService {
 	
 	@Override
 	public List<CartOrder> selectAllCart(String bCode) {
-		
 		List<CartOrder> list = buyerDao.selectAllCart(bCode);
+		
+		logger.info("bCode: {}", bCode);
+		logger.info("list: {}", list);
+		
 		
 		return list;
 	}
@@ -50,4 +53,10 @@ public class BuyerServiceImpl implements BuyerService {
 	public Integer selectByprdCode(String prdCode) {
 		return buyerDao.selectByprdCode(prdCode);
 	}
+	
+	@Override
+	public int deleteCart(String cCode) {
+		return buyerDao.deleteCart(cCode);
+	}
+	
 }
