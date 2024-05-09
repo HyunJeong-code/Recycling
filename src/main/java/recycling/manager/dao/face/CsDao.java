@@ -32,4 +32,28 @@ public interface CsDao {
 	 */
 	public List<Buyer> selectAllBuyer(Paging paging);
 
+	/**
+	 * 구매자 상세 조회
+	 * 
+	 * @param buyer
+	 * @return
+	 */
+	public Buyer selectByBuyer(Buyer buyer);
+
+	/**
+	 * 구매자 수정
+	 * 
+	 * @param buyer
+	 * @return
+	 */
+	public Buyer updateBuyer(Buyer buyer);
+
+	/**
+	 * 구매자 삭제
+	 * 
+	 * @param bCode
+	 * @return 
+	 */
+	public Buyer deleteBuyer(String bCode);
+
 }

@@ -32,9 +32,9 @@
 		<thead>
 			<tr>
 				<th>구매자 코드</th>
-				<th>구매자 분류 코드</th>
-				<th>이름</th>				
-				<th>아이디</th>				
+				<th>구매자 분류 코드</th>								
+				<th>아이디</th>
+				<th>이름</th>
 				<th>휴대폰</th>
 				<th>이메일</th>
 				<th>등급</th>
@@ -47,8 +47,10 @@
 				<tr>
 					<td>${buyer.bCode }</td>
 					<td>${buyer.bCtCode }</td>
-					<td>${buyer.bName }</td>					
-					<td>${buyer.bId }</td>					
+					<td>
+						<a href="./buyerDetail?bCode=${buyer.bCode }">${buyer.bId }</a>
+					</td>
+					<td>${buyer.bName }</td>
 					<td>${buyer.bPhone }</td>
 					<td>${buyer.bEmail }</td>
 					<td>${buyer.rankNo }</td>

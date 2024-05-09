@@ -10,6 +10,11 @@
 
 	<h1>구매자 상세정보</h1>
 	<hr>
+	
+	<h3>번호: ${buyerdetail.bCode }</h3>
+	
+	<a href="./buyerUpdate?bCode=${buyer.bCode }"><button>수정</button></a>
+	<a href="./buyerDel?bCode=${buyer.bCode }"><button>삭제</button></a>
 
 </body>
 </html>

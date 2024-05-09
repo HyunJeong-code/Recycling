@@ -33,4 +33,28 @@ public interface CsService {
 	 */
 	public List<Buyer> buyerList(Paging paging);
 
+	/**
+	 * 구매자 상세
+	 * 
+	 * @param buyer
+	 * @return
+	 */
+	public Buyer buyerDetail(Buyer buyer);
+
+	/**
+	 * 구매자 수정
+	 * 
+	 * @param buyer
+	 * @return
+	 */
+	public Buyer buyerUpdate(Buyer buyer);
+
+	/**
+	 * 구매자 삭제
+	 * 
+	 * @param bCode
+	 * @return 
+	 */
+	public Buyer buyerDel(String bCode);
+
 }

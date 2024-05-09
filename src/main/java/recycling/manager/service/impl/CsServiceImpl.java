@@ -43,4 +43,19 @@ public class CsServiceImpl implements CsService {
 	public List<Buyer> buyerList(Paging paging) {
 		return csDao.selectAllBuyer(paging);
 	}
+
+	@Override
+	public Buyer buyerDetail(Buyer buyer) {
+		return csDao.selectByBuyer(buyer);
+	}
+
+	@Override
+	public Buyer buyerUpdate(Buyer buyer) {
+		return csDao.updateBuyer(buyer);
+	}
+
+	@Override
+	public Buyer buyerDel(String bCode) {
+		return csDao.deleteBuyer(bCode);
+	}
 }

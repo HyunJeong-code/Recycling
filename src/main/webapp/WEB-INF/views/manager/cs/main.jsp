@@ -46,19 +46,12 @@
 					<td>
 						<a href="./view?boardNo=${oto.otoCode }">${oto.otoTitle }</a>
 					</td>
-<<<<<<< HEAD
 					<%-- <td>${oto.otoTitle }</td> --%>
 					<td>${oto.otoName }</td>
 					<td>${oto.otoHit }</td>
 					<td>
 						<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd" />
 						<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd" />
-=======
-					<td>${oto.otoName }</td>
-					<td>${oto.otoHit }</td>
-					<td>
-						<fmt:formatDate value="${oto.otoDate }" pattern="yyyy-MM-dd HH:mm:ss"/>
->>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 					</td>
 				</tr>
 			</c:forEach>

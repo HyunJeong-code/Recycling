@@ -7,9 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.manager.service.face.CsService;
@@ -23,7 +26,7 @@ public class CsController {
 
 	@Autowired
 	private CsService csService;
-
+	
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
 	public void main(@RequestParam(defaultValue = "0") int curPage, @RequestParam(defaultValue = "") String search,
@@ -37,12 +40,8 @@ public class CsController {
 
 		// 게시글 목록 조회
 		List<Oto> list = csService.list(paging);
-<<<<<<< HEAD
 		logger.info("controller list: {}", list);
-		
-=======
 
->>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 
@@ -66,12 +65,40 @@ public class CsController {
 		model.addAttribute("buyerList", buyerList);
 
 		return "manager/cs/buyerlist";
-<<<<<<< HEAD
-		
-		// 테스트용 주석
-=======
->>>>>>> 5af42b50ef2c5fe536e8ba7553745618348b41fb
 
 	}
+	
+	// 구매자 상세
+	@GetMapping("/buyerDetail")
+	public String buyerDetail(Buyer buyer, Model model) {
+		Buyer buyerdetail = csService.buyerDetail(buyer);
+		model.addAttribute("buyerdetail", buyerdetail);
+		
+		return "manager/cs/buyerdetail";
+		
+	}
+	
+	// 구매자 수정
+	@GetMapping("/buyerUpdate")
+	public String buyerUpdate(Buyer buyer, Model model) {
+		Buyer buyerupdate = csService.buyerUpdate(buyer);
+		model.addAttribute("buyerupdate", buyerupdate);
+		
+		return "manager/cs/buyerupdate";		
+	}
+	
+	@PostMapping("/buyerUpdate")
+	public void buyerUpdaterForm(Buyer buyer) {
+		csService.buyerUpdate(buyer);
+	}
+	
+	// 구매자 삭제
+	@GetMapping("/buyerDel")
+	public String buyerDel(@RequestParam("bCode") String bCode, Model model) {
+		csService.buyerDel(bCode);
+		return "redirect:/manager/cs/main";		
+	}
+	
+	// 추가 중
 
 }
