@@ -103,8 +103,8 @@ th {
                 	<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
                		<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                 </td>
-                <td class="resdetail"><a href="./expresdetail?expCode"><button>예약하기</button></a></td>
-                <td class="expdetail"><a href="#"><button>상세 보기</button></a></td>
+                <td class="resdetail"><a href="./expresdetail?expCode=${exp.expCode }"><button>예약하기</button></a></td>
+                <td class="expdetail"><a href="./expdetail?expCode=${exp.expCode }"><button>상세 보기</button></a></td>
             </tr>
         </c:forEach>
     </tbody>

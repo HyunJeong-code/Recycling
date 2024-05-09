@@ -9,10 +9,6 @@
 	SELECT * FROM Exp
 	</sql>
 	
-<!-- 	<select id="selectMyExpList" resultType="Exp"> -->
-<!-- 		SELECT * FROM Exp -->
-<!-- 		ORDER BY exp_code -->
-<!-- 	</select> -->
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (
@@ -37,5 +33,34 @@
 		</where>
 		ORDER BY exp_date DESC
 	</select>
+	
+	<select id="selectPageAll" resultType="int">
+		SELECT COUNT(*) FROM (
+			SELECT * FROM exp_res
+			<where>
+				AND sch_no = #{schNo}
+			</where>
+		)
+	</select>
+	
+	<select id="selectByExp" parameterType="string" resultType="Exp">
+		SELECT * FROM exp
+		<where>
+			AND exp_code = #{expCode}
+		</where>
+	</select>
+	
+	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM exp_res	
+				ORDER BY sch_no
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
 
 </mapper>
