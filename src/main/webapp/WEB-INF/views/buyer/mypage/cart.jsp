@@ -18,8 +18,6 @@
 			var arr = new Array();
 			$('input:checkbox[name=checkList]').each(function () {
 		        if($(this).is(":checked")==true){
-		        	//let map = new Map();
-		        	//map.set("cCode",$(this).attr('id').replace("c",""))
 		        	let res = $(this).val();
 		        	arr.push(res);
 		        }

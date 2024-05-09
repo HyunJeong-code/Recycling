@@ -98,32 +98,53 @@
         var clist = <%= jsonData %>;
 	    console.log(clist);
 	    
+	    let cartList = new Array();
+	    let sCodeList = [];
 	    let prdName = "";
+	    let ordFee = 0;
 	    let prdAmount = 0;
 	    
-	    for (let i = 0; i < clist.length; i++) {
+	    for(let i = 0; i < clist.length; i++) {
 	    	if(i !== 0){
 	    		prdName += ","
 	    	}
 	    	prdName += clist[i].prdName;
+	    	
+	    	let prdFee = clist[i].prdFee;
+	    	
+	    	//같은 판매자의 상품을 여러개 구매할 경우 배송비 1번만 청구 
+	    	for(let i = 0; i < sCodeList.length; i++){
+	    		if(sCodeList[i] == clist[i].sCode){
+	    			prdFee = 0;
+	    		}
+	    	}
+	    	
+	    	ordFee += prdFee;
 	        
+	    	prdAmount += clist[i].price * clist[i].cCnt + prdFee;
+	    	
+	    	sCodeList.push(clist[i].sCode);
+	    	cartList.push(clist[i].cCode);
 	    }
+	    
 	    console.log(prdName);
-	    
-	    for (let i = 0; i < clist.length; i++) {
-	    	prdAmount += clist[i].prdFee * clist[i].cCnt;
-	    }
-	    
+	    $(function(){
+	    	$("#prdAmount").html(prdAmount);	    	
+	    });
 	    console.log(prdAmount);
-
+	    
+	    console.log(cartList);
 
         function requestPay(){
+        	/* $(".cCodes").each(function() {
+        		console.log($(this).val());
+			}) */
             IMP.request_pay({
-            pg: "html5_inicis", // PG사
+            pg: "tosspay", // PG사
             pay_method: "card", //결제 수단 (필수)
             merchant_uid: 'ORD_' + new Date().getTime(),   // 주문번호
             name: prdName,             // 주문 상품 이름
-            amount: prdAmount,                         // 결제 금액 (필수)
+            amount: prdAmount,                        // 결제 금액 (필수)
 
             buyer_name: $("#ordName").val(), 		// 주문자 정보들                   
             buyer_tel: $("#ordPhone").val(),
@@ -152,13 +173,16 @@
             			, url: "./pay"
             			, data: {
             				ordCode: rsp.merchant_uid,
-            				ordPay: rsp.paid_amount,
-            				ordName: $("#ordName").val(),
-            				ordPhone: $("#ordPhone").val(),
+            				ordPay: rsp.pay_method,
+            				sendName: $("#ordName").val(),
+            				sendPhone: $("#ordPhone").val(),
             				ordPostcode: $("#ordPostcode").val(),
             				ordAddr: $("#ordAddr").val(),
             				ordDetail: $("#ordDetail").val(),
-            				ordMemo: $("#ordMemo").val()
+            				ordMemo: $("#ordMemo").val(),
+            				ordSum: prdAmount,
+            				ordFee: ordFee,
+            				cartList: cartList
             			}
             			, dataType : "Json"
             			, success: function(res) {
@@ -200,6 +224,7 @@
                     .submit() */ 
             });
         }
+    
     </script>
 </head>
 <body>
@@ -215,6 +240,7 @@
 				<th>상품 이미지</th>
 				<th>상품 이름</th>
 				<th>상품 가격</th>
+				<th>배송비</th>
 				<th>수량</th>
 				<th>총 금액</th>
 			</tr>
@@ -225,10 +251,11 @@
 			 		<td>${cart.cCode }</td>
 			 		<td>${cart.storedName }</td>
 			 		<td>${cart.prdName }</td>
+			 		<td>${cart.price }</td>
 			 		<td>${cart.prdFee }</td>
 			 		<td>${cart.cCnt }</td>
 			 		<td>
-			 			${cart.cCnt * cart.prdFee }
+			 			${cart.cCnt * cart.price + cart.prdFee }
 			 		</td>
 			 	</tr>
 			</c:forEach>
@@ -241,25 +268,27 @@
 <br><br>
 <form id="order_form" action="./pay" method="post">
 <label>이름
-	<input type="text" name="ordName" id="ordName">
+	<input type="text" name="ordName" id="ordName" value="${buyer.adrName }">
 </label><br>
 <label>연락처
-	<input type="text" name="ordPhone" id="ordPhone">
+	<input type="text" name="ordPhone" id="ordPhone" value="${buyer.adrPhone }">
 </label><br>
 <!-- 클릭시 주소 모달창 활성화 -->
 <button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#exampleModal">주소 찾기</button>
 <label>우편 번호
-	<input type="text" name="ordPostcode" id="ordPostcode">
+	<input type="text" name="ordPostcode" id="ordPostcode" value="${buyer.adrPostcode }">
 </label><br>
 <label>배송 주소
-	<input type="text" name="ordAddr" id="ordAddr">
+	<input type="text" name="ordAddr" id="ordAddr" value="${buyer.adrAddr }">
 </label><br>
 <label>상세 주소
-	<input type="text" name="ordDetail" id="ordDetail">
+	<input type="text" name="ordDetail" id="ordDetail" value="${buyer.adrDetail }">
 </label><br>
 <label>메모
 	<input type="text" name="ordMemo" id="ordMemo">
 </label><br>
+
+<h3>총 가격: <span id="prdAmount"> </span></h3>
 
 <br><br>
 <button type="button" onclick="requestPay();">결제하기</button>

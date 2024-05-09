@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.BuyerService;
-import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Orders;
 
@@ -29,9 +29,10 @@ public class BuyerController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired BuyerService buyerService;
+	@Autowired HttpSession session;
 	
 	@GetMapping("/cart")
-	public void cart(HttpSession session, Model model) {
+	public void cart(Model model) {
 		
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("bCode", "BUY0000002");
@@ -91,34 +92,64 @@ public class BuyerController {
 	public void pay(
 			@RequestParam List<String> checkList,
 			Model model
-			
 			) {
 		logger.info("checkList : {}", checkList);
 		
+		//테스트용 세션***********************************************테스트
+		session.setAttribute("bCode", "BUY0000002");
+		
+		String bCode = (String)session.getAttribute("bCode");
+		
+		BuyerAdr buyeradr = buyerService.selectBybCode(bCode); 
+		
 		List<CartOrder> list = new ArrayList<CartOrder>();
 		
-		for (String c : checkList) {
-			CartOrder cart = buyerService.selectBycCode(c);
+		for (String cCode : checkList) {
+			CartOrder cart = buyerService.selectBycCode(cCode);
             
             list.add(cart);
         }
 		
 		logger.info("list : {}", list);
+		logger.info("buyer : {}", buyeradr);
 		
 		model.addAttribute("clist", list);
+		model.addAttribute("buyer", buyeradr);
 		
 		//List<Cart> list = buyerService.selectAllCart(bCode);
 		
 	}
 	
 	@PostMapping("/pay")
-	public String payProc(Orders order, Model model) {
+	public String payProc(
+				Orders order
+				, Model model
+				, @RequestParam("cartList[]") List<String> cartList
+			) {
+		
+		//테스트용 세션***********************************************테스트
+		session.setAttribute("bCode", "BUY0000002");
+		String bCode = (String)session.getAttribute("bCode");
+		
+		order.setbCode(bCode);
+		
+		logger.info("order: {}", order);
+		logger.info("cartList: {}", cartList);
+		
 		
 		//카트담긴것 Order_detail로 인서트
 		
-		//카트 딜리트
+		int res = buyerService.insertOrder(order);
 		
-		int res = buyerService.order(order);
+		for (String cCode : cartList) {
+			
+			//수량 차감
+			CartOrder cart = buyerService.selectBycCode(cCode);
+			int updateRes = buyerService.updatePrdCnt(cart);
+			
+			//카트 DELETE
+			int deleteRes = buyerService.deleteCart(cCode);  
+        }
 		
 		model.addAttribute("order", order);
 		

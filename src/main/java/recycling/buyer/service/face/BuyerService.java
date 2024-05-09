@@ -2,7 +2,7 @@ package recycling.buyer.service.face;
 
 import java.util.List;
 
-import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Orders;
 
@@ -15,7 +15,7 @@ public interface BuyerService {
 	 * 
 	 * @param order - 주문 정보
 	 */
-	public int order(Orders order);
+	public int insertOrder(Orders order);
 
 	/**
 	 * Cart 조회하기
@@ -28,10 +28,18 @@ public interface BuyerService {
 	/**
 	 * cCode로 Cart 조회하기
 	 * 
-	 * @param c - 받아오는 cCode
+	 * @param cCode - 받아오는 cCode
 	 * @return - 조회한 Cart 정보
 	 */
-	public CartOrder selectBycCode(String c);
+	public CartOrder selectBycCode(String cCode);
+	
+	/**
+	 * bCode로 BuyerAdr 조회하기
+	 * 
+	 * @param bCode - 조회할 bCode
+	 * @return - 조회한 BuyerAdr 정보
+	 */
+	public BuyerAdr selectBybCode(String bCode);
 
 	/**
 	 * ordCode로 Orders 조회하기
@@ -56,5 +64,13 @@ public interface BuyerService {
 	 * @return - 삭제 결과
 	 */
 	public int deleteCart(String cCode);
+
+	/**
+	 * 결제된 상품 수량 차감
+	 * 
+	 * @param cart - 결제한 상품 DTO 객체
+	 * @return - UPDATE 결과
+	 */
+	public int updatePrdCnt(CartOrder cart);
 	
 }

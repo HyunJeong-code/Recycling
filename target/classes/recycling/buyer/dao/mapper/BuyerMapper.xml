@@ -9,13 +9,30 @@
 		<!-- <selectKey order="BEFORE" keyProperty="ordCode" resultType="String">
 			SELECT orders_seq.nextval FROM dual
 		</selectKey> -->
-		INSERT INTO orders (ORD_CODE,B_CODE,ORD_NAME,ORD_PHONE,SEND_NAME,SEND_PHONE,ORD_POSTCODE,ORD_ADDR,ORD_DETAIL,ORD_MEMO,ORD_DATE,ORD_PAY,ORD_SUM,STT_NO)
-		VALUES(#{ordCode},1,#{ordName},#{ordPhone},1,1,#{ordPostcode},#{ordAddr},#{ordDetail},#{ordMemo},sysdate,#{ordPay},1,1)
+		<!-- <selectKey order="BEFORE" keyProperty="" resultType="String">
+			SELECT b_name, b_phone FROM buyer
+			<where>
+				b_code = #{bCode}
+			</where>
+		</selectKey> -->
+		<!-- <selectKey order="BEFORE" keyProperty="ordPhone" resultType="String">
+			SELECT b_phone FROM buyer
+			<where>
+				b_code = #{bCode}
+			</where>
+		</selectKey> -->
+		INSERT INTO orders (ORD_CODE,B_CODE,ORD_NAME,ORD_PHONE,SEND_NAME,SEND_PHONE,ORD_POSTCODE,ORD_ADDR,ORD_DETAIL,ORD_MEMO,ORD_DATE,ORD_PAY,ORD_SUM, ORD_FEE)
+		VALUES(#{ordCode},#{bCode},
+		(SELECT b_name FROM buyer WHERE b_code = #{bCode}),
+		(SELECT b_phone FROM buyer WHERE b_code = #{bCode}),
+		#{sendName},#{sendPhone},#{ordPostcode},#{ordAddr},#{ordDetail},#{ordMemo},sysdate,#{ordPay},#{ordSum}, #{ordFee})
 	</insert>
 	
 	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
-		SELECT C_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
-		FROM cart c, prd p, prd_file pf
+		SELECT
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+		FROM
+			cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE =p.PRD_CODE
 			AND p.PRD_CODE = pf.PRD_CODE
@@ -30,20 +47,32 @@
 	</select> -->
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
-		SELECT C_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
-		FROM cart c, prd p, prd_file pf
+		SELECT
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+		FROM
+			cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE =p.PRD_CODE
 			AND p.PRD_CODE = pf.PRD_CODE
-			AND C_CODE = #{c}
+			AND C_CODE = #{cCode}
 		</where>
 	</select>
 	
 	<!-- <select id="selectBycCode" parameterType="String" resultType="Cart">
 		SELECT * FROM cart
-		WHERE C_CODE = #{c}
+		WHERE C_CODE = #{cCode}
 		ORDER BY C_CODE
 	</select> -->
+	
+	<select id="selectBybCode" parameterType="String" resultType="BuyerAdr">
+		SELECT
+		    adr_name, adr_phone, adr_postcode, adr_addr, adr_detail
+		FROM buyer_adr
+		<where>
+			AND b_code = #{bCode}
+			AND adr_chk = 'Y'
+		</where>
+	</select>
 	
 	<select id="selectByordCode" parameterType="String" resultType="Orders">
 		SELECT * FROM orders
@@ -62,5 +91,11 @@
 		DELETE FROM cart
 		WHERE c_code = #{cCode}
 	</delete>
+	
+	<update id="updatePrdCnt" parameterType="CartOrder">
+		UPDATE prd
+	    SET prd_cnt = prd_cnt-#{cCnt}
+	    WHERE prd_code = #{prdCode}
+	</update>
 
 </mapper>
