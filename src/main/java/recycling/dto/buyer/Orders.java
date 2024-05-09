@@ -19,7 +19,7 @@ public class Orders {
 
 	public Orders(String ordCode, String bCode, String ordName, String ordPhone, String sendName, String sendPhone,
 			String ordPostcode, String ordAddr, String ordDetail, String ordMemo, String ordDate, String ordPay,
-			int ordSum, int ordFee, int sttNo) {
+			int ordSum, int ordFee) {
 		this.ordCode = ordCode;
 		this.bCode = bCode;
 		this.ordName = ordName;
