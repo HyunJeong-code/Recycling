@@ -23,4 +23,11 @@ public interface SlsService {
 	 * @return Exp
 	 */
 	public Exp selectDetail(Exp exp);
+
+	/**
+	 * 체험단 등록
+	 * 
+	 * @param exp
+	 */
+	public void insert(Exp exp);
 }

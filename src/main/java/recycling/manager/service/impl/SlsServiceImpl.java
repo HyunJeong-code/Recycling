@@ -35,4 +35,11 @@ public class SlsServiceImpl implements SlsService {
 		//세부사항 조회
 		return slsDao.selectDetail(exp);
 	}
+
+	@Override
+	public void insert(Exp exp) {
+		
+		slsDao.insert(exp);
+		
+	}
 }

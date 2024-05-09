@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import recycling.dto.seller.Exp;
@@ -40,7 +41,7 @@ public class SlsController {
 	}
 	
 	//체험단 상세조회
-	@GetMapping("expdetail")
+	@GetMapping("/expdetail")
 	public void expDetail(Exp exp,Model model) {
 		logger.info("contoller: expDetail[GET]");
 		
@@ -51,7 +52,20 @@ public class SlsController {
 		
 	}
 	
-//	@GetMapping("expform")	//체험단 등록
+	//체험단 등록
+	@GetMapping("/expform")
+	private void expform() {}
+	
+	@PostMapping("/expform")
+	public String expformProc(
+			Exp exp
+			) {
+		
+		slsService.insert(exp);
+		
+		return "redirect:./explist";
+	}
+	
 //	@GetMapping("expupdate")//체험단 수정
 //	@GetMapping("expdel")	// 체험단삭제
 

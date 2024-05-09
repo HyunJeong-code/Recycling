@@ -28,4 +28,12 @@ public interface SlsDao {
 	 * @param exp - DTO 객체
 	 */
 	public void hit(Exp exp);
+
+	/**
+	 * 
+	 * 체험단 등록
+	 * 
+	 * @param exp
+	 */
+	public void insert(Exp exp);
 }

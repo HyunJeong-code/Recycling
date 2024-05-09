@@ -18,21 +18,71 @@
 	FROM exp
 	</sql>
 	
+	<!-- exp Join expSch  -->
+	<sql id="expAndExpSch">
+	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price, e.exp_detail, e.exp_hit, e.exp_date,
+       s.sch_no, s.sch_date, s.sch_time, s.sch_cnt
+	FROM exp e
+	JOIN exp_sch s ON e.exp_code = s.exp_code
+	</sql>
+	
+	
+	<!-- exp Join expSch resultMap-->
+	<resultMap type="java.util.HashMap" id="expJoin">
+	
+	<result property="expCode" column="exp_code"/>
+	<result property="sCode" column="s_code"/>
+	<result property="expName" column="exp_name"/>
+	<result property="expPrice" column="exp_pirce"/>
+	<result property="expDetail" column="exp_detail"/>
+	<result property="expHit" column="exp_hit"/>
+	<result property="expDate" column="exp_date"/>
+
+	<result property="schNo" column="sch_no"/>
+	<result property="schDate" column="sch_date"/>
+	<result property="schTime" column="sch_time"/>
+	<result property="schCnt" column="sch_cnt"/>
+	</resultMap>
+	
+	
 	<!-- 체험단 조회 -->
-	<select id="selectAll" resultType="Exp">
-			<include refid="expBoard"/>
+	<select id="selectAll" resultMap="expJoin">
+			<include refid="expAndExpSch"/>
 	</select>
 	
 	<!-- 체험단 세부 조회 -->
 	<select id="selectDetail" resultType="Exp" parameterType="Exp">
 		<include refid="expBoard"/>
-		<where>exp_code = #{exp_code }</where>
+		<where>exp_code = #{expCode }</where>
 	</select>
 	
-		<!-- 세부조회에 따른 조회수 증가 -->
+	<!-- 세부조회에 따른 조회수 증가 -->
 	<update id="hit" parameterType="Exp">
-		UPDATE notice SET exp_hit = exp_hit + 1
-		<where>exp_code = #{exp_code }</where>
+	    UPDATE exp SET exp_hit = exp_hit + 1
+    	WHERE exp_code = #{expCode }
 	</update>
+	
+	<!-- 체험단 등록 -->
+	<insert id="insert" parameterType="Exp">
+		INSERT INTO exp
+		( exp_code
+	    , s_code
+	    , exp_name
+	    , exp_price
+	    , exp_detail
+	    , exp_hit
+	    , exp_date
+	    )VALUES
+	    (exp_seq.nextval
+	    , sCode
+	    , #{expName }
+	    , #{expPrice }
+	    , #{expDetail }
+	    , #{expHit }
+	    , sysdate
+	    )
+	</insert>
+	
+
 	
 </mapper>
