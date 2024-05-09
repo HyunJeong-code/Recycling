@@ -1,5 +1,7 @@
 package recycling.buyer.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -31,11 +33,11 @@ public class BuyerController {
 	@GetMapping("/mymain")
 	public void myMain() {
 		
-		logger.info("/buyer/mymain [GET]");
+		logger.info("/buyer/mypage/mymain [GET]");
 		
 	}
 	
-	// 회원 정보 관리 메인 처리
+	// 회원 정보 관리 메인 (비밀번호 입력) 처리
 	@PostMapping("/mymain")
 	public String myMainProc(
 			@RequestParam("password") String password,
@@ -43,20 +45,40 @@ public class BuyerController {
 		
 		logger.info("/buyer/mypage/mymain [POST]");
 		
-		String bCode = (String) session.getAttribute("bCode");
+		// 현재 로그인된 구매자 정보
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
 		
-		if(!buyerService.chkPw(bCode, password)) {
+		if(currentBuyer == null) {
 			
-			model.addAttribute("error", "비밀번호가 틀렸습니다.");
+			model.addAttribute("error", "로그인 해주세요.");
 			
-			return "/buyer/mypage/mymain";
+			return "/buyer/login";
 			
 		}
 		
-		// 비밀번호 일치
-		String buyerType = buyerService.getBuyerType(bCode);
+		// 비밀번호 확인
+		if(buyerService.verifyPw(currentBuyer.getbId(), password)) {
 			
-		return "redirect:/buyer/mypage" + (buyerType.equals("pri") ? "mydetailpri" : "mydetailcmp");
+			// 구매자 유형
+			String buyerType = currentBuyer.getbCtCode();
+			
+			session.setAttribute("currentBuyer", currentBuyer);
+			
+			if("P".equals(buyerType)) {
+				
+				return "redirect:/buyer/mypage/mydetailpri";
+				
+			} else if ("C".equals(buyerType)) {
+				
+				return "redirect:/buyer/mypage/mydetailcmp";
+				
+			}
+			
+		}
+		
+		model.addAttribute("error", "비밀번호가 틀렸습니다.");
+		
+		return "/buyer/mypage/mymain";
 		
 	}
 	
@@ -64,7 +86,7 @@ public class BuyerController {
 	@GetMapping("/changepw")
 	public void changePw() {
 		
-		logger.info("/buyer/mypage/changepw [GET}");
+		logger.info("/buyer/mypage/changepw [GET]");
 		
 	}
 	
@@ -76,23 +98,37 @@ public class BuyerController {
 			@RequestParam("confirmPw") String confirmPw,
 			HttpSession session, Model model) {
 		
-		logger.info("/buyer/mypage/changepw [POST}");
+		logger.info("/buyer/mypage/changepw [POST]");
 		
-		String bCode = (String) session.getAttribute("bCode");
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
 		
-		if(!newPw.equals(confirmPw)) {
+		if(currentBuyer == null) {
 			
-			model.addAttribute("error", "새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.");
+			return "redirect:/buyer/mypage/mymain";
+			
+		}
+		
+		if(!buyerService.verifyPw(currentBuyer.getbId(), currentPw)) {
+			
+			model.addAttribute("error", "현재 비밀번호가 틀렸습니다.");
 			
 			return "/buyer/mypage/changepw";
 			
 		}
 		
-		buyerService.changePw(bCode, newPw);
+		if(!newPw.equals(confirmPw)) {
+			
+			model.addAttribute("error", "새 비밀번호가 일치하지 않습니다.");
+			
+			return "/buyer/mypage/changepw";
+			
+		}
 		
-		model.addAttribute("message", "비밀번호가 변경되었습니다.");
+		buyerService.changePw(currentBuyer.getbId(), newPw);
 		
-		return "redirect:/buyer/mypage/mymain";
+		model.addAttribute("success", "비밀번호가 변경되었습니다.");
+		
+		return "/buyer/mypage/changepw";
 		
 	}
 	
@@ -103,14 +139,18 @@ public class BuyerController {
 		
 		logger.info("/buyer/mypage/mydetailpri [GET]");
 		
-		String bCode = (String) session.getAttribute("bCode");
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
 		
-		Buyer buyer = buyerService.getBuyerDetail(bCode);
+		if(currentBuyer == null) {
+			
+			return;
+			
+		}
 		
-		BuyerAdr buyerAdr = buyerService.getBuyerAdr(bCode);
+		BuyerAdr buyerAdr = buyerService.getBuyerAdr(currentBuyer.getbCtCode());
 		
-		model.addAttribute("priDetail", buyer);
-		model.addAttribute("priAdr", buyerAdr);
+		model.addAttribute("buyer", currentBuyer);
+		model.addAttribute("buyerAdr", buyerAdr);
 		
 	}
 	
@@ -118,14 +158,29 @@ public class BuyerController {
 	@PostMapping("/mydetailpri")
 	public String myDetailPriProc(
 			Buyer buyer,
-			BuyerAdr buyerAdr) {
+			BuyerAdr buyerAdr,
+			HttpSession session,
+			Model model) {
 		
 		logger.info("/buyer/mypage/mydetailpri [POST]");
 		
-		buyerService.updateBuyerDetail(buyer);
-		buyerService.updateBuyerAdr(buyerAdr);
+		Buyer currentBuyer = (Buyer) session.getAttribute("buyer");
 		
-		return "redirect:/buyer/mypage/mymain";
+		if(currentBuyer == null) {
+			
+			return "redirect:/buyer/mypage/mymain";
+			
+		}
+		
+		buyer.setbCode(currentBuyer.getbCode());
+		buyerAdr.setbCode(currentBuyer.getbCode());
+		
+		buyerService.updatePriDetail(buyer, buyerAdr);
+		session.setAttribute("currentBuyer", buyer);
+		
+		model.addAttribute("success", "개인 정보가 수정되었습니다.");
+		
+		return "/buyer/mypage/mydetailpri";
 		
 	}
 	
@@ -135,16 +190,20 @@ public class BuyerController {
 		
 		logger.info("/buyer/mypage/mydetailcmp [GET]");
 		
-		String bCode = (String) session.getAttribute("bCode");
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
 		
-		Buyer buyer = buyerService.getBuyerDetail(bCode);
+		if(currentBuyer == null) {
+			
+			return;
+			
+		}
 		
-		BuyerAdr buyerAdr = buyerService.getBuyerAdr(bCode);
+		BuyerAdr buyerAdr = buyerService.getBuyerAdr(currentBuyer.getbCode());
 		
-		Cmp cmp = buyerService.getCmpDetail(bCode);
+		Cmp cmp = buyerService.getCmpDetail(currentBuyer.getbCode());
 		
-		model.addAttribute("buyer", buyer);
-		model.addAttribute("address", buyerAdr);
+		model.addAttribute("buyer", currentBuyer);
+		model.addAttribute("buyerAdr", buyerAdr);
 		model.addAttribute("cmp", cmp);
 		
 	}
@@ -154,14 +213,134 @@ public class BuyerController {
 	public String myDetailCmpProc(
 			Buyer buyer,
 			BuyerAdr buyerAdr,
-			Cmp cmp) {
+			Cmp cmp,
+			HttpSession session,
+			Model model) {
 		
-		buyerService.updateBuyerDetail(buyer);
-		buyerService.updateBuyerAdr(buyerAdr);
-		buyerService.updateCmpDetail(cmp);
+		logger.info("/buyer/mypage/mydetailcmp [POST]");
 		
-		return "redirect:/buyer/mypage/mymain";
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			return "redirect:/buyer/mypage/mymain";
+			
+		}
+		
+		buyer.setbCode(currentBuyer.getbCode());
+		buyerAdr.setbCode(currentBuyer.getbCode());
+		cmp.setbCode(currentBuyer.getbCode());
+		
+		buyerService.updateCmpDetail(buyer, buyerAdr, cmp);
+		session.setAttribute("currentBuyer", buyer);
+		
+		model.addAttribute("success", "기업 정보가 수정되었습니다.");
+		
+		return "/buyer/mypage/mydetailcmp";
 		
 	}
+	
+	// 배송지 관리 페이지 (등록, 수정, 삭제)
+	@GetMapping("/myaddr")
+	public void myAddr(
+			HttpSession session,
+			Model model
+			) {
+		
+		logger.info("/buyer/mypage/myaddr [GET]");
+		
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return;
+			
+		}
+		
+		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdrList(currentBuyer);
+		
+		model.addAttribute("buyerAdrList", buyerAdrList);
+		
+	}
+	
+	// 배송지 관리 페이지 (등록, 수정, 삭제) 처리
+	@PostMapping("/myaddr")
+	public String myAddrProc(
+			@RequestParam("action") String action,
+			@RequestParam(value = "adrCode", required = false) String adrCode,
+			BuyerAdr buyerAdr,
+			HttpSession session,
+			Model model
+			) {
+		
+		logger.info("/buyer/mypage/myaddr [POST]");
+		
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
+			
+		}
+		
+		buyerAdr.setbCode(currentBuyer.getbCode());
+		
+		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdrList(currentBuyer.getbCode());
+		
+		switch(action) {
+			case "register":
+				
+				if(buyerAdrList.size() >= 3) {
+					
+					model.addAttribute("error", "배송지는 최대 3개까지 등록할 수 있습니다.");
+					
+				} else {
+					
+					buyerService.registerAdr(buyerAdr);
+					model.addAttribute("success", "배송지가 등록되었습니다.");
+					
+				}
+				
+				break;
+				
+			case "update":
+				
+				buyerAdr.setAdrCode(adrCode);
+				buyerService.updateAdr(buyerAdr);
+				model.addAttribute("success", "배송지가 수정되었습니다.");
+				break;
+				
+			case "delete":
+				
+				buyerService.deleteAdr(adrCode);
+				model.addAttribute("success", "배송지가 삭제되었습니다.");
+				break;
+		
+			default:
+				
+				model.addAttribute("error", "에러입니다.");
+				break;
+		
+		}
+		
+		buyerAdrList = buyerService.getBuyerAdrList(currentBuyer.getbCode());
+		
+		model.addAttribute("buyerAdrList", buyerAdrList);
+		
+		return "/buyer/mypage/myaddr";
+		
+	}
+	
+	// 회원 탈퇴
+//	@GetMapping("/outbuyer")
+//	public void outBuyer() {
+//		
+//		
+//		
+//	}
 	
 }

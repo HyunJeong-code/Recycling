@@ -1,5 +1,7 @@
 package recycling.buyer.service.face;
 
+import java.util.List;
+
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.Cmp;
@@ -9,73 +11,98 @@ import recycling.dto.buyer.Cmp;
 public interface BuyerService {
 
 	/**
-	 * 구매자 코드, 비밀번호를 이용하여 비밀번호 일치 확인
+	 * 현재 로그인 한 구매자 정보
 	 * 
-	 * @param bCode - 구매자 코드
+	 * @param bId - 구매자 아이디
+	 * @return 현재 로그인 된 구매자 정보
+	 */
+	public Buyer getCurrentBuyer(String bId);
+	
+	/**
+	 * 구매자 비밀번호 확인
+	 * 
+	 * @param getbId - 구매자 아이디
 	 * @param password - 입력된 비밀번호
-	 * @return 비밀번호 일치 - true, 아니면 false
+	 * @return 비밀번호 일치 확인
 	 */
-	public boolean chkPw(String bCode, String password);
+	public boolean verifyPw(String getbId, String password);
 
 	/**
-	 * 구매자 구분해서 조회 (개인, 기업)
+	 * 구매자 비밀번호 변경
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @param newPw - 새 비밀번호
+	 */
+	public void changePw(String bId, String newPw);
+	
+	/**
+	 * 구매자 배송지 정보
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return "pri", "cmp"로 구분
+	 * @return 구매자 배송지 정보
 	 */
-	public String getBuyerType(String bCode);
+	public BuyerAdr getBuyerAdr(String bCode);
+	
+	/**
+	 * 기업 구매자 정보
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 기업 구매자 정보
+	 */
+	public Cmp getCmpDetail(String bCode);
+	
+	/**
+	 * 개인 구매자 상세 정보 업데이트
+	 * 
+	 * @param buyer - 업데이트 할 구매자 정보
+	 * @param buyerAdr - 업데이트 할 배송지 정보
+	 */
+	public void updatePriDetail(Buyer buyer, BuyerAdr buyerAdr);
+	
+	/**
+	 * 기업 구매자 상세 정보 업데이트
+	 * 
+	 * @param buyer - 업데이트 할 구매자 정보
+	 * @param buyerAdr - 업데이트 할 배송지 정보
+	 * @param cmp - 업데이트 할 기업 정보
+	 */
+	public void updateCmpDetail(Buyer buyer, BuyerAdr buyerAdr, Cmp cmp);
 
 	/**
-	 * 비밀번호 변경
+	 * 배송지 등록
 	 * 
-	 * @param bCode - 구매자 코드
-	 * @param newPw - 새로 만든 비밀번호
+	 * @param buyerAdr - 등록할 배송지 정보
 	 */
-	public void changePw(String bCode, String newPw);
+	public void registerAdr(BuyerAdr buyerAdr);
 
 	/**
-	 * 구매자 상세조회
+	 * 배송지 수정
 	 * 
-	 * @param bCode - 구매자 코드
-	 * @return Buyer 객체
+	 * @param buyerAdr - 수정할 배송지 정보
 	 */
-	public Buyer getBuyerDetail(String bCode);
+	public void updateAdr(BuyerAdr buyerAdr);
+
+	/**
+	 * 배송지 삭제
+	 * 
+	 * @param adrCode - 삭제할 배송지 코드
+	 */
+	public void deleteAdr(String adrCode);
 
 	/**
 	 * 구매자 배송지 조회
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return BuyerAdr 객체
+	 * @return 구매자 배송지 목록
 	 */
-	public BuyerAdr getBuyerAdr(String bCode);
+	public List<BuyerAdr> getBuyerAdrList(String bCode);
 
 	/**
-	 * 구매자 상세정보 업데이트
+	 * 구매자 배송지 목록 조회
 	 * 
-	 * @param buyer - 업데이트 할 구매자 정보
+	 * @param buyer - 구매자
+	 * @return 구매자 배송지 목록
 	 */
-	public void updateBuyerDetail(Buyer buyer);
-
-	/**
-	 * 구매자 배송지 정보 업데이트
-	 * 
-	 * @param buyerAdr - 업데이트 할 구매자 배송지
-	 */
-	public void updateBuyerAdr(BuyerAdr buyerAdr);
-
-	/**
-	 * 기업 상세조회
-	 * 
-	 * @param bCode - 구매자 코드
-	 * @return Cmp 객체
-	 */
-	public Cmp getCmpDetail(String bCode);
-
-	/**
-	 * 기업 정보 업데이트
-	 * 
-	 * @param cmp - 업데이트 할 기업 정보
-	 */
-	public void updateCmpDetail(Cmp cmp);
+	public List<BuyerAdr> getBuyerAdrList(Buyer buyer);
 	
 }

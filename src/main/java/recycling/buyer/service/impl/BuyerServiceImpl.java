@@ -1,5 +1,7 @@
 package recycling.buyer.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,66 +21,106 @@ public class BuyerServiceImpl implements BuyerService {
 	@Autowired private BuyerDao buyerDao;
 
 	@Override
-	public boolean chkPw(String bCode, String password) {
+	public Buyer getCurrentBuyer(String bId) {
 
-		return buyerDao.chkPw(bCode, password);
+		return buyerDao.selectBuyerBybId(bId);
 	
 	}
 
 	@Override
-	public String getBuyerType(String bCode) {
+	public boolean verifyPw(String bId, String password) {
 
-		return buyerDao.getBuyerType(bCode);
-
-	}
-
-	@Override
-	public void changePw(String bCode, String newPw) {
+		Buyer buyer = buyerDao.selectBuyerBybId(bId);
 		
-		buyerDao.changePw(bCode, newPw);
-		
-	}
-
-	@Override
-	public Buyer getBuyerDetail(String bCode) {
-
-		return buyerDao.getBuyerDetail(bCode);
+		return buyer != null && buyer.getbPw().equals(password);
 	
+	}
+
+	@Override
+	public void changePw(String bId, String newPw) {
+		
+		Buyer buyer = buyerDao.selectBuyerBybId(bId);
+		
+		if(buyer != null) {
+			
+			buyer.setbPw(newPw);
+			
+			buyerDao.updateBuyer(buyer);
+			
+		}
+		
 	}
 
 	@Override
 	public BuyerAdr getBuyerAdr(String bCode) {
-
-		return buyerDao.getBuyerAdr(bCode);
+		
+		return buyerDao.selectBuyerAdrBybCode(bCode);
 	
 	}
 
 	@Override
-	public void updateBuyerDetail(Buyer buyer) {
+	public Cmp getCmpDetail(String bCode) {
 		
-		buyerDao.updateBuyerDetail(buyer);
-		
+		return buyerDao.selectCmpBybCode(bCode);
+
 	}
 
 	@Override
-	public void updateBuyerAdr(BuyerAdr buyerAdr) {
+	public void updatePriDetail(Buyer buyer, BuyerAdr buyerAdr) {
 		
+		buyerDao.updateBuyer(buyer);
 		buyerDao.updateBuyerAdr(buyerAdr);
 		
 	}
 
 	@Override
-	public Cmp getCmpDetail(String bCode) {
-	
-		return buyerDao.getCmpDetail(bCode);
+	public void updateCmpDetail(Buyer buyer, BuyerAdr buyerAdr, Cmp cmp) {
+		
+		buyerDao.updateBuyer(buyer);
+		buyerDao.updateBuyerAdr(buyerAdr);
+		buyerDao.updateCmp(cmp);
+		
+	}
+
+	@Override
+	public void registerAdr(BuyerAdr buyerAdr) {
+		
+		buyerDao.registerAdr(buyerAdr);
+		
+	}
+
+	@Override
+	public void updateAdr(BuyerAdr buyerAdr) {
+		
+		buyerDao.updaterAdr(buyerAdr);
+		
+	}
+
+	@Override
+	public void deleteAdr(String adrCode) {
+
+		buyerDao.deleteAdr(adrCode);
+		
+	}
+
+	@Override
+	public List<BuyerAdr> getBuyerAdrList(String bCode) {
+
+		return buyerDao.selectBuyerAdrList(bCode);
 	
 	}
 
 	@Override
-	public void updateCmpDetail(Cmp cmp) {
+	public List<BuyerAdr> getBuyerAdrList(Buyer buyer) {
+
+		if(buyer == null || buyer.getbCode() == null) {
+			
+			return null;
+			
+		}
 		
-		buyerDao.updateCmpDetail(cmp);
-		
+		return buyerDao.selectBuyerAdrList(buyer.getbCode());
+	
 	}
 
 }
