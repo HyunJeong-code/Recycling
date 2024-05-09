@@ -49,21 +49,23 @@ th {
 
 </head>
 <body>
+<div class="page_box">
 <h1>체험단 조회</h1>
 <hr>
+</div>
 
 <div class="container">
 <div class="searching">
 	<form action="./explist" method="get">
 		<select class="detailSearch" name="detailSearch">
-		    <option value="all">전체</option>
-		    <option value="Name">제목</option>
-		    <option value="status">상태</option>
+		    <option value="expname">제목</option>
+		    <option value="expcode">상품 번호</option>
 		</select>
 		<input type="text" id="search" name="search"> 	
 		<button id="btnSearch">검색</button>
 	</form>
 </div>
+
 
 <table border="1" class="table table-hover table-sm" style="width:1000px;">
 

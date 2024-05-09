@@ -15,7 +15,8 @@
 			SELECT rownum rnum, E.* FROM (
 				<include refid="selectExp"/>
 				<where>
-					AND exp_name LIKE '%' || #{search } || '%'
+					AND exp_name LIKE '%' || #{search } || '%' 
+						OR exp_code LIKE '%' || #{search } || '%' 
 				</where>
 				ORDER BY exp_code
 			) E
@@ -29,7 +30,8 @@
 	<select id="selectCntAll" parameterType="string" resultType="int">
 		SELECT count(*) FROM Exp
 		<where>
-			AND exp_name LIKE '%' || #{key } || '%'
+			AND exp_name LIKE '%' || #{key } || '%' 
+				OR exp_code LIKE '%' || #{search } || '%'
 		</where>
 		ORDER BY exp_date DESC
 	</select>
