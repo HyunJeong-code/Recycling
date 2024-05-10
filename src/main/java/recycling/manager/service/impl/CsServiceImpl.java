@@ -48,14 +48,24 @@ public class CsServiceImpl implements CsService {
 	public Buyer buyerDetail(Buyer buyer) {
 		return csDao.selectByBuyer(buyer);
 	}
-
+	
 	@Override
-	public Buyer buyerUpdate(Buyer buyer) {
-		return csDao.updateBuyer(buyer);
+	public Buyer getBuyer(String bCode) {
+		return csDao.select(bCode);
 	}
 
 	@Override
-	public Buyer buyerDel(String bCode) {
-		return csDao.deleteBuyer(bCode);
+	public void buyerUpdate(Buyer buyer) {
+		csDao.updateBuyer(buyer);
 	}
+	
+	@Override
+	public void buyerDel(String bCode, String ctBcode, int rankNo) {
+		csDao.deleteBuyer(bCode, ctBcode, rankNo);		
+	}
+
+//	@Override
+//	public void buyerDel(String bCode) {
+//		csDao.deleteBuyer(bCode);
+//	}
 }

@@ -16,12 +16,10 @@ public class Orders {
 	private String ordPay;
 	private int ordSum; // ordFee와 상세주문들 총 금액의 합
 	private int ordFee;
-	private int sttNo;
 
 	public Orders(String ordCode, String bCode, String ordName, String ordPhone, String sendName, String sendPhone,
 			String ordPostcode, String ordAddr, String ordDetail, String ordMemo, String ordDate, String ordPay,
-			int ordSum, int ordFee, int sttNo) {
-		super();
+			int ordSum, int ordFee) {
 		this.ordCode = ordCode;
 		this.bCode = bCode;
 		this.ordName = ordName;
@@ -36,7 +34,6 @@ public class Orders {
 		this.ordPay = ordPay;
 		this.ordSum = ordSum;
 		this.ordFee = ordFee;
-		this.sttNo = sttNo;
 	}
 
 	@Override
@@ -44,7 +41,7 @@ public class Orders {
 		return "Orders [ordCode=" + ordCode + ", bCode=" + bCode + ", ordName=" + ordName + ", ordPhone=" + ordPhone
 				+ ", sendName=" + sendName + ", sendPhone=" + sendPhone + ", ordPostcode=" + ordPostcode + ", ordAddr="
 				+ ordAddr + ", ordDetail=" + ordDetail + ", ordMemo=" + ordMemo + ", ordDate=" + ordDate + ", ordPay="
-				+ ordPay + ", ordSum=" + ordSum + ", ordFee=" + ordFee + ", sttNo=" + sttNo + "]";
+				+ ordPay + ", ordSum=" + ordSum + ", ordFee=" + ordFee + "]";
 	}
 
 	public String getOrdCode() {
@@ -157,13 +154,5 @@ public class Orders {
 
 	public void setOrdFee(int ordFee) {
 		this.ordFee = ordFee;
-	}
-
-	public int getSttNo() {
-		return sttNo;
-	}
-
-	public void setSttNo(int sttNo) {
-		this.sttNo = sttNo;
 	}
 }

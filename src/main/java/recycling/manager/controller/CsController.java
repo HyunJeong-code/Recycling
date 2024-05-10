@@ -80,25 +80,33 @@ public class CsController {
 	
 	// 구매자 수정
 	@GetMapping("/buyerUpdate")
-	public String buyerUpdate(Buyer buyer, Model model) {
-		Buyer buyerupdate = csService.buyerUpdate(buyer);
-		model.addAttribute("buyerupdate", buyerupdate);
-		
-		return "manager/cs/buyerupdate";		
+	public void buyerUpdate(String bCode, Model model) {
+		Buyer buyerupdate = csService.getBuyer(bCode);
+		model.addAttribute("buyerupdate", buyerupdate);		
 	}
 	
 	@PostMapping("/buyerUpdate")
-	public void buyerUpdaterForm(Buyer buyer) {
+	public String buyerUpdaterForm(String bName, String bPhone, String bEmail, String bCode, Model model) {
+		
+		Buyer buyer = new Buyer();
+		buyer.setbName(bName);
+		buyer.setbPhone(bPhone);
+		buyer.setbEmail(bEmail);
+		
 		csService.buyerUpdate(buyer);
+		
+		buyer = csService.getBuyer(bCode);
+		
+		model.addAttribute("buyer", buyer);
+		
+		return "manager/cs/buyerupdate";
 	}
 	
 	// 구매자 삭제
 	@GetMapping("/buyerDel")
-	public String buyerDel(@RequestParam("bCode") String bCode, Model model) {
-		csService.buyerDel(bCode);
-		return "redirect:/manager/cs/main";		
+	public String buyerDel(@RequestParam("bCode") String bCode, String ctBcode, int rankNo, Model model) {
+		csService.buyerDel(bCode, ctBcode, rankNo);
+		return "redirect:/manager/cs/buyerList";
 	}
 	
-	// 추가 중
-
 }

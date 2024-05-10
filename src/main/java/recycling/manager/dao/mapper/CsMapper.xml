@@ -9,12 +9,12 @@
 	<sql id="selectAll">
 		SELECT
 			oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email, oto_date, oto_hit
-		FROM oto
+		FROM OTO
 	</sql>
 	
 	<!-- 구매자 sql 아이디 -->
 	<sql id="selectBuyerList">
-		SELECT * FROM buyer
+		SELECT * FROM BUYER
 	</sql>	
 
 	<!-- 문의글 목록 -->
@@ -53,23 +53,40 @@
 	<!-- 구매자 상세조회 -->
 	<select id="selectByBuyer" resultType="Buyer" parameterType="Buyer">
 		<include refid="selectBuyerList" />
-		<where>B_Code = #{bCode}</where>
+		<where>B_CODE = #{bCode}</where>
 	</select>
 	
 	<!-- 구매자 수정 -->
-	<update id="updateBuyer" parameterType="Buyer">
-		UPDATE Buyer
-		SET b_email = #{bEmail }			
+	<select id="select" parameterType="int" resultType="Buyer">
+		<include refid="selectAll"/>
 		<where>
-			AND b_email = #{bEmail }
+			AND b_code = #{bCode }
+		</where>
+	</select>
+	
+	<update id="updateBuyer" parameterType="Buyer">
+		UPDATE BUYER
+		SET b_name = #{bName },
+			b_phone = #{bPhone },
+			b_email = #{bEmail }
+		<where>
+			AND b_code = #{bCode }
 		</where>
 	</update>
 	
 	<!-- 구매자 삭제 -->
-	<delete id="deleteBuyer" parameterType="Buyer">
-		DELETE FROM Buyer
+	<delete id="deleteBuyer" parameterType="String">
+		DELETE FROM BUYER
 		<where>
-			AND B_Code = #{bCode }
+			AND B_CODE = #{bCode }
+		</where>
+		DELETE FROM BUYER_CT
+		<where>
+			AND CT_BCODE = #{ctBcode }
+		</where>
+		DELETE FROM BUYER_RANK
+		<where>
+			AND RANK_NO = #{rankNo }
 		</where>
 	</delete>
 	

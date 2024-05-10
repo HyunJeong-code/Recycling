@@ -43,11 +43,20 @@ public interface CsService {
 
 	/**
 	 * 구매자 수정
+	 * buyerUpdate
 	 * 
 	 * @param buyer
 	 * @return
 	 */
-	public Buyer buyerUpdate(Buyer buyer);
+	public Buyer getBuyer(String bCode);
+	
+	/**
+	 * 구매자 수정
+	 * buyerUpdateForm
+	 * 
+	 * @param buyer
+	 */
+	public void buyerUpdate(Buyer buyer);
 
 	/**
 	 * 구매자 삭제
@@ -55,6 +64,11 @@ public interface CsService {
 	 * @param bCode
 	 * @return 
 	 */
-	public Buyer buyerDel(String bCode);
+	public void buyerDel(String bCode, String ctBcode, int rankNo);
+
+
+
+	
+//	public void buyerDel(String bCode);
 
 }
