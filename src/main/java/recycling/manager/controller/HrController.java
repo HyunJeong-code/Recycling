@@ -21,28 +21,32 @@ import recycling.manager.service.face.HrService;
 public class HrController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	
 	@Autowired(required = false)
 	private HrService hrService; 
 
 	@GetMapping("/main")
-	public void main(Model model) {
-//		logger.info("Controller: main[Get]");
+	public String main(
+			Model model
+			) {
+		logger.info("Controller: main[Get]");
 		
 		List<Manager> select = hrService.selectAll();
 		model.addAttribute("select", select);
 		
 		//데이터 가져오는지 확인
-//		logger.info("select: {}", select);
+		logger.info("select: {}", select);
+		
+		return "/manager/hr/main";
 	}
 	
 	@GetMapping("/empdetail")
 	public void empDetail(Manager manager, Model model) {
-//		logger.info("controller: empDetail[Get]");
+		logger.info("controller: empDetail[Get]");
 	
 		Manager view = hrService.selectDetail(manager);
 		model.addAttribute("view", view);
-//		logger.info("empDetail:{}", view );
+		logger.info("empDetail:{}", view );
 	
 	}
 	

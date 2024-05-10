@@ -15,27 +15,27 @@ import recycling.manager.service.face.HrService;
 public class HrServiceImpl implements HrService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private HrDao hrDao;
 	
 	@Override
 	public List<Manager> selectAll() {
-//		logger.info("service: select");
+		logger.info("service: select");
 		
 	    return hrDao.selectAll();
 	}
 
 	@Override
 	public Manager selectDetail(Manager manager) {
-//		logger.info("service: selectDetail");
+		logger.info("service: selectDetail");
 		
 		return hrDao.selectDetail(manager);
 	}
 
 	@Override
 	public void insert(Manager manager) {
-//		logger.info("service: insert");
+		logger.info("service: insert");
 		
 		hrDao.insert(manager);
 		

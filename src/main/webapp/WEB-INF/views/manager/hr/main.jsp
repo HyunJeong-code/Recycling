@@ -65,13 +65,14 @@
 				<h1>전체사원 조회</h1>
 			</div>
 					<div class = "section">
-						<table>
-							<thead border="1">
+						<table border="1">
+							<thead>
 								<tr>
 									<th>V</th>
-									<th>부서명</th>
-									<th>이름</th>
 									<th>사원번호</th>
+									<th>부서명</th>
+									<th>직급</th>
+									<th>이름</th>
 									<th>핸드폰 번호</th>
 									<th>이메일</th>
 									<th>입사일</th>
@@ -80,24 +81,41 @@
 							</thead>
 				
 							<tbody>
-								<c:forEach var="manager" items="${select }">
+								<c:forEach var="select" items="${select }">
 									<tr>
-										<td><input type="checkbox" id="${manager.mgrCode }"name="chkBox"></td>
-										<td>${manager.mgrName }</td>
-										<td>${manager.mgrId }</td>
-										<td>${manager.mgrCode }</td>
-										<td>${manager.mgrPhone }</td>
-										<td>${manager.mgrEmail }</td>
+										<td><input type="checkbox" id="${select.mgrCode }"name="chkBox"></td>
+										<td>${select.mgrCode }</td>
+										<td>${select.dName }</td>
+										
+										<td>
+											<c:choose>
+												<c:when test="${select.deptno == 10 }">
+													최고관리자
+												</c:when>
+												<c:when test="${select.deptno == 20 }">
+													HR매니저
+												</c:when>
+												<c:when test="${select.deptno == 30 }">
+													SLS매니저
+												</c:when>
+												<c:when test="${select.deptno == 40 }">
+													CS매니저
+												</c:when>
+											</c:choose>
+										</td>
+										<td>${select.mgrName }</td>
+										<td>${select.mgrPhone }</td>
+										<td>${select.mgrEmail }</td>
 										<td>
 											<!-- 데이터 타입이 Date일 경우 사용 -->
 											<%-- 	<fmt:formatDate value="${manager.mgrEntDate }" pattern="yyyy-MM-dd HH:mm:ss"/> --%>
 					
 												<!-- 데이터 타입이 String일 경우 사용 --> 
-												<fmt:parseDate value="${manager.mgrEntDate }" var="mgrEntDate" pattern="yyyy-MM-dd" />
+												<fmt:parseDate value="${select.mgrEntDate }" var="mgrEntDate" pattern="yyyy-MM-dd" />
 												<fmt:formatDate value="${mgrEntDate }" pattern="yyyy-MM-dd" />
 										</td>
 					
-										<td><a href="./empdetail?mgrCode=${manager.mgrCode }">
+										<td><a href="./empdetail?mgrCode=${select.mgrCode }">
 												<button>상세정보 보기</button>
 										</a></td>
 									</tr>

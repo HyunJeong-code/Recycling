@@ -10,37 +10,67 @@
 	<sql id="selectByManager">
 		SELECT
 			mgr_code, deptno, mgr_id, mgr_pw, mgr_name
-			, mgr_phone, mgr_email, mgr_birth, mgr_gender, mgr_entdate
+			, mgr_phone, mgr_email, mgr_birth, mgr_gender, mgr_entDate
 			, mgr_out, mgr_out_date
 		FROM Manager			
 	</sql>
+	
+	<!--  manager join department -->
+	<sql id="mgrJoinDep">
+		SELECT
+		    m.mgr_code, m.deptno, m.mgr_id, m.mgr_pw, m.mgr_name
+		    , m.mgr_phone, m.mgr_email, m.mgr_birth, m.mgr_gender, m.mgr_entDate
+		    , m.mgr_out, m.mgr_out_date, d.dName
+		FROM Manager m
+		JOIN Department d ON m.deptno = d.deptno
+	</sql>
+
+
+	<!--  manager join department resultMap-->	
+	<resultMap type="java.util.HashMap" id="mgrJoin">
+	
+	<result property="mgrCode" column="mgr_code"/>
+	<result property="deptno" column="deptno"/>
+	<result property="mgrId" column="mgr_id"/>
+	<result property="mgrPw" column="mgr_pw"/>
+	<result property="mgrName" column="mgr_name"/>
+	<result property="mgrPhone" column="mgr_phone"/>
+	<result property="mgrEmail" column="mgr_email"/>
+	<result property="mgrBirth" column="mgr_birth"/>
+	<result property="mgrGender" column="mgr_gender"/>
+	<result property="mgrEntDate" column="mgr_entDate"/>
+	<result property="mgrOut" column="mgr_out"/>
+	<result property="mgrOutDate" column="mgr_out_date"/>
+
+	<result property="dName" column="dName"/>
+	</resultMap>
 
 	<!-- 조회 -->	
-	<select id="selectAll" resultType="Manager">
-		<include refid="selectByManager"/>
+	<select id="selectAll" resultMap="mgrJoin">
+		<include refid="mgrJoinDep"/>
 	</select>
 	
 	<!-- 세부 조회 -->
 	<select id="selectDetail" resultType="Manager" parameterType="Manager">
-		<include refid="selectByManager"/>
+		<include refid="mgrJoinDep"/>
 		WHERE mgr_code = #{mgrCode }
 	</select>
 	
 	<!-- 데이터 삽입 -->
 	<insert id="insert" parameterType="Manager">
 		<selectKey order="BEFORE" keyProperty="mgrCode" resultType="String">
-			SELECT mgr_code_seq.nextval FROM dual
+			SELECT ('MGR'||LPAD(mgr_code_seq.nextval, 7, '0'))FROM dual
 		</selectKey>
 		INSERT INTO manager
-		(	mgr_code, dept_no
-		, mgr_id, mgr_pw
-		, mgr_name, mgr_phone
-		, mgr_email, mgr_birth
-		, mgr_gender, mgr_ent_date
+		(	mgr_code, deptno
+		, mgrId, mgrPw
+		, mgrName, mgrPhone
+		, mgrEmail, mgrBirth
+		, mgrGender, mgrEntDate
 		)
 		VALUES
 		(	
-			#{mgrCode }, #{deptNo }
+			#{mgrCode }, #{deptno }
 			, #{mgrId }, #{mgrPw }
 			, #{mgrName }, #{mgrPhone }
 			, #{mgrEmail }, #{mgrBirth }
@@ -54,6 +84,7 @@
 			DELETE FROM manager
 			<where> mgr_code = #{mgrCode } </where>
 		</delete>
+
 
 
 </mapper>

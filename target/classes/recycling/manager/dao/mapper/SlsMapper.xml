@@ -33,7 +33,7 @@
 	<result property="expCode" column="exp_code"/>
 	<result property="sCode" column="s_code"/>
 	<result property="expName" column="exp_name"/>
-	<result property="expPrice" column="exp_pirce"/>
+	<result property="expPrice" column="exp_price"/>
 	<result property="expDetail" column="exp_detail"/>
 	<result property="expHit" column="exp_hit"/>
 	<result property="expDate" column="exp_date"/>
