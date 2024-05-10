@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
 // 마이페이지 - 회원 정보 관련
@@ -31,9 +32,33 @@ public class BuyerController {
 	
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
-	public void myMain() {
+	public String myMain(
+			HttpSession session
+			) {
 		
 		logger.info("/buyer/mypage/mymain [GET]");
+		
+		Boolean isChecked = (Boolean) session.getAttribute("isChecked");
+		
+		if(isChecked != null && isChecked) {
+			
+			Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+			
+			String buyerType = currentBuyer.getbCtCode();
+		
+			if("P".equals(buyerType)) {
+				
+				return "redirect:/buyer/mypage/mydetailpri";
+				
+			} else if ("C".equals(buyerType)) {
+				
+				return "redirect:/buyer/mypage/mydetailcmp";
+				
+			}
+			
+		}
+		
+		return "/buyer/mypage/mymain";
 		
 	}
 	
@@ -41,7 +66,9 @@ public class BuyerController {
 	@PostMapping("/mymain")
 	public String myMainProc(
 			@RequestParam("password") String password,
-			HttpSession session, Model model) {
+			HttpSession session,
+			Model model
+			) {
 		
 		logger.info("/buyer/mypage/mymain [POST]");
 		
@@ -84,7 +111,9 @@ public class BuyerController {
 	
 	// 비밀번호 변경 페이지
 	@GetMapping("/changepw")
-	public void changePw() {
+	public void changePw(
+			HttpSession session
+			) {
 		
 		logger.info("/buyer/mypage/changepw [GET]");
 		
@@ -96,7 +125,9 @@ public class BuyerController {
 			@RequestParam("currentPw") String currentPw,
 			@RequestParam("newPw") String newPw,
 			@RequestParam("confirmPw") String confirmPw,
-			HttpSession session, Model model) {
+			HttpSession session,
+			Model model
+			) {
 		
 		logger.info("/buyer/mypage/changepw [POST]");
 		
@@ -135,7 +166,10 @@ public class BuyerController {
 	
 	// 회원 정보 변경 (개인)
 	@GetMapping("/mydetailpri")
-	public void myDetailPri(HttpSession session, Model model) {
+	public void myDetailPri(
+			HttpSession session,
+			Model model
+			) {
 		
 		logger.info("/buyer/mypage/mydetailpri [GET]");
 		
@@ -147,10 +181,7 @@ public class BuyerController {
 			
 		}
 		
-		BuyerAdr buyerAdr = buyerService.getBuyerAdr(currentBuyer.getbCtCode());
-		
 		model.addAttribute("buyer", currentBuyer);
-		model.addAttribute("buyerAdr", buyerAdr);
 		
 	}
 	
@@ -158,13 +189,13 @@ public class BuyerController {
 	@PostMapping("/mydetailpri")
 	public String myDetailPriProc(
 			Buyer buyer,
-			BuyerAdr buyerAdr,
 			HttpSession session,
-			Model model) {
+			Model model
+			) {
 		
 		logger.info("/buyer/mypage/mydetailpri [POST]");
 		
-		Buyer currentBuyer = (Buyer) session.getAttribute("buyer");
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
 		
 		if(currentBuyer == null) {
 			
@@ -173,9 +204,7 @@ public class BuyerController {
 		}
 		
 		buyer.setbCode(currentBuyer.getbCode());
-		buyerAdr.setbCode(currentBuyer.getbCode());
 		
-		buyerService.updatePriDetail(buyer, buyerAdr);
 		session.setAttribute("currentBuyer", buyer);
 		
 		model.addAttribute("success", "개인 정보가 수정되었습니다.");
@@ -186,7 +215,10 @@ public class BuyerController {
 	
 	// 회원 정보 변경 (기업)
 	@GetMapping("/mydetailcmp")
-	public void myDetailCmp(HttpSession session, Model model) {
+	public void myDetailCmp(
+			HttpSession session,
+			Model model
+			) {
 		
 		logger.info("/buyer/mypage/mydetailcmp [GET]");
 		
@@ -198,12 +230,9 @@ public class BuyerController {
 			
 		}
 		
-		BuyerAdr buyerAdr = buyerService.getBuyerAdr(currentBuyer.getbCode());
-		
 		Cmp cmp = buyerService.getCmpDetail(currentBuyer.getbCode());
 		
 		model.addAttribute("buyer", currentBuyer);
-		model.addAttribute("buyerAdr", buyerAdr);
 		model.addAttribute("cmp", cmp);
 		
 	}
@@ -212,10 +241,10 @@ public class BuyerController {
 	@PostMapping("/mydetailcmp")
 	public String myDetailCmpProc(
 			Buyer buyer,
-			BuyerAdr buyerAdr,
 			Cmp cmp,
 			HttpSession session,
-			Model model) {
+			Model model
+			) {
 		
 		logger.info("/buyer/mypage/mydetailcmp [POST]");
 		
@@ -228,10 +257,9 @@ public class BuyerController {
 		}
 		
 		buyer.setbCode(currentBuyer.getbCode());
-		buyerAdr.setbCode(currentBuyer.getbCode());
 		cmp.setbCode(currentBuyer.getbCode());
 		
-		buyerService.updateCmpDetail(buyer, buyerAdr, cmp);
+		buyerService.updateCmpDetail(buyer, cmp);
 		session.setAttribute("currentBuyer", buyer);
 		
 		model.addAttribute("success", "기업 정보가 수정되었습니다.");
@@ -336,11 +364,94 @@ public class BuyerController {
 	}
 	
 	// 회원 탈퇴
-//	@GetMapping("/outbuyer")
-//	public void outBuyer() {
-//		
-//		
-//		
-//	}
+	@GetMapping("/outbuyer")
+	public void outBuyer(
+			HttpSession session,
+			Model model
+			) {
+		
+		logger.info("/buyer/mypage/outbuyer [GET]");
+		
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return;
+			
+		}
+		
+	}
+	
+	// 회원 탈퇴 처리
+	@PostMapping("/outbuyer")
+	public String outBuyerProc(
+			@RequestParam("password") String password,
+			@RequestParam(value = "privacyConsent", required = false) String ps,
+			@RequestParam(value = "infoConsent", required = false) String is,
+			HttpSession session,
+			Model model
+			) {
+		
+		logger.info("/buyer/mypage/outbuyer [POST]");
+		
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			return "redirect:/buyer/login";
+			
+		}
+		
+		if(!buyerService.verifyPw(currentBuyer.getbId(), password)) {
+			
+			model.addAttribute("error", "비밀번호가 틀렸습니다.");
+			
+			return "/buyer/mypage/outbuyer";
+			
+		}
+		
+		if(ps == null || "agree".equals(ps) || is == null || !"agree".equals(is)) {
+			
+			model.addAttribute("error", "약관을 동의해주세요.");
+			
+			return "/buyer/mypage/outbuyer";
+			
+		}
+		
+		buyerService.deleteBuyer(currentBuyer.getbCode());
+		
+		session.invalidate();
+		
+		return "redirect:/buyer/login";
+		
+	}
+	
+	// 멤버쉽 관리
+	@GetMapping("/myrank")
+	public void myRank(
+			HttpSession session,
+			Model model
+			) {
+		
+		logger.info("/buyer/mypage/myrank [GET]");
+		
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return;
+			
+		}
+		
+		BuyerRank buyerRank = buyerService.getBuyerRank(currentBuyer.getRankNo());
+		
+		model.addAttribute("buyer", currentBuyer);
+		model.addAttribute("buyerRank", buyerRank);
+		
+	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
 // 마이페이지 - 회원 정보 관련 DB 처리
@@ -83,5 +84,20 @@ public interface BuyerDao {
 	 * @return 구매자 배송지 목록
 	 */
 	public List<BuyerAdr> selectBuyerAdrList(String bCode);
+
+	/**
+	 * 구매자 탈퇴
+	 * 
+	 * @param bCode - 구매자 코드
+	 */
+	public void deleteBuyer(String bCode);
+
+	/**
+	 * 구매자 등급 번호로 구매자 등급 조회
+	 * 
+	 * @param rankNo - 구매자 등급 번호
+	 * @return 구매자 등급
+	 */
+	public BuyerRank selectBuyerRank(int rankNo);
 
 }

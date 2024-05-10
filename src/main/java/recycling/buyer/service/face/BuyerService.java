@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
 // 마이페이지 - 회원 정보 관련
@@ -55,18 +56,16 @@ public interface BuyerService {
 	 * 개인 구매자 상세 정보 업데이트
 	 * 
 	 * @param buyer - 업데이트 할 구매자 정보
-	 * @param buyerAdr - 업데이트 할 배송지 정보
 	 */
-	public void updatePriDetail(Buyer buyer, BuyerAdr buyerAdr);
+	public void updatePriDetail(Buyer buyer);
 	
 	/**
 	 * 기업 구매자 상세 정보 업데이트
 	 * 
 	 * @param buyer - 업데이트 할 구매자 정보
-	 * @param buyerAdr - 업데이트 할 배송지 정보
 	 * @param cmp - 업데이트 할 기업 정보
 	 */
-	public void updateCmpDetail(Buyer buyer, BuyerAdr buyerAdr, Cmp cmp);
+	public void updateCmpDetail(Buyer buyer, Cmp cmp);
 
 	/**
 	 * 배송지 등록
@@ -104,5 +103,20 @@ public interface BuyerService {
 	 * @return 구매자 배송지 목록
 	 */
 	public List<BuyerAdr> getBuyerAdrList(Buyer buyer);
+
+	/**
+	 * 구매자 탈퇴
+	 * 
+	 * @param bCode - 구매자 코드
+	 */
+	public void deleteBuyer(String bCode);
+
+	/**
+	 * 구매자 등급 조회
+	 * 
+	 * @param rankNo - 구매자 등급 번호
+	 * @return 구매자 등급 정보
+	 */
+	public BuyerRank getBuyerRank(int rankNo);
 	
 }

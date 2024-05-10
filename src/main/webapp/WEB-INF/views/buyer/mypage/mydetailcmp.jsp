@@ -61,16 +61,6 @@ function cancelUpdate() {
 					<input type="text" id="">
 					<input type="button" value="인증번호 확인"><br>
 					
-					<label for="adrPostcode">우편번호 </label>
-					<input type="text" id="adrPostcode" name="adrPostcode" value="${buyerAdr.adrPostcode }" required>
-					<input type="button" value="우편번호 찾기"><br>
-					
-					<label for="adrAddr">배송주소 </label>
-					<input type="text" id="adrAddr" name="adrAddr" value="${buyerAdr.adrDetail }" required><br>
-					
-					<label for="adrDetail">상세 주소 </label>
-					<input type="text" id="adrDetail" name="adrDetail" value="${buyerAdr.adrDetail }" required><br>
-					
 					<h3>광고성 정보 수신 여부 </h3>
 					<label for="adSms">SMS</label>
 					<input type="radio" name="adSms" id="adSms" value="Y" 

@@ -126,5 +126,23 @@
         	B_Code = #{bCode }
         </where>
     </select>
+    
+    <!-- 구매자 탈퇴 -->
+    <delete id="deleteBuyer" parameterType="string">
+    	DELETE FROM Buyer
+    	<where>
+    		B_Code = #{bCode }
+    	</where>
+    </delete>
+    
+    <!-- 구매자 등급 조회 -->
+    <select id="selectBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
+    	SELECT Rank_No AS rankNo,
+    		   Rank_Name AS rankName
+    	FROM Buyer_Rank
+    	<where>
+    		Rank_No = #{rankNo }
+    	</where>
+    </select>
 	
 </mapper>

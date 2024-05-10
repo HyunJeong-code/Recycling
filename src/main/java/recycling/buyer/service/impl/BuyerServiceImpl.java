@@ -11,6 +11,7 @@ import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
 @Service
@@ -66,18 +67,16 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 
 	@Override
-	public void updatePriDetail(Buyer buyer, BuyerAdr buyerAdr) {
+	public void updatePriDetail(Buyer buyer) {
 		
 		buyerDao.updateBuyer(buyer);
-		buyerDao.updateBuyerAdr(buyerAdr);
 		
 	}
 
 	@Override
-	public void updateCmpDetail(Buyer buyer, BuyerAdr buyerAdr, Cmp cmp) {
+	public void updateCmpDetail(Buyer buyer, Cmp cmp) {
 		
 		buyerDao.updateBuyer(buyer);
-		buyerDao.updateBuyerAdr(buyerAdr);
 		buyerDao.updateCmp(cmp);
 		
 	}
@@ -120,6 +119,20 @@ public class BuyerServiceImpl implements BuyerService {
 		}
 		
 		return buyerDao.selectBuyerAdrList(buyer.getbCode());
+	
+	}
+
+	@Override
+	public void deleteBuyer(String bCode) {
+		
+		buyerDao.deleteBuyer(bCode);
+		
+	}
+
+	@Override
+	public BuyerRank getBuyerRank(int rankNo) {
+
+		return buyerDao.selectBuyerRank(rankNo);
 	
 	}
 
