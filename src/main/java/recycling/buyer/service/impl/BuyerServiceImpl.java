@@ -20,8 +20,7 @@ import recycling.dto.buyer.Orders;
 public class BuyerServiceImpl implements BuyerService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired BuyerDao buyerDao;
+	@Autowired private BuyerDao buyerDao;
 	
 	@Override
 	public int insertOrder(Orders order) {
@@ -84,5 +83,4 @@ public class BuyerServiceImpl implements BuyerService {
 	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
 		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
 	}
-	
 }
