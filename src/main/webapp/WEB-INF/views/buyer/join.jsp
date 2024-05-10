@@ -1,44 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Buyer Join</title>
+<title>Insert title here</title>
+<link rel="stylesheet" href="../../../resources/css/common.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+<script type="text/javascript">
+$(function() {
+	var bCt = $("#bCtPri").val();
+	
+	if(bCt === "P") {
+		$("#pri").css("display", "block");				
+	}
+	
+	$("#bCtPri").click(function() {
+		$("#pri").css("display", "block");		
+		$("#cmp").css("display", "none");		
+	})
+	
+	$("#bCtCmp").click(function() {
+		$("#pri").css("display", "none");		
+		$("#cmp").css("display", "block");		
+	})
+	
+})
+</script>
 </head>
 <body>
-
 <div class="full">
 	<div class="wrap">
 		<div class="page">
+		<h3>회원가입</h3>
 		</div>
 		
 		<div class="section">
+			<div id="buyerCt">
+				<input type="radio" name="bCtCode" id="bCtPri" value="P" checked="checked"> 
+				<label for="bCtPri">개인</label>
+				
+				<input type="radio" name="bCtCode" id="bCtCmp" value="C">
+				<label for="bCtCmp">기업</label>	
+			</div>
 			
-			<form action="./join" method="post">
-				<label for="bId">아이디</label>
-				<input type="text" id="bId" name=bId">
-				<button id="chkBid">아이디 중복 확인</button><br>
+			<div id="pri" style="display: none;">
+				<button><a href="./prijoin">개인 일반 회원가입</a></button>
 				
-				<label for="bPw">비밀번호</label>
-				<input type="text" id="bPw" name="bPw"><br>
-				
-				<label for="chkBpw">비밀번호 확인</label>
-				<input type="text" id="chkBpw" name="chkBpw"><br>
-				
-				<label for=""></label>
-				<input type="text" id="" name=""><br>
-				<label for=""></label>
-				<input type="text" id="" name=""><br>
-				<label for=""></label>
-				<input type="text" id="" name=""><br>
-				<label for=""></label>
-				<input type="text" id="" name=""><br>
-			</form>
+				<div id="social">
+					<button>네이버 로그인</button>
+					<button>카카오 로그인</button>
+					<button>구글 로그인</button>
+				</div>
+			</div>
+			
+			<div id="cmp" style="display: none;">
+				<button><a href="./cmpjoin">기업 일반 회원가입</a></button>
+			</div>
 		</div>
 	</div>
 </div>
-
 </body>
 </html>

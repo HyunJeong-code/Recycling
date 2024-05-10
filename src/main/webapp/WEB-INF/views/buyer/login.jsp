@@ -17,7 +17,7 @@
 		<div class="section">
 			<form action="./login" method="post">
 				
-				<div class="buyerCt">
+				<div id="buyerCt">
 					<input type="radio" name="bCtCode" id="bCtCode" value="P" checked="checked"> 
 					<label for="ctPri">개인</label>
 					
@@ -25,7 +25,7 @@
 					<label for="ctCmp">기업</label>	
 				</div>
 				
-				<div class="buyer">
+				<div id="buyer">
 					<label for="bId">ID</label>
 					<input id="bId" name="bId" placeholder="아이디를 입력해주세요."><br>
 					
@@ -35,13 +35,13 @@
 					<button id="btnLogin">로그인</button>
 				</div>
 				
-				<div class="social">
+				<div id="social">
 					<button>네이버 로그인</button>
 					<button>카카오 로그인</button>
 					<button>구글 로그인</button>
 				</div>
-				<div class="join">
-					<button>일반 회원가입</button>
+				<div id="join">
+					<button><a href="./join">일반 회원가입</a></button>
 				</div>
 			</form>
 		</div>
