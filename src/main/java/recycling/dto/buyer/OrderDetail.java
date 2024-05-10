@@ -9,32 +9,6 @@ public class OrderDetail {
 	private int ordPrice;
 	private int ordCnt;
 	private int ordSum;
-	
-	public OrderDetail() {}
-
-	public OrderDetail(String orddtCode, String ordCode, String prdCode, String ordName, int ordPrice, int ordCnt) {
-		this.orddtCode = orddtCode;
-		this.ordCode = ordCode;
-		this.prdCode = prdCode;
-		this.ordName = ordName;
-		this.ordPrice = ordPrice;
-		this.ordCnt = ordCnt;
-		this.ordSum = (ordPrice * ordCnt);
-	}
-
-	@Override
-	public String toString() {
-		return "OrderDetail [orddtCode=" + orddtCode + ", ordCode=" + ordCode + ", prdCode=" + prdCode + ", ordName="
-				+ ordName + ", ordPrice=" + ordPrice + ", ordCnt=" + ordCnt + ", ordSum=" + ordSum + "]";
-	}
-
-	private String orddtCode;
-	private String ordCode;
-	private String prdCode;
-	private String ordName;
-	private int ordPrice;
-	private int ordCnt;
-	private int ordSum;
 	private int sttNo;
 	
 	public OrderDetail() {}
@@ -122,4 +96,5 @@ public class OrderDetail {
 	public void setSttNo(int sttNo) {
 		this.sttNo = sttNo;
 	}
+	
 }
