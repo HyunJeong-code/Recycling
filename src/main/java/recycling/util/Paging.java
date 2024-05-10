@@ -46,6 +46,7 @@ public class Paging {
 		// 페이징 처리 정보 생성
 		makePaging();
 	}
+	
 
 	// 페이징 처리 정보를 생성하는 메소드
 	private void makePaging() {
@@ -156,4 +157,5 @@ public class Paging {
 	public void setSearch(String search) {
 		this.search = search;
 	}
+	
 }

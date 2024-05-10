@@ -4,4 +4,123 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.manager.dao.face.SlsDao">
+	
+	<!-- 체험단 기본 조회구조  -->
+	<sql id="expBoard">
+	SELECT 
+    	exp_code
+	    , s_code
+	    , exp_name
+	    , exp_price
+	    , exp_detail
+	    , exp_hit
+	    , exp_date
+	FROM exp
+	</sql>
+	
+	<!-- exp Join expSch  -->
+	<sql id="expAndExpSch">
+	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price, e.exp_detail, e.exp_hit, e.exp_date,
+       s.sch_no, s.sch_date, s.sch_time, s.sch_cnt
+	FROM exp e
+	JOIN exp_sch s ON e.exp_code = s.exp_code
+	</sql>
+	
+	
+	<!-- exp Join expSch resultMap-->
+	<resultMap type="java.util.HashMap" id="expJoin">
+	
+	<result property="expCode" column="exp_code"/>
+	<result property="sCode" column="s_code"/>
+	<result property="expName" column="exp_name"/>
+	<result property="expPrice" column="exp_price"/>
+	<result property="expDetail" column="exp_detail"/>
+	<result property="expHit" column="exp_hit"/>
+	<result property="expDate" column="exp_date"/>
+
+	<result property="schNo" column="sch_no"/>
+	<result property="schDate" column="sch_date"/>
+	<result property="schTime" column="sch_time"/>
+	<result property="schCnt" column="sch_cnt"/>
+	</resultMap>
+	
+	
+	<!-- 체험단 조회 -->
+	<select id="selectAll" resultMap="expJoin">
+			<include refid="expAndExpSch"/>
+	</select>
+	
+	<!-- 체험단 세부 조회 -->
+	<select id="selectDetail" resultType="Exp" parameterType="Exp">
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 세부조회에 따른 조회수 증가 -->
+	<update id="hit" parameterType="Exp">
+	    UPDATE exp SET exp_hit = exp_hit + 1
+    	WHERE exp_code = #{expCode }
+	</update>
+	
+	<!-- 체험단 등록 -->
+	<insert id="insert" parameterType="Exp">
+	    <selectKey order="BEFORE" keyProperty="expCode" resultType="String">
+	        SELECT ('EXP'||LPAD(exp_seq.nextval, 7, '0')) FROM dual
+	    </selectKey>
+	    INSERT INTO exp
+	    ( exp_code
+	    , s_code
+	    , exp_name
+	    , exp_price
+	    , exp_detail
+	    , exp_hit
+	    , exp_date
+	    )VALUES
+	    ( #{expCode }
+	    , #{sCode }
+	    , #{expName }
+	    , #{expPrice }
+	    , #{expDetail }
+	    , #{expHit }
+	    , default
+	    )
+	</insert>
+
+	<!-- 파일 등록 -->
+	<insert id="fileup" parameterType="ExpFile">
+	    <selectKey order="BEFORE" keyProperty="expFlNo" resultType="int">
+	        SELECT EXP_FILE_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_File 
+	    	(exp_flNo, exp_code
+	    	, ct_pflNo ,origin_name
+	     	, stored_name 
+	     	)
+	    VALUES
+	    	(#{expFlNo}, #{expCode}
+	    	, #{ctPflNo}, #{originName}
+	    	, #{storedName}
+	    	)
+	</insert>
+	
+	<!-- 체험 일정 등록 -->
+	<insert id="expschUp" parameterType="ExpSch">
+	    <selectKey order="BEFORE" keyProperty="schNo" resultType="int">
+	        SELECT EXP_SCH_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_Sch
+	    	(sch_no, exp_code
+	    	, sch_date , sch_time
+	     	, sch_cnt
+	     	)
+	    VALUES
+	    	(#{schNo}, #{expCode}
+	    	, #{schDate}, #{schTime}
+	    	, #{schCnt}
+	    	)
+	</insert>
+
+	
+
+	
 </mapper>
