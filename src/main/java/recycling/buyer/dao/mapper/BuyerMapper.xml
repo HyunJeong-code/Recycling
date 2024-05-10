@@ -6,21 +6,6 @@
 <mapper namespace="recycling.buyer.dao.face.BuyerDao">
 
 	<insert id="insertOrder" parameterType="Orders">
-		<!-- <selectKey order="BEFORE" keyProperty="ordCode" resultType="String">
-			SELECT orders_seq.nextval FROM dual
-		</selectKey> -->
-		<!-- <selectKey order="BEFORE" keyProperty="" resultType="String">
-			SELECT b_name, b_phone FROM buyer
-			<where>
-				b_code = #{bCode}
-			</where>
-		</selectKey> -->
-		<!-- <selectKey order="BEFORE" keyProperty="ordPhone" resultType="String">
-			SELECT b_phone FROM buyer
-			<where>
-				b_code = #{bCode}
-			</where>
-		</selectKey> -->
 		INSERT INTO orders (ORD_CODE,B_CODE,ORD_NAME,ORD_PHONE,SEND_NAME,SEND_PHONE,ORD_POSTCODE,ORD_ADDR,ORD_DETAIL,ORD_MEMO,ORD_DATE,ORD_PAY,ORD_SUM, ORD_FEE)
 		VALUES(#{ordCode},#{bCode},
 		(SELECT b_name FROM buyer WHERE b_code = #{bCode}),
@@ -47,13 +32,8 @@
 			AND p.PRD_CODE = pf.PRD_CODE
 			AND B_CODE = #{bCode}
 		</where>
-	</select>
-	
-	<!-- <select id="selectAllCart" parameterType="String" resultType="Cart">
-		SELECT * FROM cart
-		WHERE B_CODE = #{bCode}
 		ORDER BY C_CODE
-	</select> -->
+	</select>
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
 		SELECT
@@ -65,13 +45,8 @@
 			AND p.PRD_CODE = pf.PRD_CODE
 			AND C_CODE = #{cCode}
 		</where>
-	</select>
-	
-	<!-- <select id="selectBycCode" parameterType="String" resultType="Cart">
-		SELECT * FROM cart
-		WHERE C_CODE = #{cCode}
 		ORDER BY C_CODE
-	</select> -->
+	</select>
 	
 	<select id="selectBybCode" parameterType="String" resultType="BuyerAdr">
 		SELECT
@@ -81,6 +56,7 @@
 			AND b_code = #{bCode}
 			AND adr_chk = 'Y'
 		</where>
+		ORDER BY ADR_CODE
 	</select>
 	
 	<select id="selectByordCode" parameterType="String" resultType="Orders">
@@ -119,5 +95,16 @@
 		    , #{sttNo}
 		)
 	</insert>
+	
+	<select id="buyerDaoselectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
+		SELECT 
+			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+		FROM 
+			order_detail od, orders o
+		<where>
+			AND o.ord_code = od.ord_code
+			AND o.b_code = #{bCode}
+		</where>
+	</select>
 
 </mapper>

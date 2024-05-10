@@ -11,6 +11,7 @@ import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
@@ -71,5 +72,10 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public int insertOrderDetail(OrderDetail orderDetail) {
 		return buyerDao.insertOrderDetail(orderDetail);
+	}
+	
+	@Override
+	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
+		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
 	}
 }

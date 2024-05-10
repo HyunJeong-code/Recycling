@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
@@ -81,5 +82,13 @@ public interface BuyerService {
 	 * @return - INSERT 결과
 	 */
 	public int insertOrderDetail(OrderDetail orderDetail);
+
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param bCode - 조회할 회원의 bCode
+	 * @return - 조회 List 결과
+	 */
+	public List<MyOrder> selectOrderDetailBybCode(String bCode);
 	
 }

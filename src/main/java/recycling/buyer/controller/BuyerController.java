@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
@@ -102,8 +102,6 @@ public class BuyerController {
 		
 		String bCode = (String)session.getAttribute("bCode");
 		
-		
-		
 		BuyerAdr buyeradr = buyerService.selectBybCode(bCode); 
 		
 		List<CartOrder> list = new ArrayList<CartOrder>();
@@ -178,6 +176,18 @@ public class BuyerController {
 		Orders order = buyerService.selectByordCode(ordCode);
 		
 		model.addAttribute("order", order);
+	}
+	
+	@GetMapping("/myorder")
+	public void myorder(Model model) {
+		
+		//테스트용 세션***********************************************테스트
+		session.setAttribute("bCode", "BUY0000002");
+		String bCode = (String)session.getAttribute("bCode");
+		
+		List<MyOrder> list = buyerService.selectOrderDetailBybCode(bCode);
+		
+		model.addAttribute("list", list);
 	}
 	
 }
