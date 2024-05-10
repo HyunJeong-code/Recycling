@@ -17,6 +17,7 @@ import recycling.buyer.service.face.HelpService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
+import recycling.dto.manager.Notice;
 import recycling.util.Paging;
 
 // 메뉴 - 고객센터
@@ -45,5 +46,38 @@ public class HelpController {
 		
 	}
 	
+	@GetMapping("/noticelist")
+	public void noticeList(
+			@RequestParam(name = "ct_ntcno", defaultValue = "buyer") String ctNtcNo,
+			Model model,
+			@RequestParam(defaultValue = "0")int curPage, 
+			@RequestParam(defaultValue = "") String search,
+			HttpSession session
+			) {
+		
+//		Paging paging = helpService.getSearchPaging(curPage, search);
+		List<Notice> noticeList = null;
+
+        // 판매자일 경우에만 공지사항 분류 선택 가능하도록 설정
+        if ("seller".equals(ctNtcNo)) {
+            noticeList = helpService.selectNoticeSeller();
+        } else {
+            noticeList = helpService.selectNoticeBuyer();
+        }
+        
+        model.addAttribute("noticeList", noticeList);
+//        model.addAttribute("paging", paging);
+	}
+	
+	@GetMapping("/noticedetail")
+	public void noticeDetail(
+			Model model,
+			String ntcCode
+			) {
+		
+		Notice notice = helpService.selectByNotice(ntcCode);
+		
+		model.addAttribute("notice", notice);
+	}
 	
 }

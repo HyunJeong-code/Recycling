@@ -11,6 +11,7 @@ import recycling.buyer.dao.face.HelpDao;
 import recycling.buyer.service.face.HelpService;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
+import recycling.dto.manager.Notice;
 import recycling.util.Paging;
 
 @Service
@@ -38,5 +39,26 @@ public class HelpServiceImpl implements HelpService {
 	@Override
 	public List<FaqCt> selectAllCtFaq(Paging paging) {
 		return helpDao.selectAllCtFaq(paging);
+	}
+
+	@Override
+	public List<Notice> selectNoticeSeller() {
+		List<Notice> sellerNotices = helpDao.selectByCategory(1);
+		
+		return sellerNotices;
+	}
+
+	@Override
+	public List<Notice> selectNoticeBuyer() {
+		List<Notice> buyerNotices = helpDao.selectByCategory(0);
+		
+		return buyerNotices;
+	}
+
+	@Override
+	public Notice selectByNotice(String ntcCode) {
+		helpDao.ntcHit(ntcCode);
+		
+		return helpDao.selectByNotice(ntcCode);
 	}
 }

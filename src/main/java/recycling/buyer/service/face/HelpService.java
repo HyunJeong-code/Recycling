@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
+import recycling.dto.manager.Notice;
 import recycling.util.Paging;
 
 public interface HelpService {
@@ -13,5 +14,11 @@ public interface HelpService {
 	public List<Faq> selectAllFaq(Paging paging);
 
 	public List<FaqCt> selectAllCtFaq(Paging paging);
+
+	public List<Notice> selectNoticeSeller();
+
+	public List<Notice> selectNoticeBuyer();
+
+	public Notice selectByNotice(String ntcCode);
 
 }

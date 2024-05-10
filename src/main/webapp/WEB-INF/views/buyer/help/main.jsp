@@ -19,6 +19,7 @@
 <style type="text/css">
 .wrap {
 	width: 1000px;
+	margin: auto;
 }
 
 .page_box {
@@ -114,14 +115,26 @@
 
 <script type="text/javascript">
 
-function toggleAnswer(question) {
-    var answerBox = question.querySelector('.FAQ_table_list_AnsBox');
+function toggleAnswer(ctFaqNo) {
+    var answerBox = ctFaqNo.querySelector('.FAQ_table_list_AnsBox');
     if (answerBox.style.display === 'none' || answerBox.style.display === '') {
         answerBox.style.display = 'block';
     } else {
         answerBox.style.display = 'none';
     }
 }
+
+$(document).ready(function(){
+    $(".FAQ_CT_button").click(function(){
+        var ctFaqNo = $(this).val(); // 클릭한 버튼의 분류 번호 가져오기
+        
+        // 모든 FAQ 리스트 숨기기
+        $(".FAQ_table_list").hide();
+        
+        // 클릭한 버튼의 분류에 해당하는 FAQ 리스트만 보이도록 처리
+        $(".FAQ_table_list[data-ctFaqNo='" + ctFaqNo + "']").show();
+    });
+});
 
 </script>
 </head>
@@ -165,12 +178,14 @@ function toggleAnswer(question) {
 	<h2>FAQ 자주 묻는 질문</h2>
 	
 	<nav class="FAQ_CT">
-			<button type="button" class="FAQ_CT_button " value="000" onclick="getFaq('000', '')">회원</button>
-			<button type="button" class="FAQ_CT_button " value="001" onclick="getFaq('001', '')">상품확인</button>
-			<button type="button" class="FAQ_CT_button " value="002" onclick="getFaq('002', '')">주문/결제</button>
-			<button type="button" class="FAQ_CT_button " value="003" onclick="getFaq('003', '')">배송</button>
-			<button type="button" class="FAQ_CT_button " value="004" onclick="getFaq('004', '')">교환/취소(반품)</button>
-			<button type="button" class="FAQ_CT_button " value="005" onclick="getFaq('005', '')">기타</button>
+			<button type="button" class="FAQ_CT_button " value="3000" >회원</button>
+            <button type="button" class="FAQ_CT_button " value="3010" >결제</button>
+            <button type="button" class="FAQ_CT_button " value="3020" >예약</button>
+            <button type="button" class="FAQ_CT_button " value="3030" >재활용품</button>
+            <button type="button" class="FAQ_CT_button " value="3040" >업사이클링</button>
+            <button type="button" class="FAQ_CT_button " value="3050" >체험단</button>
+            <button type="button" class="FAQ_CT_button " value="3060" >세척</button>
+            <button type="button" class="FAQ_CT_button " value="3070" >기타</button>
 	</nav>
 
 </div>
@@ -181,42 +196,15 @@ function toggleAnswer(question) {
 		<p class="FAQ_table_title">제목</p>
 	</div>
 	
-<!-- 	<div class="FAQ_table_list_box"> -->
-	
-	
-<!-- 		<div class="CFaqTableItem"> -->
-		
-		
-<!-- 		<div class="FAQ_table_list" > -->
-<%-- 			<em class="FAQ_list_ct">${faqct.ctFaqname }</em> --%>
-<%-- 			<p class="FAQ_list_title">${faq.faqTitle }</p> --%>
-<!-- 		</div> -->
-		
-		
-		
-		
-<!-- 		<div class="FAQ_table_list_AnsBox"> -->
-<!-- 			<em class="FAQ_table_list_Ans">답변</em> -->
-<!-- 			<div class="FAQ_table_list_contents"> -->
-<%-- 				<p>${faq.faqAns }</p> --%>
-<!-- 			</div> -->
-<!-- 		</div> -->
-		
-		
-<!-- 		</div> -->
-		
-		
-<!-- 	</div> -->
-	
 		<% 
             List<Faq> list = (List<Faq>) request.getAttribute("list");// Controller에서 전달된 질문 목록
             List<FaqCt> faqCtlist = (List<FaqCt>) request.getAttribute("faqCtlist");
             for (Faq faq : list) {
    		%>
    		
-<!-- 	<div>수정중 -->
+<!-- 	<div> css 수정해야됨 -->
 	
-	<div class="FAQ_table_list" onclick="toggleAnswer(this)">
+	<div class="FAQ_table_list" onclick="toggleAnswer(this)" data-ctFaqNo="<%= faq.getCtFaqno() %>">
 		<em class="FAQ_list_ct">
 		<%
 		for (FaqCt faqCt : faqCtlist) {
@@ -228,8 +216,6 @@ function toggleAnswer(question) {
 		%>
 		</em>
 		<p class="FAQ_list_title"><%= faq.getFaqTitle() %></p>
-	    
-	    
 		<div class="FAQ_table_list_box">
 			<div class="FAQ_table_list_AnsBox" style="display: none;">
 				<em class="FAQ_table_list_Ans">답변</em>

@@ -36,6 +36,29 @@
 	
 	<select id="selectAllCtFaq" parameterType="recycling.util.Paging" resultType="FaqCt">
 		SELECT * FROM Faq_ct
-	
 	</select>
+	
+	<select id="selectByCategory" resultType="Notice" parameterType="int">
+	    SELECT * FROM Notice
+	    <where>
+	    	AND ct_ntcno = #{ctNtcNo}
+	    </where>
+	</select>
+	
+	<select id="selectByNotice" resultType="Notice" parameterType="string">
+		SELECT * FROM Notice
+		<where>
+	    	AND ntc_code = #{ntcCode}
+		</where>
+	</select>
+	
+	<update id="ntcHit" parameterType="string">
+		UPDATE Notice
+			SET ntc_hit = ntc_hit + 1
+		<where>
+			AND ntc_code = #{ntcCode }
+		</where>
+	</update>
+	
+	
 </mapper>
