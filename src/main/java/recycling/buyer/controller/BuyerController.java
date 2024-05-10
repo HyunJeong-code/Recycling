@@ -181,7 +181,7 @@ public class BuyerController {
 			
 		}
 		
-		model.addAttribute("buyer", currentBuyer);
+		model.addAttribute("currentBuyer", currentBuyer);
 		
 	}
 	
@@ -205,6 +205,7 @@ public class BuyerController {
 		
 		buyer.setbCode(currentBuyer.getbCode());
 		
+		// 세션의 currentBuyer를 새로운 buyer 객체로 업데이트
 		session.setAttribute("currentBuyer", buyer);
 		
 		model.addAttribute("success", "개인 정보가 수정되었습니다.");
@@ -226,13 +227,15 @@ public class BuyerController {
 		
 		if(currentBuyer == null) {
 			
+			model.addAttribute("error", "로그인 해주세요.");
+			
 			return;
 			
 		}
 		
 		Cmp cmp = buyerService.getCmpDetail(currentBuyer.getbCode());
 		
-		model.addAttribute("buyer", currentBuyer);
+		model.addAttribute("currentBuyer", currentBuyer);
 		model.addAttribute("cmp", cmp);
 		
 	}
