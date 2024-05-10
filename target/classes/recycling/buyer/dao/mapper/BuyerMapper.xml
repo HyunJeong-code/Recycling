@@ -52,7 +52,7 @@
 		FROM
 			cart c, prd p, prd_file pf
 		<where>
-			AND c.PRD_CODE =p.PRD_CODE
+			AND c.PRD_CODE = p.PRD_CODE
 			AND p.PRD_CODE = pf.PRD_CODE
 			AND C_CODE = #{cCode}
 		</where>

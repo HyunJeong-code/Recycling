@@ -15,5 +15,7 @@
 
 <span>주문 번호 : ${order.ordCode }</span>
 
+<a href="/buyer/main"><button>메인페이지</button></a>
+
 </body>
 </html>

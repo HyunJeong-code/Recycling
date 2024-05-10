@@ -100,6 +100,8 @@ public class BuyerController {
 		
 		String bCode = (String)session.getAttribute("bCode");
 		
+		
+		
 		BuyerAdr buyeradr = buyerService.selectBybCode(bCode); 
 		
 		List<CartOrder> list = new ArrayList<CartOrder>();

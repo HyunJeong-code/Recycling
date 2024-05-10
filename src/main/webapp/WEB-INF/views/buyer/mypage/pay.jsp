@@ -134,15 +134,14 @@
 	    console.log(prdAmount);
 	    
 	    console.log(cartList);
+	    
 
         function requestPay(){
-        	/* $(".cCodes").each(function() {
-        		console.log($(this).val());
-			}) */
+        	var payOption = $("input:radio[name=payOption]:checked").attr("id");
             IMP.request_pay({
-            pg: "tosspay", // PG사
+            pg: payOption, // PG사
             pay_method: "card", //결제 수단 (필수)
-            merchant_uid: 'ORD_' + new Date().getTime(),   // 주문번호
+            merchant_uid: 'ORD' + new Date().getTime(),   // 주문번호
             name: prdName,             // 주문 상품 이름
             amount: prdAmount,                        // 결제 금액 (필수)
 
@@ -288,12 +287,18 @@
 	<input type="text" name="ordMemo" id="ordMemo">
 </label><br>
 
-<h3>총 가격: <span id="prdAmount"> </span></h3>
+<h3>총 가격: <span id="prdAmount"></span></h3>
 
-<br><br>
-<button type="button" onclick="requestPay();">결제하기</button>
-
+<br>
 </form>
+
+<div id="payOption">
+	<label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" checked="checked"></label>
+	<label>토스페이</label><input type="radio" id="tosspay" name="payOption"></label>
+	<label>카카오페이</label><input type="radio" id="kakaopay" name="payOption"></label>
+</div>
+
+<button type="button" onclick="requestPay();">결제하기</button>
 
 <!-- 모달창 -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
