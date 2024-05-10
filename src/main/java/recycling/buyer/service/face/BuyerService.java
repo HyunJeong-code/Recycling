@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
 // 마이페이지 - 회원 정보 관련
@@ -72,5 +73,13 @@ public interface BuyerService {
 	 * @return - UPDATE 결과
 	 */
 	public int updatePrdCnt(CartOrder cart);
+	
+	/**
+	 * 주문 상세 추가
+	 * 
+	 * @param orderDetail - 추가할 주문 상세 DTO
+	 * @return - INSERT 결과
+	 */
+	public int insertOrderDetail(OrderDetail orderDetail);
 	
 }

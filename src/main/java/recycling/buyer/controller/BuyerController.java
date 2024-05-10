@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
 // 마이페이지 - 회원 정보 관련
@@ -138,12 +140,23 @@ public class BuyerController {
 		logger.info("order: {}", order);
 		logger.info("cartList: {}", cartList);
 		
-		
-		//카트담긴것 Order_detail로 인서트
-		
 		int res = buyerService.insertOrder(order);
 		
 		for (String cCode : cartList) {
+			
+			OrderDetail orderDetail = new OrderDetail();
+			//카트담긴것 Order_detail로 인서트
+			CartOrder cartOrder = buyerService.selectBycCode(cCode);
+			
+			orderDetail.setOrdCode(order.getOrdCode());
+			orderDetail.setPrdCode(cartOrder.getPrdCode());
+			orderDetail.setOrdName(cartOrder.getPrdName());
+			orderDetail.setOrdPrice(cartOrder.getPrice());
+			orderDetail.setOrdCnt(cartOrder.getcCnt());
+			orderDetail.setOrdSum(cartOrder.getcCnt() * cartOrder.getPrice());
+			orderDetail.setSttNo(900);
+			
+			int ordRes = buyerService.insertOrderDetail(orderDetail);
 			
 			//수량 차감
 			CartOrder cart = buyerService.selectBycCode(cCode);

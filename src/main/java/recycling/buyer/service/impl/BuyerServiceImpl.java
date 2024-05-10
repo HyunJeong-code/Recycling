@@ -11,6 +11,7 @@ import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
 @Service
@@ -65,5 +66,10 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public int updatePrdCnt(CartOrder cart) {
 		return buyerDao.updatePrdCnt(cart);
+	}
+	
+	@Override
+	public int insertOrderDetail(OrderDetail orderDetail) {
+		return buyerDao.insertOrderDetail(orderDetail);
 	}
 }

@@ -24,8 +24,17 @@
 		INSERT INTO orders (ORD_CODE,B_CODE,ORD_NAME,ORD_PHONE,SEND_NAME,SEND_PHONE,ORD_POSTCODE,ORD_ADDR,ORD_DETAIL,ORD_MEMO,ORD_DATE,ORD_PAY,ORD_SUM, ORD_FEE)
 		VALUES(#{ordCode},#{bCode},
 		(SELECT b_name FROM buyer WHERE b_code = #{bCode}),
-		(SELECT b_phone FROM buyer WHERE b_code = #{bCode}),
-		#{sendName},#{sendPhone},#{ordPostcode},#{ordAddr},#{ordDetail},#{ordMemo},sysdate,#{ordPay},#{ordSum}, #{ordFee})
+		(SELECT b_phone FROM buyer WHERE b_code = #{bCode})
+		, #{sendName}
+		, #{sendPhone}
+		, #{ordPostcode}
+		, #{ordAddr}
+		, #{ordDetail}
+		, #{ordMemo}
+		, sysdate
+		, #{ordPay}
+		, #{ordSum}
+		, #{ordFee})
 	</insert>
 	
 	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
@@ -97,5 +106,18 @@
 	    SET prd_cnt = prd_cnt-#{cCnt}
 	    WHERE prd_code = #{prdCode}
 	</update>
+	
+	<insert id="insertOrderDetail" parameterType="OrderDetail">
+		INSERT INTO order_detail VALUES (
+		    'ORDT' || lpad(cart_seq.nextval, '6', 0)
+		    , #{ordCode}
+		    , #{prdCode}
+		    , #{ordName}
+		    , #{ordPrice}
+		    , #{ordCnt}
+		    , #{ordSum}
+		    , #{sttNo}
+		)
+	</insert>
 
 </mapper>
