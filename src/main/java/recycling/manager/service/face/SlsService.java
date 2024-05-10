@@ -2,7 +2,10 @@ package recycling.manager.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpSch;
 
 
 // 판매제휴팀 관련 처리
@@ -28,6 +31,8 @@ public interface SlsService {
 	 * 체험단 등록
 	 * 
 	 * @param exp
+	 * @param expSch 
+	 * @param file 
 	 */
-	public void insert(Exp exp);
+	public void insert(Exp exp, ExpSch expSch, MultipartFile file);
 }

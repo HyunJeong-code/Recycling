@@ -64,8 +64,11 @@
 	
 	<!-- 체험단 등록 -->
 	<insert id="insert" parameterType="Exp">
-		INSERT INTO exp
-		( exp_code
+	    <selectKey order="BEFORE" keyProperty="expCode" resultType="String">
+	        SELECT ('EXP'||LPAD(exp_seq.nextval, 7, '0')) FROM dual
+	    </selectKey>
+	    INSERT INTO exp
+	    ( exp_code
 	    , s_code
 	    , exp_name
 	    , exp_price
@@ -73,15 +76,50 @@
 	    , exp_hit
 	    , exp_date
 	    )VALUES
-	    (exp_seq.nextval
-	    , sCode
+	    ( #{expCode }
+	    , #{sCode }
 	    , #{expName }
 	    , #{expPrice }
 	    , #{expDetail }
 	    , #{expHit }
-	    , sysdate
+	    , default
 	    )
 	</insert>
+
+	<!-- 파일 등록 -->
+	<insert id="fileup" parameterType="ExpFile">
+	    <selectKey order="BEFORE" keyProperty="expFlNo" resultType="int">
+	        SELECT EXP_FILE_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_File 
+	    	(exp_flNo, exp_code
+	    	, ct_pflNo ,origin_name
+	     	, stored_name 
+	     	)
+	    VALUES
+	    	(#{expFlNo}, #{expCode}
+	    	, #{ctPflNo}, #{originName}
+	    	, #{storedName}
+	    	)
+	</insert>
+	
+	<!-- 체험 일정 등록 -->
+	<insert id="expschUp" parameterType="ExpSch">
+	    <selectKey order="BEFORE" keyProperty="schNo" resultType="int">
+	        SELECT EXP_SCH_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_Sch
+	    	(sch_no, exp_code
+	    	, sch_date , sch_time
+	     	, sch_cnt
+	     	)
+	    VALUES
+	    	(#{schNo}, #{expCode}
+	    	, #{schDate}, #{schTime}
+	    	, #{schCnt}
+	    	)
+	</insert>
+
 	
 
 	

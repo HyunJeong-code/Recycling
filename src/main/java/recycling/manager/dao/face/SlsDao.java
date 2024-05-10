@@ -3,6 +3,8 @@ package recycling.manager.dao.face;
 import java.util.List;
 
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
+import recycling.dto.seller.ExpSch;
 
 // 판매제휴팀 DB 처리
 
@@ -36,4 +38,28 @@ public interface SlsDao {
 	 * @param exp
 	 */
 	public void insert(Exp exp);
+
+	/**
+	 * 
+	 * 게시판 번호 가져오기
+	 * @param exp
+	 * @return
+	 */
+	public String selectByExp(Exp exp);
+
+	/**
+	 * 
+	 * 파일 업로드
+	 * 
+	 * @param expFile
+	 */
+	public void fileup(ExpFile expFile);
+
+	/**
+	 * 
+	 * 체험 일정 업로드
+	 * 
+	 * @param expSch
+	 */
+	public void expschUp(ExpSch expSch);
 }
