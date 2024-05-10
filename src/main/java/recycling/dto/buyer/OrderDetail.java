@@ -96,5 +96,4 @@ public class OrderDetail {
 	public void setSttNo(int sttNo) {
 		this.sttNo = sttNo;
 	}
-	
 }
