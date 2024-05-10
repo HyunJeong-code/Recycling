@@ -4,4 +4,115 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.BuyerDao">
+
+	<insert id="insertOrder" parameterType="Orders">
+		INSERT INTO orders (ORD_CODE,B_CODE,ORD_NAME,ORD_PHONE,SEND_NAME,SEND_PHONE,ORD_POSTCODE,ORD_ADDR,ORD_DETAIL,ORD_MEMO,ORD_DATE,ORD_PAY,ORD_SUM, ORD_FEE)
+		VALUES(#{ordCode},#{bCode},
+		(SELECT b_name FROM buyer WHERE b_code = #{bCode}),
+		(SELECT b_phone FROM buyer WHERE b_code = #{bCode})
+		, #{sendName}
+		, #{sendPhone}
+		, #{ordPostcode}
+		, #{ordAddr}
+		, #{ordDetail}
+		, #{ordMemo}
+		, sysdate
+		, #{ordPay}
+		, #{ordSum}
+		, #{ordFee})
+	</insert>
+	
+	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
+		SELECT
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+		FROM
+			cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE =p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE
+			AND B_CODE = #{bCode}
+		</where>
+		ORDER BY C_CODE
+	</select>
+	
+	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
+		SELECT
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+		FROM
+			cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE = p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE
+			AND C_CODE = #{cCode}
+		</where>
+		ORDER BY C_CODE
+	</select>
+	
+	<select id="selectBybCode" parameterType="String" resultType="BuyerAdr">
+		SELECT
+		    adr_name, adr_phone, adr_postcode, adr_addr, adr_detail
+		FROM buyer_adr
+		<where>
+			AND b_code = #{bCode}
+			AND adr_chk = 'Y'
+		</where>
+		ORDER BY ADR_CODE
+	</select>
+	
+	<select id="selectByordCode" parameterType="String" resultType="Orders">
+		SELECT * FROM orders
+		WHERE ORD_CODE = #{ordCode}
+		ORDER BY ORD_CODE
+	</select>
+	
+	<select id="selectPrdCnt" parameterType="String" resultType="Integer">
+		SELECT prd_cnt FROM prd
+		<where>
+			PRD_CODE = #{prdCode}
+		</where>
+	</select>
+	
+	<delete id="deleteCart" parameterType="String">
+		DELETE FROM cart
+		WHERE c_code = #{cCode}
+	</delete>
+	
+	<update id="updatePrdCnt" parameterType="CartOrder">
+		UPDATE prd
+	    SET prd_cnt = prd_cnt-#{cCnt}
+	    WHERE prd_code = #{prdCode}
+	</update>
+	
+	<insert id="insertOrderDetail" parameterType="OrderDetail">
+		INSERT INTO order_detail VALUES (
+		    'ORDT' || lpad(cart_seq.nextval, '6', 0)
+		    , #{ordCode}
+		    , #{prdCode}
+		    , #{ordName}
+		    , #{ordPrice}
+		    , #{ordCnt}
+		    , #{ordSum}
+		    , #{sttNo}
+		)
+	</insert>
+	
+	<select id="buyerDaoselectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
+		SELECT 
+			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+		FROM 
+			order_detail od, orders o
+		<where>
+			AND o.ord_code = od.ord_code
+			AND o.b_code = #{bCode}
+		</where>
+	</select>
+	
+	<update id="updatecCnt" parameterType="Cart">
+		UPDATE cart
+		SET c_cnt = #{cCnt}
+		<where>
+			AND c_code = #{cCode}
+		</where>
+	</update>
+
 </mapper>
