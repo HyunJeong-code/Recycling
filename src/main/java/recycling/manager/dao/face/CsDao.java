@@ -46,7 +46,7 @@ public interface CsDao {
 	 * @param buyer
 	 * @return
 	 */
-	public Buyer select(String bCode);
+	public Buyer selectBcode(String bCode);
 
 	public void updateBuyer(Buyer buyer);
 	

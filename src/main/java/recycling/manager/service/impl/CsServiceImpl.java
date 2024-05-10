@@ -51,7 +51,7 @@ public class CsServiceImpl implements CsService {
 	
 	@Override
 	public Buyer getBuyer(String bCode) {
-		return csDao.select(bCode);
+		return csDao.selectBcode(bCode);
 	}
 
 	@Override

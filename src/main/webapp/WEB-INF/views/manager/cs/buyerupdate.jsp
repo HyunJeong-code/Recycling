@@ -10,6 +10,21 @@
 
 	<h1>구매자 수정</h1>
 	<hr>
+	
+	<div class="container">
+		<form action="./buyerupdate" method="post">
+			<label for="bName">이름: </label>
+			<input type="text" id="bName" name="bName" value="${buyer.bName }">
+			
+			<label for="bPhone">전화번호: </label>
+			<input type="text" id="bPhone" name="bPhone" value="${buyer.bPhone }">
+			
+			<label for="bEmail">이메일: </label>
+			<input type="text" id="bEmail" name="bEmail" value="${buyer.bEmail }">
+			
+			<button>수정</button>
+		</form>
+	</div>
 
 </body>
 </html>

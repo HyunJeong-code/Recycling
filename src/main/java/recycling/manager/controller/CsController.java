@@ -36,11 +36,11 @@ public class CsController {
 
 		// 페이징 계산
 		paging = csService.getPaging(pagingParam);
-		logger.info("{}", paging);
+//		logger.info("{}", paging);
 
 		// 게시글 목록 조회
 		List<Oto> list = csService.list(paging);
-		logger.info("controller list: {}", list);
+//		logger.info("controller list: {}", list);
 
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
@@ -48,7 +48,7 @@ public class CsController {
 	}
 
 	// 구매자 리스트
-	@RequestMapping("/buyerList")
+	@RequestMapping("/buyerlist")
 	public String buyerList(@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search, String caregory, Paging pagingParam, Model model) {
 
@@ -56,7 +56,7 @@ public class CsController {
 
 		// 페이징 계산
 		paging = csService.getPaging(pagingParam);
-		logger.info("{}", paging);
+//		logger.info("{}", paging);
 
 		// 구매자 목록 조회
 		List<Buyer> buyerList = csService.buyerList(paging);
@@ -69,7 +69,7 @@ public class CsController {
 	}
 	
 	// 구매자 상세
-	@GetMapping("/buyerDetail")
+	@GetMapping("/buyerdetail")
 	public String buyerDetail(Buyer buyer, Model model) {
 		Buyer buyerdetail = csService.buyerDetail(buyer);
 		model.addAttribute("buyerdetail", buyerdetail);
@@ -79,13 +79,14 @@ public class CsController {
 	}
 	
 	// 구매자 수정
-	@GetMapping("/buyerUpdate")
+	@GetMapping("/buyerupdate")
 	public void buyerUpdate(String bCode, Model model) {
-		Buyer buyerupdate = csService.getBuyer(bCode);
-		model.addAttribute("buyerupdate", buyerupdate);		
+//		logger.info("{}", bCode);
+		Buyer buyer = csService.getBuyer(bCode);
+		model.addAttribute("buyer", buyer);
 	}
 	
-	@PostMapping("/buyerUpdate")
+	@PostMapping("/buyerupdate")
 	public String buyerUpdaterForm(String bName, String bPhone, String bEmail, String bCode, Model model) {
 		
 		Buyer buyer = new Buyer();
@@ -103,10 +104,13 @@ public class CsController {
 	}
 	
 	// 구매자 삭제
-	@GetMapping("/buyerDel")
+	@GetMapping("/buyerdel")
 	public String buyerDel(@RequestParam("bCode") String bCode, String ctBcode, int rankNo, Model model) {
 		csService.buyerDel(bCode, ctBcode, rankNo);
-		return "redirect:/manager/cs/buyerList";
+		
+		return "redirect:/manager/cs/buyerlist";
 	}
+	
+	// 수정, 삭제 기능 수정 중...
 	
 }

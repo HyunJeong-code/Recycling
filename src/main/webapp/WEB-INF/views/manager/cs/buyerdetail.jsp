@@ -13,8 +13,8 @@
 	
 	<h3>번호: ${buyerdetail.bCode }</h3>
 	
-	<a href="./buyerUpdate?bCode=${buyer.bCode }"><button>수정</button></a>
-	<a href="./buyerDel?bCode=${buyer.bCode }"><button>삭제</button></a>
+	<a href="./buyerupdate?bCode=${buyer.bCode }"><button>수정</button></a>
+	<a href="./buyerdel?bCode=${buyer.bCode }"><button>삭제</button></a>
 
 </body>
 </html>
