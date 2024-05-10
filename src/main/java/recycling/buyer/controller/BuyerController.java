@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -49,7 +50,7 @@ public class BuyerController {
 		
 		//현재 상품 재고과 장바구니에 담긴 상품 수량 확인
 		for(CartOrder e : bf_list) {
-			Integer count = buyerService.selectByprdCode(e.getPrdCode());
+			Integer count = buyerService.selectPrdCnt(e.getPrdCode());
 			logger.info("prd count : {}", count);
 			logger.info("cart count : {}", e.getcCnt());
 			
@@ -86,8 +87,13 @@ public class BuyerController {
 		model.addAttribute("msg", msg);
 	}
 	
-	@GetMapping("/login")
-	public void login() {
+	@PostMapping("/cartupdate")
+	public String cartupdate(Cart cart) {
+		logger.info("cartupdate : {}", cart);
+		
+		int res = buyerService.updatecCnt(cart);
+		
+		return "jsonView";
 	}
 	
 	@GetMapping("/pay")

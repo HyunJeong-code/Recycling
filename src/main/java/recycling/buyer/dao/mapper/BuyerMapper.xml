@@ -65,7 +65,7 @@
 		ORDER BY ORD_CODE
 	</select>
 	
-	<select id="selectByprdCode" parameterType="String" resultType="Integer">
+	<select id="selectPrdCnt" parameterType="String" resultType="Integer">
 		SELECT prd_cnt FROM prd
 		<where>
 			PRD_CODE = #{prdCode}
@@ -106,5 +106,13 @@
 			AND o.b_code = #{bCode}
 		</where>
 	</select>
+	
+	<update id="updatecCnt" parameterType="Cart">
+		UPDATE cart
+		SET c_cnt = #{cCnt}
+		<where>
+			AND c_code = #{cCode}
+		</where>
+	</update>
 
 </mapper>

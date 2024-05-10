@@ -3,6 +3,7 @@ package recycling.buyer.dao.face;
 import java.util.List;
 
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -58,7 +59,7 @@ public interface BuyerDao {
 	 * @param prdCode - 조회할 상품의 prdCode
 	 * @return - 해당 상품 수량
 	 */
-	public Integer selectByprdCode(String prdCode);
+	public Integer selectPrdCnt(String prdCode);
 
 	/**
 	 * 선택된 상품 삭제
@@ -91,6 +92,14 @@ public interface BuyerDao {
 	 * @return - 조회 List 결과
 	 */
 	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
+
+	/**
+	 * 장바구니 수량 변경
+	 * 
+	 * @param cart - 변경될 수량을 담고있는 Cart DTO 
+	 * @return - UPDATE 결과
+	 */
+	public int updatecCnt(Cart cart);
 
 
 	

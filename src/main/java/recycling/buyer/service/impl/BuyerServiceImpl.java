@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -39,6 +40,11 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
+	public int updatecCnt(Cart cart) {
+		return buyerDao.updatecCnt(cart);
+	}
+	
+	@Override
 	public CartOrder selectBycCode(String cCode) {
 		logger.info(cCode);
 		return buyerDao.selectBycCode(cCode);
@@ -55,8 +61,8 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public Integer selectByprdCode(String prdCode) {
-		return buyerDao.selectByprdCode(prdCode);
+	public Integer selectPrdCnt(String prdCode) {
+		return buyerDao.selectPrdCnt(prdCode);
 	}
 	
 	@Override
@@ -78,4 +84,5 @@ public class BuyerServiceImpl implements BuyerService {
 	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
 		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
 	}
+	
 }

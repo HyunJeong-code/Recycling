@@ -51,6 +51,28 @@
 		    console.log(arr);
 		}); // #ord_btn click end
 		
+		$(".cartCnt").change(function() {
+			$.ajax({
+				type: "post"
+				, url: "./cartupdate"
+				, data: {
+					cCode: $(this).parent().children().eq(1).html() //해당 행의 cCode
+					, cCnt : $(this).val()
+				}
+				, dataType : "Json"
+				, success: function(res) {
+					console.log("AJAX 성공");
+					
+					location.href="./cart";
+					//$("#cartTable").load(window.location.href+" #cartTable");
+					
+				}
+				, error: function() {
+					console.log("AJAX 실패");
+				}
+			})
+		})
+		
 		//상품의 수량이 부족할시 장바구니 제외 알림
 		if(${msg != ""}){
 			alert("${msg}");
@@ -62,7 +84,7 @@
 <body>
 
 	<form action="./pay" method="get" id="ord_form">
-	<table>
+	<table id="cartTable">
 	
 		<thead>
 			<tr>
@@ -87,7 +109,7 @@
 			 		<td>${cart.prdName }</td>
 			 		<td>${cart.price }</td>
 			 		<td>${cart.prdFee }</td>
-			 		<td>${cart.cCnt }</td>
+			 		<td><input type="number" class="cartCnt" value="${cart.cCnt }"></td>
 			 		<td>
 			 			${cart.cCnt * cart.price + cart.prdFee }
 			 		</td>
