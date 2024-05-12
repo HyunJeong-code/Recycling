@@ -4,4 +4,61 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.HelpDao">
+
+	<select id="selectPageAll" resultType="int">
+		SELECT COUNT(*) FROM (
+			SELECT * FROM Faq
+			<where>
+				AND faq_no = #{faqNo}
+			</where>
+		)
+	</select>
+	
+<!-- 	<select id="selectAllFaq" parameterType="recycling.util.Paging" resultType="Faq"> -->
+<!-- 	SELECT * FROM ( -->
+<!-- 			SELECT rownum rnum, B.* FROM ( -->
+<!-- 				SELECT F.*, C.ct_faqname -->
+<!-- 				FROM Faq F -->
+<!-- 				JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno -->
+<!-- 				ORDER BY F.faq_no -->
+<!-- 			) B -->
+<!-- 		) -->
+<!-- 		<where> -->
+<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	<select id="selectAllFaq" parameterType="recycling.util.Paging" resultType="Faq">
+			SELECT F.*, C.ct_faqname
+			FROM Faq F
+			JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno
+			ORDER BY F.faq_no
+	</select>
+	
+	<select id="selectAllCtFaq" parameterType="recycling.util.Paging" resultType="FaqCt">
+		SELECT * FROM Faq_ct
+	</select>
+	
+	<select id="selectByCategory" resultType="Notice" parameterType="int">
+	    SELECT * FROM Notice
+	    <where>
+	    	AND ct_ntcno = #{ctNtcNo}
+	    </where>
+	</select>
+	
+	<select id="selectByNotice" resultType="Notice" parameterType="string">
+		SELECT * FROM Notice
+		<where>
+	    	AND ntc_code = #{ntcCode}
+		</where>
+	</select>
+	
+	<update id="ntcHit" parameterType="string">
+		UPDATE Notice
+			SET ntc_hit = ntc_hit + 1
+		<where>
+			AND ntc_code = #{ntcCode }
+		</where>
+	</update>
+	
+	
 </mapper>
