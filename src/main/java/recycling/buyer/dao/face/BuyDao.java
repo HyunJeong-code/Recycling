@@ -23,4 +23,12 @@ public interface BuyDao {
 	 */
 	public int insertBuyer(Buyer buyer);
 	
+	/**
+	 * 로그인 처리(임시) -> 시큐리티 완성되면 삭제 예정
+	 * 
+	 * @param buyer - 로그인 정보가 들어있는 DTO
+	 * @return - null : 실패, else : 성공
+	 */
+	public BuyerLogin selectBybIdbPw(Buyer buyer);
+	
 }

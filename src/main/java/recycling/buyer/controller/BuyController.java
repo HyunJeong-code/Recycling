@@ -4,13 +4,13 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import recycling.buyer.service.face.BuyService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.Buyers;
+import recycling.dto.buyer.BuyerLogin;
 
 // 구매자 메인페이지, 로그인/회원가입
 
@@ -34,7 +34,11 @@ public class BuyController {
 	@Autowired private JavaMailSenderImpl mailSender;
 	
 	@GetMapping("/main")
-	public void main(@AuthenticationPrincipal Buyers buyer) {
+	public void main(
+//			@AuthenticationPrincipal Buyers buyer,
+			HttpSession session
+			) {
+		BuyerLogin buyer = (BuyerLogin) session.getAttribute("buyers");
 		logger.info("/buyer/main [GET]");
 		
 		logger.info("{}", buyer);
@@ -130,8 +134,20 @@ public class BuyController {
 	}
 	
 	@PostMapping("/login")
-	public void loginProc() {
-		logger.info("/buyer/login [POST]");		
+	public String loginProc(Buyer buyer, HttpSession session) {
+		logger.info("/buyer/login [POST]");
+		
+		logger.info("login : {}", buyer);
+		
+		BuyerLogin buyers = buyService.selectBybIdbPw(buyer);
+		
+		if(buyers != null ) {
+			session.setAttribute("buyers", buyers);
+			return "redirect:./main";
+		} else {
+			session.invalidate();
+			return "redirect:./loginfail";
+		}
 	}
 	
 	@GetMapping("/loginfail")

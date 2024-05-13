@@ -33,5 +33,13 @@ public interface BuyService {
 	 * @return 처리 완료된 구매자 회원가입 정보
 	 */
 	public Buyer priProc(Buyer buyer, String bEmail2, String mPhone, String lPhone);
+	
+	/**
+	 * 로그인 처리(임시) -> 시큐리티 완성되면 삭제 예정
+	 * 
+	 * @param buyer - 로그인 정보가 들어있는 DTO
+	 * @return - null : 실패, else : 성공
+	 */
+	public BuyerLogin selectBybIdbPw(Buyer buyer);
 
 }

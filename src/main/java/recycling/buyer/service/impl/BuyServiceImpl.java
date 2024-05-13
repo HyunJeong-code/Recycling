@@ -2,31 +2,24 @@ package recycling.buyer.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.BuyDao;
 import recycling.buyer.service.face.BuyService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.Buyers;
 
 @Service
-public class BuyServiceImpl implements BuyService, UserDetailsService {
+public class BuyServiceImpl implements BuyService{
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyDao buyDao;
-	@Autowired private BCryptPasswordEncoder pwEncoder;
+//	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
 	@Override
 	public Buyer priProc(Buyer buyer, String bEmail2, String mPhone, String lPhone) {
@@ -34,8 +27,8 @@ public class BuyServiceImpl implements BuyService, UserDetailsService {
 		buyer.setbCtCode("P");
 		
 		// 비밀번호 암호화
-		String enPw = pwEncoder.encode(buyer.getbPw());
-		buyer.setbPw(enPw);
+//		String enPw = pwEncoder.encode(buyer.getbPw());
+//		buyer.setbPw(enPw);
 		
 		// 이메일
 		buyer.setbEmail(buyer.getbEmail() + bEmail2);
@@ -60,26 +53,26 @@ public class BuyServiceImpl implements BuyService, UserDetailsService {
 		return buyDao.insertBuyer(buyer);
 	}
 	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		logger.info("buyService.loadUserByUsername()");
-		
-		BuyerLogin buyerLogin = buyDao.selectById(username);		
-
-		if(buyerLogin == null) {
-			logger.info("login Fail");
-			throw new UsernameNotFoundException("Not Found Id");
-		}
-		
-		buyerLogin = chkAuth(buyerLogin);
-		logger.info("{}", buyerLogin);
-		
-		Buyers buyer = new Buyers(buyerLogin);
-		
-		logger.info("Login buyer : {}", buyer);
-		
-		return buyer;
-	}
+//	@Override
+//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//		logger.info("buyService.loadUserByUsername()");
+//		
+//		BuyerLogin buyerLogin = buyDao.selectById(username);		
+//
+//		if(buyerLogin == null) {
+//			logger.info("login Fail");
+//			throw new UsernameNotFoundException("Not Found Id");
+//		}
+//		
+//		buyerLogin = chkAuth(buyerLogin);
+//		logger.info("{}", buyerLogin);
+//		
+//		Buyers buyer = new Buyers(buyerLogin);
+//		
+//		logger.info("Login buyer : {}", buyer);
+//		
+//		return buyer;
+//	}
 	
 	@Override
 	public BuyerLogin chkAuth(BuyerLogin buyerLogin) {
@@ -100,5 +93,11 @@ public class BuyServiceImpl implements BuyService, UserDetailsService {
 		buyerLogin.setAuth(auth);
 		
 		return buyerLogin;
+	}
+	
+	// 로그인 처리(임시)
+	@Override
+	public BuyerLogin selectBybIdbPw(Buyer buyer) {
+		return buyDao.selectBybIdbPw(buyer);
 	}
 }
