@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/buyer/mypage")
-public class buyerController {
+public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	
 }

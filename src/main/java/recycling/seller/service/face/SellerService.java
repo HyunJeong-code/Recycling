@@ -1,5 +1,8 @@
 package recycling.seller.service.face;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import recycling.dto.buyer.Cmp;
 import recycling.dto.seller.Seller;
 
 // 판매자 정보 관련 처리
@@ -11,7 +14,7 @@ public interface SellerService {
 	 * @param pw
 	 * @return
 	 */
-	public String getBuyerPwBySellerCode(String sCode);
+	public String selectSeller(String sCode);
 
 	
 	/**
@@ -20,6 +23,39 @@ public interface SellerService {
 	 * @return
 	 */
 	public Seller getSellerInfo(String pw);
+
+
+	/**
+	 * 비밀번호 변경 메소드 불러오기
+	 * 
+	 * @param bPw 기존 비번
+	 * @param newPw 새 비번
+	 * @return
+	 */
+	public boolean updatePw(String bPw, String newPw);
+
+	/**
+	 * 계좌 변경 메소드 
+	 * 
+	 * @param seller
+	 */
+	public String updateBank(Seller seller);
+
+	/**
+	 * 판매자 정보 변경
+	 * 
+	 * @param seller
+	 */
+	public void updateSellerProf(Seller seller);
+
+
+	/**
+	 * 프로필 이미지 업로드 파일 구현 메소드
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public String uploadImage(MultipartFile file);
 
 	
 
