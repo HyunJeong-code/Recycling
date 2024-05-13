@@ -12,7 +12,12 @@
 
 <script type="text/javascript">
 
-function pdtname(pdtno) {
+let pdtList = {0:"플라스틱", 1:"유리", 2:"종이", 3:"캔", 4:"천", 5:"기타"}
+
+let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
+		, 940: "구매 확정", 950: "거래 완료", 960: "환불", 970: "반품", 980: "취소"}
+
+/* function pdtname(pdtno) {
 	switch (pdtno) {
 	case 0:
 	  	return "플라스틱";
@@ -32,7 +37,7 @@ function pdtname(pdtno) {
 	case 5:
 		return "기타";
 	}
-}
+} */
 
 
 </script>
@@ -61,7 +66,10 @@ function pdtname(pdtno) {
                 	<input type="checkbox" class="checkList" name="checkList" value="${prd.prdCode }">
                 </td>
                 <td>${prd.prdCode}</td>
-                <td><script>document.write(pdtname(${prd.ctPdtNo}))</script></td>
+                <td>
+                	<!-- <script>document.write(pdtname(${prd.ctPdtNo}))</script> -->
+                	<script>document.write(pdtList[${prd.ctPdtNo}])</script>
+                </td>
                 <td>${prd.prdName}</td>
                 <td>${prd.price}</td>
                 <td>
