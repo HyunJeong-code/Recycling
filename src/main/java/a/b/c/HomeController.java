@@ -35,6 +35,4 @@ public class HomeController {
 		
 		return "home";
 	}
-	
-	// 김창준 바보
 }
