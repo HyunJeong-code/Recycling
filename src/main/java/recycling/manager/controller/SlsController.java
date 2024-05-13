@@ -27,7 +27,7 @@ public class SlsController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired SlsService slsService;
+	@Autowired private SlsService slsService;
 	@Autowired HttpSession session;
 	
 	//체험단 전체조회

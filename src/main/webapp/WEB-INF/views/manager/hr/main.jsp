@@ -55,6 +55,7 @@
 
 		})
 	})
+	
 </script>
 
 </head>
@@ -71,7 +72,6 @@
 									<th>V</th>
 									<th>사원번호</th>
 									<th>부서명</th>
-									<th>직급</th>
 									<th>이름</th>
 									<th>핸드폰 번호</th>
 									<th>이메일</th>
@@ -81,28 +81,13 @@
 							</thead>
 				
 							<tbody>
-								<c:forEach var="select" items="${select }">
+								<c:forEach var="select" items="${select }" varStatus="status">
+									<!-- mgrOut상태가 'N' 이면 보여주고 'Y'이면 숨기기 -->
+									<c:if test="${select.mgrOut eq 'N'}">
 									<tr>
 										<td><input type="checkbox" id="${select.mgrCode }"name="chkBox"></td>
 										<td>${select.mgrCode }</td>
 										<td>${select.dName }</td>
-										
-										<td>
-											<c:choose>
-												<c:when test="${select.deptno == 10 }">
-													최고관리자
-												</c:when>
-												<c:when test="${select.deptno == 20 }">
-													HR매니저
-												</c:when>
-												<c:when test="${select.deptno == 30 }">
-													SLS매니저
-												</c:when>
-												<c:when test="${select.deptno == 40 }">
-													CS매니저
-												</c:when>
-											</c:choose>
-										</td>
 										<td>${select.mgrName }</td>
 										<td>${select.mgrPhone }</td>
 										<td>${select.mgrEmail }</td>
@@ -119,6 +104,7 @@
 												<button>상세정보 보기</button>
 										</a></td>
 									</tr>
+									</c:if>
 								</c:forEach>
 							</tbody>
 						</table>

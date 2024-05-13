@@ -25,7 +25,7 @@ public class SlsServiceImpl implements SlsService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired private ServletContext servletContext;
-	@Autowired SlsDao slsDao;
+	@Autowired private SlsDao slsDao;
 	
 	@Override
 	public List<Exp> selectAll() {

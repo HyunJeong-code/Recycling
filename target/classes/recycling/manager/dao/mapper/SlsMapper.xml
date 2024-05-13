@@ -97,13 +97,17 @@
 	        SELECT EXP_FILE_SEQ.nextval FROM dual
 	    </selectKey>
 	    INSERT INTO Exp_File 
-	    	(exp_flNo, exp_code
-	    	, ct_pflNo ,origin_name
+	    	(exp_flNo
+	    	, exp_code
+	    	, ct_pflNo
+	    	, origin_name
 	     	, stored_name 
 	     	)
 	    VALUES
-	    	(#{expFlNo}, #{expCode}
-	    	, #{ctPflNo}, #{originName}
+	    	(#{expFlNo}
+	    	, #{expCode}
+	    	, #{ctPflNo}
+	    	, #{originName}
 	    	, #{storedName}
 	    	)
 	</insert>
