@@ -7,7 +7,7 @@
 	<!-- DB 접속 정보 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@admin?TNS_ADMIN=./src/main/resources/wallet/Wallet_Recycling"/>
+		<property name="url" value="jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g3bd2566cb57229_recycling_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))"/>
 		<property name="username" value="admin"/>
 		<property name="password" value="Kdw123456789"/>
 	</bean>
@@ -46,5 +46,25 @@
 	<!-- 트랜잭션 매니저 -->
 	<bean id="transectionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 이메일 인증 관련(네이버) -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com"/>
+		<property name="port" value="465"/>
+		<property name="username" value="tptkd__777"/>
+		<property name="password" value="qawsedrf13579!"/>
+		
+		<!-- 보안 연결(SSL) 관련 설정 -->
+		<property name="javaMailProperties">
+			<props>
+		      <prop key="mail.smtp.auth">true</prop>
+		      <prop key="mail.smtp.starttls.enable">true</prop>
+		      <prop key="mail.smtps.checkserveridentity">true</prop>
+		      <prop key="mail.smtps.ssl.trust">*</prop>
+		      <prop key="mail.debug">true</prop>
+		      <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+		     </props>
+		</property>
 	</bean>
 </beans>

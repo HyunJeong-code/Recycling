@@ -1,5 +1,7 @@
 package recycling.buyer.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.BuyerAdr;
@@ -200,7 +203,9 @@ public class BuyerController {
 		model.addAttribute("list", list);
 	}
 	
-}
+
+	
+
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
 	public String myMain(
@@ -208,26 +213,6 @@ public class BuyerController {
 			) {
 		
 		logger.info("/buyer/mypage/mymain [GET]");
-		
-		Boolean isChecked = (Boolean) session.getAttribute("isChecked");
-		
-		if(isChecked != null && isChecked) {
-			
-			Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
-			
-			String buyerType = currentBuyer.getbCtCode();
-		
-			if("P".equals(buyerType)) {
-				
-				return "redirect:/buyer/mypage/mydetailpri";
-				
-			} else if ("C".equals(buyerType)) {
-				
-				return "redirect:/buyer/mypage/mydetailcmp";
-				
-			}
-			
-		}
 		
 		return "/buyer/mypage/mymain";
 		
@@ -255,28 +240,87 @@ public class BuyerController {
 		}
 		
 		// 비밀번호 확인
-		if(buyerService.verifyPw(currentBuyer.getbId(), password)) {
+		if(!buyerService.verifyPw(currentBuyer.getbId(), password)) {
 			
-			// 구매자 유형
-			String buyerType = currentBuyer.getbCtCode();
+			model.addAttribute("error", "비밀번호가 틀렸습니다.");
 			
-			session.setAttribute("currentBuyer", currentBuyer);
+			return "/buyer/mypage/mymain";
+		
+		}
+		
+		// 구매자 유형
+		String buyerType = currentBuyer.getbCtCode();
 			
-			if("P".equals(buyerType)) {
+		if("P".equals(buyerType)) {
+
+			return "redirect:/buyer/mypage/mypagepri";
 				
-				return "redirect:/buyer/mypage/mydetailpri";
+		} else if ("C".equals(buyerType)) {
 				
-			} else if ("C".equals(buyerType)) {
+			return "redirect:/buyer/mypage/mypagecmp";
 				
-				return "redirect:/buyer/mypage/mydetailcmp";
-				
-			}
+		} else {
+			
+			return "/buyer/mypage/mymain";
 			
 		}
 		
-		model.addAttribute("error", "비밀번호가 틀렸습니다.");
+	}
+	
+	// 개인 마이페이지 메인화면
+	@GetMapping("/mypagepri")
+	public String myPagePri(
+			HttpSession session,
+			Model model
+			) {
 		
-		return "/buyer/mypage/mymain";
+		logger.info("/buyer/mypage/mypagepri [GET]");
+		
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
+			
+		}
+		
+		BuyerRank buyerRank = buyerService.getBuyerRank(currentBuyer.getRankNo());
+		
+		model.addAttribute("bName", currentBuyer.getbName());
+		model.addAttribute("bId", currentBuyer.getbId());
+		model.addAttribute("buyerRank", buyerRank);
+		
+		return "/buyer/mypage/mypagepri";
+		
+	}
+	
+	// 기업 마이페이지 메인화면
+	@GetMapping("/mypagecmp")
+	public String myPageCmp(
+			HttpSession session,
+			Model model
+			) {
+		
+		logger.info("/buyer/mypage/mypagecmp [GET]");
+		
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
+			
+		}
+		
+		Cmp cmp = buyerService.getCmpDetail(currentBuyer.getbCode());
+		
+		model.addAttribute("cmpName", cmp.getCmpName());
+		model.addAttribute("bId", currentBuyer.getbId());
+		
+		return "/buyer/mypage/mypagecmp";
 		
 	}
 	
@@ -306,7 +350,9 @@ public class BuyerController {
 		
 		if(currentBuyer == null) {
 			
-			return "redirect:/buyer/mypage/mymain";
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
 			
 		}
 		
@@ -348,6 +394,8 @@ public class BuyerController {
 		
 		if(currentBuyer == null) {
 			
+			model.addAttribute("error", "로그인 해주세요.");
+			
 			return;
 			
 		}
@@ -370,7 +418,9 @@ public class BuyerController {
 		
 		if(currentBuyer == null) {
 			
-			return "redirect:/buyer/mypage/mymain";
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
 			
 		}
 		
@@ -416,17 +466,41 @@ public class BuyerController {
 	public String myDetailCmpProc(
 			Buyer buyer,
 			Cmp cmp,
+			@RequestParam("cmpFile") MultipartFile file,
 			HttpSession session,
 			Model model
 			) {
 		
 		logger.info("/buyer/mypage/mydetailcmp [POST]");
 		
+		if(!file.isEmpty()) {
+			
+			String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+			String filePath = "D:/uploads/" + fileName;
+			
+			File destFile = new File(filePath);
+			
+			try {
+				
+				file.transferTo(destFile);
+				
+			} catch (IOException e) {
+				
+				model.addAttribute("error", "파일 업로드 실패: " + e.getMessage());
+				
+				return "/buyer/mypage/mydetailcmp";
+				
+			}
+			
+		}
+		
 		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
 		
 		if(currentBuyer == null) {
 			
-			return "redirect:/buyer/mypage/mymain";
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
 			
 		}
 		
@@ -599,32 +673,6 @@ public class BuyerController {
 		session.invalidate();
 		
 		return "redirect:/buyer/login";
-		
-	}
-	
-	// 멤버쉽 관리
-	@GetMapping("/myrank")
-	public void myRank(
-			HttpSession session,
-			Model model
-			) {
-		
-		logger.info("/buyer/mypage/myrank [GET]");
-		
-		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
-		
-		if(currentBuyer == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return;
-			
-		}
-		
-		BuyerRank buyerRank = buyerService.getBuyerRank(currentBuyer.getRankNo());
-		
-		model.addAttribute("buyer", currentBuyer);
-		model.addAttribute("buyerRank", buyerRank);
 		
 	}
 	

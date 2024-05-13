@@ -34,6 +34,14 @@ function cancelUpdate() {
 	window.history.back();
 		
 }
+
+window.onload = function() {
+    var error = '${error}';
+    if (error) {
+        alert(error);
+        window.location.href = '/buyer/login'; // 로그인 페이지로 리디렉션
+    }
+}
 </script>
 
 </head>
@@ -43,7 +51,7 @@ function cancelUpdate() {
 			<h2>기업 정보 수정</h2>
 			<hr>
 			<div class="page">
-				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailcmp" method="post">
+				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailcmp" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${buyer.bCode }">
 					<input type="hidden" name="adrCode" value="${buyerAdr.adrCode }">
 					
@@ -89,9 +97,8 @@ function cancelUpdate() {
 					<label for="cmpDetail">상세 주소 </label>
 					<input type="text" id="cmpDetail" name="cmpDetail" value="${cmp.cmpDetail }" required><br>
 					
-					<label for="">사업자 등록증 첨부 </label>
-					<input type="" id="" name="" required="required">
-					<button>찾아보기</button><br>
+					<label for="cmpFile">사업자 등록증 첨부 </label>
+					<input type="file" id="cmpFile" name="cmpFile">
 					
 					<input type="submit" value="수정하기">
 					<input type="button" value="취소하기" onclick="cancelUpdate()">

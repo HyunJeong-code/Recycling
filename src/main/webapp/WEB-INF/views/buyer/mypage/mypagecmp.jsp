@@ -2,12 +2,12 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>myMain</title>
+<title>mypagecmp</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -23,18 +23,13 @@ window.onload = function() {
 <body>
 	<div class="full">
 		<div class="wrap">
-			<h2>비밀번호 확인</h2>
+			<h2>마이페이지</h2>
 			<hr>
 			<div class="page">
-				<form action="${pageContext.request.contextPath }/buyer/mypage/mymain" method="post">
-					<h3>개인 정보 변경을 위해 비밀번호를 입력해주세요.</h3>
-					<label for="password">비밀번호 </label>
-					<input type="password" id="password" name="password" required>
-					<button type="submit">확인</button>
-				</form>
-				<c:if test="${not empty error }">
-					<p style="color: red;">${error }</p>
-				</c:if>
+				<a href="/buyer/mypage/mypagecmp" >마이페이지</a><br>
+				<a href="/buyer/mypage/mydetailcmp" >개인 정보 수정</a>
+				<p>이름 : ${buyer.bName }</p>
+				<p>아이디 : ${buyer.bId }</p>
 			</div>
 		</div>
 	</div>

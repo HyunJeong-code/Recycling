@@ -87,6 +87,15 @@ function cancelForm() {
 	window.history.back();
 	
 }
+
+<script type="text/javascript">
+window.onload = function() {
+    var error = '${error}';
+    if (error) {
+        alert(error);
+        window.location.href = '/buyer/login'; // 로그인 페이지로 리디렉션
+    }
+}
 </script>
 
 <style type="text/css">

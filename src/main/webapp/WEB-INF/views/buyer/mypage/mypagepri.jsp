@@ -7,15 +7,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>myRank</title>
+<title>mypagepri</title>
+
+<script type="text/javascript">
+window.onload = function() {
+    var error = '${error}';
+    if (error) {
+        alert(error);
+        window.location.href = '/buyer/login'; // 로그인 페이지로 리디렉션
+    }
+}
+</script>
+
 </head>
 <body>
 	<div class="full">
 		<div class="wrap">
-			<h2>멤버쉽 관리</h2>
+			<h2>마이페이지</h2>
 			<hr>
 			<div class="page">
-				<h3>현재 멤버쉽 등급</h3>
+				<a href="/buyer/mypage/mypagepri" >마이페이지</a><br>
+				<a href="/buyer/mypage/mydetailpri" >개인 정보 수정</a>
 				<p>이름 : ${buyer.bName }</p>
 				<p>아이디 : ${buyer.bId }</p>
 				<p>등급 : ${buyerRank.rankName }</p>
