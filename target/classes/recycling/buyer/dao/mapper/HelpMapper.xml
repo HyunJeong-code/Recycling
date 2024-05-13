@@ -60,5 +60,32 @@
 		</where>
 	</update>
 	
+	<insert id="insertOto" parameterType="Oto">
+		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content,
+						oto_name, oto_email, oto_hit)
+		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail}, #{otoHit})
+	
+	</insert>
+	
+	<select id="selectAllOto" resultType="Oto" parameterType="recycling.util.Paging">
+		SELECT * FROM Oto
+		
+	</select>
+	
+	<select id="selectAllOtoCt" resultType="OtoCt">
+		select * from oto_ct
+	</select>
+	
+	<select id="selectByCtOto" resultType="Oto" parameterType="string">
+		SELECT * FROM oto
+		<where>
+			AND ct_otono = #{ctOtoNo}
+		</where>
+	</select>
+	
+	<select id="getAllOct" resultType="OtoCt">
+		SELECT * FROM Oto_Ct
+		
+	</select>
 	
 </mapper>

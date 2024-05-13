@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.HelpDao;
 import recycling.buyer.service.face.HelpService;
+import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoCt;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
@@ -61,4 +63,36 @@ public class HelpServiceImpl implements HelpService {
 		
 		return helpDao.selectByNotice(ntcCode);
 	}
+
+
+	@Override
+	public void insertOto(Oto oto) {
+
+		helpDao.insertOto(oto);
+	}
+
+	@Override
+	public List<OtoCt> selectAllOtoCt() {
+		return helpDao.selectAllOtoCt();
+	}
+
+	@Override
+	public List<Oto> selectAllOto() {
+		
+		return helpDao.selectAllOto();
+	}
+
+	@Override
+	public List<Oto> selectByCtOto(String string) {
+		return helpDao.selectByCtOto(string);
+	}
+
+	@Override
+	public List<OtoCt> getAllOct() {
+		List<OtoCt> oct = helpDao.getAllOct();
+		
+		return oct;
+	}
+
+
 }

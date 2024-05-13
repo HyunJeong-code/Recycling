@@ -2,6 +2,8 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
+import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoCt;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
@@ -22,5 +24,18 @@ public interface HelpDao {
 	public Notice selectByNotice(String ntcCode);
 
 	public void ntcHit(String ntcCode);
+
+	public void insertOto(Oto oto);
+
+	public List<OtoCt> selectAllOtoCt();
+
+	public List<Oto> selectAllOto();
+
+	public List<Oto> selectByCtOto(String string);
+
+	public List<OtoCt> getAllOct();
+
+
+
 
 }
