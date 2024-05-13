@@ -6,7 +6,7 @@
 <mapper namespace="recycling.buyer.dao.face.BuyDao">
 	
 	<select id="selectById" parameterType="string" resultType="BuyerLogin">
-		SELECT B.b_code, B.b_id, B.b_pw, B.b_out, S.s_code, S.s_chk, S.s_out 
+		SELECT B.b_code, B.b_ct_code, B.b_id, B.b_pw, B.b_out, S.s_code, S.s_chk, S.s_out 
 		FROM buyer B, seller S
 		<where>
 			AND B.b_code = S.b_code(+)

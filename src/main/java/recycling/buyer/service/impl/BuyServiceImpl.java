@@ -25,7 +25,7 @@ import recycling.dto.buyer.Buyers;
 public class BuyServiceImpl implements BuyService, UserDetailsService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	@Autowired BuyDao buyDao;
+	@Autowired private BuyDao buyDao;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
 	@Override
@@ -74,14 +74,7 @@ public class BuyServiceImpl implements BuyService, UserDetailsService {
 		buyerLogin = chkAuth(buyerLogin);
 		logger.info("{}", buyerLogin);
 		
-		Collection<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-		
-		for(String auth : buyerLogin.getAuth()) {
-			roles.add(new SimpleGrantedAuthority(auth));
-		}
-		
-		UserDetails buyer = new Buyers(buyerLogin.getbCode(), buyerLogin.getbId(), buyerLogin.getbPw(), buyerLogin.getbOut(),
-				buyerLogin.getsCode(), buyerLogin.getsChk(), buyerLogin.getsOut(), roles);
+		Buyers buyer = new Buyers(buyerLogin);
 		
 		logger.info("Login buyer : {}", buyer);
 		
@@ -92,16 +85,16 @@ public class BuyServiceImpl implements BuyService, UserDetailsService {
 	public BuyerLogin chkAuth(BuyerLogin buyerLogin) {
 		logger.info("buyService.chkAuth()");
 		
-		List<String> auth = new ArrayList<>();
+		Collection<SimpleGrantedAuthority> auth = new ArrayList<SimpleGrantedAuthority>();
 		if (buyerLogin.getbOut().equals("N") && buyerLogin.getsCode() == null) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-			auth.add("ROLE_BUYER");			
+			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
 		} else if(buyerLogin.getbOut().equals("N") && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
-			auth.add("ROLE_SELLER");
-			auth.add("ROLE_BUYER");						
+			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
+			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
 		} else if (buyerLogin.getbOut().equals("Y") && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
-			auth.add("ROLE_SELLER");
+			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
 		} else if (buyerLogin.getbOut().equals("N") && buyerLogin.getsChk().equals("N") && buyerLogin.getsOut().equals("N")) {
-			auth.add("ROLE_BUYER");						
+			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
 		}
 		
 		buyerLogin.setAuth(auth);
