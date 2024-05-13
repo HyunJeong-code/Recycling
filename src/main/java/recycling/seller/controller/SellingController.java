@@ -1,5 +1,6 @@
 package recycling.seller.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -38,15 +39,53 @@ public class SellingController {
 		
 		String sCode = (String)session.getAttribute("sCode");
 		
+		//로그인 되어있는 아이디의 재활용 판매 상품 조회
 		List<Prd> plist = sellingService.selectAllrcyPrd(sCode);
 		
+		//주문 리스트
+		List<MyOrder> olist = new ArrayList<MyOrder>();
+		
+		//조회된 상품의 주문 리스트 조회
 		for(Prd prd : plist) {
 			String prdCode = prd.getPrdCode();
 			
 			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
+			
+			for(MyOrder mo : list) {
+				olist.add(mo);
+			}
 		}
 		
 		model.addAttribute("plist", plist);
+		model.addAttribute("olist", olist);
+	}
+	
+	@GetMapping("upcylist")
+	public void upcylist(Model model) {
+		//테스트용 세션***********************************************테스트
+		session.setAttribute("sCode", "SEL0000002");
+		
+		String sCode = (String)session.getAttribute("sCode");
+		
+		//로그인 되어있는 아이디의 재활용 판매 상품 조회
+		List<Prd> plist = sellingService.selectAllupcyPrd(sCode);
+		
+		//주문 리스트
+		List<MyOrder> olist = new ArrayList<MyOrder>();
+		
+		//조회된 상품의 주문 리스트 조회
+		for(Prd prd : plist) {
+			String prdCode = prd.getPrdCode();
+			
+			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
+			
+			for(MyOrder mo : list) {
+				olist.add(mo);
+			}
+		}
+		
+		model.addAttribute("plist", plist);
+		model.addAttribute("olist", olist);
 	}
 	
 	@GetMapping("/explist")

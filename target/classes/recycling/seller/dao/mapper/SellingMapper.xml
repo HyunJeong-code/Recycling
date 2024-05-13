@@ -18,6 +18,15 @@
 		ORDER BY prd_code DESC
 	</select>
 	
+	<select id="selectAllupcyPrd" parameterType="String" resultType="Prd">
+		SELECT * FROM prd
+		<where>
+			AND s_code = #{sCode}
+			AND ct_pno = 1
+		</where>
+		ORDER BY prd_code DESC
+	</select>
+	
 	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
 		SELECT 
 			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE

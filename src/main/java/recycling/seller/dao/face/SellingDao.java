@@ -39,5 +39,13 @@ public interface SellingDao {
 	 */
 	public List<MyOrder> selectAllMyOrder(String prdCode);
 
+	/**
+	 * sCode와 일치하는 모든 upcyPrd 조회
+	 * 
+	 * @param sCode - 조회할 sCode
+	 * @return - 모든 upcyPrd 리스트
+	 */
+	public List<Prd> selectAllupcyPrd(String sCode);
+
 
 }

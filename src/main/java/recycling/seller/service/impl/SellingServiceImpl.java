@@ -29,6 +29,11 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+	public List<Prd> selectAllupcyPrd(String sCode) {
+		return sellingDao.selectAllupcyPrd(sCode);
+	}
+	
+	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		
