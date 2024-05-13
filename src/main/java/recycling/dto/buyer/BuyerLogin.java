@@ -120,4 +120,8 @@ public class BuyerLogin {
 	public void setAuth(Collection<? extends GrantedAuthority> auth) {
 		this.auth = auth;
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 408cc73c63a85e8d87c549993a94fd8c2d3d5e14

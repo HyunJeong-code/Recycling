@@ -1,6 +1,8 @@
 package recycling.manager.controller;
 
+
 import java.util.List;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,16 @@ import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import oracle.jdbc.proxy.annotation.Post;
+import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerLogin;
+import recycling.manager.service.face.MgrService;
+
+
 // 관리자 메인 페이지 + 로그인, 회원가입 + 사원 전체 조회, 공지사항
 
 @Controller
@@ -21,8 +33,42 @@ import recycling.util.Paging;
 public class MgrController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	@Autowired MgrService mgrService; 
+	@Autowired private MgrService mgrService;
+	
+	@GetMapping("/main")
+	public void main(HttpSession session) {
+		logger.info("/manager/main [GET]");
+	}
+	
+	@GetMapping("/join")
+	public void join() {
+		logger.info("/manager/join [GET]");
+	}
+	
+	@PostMapping("/join")
+	public void joinProc() {
+		logger.info("/manager/join [POST]");		
+	}
+	
+	@GetMapping("/login")
+	public void login() {
+		logger.info("/manager/login [GET]");		
+	}
+	
+	@PostMapping("login")
+	public String loginProc(HttpSession session, Manager manager) {
+		logger.info("/manager/login [POST]");
+		
+		ManagerLogin mgr = mgrService.selectByIdPw(manager);
+		
+		if(mgr != null) {
+			session.setAttribute("mgr", mgr);
+			return "redirect:./main";
+		} else {
+			session.invalidate();
+			return "redirect:./loginfail";
+		}
+	}
 	
 	//공지사항 전체조회
 	@GetMapping("/noticelist")

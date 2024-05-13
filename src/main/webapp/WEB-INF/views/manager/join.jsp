@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +7,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-<sec:authorize access="hasAnyRole('ROLE_MANAGER')">
-</sec:authorize>
+<div class="full">
+	<div class="wrap">
+		<div class="page">
+		<h3>회원가입</h3>
+		</div>
+		
+		<div class="section">
+		
+		<form action="./join" method="post">
+			
+		</form>
+		</div>
+	</div>
+</div>
 
 </body>
 </html>

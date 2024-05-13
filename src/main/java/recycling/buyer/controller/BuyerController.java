@@ -9,11 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +28,8 @@ import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
+import recycling.dto.buyer.Buyers;
+
 // 마이페이지 - 회원 정보 관련
 
 @Controller
@@ -37,7 +37,6 @@ import recycling.dto.buyer.Cmp;
 public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	@Autowired BuyerService buyerService;
 	@Autowired HttpSession session;
 	
@@ -203,9 +202,12 @@ public class BuyerController {
 		model.addAttribute("list", list);
 	}
 	
+<<<<<<< HEAD
 
 	
 
+=======
+>>>>>>> 408cc73c63a85e8d87c549993a94fd8c2d3d5e14
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
 	public String myMain(
@@ -676,4 +678,32 @@ public class BuyerController {
 		
 	}
 	
+<<<<<<< HEAD
+=======
+	// 멤버쉽 관리
+	@GetMapping("/myrank")
+	public void myRank(
+			HttpSession session,
+			Model model
+			) {
+		
+		logger.info("/buyer/mypage/myrank [GET]");
+		
+		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		
+		if(currentBuyer == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return;
+			
+		}
+		
+		BuyerRank buyerRank = buyerService.getBuyerRank(currentBuyer.getRankNo());
+		
+		model.addAttribute("buyer", currentBuyer);
+		model.addAttribute("buyerRank", buyerRank);
+		
+	}
+>>>>>>> 408cc73c63a85e8d87c549993a94fd8c2d3d5e14
 }
