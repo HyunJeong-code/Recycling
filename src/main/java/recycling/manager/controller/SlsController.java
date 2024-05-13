@@ -31,25 +31,38 @@ public class SlsController {
 	@Autowired HttpSession session;
 	
 	//체험단 전체조회
+//	@GetMapping("/explist")
+//	public String expList(
+//			Model model
+//			) {
+//		logger.info("controller : explist[get]");
+//		
+//		//전체 조회기능
+//		List<Exp> list = slsService.selectAll();
+//		
+//		model.addAttribute("exp", list);
+//		logger.info("controller explist: {}", list);
+//		
+//		return "/manager/sls/explist";
+//		
+//	}
+	
+	//체험단 전체조회
 	@GetMapping("/explist")
-	public String explist(
+	public String expList(
 			Model model
 			) {
-		logger.info("controller : explist[get]");
-		
 		//전체 조회기능
 		List<Exp> list = slsService.selectAll();
-		
 		model.addAttribute("exp", list);
 		logger.info("controller explist: {}", list);
 		
 		return "/manager/sls/explist";
-		
 	}
 	
 	//체험단 상세조회
 	@GetMapping("/expdetail")
-	public void expDetail(Exp exp,Model model) {
+	public void expDetail(Exp exp, Model model) {
 		logger.info("contoller: expDetail[GET]");
 		
 		Exp view = slsService.selectDetail(exp);

@@ -46,18 +46,23 @@
 	
 	
 	<!-- 체험단 조회 -->
-	<select id="selectAll" resultMap="expJoin">
-			<include refid="expAndExpSch"/>
+	<select id="selectAll" resultType="Exp">
+		<include refid="expBoard"/>
 	</select>
 	
+	<!-- 체험단 디테일조회 -->
+<!-- 	<select id="selectAll" resultMap="expJoin"> -->
+<!-- 			<include refid="expAndExpSch"/> -->
+<!-- 	</select> -->
+	
 	<!-- 체험단 세부 조회 -->
-	<select id="selectDetail" resultType="Exp" parameterType="Exp">
-		<include refid="expBoard"/>
+	<select id="selectDetail" parameterType="Exp" resultType="Exp" >
+		<include refid="expAndExpSch"/>
 		<where>exp_code = #{expCode }</where>
 	</select>
 	
 	<!-- 세부조회에 따른 조회수 증가 -->
-	<update id="hit" parameterType="Exp">
+	<update id="hit" parameterType="Exp" >
 	    UPDATE exp SET exp_hit = exp_hit + 1
     	WHERE exp_code = #{expCode }
 	</update>
