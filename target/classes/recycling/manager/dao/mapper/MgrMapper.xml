@@ -4,4 +4,72 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.manager.dao.face.MgrDao">
+
+	<!-- 로그인(임시) -->
+	<select id="selectByIdPw" parameterType="Manager" resultType="ManagerLogin">
+		SELECT mgr_code, deptno, mgr_id, mgr_pw, mgr_out 
+		FROM manager
+		<where>
+			AND mgr_id = #{mgrId }
+			AND mgr_pw = #{mgrPw }
+		</where>
+	</select>
+
+	<!-- 공지사항 기본 조회구조  -->
+	<sql id="noticeBoard">
+	SELECT 
+    	ntc_code
+	    , CT_ntcno
+	    , ntc_title
+	    , ntc_content
+	    , ntc_hit
+	    , ntc_date
+	FROM notice
+	</sql>
+	
+	<!-- 카테고리 + 검색기능 구조  -->
+	<sql id="noitceSearch">
+    <if test="search != null and search != ''">
+		<choose>
+			<when test="category == 'title'">
+				<where>ntc_title LIKE '%${search }%'</where>
+			</when>
+			<when test="category == 'content'">
+				<where>ntc_content LIKE '%${search }%'</where>
+			</when>
+		</choose>
+	</if>
+	</sql>
+	
+	<!-- 공지사항 조회 -->	
+	<select id="selectAll" resultType="Notice" parameterType="recycling.util.Paging">
+		SELECT * FROM ( SELECT rownum rnum,
+		B.* FROM (
+			<include refid="noticeBoard"/>
+			<include refid="noitceSearch"/>
+		ORDER BY ntc_code DESC ) B )
+		<where> AND rnum BETWEEN #{startNo } AND #{endNo } </where>
+	</select>
+	
+	<!-- 조회 + 검색기능 -->
+	<select id="selectCntAll" resultType="int" parameterType="recycling.util.Paging">
+		SELECT count(*) FROM (
+		<include refid="noticeBoard" />
+		<include refid="noitceSearch"/>
+		)
+	</select>
+	
+	
+	
+	<!-- 공지사항 세부 조회 -->
+	<select id="selectDetail" resultType="Notice" parameterType="Notice">
+		<include refid="noticeBoard"/>
+		<where>ntc_code = #{ntcCode }</where>
+	</select>
+	
+	<!-- 세부조회에 따른 조회수 증가 -->
+	<update id="hit" parameterType="Notice">
+		UPDATE notice SET ntc_hit = ntc_hit + 1
+		<where>ntc_code = #{ntcCode }</where>
+	</update>
 </mapper>

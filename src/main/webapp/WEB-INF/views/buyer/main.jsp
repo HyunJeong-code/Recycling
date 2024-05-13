@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,28 +9,36 @@
 </head>
 <body>
 
-<div class="wrap">
-	<div class="ad">
-	</div>
-	
-	<div>
-		<div class="wash">
+<div class="full">
+<sec:authorize access="isAnonymous()">
+<button><a href="./login">로그인</a></button>
+</sec:authorize>
+
+<sec:authorize access="hasRole('ROLE_BUYER')">
+<button><a href="./logout">로그아웃</a></button>
+</sec:authorize>
+	<div class="wrap">
+		<div class="ad">
 		</div>
 		
-		<div class="hit">
-		</div>
-	</div>
-	
-	<div>
-		<div class="rcy">
-		</div>
-		
-		<div class="upcy">
 		<div>
+			<div class="wash">
+			</div>
+			
+			<div class="hit">
+			</div>
 		</div>
+		
+		<div>
+			<div class="rcy">
+			</div>
+			
+			<div class="upcy">
+			<div>
+			</div>
+			</div>
 		</div>
 	</div>
 </div>
-
 </body>
 </html>
