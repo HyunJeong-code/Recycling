@@ -7,11 +7,9 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,6 +25,8 @@ import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
+import recycling.dto.buyer.Buyers;
+
 // 마이페이지 - 회원 정보 관련
 
 @Controller
@@ -34,7 +34,6 @@ import recycling.dto.buyer.Cmp;
 public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	@Autowired BuyerService buyerService;
 	@Autowired HttpSession session;
 	
@@ -200,6 +199,12 @@ public class BuyerController {
 		model.addAttribute("list", list);
 	}
 	
+	@GetMapping("/mymain")
+	public void myMain() {
+		logger.info("/buyer/mypage/mymain [GET]");
+		
+		// logger.info("{}", buyers);
+	}
 }
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
@@ -627,5 +632,4 @@ public class BuyerController {
 		model.addAttribute("buyerRank", buyerRank);
 		
 	}
-	
 }
