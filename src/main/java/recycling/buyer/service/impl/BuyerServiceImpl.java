@@ -125,6 +125,13 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.selectBuyerAdrBybCode(bCode);
 	
 	}
+	
+	@Override
+	public Buyer getBuyerDetail(String bId) {
+		
+		return buyerDao.selectBuyerBybId(bId);
+	
+	}
 
 	@Override
 	public Cmp getCmpDetail(String bCode) {
@@ -140,6 +147,23 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
+	@Override
+	public void updateBuyerDetail(Buyer buyer) {
+
+		boolean updateSuccess = buyerDao.updateBuyer(buyer);
+		
+		if(updateSuccess) {
+			
+			logger.info("성공적으로 업데이트 되었습니다: {}", buyer.getbId());
+			
+		} else {
+			
+			logger.info("업데이트에 실패했습니다: {}", buyer.getbId());
+			
+		}
+		
+	}
+	
 	@Override
 	public void updateCmpDetail(Buyer buyer, Cmp cmp) {
 		
@@ -202,4 +226,5 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.selectBuyerRank(rankNo);
 	
 	}
+
 }

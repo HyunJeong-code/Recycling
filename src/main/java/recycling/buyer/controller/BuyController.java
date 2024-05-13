@@ -148,18 +148,11 @@ public class BuyController {
 			session.invalidate();
 			return "redirect:./loginfail";
 		}
-<<<<<<< HEAD
-=======
-	}
-	
-	@GetMapping("/loginfail")
-	public void loginFail() {
-		logger.info("/buyer/loginfail [GET]");
->>>>>>> 408cc73c63a85e8d87c549993a94fd8c2d3d5e14
 	}
 	
 	@GetMapping("/loginfail")
 	public void loginFail() {
 		logger.info("/buyer/loginfail [GET]");
 	}
+	
 }

@@ -10,13 +10,7 @@
 <title>mypagecmp</title>
 
 <script type="text/javascript">
-window.onload = function() {
-    var error = '${error}';
-    if (error) {
-        alert(error);
-        window.location.href = '/buyer/login'; // 로그인 페이지로 리디렉션
-    }
-}
+
 </script>
 
 </head>
@@ -27,9 +21,7 @@ window.onload = function() {
 			<hr>
 			<div class="page">
 				<a href="/buyer/mypage/mypagecmp" >마이페이지</a><br>
-				<a href="/buyer/mypage/mydetailcmp" >개인 정보 수정</a>
-				<p>이름 : ${buyer.bName }</p>
-				<p>아이디 : ${buyer.bId }</p>
+				<a href="/buyer/mypage/mydetailcmp" >기업 정보 수정</a>
 			</div>
 		</div>
 	</div>

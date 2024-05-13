@@ -209,4 +209,18 @@ public interface BuyerService {
 	 * @return 구매자 등급 정보
 	 */
 	public BuyerRank getBuyerRank(int rankNo);
+
+	/**
+	 * 개인 구매자 정보 조회
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
+	 */
+	public Buyer getBuyerDetail(String bId);
+
+	/**
+	 * 
+	 * @param buyer
+	 */
+	public void updateBuyerDetail(Buyer buyer);
 }

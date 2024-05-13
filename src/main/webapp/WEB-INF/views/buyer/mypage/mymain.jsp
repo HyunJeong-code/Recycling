@@ -10,13 +10,7 @@
 <title>myMain</title>
 
 <script type="text/javascript">
-window.onload = function() {
-    var error = '${error}';
-    if (error) {
-        alert(error);
-        window.location.href = '/buyer/login'; // 로그인 페이지로 리디렉션
-    }
-}
+
 </script>
 
 </head>
@@ -29,7 +23,7 @@ window.onload = function() {
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mymain" method="post">
 					<h3>개인 정보 변경을 위해 비밀번호를 입력해주세요.</h3>
 					<label for="password">비밀번호 </label>
-					<input type="password" id="password" name="password" required>
+					<input type="text" id="password" name="password" required>
 					<button type="submit">확인</button>
 				</form>
 				<c:if test="${not empty error }">
