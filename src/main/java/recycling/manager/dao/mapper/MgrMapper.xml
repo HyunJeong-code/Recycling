@@ -5,6 +5,16 @@
   
 <mapper namespace="recycling.manager.dao.face.MgrDao">
 
+	<!-- 로그인(임시) -->
+	<select id="selectByIdPw" parameterType="Manager" resultType="ManagerLogin">
+		SELECT mgr_code, deptno, mgr_id, mgr_pw, mgr_out 
+		FROM manager
+		<where>
+			AND mgr_id = #{mgrId }
+			AND mgr_pw = #{mgrPw }
+		</where>
+	</select>
+
 	<!-- 공지사항 기본 조회구조  -->
 	<sql id="noticeBoard">
 	SELECT 
@@ -62,5 +72,4 @@
 		UPDATE notice SET ntc_hit = ntc_hit + 1
 		<where>ntc_code = #{ntcCode }</where>
 	</update>
-	
 </mapper>
