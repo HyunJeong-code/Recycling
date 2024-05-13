@@ -46,9 +46,9 @@ public interface CsDao {
 	 * @param buyer
 	 * @return
 	 */
-	public Buyer selectBcode(String bCode);
-
 	public void updateBuyer(Buyer buyer);
+	
+	public Buyer selectBcode(String bCode);
 	
 	/**
 	 * 구매자 삭제
@@ -56,10 +56,6 @@ public interface CsDao {
 	 * @param bCode
 	 * @return 
 	 */
-	public void deleteBuyer(String bCode, String ctBcode, int rankNo);
-
-
-
-	//public void deleteBuyer(String bCode);
+	public int deleteBuyer(Buyer buyer);
 
 }

@@ -58,14 +58,10 @@ public class CsServiceImpl implements CsService {
 	public void buyerUpdate(Buyer buyer) {
 		csDao.updateBuyer(buyer);
 	}
-	
-	@Override
-	public void buyerDel(String bCode, String ctBcode, int rankNo) {
-		csDao.deleteBuyer(bCode, ctBcode, rankNo);		
-	}
 
-//	@Override
-//	public void buyerDel(String bCode) {
-//		csDao.deleteBuyer(bCode);
-//	}
+	@Override
+	public void buyerDel(Buyer buyer) {
+		int res = csDao.deleteBuyer(buyer);				
+	}	
+
 }

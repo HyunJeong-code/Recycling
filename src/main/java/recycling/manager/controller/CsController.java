@@ -71,7 +71,9 @@ public class CsController {
 	// 구매자 상세
 	@GetMapping("/buyerdetail")
 	public String buyerDetail(Buyer buyer, Model model) {
+		
 		Buyer buyerdetail = csService.buyerDetail(buyer);
+		
 		model.addAttribute("buyerdetail", buyerdetail);
 		
 		return "manager/cs/buyerdetail";
@@ -89,10 +91,19 @@ public class CsController {
 	@PostMapping("/buyerupdate")
 	public String buyerUpdaterForm(String bName, String bPhone, String bEmail, String bCode, Model model) {
 		
+//		logger.info("/board/update [POST]");
+//		logger.info("{}", bName);
+//		logger.info("{}", bPhone);
+//		logger.info("{}", bEmail);
+//		logger.info("{}", bCode);
+		
 		Buyer buyer = new Buyer();
 		buyer.setbName(bName);
 		buyer.setbPhone(bPhone);
 		buyer.setbEmail(bEmail);
+		buyer.setbCode(bCode);
+		
+//		logger.info("{}", buyer);
 		
 		csService.buyerUpdate(buyer);
 		
@@ -100,17 +111,31 @@ public class CsController {
 		
 		model.addAttribute("buyer", buyer);
 		
-		return "manager/cs/buyerupdate";
+		return "manager/cs/buyerdetail";
 	}
 	
 	// 구매자 삭제
 	@GetMapping("/buyerdel")
-	public String buyerDel(@RequestParam("bCode") String bCode, String ctBcode, int rankNo, Model model) {
-		csService.buyerDel(bCode, ctBcode, rankNo);
+	public String buyerDel(String bOut, String bOutDate, String bCode, Model model) {
+		
+		Buyer buyer = new Buyer();
+		buyer.setbOut(bOut);
+		buyer.setbOutDate(bOutDate);
+		buyer.setbCode(bCode);
+		
+		csService.buyerDel(buyer);
+		
+		buyer = csService.getBuyer(bCode);
+		
+		model.addAttribute("buyer", buyer);
+		
+		logger.info("{}", bOut);
+		logger.info("{}", bOutDate);
+		logger.info("{}", bCode);
 		
 		return "redirect:/manager/cs/buyerlist";
 	}
 	
-	// 수정, 삭제 기능 수정 중...
+	// 수정, 삭제 완료
 	
 }

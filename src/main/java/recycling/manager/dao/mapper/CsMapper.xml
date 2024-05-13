@@ -56,14 +56,14 @@
 		<where>B_CODE = #{bCode}</where>
 	</select>
 	
-	<!-- 구매자 수정 -->
 	<select id="selectBcode" parameterType="String" resultType="Buyer">
 		<include refid="selectBuyerList"/>
 		<where>
 			AND b_code = #{bCode }
 		</where>
 	</select>
-	
+
+	<!-- 구매자 수정 -->	
 	<update id="updateBuyer" parameterType="Buyer">
 		UPDATE BUYER
 		SET b_name = #{bName },
@@ -75,19 +75,13 @@
 	</update>
 	
 	<!-- 구매자 삭제 -->
-	<delete id="deleteBuyer" parameterType="String">
-		DELETE FROM BUYER
+	<update id="deleteBuyer" parameterType="Buyer">
+		UPDATE BUYER
+			SET B_OUT = 'Y'			
+			, B_OUT_DATE = sysdate			
 		<where>
-			AND B_CODE = #{bCode }
+			AND b_code = #{bCode }
 		</where>
-		DELETE FROM BUYER_CT
-		<where>
-			AND CT_BCODE = #{ctBcode }
-		</where>
-		DELETE FROM BUYER_RANK
-		<where>
-			AND RANK_NO = #{rankNo }
-		</where>
-	</delete>
+	</update>
 	
 </mapper>

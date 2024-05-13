@@ -20,7 +20,9 @@
 			<input type="text" id="bPhone" name="bPhone" value="${buyer.bPhone }">
 			
 			<label for="bEmail">이메일: </label>
-			<input type="text" id="bEmail" name="bEmail" value="${buyer.bEmail }">
+			<input type="text" id="bEmail" name="bEmail" value="${buyer.bEmail }">			
+			
+			<input type="hidden" id="bCode" name="bCode" value="${buyer.bCode }">
 			
 			<button>수정</button>
 		</form>

@@ -64,11 +64,6 @@ public interface CsService {
 	 * @param bCode
 	 * @return 
 	 */
-	public void buyerDel(String bCode, String ctBcode, int rankNo);
-
-
-
-	
-//	public void buyerDel(String bCode);
+	public void buyerDel(Buyer buyer);
 
 }
