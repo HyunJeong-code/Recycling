@@ -199,13 +199,6 @@ public class BuyerController {
 		model.addAttribute("list", list);
 	}
 	
-	@GetMapping("/mymain")
-	public void myMain() {
-		logger.info("/buyer/mypage/mymain [GET]");
-		
-		// logger.info("{}", buyers);
-	}
-}
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
 	public String myMain(

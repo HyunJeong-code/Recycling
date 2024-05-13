@@ -254,5 +254,4 @@
     		Rank_No = #{rankNo }
     	</where>
     </select>
-	
 </mapper>
