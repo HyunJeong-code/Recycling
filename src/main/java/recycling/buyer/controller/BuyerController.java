@@ -200,7 +200,7 @@ public class BuyerController {
 		model.addAttribute("list", list);
 	}
 	
-}
+
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
 	public String myMain(
