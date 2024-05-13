@@ -56,7 +56,7 @@
 				type: "post"
 				, url: "./cartupdate"
 				, data: {
-					cCode: $(this).parent().children().eq(1).html() //해당 행의 cCode
+					cCode: $(this).parent().parent().attr("id") //해당 행의 cCode
 					, cCnt : $(this).val()
 				}
 				, dataType : "Json"
@@ -100,7 +100,7 @@
 		</thead>
 		<tbody>
 			<c:forEach var="cart" items="${list }">
-				<tr>
+				<tr id="${cart.cCode }">
 					<td>
 						<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
 					</td>

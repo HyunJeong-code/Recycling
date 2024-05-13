@@ -95,7 +95,18 @@ public class BuyerController {
 	public String cartupdate(Cart cart) {
 		logger.info("cartupdate : {}", cart);
 		
-		int res = buyerService.updatecCnt(cart);
+		CartOrder cartOrder = buyerService.selectBycCode(cart.getbCode());
+		
+		int prdCnt = buyerService.selectPrdCnt(cartOrder.getPrdCode());
+		
+//		int cCnt = cart.getcCnt(); 
+//		
+//		if(prdCnt < cart.getcCnt()) {
+//			int res = buyerService.updatecCnt(cart);
+//		}
+		
+		
+		
 		
 		return "jsonView";
 	}
