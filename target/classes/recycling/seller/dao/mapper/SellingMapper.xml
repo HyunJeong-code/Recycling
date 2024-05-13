@@ -9,6 +9,25 @@
 	SELECT * FROM Exp
 	</sql>
 	
+	<select id="selectAllrcyPrd" parameterType="String" resultType="Prd">
+		SELECT * FROM prd
+		<where>
+			AND s_code = #{sCode}
+			AND ct_pno = 0
+		</where>
+		ORDER BY prd_code DESC
+	</select>
+	
+	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
+		SELECT 
+			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+		FROM 
+			order_detail od, orders o
+		<where>
+			AND o.ord_code = od.ord_code
+			AND od.prd_code = #{prdCode}
+		</where>
+	</select>
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (

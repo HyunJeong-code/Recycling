@@ -96,7 +96,7 @@
 		)
 	</insert>
 	
-	<select id="buyerDaoselectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
+	<select id="selectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
 		SELECT 
 			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
 		FROM 

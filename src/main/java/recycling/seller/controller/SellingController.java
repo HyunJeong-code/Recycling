@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
-import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Prd;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
 
@@ -28,6 +29,25 @@ public class SellingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private SellingService sellingService;
+	@Autowired HttpSession session;
+	
+	@GetMapping("/rcylist")
+	public void rcylist(Model model) {
+		//테스트용 세션***********************************************테스트
+		session.setAttribute("sCode", "SEL0000002");
+		
+		String sCode = (String)session.getAttribute("sCode");
+		
+		List<Prd> plist = sellingService.selectAllrcyPrd(sCode);
+		
+		for(Prd prd : plist) {
+			String prdCode = prd.getPrdCode();
+			
+			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
+		}
+		
+		model.addAttribute("plist", plist);
+	}
 	
 	@GetMapping("/explist")
 	public void expList(

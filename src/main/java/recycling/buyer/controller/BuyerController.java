@@ -23,7 +23,6 @@ import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 

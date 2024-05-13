@@ -93,7 +93,7 @@ public interface BuyerDao {
 	 * @param bCode - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
+	public List<MyOrder> selectOrderDetailBybCode(String bCode);
 
 	/**
 	 * 장바구니 수량 변경
