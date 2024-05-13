@@ -4,4 +4,65 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.seller.dao.face.SellingDao">
+
+	<sql id="selectExp">
+	SELECT * FROM Exp
+	</sql>
+	
+
+	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
+		SELECT * FROM (
+			SELECT rownum rnum, E.* FROM (
+				<include refid="selectExp"/>
+				<where>
+					AND exp_name LIKE '%' || #{search } || '%' 
+						OR exp_code LIKE '%' || #{search } || '%' 
+				</where>
+				ORDER BY exp_code
+			) E
+		)
+		<where>
+			AND rnum BETWEEN #{startNo} AND #{endNo}
+		</where>
+	</select>
+	
+	
+	<select id="selectCntAll" parameterType="string" resultType="int">
+		SELECT count(*) FROM Exp
+		<where>
+			AND exp_name LIKE '%' || #{key } || '%' 
+				OR exp_code LIKE '%' || #{search } || '%'
+		</where>
+		ORDER BY exp_date DESC
+	</select>
+	
+	<select id="selectPageAll" resultType="int">
+		SELECT COUNT(*) FROM (
+			SELECT * FROM exp_res
+			<where>
+				AND sch_no = #{schNo}
+			</where>
+		)
+	</select>
+	
+	<select id="selectByExp" parameterType="string" resultType="Exp">
+		SELECT * FROM exp
+		<where>
+			AND exp_code = #{expCode}
+		</where>
+	</select>
+	
+	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM exp_res	
+				ORDER BY sch_no
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+
 </mapper>
