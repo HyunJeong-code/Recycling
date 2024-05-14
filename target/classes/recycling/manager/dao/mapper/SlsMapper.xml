@@ -50,22 +50,18 @@
 		<include refid="expBoard"/>
 	</select>
 	
-	<!-- 체험단 디테일조회 -->
-<!-- 	<select id="selectAll" resultMap="expJoin"> -->
-<!-- 			<include refid="expAndExpSch"/> -->
-<!-- 	</select> -->
-	
 	<!-- 체험단 세부 조회 -->
 	<select id="selectDetail" parameterType="Exp" resultType="Exp" >
-		<include refid="expAndExpSch"/>
+		<include refid="expBoard"/>
 		<where>exp_code = #{expCode }</where>
 	</select>
 	
+	<!-- 관리자쪽 구현 x -->
 	<!-- 세부조회에 따른 조회수 증가 -->
-	<update id="hit" parameterType="Exp" >
-	    UPDATE exp SET exp_hit = exp_hit + 1
-    	WHERE exp_code = #{expCode }
-	</update>
+<!-- 	<update id="hit" parameterType="Exp" > -->
+<!-- 	    UPDATE exp SET exp_hit = exp_hit + 1 -->
+<!--     	WHERE exp_code = #{expCode } -->
+<!-- 	</update> -->
 	
 	<!-- 체험단 등록 -->
 	<insert id="insert" parameterType="Exp">
@@ -128,8 +124,23 @@
 	    	, #{schCnt}
 	    	)
 	</insert>
-
 	
+	<!-- 업데이트 항목조회 -->
+	<select id="expUpdateView" parameterType="Exp" resultType="Exp" >
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 업데이트 -->
+	<update id="expUpdateProc" parameterType="Exp">
+		UPDATE Exp SET
+	    exp_code = #{expCode }
+	    , exp_name = #{expName }
+	    , exp_price = #{expPrice }
+	    , exp_detail = #{expDetail }
+	    , exp_date = default
+	    <where>exp_code = #{expCode }</where>
+	</update>
 
 	
 </mapper>

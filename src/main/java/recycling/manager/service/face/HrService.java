@@ -54,7 +54,6 @@ public interface HrService {
 	 * 회원정보 업데이트항목 조회
 	 * 
 	 * @param manager
-	 * @param department 
 	 * @return
 	 */
 	public Manager hrUpdateView(Manager manager);

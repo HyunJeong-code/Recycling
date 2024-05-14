@@ -26,10 +26,10 @@ public interface SlsDao {
 
 	/**
 	 * 조회수 증감
-	 * 
+	 * [관리자 - 미구현]
 	 * @param exp - DTO 객체
 	 */
-	public void hit(Exp exp);
+//	public void hit(Exp exp);
 
 	/**
 	 * 
@@ -62,4 +62,19 @@ public interface SlsDao {
 	 * @param expSch
 	 */
 	public void expschUp(ExpSch expSch);
+
+	/**
+	 * 체험정보 업데이트항목 조회
+	 * 
+	 * @param exp
+	 * @return
+	 */
+	public Exp expUpdateView(Exp exp);
+
+	/**
+	 * 체험정보 업데이트
+	 * 
+	 * @param manager
+	 */
+	public void expUpdateProc(Exp exp);
 }

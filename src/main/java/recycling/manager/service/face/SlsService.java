@@ -35,4 +35,19 @@ public interface SlsService {
 	 * @param file 
 	 */
 	public void insert(Exp exp, ExpSch expSch, MultipartFile file);
+	
+	/**
+	 * 체험정보 업데이트항목 조회
+	 * 
+	 * @param exp
+	 * @return
+	 */
+	public Exp expUpdateView(Exp exp);
+	
+	/**
+	 * 체험정보 업데이트
+	 * 
+	 * @param manager
+	 */
+	public void expUpdateProc(Exp exp);
 }

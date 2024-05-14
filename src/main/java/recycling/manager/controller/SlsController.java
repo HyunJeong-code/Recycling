@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.seller.Exp;
-import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.manager.service.face.SlsService;
 
@@ -72,15 +71,16 @@ public class SlsController {
 		
 	}
 	
-	//체험단 등록
+	//체험단 등록창
 	@GetMapping("/expform")
 	private void expform() {}
 	
+	//체험단 등록
 	@PostMapping("/expform")
 	public String expformProc(
-			Exp exp,
-			ExpSch expSch,
-			@RequestParam("file") MultipartFile file
+			Exp exp
+			, ExpSch expSch
+			, @RequestParam("file") MultipartFile file
 			) {
 
 		//test세션
@@ -95,16 +95,40 @@ public class SlsController {
 		return "redirect:./explist";
 	}
 	
-	
-	
-	
-	
-	
-	
-//	@GetMapping("expupdate")//체험단 수정
-//	@GetMapping("expdel")	// 체험단삭제
+	//체험단 수정창
+	@GetMapping("/expupdate")
+	public String expUpdate(
+				Exp exp
+				, Model model
+			) {
+		logger.info("controller: expupdate[Get]");
 
-//	@GetMapping("expresdetail")	// 체험단 예약 상세조회
-//	@GetMapping("expresupdate")	// 체험단 예약 정보변경[예약 구매자]
-//	@GetMapping("changeexpres")	// 체험단 예약 변경
+		Exp update = slsService.expUpdateView(exp);
+		model.addAttribute("update", update);
+		
+		//exp 정보
+		logger.info("controller: update{}",update );
+		
+		return "/manager/sls/expupdate";
+	}
+	
+	//체험단 수정하기
+	@PostMapping("/expupdate")
+	public void updateProc(
+			Exp exp
+			){
+		logger.info("controller: updateProc[Get]");
+		
+		slsService.expUpdateProc(exp);
+	}
+
+	//	@GetMapping("/expdel")	// 체험단삭제
+
+//		@GetMapping("/expresdetail")	// 체험단 예약 상세조회
+	
+	
+	
+	
+	//	@GetMapping("/expresupdate")	// 체험단 예약 정보변경[예약 구매자]
+//	@GetMapping("/changeexpres")	// 체험단 예약 변경
 }

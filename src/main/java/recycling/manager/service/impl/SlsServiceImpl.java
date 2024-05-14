@@ -27,6 +27,7 @@ public class SlsServiceImpl implements SlsService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private SlsDao slsDao;
 	
+	//전체조회
 	@Override
 	public List<Exp> selectAll() {
 		logger.info("SlsService: selectAll");
@@ -34,17 +35,19 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectAll();
 	}
 
+	//세부사항 조회
 	@Override
 	public Exp selectDetail(Exp exp) {
 		logger.info("SlsService: selectDetail");
 
 //		조회수 증감
-		slsDao.hit(exp);
+//		slsDao.hit(exp); //관리자 미구현
 		
 		//세부사항 조회
 		return slsDao.selectDetail(exp);
 	}
 
+	//글쓰기
 	@Override
 	public void insert(Exp exp,ExpSch expSch, MultipartFile file) {
 	
@@ -116,10 +119,24 @@ public class SlsServiceImpl implements SlsService {
 		
 		//파일 업로드
 		slsDao.fileup(expFile);
-		
 
-
-			
 		
 	}
-}
+
+	//체험 수정항목 조회
+	@Override
+	public Exp expUpdateView(Exp exp) {
+		logger.info("service expUpdateView[Get]");
+		return slsDao.expUpdateView(exp);
+	}
+
+	//체험 수정하기
+	@Override
+	public void expUpdateProc(Exp exp) {
+		logger.info("service slsUpdate[Get]");
+		slsDao.expUpdateProc(exp);
+	}
+	
+	
+	
+}//main
