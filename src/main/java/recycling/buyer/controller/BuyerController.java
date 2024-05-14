@@ -81,21 +81,42 @@ public class BuyerController {
 		
 		List<CartOrder> list = buyerService.selectAllCart(bCode);
 		
-		logger.info("{}",msg);
-		
-		logger.info("{}", list);
+		//logger.info("{}",msg);
+		//logger.info("{}", list);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("msg", msg);
 	}
 	
 	@PostMapping("/cartupdate")
-	public String cartupdate(Cart cart) {
+	public String cartupdate(Cart cart, Model model) {
 		logger.info("cartupdate : {}", cart);
 		
-		int res = buyerService.updatecCnt(cart);
+		CartOrder cartOrder = buyerService.selectBycCode(cart.getcCode());
+		
+		Integer prdCnt = buyerService.selectPrdCnt(cartOrder.getPrdCode());
+
+		int cntRes = 0;
+		
+		//수량 확인
+		if(prdCnt >= cart.getcCnt()) {
+			cntRes = buyerService.updatecCnt(cart);
+		}
+		
+		model.addAttribute("cntRes", cntRes);
 		
 		return "jsonView";
+	}
+	
+	@PostMapping("/cartdel")
+	public String cartdel(@RequestParam(value = "arr[]") List<String> list) {
+		logger.info("cartdel : {}", list);
+		
+		for(String cCode : list) {
+			int deleteRes = buyerService.deleteCart(cCode);  
+		}
+		
+		return "jsonView"; 
 	}
 	
 	@GetMapping("/pay")
@@ -103,7 +124,7 @@ public class BuyerController {
 			@RequestParam List<String> checkList,
 			Model model
 			) {
-		logger.info("checkList : {}", checkList);
+		//logger.info("checkList : {}", checkList);
 		
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("bCode", "BUY0000002");
@@ -120,8 +141,8 @@ public class BuyerController {
             list.add(cart);
         }
 		
-		logger.info("list : {}", list);
-		logger.info("buyer : {}", buyeradr);
+		//logger.info("list : {}", list);
+		//logger.info("buyer : {}", buyeradr);
 		
 		model.addAttribute("clist", list);
 		model.addAttribute("buyer", buyeradr);
