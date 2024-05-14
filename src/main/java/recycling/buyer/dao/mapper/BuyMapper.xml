@@ -42,4 +42,34 @@
 			AND B.b_pw = #{bPw }
 		</where> 
 	</select>
+	
+	<select id="selectByBuyerId" parameterType="Buyer" resultType="string">
+		SELECT b_id FROM buyer
+		<where>
+			AND b_name = #{bName }
+			AND b_phone = #{bPhone }
+			AND b_email = #{bEmail }
+			AND b_out = 'N'
+		</where>
+	</select>
+	
+	<select id="selectByBuyerPw" parameterType="Buyer" resultType="Buyer">
+		SELECT b_code, b_ct_code, rank_no, b_id, b_pw, b_name, b_phone, b_email, b_entdate, ad_sms, ad_email, b_out, b_out_date
+		FROM buyer
+		<where>
+			AND b_id = #{bId }
+			AND b_name = #{bName }
+			AND b_phone = #{bPhone }
+			AND b_email = #{bEmail }
+			AND b_out = 'N'
+		</where>
+	</select>
+	
+	<update id="updatePw" parameterType="Buyer">
+		UPDATE buyer
+		SET b_pw = #{bPw }
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</update>
 </mapper>
