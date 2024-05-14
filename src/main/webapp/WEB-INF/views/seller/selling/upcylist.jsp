@@ -69,7 +69,6 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
                 </td>
                 <td>${prd.prdCode}</td>
                 <td>
-                	<!-- <script>document.write(pdtname(${prd.ctPdtNo}))</script> -->
                 	<script>document.write(pdtList[${prd.ctPdtNo}])</script>
                 </td>
                 <td>${prd.prdName}</td>
@@ -106,7 +105,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	 		<td>${order.ordName }</td>
 	 		<td>${order.ordPrice }</td>
 	 		<td>${order.ordSum }</td>
-	 		<td>${order.sttNo }</td>
+	 		<td><script>document.write(sttList[${order.sttNo}])</script></td>
 	 	</tr>
 	</c:forEach>
 	</tbody>
