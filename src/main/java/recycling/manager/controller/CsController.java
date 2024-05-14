@@ -2,6 +2,8 @@ package recycling.manager.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
@@ -46,7 +49,7 @@ public class CsController {
 		model.addAttribute("list", list);
 
 	}
-
+	
 	// 구매자 리스트
 	@RequestMapping("/buyerlist")
 	public String buyerList(@RequestParam(defaultValue = "0") int curPage,
@@ -129,13 +132,39 @@ public class CsController {
 		
 		model.addAttribute("buyer", buyer);
 		
-		logger.info("{}", bOut);
-		logger.info("{}", bOutDate);
-		logger.info("{}", bCode);
+//		logger.info("{}", bOut);
+//		logger.info("{}", bOutDate);
+//		logger.info("{}", bCode);
 		
 		return "redirect:/manager/cs/buyerlist";
 	}
 	
-	// 수정, 삭제 완료
+	// 문의글 상세
+	@GetMapping("/ansform")
+	public String ansForm(String otoCode, Model model) {
+		
+		Oto ansform = csService.ansForm(otoCode);
+		
+		model.addAttribute("ansform", ansform);
+		
+		return "manager/cs/ansform";
+		
+	}
+	
+	// 문의글 답글 작성
+	@PostMapping("/ansform/insert")
+	@ResponseBody
+	public String insert(String ansCode, String ansContent, HttpSession session) {
+		
+		logger.info("{}, {}", ansCode, ansContent);
+		
+//		String mgrId = (String) session.getAttribute("mgrId");
+//		logger.info("{}", mgrId);
+		
+//		String res = csService.ansFormInsert(mgrId, ansCode, ansContent);
+		String res = csService.ansFormInsert(ansCode, ansContent);
+		
+		return res;
+	}
 	
 }

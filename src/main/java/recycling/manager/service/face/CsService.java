@@ -66,4 +66,23 @@ public interface CsService {
 	 */
 	public void buyerDel(Buyer buyer);
 
+	/**
+	 * 문의글 상세조회
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public Oto ansForm(String otoCode);
+
+	/**
+	 * 문의 답변 작성
+	 * 
+	 * @param mgrId
+	 * @param ansCode
+	 * @param ansContent
+	 * @return
+	 */
+//	public String ansFormInsert(String mgrId, String ansCode, String ansContent);
+	public String ansFormInsert(String ansCode, String ansContent);
+
 }

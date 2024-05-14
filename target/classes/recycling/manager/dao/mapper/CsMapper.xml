@@ -15,10 +15,10 @@
 	<!-- 구매자 sql 아이디 -->
 	<sql id="selectBuyerList">
 		SELECT * FROM BUYER
-	</sql>	
-
+	</sql>
+	
 	<!-- 문의글 목록 -->
-	<select id="selectAllOto" resultType="Oto" parameterType="recycling.util.Paging">
+	<select id="list" resultType="Oto" parameterType="recycling.util.Paging">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				<include refid="selectAll" />
@@ -31,14 +31,14 @@
 	</select>
 	
 	<!-- 총 게시글 조회 -->
-	<select id="selectCntAll" resultType="int">
+	<select id="getPaging" resultType="int">
 		SELECT count(*) FROM (
 			<include refid="selectAll" />
 		)
 	</select>
 	
 	<!-- 구매자 목록 -->
-	<select id="selectAllBuyer" resultType="Buyer" parameterType="recycling.util.Paging">
+	<select id="buyerList" resultType="Buyer" parameterType="recycling.util.Paging">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				<include refid="selectBuyerList" />
@@ -51,12 +51,12 @@
 	</select>
 	
 	<!-- 구매자 상세조회 -->
-	<select id="selectByBuyer" resultType="Buyer" parameterType="Buyer">
+	<select id="buyerDetail" resultType="Buyer" parameterType="Buyer">
 		<include refid="selectBuyerList" />
 		<where>B_CODE = #{bCode}</where>
 	</select>
 	
-	<select id="selectBcode" parameterType="String" resultType="Buyer">
+	<select id="getBuyer" parameterType="String" resultType="Buyer">
 		<include refid="selectBuyerList"/>
 		<where>
 			AND b_code = #{bCode }
@@ -64,7 +64,7 @@
 	</select>
 
 	<!-- 구매자 수정 -->	
-	<update id="updateBuyer" parameterType="Buyer">
+	<update id="buyerUpdate" parameterType="Buyer">
 		UPDATE BUYER
 		SET b_name = #{bName },
 			b_phone = #{bPhone },
@@ -75,7 +75,7 @@
 	</update>
 	
 	<!-- 구매자 삭제 -->
-	<update id="deleteBuyer" parameterType="Buyer">
+	<update id="buyerDel" parameterType="Buyer">
 		UPDATE BUYER
 			SET B_OUT = 'Y'			
 			, B_OUT_DATE = sysdate			
@@ -83,5 +83,20 @@
 			AND b_code = #{bCode }
 		</where>
 	</update>
+	
+	<!-- 문의글 상세조회 -->
+	<select id="ansForm" resultType="Oto" parameterType="Oto">
+		<include refid="selectAll" />
+		<where>OTO_CODE = #{otoCode }</where>
+	</select>
+	
+	<!-- 문의글 답변 -->
+	<insert id="ansFormInsert" parameterType="Ans">
+		<selectKey order="BEFORE" keyProperty="ansCode" resultType="String">
+			SELECT qna_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO ANS (ANS_CODE, OTO_CODE, MGR_CODE, ANS_CONTENT, ANS_DATE)
+		VALUES(#{ansCode }, #{otoCode }, #{mgrCode }, #{ansContent }, sysdate)
+	</insert>
 	
 </mapper>

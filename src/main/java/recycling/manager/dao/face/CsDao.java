@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.manager.Ans;
 import recycling.util.Paging;
 
 // 구매CS팀 DB 처리
@@ -15,14 +16,14 @@ public interface CsDao {
 	 * @param paging
 	 * @return
 	 */
-	public List<Oto> selectAllOto(Paging paging);
+	public List<Oto> list(Paging paging);
 	
 	/**
 	 * 총 게시글 조회
 	 * 
 	 * @return
 	 */
-	public int selectCntAll();
+	public int getPaging();
 
 	/**
 	 * 모든 구매자 조회
@@ -30,7 +31,7 @@ public interface CsDao {
 	 * @param paging
 	 * @return
 	 */
-	public List<Buyer> selectAllBuyer(Paging paging);
+	public List<Buyer> buyerList(Paging paging);
 
 	/**
 	 * 구매자 상세 조회
@@ -38,7 +39,7 @@ public interface CsDao {
 	 * @param buyer
 	 * @return
 	 */
-	public Buyer selectByBuyer(Buyer buyer);	
+	public Buyer buyerDetail(Buyer buyer);	
 
 	/**
 	 * 구매자 수정
@@ -46,9 +47,9 @@ public interface CsDao {
 	 * @param buyer
 	 * @return
 	 */
-	public void updateBuyer(Buyer buyer);
+	public void buyerUpdate(Buyer buyer);
 	
-	public Buyer selectBcode(String bCode);
+	public Buyer getBuyer(String bCode);
 	
 	/**
 	 * 구매자 삭제
@@ -56,6 +57,21 @@ public interface CsDao {
 	 * @param bCode
 	 * @return 
 	 */
-	public int deleteBuyer(Buyer buyer);
+	public int buyerDel(Buyer buyer);
+
+	/**
+	 * 문의 내용 상세
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public Oto ansForm(String otoCode);
+
+	/**
+	 * 문의 내용 답글 작성
+	 * @param ans
+	 * @return
+	 */
+	public String ansFormInsert(Ans ans);
 
 }

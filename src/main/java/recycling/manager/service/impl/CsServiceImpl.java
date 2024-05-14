@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.manager.Ans;
+import recycling.dto.manager.Manager;
 import recycling.manager.dao.face.CsDao;
 import recycling.manager.service.face.CsService;
 import recycling.util.Paging;
@@ -24,14 +26,14 @@ public class CsServiceImpl implements CsService {
 	@Override
 	public List<Oto> list(Paging paging) {
 		logger.info("service");
-		return csDao.selectAllOto(paging);
+		return csDao.list(paging);
 	}
 
 	@Override
 	public Paging getPaging(Paging pagingParam) {
 
 		// 총 게시글 수 조회
-		int totalCount = csDao.selectCntAll();
+		int totalCount = csDao.getPaging();
 
 		// 페이징 계산
 		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
@@ -41,27 +43,46 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public List<Buyer> buyerList(Paging paging) {
-		return csDao.selectAllBuyer(paging);
+		return csDao.buyerList(paging);
 	}
 
 	@Override
 	public Buyer buyerDetail(Buyer buyer) {
-		return csDao.selectByBuyer(buyer);
+		return csDao.buyerDetail(buyer);
 	}
 	
 	@Override
 	public Buyer getBuyer(String bCode) {
-		return csDao.selectBcode(bCode);
+		return csDao.getBuyer(bCode);
 	}
 
 	@Override
 	public void buyerUpdate(Buyer buyer) {
-		csDao.updateBuyer(buyer);
+		csDao.buyerUpdate(buyer);
 	}
 
 	@Override
 	public void buyerDel(Buyer buyer) {
-		int res = csDao.deleteBuyer(buyer);				
-	}	
+		int res = csDao.buyerDel(buyer);				
+	}
+
+	@Override
+	public Oto ansForm(String otoCode) {
+		return csDao.ansForm(otoCode);
+	}
+
+	@Override
+//	public String ansFormInsert(String mgrId, String ansCode, String ansContent) {
+	public String ansFormInsert(String ansCode, String ansContent) {
+//		Manager mgr = new Manager();
+		Ans ans = new Ans();
+		
+//		mgr.setMgrId(mgrId);
+		ans.setAnsCode(ansCode);
+		ans.setAnsContent(ansContent);
+		
+		return csDao.ansFormInsert(ans);
+	}
+	
 
 }
