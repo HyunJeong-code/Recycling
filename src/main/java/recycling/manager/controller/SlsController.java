@@ -63,7 +63,7 @@ public class SlsController {
 		return "/manager/sls/explist";
 	}
 	
-	//체험단 예약 조회기능
+	//체험단 선택조회 + 시간포함
 	@GetMapping("/expschlist")
 	public void expSchList(
 			String expCode
@@ -82,7 +82,7 @@ public class SlsController {
 		//return "jsonView";
 	}
 	
-	//체험단 상세조회
+	//체험단 시간 + 상세 조회
 	@GetMapping("/expdetail")
 	public void expDetail(Exp exp, Model model) {
 		logger.info("contoller: expDetail[GET]");
@@ -144,14 +144,23 @@ public class SlsController {
 		
 		slsService.expUpdateProc(exp);
 	}
-
-	//	@GetMapping("/expdel")	// 체험단삭제
-
-	@GetMapping("/expresdetail")	// 체험단 예약 상세조회
+	
+	// 체험단삭제
+	@PostMapping("/explistdel")	
+	public String empListDelete(@RequestParam("chBox[]") List<String> chBox) {
+		logger.info("controller: empListDelete [POST]");
+		
+		slsService.expListDel(chBox);
+		logger.info("데이터 확인 chBox : {}", chBox);
+		
+		return "redirect:./main";
+	}
+	
+	// 체험단 예약관리
+	@GetMapping("/expresdetail")	
 	public void expResDetail(
 			Model model,
 			String expCode
-			
 			) {
 		
 		Exp exp = slsService.expResDetail(expCode);
@@ -162,7 +171,6 @@ public class SlsController {
 
 		
 	}
-	
 	
 	
 	

@@ -161,15 +161,13 @@
 	</update>
 
 	<!-- 체험 예약페이지 정보 조회 -->
-	<select id="selectByExp" parameterType="string" resultType="Exp">
-		SELECT * FROM exp
-		<where>
-			AND exp_code = #{expCode}
-		</where>
+	<select id="expResDetail" resultType="Exp" parameterType="String">
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
 	</select>
 	
 	<!-- 체험 예약페이지 예약 조회 -->	
-	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes">
+	<select id="expResDetailRes" resultType="ExpRes">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT * FROM exp_res	
@@ -177,10 +175,15 @@
 			) B
 		)
 		<where>
-			AND rnum BETWEEN #{startNo } AND #{endNo }
+			rnum BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
 	
+	<!-- 체험단 전체삭제 -->
+	<delete id="expListDel" parameterType="String">
+		DELETE FROM exp
+		<where> exp_code = #{expCode } </where>
+	</delete>
 	
 	
 

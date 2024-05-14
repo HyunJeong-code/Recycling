@@ -61,7 +61,6 @@ public interface SlsService {
 	public void expUpdateProc(Exp exp);
 
 	/**
-	 * 
 	 * 체험정보
 	 * 
 	 * @param expCode
@@ -70,13 +69,19 @@ public interface SlsService {
 	public Exp expResDetail(String expCode);
 	
 	/**
-	 * 
 	 * 체험예약 정보
 	 * 
 	 * @param expCode
 	 * @return
 	 */
 	public List<ExpRes> expResDetailRes();
+
+	/**
+	 * 체험단 예약정보 리스트 삭제
+	 * 
+	 * @param chBox
+	 */
+	public int expListDel(List<String> chBox);
 
 
 }

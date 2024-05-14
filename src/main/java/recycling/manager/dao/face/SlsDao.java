@@ -89,21 +89,29 @@ public interface SlsDao {
 	
 	/**
 	 * 
-	 * 체험정보
+	 * 체험 예약페이지 정보 조회
+	 * @param expCode 
 	 * 
 	 * @param expCode
 	 * @return
 	 */
-	public Exp expResDetail();
+	public Exp expResDetail(String expCode);
 
 	/**
 	 * 
-	 * 체험예약 정보
+	 * 체험 예약페이지 예약 조회
 	 * 
 	 * @param expCode
 	 * @return
 	 */
 	public List<ExpRes> expResDetailRes();
+
+	/**
+	 * 체험단 예약정보 리스트 삭제
+	 * 
+	 * @param expCode
+	 */
+	public int expListDel(String expCode);
 
 
 	

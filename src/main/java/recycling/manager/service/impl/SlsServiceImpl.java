@@ -126,7 +126,6 @@ public class SlsServiceImpl implements SlsService {
 		
 		//파일 업로드
 		slsDao.fileup(expFile);
-
 		
 	}
 
@@ -147,13 +146,31 @@ public class SlsServiceImpl implements SlsService {
 	//체험예약페이지 체험정보 조회
 	@Override
 	public Exp expResDetail(String expCode) {
-		return slsDao.expResDetail();
+		return slsDao.expResDetail(expCode);
 	}
 
 	//체험예약 페이지 예약정보 조회
 	@Override
 	public List<ExpRes> expResDetailRes() {
 		return slsDao.expResDetailRes();
+	}
+
+	//체험예약 리스트 전체삭제
+	@Override
+	public int expListDel(List<String> chBox) {
+		int result = 0;
+		
+		for(int i = 0; i < chBox.size(); i++) {
+			String expCode = chBox.get(i);
+			logger.info("{}", expCode);
+			
+			result += slsDao.expListDel(expCode);
+		}
+		
+		return result;
+	
+				
+				
 	}
 
 
