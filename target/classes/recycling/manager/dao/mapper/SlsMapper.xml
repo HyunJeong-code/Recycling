@@ -5,7 +5,7 @@
   
 <mapper namespace="recycling.manager.dao.face.SlsDao">
 	
-	<!-- 체험단 기본 조회구조  -->
+	<!-- 체험단 조회구조  -->
 	<sql id="expBoard">
 	SELECT 
     	exp_code
@@ -17,6 +17,18 @@
 	    , exp_date
 	FROM exp
 	</sql>
+	
+	<!-- 체험단 예약일정 조회구조 -->
+	<sql id="expSchBoard">
+	SELECT
+		sch_no
+		, exp_code
+		, sch_date
+		, sch_time
+		, sch_cnt		
+	FROM exp_sch
+	</sql>
+	
 	
 	<!-- exp Join expSch  -->
 	<sql id="expAndExpSch">
@@ -48,6 +60,12 @@
 	<!-- 체험단 조회 -->
 	<select id="selectAll" resultType="Exp">
 		<include refid="expBoard"/>
+	</select>
+	
+	<!-- 체험단 체험일정 조회 -->
+	<select id="selectSchAll" resultType="ExpSch" parameterType="String">
+		<include refid="expSchBoard"/>
+		<where>exp_code = #{expCode }</where>
 	</select>
 	
 	<!-- 체험단 세부 조회 -->
@@ -141,6 +159,30 @@
 	    , exp_date = default
 	    <where>exp_code = #{expCode }</where>
 	</update>
+
+	<!-- 체험 예약페이지 정보 조회 -->
+	<select id="selectByExp" parameterType="string" resultType="Exp">
+		SELECT * FROM exp
+		<where>
+			AND exp_code = #{expCode}
+		</where>
+	</select>
+	
+	<!-- 체험 예약페이지 예약 조회 -->	
+	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM exp_res	
+				ORDER BY sch_no
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	
+	
 
 	
 </mapper>

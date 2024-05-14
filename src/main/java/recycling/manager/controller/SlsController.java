@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import recycling.dto.buyer.ExpRes;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpSch;
 import recycling.manager.service.face.SlsService;
@@ -51,12 +52,34 @@ public class SlsController {
 	public String expList(
 			Model model
 			) {
-		//전체 조회기능
+		logger.info("controller explist :[Get]");
+		
+		//전체 Exp 조회기능
 		List<Exp> list = slsService.selectAll();
-		model.addAttribute("exp", list);
-		logger.info("controller explist: {}", list);
+		model.addAttribute("explist", list);
+		
+
 		
 		return "/manager/sls/explist";
+	}
+	
+	//체험단 예약 조회기능
+	@GetMapping("/expschlist")
+	public void expSchList(
+			String expCode
+			, String expName
+			, Model model
+			) {
+		logger.info("controller expSchList:{}", expCode);
+		
+		//전체 ExpSch 조회기능
+		List<ExpSch> schList = slsService.selectSchAll(expCode);
+		model.addAttribute("expSchList", schList);
+		model.addAttribute("expName", expName);
+		
+		logger.info("controller explist: {}", schList);
+		
+		//return "jsonView";
 	}
 	
 	//체험단 상세조회
@@ -124,7 +147,22 @@ public class SlsController {
 
 	//	@GetMapping("/expdel")	// 체험단삭제
 
-//		@GetMapping("/expresdetail")	// 체험단 예약 상세조회
+	@GetMapping("/expresdetail")	// 체험단 예약 상세조회
+	public void expResDetail(
+			Model model,
+			String expCode
+			
+			) {
+		
+		Exp exp = slsService.expResDetail(expCode);
+		List<ExpRes> resList = slsService.expResDetailRes();
+		
+		model.addAttribute("exp", exp);
+		model.addAttribute("resList", resList);
+
+		
+	}
+	
 	
 	
 	
