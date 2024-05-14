@@ -5,7 +5,7 @@
   
 <mapper namespace="recycling.manager.dao.face.SlsDao">
 	
-	<!-- 체험단 기본 조회구조  -->
+	<!-- 체험단 조회구조  -->
 	<sql id="expBoard">
 	SELECT 
     	exp_code
@@ -17,6 +17,18 @@
 	    , exp_date
 	FROM exp
 	</sql>
+	
+	<!-- 체험단 예약일정 조회구조 -->
+	<sql id="expSchBoard">
+	SELECT
+		sch_no
+		, exp_code
+		, sch_date
+		, sch_time
+		, sch_cnt		
+	FROM exp_sch
+	</sql>
+	
 	
 	<!-- exp Join expSch  -->
 	<sql id="expAndExpSch">
@@ -46,21 +58,28 @@
 	
 	
 	<!-- 체험단 조회 -->
-	<select id="selectAll" resultMap="expJoin">
-			<include refid="expAndExpSch"/>
+	<select id="selectAll" resultType="Exp">
+		<include refid="expBoard"/>
+	</select>
+	
+	<!-- 체험단 체험일정 조회 -->
+	<select id="selectSchAll" resultType="ExpSch" parameterType="String">
+		<include refid="expSchBoard"/>
+		<where>exp_code = #{expCode }</where>
 	</select>
 	
 	<!-- 체험단 세부 조회 -->
-	<select id="selectDetail" resultType="Exp" parameterType="Exp">
+	<select id="selectDetail" parameterType="Exp" resultType="Exp" >
 		<include refid="expBoard"/>
 		<where>exp_code = #{expCode }</where>
 	</select>
 	
+	<!-- 관리자쪽 구현 x -->
 	<!-- 세부조회에 따른 조회수 증가 -->
-	<update id="hit" parameterType="Exp">
-	    UPDATE exp SET exp_hit = exp_hit + 1
-    	WHERE exp_code = #{expCode }
-	</update>
+<!-- 	<update id="hit" parameterType="Exp" > -->
+<!-- 	    UPDATE exp SET exp_hit = exp_hit + 1 -->
+<!--     	WHERE exp_code = #{expCode } -->
+<!-- 	</update> -->
 	
 	<!-- 체험단 등록 -->
 	<insert id="insert" parameterType="Exp">
@@ -92,13 +111,17 @@
 	        SELECT EXP_FILE_SEQ.nextval FROM dual
 	    </selectKey>
 	    INSERT INTO Exp_File 
-	    	(exp_flNo, exp_code
-	    	, ct_pflNo ,origin_name
+	    	(exp_flNo
+	    	, exp_code
+	    	, ct_pflNo
+	    	, origin_name
 	     	, stored_name 
 	     	)
 	    VALUES
-	    	(#{expFlNo}, #{expCode}
-	    	, #{ctPflNo}, #{originName}
+	    	(#{expFlNo}
+	    	, #{expCode}
+	    	, #{ctPflNo}
+	    	, #{originName}
 	    	, #{storedName}
 	    	)
 	</insert>
@@ -119,7 +142,46 @@
 	    	, #{schCnt}
 	    	)
 	</insert>
+	
+	<!-- 업데이트 항목조회 -->
+	<select id="expUpdateView" parameterType="Exp" resultType="Exp" >
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 업데이트 -->
+	<update id="expUpdateProc" parameterType="Exp">
+		UPDATE Exp SET
+	    exp_code = #{expCode }
+	    , exp_name = #{expName }
+	    , exp_price = #{expPrice }
+	    , exp_detail = #{expDetail }
+	    , exp_date = default
+	    <where>exp_code = #{expCode }</where>
+	</update>
 
+	<!-- 체험 예약페이지 정보 조회 -->
+	<select id="selectByExp" parameterType="string" resultType="Exp">
+		SELECT * FROM exp
+		<where>
+			AND exp_code = #{expCode}
+		</where>
+	</select>
+	
+	<!-- 체험 예약페이지 예약 조회 -->	
+	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM exp_res	
+				ORDER BY sch_no
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	
 	
 
 	

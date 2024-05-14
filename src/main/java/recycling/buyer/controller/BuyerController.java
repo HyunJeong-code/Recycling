@@ -33,7 +33,7 @@ import recycling.dto.buyer.Orders;
 public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	@Autowired BuyerService buyerService;
+	@Autowired private BuyerService buyerService;
 	@Autowired HttpSession session;
 	
 	@GetMapping("/cart")
