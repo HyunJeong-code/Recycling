@@ -32,7 +32,7 @@ public interface BuyService {
 	 * @param lPhone - 핸드폰 번호 마지막 자리
 	 * @return 처리 완료된 구매자 회원가입 정보
 	 */
-	public Buyer priProc(Buyer buyer, String bEmail2, String mPhone, String lPhone);
+	public Buyer buyerProc(Buyer buyer, String bEmail2, String mPhone, String lPhone);
 	
 	/**
 	 * 로그인 처리(임시) -> 시큐리티 완성되면 삭제 예정
@@ -41,5 +41,29 @@ public interface BuyService {
 	 * @return - null : 실패, else : 성공
 	 */
 	public BuyerLogin selectBybIdbPw(Buyer buyer);
+	
+	/**
+	 * 아이디 찾기
+	 * 
+	 * @param buyer - 아이디 찾을 회원 정보
+	 * @return 아이디 반환
+	 */
+	public String selectByBuyerId(Buyer buyer);
+	
+	/**
+	 * 비밀번호 찾기
+	 * 
+	 * @param buyer - 비밀번호를 찾을 회원 정보
+	 * @return true : 회원 정보 존재, false : 회원정보 존재 X
+	 */
+	public Buyer selectByBuyerPw(Buyer buyer);
+	
+	/**
+	 * 비밀번호 찾기 후 변경
+	 * 
+	 * @param buyer - 회원 코드와 변경할 비밀번호
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int updatePw(Buyer buyer);
 
 }

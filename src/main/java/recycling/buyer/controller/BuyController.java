@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import oracle.jdbc.proxy.annotation.Post;
 import recycling.buyer.service.face.BuyService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
@@ -103,7 +105,7 @@ public class BuyController {
 		
 		logger.info("buyer : {}", buyer);
 		// 회원 정보 처리
-		buyer = buyService.priProc(buyer, bEmail2, mPhone, lPhone);
+		buyer = buyService.buyerProc(buyer, bEmail2, mPhone, lPhone);
 		logger.info("buyer : {}", buyer);
 		
 		int stepOne = buyService.insertBuyer(buyer);
@@ -141,7 +143,7 @@ public class BuyController {
 		
 		BuyerLogin buyers = buyService.selectBybIdbPw(buyer);
 		
-		if(buyers != null ) {
+		if(buyers != null && buyers.getbOut().equals("N")) {
 			session.setAttribute("buyers", buyers);
 			return "redirect:./main";
 		} else {
@@ -155,4 +157,69 @@ public class BuyController {
 		logger.info("/buyer/loginfail [GET]");
 	}
 	
+	@GetMapping("/findid")
+	public void findId() {
+		logger.info("/buyer/findid [GET]");
+	}
+	
+	@PostMapping("/findid")
+	public String findIdProc(Model model, Buyer buyer, String bEmail2, String mPhone, String lPhone) {
+		logger.info("/buyer/findid [POST]");
+		
+		buyer = buyService.buyerProc(buyer, bEmail2, mPhone, lPhone);
+		logger.info("findId : {}", buyer);
+		
+		String bId = buyService.selectByBuyerId(buyer);
+		model.addAttribute("bId", bId);
+		
+		return "/buyer/infoid";
+	}
+	
+	@GetMapping("/infoid")
+	public void infoId() {
+		logger.info("/buyer/infoid [GET]");
+	}
+	
+	@GetMapping("/findpw")
+	public void findPw() {
+		logger.info("/buyer/findpw [GET]");
+	}
+	
+	@PostMapping("/findpw")
+	public String findPwProc(Model model, Buyer buyer, String bEmail2, String mPhone, String lPhone) {
+		logger.info("/buyer/findpw [POST]");
+		
+		buyer = buyService.buyerProc(buyer, bEmail2, mPhone, lPhone);
+		
+		logger.info("findPw : {}", buyer);
+		
+		buyer = buyService.selectByBuyerPw(buyer);
+		model.addAttribute("buyer", buyer);
+		if(buyer != null) {
+			model.addAttribute("buyer", buyer);
+		}
+		
+		return "/buyer/changepw";
+	}
+	
+	@GetMapping("/changepw")
+	public void changePw() {
+		logger.info("/buyer/changePw [GET]");
+	}
+	
+	@PostMapping("/changepw")
+	public String changePwProc(Buyer buyer) {
+		logger.info("/buyer/changePw [POST]");
+		
+		// 비밀번호 암호화 처리 필요
+		logger.info("findPw : {}", buyer);
+		
+		int res = buyService.updatePw(buyer);
+		
+		if(res > 0) {
+			return "/buyer/login";
+		} else {
+			return "/buyer/findpw";
+		}
+	}
 }

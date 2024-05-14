@@ -22,10 +22,7 @@ public class BuyServiceImpl implements BuyService{
 //	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
 	@Override
-	public Buyer priProc(Buyer buyer, String bEmail2, String mPhone, String lPhone) {
-		// 회원 코드
-		buyer.setbCtCode("P");
-		
+	public Buyer buyerProc(Buyer buyer, String bEmail2, String mPhone, String lPhone) {
 		// 비밀번호 암호화
 //		String enPw = pwEncoder.encode(buyer.getbPw());
 //		buyer.setbPw(enPw);
@@ -99,5 +96,22 @@ public class BuyServiceImpl implements BuyService{
 	@Override
 	public BuyerLogin selectBybIdbPw(Buyer buyer) {
 		return buyDao.selectBybIdbPw(buyer);
+	}
+	
+	// 아이디 찾기
+	@Override
+	public String selectByBuyerId(Buyer buyer) {
+		return buyDao.selectByBuyerId(buyer);
+	}
+	
+	// 비밀번호 찾기
+	@Override
+	public Buyer selectByBuyerPw(Buyer buyer) {
+		return buyDao.selectByBuyerPw(buyer);
+	}
+	
+	@Override
+	public int updatePw(Buyer buyer) {
+		return buyDao.updatePw(buyer);
 	}
 }

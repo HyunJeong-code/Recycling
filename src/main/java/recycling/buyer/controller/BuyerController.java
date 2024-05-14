@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.BuyerService;
+
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Cart;
@@ -34,10 +36,18 @@ import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerRank;
+import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Cmp;
+
+import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.buyer.Orders;
+
 
 // 마이페이지 - 회원 정보 관련
 
@@ -46,7 +56,7 @@ import recycling.dto.buyer.Cmp;
 public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	@Autowired BuyerService buyerService;
+	@Autowired private BuyerService buyerService;
 	@Autowired HttpSession session;
 	@Autowired private JavaMailSenderImpl mailSender;
 	
@@ -95,21 +105,42 @@ public class BuyerController {
 		
 		List<CartOrder> list = buyerService.selectAllCart(bCode);
 		
-		logger.info("{}",msg);
-		
-		logger.info("{}", list);
+		//logger.info("{}",msg);
+		//logger.info("{}", list);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("msg", msg);
 	}
 	
 	@PostMapping("/cartupdate")
-	public String cartupdate(Cart cart) {
+	public String cartupdate(Cart cart, Model model) {
 		logger.info("cartupdate : {}", cart);
 		
-		int res = buyerService.updatecCnt(cart);
+		CartOrder cartOrder = buyerService.selectBycCode(cart.getcCode());
+		
+		Integer prdCnt = buyerService.selectPrdCnt(cartOrder.getPrdCode());
+
+		int cntRes = 0;
+		
+		//수량 확인
+		if(prdCnt >= cart.getcCnt()) {
+			cntRes = buyerService.updatecCnt(cart);
+		}
+		
+		model.addAttribute("cntRes", cntRes);
 		
 		return "jsonView";
+	}
+	
+	@PostMapping("/cartdel")
+	public String cartdel(@RequestParam(value = "arr[]") List<String> list) {
+		logger.info("cartdel : {}", list);
+		
+		for(String cCode : list) {
+			int deleteRes = buyerService.deleteCart(cCode);  
+		}
+		
+		return "jsonView"; 
 	}
 	
 	@GetMapping("/pay")
@@ -117,7 +148,7 @@ public class BuyerController {
 			@RequestParam List<String> checkList,
 			Model model
 			) {
-		logger.info("checkList : {}", checkList);
+		//logger.info("checkList : {}", checkList);
 		
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("bCode", "BUY0000002");
@@ -134,8 +165,8 @@ public class BuyerController {
             list.add(cart);
         }
 		
-		logger.info("list : {}", list);
-		logger.info("buyer : {}", buyeradr);
+		//logger.info("list : {}", list);
+		//logger.info("buyer : {}", buyeradr);
 		
 		model.addAttribute("clist", list);
 		model.addAttribute("buyer", buyeradr);
@@ -268,8 +299,6 @@ public class BuyerController {
 		
 		
 	}
-	
-
 
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
