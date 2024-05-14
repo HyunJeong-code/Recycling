@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import recycling.dto.buyer.ExpRes;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -25,8 +26,9 @@ public class SlsServiceImpl implements SlsService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired private ServletContext servletContext;
-	@Autowired SlsDao slsDao;
+	@Autowired private SlsDao slsDao;
 	
+	//전체조회
 	@Override
 	public List<Exp> selectAll() {
 		logger.info("SlsService: selectAll");
@@ -34,17 +36,25 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectAll();
 	}
 
+	//체험일정 선택조회
+	@Override
+	public List<ExpSch> selectSchAll(String expCode) {
+		return slsDao.selectSchAll(expCode);
+	}
+	
+	//세부사항 조회
 	@Override
 	public Exp selectDetail(Exp exp) {
 		logger.info("SlsService: selectDetail");
 
 //		조회수 증감
-		slsDao.hit(exp);
+//		slsDao.hit(exp); //관리자 미구현
 		
 		//세부사항 조회
 		return slsDao.selectDetail(exp);
 	}
 
+	//글쓰기
 	@Override
 	public void insert(Exp exp,ExpSch expSch, MultipartFile file) {
 	
@@ -116,10 +126,38 @@ public class SlsServiceImpl implements SlsService {
 		
 		//파일 업로드
 		slsDao.fileup(expFile);
-		
 
-
-			
 		
 	}
-}
+
+	//체험 수정항목 조회
+	@Override
+	public Exp expUpdateView(Exp exp) {
+		logger.info("service expUpdateView[Get]");
+		return slsDao.expUpdateView(exp);
+	}
+
+	//체험 수정하기
+	@Override
+	public void expUpdateProc(Exp exp) {
+		logger.info("service slsUpdate[Get]");
+		slsDao.expUpdateProc(exp);
+	}
+
+	//체험예약페이지 체험정보 조회
+	@Override
+	public Exp expResDetail(String expCode) {
+		return slsDao.expResDetail();
+	}
+
+	//체험예약 페이지 예약정보 조회
+	@Override
+	public List<ExpRes> expResDetailRes() {
+		return slsDao.expResDetailRes();
+	}
+
+
+	
+	
+	
+}//main
