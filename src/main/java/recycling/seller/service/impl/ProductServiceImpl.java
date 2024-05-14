@@ -83,4 +83,9 @@ public class ProductServiceImpl implements ProductService {
 		prdDetail.setCtPflNo(610);
 		return productDao.insertPrdFile(prdDetail);
 	}
+	
+	@Override
+	public int insertUpcy(Prd prd) {
+		return productDao.insertUpcy(prd);
+	}
 }

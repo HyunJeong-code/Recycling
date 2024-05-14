@@ -1,5 +1,6 @@
 package recycling.seller.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -43,7 +44,7 @@ public class ProductController {
 		
 		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers"); 
 		prd.setsCode(seller.getsCode());
-		logger.info("rcy : {}", prd);
+		logger.info("before -> rcy : {}", prd);
 		
 		int res = productService.insertRcy(prd);
 		
@@ -51,6 +52,8 @@ public class ProductController {
 		for(MultipartFile mult : detail) {
 			logger.info("detail : {}", mult);			
 		}
+		
+		logger.info("after -> rcy : {}", prd);
 		
 		if(res > 0) {
 			PrdFile prdMain = productService.saveFile(main, prd);
@@ -60,9 +63,12 @@ public class ProductController {
 				int resDetail = 0;
 				for(MultipartFile mult : detail) {
 					
-					PrdFile prdDetail = productService.saveFile(mult, prd);
+					List<PrdFile> prdDetail = new ArrayList<PrdFile>();
+					prdDetail.add(productService.saveFile(mult, prd));
 					if(prdDetail != null) {
-						resDetail += productService.insertFileDetail(prdDetail);						
+						for(int i = 0; i < prdDetail.size(); i++) {
+							resDetail += productService.insertFileDetail(prdDetail.get(i));													
+						}
 					}
 				}
 				
@@ -83,7 +89,44 @@ public class ProductController {
 	}
 	
 	@PostMapping("/upcyform")
-	public void upcyFormProc() {
+	public void upcyFormProc(HttpSession session, Prd prd, MultipartFile main, List<MultipartFile> detail) {
 		logger.info("/seller/prd/upyform [POST]");
+		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers"); 
+		prd.setsCode(seller.getsCode());
+		logger.info("rcy : {}", prd);
+		
+		int res = productService.insertUpcy(prd);
+		
+		logger.info("main : {}", main);
+		for(MultipartFile mult : detail) {
+			logger.info("detail : {}", mult);			
+		}
+		
+		if(res > 0) {
+			PrdFile prdMain = productService.saveFile(main, prd);
+			if(prdMain != null) {
+				int resMain = productService.insertFileMain(prdMain);
+				
+				int resDetail = 0;
+				for(MultipartFile mult : detail) {
+					
+					List<PrdFile> prdDetail = new ArrayList<PrdFile>();
+					prdDetail.add(productService.saveFile(mult, prd));
+					if(prdDetail != null) {
+						for(int i = 0; i < prdDetail.size(); i++) {
+							resDetail += productService.insertFileDetail(prdDetail.get(i));													
+						}
+					}
+				}
+				
+				if(resMain > 0 && resDetail == detail.size()) {
+					// 상품 상세페이지로 이동
+				} else {
+					// 상품 등록 전체 삭제 + 등록 실패
+				}
+			}
+		} else {
+			// 등록 실패 안내
+		}
 	}
 }

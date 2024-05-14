@@ -27,10 +27,27 @@
 		VALUES (
 			prd_file_seq.nextval,
 			#{ctPflNo },
-			#{prd_code },
+			#{prdCode },
 			#{originName },
 			#{storedName }
 		)
+	</insert>
+	
+	<insert id="insertUpcy" parameterType="Prd" useGeneratedKeys="true" keyProperty="prdCode" keyColumn="prd_code">
+		INSERT INTO prd (prd_code, ct_pno, ct_pdtno, s_code, prd_name, price, prd_cnt, prd_fee, prd_detail, prd_date, prd_hit)
+			VALUES(
+				'PRD' || lpad(prd_seq.nextval, 7, '0'),
+				#{ctPno },
+				#{ctPdtNo },
+				#{sCode },
+				#{prdName },
+				#{price},
+				#{prdCnt },
+				#{prdFee },
+				#{prdDetail },
+				sysdate,
+				DEFAULT
+			)
 	</insert>
 	
 <!-- 	상품 삭제, 첨부파일 삭제 추가 -->

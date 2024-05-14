@@ -41,5 +41,13 @@ public interface ProductService {
 	 * @return 0 : 실패, 1 : 성공
 	 */
 	public int insertFileDetail(PrdFile prdDetail);
+	
+	/**
+	 * 새활용 상품 정보 삽입
+	 * 
+	 * @param prd - 상품 정보 DTO
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int insertUpcy(Prd prd);
 
 }
