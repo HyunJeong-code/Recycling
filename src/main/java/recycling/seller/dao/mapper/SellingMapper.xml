@@ -9,6 +9,9 @@
 	SELECT * FROM Exp
 	</sql>
 	
+<!-- 	<select id="selectAllPrd" parameterType="BuyerLogin" resultType="AllPrd"> -->
+		
+<!-- 	</select> -->
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (

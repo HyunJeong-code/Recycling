@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.seller.AllPrd;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -28,6 +30,16 @@ public class SellingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private SellingService sellingService;
+	
+	@GetMapping("/main")
+	public void main(HttpSession session, Model model) {
+		logger.info("/seller/selling/main [GET]");
+		
+		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers");
+		logger.info("seller : {}", seller);
+		
+//		List<AllPrd> allPrd = sellingService.selectAllPrd(seller);
+	}
 	
 	@GetMapping("/explist")
 	public void expList(
