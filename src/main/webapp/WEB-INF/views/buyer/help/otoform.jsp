@@ -33,11 +33,11 @@
         
         <label for="ct_otono">분류:</label>
    		<select id="ct_otono" name="ct_otono">
-	        <option value="210">upcycling</option>
-	        <option value="200">recycling</option>
-	        <option value="230">wash</option>
-	        <option value="220">exp</option>
-	        <option value="240">etc</option>
+	        <option value="210">업사이클링</option>
+	        <option value="200">재활용</option>
+	        <option value="230">세탁</option>
+	        <option value="220">체험단</option>
+	        <option value="240">기타</option>
    		</select><br>
     
         <label for="title">제목:</label>
