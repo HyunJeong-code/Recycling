@@ -4,4 +4,90 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.manager.dao.face.CsDao">
+
+	<!-- 문의 sql 아이디 -->
+	<sql id="selectAll">
+		SELECT
+			oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email, oto_date, oto_hit
+		FROM OTO
+	</sql>
+	
+	<!-- 구매자 sql 아이디 -->
+	<sql id="selectBuyerList">
+		SELECT * FROM BUYER
+	</sql>	
+
+	<!-- 문의글 목록 -->
+	<select id="selectAllOto" resultType="Oto" parameterType="recycling.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectAll" />
+				ORDER BY oto_code DESC
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 총 게시글 조회 -->
+	<select id="selectCntAll" resultType="int">
+		SELECT count(*) FROM (
+			<include refid="selectAll" />
+		)
+	</select>
+	
+	<!-- 구매자 목록 -->
+	<select id="selectAllBuyer" resultType="Buyer" parameterType="recycling.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectBuyerList" />
+				ORDER BY b_code DESC
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 구매자 상세조회 -->
+	<select id="selectByBuyer" resultType="Buyer" parameterType="Buyer">
+		<include refid="selectBuyerList" />
+		<where>B_CODE = #{bCode}</where>
+	</select>
+	
+	<!-- 구매자 수정 -->
+	<select id="selectBcode" parameterType="String" resultType="Buyer">
+		<include refid="selectBuyerList"/>
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</select>
+	
+	<update id="updateBuyer" parameterType="Buyer">
+		UPDATE BUYER
+		SET b_name = #{bName },
+			b_phone = #{bPhone },
+			b_email = #{bEmail }
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</update>
+	
+	<!-- 구매자 삭제 -->
+	<delete id="deleteBuyer" parameterType="String">
+		DELETE FROM BUYER
+		<where>
+			AND B_CODE = #{bCode }
+		</where>
+		DELETE FROM BUYER_CT
+		<where>
+			AND CT_BCODE = #{ctBcode }
+		</where>
+		DELETE FROM BUYER_RANK
+		<where>
+			AND RANK_NO = #{rankNo }
+		</where>
+	</delete>
+	
 </mapper>
