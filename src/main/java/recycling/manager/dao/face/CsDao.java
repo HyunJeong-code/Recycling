@@ -74,4 +74,11 @@ public interface CsDao {
 	 */
 	public String ansFormInsert(Ans ans);
 
+	/**
+	 * 문의글 삭제
+	 * 
+	 * @param otoCode
+	 */
+	public void otoDel(String otoCode);
+
 }

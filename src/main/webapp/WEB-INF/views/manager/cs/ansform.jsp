@@ -73,6 +73,8 @@
 		<input type="text" id=ansContent name="ansContent" placeholder="댓글">
 		<button id="btnCom">작성하기</button>
 	</div>
+	
+	<a href="./otodel?otoCode=${otoCode}"><button>삭제</button></a>
 
 </body>
 </html>

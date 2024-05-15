@@ -85,4 +85,11 @@ public interface CsService {
 //	public String ansFormInsert(String mgrId, String ansCode, String ansContent);
 	public String ansFormInsert(String ansCode, String ansContent);
 
+	/**
+	 * 문의글 삭제
+	 * 
+	 * @param otoCode
+	 */
+	public void otoDel(String otoCode);
+
 }

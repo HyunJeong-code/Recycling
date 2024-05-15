@@ -99,4 +99,13 @@
 		VALUES(#{ansCode }, #{otoCode }, #{mgrCode }, #{ansContent }, sysdate)
 	</insert>
 	
+	<!-- 문의글 삭제 -->
+	<delete id="otoDel" parameterType="String">
+	    DELETE FROM oto
+	    <where>
+	        oto_code = #{otoCode}
+	    </where>
+	</delete>
+
+	
 </mapper>

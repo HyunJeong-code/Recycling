@@ -83,6 +83,10 @@ public class CsServiceImpl implements CsService {
 		
 		return csDao.ansFormInsert(ans);
 	}
-	
+
+	@Override
+	public void otoDel(String otoCode) {
+	    csDao.otoDel(otoCode);
+	}
 
 }

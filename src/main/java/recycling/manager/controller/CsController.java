@@ -167,4 +167,12 @@ public class CsController {
 		return res;
 	}
 	
+	// 문의글 삭제
+	@GetMapping("/otodel")
+	public String otoDel(@RequestParam("otoCode") String otoCode) {
+	    csService.otoDel(otoCode);
+	    
+	    return "redirect:/manager/cs/main";
+	}
+	// test
 }
