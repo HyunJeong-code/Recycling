@@ -81,4 +81,12 @@ public interface CsDao {
 	 */
 	public void otoDel(String otoCode);
 
+	/**
+	 * 답글 목록
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public List<Ans> viewCom(String ansCode);
+
 }

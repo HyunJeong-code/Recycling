@@ -1,5 +1,6 @@
 package recycling.manager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.manager.Ans;
 import recycling.manager.service.face.CsService;
 import recycling.util.Paging;
 
@@ -33,7 +35,7 @@ public class CsController {
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
 	public void main(@RequestParam(defaultValue = "0") int curPage, @RequestParam(defaultValue = "") String search,
-			String caregory, Paging pagingParam, Model model) {
+			String category, Paging pagingParam, Model model) {
 
 		Paging paging = new Paging();
 
@@ -53,7 +55,7 @@ public class CsController {
 	// 구매자 리스트
 	@RequestMapping("/buyerlist")
 	public String buyerList(@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search, String caregory, Paging pagingParam, Model model) {
+			@RequestParam(defaultValue = "") String search, String category, Paging pagingParam, Model model) {
 
 		Paging paging = new Paging();
 
@@ -141,25 +143,37 @@ public class CsController {
 	
 	// 문의글 상세
 	@GetMapping("/ansform")
-	public String ansForm(String otoCode, Model model) {
+	public String ansForm(String otoCode, String ansCode, Model model) {
 		
-		Oto ansform = csService.ansForm(otoCode);
+		Oto oto = csService.ansForm(otoCode);
 		
-		model.addAttribute("ansform", ansform);
+		model.addAttribute("oto", oto);
+		
+		// 답글 리스트 불러오기
+		List<Ans> comments = new ArrayList<>(); 
+		comments = csService.viewCom(ansCode);
+		
+		logger.info("22222222222222222{}", comments);
+		
+		boolean chkNull = csService.chkNull(comments);
+		
+		model.addAttribute("comments", comments);
+		model.addAttribute("chkNull", chkNull);
+		logger.info("3333333333333333{}", comments);
 		
 		return "manager/cs/ansform";
 		
 	}
 	
 	// 문의글 답글 작성
-	@PostMapping("/ansform/insert")
+	@PostMapping("/ansform")
 	@ResponseBody
 	public String insert(String ansCode, String ansContent, HttpSession session) {
 		
 		logger.info("{}, {}", ansCode, ansContent);
 		
 //		String mgrId = (String) session.getAttribute("mgrId");
-//		logger.info("{}", mgrId);
+//		logger.info("{}", mgrId);		
 		
 //		String res = csService.ansFormInsert(mgrId, ansCode, ansContent);
 		String res = csService.ansFormInsert(ansCode, ansContent);
@@ -170,9 +184,9 @@ public class CsController {
 	// 문의글 삭제
 	@GetMapping("/otodel")
 	public String otoDel(@RequestParam("otoCode") String otoCode) {
-	    csService.otoDel(otoCode);
 	    
+	    csService.otoDel(otoCode);
 	    return "redirect:/manager/cs/main";
 	}
-	// test
+
 }

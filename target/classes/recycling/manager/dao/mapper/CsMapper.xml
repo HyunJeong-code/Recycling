@@ -103,9 +103,18 @@
 	<delete id="otoDel" parameterType="String">
 	    DELETE FROM oto
 	    <where>
-	        oto_code = #{otoCode}
+	        oto_code = #{otoCode }
 	    </where>
 	</delete>
-
+	
+	<!-- 답글 리스트 -->
+	<select id="viewCom" parameterType="String" resultType="Ans">
+		SELECT ANS_CODE, OTO_CODE, MGR_CODE, ANS_CONTENT, ANS_DATE
+		FROM ANS
+		<where>
+			ANS_CODE = #{ansCode }
+		</where>		
+		<!-- ORDER BY ANS_DATE DESC -->
+	</select>
 	
 </mapper>

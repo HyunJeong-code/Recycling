@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.manager.Ans;
 import recycling.util.Paging;
 
 // 구매 CS팀 관련 처리
@@ -91,5 +92,15 @@ public interface CsService {
 	 * @param otoCode
 	 */
 	public void otoDel(String otoCode);
+
+	/**
+	 * 답변 리스트
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public List<Ans> viewCom(String ansCode);
+
+	public boolean chkNull(List<Ans> comments);
 
 }

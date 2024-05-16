@@ -86,7 +86,23 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public void otoDel(String otoCode) {
+//		System.out.println("Delete otoCode: " + otoCode);
 	    csDao.otoDel(otoCode);
+	}
+
+	@Override
+	public List<Ans> viewCom(String ansCode) {
+		logger.info("servocedddddddddddddddddddddd");
+		return csDao.viewCom(ansCode);
+	}
+
+	@Override
+	public boolean chkNull(List<Ans> comments) {
+		if(comments == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js">
 	$("#btnCom").click(function() {
 		
 		var comment = $("#ansContent").val();
@@ -37,44 +37,45 @@
 	<h1>문의글 상세</h1>
 	<hr>
 	
-	<h3>카테고리 번호: ${ansform.ctOtoNo }</h3>
-	<h3>내용: ${ansform.otoContent }</h3>
+	<h3>카테고리 번호: ${oto.ctOtoNo }</h3>
+	<h3>내용: ${oto.otoContent }</h3>
 	
-	<%-- <div id="comList">
+	<div id="comList">
 		<c:if test="${chkNull }">
 			<table class="table">
 				<c:forEach var="list" items="${comments }">
 					<tr>
-						<th>댓글 번호</th>
-						<td>${list.commentno }</td>
-						<th>작성자</th>
+						<th>답글 번호</th>
+						<td>${list.ansCode }</td>
+						<%-- <th>작성자</th>
 						<td>${list.userid }</td>
 						<th>작성일</th>
-						<td>${list.writeDate }</td>
+						<td>${list.writeDate }</td> --%>
 					</tr>
 					
 					<tr>
-						<th>댓글 내용</th>
-						<td colspan="2">${list.content }</td>
-						<c:if test="${list.userid eq nick }">
+						<th>답글 내용</th>
+						<td colspan="2">${list.ansContent }</td>
+						<%-- <c:if test="${list.userid eq nick }">
 							<td><button id="btnDelCom" value="${list.commentno }">삭제하기</button></td>
-						</c:if>
+						</c:if> --%>
 					</tr>
 				</c:forEach>
 			</table>
 		</c:if>
 		
 		<c:if test="${chkNull }">
-			<p>댓글 없음</p>
+			<p>답글 없음</p>
 		</c:if>
-	</div> --%>
-	
-	<div>
-		<input type="text" id=ansContent name="ansContent" placeholder="댓글">
-		<button id="btnCom">작성하기</button>
 	</div>
 	
-	<a href="./otodel?otoCode=${otoCode}"><button>삭제</button></a>
-
+	<div>
+		<input type="text" id="ansContent" name="ansContent" placeholder="답글">
+		<button id="btnCom">작성하기</button>
+	</div>
+	<br>
+	
+	<a href="./otodel?otoCode=${oto.otoCode }"><button>문의글 삭제</button></a>
+	
 </body>
 </html>
