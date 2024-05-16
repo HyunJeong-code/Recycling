@@ -128,41 +128,36 @@
 		       Ad_Email AS adEmail
 		FROM Buyer
 		<where>
-			B_Id = #{bId }
+			AND B_Id = #{bId }
 		</where>
 	</select>
 	
-	<!-- 구매자 코드로 배송지 조회 -->
-	<select id="selectBuyerAdrBybCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
-		SELECT Addr_Code AS addrCode,
-			   B_Code AS bCode,
-			   Adr_Name AS adrName,
-			   Adr_Postcode AS adrPostcode,
-			   Adr_Addr AS adrAddr,
-			   Adr_Detail AS adrDetail
-		FROM Buyer_Adr
-		<where>
-			B_Code = #{bCode }
-		</where>
-	</select>
+	<!-- 구매자 등급 조회 -->
+    <select id="selectBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
+    	SELECT Rank_No AS rankNo,
+    		   Rank_Name AS rankName
+    	FROM Buyer_Rank
+    	<where>
+    		AND Rank_No = #{rankNo }
+    	</where>
+    </select>
 	
 	<!-- 구매자 코드로 기업 정보 조회 -->
 	<select id="selectCmpBybCode" parameterType="string" resultType="recycling.dto.buyer.Cmp">
-        SELECT Cmp_Code AS cmpCode,
-               B_Code AS bCode,
+        SELECT Cmp_No AS cmpNo,
+        	   B_Code AS bCode,
                Cmp_Name AS cmpName,
                Cmp_Ceo AS cmpCeo,
-               Cmp_No AS cmpNo,
                Cmp_Postcode AS cmpPostcode,
                Cmp_Addr AS cmpAddr,
                Cmp_Detail AS cmpDetail
         FROM Cmp
         <where>
-        	B_Code = #{bCode }
+        	AND B_Code = #{bCode }
         </where>
     </select>
-	
-	<!-- 구매자 정보 업데이트 -->
+    
+    <!-- 구매자 정보 업데이트 -->
     <update id="updateBuyer" parameterType="recycling.dto.buyer.Buyer">
         UPDATE Buyer
         SET B_Pw = #{bPw },
@@ -172,25 +167,11 @@
             Ad_Sms = #{adSms },
             Ad_Email = #{adEmail }
         <where>
-        	B_Code = #{bCode }
-        </where>
-    </update>
-	
-	<!-- 배송지 정보 업데이트 -->
-    <update id="updateBuyerAdr" parameterType="recycling.dto.buyer.BuyerAdr">
-        UPDATE Buyer_Adr
-        SET Adr_Name = #{adrName },
-            Adr_Phone = #{adrPhone },
-            Adr_Postcode = #{adrPostcode },
-            Adr_Addr = #{adrAddr },
-            Adr_Detail = #{adrDetail }
-        <where>
-        	Adr_Code = #{adrCode }
         	AND B_Code = #{bCode }
         </where>
     </update>
-	
-	<!-- 기업 정보 업데이트 -->
+    
+    <!-- 기업 정보 업데이트 -->
     <update id="updateCmp" parameterType="recycling.dto.buyer.Cmp">
         UPDATE Cmp
         SET Cmp_Name = #{cmpName },
@@ -200,29 +181,58 @@
             Cmp_Addr = #{cmpAddr },
             Cmp_Detail = #{cmpDetail }
         <where>
-        	Cmp_Code = #{cmpCode }
+        	AND Cmp_Code = #{cmpCode }
         	AND B_Code = #{bCode }
         </where>
     </update>
-    
+	
+	<!-- 구매자 코드로 배송지 조회 -->
+	<select id="selectBuyerAdrListBybCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
+		SELECT Adr_Code AS addrCode,
+			   B_Code AS bCode,
+			   Adr_Name AS adrName,
+			   Adr_Phone AS adrPhone,
+			   Adr_Postcode AS adrPostcode,
+			   Adr_Addr AS adrAddr,
+			   Adr_Detail AS adrDetail
+		FROM Buyer_Adr
+		<where>
+			AND B_Code = #{bCode }
+		</where>
+	</select>
+	
     <!-- 배송지 정보 등록 -->
-    <insert id="insertBuyerAdr" parameterType="recycling.dto.buyer.BuyerAdr">
+    <insert id="registerAdr" parameterType="recycling.dto.buyer.BuyerAdr">
         INSERT INTO 
         	Buyer_Adr (Adr_Code, B_Code, Adr_Name, Adr_Phone, Adr_Postcode, Adr_Addr, Adr_Detail, Adr_Chk)
         VALUES 
         	(#{adrCode }, #{bCode }, #{adrName }, #{adrPhone }, #{adrPostcode }, #{adrAddr }, #{adrDetail }, #{adrChk })
     </insert>
 
+	<!-- 배송지 정보 수정 -->
+    <update id="updateAdr" parameterType="recycling.dto.buyer.BuyerAdr">
+        UPDATE Buyer_Adr
+        SET Adr_Name = #{adrName },
+            Adr_Phone = #{adrPhone },
+            Adr_Postcode = #{adrPostcode },
+            Adr_Addr = #{adrAddr },
+            Adr_Detail = #{adrDetail }
+        <where>
+        	AND Adr_Code = #{adrCode }
+        	AND B_Code = #{bCode }
+        </where>
+    </update>
+	
     <!-- 배송지 정보 삭제 -->
-    <delete id="deleteBuyerAdr" parameterType="string">
+    <delete id="deleteAdr" parameterType="string">
         DELETE FROM Buyer_Adr
         <where>
-        	Adr_Code = #{adrCode }
+        	AND Adr_Code = #{adrCode }
         </where>
     </delete>
 
     <!-- 구매자 배송지 목록 조회 -->
-    <select id="selectBuyerAdrList" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
+    <select id="selectBuyerAdrBybCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
         SELECT Adr_Code AS adrCode,
                B_Code AS bCode,
                Adr_Name AS adrName,
@@ -233,7 +243,7 @@
                Adr_Chk AS adrChk
         FROM Buyer_Adr
         <where>
-        	B_Code = #{bCode }
+        	AND B_Code = #{bCode }
         </where>
     </select>
     
@@ -241,17 +251,7 @@
     <delete id="deleteBuyer" parameterType="string">
     	DELETE FROM Buyer
     	<where>
-    		B_Code = #{bCode }
+    		AND B_Code = #{bCode }
     	</where>
     </delete>
-    
-    <!-- 구매자 등급 조회 -->
-    <select id="selectBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
-    	SELECT Rank_No AS rankNo,
-    		   Rank_Name AS rankName
-    	FROM Buyer_Rank
-    	<where>
-    		Rank_No = #{rankNo }
-    	</where>
-    </select>
 </mapper>

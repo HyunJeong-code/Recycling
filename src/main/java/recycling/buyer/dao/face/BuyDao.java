@@ -30,7 +30,7 @@ public interface BuyDao {
 	 * @return - null : 실패, else : 성공
 	 */
 	public BuyerLogin selectBybIdbPw(Buyer buyer);
-	
+
 	/**
 	 * 아이디 찾기
 	 * 
@@ -54,5 +54,4 @@ public interface BuyDao {
 	 * @return 0 : 실패, 1 : 성공
 	 */
 	public int updatePw(Buyer buyer);
-	
 }
