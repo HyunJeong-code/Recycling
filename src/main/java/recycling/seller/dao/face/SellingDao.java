@@ -19,7 +19,9 @@ public interface SellingDao {
 
 	public Exp selectByExp(String expCode);
 
-	public List<ExpRes> selectResList(Paging paging);
+	public List<ExpRes> selectResList(String expCode);
+
+//	public List<ExpRes> selectResList(String expCode, Paging paging);
 
 
 }

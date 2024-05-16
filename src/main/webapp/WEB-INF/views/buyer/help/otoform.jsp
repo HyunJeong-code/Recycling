@@ -28,7 +28,6 @@
 <body>
 <h1>1:1 문의 작성</h1>
     <form action="./otoform" method="post" enctype="multipart/form-data">
-        
         <br>
         
         <label for="ct_otono">분류:</label>
@@ -40,11 +39,11 @@
 	        <option value="240">기타</option>
    		</select><br>
     
-        <label for="title">제목:</label>
-        <input type="text" id="title" name="title"><br>
+        <label for="otoTitle">제목:</label>
+        <input type="text" id="otoTitle" name="otoTitle" required><br>
         
-        <label for="content">내용:</label><br>
-        <textarea id="content" name="content" rows="10" cols="100"></textarea><br>
+        <label for="otoContent">내용:</label><br>
+        <textarea id="otoContent" name="otoContent" rows="10" cols="100"></textarea><br>
         
         <label for="file">파일 첨부:</label>
         <input type="file" id="file" name="file"><br>
@@ -61,6 +60,9 @@
         
     </form>
     
+    <div>
+		<button type="button"><a href="./otolist">취소</a></button>
+	</div>
     
     
 </body>

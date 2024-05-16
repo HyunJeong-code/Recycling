@@ -52,7 +52,7 @@
 		</where>
 	</select>
 	
-	<update id="ntcHit" parameterType="string">
+	<update id="updateNtcHit" parameterType="string">
 		UPDATE Notice
 			SET ntc_hit = ntc_hit + 1
 		<where>
@@ -60,10 +60,16 @@
 		</where>
 	</update>
 	
+<!-- 	<insert id="insertOto" parameterType="Oto"> -->
+<!-- 		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, -->
+<!-- 						oto_name, oto_email, oto_hit) -->
+<!-- 		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail}, #{otoHit}) -->
+	
+<!-- 	</insert> -->
+
 	<insert id="insertOto" parameterType="Oto">
-		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content,
-						oto_name, oto_email, oto_hit)
-		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail}, #{otoHit})
+		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content)
+		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent})
 	
 	</insert>
 	
@@ -87,5 +93,20 @@
 		SELECT * FROM Oto_Ct
 		
 	</select>
+	
+	<select id="selectByOtoCode" resultType="Oto" parameterType="string">
+		SELECT * FROM Oto
+		<where>
+			AND oto_code = #{otoCode}
+		</where>
+	</select>
+	
+	<update id="updateOtoHit" parameterType="string">
+		UPDATE Oto
+			SET oto_hit = oto_hit + 1
+		<where>
+			AND oto_code = #{otoCode}
+		</where>
+	</update>
 	
 </mapper>

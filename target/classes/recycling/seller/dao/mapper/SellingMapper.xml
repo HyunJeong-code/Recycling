@@ -52,15 +52,28 @@
 		</where>
 	</select>
 	
-	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes">
-		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				SELECT * FROM exp_res	
-				ORDER BY sch_no
-			) B
-		)
+<!-- 	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes"> -->
+<!-- 		<bind name="expCode" value="'#{expCode}'"/> -->
+<!-- 		SELECT * FROM ( -->
+<!-- 			SELECT rownum rnum, B.* FROM ( -->
+<!-- 				SELECT er.* -->
+<!-- 				FROM exp_res er -->
+<!-- 				INNER JOIN exp_sch es ON er.SCH_NO = es.SCH_NO -->
+<!-- 				INNER JOIN exp e ON es.exp_code = e.exp_code -->
+<!-- 				WHERE e.exp_code = #{expCode} -->
+<!-- 			) B -->
+<!-- 		) -->
+<!-- 		<where> -->
+<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	<select id="selectResList" parameterType="string" resultType="ExpRes">
+		SELECT er.*
+		FROM exp_res er
+		INNER JOIN exp_sch es ON er.sch_no = es.sch_no
+		INNER JOIN exp e ON es.exp_code = e.exp_code
 		<where>
-			AND rnum BETWEEN #{startNo } AND #{endNo }
+			AND e.exp_code = #{expCode}
 		</where>
 	</select>
 	

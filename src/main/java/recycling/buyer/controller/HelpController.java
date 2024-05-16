@@ -126,17 +126,34 @@ public class HelpController {
 	public String otoFormProc(
 			HttpSession session,
 			Oto oto,
-			@RequestParam("category") String category, // 선택된 분류 값을 받음
+			@RequestParam("ct_otono") String ctOtoNo, // 선택된 분류 값을 받음
 			MultipartFile file
 //			, @RequestParam("visibility") String visibility,
 //            @RequestParam(value = "password", required = false) String password
 			) {
 		
-		oto.setCtOtoNo(Integer.parseInt(category));
+		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
 //		boolean isPrivate = visibility.equals("private");
+		session.setAttribute("bCode", "BUY0000001");
+		String bCode = (String) session.getAttribute("bCode");
+		oto.setbCode(bCode);
 		
 		helpService.insertOto(oto);
-		
+
+
 		return "redirect:/buyer/help/otolist";
+	}
+	
+	@GetMapping("/otodetail")
+	public void otoDetail(
+			Model model,
+			String otoCode
+			) {
+		Oto oto = helpService.selectByOtoCode(otoCode);
+		List<OtoCt> oct = helpService.getAllOct();
+		
+		model.addAttribute("oto", oto);
+		model.addAttribute("oct",oct);
+		
 	}
 }

@@ -77,15 +77,16 @@ public class SellingController {
 	public void expResDetail(
 			Model model,
 			@RequestParam(defaultValue = "0") int curPage,
-			String expCode
+			@RequestParam String expCode
 			
 			) {
 		
 		Exp exp = sellingService.selectByExp(expCode);
-		Paging paging = sellingService.getPaging(curPage);
-		List<ExpRes> resList = sellingService.selectResList(paging);
+//		Paging paging = sellingService.getPaging(curPage);
+//		List<ExpRes> resList = sellingService.selectResList(expCode, paging);
+		List<ExpRes> resList = sellingService.selectResList(expCode);
 		
-		model.addAttribute("paging", paging);
+//		model.addAttribute("paging", paging);
 		model.addAttribute("exp", exp);
 		model.addAttribute("resList", resList);
 

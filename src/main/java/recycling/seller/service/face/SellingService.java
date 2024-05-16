@@ -17,9 +17,10 @@ public interface SellingService {
 
 	public Paging getPaging(int curPage);
 
-	public List<ExpRes> selectResList(Paging paging);
-
 	public Exp selectByExp(String expCode);
+
+//	public List<ExpRes> selectResList(String expCode, Paging paging);
+	public List<ExpRes> selectResList(String expCode);
 
 
 }

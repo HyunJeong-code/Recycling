@@ -37,6 +37,10 @@
         </select>
         <input type="submit" value="검색">
     </form>
+    
+    <div>
+		<button type="button" style="text-align: right;"><a href="./otoform">작성하기</a></button>
+	</div>
     <table border="1" class="table table-hover table-sm" style="width: 800px; border: 2px solid #444444;">
     
     	<colgroup>

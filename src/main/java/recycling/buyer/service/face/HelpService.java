@@ -99,6 +99,14 @@ public interface HelpService {
 	 */
 	public List<OtoCt> getAllOct();
 
+	/**
+	 * 1:1문의 상세 조회
+	 * 
+	 * @param otoCode - 1:1 문의 코드
+	 * @return 1:1문의 상세내용
+	 */
+	public Oto selectByOtoCode(String otoCode);
+
 
 
 }

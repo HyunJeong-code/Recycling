@@ -58,7 +58,7 @@ public interface HelpDao {
 	 * 
 	 * @param ntcCode - 공지사항 코드
 	 */
-	public void ntcHit(String ntcCode);
+	public void updateNtcHit(String ntcCode);
 
 	/**
 	 * 1:1문의 게시글 작성을 위한 객체
@@ -95,6 +95,23 @@ public interface HelpDao {
 	 * @return 1:1문의 분류 DTO를 가진 List
 	 */
 	public List<OtoCt> getAllOct();
+
+
+	/**
+	 * 1:1문의 상세페이지 접속 시 조회수 증가
+	 * 
+	 * @param otoCode - 1:1문의 코드
+	 */
+	public void updateOtoHit(String otoCode);
+
+
+	/**
+	 * 1:1문의 상세 조회
+	 * 
+	 * @param otoCode - 1:1 문의 코드
+	 * @return 1:1문의 상세내용
+	 */
+	public Oto selectByOtoCode(String otoCode);
 
 
 

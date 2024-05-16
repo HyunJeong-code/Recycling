@@ -59,7 +59,7 @@ public class HelpServiceImpl implements HelpService {
 
 	@Override
 	public Notice selectByNotice(String ntcCode) {
-		helpDao.ntcHit(ntcCode);
+		helpDao.updateNtcHit(ntcCode);
 		
 		return helpDao.selectByNotice(ntcCode);
 	}
@@ -92,6 +92,13 @@ public class HelpServiceImpl implements HelpService {
 		List<OtoCt> oct = helpDao.getAllOct();
 		
 		return oct;
+	}
+
+	@Override
+	public Oto selectByOtoCode(String otoCode) {
+		helpDao.updateOtoHit(otoCode);
+		
+		return helpDao.selectByOtoCode(otoCode);
 	}
 
 
