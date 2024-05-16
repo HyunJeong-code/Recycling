@@ -2,6 +2,9 @@ package recycling.buyer.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,12 +17,17 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -248,6 +256,26 @@ public class BuyerController {
 		return chkNum;
 	}
 	
+    @RequestMapping("/uploads/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        Path file = Paths.get("D:/uploads").resolve(filename);
+        Resource resource = null;
+        try {
+            resource = new UrlResource(file.toUri());
+        } catch (MalformedURLException e) {
+            logger.error("파일 URL 생성 실패: {}", e.getMessage());
+        }
+        
+        if (resource != null && resource.exists() && resource.isReadable()) {
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
+        } else {
+            logger.error("파일을 읽을 수 없거나 존재하지 않음: {}", filename);
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+	
 	@GetMapping("/myorderdetail")
 	public void myOrderDetail() {
 		
@@ -283,10 +311,7 @@ public class BuyerController {
 	
 	// 회원 정보 관리 메인 (비밀번호 입력) 처리
 	@PostMapping("/mymain")
-	public String myMainProc(
-			String password,
-			Model model
-			) {
+	public String myMainProc(String password, Model model) {
 		
 		logger.info("/buyer/mypage/mymain [POST]");
 		
@@ -468,7 +493,11 @@ public class BuyerController {
 	
 	// 회원 정보 변경 처리 (개인)
 	@PostMapping("/mydetailpri")
-	public String myDetailPriProc(Buyer buyer,Model model) {
+	public String myDetailPriProc(
+			Buyer buyer,
+			@RequestParam("buyerProf") MultipartFile buyerProf, 
+			Model model
+			) {
 		
 		logger.info("/buyer/mypage/mydetailpri [POST]");
 		
@@ -482,9 +511,60 @@ public class BuyerController {
 			
 		}
 		
-		Buyer currentBuyer = buyerService.updateBuyerDetail(buyer);
+		buyer.setbCode(buyerLogin.getbCode());
+		buyer.setbCtCode(buyerLogin.getbCtCode());
 		
-		currentBuyer.setbId(buyerLogin.getbId());
+		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+		
+		// 기존 비밀번호 유지
+		if(buyer.getbPw() == null || buyer.getbPw().isEmpty()) {
+			
+			buyer.setbPw(currentBuyer.getbPw());
+			
+		}
+		
+//		if(buyer.getAdSms() == null) {
+//			
+//			buyer.setAdSms(currentBuyer.getAdSms());
+//			
+//		}
+//		
+//		if(buyer.get)
+		
+		// 프로필 이미지 처리
+		if(buyerProf != null && !buyerProf.isEmpty()) {
+			
+			String fileName = System.currentTimeMillis() + "_" + buyerProf.getOriginalFilename();
+			String filePath = "D:/uploads/" + fileName;
+			
+			try {
+				
+				buyerProf.transferTo(new File(filePath));
+				
+				// 파일 이름을 세션에 저장
+				session.setAttribute("buyerProfName", fileName);
+				
+			} catch (IOException e) {
+				
+				model.addAttribute("error", "파일 업로드 실패: " + e.getMessage());
+				
+				return "redirect:/buyer/mypage/mydetailpri";
+				
+			}
+			
+		}
+		
+		boolean updateResult = buyerService.updateBuyerDetail(buyer);
+		
+		if(!updateResult) {
+			
+			logger.info("업데이트 실패: {}", buyer);
+			
+			model.addAttribute("error", "업데이트 실패");
+			
+			return "redirect:/buyer/mypage/mydetailpri";
+			
+		}
 		
 		model.addAttribute("success", "개인 정보가 수정되었습니다.");
 		
@@ -509,10 +589,10 @@ public class BuyerController {
 		}
 		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
-		Cmp cmp = buyerService.getCmpDetail(buyerLogin.getbId());
+		Cmp currentCmp = buyerService.getCmpDetail(buyerLogin.getbCode());
 		
 		model.addAttribute("currentBuyer", currentBuyer);
-		model.addAttribute("cmp", cmp);
+		model.addAttribute("currentCmp", currentCmp);
 		
 		return "/buyer/mypage/mydetailcmp";
 		
@@ -524,31 +604,11 @@ public class BuyerController {
 			Buyer buyer,
 			Cmp cmp,
 			@RequestParam("cmpFile") MultipartFile cmpFile,
+			@RequestParam("cmpProf") MultipartFile cmpProf,
 			Model model
 			) {
 		
 		logger.info("/buyer/mypage/mydetailcmp [POST]");
-		
-		if(!cmpFile.isEmpty()) {
-			
-			String fileName = System.currentTimeMillis() + "_" + cmpFile.getOriginalFilename();
-			String filePath = "D:/uploads/" + fileName;
-			
-			File destFile = new File(filePath);
-			
-			try {
-				
-				cmpFile.transferTo(destFile);
-				
-			} catch (IOException e) {
-				
-				model.addAttribute("error", "파일 업로드 실패: " + e.getMessage());
-				
-				return "/buyer/mypage/mydetailcmp";
-				
-			}
-			
-		}
 		
 		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
 		
@@ -561,13 +621,74 @@ public class BuyerController {
 		}
 		
 		buyer.setbCode(buyerLogin.getbCode());
-		cmp.setbCode(buyerLogin.getbCode());
+		buyer.setbCtCode(buyerLogin.getbCtCode());
 		
-		Buyer currentBuyer = buyerService.updateBuyerDetail(buyer);
-		Cmp currentCmp = buyerService.updateCmpDetail(cmp);
+		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+		
+		// 기존 비밀번호 유지
+		if(buyer.getbPw() == null || buyer.getbPw().isEmpty()) {
+			
+			buyer.setbPw(currentBuyer.getbPw());
+			
+		}
+		
+		// 프로필 이미지 처리
+		if (cmpProf != null && !cmpProf.isEmpty()) {
+            
+			String fileName = System.currentTimeMillis() + "_" + cmpProf.getOriginalFilename();
+			String filePath = "D:/uploads/" + fileName;
+
+			try {
+            
+				cmpProf.transferTo(new File(filePath));
+               
+				// 파일 이름을 세션에 저장
+				session.setAttribute("cmpProfName", fileName);
+        
+			} catch (IOException e) {
+             
+				model.addAttribute("error", "파일 업로드 실패: " + e.getMessage());
+            
+				return "redirect:/buyer/mypage/mydetailcmp";
+            
+			}
+        
+		}
+		
+		// 사업자 등록증 처리
+		if(cmpFile != null && !cmpFile.isEmpty()) {
+			
+			String fileName = System.currentTimeMillis() + "_" + cmpFile.getOriginalFilename();
+			String filePath = "D:/uploads/" + fileName;
+			
+			try {
 				
-		currentBuyer.setbId(buyerLogin.getbId());
-		currentCmp.setbCode(buyerLogin.getbId());
+				cmpFile.transferTo(new File(filePath));
+				
+				// 파일 이름을 세션에 저장
+				session.setAttribute("cmpFileName", fileName);
+				
+			} catch (IOException e) {
+				
+				model.addAttribute("error", "사업자 등록증 업로드 실패: " + e.getMessage());
+				
+				return "/buyer/mypage/mydetailcmp";
+				
+			}
+			
+		}
+		
+		boolean updateResult = buyerService.updateBuyerDetail(buyer) && buyerService.updateCmpDetail(cmp);
+		
+		if(!updateResult) {
+			
+			logger.info("업데이트 실패: {}, {}",  buyer, cmp);
+			
+			model.addAttribute("error", "업데이트 실패");
+			
+			return "redirect:/buyer/mypage/mydetailcmp";
+			
+		}
 		
 		model.addAttribute("success", "기업 정보가 수정되었습니다.");
 		

@@ -160,7 +160,10 @@
     <!-- 구매자 정보 업데이트 -->
     <update id="updateBuyer" parameterType="recycling.dto.buyer.Buyer">
         UPDATE Buyer
-        SET B_Pw = #{bPw },
+        SET 
+        	<if test="bPw != null">
+        		B_Pw = #{bPw },
+        	</if>
             B_Name = #{bName },
             B_Phone = #{bPhone },
             B_Email = #{bEmail },

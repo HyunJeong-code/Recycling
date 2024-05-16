@@ -21,7 +21,13 @@
 			<hr>
 			<div class="page">
 				<a href="/buyer/mypage/mypagepri" >마이페이지</a><br>
-				<a href="/buyer/mypage/mydetailpri" >개인 정보 수정</a>
+				<a href="/buyer/mypage/mydetailpri" >개인 정보 수정</a><br>
+				<c:if test="${not empty buyerProfName }">
+                    <img src="${pageContext.request.contextPath }/uploads/${buyerProfName }" alt="프로필 이미지" width="100">
+                </c:if>
+                <c:if test="${empty buyerProfName }">
+                    <p>프로필 이미지가 없습니다</p>
+                </c:if>
 				<h3>이름: ${buyer.bName }</h3>
 				<h3>멤버쉽 등급: ${buyerRank.rankName }</h3>
 			</div>

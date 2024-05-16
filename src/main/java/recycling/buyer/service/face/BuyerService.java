@@ -156,18 +156,17 @@ public interface BuyerService {
 	 * 개인 구매자 상세 정보 업데이트
 	 * 
 	 * @param buyer - 업데이트 할 구매자 정보
-	 * @return 
+	 * @return 업데이트된 구매자 정보
 	 */
-	public Buyer updateBuyerDetail(Buyer buyer);
+	public boolean updateBuyerDetail(Buyer buyer);
 	
 	/**
 	 * 기업 구매자 상세 정보 업데이트
 	 * 
-	 * @param buyer - 업데이트 할 구매자 정보
 	 * @param cmp - 업데이트 할 기업 정보
-	 * @return 
+	 * @return 업데이트 된 기업 정보
 	 */
-	public Cmp updateCmpDetail(Cmp cmp);
+	public boolean updateCmpDetail(Cmp cmp);
 	
 	/**
 	 * 구매자 배송지 조회

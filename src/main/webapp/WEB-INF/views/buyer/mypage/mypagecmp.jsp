@@ -21,7 +21,15 @@
 			<hr>
 			<div class="page">
 				<a href="/buyer/mypage/mypagecmp" >마이페이지</a><br>
-				<a href="/buyer/mypage/mydetailcmp" >기업 정보 수정</a>
+				<a href="/buyer/mypage/mydetailcmp" >기업 정보 수정</a><br>
+				<c:if test="${not empty cmpProfName }">
+                    <img src="${pageContext.request.contextPath }/uploads/${cmpProfName }" alt="프로필 이미지" width="100">
+                </c:if>
+                <c:if test="${empty cmpProfName }">
+                    <p>프로필 이미지가 없습니다</p>
+                </c:if>
+                <h3>회사이름: ${cmp.cmpName }</h3>
+				<h3>이름: ${buyer.bName }</h3>
 			</div>
 		</div>
 	</div>

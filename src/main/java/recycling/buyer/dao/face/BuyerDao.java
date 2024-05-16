@@ -134,7 +134,7 @@ public interface BuyerDao {
 	 * @param buyer - 업데이트 할 구매자 정보
 	 * @return 
 	 */
-	public boolean updateBuyer(Buyer buyer);
+	public int updateBuyer(Buyer buyer);
 	
 	/**
 	 * 기업 정보 업데이트
@@ -142,7 +142,7 @@ public interface BuyerDao {
 	 * @param cmp - 업데이트 할 기업 정보
 	 * @return 
 	 */
-	public boolean updateCmp(Cmp cmp);
+	public int updateCmp(Cmp cmp);
 	
 	/**
 	 * 구매자 배송지 목록 조회

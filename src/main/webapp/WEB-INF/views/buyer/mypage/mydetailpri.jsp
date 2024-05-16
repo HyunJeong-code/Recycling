@@ -87,26 +87,25 @@ function cancelUpdate() {
 			<h2>개인 정보 수정</h2>
 			<hr>
 			<div class="page">
-				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailpri" method="post">
+				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailpri" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${buyer.bCode }">
 					<input type="hidden" name="adrCode" value="${buyerAdr.adrCode }">
 					
+					<label for="buyerProf">프로필 이미지 </label>
+					<input type="file" id="buyerProf" name="buyerProf"><br>
+					
 					<label for="bName">이름 </label>
-					<input type="text" id="bName" name="bName" value="${buyer.bName}" required><br>
+					<input type="text" id="bName" name="bName" value="${currentBuyer.bName}"><br>
 					
 					<label for="bId">아이디 </label>
-					<input type="text" id="bId" name="bId" value="${buyer.bId }" required readonly><br>
+					<input type="text" id="bId" name="bId" value="${currentBuyer.bId }" readonly><br>
 					
-					<div>
+					<label for="bPhone">전화번호 </label>
+					<input type="text" id="bPhone" name="bPhone" value="${currentBuyer.bPhone }"><br>
+					
 					<label for="bEmail">이메일 </label>
-					<input type="text" id="bEmail" name="bEmail" value="${buyer.bEmail }">
-					<select class="bEmail2" name="bEmail2" id="bEmail2">
-						<option>@naver.com</option>
-						<option>@gmail.com</option>
-						<option>@daum.net</option>
-					</select>
+					<input type="text" id="bEmail" name="bEmail" value="${currentBuyer.bEmail }">
 					<input type="button" id="btnEmail" value="이메일 인증">
-					</div>
 					
 					<div id="emailChk" style="display: none;">
 						<label for="emailNum">이메일 인증 번호</label>
@@ -122,11 +121,11 @@ function cancelUpdate() {
 					<h3>광고성 정보 수신 여부 </h3>
 					<label for="adSms">SMS</label>
 					<input type="radio" name="adSms" id="adSms" value="Y" 
-						<c:if test="${buyer.adSms eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)">
+						<c:if test="${currentBuyer.adSms eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)">
 					
 					<label for="adEmail">Email</label>
 					<input type="radio" name="adEmail" id="adEmail" value="Y" 
-						<c:if test="${buyer.adEmail eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)"><br>
+						<c:if test="${currentBuyer.adEmail eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)"><br>
 					
 					<input type="submit" value="수정하기">
 					<input type="button" value="취소하기" onclick="cancelUpdate()">

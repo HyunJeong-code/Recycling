@@ -139,39 +139,20 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public Buyer updateBuyerDetail(Buyer buyer) {
-
-		boolean updateSuccess = buyerDao.updateBuyer(buyer);
+	public boolean updateBuyerDetail(Buyer buyer) {
 		
-		if(updateSuccess) {
-			
-			logger.info("성공적으로 업데이트 되었습니다: {}", buyer.getbId());
-			
-		} else {
-			
-			logger.info("업데이트에 실패했습니다: {}", buyer.getbId());
-			
-		}
-		return buyer;
+		int updatedRows = buyerDao.updateBuyer(buyer);
+		
+		return updatedRows > 0;
 		
 	}
 	
 	@Override
-	public Cmp updateCmpDetail(Cmp cmp) {
+	public boolean updateCmpDetail(Cmp cmp) {
 		
-		boolean cmpUpdate = buyerDao.updateCmp(cmp);
+		int updatedRows = buyerDao.updateCmp(cmp);
 		
-		if(cmpUpdate) {
-			
-			logger.info("성공적으로 업데이트 되었습니다: {}", cmp.getbCode());
-			
-		} else {
-			
-			logger.info("업데이트에 실패했습니다: {}", cmp.getbCode());
-			
-		}
-		
-		return cmp;
+		return updatedRows > 0;
 		
 	}
 
