@@ -104,7 +104,7 @@ public interface SlsDao {
 	 * @param expCode
 	 * @return
 	 */
-	public List<ExpRes> expResDetailRes();
+	public List<ExpRes> expResDetailRes(ExpRes expRes);
 
 	/**
 	 * 체험단 예약정보 리스트 삭제

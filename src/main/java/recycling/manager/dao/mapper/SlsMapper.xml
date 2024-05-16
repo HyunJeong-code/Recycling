@@ -5,7 +5,7 @@
   
 <mapper namespace="recycling.manager.dao.face.SlsDao">
 	
-	<!-- 체험단 조회구조  -->
+	<!-- 체험단 조회구조[exp]  -->
 	<sql id="expBoard">
 	SELECT 
     	exp_code
@@ -18,7 +18,7 @@
 	FROM exp
 	</sql>
 	
-	<!-- 체험단 예약일정 조회구조 -->
+	<!-- 체험단 예약일정 조회구조[exp_sch] -->
 	<sql id="expSchBoard">
 	SELECT
 		sch_no
@@ -29,11 +29,21 @@
 	FROM exp_sch
 	</sql>
 	
+	<!-- 체험단 예약 조회구조[exp_res] -->
+	<sql id="expResBoard">
+	SELECT
+		res_code, b_code, sch_no, res_name, res_phone
+		,res_email, res_expname, res_date, res_time, res_cnt
+		,res_price, res_sum, res_pay, pay_date, res_cnf
+		,res_cnl, res_dt
+	FROM exp_res
+	</sql>
 	
 	<!-- exp Join expSch  -->
 	<sql id="expAndExpSch">
-	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price, e.exp_detail, e.exp_hit, e.exp_date,
-       s.sch_no, s.sch_date, s.sch_time, s.sch_cnt
+	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price
+	, e.exp_detail, e.exp_hit, e.exp_date, s.sch_no
+	, s.sch_date, s.sch_time, s.sch_cnt
 	FROM exp e
 	JOIN exp_sch s ON e.exp_code = s.exp_code
 	</sql>
@@ -167,16 +177,9 @@
 	</select>
 	
 	<!-- 체험 예약페이지 예약 조회 -->	
-	<select id="expResDetailRes" resultType="ExpRes">
-		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				SELECT * FROM exp_res	
-				ORDER BY sch_no
-			) B
-		)
-		<where>
-			rnum BETWEEN #{startNo } AND #{endNo }
-		</where>
+	<select id="expResDetailRes" resultType="ExpRes" parameterType="ExpRes">
+		<include refid="expResBoard"/>
+		<where>sch_no = #{schNo}</where>
 	</select>
 	
 	<!-- 체험단 전체삭제 -->

@@ -151,8 +151,8 @@ public class SlsServiceImpl implements SlsService {
 
 	//체험예약 페이지 예약정보 조회
 	@Override
-	public List<ExpRes> expResDetailRes() {
-		return slsDao.expResDetailRes();
+	public List<ExpRes> expResDetailRes(ExpRes expRes) {
+		return slsDao.expResDetailRes(expRes);
 	}
 
 	//체험예약 리스트 전체삭제
@@ -172,6 +172,7 @@ public class SlsServiceImpl implements SlsService {
 				
 				
 	}
+
 
 
 	

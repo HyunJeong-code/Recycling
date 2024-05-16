@@ -63,7 +63,7 @@ public interface SlsService {
 	/**
 	 * 체험정보
 	 * 
-	 * @param expCode
+	 * @param expRes
 	 * @return
 	 */
 	public Exp expResDetail(String expCode);
@@ -74,7 +74,7 @@ public interface SlsService {
 	 * @param expCode
 	 * @return
 	 */
-	public List<ExpRes> expResDetailRes();
+	public List<ExpRes> expResDetailRes(ExpRes expRes);
 
 	/**
 	 * 체험단 예약정보 리스트 삭제

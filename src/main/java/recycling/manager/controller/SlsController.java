@@ -1,6 +1,7 @@
 package recycling.manager.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -159,15 +160,17 @@ public class SlsController {
 	// 체험단 예약관리
 	@GetMapping("/expresdetail")	
 	public void expResDetail(
-			Model model,
-			String expCode
+			Model model
+			, String expCode
+			, ExpRes expRes
 			) {
+
+		Exp expView = slsService.expResDetail(expCode);
+		List<ExpRes> resList = slsService.expResDetailRes(expRes);
 		
-		Exp exp = slsService.expResDetail(expCode);
-		List<ExpRes> resList = slsService.expResDetailRes();
-		
-		model.addAttribute("exp", exp);
+		model.addAttribute("exp", expView);
 		model.addAttribute("resList", resList);
+		
 
 		
 	}
