@@ -5,6 +5,50 @@
   
 <mapper namespace="recycling.seller.dao.face.ProductDao">
 
+	<insert id="insertRcy" parameterType="Prd" useGeneratedKeys="true" keyProperty="prdCode" keyColumn="prd_code">
+		INSERT INTO prd (prd_code, ct_pno, ct_pdtno, s_code, prd_name, price, prd_cnt, prd_fee, prd_detail, prd_date, prd_hit)
+		VALUES(
+			'PRD' || lpad(prd_seq.nextval, 7, '0'),
+			#{ctPno },
+			#{ctPdtNo },
+			#{sCode },
+			#{prdName },
+			#{price},
+			DEFAULT,
+			DEFAULT,
+			#{prdDetail },
+			sysdate,
+			DEFAULT
+		)
+	</insert>
 	
-
+	<insert id="insertPrdFile" parameterType="PrdFile" useGeneratedKeys="true" keyProperty="prdFlNo" keyColumn="prd_flno">
+		INSERT INTO prd_file (prd_flno, ct_pflno, prd_code, origin_name, stored_name)
+		VALUES (
+			prd_file_seq.nextval,
+			#{ctPflNo },
+			#{prdCode },
+			#{originName },
+			#{storedName }
+		)
+	</insert>
+	
+	<insert id="insertUpcy" parameterType="Prd" useGeneratedKeys="true" keyProperty="prdCode" keyColumn="prd_code">
+		INSERT INTO prd (prd_code, ct_pno, ct_pdtno, s_code, prd_name, price, prd_cnt, prd_fee, prd_detail, prd_date, prd_hit)
+			VALUES(
+				'PRD' || lpad(prd_seq.nextval, 7, '0'),
+				#{ctPno },
+				#{ctPdtNo },
+				#{sCode },
+				#{prdName },
+				#{price},
+				#{prdCnt },
+				#{prdFee },
+				#{prdDetail },
+				sysdate,
+				DEFAULT
+			)
+	</insert>
+	
+<!-- 	상품 삭제, 첨부파일 삭제 추가 -->
 </mapper>

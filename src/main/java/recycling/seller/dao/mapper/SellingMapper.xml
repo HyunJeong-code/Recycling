@@ -37,6 +37,32 @@
 			AND od.prd_code = #{prdCode}
 		</where>
 	</select>
+	
+	<delete id="deletePrd" parameterType="String">
+		DELETE FROM prd
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</delete>
+	
+	<select id="selectByprdCode" parameterType="String" resultType="Prd">
+		SELECT * FROM prd
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</select>
+	
+	<update id="updatePrd" parameterType="Prd">
+		UPDATE prd
+		SET ct_pdtno = #{ctPdtNo},
+			prd_name = #{prdName},
+			price = #{price},
+			prd_cnt = #{prdCnt},
+			prd_detail = #{prdDetail}
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</update>
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (

@@ -2,6 +2,7 @@ package recycling.manager.dao.face;
 
 import java.util.List;
 
+import recycling.dto.buyer.ExpRes;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -15,6 +16,14 @@ public interface SlsDao {
 	 * @return - List<Exp>
 	 */
 	public List<Exp> selectAll();
+	
+	/**
+	 * 체험단 체험일정 조회하기
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ExpSch> selectSchAll(String expCode);
 
 	/**
 	 * 체험단 세부 조회하기
@@ -26,10 +35,10 @@ public interface SlsDao {
 
 	/**
 	 * 조회수 증감
-	 * 
+	 * [관리자 - 미구현]
 	 * @param exp - DTO 객체
 	 */
-	public void hit(Exp exp);
+//	public void hit(Exp exp);
 
 	/**
 	 * 
@@ -62,4 +71,41 @@ public interface SlsDao {
 	 * @param expSch
 	 */
 	public void expschUp(ExpSch expSch);
+
+	/**
+	 * 체험정보 업데이트항목 조회
+	 * 
+	 * @param exp
+	 * @return
+	 */
+	public Exp expUpdateView(Exp exp);
+
+	/**
+	 * 체험정보 업데이트
+	 * 
+	 * @param manager
+	 */
+	public void expUpdateProc(Exp exp);
+	
+	/**
+	 * 
+	 * 체험정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public Exp expResDetail();
+
+	/**
+	 * 
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes();
+
+
+	
+	
 }

@@ -34,6 +34,21 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+	public int deletePrd(String prdCode) {
+		return sellingDao.deletePrd(prdCode);
+	}
+	
+	@Override
+	public Prd selectByprdCode(String prdCode) {
+		return sellingDao.selectByprdCode(prdCode);
+	}
+	
+	@Override
+	public int updatePrd(Prd prd) {
+		return sellingDao.updatePrd(prd);
+	}
+	
+	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,9 +34,9 @@ public class SellingController {
 	@Autowired HttpSession session;
 	
 	@GetMapping("/rcylist")
-	public void rcylist(Model model) {
+	public void rcyList(Model model) {
 		//테스트용 세션***********************************************테스트
-		session.setAttribute("sCode", "SEL0000002");
+		session.setAttribute("sCode", "SEL0000003");
 		
 		String sCode = (String)session.getAttribute("sCode");
 		
@@ -60,10 +61,10 @@ public class SellingController {
 		model.addAttribute("olist", olist);
 	}
 	
-	@GetMapping("upcylist")
-	public void upcylist(Model model) {
+	@GetMapping("/upcylist")
+	public void upcyList(Model model) {
 		//테스트용 세션***********************************************테스트
-		session.setAttribute("sCode", "SEL0000002");
+		session.setAttribute("sCode", "SEL0000003");
 		
 		String sCode = (String)session.getAttribute("sCode");
 		
@@ -86,6 +87,32 @@ public class SellingController {
 		
 		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
+	}
+	
+	@GetMapping("/upcydetail")
+	public void upcyDetail(String prdCode, Model model) {
+		Prd prd = sellingService.selectByprdCode(prdCode);
+		
+		model.addAttribute("prd", prd);
+	}
+	
+	@PostMapping("/upcydel")
+	public String upcyDel(@RequestParam(value = "arr[]") List<String> list) {
+		
+		for(String prdCode : list) {
+			int deleteRes = sellingService.deletePrd(prdCode);  
+		}
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/upcyupdate")
+	public String upcyUpdate(Prd prd) {
+		logger.info("{}", prd);
+		
+		int res = sellingService.updatePrd(prd);
+		
+		return "redirect:/seller/selling/upcylist";
 	}
 	
 	@GetMapping("/explist")

@@ -47,5 +47,29 @@ public interface SellingService {
 	 */
 	public List<Prd> selectAllupcyPrd(String sCode);
 
+	/**
+	 * prdCode와 일치하는 Prd 삭제
+	 * 
+	 * @param prdCode - 삭제하는 Prd의 prdCode
+	 * @return - DELETE 결과
+	 */
+	public int deletePrd(String prdCode);
+
+	/**
+	 * prdCode와 일치하는 Prd 조회
+	 * 
+	 * @param prdCode - 조회하는 Prd의 prdCode
+	 * @return - 조회한 Prd 객체
+	 */
+	public Prd selectByprdCode(String prdCode);
+
+	/**
+	 * Prd 객체 UPDATE
+	 * 
+	 * @param prd - prd 수정 정보를 가진 DTO 객체
+	 * @return - UPDATE 결과
+	 */
+	public int updatePrd(Prd prd);
+
 
 }

@@ -10,6 +10,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
 <script type="text/javascript">
 
 let pdtList = {0:"플라스틱", 1:"유리", 2:"종이", 3:"캔", 4:"천", 5:"기타"}
@@ -17,29 +19,44 @@ let pdtList = {0:"플라스틱", 1:"유리", 2:"종이", 3:"캔", 4:"천", 5:"�
 let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
 		, 940: "구매 확정", 950: "거래 완료", 960: "환불", 970: "반품", 980: "취소"}
 
-/* function pdtname(pdtno) {
-	switch (pdtno) {
-	case 0:
-	  	return "플라스틱";
-	  	break;
-	case 1:
-	  	return "유리";
-	  	break;
-	case 2:
-		return "종이";
-	  	break;
-	case 3:
-		return "캔";
-	  	break;
-	case 4:
-		return "천";
-	  	break;
-	case 5:
-		return "기타";
-	}
-} */
 
 
+	$(function() {
+		$("#del_btn").click(function() {
+			var arr = new Array();
+			$('input:checkbox[name=checkList]').each(function () {
+		        if($(this).is(":checked")==true){
+		        	let res = $(this).val();
+		        	arr.push(res);
+		        }
+		    });
+			
+			// 체크된 상품이 없을 때 알림
+			if(arr.length == 0){
+				alert("선택된 상품이 없습니다.");
+			}else{
+				$.ajax({
+					type: "post"
+					, url: "./upcydel"
+					, data: {
+						arr: arr 
+					}
+					, dataType : "Json"
+					, success: function(res) {
+						console.log("AJAX 성공");
+						
+						location.href="./upcylist";
+						
+						alert("상품이 삭제되었습니다.");
+					}
+					, error: function() {
+						console.log("AJAX 실패");
+					}
+				}) 
+			}
+		    console.log(arr);
+		}); // #dlt_btn click end
+	}); //$ end
 
 </script>
 
@@ -71,7 +88,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
                 <td>
                 	<script>document.write(pdtList[${prd.ctPdtNo}])</script>
                 </td>
-                <td>${prd.prdName}</td>
+                <td><a href="./upcydetail?prdCode=${prd.prdCode}">${prd.prdName}</a></td>
                 <td>${prd.prdCnt}</td>
                 <td>${prd.price}</td>
                 <td>
@@ -84,7 +101,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
     </tbody>
 </table>
 
-<button>삭제하기</button>
+<button id="del_btn">삭제하기</button>
 
 
 <h1>새활용 판매 관리</h1>
@@ -95,6 +112,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			<th>상품 이름</th>
 			<th>가격</th>
 			<th>총금액</th>
+			<th>주문일</th>
 			<th>배송 상태</th>
 		</tr>
 	</thead>
@@ -105,7 +123,11 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	 		<td>${order.ordName }</td>
 	 		<td>${order.ordPrice }</td>
 	 		<td>${order.ordSum }</td>
-	 		<td><script>document.write(sttList[${order.sttNo}])</script></td>
+	 		<td>
+            	<fmt:parseDate value="${order.ordDate}" var="ordDate" pattern="yyyy-MM-dd HH:mm:ss" />
+           		<fmt:formatDate value="${ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+            </td>
+	 		<td id="sttNo"><script>document.write(sttList[${order.sttNo}])</script></td>
 	 	</tr>
 	</c:forEach>
 	</tbody>
