@@ -73,11 +73,12 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 //	public String ansFormInsert(String mgrId, String ansCode, String ansContent) {
-	public String ansFormInsert(String ansCode, String ansContent) {
+	public String ansFormInsert(String mgrCode, String ansCode, String ansContent) {
 //		Manager mgr = new Manager();
 		Ans ans = new Ans();
 		
 //		mgr.setMgrId(mgrId);
+		ans.setMgrCode(mgrCode);
 		ans.setAnsCode(ansCode);
 		ans.setAnsContent(ansContent);
 		

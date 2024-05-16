@@ -166,7 +166,7 @@ public class CsController {
 	}
 	
 	// 문의글 답글 작성
-	@PostMapping("/ansform")
+	@PostMapping("/ansform/insert")
 	@ResponseBody
 	public String insert(String ansCode, String ansContent, HttpSession session) {
 		
@@ -176,7 +176,8 @@ public class CsController {
 //		logger.info("{}", mgrId);		
 		
 //		String res = csService.ansFormInsert(mgrId, ansCode, ansContent);
-		String res = csService.ansFormInsert(ansCode, ansContent);
+		String mgrCode = (String) session.getAttribute("mgrCode");
+		String res = csService.ansFormInsert(mgrCode, ansCode, ansContent);
 		
 		return res;
 	}
@@ -188,8 +189,6 @@ public class CsController {
 	    csService.otoDel(otoCode);
 	    return "redirect:/manager/cs/main";
 	}
-	
-	// aaaaweqeqweqweddsadas
 	
 
 }

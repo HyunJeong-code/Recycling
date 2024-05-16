@@ -84,7 +84,7 @@ public interface CsService {
 	 * @return
 	 */
 //	public String ansFormInsert(String mgrId, String ansCode, String ansContent);
-	public String ansFormInsert(String ansCode, String ansContent);
+	public String ansFormInsert(String mgrCode, String ansCode, String ansContent);
 
 	/**
 	 * 문의글 삭제
