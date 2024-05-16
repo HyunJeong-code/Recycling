@@ -188,5 +188,8 @@ public class CsController {
 	    csService.otoDel(otoCode);
 	    return "redirect:/manager/cs/main";
 	}
+	
+	// aaaaweqeqweqweddsadas
+	
 
 }
