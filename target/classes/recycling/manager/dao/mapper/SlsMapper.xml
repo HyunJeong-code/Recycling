@@ -39,6 +39,13 @@
 	FROM exp_res
 	</sql>
 	
+	<!-- 체험단 파일조회구조[exp_file] -->
+	<sql id="expFileBoard">
+	SELECT
+    	exp_flno, exp_code, ct_pflno, origin_name, stored_name
+	FROM exp_file
+	</sql>
+	
 	<!-- exp Join expSch  -->
 	<sql id="expAndExpSch">
 	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price
@@ -188,7 +195,10 @@
 		<where> exp_code = #{expCode } </where>
 	</delete>
 	
-	
+	<!-- 체험단 파일조회 -->
+	<select id="image" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+	</select>
 
 	
 </mapper>

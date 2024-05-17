@@ -1,7 +1,6 @@
 package recycling.manager.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.manager.service.face.SlsService;
 
@@ -32,23 +32,6 @@ public class SlsController {
 	@Autowired HttpSession session;
 	
 	//체험단 전체조회
-//	@GetMapping("/explist")
-//	public String expList(
-//			Model model
-//			) {
-//		logger.info("controller : explist[get]");
-//		
-//		//전체 조회기능
-//		List<Exp> list = slsService.selectAll();
-//		
-//		model.addAttribute("exp", list);
-//		logger.info("controller explist: {}", list);
-//		
-//		return "/manager/sls/explist";
-//		
-//	}
-	
-	//체험단 전체조회
 	@GetMapping("/explist")
 	public String expList(
 			Model model
@@ -58,8 +41,6 @@ public class SlsController {
 		//전체 Exp 조회기능
 		List<Exp> list = slsService.selectAll();
 		model.addAttribute("explist", list);
-		
-
 		
 		return "/manager/sls/explist";
 	}
@@ -83,13 +64,24 @@ public class SlsController {
 		//return "jsonView";
 	}
 	
-	//체험단 시간 + 상세 조회
+	//상세 조회
 	@GetMapping("/expdetail")
-	public void expDetail(Exp exp, Model model) {
+	public void expDetail(
+			Exp exp
+			, ExpFile expFile
+			, Model model
+			) {
 		logger.info("contoller: expDetail[GET]");
+
+		//expfile번호 가져오기
 		
+		ExpFile fileimage = slsService.image(expFile);
+		model.addAttribute("fileimage", fileimage);
+		logger.info("expDetail:{}", fileimage );
+		
+        
+		//상세조회
 		Exp view = slsService.selectDetail(exp);
-		
 		model.addAttribute("view", view);
 		logger.info("expDetail:{}", view );
 		
@@ -154,7 +146,7 @@ public class SlsController {
 		slsService.expListDel(chBox);
 		logger.info("데이터 확인 chBox : {}", chBox);
 		
-		return "redirect:./main";
+		return "redirect:./explist";
 	}
 	
 	// 체험단 예약관리
@@ -164,14 +156,11 @@ public class SlsController {
 			, String expCode
 			, ExpRes expRes
 			) {
-
 		Exp expView = slsService.expResDetail(expCode);
 		List<ExpRes> resList = slsService.expResDetailRes(expRes);
 		
 		model.addAttribute("exp", expView);
 		model.addAttribute("resList", resList);
-		
-
 		
 	}
 	

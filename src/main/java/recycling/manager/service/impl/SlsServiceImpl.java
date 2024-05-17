@@ -166,11 +166,13 @@ public class SlsServiceImpl implements SlsService {
 			
 			result += slsDao.expListDel(expCode);
 		}
-		
 		return result;
+	}
 	
-				
-				
+	///디테일부분 파일 조회
+	@Override
+	public ExpFile image(ExpFile expFile) {
+		return slsDao.image(expFile);
 	}
 
 

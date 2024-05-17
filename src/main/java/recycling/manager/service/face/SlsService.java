@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 
 
@@ -82,6 +83,14 @@ public interface SlsService {
 	 * @param chBox
 	 */
 	public int expListDel(List<String> chBox);
+
+	/**
+	 * 이미지 업로드 번호조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile image(ExpFile expFile);
 
 
 }

@@ -113,6 +113,14 @@ public interface SlsDao {
 	 */
 	public int expListDel(String expCode);
 
+	/**
+	 * 이미지 업로드 번호조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile image(ExpFile expFile);
+
 
 	
 	
