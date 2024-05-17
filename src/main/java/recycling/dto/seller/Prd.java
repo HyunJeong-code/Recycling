@@ -13,11 +13,12 @@ public class Prd {
 	private String prdDetail;
 	private String prdDate;
 	private int prdHit;
+	private String prdOut;
 	
 	public Prd() {}
 
 	public Prd(String prdCode, int ctPno, int ctPdtNo, String sCode, String prdName, int price, int prdCnt, int prdFee,
-			String prdDetail, String prdDate, int prdHit) {
+			String prdDetail, String prdDate, int prdHit, String prdOut) {
 		this.prdCode = prdCode;
 		this.ctPno = ctPno;
 		this.ctPdtNo = ctPdtNo;
@@ -29,13 +30,15 @@ public class Prd {
 		this.prdDetail = prdDetail;
 		this.prdDate = prdDate;
 		this.prdHit = prdHit;
+		this.prdOut = prdOut;
 	}
 
 	@Override
 	public String toString() {
 		return "Prd [prdCode=" + prdCode + ", ctPno=" + ctPno + ", ctPdtNo=" + ctPdtNo + ", sCode=" + sCode
 				+ ", prdName=" + prdName + ", price=" + price + ", prdCnt=" + prdCnt + ", prdFee=" + prdFee
-				+ ", prdDetail=" + prdDetail + ", prdDate=" + prdDate + ", prdHit=" + prdHit + "]";
+				+ ", prdDetail=" + prdDetail + ", prdDate=" + prdDate + ", prdHit=" + prdHit + ", prdOut=" + prdOut
+				+ "]";
 	}
 
 	public String getPrdCode() {
@@ -124,5 +127,13 @@ public class Prd {
 
 	public void setPrdHit(int prdHit) {
 		this.prdHit = prdHit;
+	}
+
+	public String getPrdOut() {
+		return prdOut;
+	}
+
+	public void setPrdOut(String prdOut) {
+		this.prdOut = prdOut;
 	}
 }

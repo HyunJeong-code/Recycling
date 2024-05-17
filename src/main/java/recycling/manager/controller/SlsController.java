@@ -30,6 +30,23 @@ public class SlsController {
 	@Autowired SlsService slsService;
 	@Autowired HttpSession session;
 	
+	@GetMapping("/sellerchklist")
+	public void sellerChkList(Model model) {
+		logger.info("/manager/sls/sellerchklist [GET]");
+		
+		
+	}
+	
+	@GetMapping("/sellerchkdetail")
+	public void sellerChkDetail(Model model) {
+		logger.info("/manager/sls/sellerchkdetail [GET]");		
+	}
+	
+	@GetMapping("/sellerchk")
+	public void sellerChk() {
+		logger.info("/manager/sls/sellerchk [GET]");				
+	}
+	
 	//체험단 전체조회
 	@GetMapping("/explist")
 	public String explist(

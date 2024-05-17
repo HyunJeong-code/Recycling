@@ -18,6 +18,7 @@
 			DEFAULT,
 			#{prdDetail },
 			sysdate,
+			DEFAULT,
 			DEFAULT
 		)
 	</insert>
@@ -46,6 +47,7 @@
 				#{prdFee },
 				#{prdDetail },
 				sysdate,
+				DEFAULT,
 				DEFAULT
 			)
 	</insert>

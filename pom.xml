@@ -13,7 +13,7 @@
 		<org.springframework-version>5.3.33</org.springframework-version>
 		<org.aspectj-version>1.9.20.1</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
-		<spring.security.version>5.3.3.RELEASE</spring.security.version>
+		<spring.security.version>5.8.11</spring.security.version>
 	</properties>
 	
 	<dependencies>
