@@ -133,8 +133,10 @@ public class SellingController {
 		model.addAttribute("prd", prd);
 	}
 	
-	@PostMapping("/cydel")
+	@RequestMapping("/cydel")
 	public String upcyDel(@RequestParam(value = "arr[]") List<String> list) {
+		logger.info("{}",list);
+		
 		
 		for(String prdCode : list) {
 			int deleteRes = sellingService.deletePrd(prdCode);  

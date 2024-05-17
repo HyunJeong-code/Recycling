@@ -105,6 +105,15 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 
 
 <h1>새활용 판매 관리</h1>
+<div>
+	<button>결제 완료</button>
+	<button>배송 대기</button>
+	<button>배송중</button>
+	<button>거래 완료</button>
+	<button>교환</button>
+	<button>반품처리</button>
+	<button>취소</button>
+</div>
 <table border="1">
 	<thead>
 		<tr>
