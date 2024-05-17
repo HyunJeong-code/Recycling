@@ -87,6 +87,6 @@ public interface CsDao {
 	 * @param otoCode
 	 * @return
 	 */
-	public List<Ans> viewCom(String ansCode);
+	public List<Ans> viewCom(String otoCode);
 
 }

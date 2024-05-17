@@ -112,9 +112,9 @@
 		SELECT ANS_CODE, OTO_CODE, MGR_CODE, ANS_CONTENT, ANS_DATE
 		FROM ANS
 		<where>
-			ANS_CODE = #{ansCode }
+			OTO_CODE = #{otoCode }
 		</where>		
-		<!-- ORDER BY ANS_DATE DESC -->
+		ORDER BY ANS_DATE DESC
 	</select>
 	
 </mapper>

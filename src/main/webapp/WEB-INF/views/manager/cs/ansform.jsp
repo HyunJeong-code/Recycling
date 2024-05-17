@@ -11,7 +11,7 @@
     $(document).ready(function() {
         $("#btnCom").click(function() {
             var ansContent = $("#ansContent").val();
-            var otoCode = "${oto.otoCode}"; // Assuming otoCode is defined in your JSP model
+            var otoCode = "${oto.otoCode}";
 
             console.log("ansContent: ", ansContent);
             console.log("otoCode: ", otoCode);
@@ -70,7 +70,7 @@
     
     <div>
         <input type="text" id="ansContent" name="ansContent" placeholder="답글">
-        <input type="hidden" id="otoCode" value="${oto.otoCode}">
+        <input type="hidden" id="otoCode" value="${oto.otoCode }">
         <button id="btnCom">작성하기</button>
     </div>
     <br>

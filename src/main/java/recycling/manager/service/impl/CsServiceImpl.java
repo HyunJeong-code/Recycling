@@ -90,18 +90,19 @@ public class CsServiceImpl implements CsService {
 	}
 
 	@Override
-	public List<Ans> viewCom(String ansCode) {
+	public List<Ans> viewCom(String otoCode) {
 		logger.info("servocedddddddddddddddddddddd");
-		return csDao.viewCom(ansCode);
+		return csDao.viewCom(otoCode);
 	}
 
 	@Override
-	public boolean chkNull(List<Ans> comments) {
+	public boolean chkNull (List<Ans> comments) {
 		if(comments == null) {
 			return false;
 		} else {
 			return true;
 		}
 	}
+
 
 }

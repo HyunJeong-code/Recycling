@@ -49,9 +49,9 @@
 					<tr>
 						<td>${oto.otoCode }</td>
 						<td>
-							<a href="./ansform?otoCode=${oto.otoCode }&ansCode=${comments.ansCode }">${oto.otoTitle }</a>
+							<a href="./ansform?otoCode=${oto.otoCode }">${oto.otoTitle }</a>
+							<%-- <a href="./ansform?otoCode=${oto.otoCode }&ansCode=${comments.ansCode }">${oto.otoTitle }</a> --%>
 						</td>
-						<%-- <td>${oto.otoTitle }</td> --%>
 						<td>${oto.otoName }</td>
 						<td>${oto.otoHit }</td>
 						<td>

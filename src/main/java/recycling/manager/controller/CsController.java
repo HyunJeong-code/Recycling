@@ -1,6 +1,5 @@
 package recycling.manager.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.manager.Ans;
@@ -143,25 +141,26 @@ public class CsController {
 	
 	// 문의글 상세
 	@GetMapping("/ansform")
-	public String ansForm(String otoCode, String ansCode, Model model) {
+	public void ansForm(String otoCode, String ansCode, Model model, HttpSession session) {
 		
 		Oto oto = csService.ansForm(otoCode);
-		
 		model.addAttribute("oto", oto);
 		
-		// 답글 리스트 불러오기
-		List<Ans> comments = new ArrayList<>(); 
-		comments = csService.viewCom(ansCode);
+		logger.info("ans{}", ansCode);
+		logger.info("oto{}", otoCode);
 		
-		logger.info("22222222222222222{}", comments);
+		// 답글 리스트 불러오기
+		List<Ans> comments = csService.viewCom(otoCode);
 		
 		boolean chkNull = csService.chkNull(comments);
 		
 		model.addAttribute("comments", comments);
 		model.addAttribute("chkNull", chkNull);
-		logger.info("3333333333333333{}", comments);
+
+		logger.info("11111111111111{}", comments);
 		
-		return "manager/cs/ansform";
+		
+//		return "manager/cs/ansform";
 		
 	}
 	
@@ -173,10 +172,10 @@ public class CsController {
 		// 일단 로그인 없어서 mgrCode코드 고정값으로 넣음 xml도 마찬가지
 	    String mgrCode = "MGR0000001";
 
-	    // String mgrCode = (String) session.getAttribute("mgrCode");
-	    // if (mgrCode == null) {
-	    //     return "Manager code not found in session.";
-	    // }
+//	    String mgrCode = (String) session.getAttribute("mgrCode");
+//	    if (mgrCode == null) {
+//	        return "Manager code not found in session.";
+//	    }
 
 	    try {
 	        csService.ansFormInsert(mgrCode, ansCode, ansContent, otoCode);
@@ -194,5 +193,7 @@ public class CsController {
 	    csService.otoDel(otoCode);
 	    return "redirect:/manager/cs/main";
 	}
+	
+	// 80~90% 완료
 
 }
