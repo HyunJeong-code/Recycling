@@ -39,7 +39,7 @@
 		           	<input type="text" name="price" value="${prd.price }"><br>
 		           	<input type="number" min="0" name="prdCnt" value="${prd.prdCnt }"><br>
 		           	<input type="text" name="prdDetail" value="${prd.prdDetail }"><br>
-		           	<button type="button"><a href="./upcylist">목록</a></button>
+		           	<button type="button"><a href="./rcylist">목록</a></button>
 		           	<button>수정하기</button>
 	           	</form>
             </div>

@@ -38,12 +38,14 @@
 		</where>
 	</select>
 	
-	<delete id="deletePrd" parameterType="String">
-		DELETE FROM prd
+	<update id="deletePrd" parameterType="String">
+		UPDATE prd
+		SET prd_out = 'Y',
+			prd_cnt = 0
 		<where>
 			prd_code = #{prdCode}
 		</where>
-	</delete>
+	</update>
 	
 	<select id="selectByprdCode" parameterType="String" resultType="Prd">
 		SELECT * FROM prd

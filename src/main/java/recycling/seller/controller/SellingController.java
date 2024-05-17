@@ -57,7 +57,22 @@ public class SellingController {
 			}
 		}
 		
-		model.addAttribute("plist", plist);
+		//삭제된 상품을 제외한 상품 리스트
+		List<Prd> nplist = new ArrayList<Prd>();
+		
+		for(Prd prd : plist) {
+			String prdOut = prd.getPrdOut();
+			
+			logger.info("{}",prdOut);
+			
+			if("N".equals(prdOut)) {
+				nplist.add(prd);
+			}
+		}
+		
+		logger.info("{}",nplist);
+		
+		model.addAttribute("plist", nplist);
 		model.addAttribute("olist", olist);
 	}
 	
@@ -85,7 +100,22 @@ public class SellingController {
 			}
 		}
 		
-		model.addAttribute("plist", plist);
+		//삭제된 상품을 제외한 상품 리스트
+		List<Prd> nplist = new ArrayList<Prd>();
+		
+		for(Prd prd : plist) {
+			String prdOut = prd.getPrdOut();
+			
+			logger.info("{}",prdOut);
+			
+			if("N".equals(prdOut)) {
+				nplist.add(prd);
+			}
+		}
+		
+		logger.info("{}",nplist);
+		
+		model.addAttribute("plist", nplist);
 		model.addAttribute("olist", olist);
 	}
 	
@@ -96,7 +126,14 @@ public class SellingController {
 		model.addAttribute("prd", prd);
 	}
 	
-	@PostMapping("/upcydel")
+	@GetMapping("/rcydetail")
+	public void rcyDetail(String prdCode, Model model) {
+		Prd prd = sellingService.selectByprdCode(prdCode);
+		
+		model.addAttribute("prd", prd);
+	}
+	
+	@PostMapping("/cydel")
 	public String upcyDel(@RequestParam(value = "arr[]") List<String> list) {
 		
 		for(String prdCode : list) {
@@ -106,7 +143,7 @@ public class SellingController {
 		return "jsonView";
 	}
 	
-	@RequestMapping("/upcyupdate")
+	@RequestMapping("/cyupdate")
 	public String upcyUpdate(Prd prd) {
 		logger.info("{}", prd);
 		
