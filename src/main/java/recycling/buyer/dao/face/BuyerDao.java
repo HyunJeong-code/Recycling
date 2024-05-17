@@ -156,15 +156,17 @@ public interface BuyerDao {
 	 * 배송지 등록
 	 * 
 	 * @param buyerAdr - 추가할 배송지 정보
+	 * @return 
 	 */
-	public void registerAdr(BuyerAdr buyerAdr);
+	public int registerAdr(BuyerAdr buyerAdr);
 
 	/**
 	 * 배송지 수정
 	 * 
 	 * @param buyerAdr - 수정할 배송지 정보
+	 * @return 
 	 */
-	public void updateAdr(BuyerAdr buyerAdr);
+	public int updateAdr(BuyerAdr buyerAdr);
 
 	/**
 	 * 배송지 삭제
@@ -187,5 +189,13 @@ public interface BuyerDao {
 	 * @param bCode - 구매자 코드
 	 */
 	public void deleteBuyer(String bCode);
+
+	/**
+	 * 
+	 * 
+	 * @param adrCode
+	 * @return
+	 */
+	public int delteAdr(String adrCode);
 
 }

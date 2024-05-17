@@ -6,12 +6,14 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -249,8 +251,11 @@ public class BuyerController {
 			help.setText(content, true);
 			
 			mailSender.send(mail);
+			logger.info("이메일 발송 성공");
 		} catch (MessagingException e) {
+			logger.info("이메일 발송 실패: {}", e.getMessage());
 			e.printStackTrace();
+			return 0;
 		}
 		
 		return chkNum;
@@ -496,6 +501,8 @@ public class BuyerController {
 	public String myDetailPriProc(
 			Buyer buyer,
 			@RequestParam("buyerProf") MultipartFile buyerProf, 
+			@RequestParam(value = "adSms", required = false, defaultValue = "N") String adSms,
+	        @RequestParam(value = "adEmail", required = false, defaultValue = "N") String adEmail,
 			Model model
 			) {
 		
@@ -514,6 +521,10 @@ public class BuyerController {
 		buyer.setbCode(buyerLogin.getbCode());
 		buyer.setbCtCode(buyerLogin.getbCtCode());
 		
+		// 광고성 정보 수신 여부
+		buyer.setAdSms(adSms);
+		buyer.setAdEmail(adEmail);
+		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		
 		// 기존 비밀번호 유지
@@ -522,14 +533,6 @@ public class BuyerController {
 			buyer.setbPw(currentBuyer.getbPw());
 			
 		}
-		
-//		if(buyer.getAdSms() == null) {
-//			
-//			buyer.setAdSms(currentBuyer.getAdSms());
-//			
-//		}
-//		
-//		if(buyer.get)
 		
 		// 프로필 이미지 처리
 		if(buyerProf != null && !buyerProf.isEmpty()) {
@@ -605,6 +608,8 @@ public class BuyerController {
 			Cmp cmp,
 			@RequestParam("cmpFile") MultipartFile cmpFile,
 			@RequestParam("cmpProf") MultipartFile cmpProf,
+			@RequestParam(value = "adSms", required = false, defaultValue = "N") String adSms,
+	        @RequestParam(value = "adEmail", required = false, defaultValue = "N") String adEmail,
 			Model model
 			) {
 		
@@ -622,6 +627,10 @@ public class BuyerController {
 		
 		buyer.setbCode(buyerLogin.getbCode());
 		buyer.setbCtCode(buyerLogin.getbCtCode());
+		
+		// 광고성 정보 수신 여부
+		buyer.setAdSms(adSms);
+		buyer.setAdEmail(adEmail);
 		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		
@@ -702,9 +711,9 @@ public class BuyerController {
 		
 		logger.info("/buyer/mypage/myaddr [GET]");
 		
-		BuyerLogin buyer = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
 		
-		if(buyer == null) {
+		if(buyerLogin == null) {
 			
 			model.addAttribute("error", "로그인 해주세요.");
 			
@@ -712,90 +721,101 @@ public class BuyerController {
 			
 		}
 		
-		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdrList(buyer.getbCode());
+		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdrList(buyerLogin.getbCode());
 		
-		if(buyerAdrList == null || buyerAdrList.isEmpty()) {
+		model.addAttribute("buyerAdrList", buyerAdrList);
 			
-			model.addAttribute("error", "등록된 배송지 정보가 없습니다.");
-			
-		} else {
-			
-			model.addAttribute("buyerAdrList", buyerAdrList);
-			
-		}
-		
 		return "/buyer/mypage/myaddr";
 		
 	}
 	
 	// 배송지 관리 페이지 (등록, 수정, 삭제) 처리
 	@PostMapping("/myaddr")
-	public String myAddrProc(
+	@ResponseBody
+	public Map<String, Object> myAddrProc(
 			@RequestParam("action") String action,
 			@RequestParam(value = "adrCode", required = false) String adrCode,
-			BuyerAdr buyerAdr,
-			HttpSession session,
-			Model model
+			BuyerAdr buyerAdr
 			) {
 		
 		logger.info("/buyer/mypage/myaddr [POST]");
 		
-		BuyerLogin buyer = (BuyerLogin) session.getAttribute("buyers");
+		Map<String, Object> result = new HashMap<>();
 		
-		if(buyer == null) {
+		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		
+		if(buyerLogin == null) {
 			
-			model.addAttribute("error", "로그인 해주세요.");
+			result.put("success", false);
+			result.put("message", "로그인 해주세요.");
 			
-			return "redirect:/buyer/login";
+			return result;
 			
 		}
 		
-		buyerAdr.setbCode(buyer.getbCode());
+		buyerAdr.setbCode(buyerLogin.getbCode());
 		
-		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdrList(buyer.getbCode());
-		
-		switch(action) {
-			case "register":
+		if("update".equals(action)) {
+			
+			boolean updateResult = buyerService.updateBuyerAdr(buyerAdr);
+			
+			if(updateResult) {
 				
-				if(buyerAdrList.size() >= 3) {
-					
-					model.addAttribute("error", "배송지는 최대 3개까지 등록할 수 있습니다.");
-					
-				} else {
-					
-					buyerService.registerAdr(buyerAdr);
-					model.addAttribute("success", "배송지가 등록되었습니다.");
-					
-				}
+				result.put("success", true);
 				
-				break;
+			} else {
+			
+				result.put("success", false);
+				result.put("message", "배송지 수정에 실패했습니다.");
 				
-			case "update":
+			}
+			
+		} else if ("register".equals(action)) {
+			
+			List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdrList(buyerLogin.getbCode());
+			
+			if(buyerAdrList.size() >= 3) {
 				
-				buyerAdr.setAdrCode(adrCode);
-				buyerService.updateAdr(buyerAdr);
-				model.addAttribute("success", "배송지가 수정되었습니다.");
-				break;
+				result.put("success", false);
+				result.put("message", "추가 배송지는 최대 2개까지 등록할 수 있습니다.");
 				
-			case "delete":
+				return result;
 				
-				buyerService.deleteAdr(adrCode);
-				model.addAttribute("success", "배송지가 삭제되었습니다.");
-				break;
-		
-			default:
+			}
+			
+			boolean registerResult = buyerService.registerBuyerAdr(buyerAdr);
+			
+			if(registerResult) {
 				
-				model.addAttribute("error", "에러입니다.");
-				break;
-		
+				result.put("success", true);
+				
+			} else {
+				
+				result.put("success", false);
+				result.put("message", "배송지 등록에 실패했습니다.");
+			
+			}
+				
+			
+		} else if ("delete".equals(action)) {
+				
+			boolean deleteResult = buyerService.deleteBuyerAdr(adrCode);
+			
+			if(deleteResult) {
+				
+				result.put("success", true);
+				
+			} else {
+				
+				result.put("success", false);
+				result.put("message", "배송지 삭제에 실패했습니다.");
+				
+			}
+				
 		}
-		
-		buyerAdrList = buyerService.getBuyerAdrList(buyer.getbCode());
-		
-		model.addAttribute("buyerAdrList", buyerAdrList);
-		
-		return "/buyer/mypage/myaddr";
-		
+
+		return result;
+			
 	}
 	
 	// 회원 탈퇴

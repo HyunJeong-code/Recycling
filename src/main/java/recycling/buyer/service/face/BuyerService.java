@@ -212,4 +212,28 @@ public interface BuyerService {
 	 */
 	public void deleteBuyer(String bCode);
 
+	/**
+	 * 배송지 정보 업데이트
+	 * 
+	 * @param buyerAdr - 업데이트할 배송지 정보
+	 * @return 업데이트 성공 여부
+	 */
+	public boolean updateBuyerAdr(BuyerAdr buyerAdr);
+
+	/**
+	 * 새로운 배송지 등록
+	 * 
+	 * @param buyerAdr - 등록할 배송지 정보
+	 * @return 등록 성공 여부
+	 */
+	public boolean registerBuyerAdr(BuyerAdr buyerAdr);
+
+	/**
+	 * 
+	 * 
+	 * @param adrCode
+	 * @return
+	 */
+	public boolean deleteBuyerAdr(String adrCode);
+
 }

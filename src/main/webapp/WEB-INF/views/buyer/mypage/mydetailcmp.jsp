@@ -13,8 +13,10 @@
 
 <script type="text/javascript">
 $(function() {
+	var num;
+	
 	$("#btnEmail").click(function() {
-		var email = $('#bEmail').val() + $('#bEmail2').val();
+		var email = $('#bEmail').val();
 		console.log("이메일 : " + email);
 		var emailNum = $("#emailNum")
 		
@@ -48,7 +50,15 @@ $(function() {
 			$("#emailNo").css("display", "block");			
 			$("#emailOk").css("display", "none");			
 		}
-	})
+	});
+	
+	// 수정 버튼 클릭 시 이메일 인증 여부 확인
+	$("form").submit(function(e) {
+		if($("#emailOk").css("display") !== "block") {
+			alert("이메일 인증을 완료해주세요.");
+			e.preventDefault();
+		}
+	});
 	
 }) // End Jquery
 </script>
@@ -87,12 +97,13 @@ function cancelUpdate() {
 			<h2>기업 정보 수정</h2>
 			<hr>
 			<div class="page">
+				<a href="/buyer/main">메인</a>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailcmp" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="bCode" value="${buyer.bCode }">
+					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
 					<input type="hidden" name="adrCode" value="${buyerAdr.adrCode }">
 					
-					<label for="buyerProf">프로필 이미지 </label>
-                    <input type="file" id="buyerProf" name="buyerProf"><br>
+					<label for="cmpProf">프로필 이미지 </label>
+                    <input type="file" id="cmpProf" name="cmpProf"><br>
 					
 					<label for="bName">담당자 이름 </label>
 					<input type="text" id="bName" name="bName" value="${currentBuyer.bName}"><br>
@@ -147,7 +158,7 @@ function cancelUpdate() {
 					<input type="text" id="cmpDetail" name="cmpDetail" value="${currentCmp.cmpDetail }"><br>
 					
 					<label for="cmpFile">사업자 등록증 첨부 </label>
-					<input type="file" id="cmpFile" name="cmpFile">
+					<input type="file" id="cmpFile" name="cmpFile"><br>
 					
 					<input type="submit" value="수정하기">
 					<input type="button" value="취소하기" onclick="cancelUpdate()">

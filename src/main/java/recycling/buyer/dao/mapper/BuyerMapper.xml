@@ -184,7 +184,6 @@
             Cmp_Addr = #{cmpAddr },
             Cmp_Detail = #{cmpDetail }
         <where>
-        	AND Cmp_Code = #{cmpCode }
         	AND B_Code = #{bCode }
         </where>
     </update>
@@ -222,7 +221,6 @@
             Adr_Detail = #{adrDetail }
         <where>
         	AND Adr_Code = #{adrCode }
-        	AND B_Code = #{bCode }
         </where>
     </update>
 	

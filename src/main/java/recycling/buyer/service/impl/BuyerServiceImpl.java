@@ -198,4 +198,25 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
+	@Override
+	public boolean updateBuyerAdr(BuyerAdr buyerAdr) {
+		
+		return buyerDao.updateAdr(buyerAdr) > 0;
+	
+	}
+
+	@Override
+	public boolean registerBuyerAdr(BuyerAdr buyerAdr) {
+		
+		return buyerDao.registerAdr(buyerAdr) > 0;
+		
+	}
+
+	@Override
+	public boolean deleteBuyerAdr(String adrCode) {
+
+		return buyerDao.delteAdr(adrCode) > 0;
+	
+	}
+
 }
