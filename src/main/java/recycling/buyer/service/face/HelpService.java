@@ -2,8 +2,12 @@ package recycling.buyer.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
+import recycling.dto.buyer.OtoFile;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
@@ -67,7 +71,8 @@ public interface HelpService {
 	 * 
 	 * @param oto - 1:1문의글
 	 */
-	public void insertOto(Oto oto);
+	public int insertOto(Oto oto);
+//	public void insertOto(Oto oto);
 
 
 	/**
@@ -106,6 +111,33 @@ public interface HelpService {
 	 * @return 1:1문의 상세내용
 	 */
 	public Oto selectByOtoCode(String otoCode);
+
+	/**
+	 * 개인 구매자 정보 조회
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
+	 */
+	public Buyer getBuyerDetail(String bId);
+
+	/**
+	 * 파일 저장
+	 * 
+	 * @param mult - 저장할 파일
+	 * @param oto - 1:1문의 정보
+	 * @return null : 실패, else : 성공
+	 */
+	public OtoFile saveFile(MultipartFile mult, Oto oto);
+
+	/**
+	 * 파일 정보 DB에 삽입
+	 * 
+	 * @param otoFile - 파일 정보
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int insertOtoFiles(OtoFile otoFile);
+
+	
 
 
 

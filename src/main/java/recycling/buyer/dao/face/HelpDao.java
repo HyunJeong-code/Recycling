@@ -2,8 +2,10 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
+import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
+import recycling.dto.buyer.OtoFile;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
@@ -65,7 +67,8 @@ public interface HelpDao {
 	 * 
 	 * @param oto - 1:1문의글
 	 */
-	public void insertOto(Oto oto);
+	public int insertOto(Oto oto);
+//	public void insertOto(Oto oto);
 
 	/**
 	 * 1:1문의글 분류 선택을 위한 객체
@@ -114,6 +117,21 @@ public interface HelpDao {
 	public Oto selectByOtoCode(String otoCode);
 
 
+	/**
+	 * 개인 구매자 정보 조회
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
+	 */
+	public Buyer selectBuyerBybId(String bId);
 
+
+	/**
+	 * 파일 정보 DB에 삽입
+	 * 
+	 * @param otoFile - 파일 정보
+	 * @return 0: 실패, 1 : 성공
+	 */
+	public int insertOtoFiles(OtoFile otoFile);
 
 }

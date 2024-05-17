@@ -67,7 +67,7 @@
 	
 <!-- 	</insert> -->
 
-	<insert id="insertOto" parameterType="Oto">
+	<insert id="insertOto" parameterType="Oto" useGeneratedKeys="true" keyProperty="otoCode" keyColumn="oto_code">
 		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
 		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})
 	
@@ -108,5 +108,27 @@
 			AND oto_code = #{otoCode}
 		</where>
 	</update>
+	
+	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT B_Code AS bCode,
+		       B_Ct_Code AS bCtCode,
+		       B_Id AS bId,
+		       B_Pw AS bPw,
+		       B_Name AS bName,
+		       B_Phone AS bPhone,
+		       B_Email AS bEmail,
+		       Ad_Sms AS adSms,
+		       Ad_Email AS adEmail
+		FROM Buyer
+		<where>
+			AND B_Id = #{bId }
+		</where>
+	</select>
+	
+	<insert id="insertOtoFiles" parameterType="OtoFile">
+		INSERT INTO oto_file (oto_flno, oto_code, origin_name, stored_name)
+		VALUES (oto_file_seq.nextval, #{otoCode}, #{originName}, #{storedName })
+	</insert>
+	
 	
 </mapper>

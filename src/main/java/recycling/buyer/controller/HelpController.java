@@ -1,5 +1,7 @@
 package recycling.buyer.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.HelpService;
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
+import recycling.dto.buyer.OtoFile;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
@@ -58,7 +62,8 @@ public class HelpController {
 			@RequestParam(defaultValue = "") String search,
 			HttpSession session
 			) {
-		
+		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+
 //		Paging paging = helpService.getSearchPaging(curPage, search);
 		List<Notice> noticeList = null;
 
@@ -125,22 +130,89 @@ public class HelpController {
 	@PostMapping("/otoform")
 	public String otoFormProc(
 			HttpSession session,
+			Model model,
 			Oto oto,
 			@RequestParam("ct_otono") String ctOtoNo, // 선택된 분류 값을 받음
-			MultipartFile file
+			@RequestParam("detail") List<MultipartFile> detail // 여러 파일 업로드 필드
 //			, @RequestParam("visibility") String visibility,
 //            @RequestParam(value = "password", required = false) String password
 			) {
 		
+		//회원 로그인 세션 정보
+		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+
+		if(buyerLogin == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
+			
+		}
+		
+		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
+		
 		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
 //		boolean isPrivate = visibility.equals("private");
-		session.setAttribute("bCode", "BUY0000001");
-		String bCode = (String) session.getAttribute("bCode");
-		oto.setbCode(bCode);
 		
-		helpService.insertOto(oto);
+		oto.setbCode(buyer.getbCode());
+		oto.setOtoName(buyer.getbName());
+		oto.setOtoEmail(buyer.getbEmail());
 
+		model.addAttribute("buyer", buyer);
+		
+		int res = helpService.insertOto(oto);
+		
+		//Oto파일 정보 저장
+//		if(res > 0) {
+//			int resDetail = 0;
+//			for(MultipartFile mult : detail) {
+//				
+//				List<OtoFile> otoFiles = new ArrayList<OtoFile>();
+//				otoFiles.add(helpService.saveFile(mult, oto));
+//				if(otoFiles != null) {
+//					for(int i = 0; i < otoFiles.size(); i++) {
+//						resDetail += helpService.insertOtoFiles(otoFiles.get(i));
+//					}
+//				}
+//			}
+//			
+//			if(resDetail == detail.size()) {
+//				
+//			} else {
+//				
+//			}
+//		} else {
+//			// 등록 실패 안내
+//			
+//		}
+		
+		// Oto 파일 정보 저장
+	    if (res > 0 && detail != null && !detail.isEmpty()) {
+	        List<OtoFile> otoFiles = new ArrayList<>();
+	        for (MultipartFile mult : detail) {
+	            OtoFile otoFile = helpService.saveFile(mult, oto);
+	            if (otoFile != null) {
+	                otoFiles.add(otoFile);
+	            }
+	        }
 
+	        int resDetail = 0;
+	        for (OtoFile otoFile : otoFiles) {
+	            resDetail += helpService.insertOtoFiles(otoFile);
+	        }
+	        
+	        if (resDetail == otoFiles.size()) {
+	            // 파일 저장 성공
+	        	logger.info("파일 저장 성공");
+	        } else {
+	            // 파일 저장 실패
+	        	logger.info("파일 저장 실패");
+	        }
+	    } else {
+	        // 파일이 없거나 등록 실패 안내
+	    	logger.info("등록 실패");
+	    }
+		
 		return "redirect:/buyer/help/otolist";
 	}
 	

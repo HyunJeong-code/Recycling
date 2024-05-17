@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.seller.Exp;
@@ -93,20 +94,21 @@ public class SellingController {
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage, 
 			@RequestParam(defaultValue = "") String search,
-			HttpSession session
+			HttpSession session,
+			Exp exp
 			) {
 		logger.info("/explist [GET]");
 		
-//		String sellerId = (String) session.getAttribute("sCode");
-
-//		if(sellerId == null) { //로그인 상태가 아니라면 로그인화면으로
+//		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers"); 
+//		exp.setsCode(seller.getsCode());
+//		if(seller == null) { //로그인 상태가 아니라면 로그인화면으로
 			
 //			return "redirect:/buyer/login";
 			
 //		} else { //로그인한 회원의 list만 띄우기
 			
 //			paging = sellingService.getSearchPaging(curPage, search);
-//			List<Exp> list = sellingService.selectMyExpList(paging, sellerId);
+//			List<Exp> list = sellingService.selectMyExpList(paging, seller);
 //			model.addAttribute("paging", paging);
 //			model.addAttribute("list", list);
 //		}

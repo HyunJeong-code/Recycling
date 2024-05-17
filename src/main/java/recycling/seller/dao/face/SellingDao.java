@@ -13,14 +13,43 @@ import recycling.util.Paging;
 
 public interface SellingDao {
 
+	/**
+	 * 판매자가 올린 체험단 리스트
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @return 체험단 List
+	 */
 	public List<Exp> selectMyExpList(Paging paging);
 
+	/**
+	 * 검색된 데이터 개수
+	 * 
+	 * @param search - 데이터 입력
+	 * @return 입력된 데이터를 검색
+	 */
 	public int selectCntAll(String search);
 
+	/**
+	 * 전체 페이징 조회
+	 * 
+	 * @return 총 페이지 수
+	 */
 	public int selectPageAll();
 
+	/**
+	 * expcode와 일치하는 체험단 조회
+	 * 
+	 * @param expCode - 체험단 코드번호
+	 * @return 일치하는 exp 조회
+	 */
 	public Exp selectByExp(String expCode);
 
+	/**
+	 * expCode와 일치하는 expRes예약 리스트 조회
+	 * 
+	 * @param expCode - 체험단 코드번호
+	 * @return 조회된 모든 expRes 리스트
+	 */
 	public List<ExpRes> selectResList(String expCode);
 
 //	public List<ExpRes> selectResList(String expCode, Paging paging);
