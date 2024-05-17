@@ -8,6 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import recycling.dto.manager.Notice;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerLogin;
 import recycling.manager.dao.face.MgrDao;
 import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
@@ -16,8 +23,7 @@ import recycling.util.Paging;
 public class MgrServiceImpl implements MgrService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-@Autowired MgrDao mgrDao;
+	@Autowired private MgrDao mgrDao;
 	
 	//조회기능
 	@Override
@@ -54,5 +60,10 @@ public class MgrServiceImpl implements MgrService {
 		paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch() );
 		
 		return paging;
+	}
+	
+	@Override
+	public ManagerLogin selectByIdPw(Manager manager) {
+		return mgrDao.selectByIdPw(manager);
 	}
 }

@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.BuyerService;
-import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.Cart;
-import recycling.dto.buyer.CartOrder;
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerRank;
+import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.buyer.Orders;
 
 // 마이페이지 - 회원 정보 관련
 
@@ -34,8 +33,7 @@ import recycling.dto.buyer.Cmp;
 public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired BuyerService buyerService;
+	@Autowired private BuyerService buyerService;
 	@Autowired HttpSession session;
 	
 	@GetMapping("/cart")
@@ -200,7 +198,6 @@ public class BuyerController {
 		model.addAttribute("list", list);
 	}
 	
-
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
 	public String myMain(
@@ -627,5 +624,4 @@ public class BuyerController {
 		model.addAttribute("buyerRank", buyerRank);
 		
 	}
-	
 }

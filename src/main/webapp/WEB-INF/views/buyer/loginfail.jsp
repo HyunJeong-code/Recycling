@@ -7,18 +7,19 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <div class="full">
 	<div class="wrap">
 		<div class="page">
-		<h3>상품 등록</h3>
+			<h3>로그인 실패!</h3>
 		</div>
 		
 		<div class="section">
-		<button><a href="./rcyform">재활용품</a></button>
-		<button><a href="./upcyform">새활용</a></button>
+			<p>아이디, 비밀번호를 확인해주세요!</p>
 		</div>
 	</div>
 </div>
 
+<button><a href="./main">메인으로</a></button>
 </body>
 </html>
