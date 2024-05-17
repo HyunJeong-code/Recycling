@@ -68,8 +68,8 @@
 <!-- 	</insert> -->
 
 	<insert id="insertOto" parameterType="Oto">
-		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content)
-		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent})
+		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
+		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})
 	
 	</insert>
 	
