@@ -72,7 +72,7 @@ public interface CsDao {
 	 * @param ans
 	 * @return
 	 */
-	public String ansFormInsert(Ans ans);
+	public void ansFormInsert(Ans ans);
 
 	/**
 	 * 문의글 삭제

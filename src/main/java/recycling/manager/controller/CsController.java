@@ -166,20 +166,25 @@ public class CsController {
 	}
 	
 	// 문의글 답글 작성
-	@PostMapping("/ansform/insert")
+	@PostMapping("/ansform")
 	@ResponseBody
-	public String insert(String ansCode, String ansContent, HttpSession session) {
+	public String insert(String ansCode, String ansContent, String otoCode, HttpSession session) {
 		
-		logger.info("{}, {}", ansCode, ansContent);
-		
-//		String mgrId = (String) session.getAttribute("mgrId");
-//		logger.info("{}", mgrId);		
-		
-//		String res = csService.ansFormInsert(mgrId, ansCode, ansContent);
-		String mgrCode = (String) session.getAttribute("mgrCode");
-		String res = csService.ansFormInsert(mgrCode, ansCode, ansContent);
-		
-		return res;
+		// 일단 로그인 없어서 mgrCode코드 고정값으로 넣음 xml도 마찬가지
+	    String mgrCode = "MGR0000001";
+
+	    // String mgrCode = (String) session.getAttribute("mgrCode");
+	    // if (mgrCode == null) {
+	    //     return "Manager code not found in session.";
+	    // }
+
+	    try {
+	        csService.ansFormInsert(mgrCode, ansCode, ansContent, otoCode);
+	        return "Success";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "Error";
+	    }
 	}
 	
 	// 문의글 삭제
@@ -189,6 +194,5 @@ public class CsController {
 	    csService.otoDel(otoCode);
 	    return "redirect:/manager/cs/main";
 	}
-	
 
 }

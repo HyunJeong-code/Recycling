@@ -72,18 +72,16 @@ public class CsServiceImpl implements CsService {
 	}
 
 	@Override
-//	public String ansFormInsert(String mgrId, String ansCode, String ansContent) {
-	public String ansFormInsert(String mgrCode, String ansCode, String ansContent) {
-//		Manager mgr = new Manager();
-		Ans ans = new Ans();
-		
-//		mgr.setMgrId(mgrId);
-		ans.setMgrCode(mgrCode);
-		ans.setAnsCode(ansCode);
-		ans.setAnsContent(ansContent);
-		
-		return csDao.ansFormInsert(ans);
+	public void ansFormInsert(String mgrCode, String ansCode, String ansContent, String otoCode) {
+	    Ans ans = new Ans();
+	    ans.setMgrCode(mgrCode);
+	    ans.setAnsCode(ansCode);
+	    ans.setAnsContent(ansContent);
+	    ans.setOtoCode(otoCode);
+
+	    csDao.ansFormInsert(ans);
 	}
+
 
 	@Override
 	public void otoDel(String otoCode) {
