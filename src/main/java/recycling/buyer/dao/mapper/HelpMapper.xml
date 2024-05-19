@@ -130,5 +130,12 @@
 		VALUES (oto_file_seq.nextval, #{otoCode}, #{originName}, #{storedName })
 	</insert>
 	
+	<select id="getOtoFiles" resultType="OtoFile" parameterType="string">
+		SELECT * FROM oto_file
+		<where>
+			AND oto_code = #{otoCode}
+		</where>
+	</select>
+	
 	
 </mapper>

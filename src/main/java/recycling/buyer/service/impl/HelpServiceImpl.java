@@ -169,5 +169,11 @@ public class HelpServiceImpl implements HelpService {
 		return helpDao.insertOtoFiles(otoFile);
 	}
 
+	@Override
+	public List<OtoFile> getOtoFiles(String otoCode) {
+		
+		return helpDao.getOtoFiles(otoCode);
+	}
+
 
 }

@@ -75,7 +75,7 @@ th {
 	            <td>${oto.otoTitle}</td> 
 	        
 	            <th>작성자</th>
-	            <td>${oto.bCode }</td> 
+	            <td>${oto.otoName }</td> 
 	        </tr>
 	        <tr>
 	            <th>작성일</th>
@@ -92,6 +92,19 @@ th {
 	
 	<div class="oto_content">
 		<p>${oto.otoContent}</p>
+	</div>
+	
+	<div class="oto_file">
+		<c:forEach var="file" items="${otoFiles}">
+	        <c:choose>
+	            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif')}">
+	                <img src="${pageContext.request.contextPath}/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;">
+	            </c:when>
+	            <c:otherwise>
+	                <a href="${pageContext.request.contextPath}/upload/${file.storedName}">${file.originName}</a>
+	            </c:otherwise>
+	        </c:choose>
+	    </c:forEach>
 	</div>
 </div>
 

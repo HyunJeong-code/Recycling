@@ -18,10 +18,16 @@
 <title>1:1 문의 작성</title>
 <script type="text/javascript">
 
-// document.querySelector('input[name="visibility"]').addEventListener('change', function() {
-//     var passwordField = document.getElementById('password_field');
-//     passwordField.style.display = (this.value === 'private') ? 'block' : 'none';
-// });
+$(document).ready(function() {
+    $('input[name="visibility"]').change(function() {
+        var passwordField = $('#password_field');
+        if ($(this).val() === 'private') {
+            passwordField.show();
+        } else {
+            passwordField.hide();
+        }
+    });
+});
 
 </script>
 </head>
@@ -37,8 +43,16 @@
 	        <option value="230">세탁</option>
 	        <option value="220">체험단</option>
 	        <option value="240">기타</option>
-   		</select><br>
-    
+   		</select><br> 
+   		
+   		<label for="otoName">작성자</label>
+   		<input type="text" value="${oto.otoName}" readonly onclick="this.blur()" >
+   		<br>
+   		
+    	<label for="otoEmail">이메일</label>
+    	<input type="text" value="${oto.otoEmail}" readonly onclick="this.blur()" >
+    	<br>
+    	
         <label for="otoTitle">제목:</label>
         <input type="text" id="otoTitle" name="otoTitle" required><br>
         
@@ -52,8 +66,8 @@
         <label><input type="radio" name="visibility" value="private">비공개</label>
         
         <div id="password_field" style="display: none;">
-            <label for="password">비밀번호:</label>
-            <input type="password" id="password" name="password">
+            <label for="bPw">비밀번호:</label>
+            <input type="password" id="bPw" name="bPw">
         </div>
         
         <input type="submit" value="작성하기">

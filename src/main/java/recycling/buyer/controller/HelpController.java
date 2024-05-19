@@ -117,14 +117,35 @@ public class HelpController {
 	}
 	
 	@GetMapping("/otoform")
-	public void otoForm(
-			Model model
+	public String otoForm(
+			Model model,
+			Oto oto,
+			HttpSession session
 			) {
 		logger.info("otoform [GET]");
 		
 		List<OtoCt> oct = helpService.getAllOct();
+		
+		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		
+		if(buyerLogin == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
+			
+		}
+		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
+		
+		oto.setbCode(buyer.getbCode());
+		oto.setOtoName(buyer.getbName());
+		oto.setOtoEmail(buyer.getbEmail());
+
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("oto", oto);
 		model.addAttribute("oct", oct);
 		
+		return "/buyer/help/otoform";
 	}
 	
 	@PostMapping("/otoform")
@@ -134,8 +155,8 @@ public class HelpController {
 			Oto oto,
 			@RequestParam("ct_otono") String ctOtoNo, // 선택된 분류 값을 받음
 			@RequestParam("detail") List<MultipartFile> detail // 여러 파일 업로드 필드
-//			, @RequestParam("visibility") String visibility,
-//            @RequestParam(value = "password", required = false) String password
+			, @RequestParam("visibility") String visibility,
+            @RequestParam(value = "password", required = false) String password
 			) {
 		
 		//회원 로그인 세션 정보
@@ -152,41 +173,27 @@ public class HelpController {
 		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
 		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
-//		boolean isPrivate = visibility.equals("private");
+		boolean isPrivate = "private".equals(visibility);
 		
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
 		oto.setOtoEmail(buyer.getbEmail());
-
-		model.addAttribute("buyer", buyer);
 		
+		//1:1문의 비공개시 비밀번호 입력
+//		oto.setVisibility(isPrivate ? "private" : "public");
+//		if (isPrivate) {
+//	        if (password == null || !password.equals(buyer.getbPw())) {
+//	            model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+//	            return "redirect:/buyer/help/otoform";
+//	        }
+//	    }
+		
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("oto", oto);
+		
+		//파일 저장
 		int res = helpService.insertOto(oto);
 		
-		//Oto파일 정보 저장
-//		if(res > 0) {
-//			int resDetail = 0;
-//			for(MultipartFile mult : detail) {
-//				
-//				List<OtoFile> otoFiles = new ArrayList<OtoFile>();
-//				otoFiles.add(helpService.saveFile(mult, oto));
-//				if(otoFiles != null) {
-//					for(int i = 0; i < otoFiles.size(); i++) {
-//						resDetail += helpService.insertOtoFiles(otoFiles.get(i));
-//					}
-//				}
-//			}
-//			
-//			if(resDetail == detail.size()) {
-//				
-//			} else {
-//				
-//			}
-//		} else {
-//			// 등록 실패 안내
-//			
-//		}
-		
-		// Oto 파일 정보 저장
 	    if (res > 0 && detail != null && !detail.isEmpty()) {
 	        List<OtoFile> otoFiles = new ArrayList<>();
 	        for (MultipartFile mult : detail) {
@@ -223,9 +230,11 @@ public class HelpController {
 			) {
 		Oto oto = helpService.selectByOtoCode(otoCode);
 		List<OtoCt> oct = helpService.getAllOct();
+		List<OtoFile> otoFiles = helpService.getOtoFiles(otoCode);
 		
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct",oct);
+		model.addAttribute("otoFiles",otoFiles);
 		
 	}
 }

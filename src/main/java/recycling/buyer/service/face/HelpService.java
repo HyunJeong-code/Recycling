@@ -138,6 +138,9 @@ public interface HelpService {
 	public int insertOtoFiles(OtoFile otoFile);
 
 	
+	public List<OtoFile> getOtoFiles(String otoCode);
+
+	
 
 
 
