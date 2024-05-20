@@ -113,7 +113,7 @@ public class BuyerController {
 	}
 	
 	@PostMapping("/cartupdate")
-	public String cartupdate(Cart cart, Model model) {
+	public String cartUpdate(Cart cart, Model model) {
 		logger.info("cartupdate : {}", cart);
 		
 		CartOrder cartOrder = buyerService.selectBycCode(cart.getcCode());
@@ -133,7 +133,7 @@ public class BuyerController {
 	}
 	
 	@PostMapping("/cartdel")
-	public String cartdel(@RequestParam(value = "arr[]") List<String> list) {
+	public String cartDel(@RequestParam(value = "arr[]") List<String> list) {
 		logger.info("cartdel : {}", list);
 		
 		for(String cCode : list) {
@@ -166,7 +166,7 @@ public class BuyerController {
         }
 		
 		//logger.info("list : {}", list);
-		//logger.info("buyer : {}", buyeradr);
+		logger.info("buyer : {}", buyeradr);
 		
 		model.addAttribute("clist", list);
 		model.addAttribute("buyer", buyeradr);
@@ -223,7 +223,7 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/payinfo")
-	public void payinfo(@RequestParam("ordCode") String ordCode, Model model) {
+	public void payInfo(@RequestParam("ordCode") String ordCode, Model model) {
 		logger.info("{}",ordCode);
 		
 		Orders order = buyerService.selectByordCode(ordCode);
@@ -232,7 +232,7 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/myorder")
-	public void myorder(Model model) {
+	public void myOrder(Model model) {
 		
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("bCode", "BUY0000002");
