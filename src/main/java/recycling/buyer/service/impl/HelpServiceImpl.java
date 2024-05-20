@@ -129,6 +129,8 @@ public class HelpServiceImpl implements HelpService {
 			return null;
 		}
 		
+		//파일 경로 변경 필요(현재 해당 컴퓨터에서 올린 게시글의 사진만 업로드 됨)
+		// 다른 컴퓨터에서 게시글 조회 시 이미지 not found
 		String storedPath = servletContext.getRealPath("upload");
 		
 		File storedFolder = new File(storedPath);
@@ -174,6 +176,14 @@ public class HelpServiceImpl implements HelpService {
 		
 		return helpDao.getOtoFiles(otoCode);
 	}
+
+	@Override
+	public boolean chkSeller(String bCode) {
+		
+		return helpDao.chkSeller(bCode) > 0;
+	}
+
+
 
 
 }

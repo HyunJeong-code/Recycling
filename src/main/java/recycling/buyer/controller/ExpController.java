@@ -29,17 +29,18 @@ public class ExpController {
 	public void main(
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage,
+			@RequestParam(defaultValue = "") String search,
 			Exp exp
 			) {
-		Paging paging = expService.getPaging(curPage);
+		Paging paging = expService.getSearchPaging(curPage, search);
 		logger.info("{}", paging);
 		
 		List<Exp> list = expService.selectAllExp(paging);
 		
 		
 		
-//		model.addAttribute("paging", paging);
-//		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
 	}
 	
 }

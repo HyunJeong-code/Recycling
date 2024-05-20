@@ -56,25 +56,33 @@ public class HelpController {
 	
 	@GetMapping("/noticelist")
 	public void noticeList(
-			@RequestParam(name = "ct_ntcno", defaultValue = "buyer") String ctNtcNo,
+			@RequestParam(name = "ct_ntcno", defaultValue = "buyers") String ctNtcNo,
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage, 
 			@RequestParam(defaultValue = "") String search,
 			HttpSession session
 			) {
 		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
-
+		boolean isSeller = false;
+		
+		if (buyerLogin != null) {
+            Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
+            isSeller = helpService.chkSeller(buyer.getbCode());
+        }
+		
 //		Paging paging = helpService.getSearchPaging(curPage, search);
-		List<Notice> noticeList = null;
+		List<Notice> noticeList;
 
         // 판매자일 경우에만 공지사항 분류 선택 가능하도록 설정
-        if ("seller".equals(ctNtcNo)) {
+		
+		if (isSeller && "sellers".equals(ctNtcNo)) {
             noticeList = helpService.selectNoticeSeller();
         } else {
             noticeList = helpService.selectNoticeBuyer();
         }
-        
         model.addAttribute("noticeList", noticeList);
+        model.addAttribute("isSeller", isSeller);
+        model.addAttribute("ctNtcNo", ctNtcNo);
 //        model.addAttribute("paging", paging);
 	}
 	
