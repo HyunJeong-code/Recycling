@@ -36,8 +36,6 @@
             </div>
         </div>
         <!-- 체험단 카드 끝 -->
-        
-        <!-- 추가적인 체험단 카드는 위의 형식을 복사하여 붙여넣으세요. -->
     </div>
 </c:forEach>
 <c:import url="/WEB-INF/views/layout/paging.jsp"/>

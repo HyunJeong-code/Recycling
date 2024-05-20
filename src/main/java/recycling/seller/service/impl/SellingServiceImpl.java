@@ -72,10 +72,15 @@ public class SellingServiceImpl implements SellingService {
 	}
 
 	@Override
-	public List<ExpRes> selectResList(Paging paging) {
-		
-		return sellingDao.selectResList(paging);
+	public List<ExpRes> selectResList(String expCode) {
+		return sellingDao.selectResList(expCode);
 	}
+
+//	@Override
+//	public List<ExpRes> selectResList(String expCode, Paging paging) {
+//		
+//		return sellingDao.selectResList(expCode, paging);
+//	}
 
 
 }

@@ -9,8 +9,20 @@ import recycling.util.Paging;
 
 public interface ExpDao {
 
-	public int selectCntAll();
-
+	/**
+	 * 체험단 전체 리스트
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @return 체험단 List
+	 */
 	public List<Exp> selectAllExp(Paging paging);
+
+	/**
+	 * 검색된 데이터 개수
+	 * 
+	 * @param search - 데이터 입력
+	 * @return 입력된 데이터를 검색
+	 */
+	public int selectCntAll(String search);
 
 }
