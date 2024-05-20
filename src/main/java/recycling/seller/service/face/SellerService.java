@@ -57,6 +57,26 @@ public interface SellerService {
 	 */
 	public String uploadImage(MultipartFile file);
 
+
+	/**
+	 * 판매자 비밀번호 확인
+	 * 
+	 * @param setbCode
+	 * @param pw 입력 비밀번호
+	 * @return
+	 */
+	public boolean verifPw(String getbCode, String pw);
+
+
+	/**
+	 * 판매자 탈퇴
+	 * 
+	 * @param getbCode 구매자 코드
+	 */
+	public void deleteSeller(String bCode);
+
+
+
 	
 
 

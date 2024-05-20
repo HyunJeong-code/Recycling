@@ -50,6 +50,10 @@ public interface SellerDao {
 	 */
 	public String updateBank(Seller seller);
 
+	public Seller selectSellerBybCode(String bCode);
+
+	public void deletSeller(String bCode);
+
 
 
 	

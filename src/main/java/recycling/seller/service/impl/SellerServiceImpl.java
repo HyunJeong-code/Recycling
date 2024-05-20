@@ -104,7 +104,22 @@ public class SellerServiceImpl implements SellerService {
 		
 	}
 
+	@Override
+	public boolean verifPw(String bCode, String pw) {
+		
+		Seller seller = sellerDao.selectSellerBybCode(bCode);
+		
+		
+//		return seller != null && seller.setbCode(buyer.getPw());
+		return null != null;
+	}
 
+	@Override
+	public void deleteSeller(String bCode) {
+		sellerDao.deletSeller(bCode);	
+	}
+
+	
 
 	//----------------------------------------------------------------------------------------
 

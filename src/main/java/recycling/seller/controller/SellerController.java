@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.Buyer;
 import recycling.dto.seller.Seller;
 import recycling.seller.service.face.SellerService;
 
@@ -83,7 +83,7 @@ public class SellerController {
 	 @PostMapping("/changebank")
 	 public String changeBankProc(@RequestParam("accName")String accName,
 			 					@RequestParam("accBank")String accBank,
-			 					@RequestParam("accNo")int accNo,
+			 					@RequestParam("accNo")String accNo,
 			 					HttpSession session) {
 		 
 		 Seller seller = (Seller) session.getAttribute("seller");
@@ -92,7 +92,7 @@ public class SellerController {
 		 seller.setAccNo(accNo);
 		 sellerService.updateBank(seller);
 		 
-		 return "redirect:/";
+		 return "redirect:/sellermain";
 	 }
 	 
 	 //----------------------------------------------------------------------------------------------------------------
@@ -118,26 +118,66 @@ public class SellerController {
 		 	sellerService.updateSellerProf(seller);
 		 	
 	        // 이후 이동할 페이지명 반환
-	        return "redirect:/";
+	        return "redirect:/sellermain";
 	 }
 
 	 //----------------------------------------------------------------------------------------------------------------
 
 	 
 	 @GetMapping("/outSeller")
-	 public String outSeller(HttpSession session) {
-	        // 회원 탈퇴 페이지로 이동
-	        return "outSeller"; // 이동할 페이지명
+	 public void outSeller(HttpSession session,
+			 				Model model
+			 				) {
+	     
+		 Seller seller =(Seller)session.getAttribute("seller");
+		 
+				 
+		if(seller == null) {
+			
+			model.addAttribute("error", "로그인해주세요");
+			 return ;
+		}
+		
 	 }
 
 	 @PostMapping("/outSeller")
-	 public String outSellerProc(HttpSession session, @RequestParam("Pw") String Pw) {
+	 public String outSellerProc(HttpSession session,
+			 					@RequestParam("Pw") String Pw,
+			 					@RequestParam(value = "privacyConsent", required = false) String ps,
+			 					@RequestParam(value ="infoConsent", required = false) String is,
+			 					Model model
+			 					) {
 	        // 회원 탈퇴 처리
 	        // 입력한 비밀번호가 회원 정보와 일치하는지 확인 후 탈퇴 처리
+		 Seller seller = (Seller)session.getAttribute("seller");
+		 Buyer buyer = (Buyer)session.getAttribute("buyer");
+		 if(seller == null) {
+			 
+			 return "redirect:/";
+		 }
+		 if(!sellerService.verifPw(seller.getbCode(),Pw)) {
+			 
+			 model.addAttribute("error", "비밀번호가 틀렸습니다");
+			 
+			 return "/";
+		 }
+		 
+		 if(ps==null || "agree".equals(ps) || is==null || "agree".equals(is) ) {
+			 
+			 model.addAttribute("error", "약관을 동의해 주세요.");
+			 
+			 return "/";
+		 }
+		 
+		 sellerService.deleteSeller(seller.getbCode());
+		 
+		 session.invalidate();
+		 		 
+		 
 	        return "redirect:/"; // 탈퇴 후 이동할 페이지명
 	 }
 	 
-	 
+	
 	 
 	 
 	 
