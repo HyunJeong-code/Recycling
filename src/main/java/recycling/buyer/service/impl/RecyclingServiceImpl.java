@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
+import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 
 @Service
@@ -23,11 +25,43 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.selectPrdList();
 	}
 
+	
+
 	@Override
-	public Paging getSearchPaging(int curPage, String search) {
+	public Prd view(int ctPno) {
+		
+		return recyclingDao.select(ctPno);
+		
+	}
+
+	
+	@Override
+	public Paging getDetailPaging(int curPage) {
 		
 		int totalCount = recyclingDao.selectCntAll();
+		Paging paging = new Paging(totalCount, curPage);
 		
-		return null;
+		return paging;
 	}
+
+	
+	@Override
+	public String findSeller(String location) {
+		// 위치를 기반으로 판매자 주소 조회 로직
+        Seller seller = recyclingDao.findSellerByLocation(location);
+        
+        if (seller != null) {
+            return seller.getsAddr();
+        } else {
+            return null;
+        }
+	}
+
+	@Override
+	public List<Rcy> gerRcyList() {
+		return recyclingDao.selectRcy();
+	}
+	
+	
+	
 }
