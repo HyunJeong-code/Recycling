@@ -45,9 +45,7 @@
 					</div>
 					<div>성별 : ${view.mgrGender }</div>
 												
-
-					<div>입사서류 파일 : <a href="./hrdownload?mgrCode=${mgrFile.mgrCode }">${fileList.originName }</a></div>
-					<img alt="이미지" src="${mgrFile.storedName }">
+					<div>입사서류 파일 : <a href="/upload/${fileList.storedName }" download="${fileList.originName }">${fileList.originName }</a></div>
 				<hr>
 				<div><a href="./empupdate?mgrCode=${view.mgrCode }"><button>수정하기</button></a> <br></div>
 				<div><a href="./main"><button>돌아가기</button></a></div>

@@ -21,26 +21,24 @@ public interface MgrService {
 	public ManagerLogin selectByIdPw(Manager manager);
 
 	/**
-	 * 공지사항 전체 조회하기 + 페이징 시스템
-	 * @param paging - 페이징 객체
-	 * 
+	 * 관리자 공지사항 전체조회
 	 * @return - List<Notice>
 	 */
-	public List<Notice> selectAll(Paging paging);
+	public List<Notice> selectAll();
 
 	/**
-	 * 공지사항 세부 조회하기
+	 * 공지사항 세부조회
 	 * 
 	 * @param notice - Notice
 	 * @return
 	 */
-	public Notice selectDetail(Notice notice);
+	public Notice selectDetail(String ntcCode);
 
 	/**
 	 * 페이징 계산 시스템
 	 * 
 	 * @param pagingParam - 페이징 객체
-	 * @param search 
+	 * @param search - 검색 
 	 * @return
 	 */
 	public Paging selectCntAll(Paging pagingParam);

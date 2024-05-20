@@ -73,17 +73,16 @@ public class SlsController {
 			) {
 		logger.info("contoller: expDetail[GET]");
 
-		//expfile번호 가져오기
-		
+		//expCode번호와 동일한 expfile 가져오기
 		ExpFile fileimage = slsService.image(expFile);
 		model.addAttribute("fileimage", fileimage);
-		logger.info("expDetail:{}", fileimage );
+		logger.info("expDetail fileimage:{}", fileimage );
 		
         
 		//상세조회
 		Exp view = slsService.selectDetail(exp);
 		model.addAttribute("view", view);
-		logger.info("expDetail:{}", view );
+		logger.info("expDetail view:{}", view );
 		
 	}
 	

@@ -80,7 +80,8 @@ public class SlsServiceImpl implements SlsService {
 		
 		//파일이 저장될 경로 - RealPath
 		String storedPath = servletContext.getRealPath("upload");
-				
+		logger.info("storedPath:{}", storedPath);
+		
 		//upload폴더가 존재하지 않으면 생성하기
 		File storedFolder = new File(storedPath);
 		storedFolder.mkdir();
@@ -95,6 +96,7 @@ public class SlsServiceImpl implements SlsService {
 		do {
 			storedName = file.getOriginalFilename(); //원본 파일명
 			storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+			logger.info("storedName : {}", storedName);
 			
 			dest = new File( storedFolder, storedName );
 		} while( dest.exists() );
@@ -122,7 +124,7 @@ public class SlsServiceImpl implements SlsService {
 		expFile.setExpCode(expCode);
 		
 		//test 데이터
-		expFile.setCtPflNo(600);
+		expFile.setCtPflNo(610);
 		
 		//파일 업로드
 		slsDao.fileup(expFile);

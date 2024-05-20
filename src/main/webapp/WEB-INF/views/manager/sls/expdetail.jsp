@@ -17,10 +17,7 @@
 
 			<div class="section">
 			    
-			<div>
-				<img alt="이미지" src="/upload/${fileimage.storedName}">
-			</div>
-			
+	    		<img alt="없음" src="/upload/${fileimage.storedName }">
 			
 				<div>
 					<label>체험제목</label> <input type="text" value="${view.expName}" readonly="readonly">

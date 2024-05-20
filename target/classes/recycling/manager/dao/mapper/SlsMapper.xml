@@ -198,6 +198,7 @@
 	<!-- 체험단 파일조회 -->
 	<select id="image" resultType="ExpFile" parameterType="ExpFile">
 		<include refid="expFileBoard"/>
+		<where> exp_code = #{expCode }</where>
 	</select>
 
 	

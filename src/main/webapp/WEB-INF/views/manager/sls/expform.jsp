@@ -30,41 +30,29 @@ function setThumbnail(event){
             </div>
             <div class="section">
             <form action="./expform" method="post" enctype="multipart/form-data">
-				<table border="1">
-					<tr>
-						<td>체험 이름</td>
-						<td><input type="text" name="expName"></td>
-					</tr>
-					<tr>
-						<td>1인 체험비</td>
-						<td><input type="text" name="expPrice" placeholder="제품가격을 입력하세요"></td>
-					</tr>
-					<tr>
-						<td>설명</td>
-						<td><textarea rows="5" cols="22" name="expDetail" placeholder="업체에서 제공한 설명을 적어주세요"></textarea> </td>
-					</tr>
-					<tr>
-						<td>이미지 첨부</td>
-						<td><input type="file" name="file" onchange="setThumbnail(event);"><div id="image_container"></div></td>
-					</tr>
-					<tr>
-					<tr>
-						<td>체험 가능 날짜/시간등록</td>
-					</tr>
-					<tr>
-						<td>체험 마감일</td>
-						<td><input type="date" name="schDate" placeholder="종료일"></td>
-					</tr>
-					<tr>
-						<td>시간</td>
-						<td><input type="time" name="schTime" placeholder="시간"></td>
-					</tr>
-					<tr>
-						<td>인원</td>
-						<td><input type="text" name="schCnt" placeholder="인원"></td>
-					</tr>					
-				</table>
+					<div>
+						체험 이름 <input type="text" name="expName">
+					</div>
+					<div>
+						1인 체험비 <input type="text" name="expPrice" placeholder="제품가격을 입력하세요">
+					</div>
+					<div>
+						설명 <textarea rows="5" cols="22" name="expDetail" placeholder="업체에서 제공한 설명을 적어주세요"></textarea>
+					</div>
+					<div>
+						이미지 첨부 <input type="file" name="file" onchange="setThumbnail(event);"><div id="image_container"></div>
+					</div>
+						<br>
+						<hr>
+						<br>
+						
+						<div>체험 가능 날짜/시간등록</div>
 
+						<div>
+						체험 마감일 <input type="date" name="schDate" placeholder="종료일">
+						시간<input type="time" name="schTime" placeholder="시간">
+						인원<input type="text" name="schCnt" placeholder="인원">
+						</div>
 					<button>등록하기</button>
 				</form>
 				<a href="./explist"><button>돌아가기</button></a>
