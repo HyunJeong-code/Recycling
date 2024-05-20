@@ -106,6 +106,7 @@ function execDaumPostcode() {
 			</div>
 			
 			<div>
+				<input type="text" id="bCtCode" name="bCtCode" value="P">
 				<label for="bId">아이디</label>
 				<input type="text" id="bId" name="bId">
 				<button id="chkBid">중복 확인</button><br>

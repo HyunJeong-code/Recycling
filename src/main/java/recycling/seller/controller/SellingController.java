@@ -1,5 +1,6 @@
 package recycling.seller.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
-import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Prd;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
 
@@ -28,26 +31,84 @@ public class SellingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private SellingService sellingService;
+	@Autowired HttpSession session;
+	
+	@GetMapping("/rcylist")
+	public void rcylist(Model model) {
+		//테스트용 세션***********************************************테스트
+		session.setAttribute("sCode", "SEL0000002");
+		
+		String sCode = (String)session.getAttribute("sCode");
+		
+		//로그인 되어있는 아이디의 재활용 판매 상품 조회
+		List<Prd> plist = sellingService.selectAllrcyPrd(sCode);
+		
+		//주문 리스트
+		List<MyOrder> olist = new ArrayList<MyOrder>();
+		
+		//조회된 상품의 주문 리스트 조회
+		for(Prd prd : plist) {
+			String prdCode = prd.getPrdCode();
+			
+			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
+			
+			for(MyOrder mo : list) {
+				olist.add(mo);
+			}
+		}
+		
+		model.addAttribute("plist", plist);
+		model.addAttribute("olist", olist);
+	}
+	
+	@GetMapping("upcylist")
+	public void upcylist(Model model) {
+		//테스트용 세션***********************************************테스트
+		session.setAttribute("sCode", "SEL0000002");
+		
+		String sCode = (String)session.getAttribute("sCode");
+		
+		//로그인 되어있는 아이디의 재활용 판매 상품 조회
+		List<Prd> plist = sellingService.selectAllupcyPrd(sCode);
+		
+		//주문 리스트
+		List<MyOrder> olist = new ArrayList<MyOrder>();
+		
+		//조회된 상품의 주문 리스트 조회
+		for(Prd prd : plist) {
+			String prdCode = prd.getPrdCode();
+			
+			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
+			
+			for(MyOrder mo : list) {
+				olist.add(mo);
+			}
+		}
+		
+		model.addAttribute("plist", plist);
+		model.addAttribute("olist", olist);
+	}
 	
 	@GetMapping("/explist")
 	public void expList(
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage, 
 			@RequestParam(defaultValue = "") String search,
-			HttpSession session
+			HttpSession session,
+			Exp exp
 			) {
 		logger.info("/explist [GET]");
 		
-//		String sellerId = (String) session.getAttribute("sCode");
-
-//		if(sellerId == null) { //로그인 상태가 아니라면 로그인화면으로
+//		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers"); 
+//		exp.setsCode(seller.getsCode());
+//		if(seller == null) { //로그인 상태가 아니라면 로그인화면으로
 			
 //			return "redirect:/buyer/login";
 			
 //		} else { //로그인한 회원의 list만 띄우기
 			
 //			paging = sellingService.getSearchPaging(curPage, search);
-//			List<Exp> list = sellingService.selectMyExpList(paging, sellerId);
+//			List<Exp> list = sellingService.selectMyExpList(paging, seller);
 //			model.addAttribute("paging", paging);
 //			model.addAttribute("list", list);
 //		}
@@ -77,15 +138,16 @@ public class SellingController {
 	public void expResDetail(
 			Model model,
 			@RequestParam(defaultValue = "0") int curPage,
-			String expCode
+			@RequestParam String expCode
 			
 			) {
 		
 		Exp exp = sellingService.selectByExp(expCode);
-		Paging paging = sellingService.getPaging(curPage);
-		List<ExpRes> resList = sellingService.selectResList(paging);
+//		Paging paging = sellingService.getPaging(curPage);
+//		List<ExpRes> resList = sellingService.selectResList(expCode, paging);
+		List<ExpRes> resList = sellingService.selectResList(expCode);
 		
-		model.addAttribute("paging", paging);
+//		model.addAttribute("paging", paging);
 		model.addAttribute("exp", exp);
 		model.addAttribute("resList", resList);
 

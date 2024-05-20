@@ -51,17 +51,60 @@
 		    console.log(arr);
 		}); // #ord_btn click end
 		
+		$("#del_btn").click(function() {
+			var arr = new Array();
+			$('input:checkbox[name=checkList]').each(function () {
+		        if($(this).is(":checked")==true){
+		        	let res = $(this).val();
+		        	arr.push(res);
+		        }
+		    });
+			
+			// 체크된 상품이 없을 때 알림
+			if(arr.length == 0){
+				alert("선택된 상품이 없습니다.");
+			}else{
+				$.ajax({
+					type: "post"
+					, url: "./cartdel"
+					, data: {
+						arr: arr 
+					}
+					, dataType : "Json"
+					, success: function(res) {
+						console.log("AJAX 성공");
+						
+						location.href="./cart";
+						
+					}
+					, error: function() {
+						console.log("AJAX 실패");
+					}
+				}) 
+			}
+			
+			
+		    
+		    console.log(arr);
+		}); // #dlt_btn click end
+		
 		$(".cartCnt").change(function() {
 			$.ajax({
 				type: "post"
 				, url: "./cartupdate"
 				, data: {
-					cCode: $(this).parent().children().eq(1).html() //해당 행의 cCode
+					cCode: $(this).parent().parent().attr("id") //해당 행의 cCode
 					, cCnt : $(this).val()
 				}
 				, dataType : "Json"
 				, success: function(res) {
 					console.log("AJAX 성공");
+					
+					console.log(res.cntRes);
+					
+					if(res.cntRes == 0){
+						alert("수량이 부족합니다");			
+					}
 					
 					location.href="./cart";
 					//$("#cartTable").load(window.location.href+" #cartTable");
@@ -71,7 +114,7 @@
 					console.log("AJAX 실패");
 				}
 			})
-		})
+		}) // .cartCnt change end
 		
 		//상품의 수량이 부족할시 장바구니 제외 알림
 		if(${msg != ""}){
@@ -100,7 +143,7 @@
 		</thead>
 		<tbody>
 			<c:forEach var="cart" items="${list }">
-				<tr>
+				<tr id="${cart.cCode }">
 					<td>
 						<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
 					</td>
@@ -109,7 +152,7 @@
 			 		<td>${cart.prdName }</td>
 			 		<td>${cart.price }</td>
 			 		<td>${cart.prdFee }</td>
-			 		<td><input type="number" class="cartCnt" value="${cart.cCnt }"></td>
+			 		<td><input type="number" min="1" class="cartCnt" value="${cart.cCnt }"></td>
 			 		<td>
 			 			${cart.cCnt * cart.price + cart.prdFee }
 			 		</td>
@@ -120,6 +163,7 @@
 	</table>
 
 	<button type="button" id="ord_btn">주문하기</button>
+	<button type="button" id="del_btn">삭제</button>
 	
 	</form>
 

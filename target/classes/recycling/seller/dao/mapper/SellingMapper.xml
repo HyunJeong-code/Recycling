@@ -9,6 +9,34 @@
 	SELECT * FROM Exp
 	</sql>
 	
+	<select id="selectAllrcyPrd" parameterType="String" resultType="Prd">
+		SELECT * FROM prd
+		<where>
+			AND s_code = #{sCode}
+			AND ct_pno = 0
+		</where>
+		ORDER BY prd_code DESC
+	</select>
+	
+	<select id="selectAllupcyPrd" parameterType="String" resultType="Prd">
+		SELECT * FROM prd
+		<where>
+			AND s_code = #{sCode}
+			AND ct_pno = 1
+		</where>
+		ORDER BY prd_code DESC
+	</select>
+	
+	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
+		SELECT 
+			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+		FROM 
+			order_detail od, orders o
+		<where>
+			AND o.ord_code = od.ord_code
+			AND od.prd_code = #{prdCode}
+		</where>
+	</select>
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (
@@ -52,15 +80,28 @@
 		</where>
 	</select>
 	
-	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes">
-		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				SELECT * FROM exp_res	
-				ORDER BY sch_no
-			) B
-		)
+<!-- 	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes"> -->
+<!-- 		<bind name="expCode" value="'#{expCode}'"/> -->
+<!-- 		SELECT * FROM ( -->
+<!-- 			SELECT rownum rnum, B.* FROM ( -->
+<!-- 				SELECT er.* -->
+<!-- 				FROM exp_res er -->
+<!-- 				INNER JOIN exp_sch es ON er.SCH_NO = es.SCH_NO -->
+<!-- 				INNER JOIN exp e ON es.exp_code = e.exp_code -->
+<!-- 				WHERE e.exp_code = #{expCode} -->
+<!-- 			) B -->
+<!-- 		) -->
+<!-- 		<where> -->
+<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	<select id="selectResList" parameterType="string" resultType="ExpRes">
+		SELECT er.*
+		FROM exp_res er
+		INNER JOIN exp_sch es ON er.sch_no = es.sch_no
+		INNER JOIN exp e ON es.exp_code = e.exp_code
 		<where>
-			AND rnum BETWEEN #{startNo } AND #{endNo }
+			AND e.exp_code = #{expCode}
 		</where>
 	</select>
 	

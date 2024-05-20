@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.seller.Exp;
-import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Prd;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
@@ -16,6 +17,21 @@ import recycling.util.Paging;
 public class SellingServiceImpl implements SellingService {
 
 	@Autowired private SellingDao sellingDao;
+	
+	@Override
+	public List<Prd> selectAllrcyPrd(String sCode) {
+		return sellingDao.selectAllrcyPrd(sCode);
+	}
+	
+	@Override
+	public List<MyOrder> selectAllMyOrder(String prdCode) {
+		return sellingDao.selectAllMyOrder(prdCode);
+	}
+	
+	@Override
+	public List<Prd> selectAllupcyPrd(String sCode) {
+		return sellingDao.selectAllupcyPrd(sCode);
+	}
 	
 	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
@@ -56,10 +72,15 @@ public class SellingServiceImpl implements SellingService {
 	}
 
 	@Override
-	public List<ExpRes> selectResList(Paging paging) {
-		
-		return sellingDao.selectResList(paging);
+	public List<ExpRes> selectResList(String expCode) {
+		return sellingDao.selectResList(expCode);
 	}
+
+//	@Override
+//	public List<ExpRes> selectResList(String expCode, Paging paging) {
+//		
+//		return sellingDao.selectResList(expCode, paging);
+//	}
 
 
 }

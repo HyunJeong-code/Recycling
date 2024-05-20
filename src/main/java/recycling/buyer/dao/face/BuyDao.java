@@ -30,5 +30,28 @@ public interface BuyDao {
 	 * @return - null : 실패, else : 성공
 	 */
 	public BuyerLogin selectBybIdbPw(Buyer buyer);
+
+	/**
+	 * 아이디 찾기
+	 * 
+	 * @param buyer - 아이디 찾을 회원 정보
+	 * @return 아이디 반환
+	 */
+	public String selectByBuyerId(Buyer buyer);
 	
+	/**
+	 * 비밀번호 찾기
+	 * 
+	 * @param buyer - 비밀번호를 찾을 회원 정보
+	 * @return true : 회원 정보 존재, false : 회원정보 존재 X
+	 */
+	public Buyer selectByBuyerPw(Buyer buyer);
+	
+	/**
+	 * 비밀번호 찾기 후 변경
+	 * 
+	 * @param buyer - 회원 코드와 변경할 비밀번호
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int updatePw(Buyer buyer);
 }
