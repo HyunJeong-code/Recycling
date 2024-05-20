@@ -77,6 +77,7 @@
 	<!-- 체험단 조회 -->
 	<select id="selectAll" resultType="Exp">
 		<include refid="expBoard"/>
+		ORDER BY exp_date DESC
 	</select>
 	
 	<!-- 체험단 체험일정 조회 -->

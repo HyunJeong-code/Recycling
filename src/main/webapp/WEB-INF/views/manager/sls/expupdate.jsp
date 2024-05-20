@@ -104,7 +104,6 @@ body {
 
 			<div class="section">
 				<form action="./expupdate?expCode=${update.expCode }" method="post">
-				<div>코드번호 : ${update.expCode }</div>
 
 				<div>
 					<label>체험제목</label> <input type="text" name="expName" value="${update.expName}">

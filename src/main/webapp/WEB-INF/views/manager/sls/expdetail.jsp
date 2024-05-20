@@ -117,7 +117,7 @@ body {
 			<div class="section">
 			    
 	    		<img alt="없음" src="/upload/${fileimage.storedName }">
-			
+
 				<div>
 					<label>체험제목</label> <input type="text" value="${view.expName}" readonly="readonly">
 				</div>
@@ -128,7 +128,7 @@ body {
 
 				<div>
 					<label>모집 인원</label> <select readonly onclick="this.blur()">
-						<option value="${schCnt}">${schCnt}명</option>
+						<option value="${schCnt}">${schCnt.schCnt}명</option>
 					</select>
 				</div>
 

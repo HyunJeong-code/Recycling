@@ -41,10 +41,11 @@ public interface SlsService {
 	 * 체험단 등록
 	 * 
 	 * @param exp
+	 * @param selectedTimes 
 	 * @param expSch 
 	 * @param file 
 	 */
-	public void insert(Exp exp, ExpSch expSch, MultipartFile file);
+	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile file);
 	
 	/**
 	 * 체험정보 업데이트항목 조회

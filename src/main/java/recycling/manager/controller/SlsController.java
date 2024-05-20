@@ -1,5 +1,6 @@
 package recycling.manager.controller;
 
+import java.io.Console;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -84,6 +85,7 @@ public class SlsController {
 		model.addAttribute("view", view);
 		logger.info("expDetail view:{}", view );
 		
+		
 	}
 	
 	//체험단 등록창
@@ -94,6 +96,7 @@ public class SlsController {
 	@PostMapping("/expform")
 	public String expformProc(
 			Exp exp
+			, @RequestParam("schTime") List<String> schTime
 			, ExpSch expSch
 			, @RequestParam("file") MultipartFile file
 			) {
@@ -102,8 +105,7 @@ public class SlsController {
 		session.setAttribute("sCode", "SEL0000002");
 		String sCode = (String) session.getAttribute("sCode");
 		exp.setsCode(sCode);
-		
-		slsService.insert(exp, expSch, file);
+		slsService.insert(exp, schTime, expSch, file);
 		
 		
 		

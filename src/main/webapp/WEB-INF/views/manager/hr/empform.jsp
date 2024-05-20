@@ -129,9 +129,9 @@ a button:hover {
 							<td>부서명</td>
 							<td><select name="deptno">
 									<option>----- 선택하세요 -----</option>
-									<option value="20">20: 인사팀</option>
-									<option value="30">30: 판매제휴팀</option>
-									<option value="40">40: 구매CS팀</option>
+									<option value="20">인사팀</option>
+									<option value="30">판매제휴팀</option>
+									<option value="40">구매CS팀</option>
 							</select></td>
 						</tr>
 						<tr>
