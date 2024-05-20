@@ -30,17 +30,32 @@ public class ExpController {
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage,
 			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "all") String category,
 			Exp exp
 			) {
 		Paging paging = expService.getSearchPaging(curPage, search);
 		logger.info("{}", paging);
 		
-		List<Exp> list = expService.selectAllExp(paging);
-		
-		
-		
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
+		List<Exp> list;
+        if ("recent".equals(category)) {
+            list = expService.selectRecentExp(paging);
+        } else if ("popular".equals(category)) {
+            list = expService.selectPopularExp(paging);
+        } else {
+            list = expService.selectAllExp(paging);
+        }
+
+        // 상단 새체험, 인기체험
+        List<Exp> topPopList = expService.selectTopPopExp();
+        List<Exp> topRecList = expService.selectTopRecExp();
+        
+
+        model.addAttribute("paging", paging);
+        model.addAttribute("list", list);
+        model.addAttribute("topPopList", topPopList);
+        model.addAttribute("search", search);
+        model.addAttribute("category", category);
+        model.addAttribute("topRecList", topRecList);
 	}
 	
 }

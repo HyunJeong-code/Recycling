@@ -41,4 +41,26 @@ public class ExpServiceImpl implements ExpService {
 		}
 		return paging;
 	}
+
+	@Override
+	public List<Exp> selectRecentExp(Paging paging) {
+		
+		return expDao.selectRecentExp(paging);
+	}
+
+	@Override
+	public List<Exp> selectPopularExp(Paging paging) {
+		return expDao.selectPopularExp(paging);
+	}
+
+
+	@Override
+	public List<Exp> selectTopPopExp() {
+		return expDao.selectTopPopExp();
+	}
+
+	@Override
+	public List<Exp> selectTopRecExp() {
+		return expDao.selectTopRecExp();
+	}
 }

@@ -30,4 +30,12 @@ public interface ExpService {
 	 */
 	public Paging getSearchPaging(int curPage, String search);
 
+	public List<Exp> selectRecentExp(Paging paging);
+
+	public List<Exp> selectPopularExp(Paging paging);
+
+	public List<Exp> selectTopPopExp();
+
+	public List<Exp> selectTopRecExp();
+
 }

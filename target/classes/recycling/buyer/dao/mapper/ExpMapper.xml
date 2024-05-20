@@ -33,4 +33,61 @@
 		</where>
 		ORDER BY exp_date DESC
 	</select>
+	
+<!-- 	최신 체험단 조회 -->
+	<select id="selectRecentExp" parameterType="recycling.util.Paging" resultType="exp">
+        SELECT * FROM (
+            SELECT rownum rnum, E.* FROM (
+                <include refid="selectExp"/>
+                <where>
+                    AND exp_name LIKE '%' || #{search} || '%' 
+                        OR exp_code LIKE '%' || #{search} || '%' 
+                </where>
+                ORDER BY exp_date DESC
+            ) E
+        )
+        <where>
+            AND rnum BETWEEN #{startNo} AND #{endNo}
+        </where>
+    </select>
+
+    <!-- 인기 체험단 조회 -->
+    <select id="selectPopularExp" parameterType="recycling.util.Paging" resultType="exp">
+        SELECT * FROM (
+            SELECT rownum rnum, E.* FROM (
+                <include refid="selectExp"/>
+                <where>
+                    AND exp_name LIKE '%' || #{search} || '%' 
+                        OR exp_code LIKE '%' || #{search} || '%' 
+                </where>
+                ORDER BY exp_hit DESC
+            ) E
+        )
+        <where>
+            AND rnum BETWEEN #{startNo} AND #{endNo}
+        </where>
+    </select>
+
+    <!-- 상단 인기 체험 조회 -->
+    <select id="selectTopPopExp" resultType="exp">
+    	SELECT * FROM (
+            SELECT rownum rnum, E.* FROM (
+                <include refid="selectExp"/>
+                ORDER BY exp_hit DESC
+            ) E
+        )
+        WHERE rnum BETWEEN 1 AND 5
+    </select>
+    
+    <!-- 상단 새체험 조회 -->
+    <select id="selectTopRecExp" resultType="exp">
+    	SELECT * FROM (
+            SELECT rownum rnum, E.* FROM (
+                <include refid="selectExp"/>
+                ORDER BY exp_date DESC
+            ) E
+        )
+        WHERE rnum BETWEEN 1 AND 5
+    </select>
+	
 </mapper>
