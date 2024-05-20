@@ -65,6 +65,13 @@
 			prd_code = #{prdCode}
 		</where>
 	</update>
+	
+	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
+		SELECT * FROM order_detail
+		<where>
+			AND orddt_code = #{orddtCode}
+		</where>
+	</select>
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (

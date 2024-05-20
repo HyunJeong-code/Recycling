@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.Prd;
 import recycling.seller.dao.face.SellingDao;
@@ -46,6 +47,11 @@ public class SellingServiceImpl implements SellingService {
 	@Override
 	public int updatePrd(Prd prd) {
 		return sellingDao.updatePrd(prd);
+	}
+	
+	@Override
+	public OrderDetail selectByorddtCode(String orddtCode) {
+		return sellingDao.selectByorddtCode(orddtCode);
 	}
 	
 	@Override

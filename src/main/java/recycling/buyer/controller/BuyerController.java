@@ -166,7 +166,7 @@ public class BuyerController {
         }
 		
 		//logger.info("list : {}", list);
-		//logger.info("buyer : {}", buyeradr);
+		logger.info("buyer : {}", buyeradr);
 		
 		model.addAttribute("clist", list);
 		model.addAttribute("buyer", buyeradr);

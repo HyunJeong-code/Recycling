@@ -10,6 +10,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<!-- 결제 API -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
 <script type="text/javascript">
@@ -56,6 +59,30 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			}
 		    console.log(arr);
 		}); // #dlt_btn click end
+		
+		
+		$("#cencelBtn").click(function(e){
+			$.ajax({
+				type: "get"
+				, url: "./paycencel"
+				, data: {
+					orddtCode: "ORDT000044"
+				}
+				, dataType : "Json"
+				, success: function(res) {
+					console.log("AJAX 성공");
+					
+					location.href="./upcylist";
+					
+					alert("주문"+res.cencelMsg +"했습니다.");
+				}
+				, error: function() {
+					console.log("AJAX 실패");
+				}
+			}) 
+		}); //cencelBtn 클릭
+		
+		
 	}); //$ end
 
 </script>
@@ -112,11 +139,12 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	<button>거래 완료</button>
 	<button>교환</button>
 	<button>반품처리</button>
-	<button>취소</button>
+	<button id="cencelBtn">취소</button>
 </div>
 <table border="1">
 	<thead>
 		<tr>
+			<th></th>
 			<th>주문번호</th>
 			<th>상품 이름</th>
 			<th>가격</th>
@@ -126,17 +154,20 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		</tr>
 	</thead>
 	<tbody>
-	<c:forEach var="order" items="${olist }">
+	<c:forEach var="ord" items="${olist }">
 		<tr>
-	 		<td>${order.orddtCode }</td>
-	 		<td>${order.ordName }</td>
-	 		<td>${order.ordPrice }</td>
-	 		<td>${order.ordSum }</td>
+			<td>
+            	<input type="checkbox" class="ordCheckList" name="ordCheckList" value="${ord.orddtCode }">
+            </td>
+	 		<td>${ord.orddtCode }</td>
+	 		<td>${ord.ordName }</td>
+	 		<td>${ord.ordPrice }</td>
+	 		<td>${ord.ordSum }</td>
 	 		<td>
-            	<fmt:parseDate value="${order.ordDate}" var="ordDate" pattern="yyyy-MM-dd HH:mm:ss" />
+            	<fmt:parseDate value="${ord.ordDate}" var="ordDate" pattern="yyyy-MM-dd HH:mm:ss" />
            		<fmt:formatDate value="${ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
-	 		<td id="sttNo"><script>document.write(sttList[${order.sttNo}])</script></td>
+	 		<td id="sttNo"><script>document.write(sttList[${ord.sttNo}])</script></td>
 	 	</tr>
 	</c:forEach>
 	</tbody>

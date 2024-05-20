@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
@@ -70,6 +71,14 @@ public interface SellingDao {
 	 * @return - UPDATE 결과
 	 */
 	public int updatePrd(Prd prd);
+
+	/**
+	 * orddtCode로 OrderDetail 조회
+	 * 
+	 * @param orddtCode - 조회할 orddtCode
+	 * @return - SELECT 결과
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
 
 
 }
