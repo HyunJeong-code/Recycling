@@ -2,6 +2,8 @@ package recycling.buyer.dao.face;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerTest;
+import recycling.dto.buyer.Buyers;
 
 // 메인페이지, 로그인/회원가입 관련 DB 처리
 
@@ -54,5 +56,5 @@ public interface BuyDao {
 	 * @return 0 : 실패, 1 : 성공
 	 */
 	public int updatePw(Buyer buyer);
-	
+
 }

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import oracle.jdbc.proxy.annotation.Post;
 import recycling.buyer.service.face.BuyService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.util.CurrentUser;
 
 // 구매자 메인페이지, 로그인/회원가입
 
@@ -33,24 +34,24 @@ public class BuyController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyService buyService;
+//	@Autowired private LoginServiceImpl loginService;
 	@Autowired private JavaMailSenderImpl mailSender;
 	
 	@GetMapping("/main")
 	public void main(
-//			@AuthenticationPrincipal Buyers buyer,
+//			@AuthenticationPrincipal(expression = "buyerLogin") BuyerLogin buyerLogin,
+			@AuthenticationPrincipal BuyerLogin buyerLogin,
+			@CurrentUser BuyerLogin buyer,
 			HttpSession session
 			) {
-		BuyerLogin buyer = (BuyerLogin) session.getAttribute("buyers");
 		logger.info("/buyer/main [GET]");
 		
-		logger.info("{}", buyer);
+		logger.info("@auth : {}", buyerLogin);		
+		logger.info("@auth : {}, {}", buyerLogin.getUsername(), buyerLogin.getPassword());		
 		
-//		Object pri = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		Buyers test = (Buyers) pri;
-//		String username = test.getUsername();
-//		String userId = test.getbId();
-//		
-//		logger.info("{}, {}", username, userId);
+		logger.info("@current : {}", buyer);
+		logger.info("@current : {}, {}", buyer.getUsername(), buyer.getPassword());
+		
 	}
 	
 	@GetMapping("/join")
@@ -61,7 +62,7 @@ public class BuyController {
 	@PostMapping("/EmailAuth")
 	@ResponseBody
 	public int emailAuth(String email) {
-		logger.info("/buyer/EmailAuth [GET]");
+		logger.info("/buyer/EmailAuth [POST]");
 		
 		logger.info("Email : {}", email);
 		

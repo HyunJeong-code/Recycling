@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.BuyDao;
@@ -49,27 +50,6 @@ public class BuyServiceImpl implements BuyService{
 	public int insertBuyer(Buyer buyer) {
 		return buyDao.insertBuyer(buyer);
 	}
-	
-//	@Override
-//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		logger.info("buyService.loadUserByUsername()");
-//		
-//		BuyerLogin buyerLogin = buyDao.selectById(username);		
-//
-//		if(buyerLogin == null) {
-//			logger.info("login Fail");
-//			throw new UsernameNotFoundException("Not Found Id");
-//		}
-//		
-//		buyerLogin = chkAuth(buyerLogin);
-//		logger.info("{}", buyerLogin);
-//		
-//		Buyers buyer = new Buyers(buyerLogin);
-//		
-//		logger.info("Login buyer : {}", buyer);
-//		
-//		return buyer;
-//	}
 	
 	@Override
 	public BuyerLogin chkAuth(BuyerLogin buyerLogin) {

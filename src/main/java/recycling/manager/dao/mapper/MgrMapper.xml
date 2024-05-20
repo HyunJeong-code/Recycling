@@ -5,6 +5,14 @@
   
 <mapper namespace="recycling.manager.dao.face.MgrDao">
 
+	<select id="">
+		SELECT mgr_code, deptno, mgr_id, mgr_pw, mgr_out 
+		FROM manager
+		<where>
+			AND mgr_id = #{username }
+		</where>
+	</select>
+	
 	<!-- 로그인(임시) -->
 	<select id="selectByIdPw" parameterType="Manager" resultType="ManagerLogin">
 		SELECT mgr_code, deptno, mgr_id, mgr_pw, mgr_out 

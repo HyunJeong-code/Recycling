@@ -26,6 +26,110 @@
 	JOIN exp_sch s ON e.exp_code = s.exp_code
 	</sql>
 	
+	<!-- 판매자 정보 상세 조회(개인) -->
+	<select id="selectPriSeller" parameterType="string" resultType="hashmap">
+		SELECT 
+		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.s_entdate s_entdate, S.s_chk s_chk,
+		    B.b_code b_code, B.b_id b_id, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, B.b_entdate b_entdate,
+		    B.adr_postcode adr_postcode, B.adr_addr adr_addr, B.adr_detail adr_detail
+		FROM seller S, (
+		    SELECT 
+		        B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
+		        ADR.adr_postcode, ADR.adr_addr, ADR.adr_detail 
+		    FROM buyer B, buyer_adr ADR
+		    <where>
+		    	AND B.b_code = ADR.b_code(+)
+		        AND ADR.adr_chk = 'Y'
+		    </where> 
+		) B
+		<where>
+			AND S.b_code = B.b_code(+)
+		    AND B.b_out = 'N'
+		    AND B.b_code = #{bCode } 
+		</where> 
+	</select>
+	
+	<!-- 판매자 정보 상세 조회(기업) -->
+	<select id="selectCmpSeller" parameterType="string" resultType="hashmap">
+		SELECT 
+		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.s_entdate s_entdate, S.s_chk s_chk,
+		    B.b_code b_code, B.b_id b_id, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, B.b_entdate b_entdate,
+		    B.adr_postcode adr_postcode, B.adr_addr adr_addr, B.adr_detail adr_detail,
+		    B.cmp_ceo cmp_ceo, B.cmp_name cmp_name, B.cmp_num cmp_num, B.cmp_postcode cmp_postcode, B.cmp_addr cmp_addr, B.cmp_detail cmp_detail
+		FROM seller S, (
+		    SELECT 
+		        B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
+		        B.adr_postcode, B.adr_addr, B.adr_detail,
+		        C.cmp_ceo, C.cmp_name, C.cmp_num, C.cmp_postcode, C.cmp_addr, C.cmp_detail
+		    FROM cmp C, (
+		        SELECT 
+		            B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
+		            ADR.adr_postcode, ADR.adr_addr, ADR.adr_detail 
+		        FROM buyer B, buyer_adr ADR
+		        <where>
+			        AND B.b_code = ADR.b_code(+)
+		            AND ADR.adr_chk = 'Y'
+		        </where> 
+		        ) B
+		        <where>
+		        	AND B.b_code = C.b_code(+)
+		        </where>
+		    ) B
+		<where>
+			AND S.b_code = B.b_code(+)
+		    AND B.b_out = 'N'
+		    AND B.b_code = #{bcode }
+		</where> 
+	</select>
+	
+	<!-- 총 신고 횟수 -->
+	<select id="selectCntRpt" parameterType="string" resultType="int">
+		SELECT count(*) cnt FROM (
+		    SELECT P.prd_code, P.s_code 
+		    FROM prd P, prd_rpt R
+		    <where>
+			    AND P.prd_code(+) = R.prd_code
+			    AND P.s_code = #{sCode }
+		    </where> 
+		)
+	</select>
+	
+	<!-- 총 거래 완료 건수 -->
+	<select id="selectCntOrd" parameterType="string" resultType="int">
+		SELECT count(*) cnt FROM (
+		    SELECT P.prd_code, OD.orddt_code
+		    FROM prd P, order_detail OD
+		    <where>
+		    	AND P.prd_code(+) = OD.prd_code
+		    	AND OD.stt_no = 940
+		        AND P.s_code = #{sCode }
+		    </where> 
+		)
+	</select>
+	
+	<!-- 판매자 요청 관리 -->
+	<select id="selectBysChk" resultType="Map">
+		SELECT S.s_code s_code, B.b_ct_code ct_code, NVL(B.cmp_name, '-') cmp_name, B.b_name b_name, B.b_phone b_phone, B.b_email b_email
+			FROM seller S, (
+			    SELECT B.b_code, B.b_ct_code, B.b_name, B.b_phone, B.b_email, C.cmp_name, B.b_out FROM buyer B, cmp C
+			    WHERE B.b_code = C.b_code(+)
+			) B
+			<where>
+				AND S.b_code = B.b_code(+)
+			    AND S.s_chk = 'N'
+			    AND B.b_out = 'N'
+			</where>
+			ORDER BY S.s_entdate
+	</select>
+	
+	<!-- 구매자 코드 조회 -->
+	<select id="selectBysCode" resultType="string" parameterType="string">
+		SELECT B.b_code b_code FROM buyer B, Seller S
+		<where>
+			AND B.b_code = S.b_code(+)
+			AND S.s_code = #{sCode }
+		</where> 
+	</select>
 	
 	<!-- exp Join expSch resultMap-->
 	<resultMap type="java.util.HashMap" id="expJoin">
