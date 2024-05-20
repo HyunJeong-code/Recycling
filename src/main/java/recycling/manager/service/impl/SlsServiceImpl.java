@@ -171,11 +171,36 @@ public class SlsServiceImpl implements SlsService {
 		return result;
 	}
 	
-	///디테일부분 파일 조회
+	//디테일부분 파일 조회
 	@Override
 	public ExpFile image(ExpFile expFile) {
 		return slsDao.image(expFile);
 	}
+
+	//예약 버튼에 따른 상태변경
+	@Override
+	public int expResUpdate(List<String> chBox, String actionType) {
+
+		int result = 0;
+		
+		for(int i = 0; i < chBox.size(); i++) {
+			String resCode = chBox.get(i);
+			
+	        if ("complete".equals(actionType)) {
+	        	 // 예약완료 메서드 호출
+	            result += slsDao.expResCnf(resCode);
+	   
+	        } else if ("cancel".equals(actionType)) {
+	        
+	        	// 예약취소 메서드 호출
+	            result += slsDao.expResCnl(resCode); 
+	        }
+		}
+		
+		return result;
+		
+	}
+
 
 
 

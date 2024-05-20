@@ -163,9 +163,17 @@ public class SlsController {
 		
 	}
 	
+	// 체험단 예약 확정,취소 변경
+	@PostMapping("/expresupdate")
+	public String expresupdate(@RequestParam("chBox[]") List<String> chBox, @RequestParam String actionType) {
+		
+		slsService.expResUpdate(chBox, actionType);
+		
+		return "redirect:./expresdetail";
+	}
 	
 	
 	
-	//	@GetMapping("/expresupdate")	// 체험단 예약 정보변경[예약 구매자]
-//	@GetMapping("/changeexpres")	// 체험단 예약 변경
+	//	@GetMapping("/changeexpres")	// 체험단 예약 변경
+	
 }

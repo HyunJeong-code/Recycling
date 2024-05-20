@@ -8,6 +8,105 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+/* 기본 설정 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* 전체 페이지 레이아웃 */
+.full {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.wrap {
+    width: 90%;
+    max-width: 800px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* 헤더 스타일 */
+.page h1 {
+    text-align: center;
+    color: #007BFF;
+}
+
+.page hr {
+    border: 0;
+    height: 1px;
+    background-color: #007BFF;
+}
+
+/* 섹션 스타일 */
+.section {
+    margin-top: 20px;
+}
+
+.section div {
+    margin-bottom: 10px;
+}
+
+.section h2 {
+    color: #333;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 5px;
+}
+
+.section hr {
+    border: 0;
+    height: 1px;
+    background-color: #007BFF;
+    margin: 20px 0;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 링크 스타일 */
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 입사서류 파일 링크 스타일 */
+.section a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007BFF;
+}
+
+.section a:hover {
+    text-decoration: underline;
+}
+</style>
+
 </head>
 <body>
 

@@ -121,6 +121,19 @@ public interface SlsDao {
 	 */
 	public ExpFile image(ExpFile expFile);
 
+	/**
+	 * 예약 확정버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnf(String resCode);
+
+	/**
+	 * 예약 취소튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnl(String resCode);
 
 	
 	

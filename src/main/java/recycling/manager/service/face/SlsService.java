@@ -92,5 +92,12 @@ public interface SlsService {
 	 */
 	public ExpFile image(ExpFile expFile);
 
+	/**
+	 * 예약 확정, 취소버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResUpdate(List<String> chBox, String actionType);
+
 
 }
