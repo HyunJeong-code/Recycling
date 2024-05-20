@@ -79,7 +79,7 @@
 	
 	<update id="updatePrdCnt" parameterType="CartOrder">
 		UPDATE prd
-	    SET prd_cnt = prd_cnt-#{cCnt}
+	    	SET prd_cnt = prd_cnt-#{cCnt}
 	    WHERE prd_code = #{prdCode}
 	</update>
 	

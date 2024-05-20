@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
@@ -77,6 +78,38 @@ public interface SellingDao {
 	 * @return - 모든 upcyPrd 리스트
 	 */
 	public List<Prd> selectAllupcyPrd(String sCode);
+
+	/**
+	 * prdCode와 일치하는 Prd 삭제
+	 * 
+	 * @param prdCode - 삭제하는 Prd의 prdCode
+	 * @return - DELETE 결과
+	 */
+	public int deletePrd(String prdCode);
+
+	/**
+	 * prdCode와 일치하는 Prd 조회
+	 * 
+	 * @param prdCode - 조회하는 Prd의 prdCode
+	 * @return - 조회한 Prd 객체
+	 */
+	public Prd selectByprdCode(String prdCode);
+
+	/**
+	 * Prd 객체 UPDATE
+	 * 
+	 * @param prd - prd 수정 정보를 가진 DTO 객체
+	 * @return - UPDATE 결과
+	 */
+	public int updatePrd(Prd prd);
+
+	/**
+	 * orddtCode로 OrderDetail 조회
+	 * 
+	 * @param orddtCode - 조회할 orddtCode
+	 * @return - SELECT 결과
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
 
 
 }
