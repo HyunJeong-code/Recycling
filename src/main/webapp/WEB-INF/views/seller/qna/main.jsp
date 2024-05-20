@@ -9,6 +9,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+<script type="text/javascript">
+	
+	let qstA = {0: "미답변", 1: "답변완료"}
+	
+</script>
+
 </head>
 <body>
     <div class="full">
@@ -34,11 +43,22 @@
 				        <c:forEach items="${qlist}" var="qst">
 				            <tr>
 				                <td>${qst.qstCode}</td>
-				                <td>미답변</td>
+				                <td>
+				                	<script>document.write(qstA[${qst.qstA}])</script>
+				                </td>
 				                <td>
 				                	<!-- <script>document.write(pdtList[${prd.ctPdtNo}])</script> -->
 				                </td>
-				                <td><a href="./qstdetail?qstCode=${qst.qstCode}">${qst.qstTitle}</a></td>
+				                <td>
+				                	<c:choose>
+					                	<c:when test="${qst.qstA == 0}">
+					                		<a href="./qnaform?qstCode=${qst.qstCode}">${qst.qstTitle}</a>
+					                	</c:when>
+					                	<c:otherwise>
+					                		<a href="./qnadetail?qstCode=${qst.qstCode}">${qst.qstTitle}</a>
+					                	</c:otherwise>
+			                		</c:choose>
+				                </td>
 				                <td>${qst.qstName}</td>
 				                <td>
 				                	<fmt:parseDate value="${qst.qstDate}" var="qstDate" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -71,7 +91,16 @@
 				                <td>
 				                	<!-- <script>document.write(pdtList[${prd.ctPdtNo}])</script> -->
 				                </td>
-				                <td><a href="./qstdetail?qstCode=${qst.qstCode}">${qst.qstTitle}</a></td>
+				                <td>
+				                	<c:choose>
+					                	<c:when test="${qst.qstA == 0}">
+					                		<a href="./qnaform?qstCode=${qst.qstCode}">${qst.qstTitle}</a>
+					                	</c:when>
+					                	<c:otherwise>
+					                		<a href="./qnadetail?qstCode=${qst.qstCode}">${qst.qstTitle}</a>
+					                	</c:otherwise>
+			                		</c:choose>
+				                </td>
 				                <td>${qst.qstName}</td>
 				                <td>
 				                	<fmt:parseDate value="${qst.qstDate}" var="qstDate" pattern="yyyy-MM-dd HH:mm:ss" />
