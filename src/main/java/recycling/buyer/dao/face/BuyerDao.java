@@ -153,18 +153,41 @@ public interface BuyerDao {
 	public List<BuyerAdr> selectBuyerAdrListBybCode(String bCode);
 	
 	/**
+	 * 시퀀스로부터 새로운 Adr_Code 생성
+	 * 
+	 * @return 새로운 Adr_Code
+	 */
+	public String getAdrCode();
+	
+	/**
 	 * 배송지 등록
 	 * 
-	 * @param buyerAdr - 추가할 배송지 정보
-	 * @return 
+	 * @param buyerAdr - 등록할 배송지 정보
+	 * @return 등록 성공 행 개수
 	 */
 	public int registerAdr(BuyerAdr buyerAdr);
 
+//	/**
+//	 * 기본 배송지 설정
+//	 * 
+//	 * @param adrCode - 기본 배송지로 설정할 주소 코드
+//	 * @return 설정 성공 여부
+//	 */
+//	public boolean setDefaultAdr(String adrCode);
+	
+	/**
+	 * 현재 기본 배송지 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 기본 배송지 정보
+	 */
+	public BuyerAdr selectCurrentDefaultAdr(String bCode);
+	
 	/**
 	 * 배송지 수정
 	 * 
 	 * @param buyerAdr - 수정할 배송지 정보
-	 * @return 
+	 * @return 수정 성공 행 개수
 	 */
 	public int updateAdr(BuyerAdr buyerAdr);
 
@@ -172,8 +195,17 @@ public interface BuyerDao {
 	 * 배송지 삭제
 	 * 
 	 * @param adrCode - 삭제할 배송지 코드
+	 * @return 삭제 성공 행 개수
 	 */
-	public void deleteAdr(String adrCode);
+	public int deleteAdr(String adrCode);
+	
+	/**
+	 * 배송지 코드로 배송지 정보 조회
+	 * 
+	 * @param adrCode - 조회할 배송지 코드
+	 * @return 배송지 정보
+	 */
+	public BuyerAdr selectBuyerAdrByAdrCode(String adrCode);
 
 	/**
 	 * 구매자 코드로 배송지 정보 조회
@@ -189,13 +221,5 @@ public interface BuyerDao {
 	 * @param bCode - 구매자 코드
 	 */
 	public void deleteBuyer(String bCode);
-
-	/**
-	 * 
-	 * 
-	 * @param adrCode
-	 * @return
-	 */
-	public int delteAdr(String adrCode);
 
 }

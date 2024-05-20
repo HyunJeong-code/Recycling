@@ -4,7 +4,6 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.Cart;
@@ -177,25 +176,44 @@ public interface BuyerService {
 	public List<BuyerAdr> getBuyerAdrList(String bCode);
 	
 	/**
-	 * 배송지 등록
+	 * 배송지 정보 업데이트
 	 * 
-	 * @param buyerAdr - 등록할 배송지 정보
+	 * @param buyerAdr - 업데이트할 배송지 정보
+	 * @return 업데이트 성공 여부
 	 */
-	public void registerAdr(BuyerAdr buyerAdr);
+	public boolean updateBuyerAdr(BuyerAdr buyerAdr);
 	
 	/**
-	 * 배송지 수정
+	 * 새로운 배송지 등록
 	 * 
-	 * @param buyerAdr - 수정할 배송지 정보
+	 * @param buyerAdr - 등록할 배송지 정보
+	 * @return 등록 성공 여부
 	 */
-	public void updateAdr(BuyerAdr buyerAdr);
-
+	public boolean registerBuyerAdr(BuyerAdr buyerAdr);
+	
 	/**
-	 * 배송지 삭제
+	 * 배송지 정보 삭제
 	 * 
 	 * @param adrCode - 삭제할 배송지 코드
+	 * @return 삭제 성공 여부
 	 */
-	public void deleteAdr(String adrCode);
+	public boolean deleteBuyerAdr(String adrCode);
+	
+	/**
+	 * 기본 배송지 설정
+	 * 
+	 * @param adrCode - 기본 배송지로 설정할 adrCode
+	 * @return 설정 성공 여부
+	 */
+	public boolean setDefaultAdr(String bCode, String adrCode);
+	
+	/**
+	 * 배송지 코드로 배송지 정보 조회
+	 * 
+	 * @param adrCode - 조회할 배송지 코드
+	 * @return 배송지 정보
+	 */
+	public BuyerAdr getBuyerAdrByAdrCode(String adrCode);
 	
 	/**
 	 * 구매자 배송지 정보
@@ -211,29 +229,5 @@ public interface BuyerService {
 	 * @param bCode - 구매자 코드
 	 */
 	public void deleteBuyer(String bCode);
-
-	/**
-	 * 배송지 정보 업데이트
-	 * 
-	 * @param buyerAdr - 업데이트할 배송지 정보
-	 * @return 업데이트 성공 여부
-	 */
-	public boolean updateBuyerAdr(BuyerAdr buyerAdr);
-
-	/**
-	 * 새로운 배송지 등록
-	 * 
-	 * @param buyerAdr - 등록할 배송지 정보
-	 * @return 등록 성공 여부
-	 */
-	public boolean registerBuyerAdr(BuyerAdr buyerAdr);
-
-	/**
-	 * 
-	 * 
-	 * @param adrCode
-	 * @return
-	 */
-	public boolean deleteBuyerAdr(String adrCode);
 
 }

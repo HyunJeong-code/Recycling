@@ -717,7 +717,7 @@ public class BuyerController {
 			
 			model.addAttribute("error", "로그인 해주세요.");
 			
-			return "/buyer/login";
+			return "redirect:/buyer/login";
 			
 		}
 		
@@ -731,91 +731,127 @@ public class BuyerController {
 	
 	// 배송지 관리 페이지 (등록, 수정, 삭제) 처리
 	@PostMapping("/myaddr")
-	@ResponseBody
-	public Map<String, Object> myAddrProc(
+	public String myAddrProc(
 			@RequestParam("action") String action,
-			@RequestParam(value = "adrCode", required = false) String adrCode,
-			BuyerAdr buyerAdr
+			@RequestParam(value="adrCode", required = false) String adrCode,
+			BuyerAdr buyerAdr,
+			Model model
 			) {
 		
 		logger.info("/buyer/mypage/myaddr [POST]");
-		
-		Map<String, Object> result = new HashMap<>();
 		
 		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
 		
 		if(buyerLogin == null) {
 			
-			result.put("success", false);
-			result.put("message", "로그인 해주세요.");
+			model.addAttribute("error", "로그인 해주세요.");
 			
-			return result;
+			return "redirect:/buyer/login";
 			
 		}
 		
 		buyerAdr.setbCode(buyerLogin.getbCode());
 		
-		if("update".equals(action)) {
+		switch(action) {
+		
+			case "update":
+				
+				if(buyerAdr.getAdrChk() == null) {
+					
+					buyerAdr.setAdrChk("N");
+				
+				}
+				
+				boolean updateResult = buyerService.updateBuyerAdr(buyerAdr);
+				
+				if(!updateResult) {
+				
+					model.addAttribute("error", "배송지 수정 실패");
 			
-			boolean updateResult = buyerService.updateBuyerAdr(buyerAdr);
+				} else {
+					
+					model.addAttribute("success", "배송지가 수정되었습니다.");
+					
+				}
+				
+				break;
+				
+			case "register":
+				
+				if (buyerAdr.getAdrChk() == null) {
+					
+                    buyerAdr.setAdrChk("N");
+                
+				}
+                
+				boolean registerResult = buyerService.registerBuyerAdr(buyerAdr);
+                
+				if (!registerResult) {
+                
+					model.addAttribute("error", "배송지 등록 실패");
+                
+				} else {
+					
+					model.addAttribute("success", "새 배송지가 등록되었습니다.");
+					
+				}
+				
+                break;
 			
-			if(updateResult) {
+			case "delete":
 				
-				result.put("success", true);
+				if (adrCode != null && !adrCode.isEmpty()) {
+					
+					boolean deleteResult = buyerService.deleteBuyerAdr(adrCode);
+					
+					if(deleteResult) {
+						
+						model.addAttribute("success", "배송지가 삭제되었습니다.");
+						
+					} else {
+						
+						model.addAttribute("error", "배송지 삭제 실패");
+						
+					}
 				
-			} else {
+				} else {
+					
+					model.addAttribute("error", "삭제할 배송지가 없습니다.");
+                
+				}
+                
+				break;
+				
+			case "setDefault":
+				
+				boolean defaultResult = buyerService.setDefaultAdr(buyerLogin.getbCode(), adrCode);
+				
+				if(!defaultResult) {
+					
+					model.addAttribute("error", "기본 배송지 설정 실패");
+					
+				} else {
+					
+					model.addAttribute("success", "기본 배송지가 설정되었습니다.");
+					
+				}
+				
+				break;
 			
-				result.put("success", false);
-				result.put("message", "배송지 수정에 실패했습니다.");
+			default:
 				
-			}
-			
-		} else if ("register".equals(action)) {
-			
-			List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdrList(buyerLogin.getbCode());
-			
-			if(buyerAdrList.size() >= 3) {
+				model.addAttribute("error", "에러");
 				
-				result.put("success", false);
-				result.put("message", "추가 배송지는 최대 2개까지 등록할 수 있습니다.");
-				
-				return result;
-				
-			}
-			
-			boolean registerResult = buyerService.registerBuyerAdr(buyerAdr);
-			
-			if(registerResult) {
-				
-				result.put("success", true);
-				
-			} else {
-				
-				result.put("success", false);
-				result.put("message", "배송지 등록에 실패했습니다.");
-			
-			}
-				
-			
-		} else if ("delete".equals(action)) {
-				
-			boolean deleteResult = buyerService.deleteBuyerAdr(adrCode);
-			
-			if(deleteResult) {
-				
-				result.put("success", true);
-				
-			} else {
-				
-				result.put("success", false);
-				result.put("message", "배송지 삭제에 실패했습니다.");
-				
-			}
-				
+				return "buyer/mypage/myaddr";
+		
 		}
-
-		return result;
-			
+		
+		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdrList(buyerLogin.getbCode());
+		
+		model.addAttribute("buyerAdrList", buyerAdrList);
+		
+		return "buyer/mypage/myaddr";
+	
 	}
 	
 	// 회원 탈퇴

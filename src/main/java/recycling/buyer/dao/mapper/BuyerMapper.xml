@@ -190,27 +190,20 @@
 	
 	<!-- 구매자 코드로 배송지 조회 -->
 	<select id="selectBuyerAdrListBybCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
-		SELECT Adr_Code AS addrCode,
+		SELECT Adr_Code AS adrCode,
 			   B_Code AS bCode,
 			   Adr_Name AS adrName,
 			   Adr_Phone AS adrPhone,
 			   Adr_Postcode AS adrPostcode,
 			   Adr_Addr AS adrAddr,
-			   Adr_Detail AS adrDetail
+			   Adr_Detail AS adrDetail,
+			   Adr_Chk AS adrChk
 		FROM Buyer_Adr
 		<where>
 			AND B_Code = #{bCode }
 		</where>
 	</select>
 	
-    <!-- 배송지 정보 등록 -->
-    <insert id="registerAdr" parameterType="recycling.dto.buyer.BuyerAdr">
-        INSERT INTO 
-        	Buyer_Adr (Adr_Code, B_Code, Adr_Name, Adr_Phone, Adr_Postcode, Adr_Addr, Adr_Detail, Adr_Chk)
-        VALUES 
-        	(#{adrCode }, #{bCode }, #{adrName }, #{adrPhone }, #{adrPostcode }, #{adrAddr }, #{adrDetail }, #{adrChk })
-    </insert>
-
 	<!-- 배송지 정보 수정 -->
     <update id="updateAdr" parameterType="recycling.dto.buyer.BuyerAdr">
         UPDATE Buyer_Adr
@@ -218,11 +211,37 @@
             Adr_Phone = #{adrPhone },
             Adr_Postcode = #{adrPostcode },
             Adr_Addr = #{adrAddr },
-            Adr_Detail = #{adrDetail }
+            Adr_Detail = #{adrDetail },
+            Adr_Chk = #{adrChk }
         <where>
         	AND Adr_Code = #{adrCode }
         </where>
     </update>
+	
+	<!-- 현재 기본 배송지 조회 쿼리 -->
+	<select id="selectCurrentDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
+		SELECT *
+		FROM Buyer_Adr
+		<where>
+			AND B_Code = #{bCode }
+			AND Adr_Chk = 'Y'
+		</where>
+	</select>
+	
+	<!-- 시퀀스에서 새로운 Adr_Code 가져오기 -->
+	<select id="getAdrCode" resultType="string">
+		SELECT 'ADR'||LPAD(buyer_adr_seq.nextval, 7, '0')
+		FROM DUAL
+	</select>
+	
+	<!-- 배송지 정보 등록 -->
+    <insert id="registerAdr" parameterType="recycling.dto.buyer.BuyerAdr">
+        INSERT INTO Buyer_Adr (
+        	Adr_Code, B_Code, Adr_Name, Adr_Phone, Adr_Postcode, Adr_Addr, Adr_Detail, Adr_Chk
+        ) VALUES (
+        	#{adrCode }, #{bCode }, #{adrName }, #{adrPhone }, #{adrPostcode }, #{adrAddr }, #{adrDetail }, #{adrChk }
+        )
+    </insert>
 	
     <!-- 배송지 정보 삭제 -->
     <delete id="deleteAdr" parameterType="string">
@@ -232,8 +251,8 @@
         </where>
     </delete>
 
-    <!-- 구매자 배송지 목록 조회 -->
-    <select id="selectBuyerAdrBybCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
+    <!-- 주소 코드로 배송지 조회 -->
+    <select id="selectBuyerAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
         SELECT Adr_Code AS adrCode,
                B_Code AS bCode,
                Adr_Name AS adrName,
@@ -244,7 +263,7 @@
                Adr_Chk AS adrChk
         FROM Buyer_Adr
         <where>
-        	AND B_Code = #{bCode }
+        	AND Adr_Code = #{adrCode }
         </where>
     </select>
     

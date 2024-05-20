@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
 <!DOCTYPE html>
 <html>
@@ -15,6 +16,7 @@
 
 <script type="text/javascript">
 function execDaumPostcode(targetPostcode, targetAddress, targetDetail) {
+	
     var postcodeElem = document.getElementById(targetPostcode);
     var addressElem = document.getElementById(targetAddress);
     var detailElem = document.getElementById(targetDetail);
@@ -30,97 +32,17 @@ function execDaumPostcode(targetPostcode, targetAddress, targetDetail) {
             detailElem.focus();
         }
     }).open();
+    
 }
-
-function addNewAddress() {
-	if($(".address-form").length >= 3) {
-		alert("추가 배송지는 최대 2개까지 등록할 수 있습니다.");
-		return;
-	}
-	$("#newAddressForm").show();
-}
-
-function cancelNewAddress() {
-	$("#newAddressForm").hide();
-}
-
-function deleteAddress(adrCode) {
-	$.ajax({
-		type: "POST",
-		url: "${pageContext.request.contextPath}/buyer/mypage/myaddr",
-		data: {action: "delete", adrCode : adrCode},
-		success: function(response) {
-			if(response.success) {
-				alert("배송지가 삭제 되었습니다.");
-				location.reload();
-			} else {
-				alert("배송지 삭제에 실패했습니다: " + response.message);
-			}
-		},
-		error: function() {
-			alert("배송지 삭제에 실패했습니다.");
-		}
-	});
-}
-
-$(document).ready(function() {
-	$(".update-form").on("submit", function(event) {
-		event.preventDefault();
-		var form = $(this);
-		$.ajax({
-			type: "POST",
-			url: "${pageContext.request.contextPath}/buyer/mypage/myaddr",
-			data: form.serialize() + "&action=update",
-			dataType: "json",
-			success: function(response) {
-				if(response.success) {
-					alert("배송지 정보가 수정되었습니다.");
-					location.reload();
-				} else {
-					alert("배송지 수정에 실패했습니다: " + response.message);
-				}
-			},
-			error: function() {
-				alert("배송지 수정에 실패했습니다.");
-			}
-		});
-	});
-	
-	$("#registerForm").on("submit", function(event) {
-		event.preventDefault();
-		var form = $(this);
-		$.ajax({
-			type: "POST",
-			url: "${pageContext.request.contextPath}/buyer/mypage/myaddr",
-			data: form.serialize() + "&action=register",
-			dataType: "json",
-			success: function(response) {
-				if(response.success) {
-					alert("새 배송지가 등록되었습니다.");
-					location.reload();
-				} else {
-					alert("배송지 등록에 실패했습니다: " + response.message);
-				}
-			},
-			error: function() {
-				alert("배송지 등록에 실패했습니다.");
-			}
-		});
-	});
-});
 
 function toggleVisibility(elementId) {
 	
 	var element = document.getElementById(elementId);
 	
 	if(element.style.display === "none") {
-		
 		element.style.display = "block";
-		
 	} else {
-		
 		element.style.display = "none";
-		
 	}
 	
 }
@@ -128,6 +50,54 @@ function toggleVisibility(elementId) {
 function cancelForm() {
 	
 	window.history.back();
+
+}
+
+function showAlert(message) {
+	
+	alert(message);
+	
+}
+
+function deleteAdr(adrCode) {
+	
+	$.post("${pageContext.request.contextPath }/buyer/mypage/myaddr", {action: "delete", adrCode: adrCode}, function(response) {
+		showAlert("삭제되었습니다.");
+		location.reload();
+	}).fail(function() {
+		showAlert("삭제에 실패했습니다.");
+	});
+	
+}
+
+function chkAdrLimit() {
+	
+	var adrCnt = ${fn:length(buyerAdrList) };
+	
+	if(adrCnt >= 3) {
+		alert("추가 배송지는 최대 2개까지 등록할 수 있습니다.");
+		return false;
+	}
+	return true;
+	
+}
+
+function setDefaultAdr(adrCode) {
+	
+	$.post("${pageContext.request.contextPath }/buyer/mypage/myaddr", {
+		action: "setDefault", 
+		adrCode: adrCode,
+// 		adrName: adrName,
+// 		adrPhone: adrPhone,
+// 		adrPostcode: adrPostcode,
+// 		adrAddr: adrAddr,
+// 		adrDetail: adrDetail
+	}, function(response) {
+		showAlert("기본 배송지가 변경되었습니다.");
+		location.reload();
+	}).fail(function() {
+		showAlert("기본 배송지 설정에 실패했습니다.");
+	});
 	
 }
 
@@ -137,80 +107,89 @@ function cancelForm() {
 .addr-field {
 	width: 300px;
 }
+
+.addr-form {
+	margin-bottom: 20px;
+}
 </style>
 
 </head>
 <body>
 	<div class="full">
 		<div class="wrap">
-			<h2>배송지 관리</h2>
+			<h3>배송지 관리</h3>
 			<hr>
 			<div class="page">
 				<c:if test="${not empty buyerAdrList }">
-					<h3>기본 배송지</h3>
-					<c:forEach var="addr" items="${buyerAdrList }" begin="0" end="0">
-						<form class="update-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
-							<input type="hidden" name="action" value="update">
-							<input type="hidden" name="adrCode" value="${addr.adrCode }">
-				
-							<label for="adrName">받는 사람 </label>
-							<input type="text" id="adrName" name="adrName" value="${addr.adrName }"><br>
-				
-							<label for="adrPhone">연락처 </label>
-							<input type="text" id="adrPhone" name="adrPhone" value="${addr.adrPhone }"><br>
-				
-							<label for="adrPostcode">우편번호 </label>
-							<input type="text" id="adrPostcodeEdit" name="adrPostcode" value="${addr.adrPostcode }">
-							<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcodeEdit', 'adrAddrEdit', 'adrDetailEdit')"><br>
-				
-							<label for="adrAddr">배송 주소 </label>
-							<input type="text" id="adrAddrEdit" name="adrAddr" class="addr-field" value="${addr.adrAddr }"><br>
-				
-							<label for="adrDetail">상세 주소 </label>
-							<input type="text" id="adrDetailEdit" name="adrDetail" class="addr-field" value="${addr.adrDetail }"><br>
-				
-							<input type="submit" value="수정하기">
-						</form>
+					<h4>기본 배송지</h4>
+					<c:forEach var="address" items="${buyerAdrList }" varStatus="status">
+						<c:if test="${status.index == 0 }">
+							<form class="addr-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post" onsubmit="showAlert('수정되었습니다.');">
+								<input type="hidden" name="action" value="update">
+								<input type="hidden" name="adrCode" value="${address.adrCode }">
+					
+								<label for="adrName">받는 사람 </label>
+								<input type="text" id="adrName_${status.index }" name="adrName" value="${address.adrName }" required><br>
+					
+								<label for="adrPhone">연락처 </label>
+								<input type="text" id="adrPhone_${status.index }" name="adrPhone" value="${address.adrPhone }" required><br>
+					
+								<label for="adrPostcode">우편번호 </label>
+								<input type="text" id="adrPostcode_${status.index }" name="adrPostcode" value="${address.adrPostcode }" required>
+								<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcode_${status.index }', 'adrAddr_${status.index }', 'adrDetail_${status.index }')"><br>
+					
+								<label for="adrAddr">배송 주소 </label>
+								<input type="text" id="adrAddr_${status.index }" name="adrAddr" class="addr-field" value="${address.adrAddr }" required><br>
+					
+								<label for="adrDetail">상세 주소 </label>
+								<input type="text" id="adrDetail_${status.index }" name="adrDetail" class="addr-field" value="${address.adrDetail }"><br>
+					
+								<input type="hidden" name="adrChk" value="Y">
+								<input type="submit" value="수정하기">
+							</form>
+						</c:if>
 					</c:forEach>
 					<hr>
-					<h3>추가 배송지</h3>
-					<c:forEach var="addr" items="${buyerAdrList }" begin="1">
-						<form class="update-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
-							<input type="hidden" name="action" value="register">
-							<input type="hidden" name="adrCode" value="${addr.adrCode }">
-							
-							<label for="adrName">받는 사람 </label>
-							<input type="text" id="adrName" name="adrName" value="${addr.adrName }" required><br>
-				
-							<label for="adrPhone">연락처 </label>
-							<input type="text" id="adrPhone" name="adrPhone" value="${addr.adrPhone }" required><br>
-				
-							<label for="adrPostcode">우편번호 </label>
-							<input type="text" id="adrPostcodeEdit" name="adrPostcode" value="${addr.adrPostcode }" required>
-							<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcodeEdit', 'adrAddrEdit', 'adrDetailEdit')"><br>
-				
-							<label for="adrAddr">배송 주소 </label>
-							<input type="text" id="adrAddrEdit" name="adrAddr" class="addr-field" value="${addr.adrAddr }" required><br>
-				
-							<label for="adrDetail">상세 주소 </label>
-							<input type="text" id="adrDetailEdit" name="adrDetail" class="addr-field" value="${addr.adrDetail }" required><br>
-							
-							<input type="submit" value="수정하기">
-						</form>
-						<form class="delete-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
-							<input type="hidden" name="adrCode" value="${addr.adrCode }">
-							<input type="button" value="삭제하기" onclick="deleteAddress("${addr.adrCode }")">
-						</form>
+					<h4>추가 배송지</h4>
+					<c:forEach var="address" items="${buyerAdrList }" varStatus="status">
+						<c:if test="${status.index > 0 }">
+							<form class="addr-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post" onsubmit="showAlert('수정되었습니다.');">
+								<input type="hidden" name="action" value="update">
+								<input type="hidden" name="adrCode" value="${address.adrCode }">
+								
+								<label for="adrName">받는 사람 </label>
+								<input type="text" id="adrName_${status.index }" name="adrName" value="${address.adrName }" required><br>
+					
+								<label for="adrPhone">연락처 </label>
+								<input type="text" id="adrPhone_${status.index }" name="adrPhone" value="${address.adrPhone }" required><br>
+					
+								<label for="adrPostcode">우편번호 </label>
+								<input type="text" id="adrPostcode_${status.index }" name="adrPostcode" value="${address.adrPostcode }" required>
+								<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcode_${status.index }', 'adrAddr_${status.index }', 'adrDetail_${status.index }')"><br>
+					
+								<label for="adrAddr">배송 주소 </label>
+								<input type="text" id="adrAddr_${status.index }" name="adrAddr" class="addr-field" value="${address.adrAddr }" required><br>
+					
+								<label for="adrDetail">상세 주소 </label>
+								<input type="text" id="adrDetail_${status.index }" name="adrDetail" class="addr-field" value="${address.adrDetail }"><br>
+								
+								<input type="hidden" name="adrChk" value="N">
+								<input type="submit" value="수정하기">
+								<input type="button" value="삭제하기" onclick="deleteAdr('${address.adrCode }')">
+								<input type="button" value="기본 배송지로 설정" onclick="setDefaultAdr('${address.adrCode }', '${address.adrName }', '${address.adrPhone }', '${address.adrPostcode}', '${address.adrAddr}', '${address.adrDetail}')">
+							</form>
+						</c:if>	
 					</c:forEach>
-					<c:if test="${buyerAdrList.size() < 3 }">
-						<input type="button" value="추가 배송지 등록하기" onclick="addNewAddress()"><br><br>
+					<c:if test="${fn:length(buyerAdrList) <= 1 }">
+						<p>추가 배송지가 없습니다.</p>
 					</c:if>
 				</c:if>
-				
-				<div id="newAddressForm" style="display: none;">
-					<h3>새 배송지 추가</h3>
-					<form id="registerForm" method="post">
+				<input type="button" value="추가 배송지 등록하기" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }"><br><br>
+				<div id="addForm" style="display: none;">
+					<h4>새 배송지 추가</h4>
+					<form class="addr-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
 						<input type="hidden" name='action' value="register">
+						<input type="hidden" id="adrCodeAdd" name="adrCode" value="">
 							
 						<label for="adrName">받는 사람 </label>
 						<input type="text" id="adrNameAdd" name="adrName" required><br>
@@ -226,10 +205,10 @@ function cancelForm() {
 						<input type="text" id="adrAddrAdd" name="adrAddr" class="addr-field" required><br>
 							
 						<label for="adrDetail">상세 주소 </label>
-						<input type="text" id="adrDetailAdd" name="adrDetail" class="addr-field" required><br>
-							
+						<input type="text" id="adrDetailAdd" name="adrDetail" class="addr-field"><br>
+						
+						<input type="hidden" name="adrChk" value="N">
 						<input type="submit" value="등록하기">
-						<input type="button" value="취소" onclick="cancelNewAddress()">
 					</form>
 				</div>
 			</div>
