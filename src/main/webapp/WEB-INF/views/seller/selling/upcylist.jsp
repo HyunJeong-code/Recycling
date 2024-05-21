@@ -60,7 +60,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		    console.log(arr);
 		}); // #dlt_btn click end
 		
-		
+		//주문 상태 변경
 		$(".updateSttBtn").click(function(e){
 			
 			//버튼의 주문 상태
