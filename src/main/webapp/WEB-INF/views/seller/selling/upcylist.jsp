@@ -61,25 +61,52 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		}); // #dlt_btn click end
 		
 		
-		$("#cencelBtn").click(function(e){
-			$.ajax({
-				type: "get"
-				, url: "./paycencel"
-				, data: {
-					orddtCode: "ORDT000044"
-				}
-				, dataType : "Json"
-				, success: function(res) {
-					console.log("AJAX 성공");
-					
-					location.href="./upcylist";
-					
-					alert("주문"+res.cencelMsg +"했습니다.");
-				}
-				, error: function() {
-					console.log("AJAX 실패");
-				}
-			}) 
+		$(".updateSttBtn").click(function(e){
+			
+			//버튼의 주문 상태
+			var sttNo = $(this).attr('id');
+			var arr = new Array();
+			var flag = true;
+			$('input:checkbox[name=ordCheckList]').each(function () {
+		        if($(this).is(":checked")==true){
+		        	if($(this).val() == sttNo){
+		        		alert("선택된 주문의 주문 상태를 확인 해주세요.");
+		        		flag = false;
+		        		return false;
+		        	}
+		        	let res = $(this).attr('id');
+		        	arr.push(res);
+		        }
+		    });
+			
+			//주문상태가 같을 때
+			if(!flag){
+				return false;
+			}
+			// 체크된 상품이 없을 때 알림
+			if(arr.length == 0){
+				alert("선택된 상품이 없습니다.");
+			}else{
+				$.ajax({
+					type: "get"
+					, url: "./updatestt"
+					, data: {
+						arr: arr
+						, sttNo: sttNo
+					}
+					, dataType : "Json"
+					, success: function(res) {
+						console.log("AJAX 성공");
+						
+						location.href="./upcylist";
+						
+						alert("주문"+res.Msg +"되었습니다.");
+					}
+					, error: function() {
+						console.log("AJAX 실패");
+					}
+				}) 
+			}
 		}); //cencelBtn 클릭
 		
 		
@@ -133,13 +160,12 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 
 <h1>새활용 판매 관리</h1>
 <div>
-	<button>결제 완료</button>
-	<button>배송 대기</button>
-	<button>배송중</button>
-	<button>거래 완료</button>
-	<button>교환</button>
-	<button>반품처리</button>
-	<button id="cencelBtn">취소</button>
+	<button class="updateSttBtn" id="900">결제 완료</button>
+	<button class="updateSttBtn" id="910">배송 대기</button>
+	<button class="updateSttBtn" id="920">배송중</button>
+	<button class="updateSttBtn" id="940">구매 확정</button>
+	<button class="updateSttBtn" id="970">반품</button>
+	<button class="updateSttBtn" id="980">취소</button>
 </div>
 <table border="1">
 	<thead>
@@ -150,14 +176,14 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			<th>가격</th>
 			<th>총금액</th>
 			<th>주문일</th>
-			<th>배송 상태</th>
+			<th>주문 상태</th>
 		</tr>
 	</thead>
 	<tbody>
 	<c:forEach var="ord" items="${olist }">
 		<tr>
 			<td>
-            	<input type="checkbox" class="ordCheckList" name="ordCheckList" value="${ord.orddtCode }">
+            	<input type="checkbox" class="ordCheckList" name="ordCheckList" id="${ord.orddtCode }" value="${ord.sttNo}">
             </td>
 	 		<td>${ord.orddtCode }</td>
 	 		<td>${ord.ordName }</td>

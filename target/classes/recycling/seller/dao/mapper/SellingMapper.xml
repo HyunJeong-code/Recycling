@@ -72,6 +72,14 @@
 			AND orddt_code = #{orddtCode}
 		</where>
 	</select>
+	
+	<update id="updateOrderDetail" parameterType="OrderDetail">
+		UPDATE order_detail
+		SET stt_no = #{sttNo}
+		<where>
+			AND orddt_code = #{orddtCode}
+		</where>
+	</update>
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (

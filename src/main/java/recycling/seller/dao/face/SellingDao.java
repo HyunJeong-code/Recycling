@@ -111,5 +111,13 @@ public interface SellingDao {
 	 */
 	public OrderDetail selectByorddtCode(String orddtCode);
 
+	/**
+	 * 주문 상태 변경
+	 * 
+	 * @param ordd - 주문상세 번호와 UPDATE하는 상태번호를 가진 DTO
+	 * @return - UPDATE 결과
+	 */
+	public int updateOrderDetail(OrderDetail ordd);
+
 
 }

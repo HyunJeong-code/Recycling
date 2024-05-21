@@ -124,5 +124,29 @@ public interface SellingService {
 	 */
 	public OrderDetail selectByorddtCode(String orddtCode);
 
+	/**
+	 * 토큰 발급
+	 * 
+	 * @return - 토큰
+	 */
+	public String getToken();
+
+	/**
+	 * 결제 취소
+	 * 
+	 * @param order - 취소하는 주문 DTO
+	 * @param token - 토큰
+	 * @return - 결제 취소 결과
+	 */
+	public int cencelpay(OrderDetail order, String token);
+
+	/**
+	 * 주문 상태 변경
+	 * 
+	 * @param ordd - 주문상세 번호와 UPDATE하는 상태번호를 가진 DTO
+	 * @return - UPDATE 결과
+	 */
+	public int updateOrderDetail(OrderDetail ordd);
+
 
 }
