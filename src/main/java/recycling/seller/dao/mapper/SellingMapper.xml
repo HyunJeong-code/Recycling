@@ -37,6 +37,7 @@
 			AND od.orddt_code = s.orddt_code(+)
 			AND od.prd_code = #{prdCode}
 		</where>
+		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
 	<update id="deletePrd" parameterType="String">
@@ -86,6 +87,13 @@
 		INSERT INTO ship
 		VALUES ('SHIP' || LPAD(qst_seq.nextval, 6, '0'), #{orddtCode}, #{shipName}, #{shipNo}, sysdate)
 	</insert>
+	
+	<delete id="deleteShip" parameterType="String">
+		DELETE FROM ship
+		<where>
+			AND orddt_code = #{orddtCode}
+		</where>
+	</delete>
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (

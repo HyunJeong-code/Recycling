@@ -156,5 +156,13 @@ public interface SellingService {
 	 */
 	public int insertShip(MyOrder myOrder);
 
+	/**
+	 * 송장 삭제
+	 * 
+	 * @param orddtCode - 삭제할 송장의 orddtCode
+	 * @return - DELETE 결과
+	 */
+	public int deleteShip(String orddtCode);
+
 
 }

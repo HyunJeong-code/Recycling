@@ -215,7 +215,7 @@ public class SellingController {
 				ordd.setSttNo(sttNo);
 				int updateRes = sellingService.updateOrderDetail(ordd);
 			}
-			model.addAttribute("cencelMsg", "변경");
+			model.addAttribute("Msg", "변경");
 		}
         return "jsonView";
     }
@@ -232,7 +232,17 @@ public class SellingController {
 		
 	    return "jsonView";	
 	}
-
+	
+	@PostMapping("/shipdel")
+	public String shipDel(@RequestParam(value = "arr[]") List<String> list) {
+		
+		for(String orddtCode : list) {
+			logger.info("{}",orddtCode);
+			int deleteRes = sellingService.deleteShip(orddtCode);  
+		}
+		
+	    return "jsonView"; 
+	}
 	@GetMapping("/explist")
 	public void expList(
 			Model model,

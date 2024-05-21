@@ -157,6 +157,11 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+	public int deleteShip(String orddtCode) {
+		return sellingDao.deleteShip(orddtCode);
+	}
+	
+	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		

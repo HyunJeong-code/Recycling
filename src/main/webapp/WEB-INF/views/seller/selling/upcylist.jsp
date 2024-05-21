@@ -169,7 +169,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			$('input:checkbox[name=ordCheckList]').each(function () {
 		        if($(this).is(":checked")==true){
 			        if($(this).is(":checked")==true){
-			        	let res = $(this).val();
+			        	let res = $(this).attr('id');
 			        	arr.push(res);
 			        }
 		        }
