@@ -168,60 +168,49 @@ public interface BuyerService {
 	public boolean updateCmpDetail(Cmp cmp);
 	
 	/**
-	 * 구매자 배송지 조회
+	 * 구매자의 모든 배송지 정보
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 구매자 배송지 목록
+	 * @return 구매자의 모든 배송지 목록
 	 */
-	public List<BuyerAdr> getBuyerAdrList(String bCode);
+	public List<BuyerAdr> getBuyerAdr(String bCode);
 	
 	/**
-	 * 배송지 정보 업데이트
+	 * 구매자 배송지 개수
 	 * 
-	 * @param buyerAdr - 업데이트할 배송지 정보
-	 * @return 업데이트 성공 여부
+	 * @param bCode - 구매자 코드
+	 * @return 구매자 배송지 개수
 	 */
-	public boolean updateBuyerAdr(BuyerAdr buyerAdr);
-	
+	public int cntBuyerAdr(String bCode);
+
 	/**
 	 * 새로운 배송지 등록
 	 * 
 	 * @param buyerAdr - 등록할 배송지 정보
-	 * @return 등록 성공 여부
 	 */
-	public boolean registerBuyerAdr(BuyerAdr buyerAdr);
-	
+	public void registerBuyerAdr(BuyerAdr buyerAdr);
+
 	/**
-	 * 배송지 정보 삭제
+	 * 기존 배송지 정보 수정
+	 * 
+	 * @param buyerAdr - 수정할 배송지 정보
+	 */
+	public void updateBuyerAdr(BuyerAdr buyerAdr);
+
+	/**
+	 * 배송지 삭제
 	 * 
 	 * @param adrCode - 삭제할 배송지 코드
-	 * @return 삭제 성공 여부
 	 */
-	public boolean deleteBuyerAdr(String adrCode);
-	
+	public void deleteBuyerAdr(String adrCode);
+
 	/**
-	 * 기본 배송지 설정
+	 * 선택한 배송지를 기본 배송지로 설정
 	 * 
-	 * @param adrCode - 기본 배송지로 설정할 adrCode
-	 * @return 설정 성공 여부
-	 */
-	public boolean setDefaultAdr(String bCode, String adrCode);
-	
-	/**
-	 * 배송지 코드로 배송지 정보 조회
-	 * 
-	 * @param adrCode - 조회할 배송지 코드
-	 * @return 배송지 정보
-	 */
-	public BuyerAdr getBuyerAdrByAdrCode(String adrCode);
-	
-	/**
-	 * 구매자 배송지 정보
-	 * 
+	 * @param adrCode - 기본 배송지로 설정할 배송지 코드
 	 * @param bCode - 구매자 코드
-	 * @return 구매자 배송지 정보
 	 */
-	public BuyerAdr getBuyerAdr(String bCode);
+	public void setDefaultAdr(String adrCode, String bCode);
 	
 	/**
 	 * 구매자 탈퇴

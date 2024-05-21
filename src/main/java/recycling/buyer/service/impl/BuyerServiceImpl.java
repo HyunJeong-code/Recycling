@@ -155,114 +155,54 @@ public class BuyerServiceImpl implements BuyerService {
 		return updatedRows > 0;
 		
 	}
-
+	
 	@Override
-	public List<BuyerAdr> getBuyerAdrList(String bCode) {
+	public List<BuyerAdr> getBuyerAdr(String bCode) {
 
-		return buyerDao.selectBuyerAdrListBybCode(bCode);
+		return buyerDao.getBuyerAdr(bCode);
 	
 	}
-	
+
 	@Override
-	public boolean updateBuyerAdr(BuyerAdr buyerAdr) {
-		
-		if(buyerAdr.getAdrChk() == null) {
-			
-			buyerAdr.setAdrChk("N");
-			
-		}
-		
-		return buyerDao.updateAdr(buyerAdr) > 0;
+	public int cntBuyerAdr(String bCode) {
+
+		return buyerDao.cntBuyerAdr(bCode);
 	
 	}
-	
+
 	@Override
-	public boolean registerBuyerAdr(BuyerAdr buyerAdr) {
+	public void registerBuyerAdr(BuyerAdr buyerAdr) {
 		
-		String adrCode = buyerDao.getAdrCode();
-		
-		buyerAdr.setAdrCode(adrCode);
-		
-		if(buyerAdr.getAdrChk() == null) {
-			
-			buyerAdr.setAdrChk("N");
-			
-		}
-		
-		return buyerDao.registerAdr(buyerAdr) > 0;
+		buyerDao.insertBuyerAdr(buyerAdr);
 		
 	}
 
 	@Override
-	public boolean deleteBuyerAdr(String adrCode) {
-
-		return buyerDao.deleteAdr(adrCode) > 0;
-	
-	}
-	
-	@Override
-	public BuyerAdr getBuyerAdrByAdrCode(String adrCode) {
-
-		return buyerDao.selectBuyerAdrByAdrCode(adrCode);
-	
-	}
-	
-	@Override
-	public BuyerAdr getBuyerAdr(String bCode) {
+	public void updateBuyerAdr(BuyerAdr buyerAdr) {
 		
-		return buyerDao.selectBuyerAdrBybCode(bCode);
-	
+		buyerDao.updateBuyerAdr(buyerAdr);
+		
 	}
-	
+
+	@Override
+	public void deleteBuyerAdr(String adrCode) {
+		
+		buyerDao.deleteBuyerAdr(adrCode);
+		
+	}
+
+	@Override
+	public void setDefaultAdr(String adrCode, String bCode) {
+		
+		buyerDao.resetDefaultAdr(adrCode);
+		buyerDao.setDefaultAdr(adrCode);
+		
+	}
+
 	@Override
 	public void deleteBuyer(String bCode) {
 		
-		buyerDao.deleteBuyer(bCode);
 		
-	}
-
-	@Override
-	public boolean setDefaultAdr(String bCode, String adrCode) {
-		
-		logger.info("기본 배송지로 설정 주소코드: {}, adrCode: {}", bCode, adrCode);
-		
-		// 현재 기본 배송지를 찾아 Adr_Chk를 'N'으로 변경
-		BuyerAdr currentDefaultAdr = buyerDao.selectCurrentDefaultAdr(bCode);
-		
-		if(currentDefaultAdr != null) {
-			
-			currentDefaultAdr.setAdrChk("N");
-			
-			int result = buyerDao.updateAdr(currentDefaultAdr);
-			
-			logger.info("현재 기본 배송지 주소를 N으로: {}, result: {}", currentDefaultAdr, result);
-			
-		} else {
-			
-			logger.info("배송지 주소로 현재 기본 배송지 찾을 수 없음: {}", bCode);
-			
-		}
-		
-		// 선택한 배송지를 기본 배송지로 설정
-		BuyerAdr newDefaultAdr = buyerDao.selectBuyerAdrByAdrCode(adrCode);
-		
-		if(newDefaultAdr != null) {
-			
-			newDefaultAdr.setAdrChk("Y");
-			
-			int result = buyerDao.updateAdr(newDefaultAdr);
-			
-			logger.info("새로운 기본 배송지 Y로: {}, result: {}", newDefaultAdr, result);
-			
-			return result > 0;
-			
-		} else {
-			
-			logger.info("주소 코드로 주소를 찾을 수 없음: {}", adrCode);
-			
-			return false;
-			
-		}
 		
 	}
 

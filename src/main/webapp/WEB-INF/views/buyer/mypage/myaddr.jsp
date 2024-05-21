@@ -47,12 +47,6 @@ function toggleVisibility(elementId) {
 	
 }
 
-function cancelForm() {
-	
-	window.history.back();
-
-}
-
 function showAlert(message) {
 	
 	alert(message);
@@ -61,46 +55,43 @@ function showAlert(message) {
 
 function deleteAdr(adrCode) {
 	
-	$.post("${pageContext.request.contextPath }/buyer/mypage/myaddr", {action: "delete", adrCode: adrCode}, function(response) {
-		showAlert("삭제되었습니다.");
-		location.reload();
-	}).fail(function() {
-		showAlert("삭제에 실패했습니다.");
-	});
-	
-}
-
-function chkAdrLimit() {
-	
-	var adrCnt = ${fn:length(buyerAdrList) };
-	
-	if(adrCnt >= 3) {
-		alert("추가 배송지는 최대 2개까지 등록할 수 있습니다.");
-		return false;
+	if(confirm("정말 삭제하시겠습니까?")) {
+		$.post('${pageContext.request.contextPath }/buyer/mypage/myaddr', 
+				{ action: 'delete', adrCode: adrCode }, 
+				function(response) {
+			location.reload();
+		});
 	}
-	return true;
 	
 }
 
 function setDefaultAdr(adrCode) {
 	
-	$.post("${pageContext.request.contextPath }/buyer/mypage/myaddr", {
-		action: "setDefault", 
-		adrCode: adrCode,
-// 		adrName: adrName,
-// 		adrPhone: adrPhone,
-// 		adrPostcode: adrPostcode,
-// 		adrAddr: adrAddr,
-// 		adrDetail: adrDetail
-	}, function(response) {
-		showAlert("기본 배송지가 변경되었습니다.");
-		location.reload();
-	}).fail(function() {
-		showAlert("기본 배송지 설정에 실패했습니다.");
-	});
-	
+    $.post('${pageContext.request.contextPath}/buyer/mypage/myaddr', 
+    		{ action: 'setDefault', adrCode: adrCode }, 
+    		function(response) {
+        location.reload();
+    });
+    
 }
 
+function chkAdrLimit() {
+	
+    var limit = ${fn:length(buyerAdrList)};
+    
+    if(limit >= 3) {
+        alert('추가 배송지는 최대 2개까지 등록할 수 있습니다.');
+        return false;
+    }
+    return true;
+    
+}
+
+function cancelForm() {
+	
+	window.history.back();
+
+}
 </script>
 
 <style type="text/css">
