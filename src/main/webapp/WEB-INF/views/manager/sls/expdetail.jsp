@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,12 +131,6 @@ body {
 				</div>
 
 				<div>
-					<label>모집 인원</label> <select readonly onclick="this.blur()">
-						<option value="${schCnt}">${schCnt.schCnt}명</option>
-					</select>
-				</div>
-
-				<div>
 					<label>체험설명</label>
 					<textarea readonly onclick="this.blur()">${view.expDetail}</textarea>
 				</div>
@@ -140,7 +138,58 @@ body {
 				<div>
 					<a href="./expupdate?expCode=${view.expCode }" ><button type="button">수정하기</button></a>
 				</div>				
-
+				<div class="section">
+	<table>
+		<thead>
+			<tr>
+				<th>모집날짜</th>
+				<th>시간</th>
+				<th>신청한인원</th>
+				<th>등록가능인원</th>
+				<th>예약관리</th>
+				<th>상태</th>
+			</tr>
+		</thead>
+		<tbody>
+		<!-- 합계 합산 -->
+	
+			<c:forEach var="expSchList" items="${expSchList}">
+				<tr>
+					<td>
+						<fmt:parseDate value="${expSchList.schDate}" var="schDate" pattern="yyyy-MM-dd" />
+						<fmt:formatDate value="${schDate}" pattern="yyyy-MM-dd" /></td>
+					<td>${expSchList.schTime}</td>
+					
+					<td>
+					<c:set var="totalResCnt" value="0" />
+						<c:forEach var="resCnt" items="${resCnt}">
+							<c:if test="${expSchList.schNo == resCnt.schNo}">
+								<c:set var="totalResCnt" value="${totalResCnt + resCnt.resCnt}" />
+							</c:if>
+						</c:forEach>
+						${totalResCnt }
+					</td>
+					<td>${expSchList.schCnt}</td>
+					<td>
+						<c:choose>
+	                		<c:when test="${expSchList.schCnt == totalResCnt }">
+	                			모집마감
+	                		</c:when>
+	                		<c:when test="${expSchList.schCnt > totalResCnt }">
+	                			모집중
+	                		</c:when>
+	                		<c:when test="${expSchList.schCnt < totalResCnt }">
+	                			에러
+	                		</c:when>
+                		</c:choose>
+					</td>
+					<td><a href="./expresdetail?expCode=${expSchList.expCode}&schNo=${expSchList.schNo }"><button>예약관리</button></a>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+</div>
+				
 				<div>
 				<a href="./explist" ><button type="button">돌아가기</button></a>
 				</div>

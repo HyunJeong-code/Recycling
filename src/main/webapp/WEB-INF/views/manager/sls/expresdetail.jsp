@@ -52,11 +52,9 @@ $(function() {
 			})
 		}
 
-	})
-})
+	})//btn_reserve_complete
 
 /* 예약 취소버튼 클릭시[예약취소 변경] */
-$(function() {
 	$("#btn_reserve_cancel").click(function() {
 
 		var len = $("input[name=chkBox]:checked").length;
@@ -92,9 +90,41 @@ $(function() {
 			})
 		}
 
-	})
-})
+	})//btn_reserve_cancel
 
+	/* 체험시간별 인원변경 */
+		$("#cnt_change_update").change(function() {
+					var parentRow = $(this).closest('tr');
+					var schCntInput = parentRow.find('.expCode').text();
+			$.ajax({
+				type: "post"
+				, url: "./cntchangeupdate"
+				, data: {
+					
+					expCode : schCntInput
+					, schCnt : $(this).val()
+				}
+				, dataType : "json"
+				, success: function(res) {
+					console.log("AJAX 성공");
+					
+					console.log(res.cntRes);
+					
+					if(res.cntRes == 0){
+						alert("수량이 부족합니다");			
+					}
+					
+					location.href="./cart";
+					//$("#cartTable").load(window.location.href+" #cartTable");
+					
+				}
+				, error: function() {
+					console.log("AJAX 실패");
+				}
+			})
+		}) // .cartCnt change end
+
+})
 </script>
 <style type="text/css">
 .full {
@@ -181,35 +211,71 @@ $(function() {
             </div>
         
             <div class="section">
-                <table border="1" class="table table-hover table-sm" style="width:1000px;">
+
+<table border="1" class="table table-hover table-sm" style="width:1000px;">
 	
 	<thead>
         <tr>
             <th>상품 번호</th>
             <th>체험 제목</th>
             <th>참가 비용</th>
-            <th>등록일</th>
+            <th>모집 날짜</th>
+            <th>시간</th>
+            <th>가능인원</th>
+            <th>모집일</th>
+            <th>상태</th>
         </tr>
     </thead>
 	<tbody>
             <tr>
-                <td>${exp.expCode}</td>
+                <td class="expCode">${exp.expCode}</td>
                 <td>${exp.expName}</td>
                 <td>${exp.expPrice}</td>
+
                 <td>
-                	<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
-               		<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                	<fmt:parseDate value="${expSch.schDate}" var="schDate" pattern="yyyy-MM-dd" />
+                	<fmt:formatDate value="${schDate }" pattern="yyyy-MM-dd"/>
+                </td>
+                <td>${expSch.schTime }</td>
+                <td>
+                	<input type="text" name="schCnt" value="${expSch.schCnt }" id="cnt_change_update"> 
+                </td>
+                
+                <td>
+                	<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd" />
+               		<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd"/>
+                </td>
+                <td>
+				<!-- 합계 계산 -->
+				<c:set var="totalResCnt" value="0" />
+					<c:forEach var="res" items="${resList}">
+						<c:set var="totalResCnt" value="${totalResCnt + res.resCnt}" />
+					</c:forEach>
+					
+                	<c:choose>
+                		<c:when test="${expSch.schCnt == totalResCnt }">
+                			모집마감
+                		</c:when>
+                		<c:when test="${expSch.schCnt > totalResCnt }">
+                			모집중
+                		</c:when>
+                		<c:when test="${expSch.schCnt < totalResCnt }">
+                			에러
+                		</c:when>
+                	</c:choose>
                 </td>
             </tr>
     </tbody>
 </table>
 
+<c:out value=""></c:out>
 <table>
 	<tbody>
 	<tr>
 		<td>예약 관리</td>
 		<td><button id = "btn_reserve_complete">예약완료</button></td>
 		<td><button id = "btn_reserve_cancel">예약취소</button></td>
+		<td><button id = "btn_reserve_change">예약변경[고민중]</button></td>
 	</tr>
 	</tbody>
 </table>
@@ -223,18 +289,20 @@ $(function() {
         <tr>
         	<th>V</th>
             <th>예약번호</th>
-            <th>이름</th>
+            <th>대표자 이름</th>
             <th>전화번호</th>
             <th>이메일</th>
-            <th>인원</th>
+            <th>예약인원</th>
             
             
-            <th>예약시간</th>
+            <th>예약일</th>
             <th>상태</th>
+            <th>예약변경</th>
         </tr>
     </thead>
 	<tbody>
 			<c:forEach var="res" items="${resList}">
+			
             <tr>
 				<td><input type="checkbox" id="${res.resCode }" name="chkBox"></td>
                 <td>${res.resCode }</td>
@@ -242,9 +310,10 @@ $(function() {
                 <td>${res.resPhone }</td>
                 <td>${res.resEmail }</td>
                 <td>${res.resCnt }</td>
-                
-                
-                <td>${res.resTime }</td>
+                <td>
+                	<fmt:parseDate value="${res.resDate }" var="resDate" pattern="yyyy-MM-dd" />
+                	<fmt:formatDate value="${resDate }" pattern="yyyy-MM-dd"/>
+               </td>
 				<td>
 					<c:choose>
 						<c:when test="${res.resCnf eq 'Y' }">
@@ -255,7 +324,18 @@ $(function() {
 						</c:when>
 					</c:choose>
 				</td>
+				<td>
 				
+					<c:choose>
+						<c:when test="${res.resCnf eq 'Y' }">
+							<a href="./changeexpres?expCode=${exp.expCode}&schNo=${expSch.schNo }&resCode=${res.resCode }"><button>예약변경</button></a>
+						</c:when>
+						<c:when test="${res.resCnf eq 'N' }">
+							변경불가
+						</c:when>
+					</c:choose>
+				
+				</td>
             </tr>
             </c:forEach>
     </tbody>

@@ -8,28 +8,18 @@
 	<!-- 체험단 조회구조[exp]  -->
 	<sql id="expBoard">
 	SELECT 
-    	exp_code
-	    , s_code
-	    , exp_name
-	    , exp_price
-	    , exp_detail
-	    , exp_hit
-	    , exp_date
+    	exp_code, s_code, exp_name, exp_price, exp_detail, exp_hit, exp_date
 	FROM exp
 	</sql>
 	
 	<!-- 체험단 예약일정 조회구조[exp_sch] -->
 	<sql id="expSchBoard">
 	SELECT
-		sch_no
-		, exp_code
-		, sch_date
-		, sch_time
-		, sch_cnt		
+		sch_no, exp_code, sch_date, sch_time, sch_cnt		
 	FROM exp_sch
 	</sql>
 	
-	<!-- 체험단 예약 조회구조[exp_res] -->
+	<!-- 체험단 예약인원 정보 조회[exp_res] -->
 	<sql id="expResBoard">
 	SELECT
 		res_code, b_code, sch_no, res_name, res_phone
@@ -55,23 +45,20 @@
 	JOIN exp_sch s ON e.exp_code = s.exp_code
 	</sql>
 	
-	
-	<!-- exp Join expSch resultMap-->
-	<resultMap type="java.util.HashMap" id="expJoin">
-	
-	<result property="expCode" column="exp_code"/>
-	<result property="sCode" column="s_code"/>
-	<result property="expName" column="exp_name"/>
-	<result property="expPrice" column="exp_price"/>
-	<result property="expDetail" column="exp_detail"/>
-	<result property="expHit" column="exp_hit"/>
-	<result property="expDate" column="exp_date"/>
-
-	<result property="schNo" column="sch_no"/>
-	<result property="schDate" column="sch_date"/>
-	<result property="schTime" column="sch_time"/>
-	<result property="schCnt" column="sch_cnt"/>
-	</resultMap>
+	<!-- expRes Join expSch  -->
+	<sql id="expResJoinExpSch">
+	    SELECT s.sch_no, s.exp_code, s.sch_date,
+           s.sch_time, s.sch_cnt,
+           r.res_code, r.b_code, r.res_name,
+           r.res_phone, r.res_email,
+           r.res_expname, r.res_date,
+           r.res_time, r.res_cnt,
+           r.res_price, r.res_sum,
+           r.res_pay, r.res_cnf,
+           r.res_cnl, r.res_dt
+    FROM exp_sch s
+    JOIN exp_res r ON s.sch_no = r.sch_no
+	</sql>
 	
 	
 	<!-- 체험단 조회 -->
@@ -87,9 +74,10 @@
 	</select>
 	
 	<!-- 체험단 세부 조회 -->
-	<select id="selectDetail" parameterType="Exp" resultType="Exp" >
+	<select id="selectDetail" parameterType="String" resultType="Exp" >
 		<include refid="expBoard"/>
 		<where>exp_code = #{expCode }</where>
+		
 	</select>
 	
 	<!-- 관리자쪽 구현 x -->
@@ -185,8 +173,14 @@
 	</select>
 	
 	<!-- 체험 예약페이지 예약 조회 -->	
-	<select id="expResDetailRes" resultType="ExpRes" parameterType="ExpRes">
+	<select id="expResDetailRes" resultType="ExpRes" parameterType="int">
 		<include refid="expResBoard"/>
+		<where>sch_no = #{schNo}</where>
+	</select>
+	
+	<!-- expResDetail페이지 예약일정조회 -->
+	<select id="selectExpSchbySchNo" resultType="ExpSch" parameterType="int">
+		<include refid="expSchBoard"/>
 		<where>sch_no = #{schNo}</where>
 	</select>
 	
@@ -217,6 +211,64 @@
 	    ,res_cnl ='Y'
 	    <where>res_code = #{resCode }</where>
 	</update>
+	
+	
+	<!-- expresdetail페이지 예약인원 변경창 조회 -->
+	<select id="changeExpRes" resultType="ResSchCnt" parameterType="ResSchCnt">
+		<include refid="expResJoinExpSch"/>
+		WHERE r.res_code = #{resCode}
+	</select>
+	
+	<!-- expresdetail페이지 예약인원 변경하기 -->
+	 <update id="changeExpResProc" parameterType="ResSchCnt">
+		UPDATE exp_res SET
+		  res_name = #{resName}
+		  , res_phone = #{resPhone}
+		  , res_email = #{resEmail}
+		  , res_cnt = #{resCnt }
+		  , res_time = #{resTime }
+		  , res_date = sysdate
+		  <where>res_code = #{resCode } </where>
+	 </update>
+	
+	<!-- expdetail페이지 예약인원조회 -->
+	<select id="selectByResCnt" resultType="ResSchCnt" parameterType="String">
+			SELECT s.sch_no, s.exp_code, s.sch_date, s.sch_time, s.sch_cnt, r.res_cnt
+				FROM exp_sch s
+				JOIN exp_res r ON s.sch_no = r.sch_no
+		WHERE s.exp_code = #{expCode}
+	</select>
+	
+	<!-- 등록인원 조회 -->
+	<select id="selectByResCntUpdate" resultType="int" parameterType="ResSchCnt">
+		<include refid="expResJoinExpSch"/>
+		<where>
+			AND r.res_code = #{resCode}
+			AND s.sch_no = #{schNo}
+			AND r.resCnt = #{resCnt}
+		</where>
+	</select>
+	
+	<!-- 총인원 조회 -->
+	<select id="selectByschCntUpdate" resultType="int" parameterType="ResSchCnt">
+		<include refid="expResJoinExpSch"/>
+				<where>
+			AND r.res_code = #{resCode}
+			AND s.sch_no = #{schNo}
+			AND s.schCnt = #{schCnt}
+		</where>
+	</select>
+	
+	<!-- 인원 변경 -->
+	<update id="cntChangeUpdate" parameterType="ResSchCnt">
+		UPDATE exp_sch SET
+		s.sch_no = #{schNo}
+		<where>
+		AND s.schCnt = #{schCnt}
+		</where>
+	
+	</update>
+	
 	
 	
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -32,10 +33,10 @@ public interface SlsService {
 	/**
 	 * 체험단 세부사항 조회
 	 * 
-	 * @param exp - Exp
+	 * @param expCode - Exp
 	 * @return Exp
 	 */
-	public Exp selectDetail(Exp exp);
+	public Exp selectDetail(String expCode);
 
 	/**
 	 * 체험단 등록
@@ -76,7 +77,7 @@ public interface SlsService {
 	 * @param expCode
 	 * @return
 	 */
-	public List<ExpRes> expResDetailRes(ExpRes expRes);
+	public List<ExpRes> expResDetailRes(int schNo);
 
 	/**
 	 * 체험단 예약정보 리스트 삭제
@@ -99,6 +100,66 @@ public interface SlsService {
 	 * @param chBox
 	 */
 	public int expResUpdate(List<String> chBox, String actionType);
+
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+
+	/**
+	 * 체험 예약, 인원 조인
+	 * @param schNo 
+	 * @param schNo 
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ResSchCnt> selectByResCnt(String expCode);
+
+	/**
+	 * 체험단 예약인원 예약변경창 조회하기
+	 * @param resSchCnt 
+	 * 
+	 * @return
+	 */
+	public ResSchCnt changeExpRes(ResSchCnt resSchCnt);
+	
+	/**
+	 * 체험단 예약인원 예약변경하기
+	 * @param resSchCnt 
+	 * 
+	 * @return
+	 */
+	public void changeExpResProc(ResSchCnt resSchCnt);
+
+	/**
+	 * 등록인원
+	 * 
+	 * @param resSchCnt
+	 * @return
+	 */
+	public int selectByresCntUpdate(ResSchCnt resSchCnt);
+	
+	/**
+	 * 총인원
+	 * 
+	 * @param resSchCnt
+	 * @return
+	 */
+	public int selectByschCntUpdate(ResSchCnt resSchCnt);
+
+	/**
+	 * 인원 변경 
+	 * 
+	 * @param resSchCnt
+	 * @return
+	 */
+	public int cntChangeUpdate(ResSchCnt resSchCnt);
+
+
 
 
 }

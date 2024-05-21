@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -44,14 +45,14 @@ public class SlsServiceImpl implements SlsService {
 	
 	//세부사항 조회
 	@Override
-	public Exp selectDetail(Exp exp) {
+	public Exp selectDetail(String expCode) {
 		logger.info("SlsService: selectDetail");
 
 //		조회수 증감
 //		slsDao.hit(exp); //관리자 미구현
 		
 		//세부사항 조회
-		return slsDao.selectDetail(exp);
+		return slsDao.selectDetail(expCode);
 	}
 
 	//글쓰기
@@ -156,8 +157,8 @@ public class SlsServiceImpl implements SlsService {
 
 	//체험예약 페이지 예약정보 조회
 	@Override
-	public List<ExpRes> expResDetailRes(ExpRes expRes) {
-		return slsDao.expResDetailRes(expRes);
+	public List<ExpRes> expResDetailRes(int schNo) {
+		return slsDao.expResDetailRes(schNo);
 	}
 
 	//체험예약 리스트 전체삭제
@@ -181,28 +182,79 @@ public class SlsServiceImpl implements SlsService {
 	}
 
 	//예약 버튼에 따른 상태변경
-	@Override
-	public int expResUpdate(List<String> chBox, String actionType) {
+		@Override
+		public int expResUpdate(List<String> chBox, String actionType) {
 
-		int result = 0;
-		
-		for(int i = 0; i < chBox.size(); i++) {
-			String resCode = chBox.get(i);
+			int result = 0;
 			
-	        if ("complete".equals(actionType)) {
-	        	 // 예약완료 메서드 호출
-	            result += slsDao.expResCnf(resCode);
-	   
-	        } else if ("cancel".equals(actionType)) {
-	        
-	        	// 예약취소 메서드 호출
-	            result += slsDao.expResCnl(resCode); 
-	        }
+			for(int i = 0; i < chBox.size(); i++) {
+				String resCode = chBox.get(i);
+				
+		        if ("complete".equals(actionType)) {
+		        	 // 예약완료 메서드 호출
+		            result += slsDao.expResCnf(resCode);
+		   
+		        } else if ("cancel".equals(actionType)) {
+		        
+		        	// 예약취소 메서드 호출
+		            result += slsDao.expResCnl(resCode); 
+		        }
+			}
+			
+			return result;
+			
 		}
+
+	//체험 예약조회
+	@Override
+	public ExpSch selectExpSchbySchNo(int schNo) {
+		return slsDao.selectExpSchbySchNo(schNo);
+	}
+
+	//체험 예약,인원 조인
+	@Override
+	public List<ResSchCnt> selectByResCnt(String expCode) {
+		logger.info("ResSchCnt : service[Get]");
 		
-		return result;
+		
+		return slsDao.selectByResCnt(expCode);
 		
 	}
+
+	// 체험단 예약인원 예약변경창
+	@Override
+	public ResSchCnt changeExpRes(ResSchCnt resSchCnt) {
+		logger.info("changeExpRes : service[Get]");
+		
+		return slsDao.changeExpRes(resSchCnt);
+	}
+
+	@Override
+	public void changeExpResProc(ResSchCnt resSchCnt) {
+
+		
+		slsDao.changeExpResProc(resSchCnt);
+	}
+
+	//등록인원
+	@Override
+	public int selectByresCntUpdate(ResSchCnt resSchCnt) {
+		return slsDao.selectByResCntUpdate(resSchCnt);
+	}
+
+	//총인원
+	@Override
+	public int selectByschCntUpdate(ResSchCnt resSchCnt) {
+		return slsDao.selectByschCntUpdate(resSchCnt);
+	}
+
+	//인원변경
+	@Override
+	public int cntChangeUpdate(ResSchCnt resSchCnt) {
+		
+		return slsDao.cntChangeUpdate(resSchCnt);
+	}
+
 
 
 

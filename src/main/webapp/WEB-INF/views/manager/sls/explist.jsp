@@ -12,29 +12,29 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 /* 상세조회 클릭에 따른 exp_sch보여주기 */
-$(function() {
-    $(".expSch").click(function() {
-    	console.log($(this).attr("id"));
-        $.ajax({
-            type: "GET", // HTTP 요청 방법을 지정
-            url: "./expschlist",
-            data: {
-            	expCode : $(this).attr("id") 
-				, expName : $(this).closest('tr').find('td:eq(2)').text()
-            },
-            dataType: "html",
-            success: function(res) {
-                console.log("AJAX 성공");
-                console.log(res);
+// $(function() {
+//     $(".expSch").click(function() {
+//     	console.log($(this).attr("id"));
+//         $.ajax({
+//             type: "GET", // HTTP 요청 방법을 지정
+//             url: "./expschlist",
+//             data: {
+//             	expCode : $(this).attr("id") 
+// 				, expName : $(this).closest('tr').find('td:eq(2)').text()
+//             },
+//             dataType: "html",
+//             success: function(res) {
+//                 console.log("AJAX 성공");
+//                 console.log(res);
                 
-                $("#expSchResult").html(res)
-            },
-            error: function() {
-                console.log("AJAX 실패");
-            }
-        });
-    });
-});
+//                 $("#expSchResult").html(res)
+//             },
+//             error: function() {
+//                 console.log("AJAX 실패");
+//             }
+//         });
+//     });
+// });
 
 /* 체험 리스트 삭제기능 */
 $(function() {
@@ -77,6 +77,7 @@ $(function() {
 
 	})
 })
+
 </script>
 <style type="text/css">
 /* 기본 설정 */
@@ -215,8 +216,7 @@ a button:hover {
 									<fmt:formatDate value="${expDate }" pattern="yyyy-MM-dd" />
 								</td>
 								
-								<td><button id ="${explist.expCode }" class = "expSch" >상세조회</button></td>
-								
+								<td><a href="./expdetail?expCode=${explist.expCode }"><button id ="${explist.expCode }">상세조회</button></a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -230,12 +230,12 @@ a button:hover {
 			</div>
 			<!-- ---------------------------------------------------------------------------------- -->
 
-			<div class="page">
-				<h1>체험단 조회 페이지[exp_code 판매상품별 기준 정렬]</h1>
-				<hr>
-			</div>
+<!-- 			<div class="page"> -->
+<!-- 				<h1>체험단 조회 페이지[exp_code 판매상품별 기준 정렬]</h1> -->
+<!-- 				<hr> -->
+<!-- 			</div> -->
 			
-			<div id = expSchResult></div>
+<!-- 			<div id = expSchResult></div> -->
 
 		</div>
 		<!-- wrap -->

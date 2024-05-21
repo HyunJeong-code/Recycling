@@ -3,6 +3,7 @@ package recycling.manager.dao.face;
 import java.util.List;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -28,10 +29,10 @@ public interface SlsDao {
 	/**
 	 * 체험단 세부 조회하기
 	 * 
-	 * @param exp - DTO 객체
+	 * @param expCode - DTO 객체
 	 * @return
 	 */
-	public Exp selectDetail(Exp exp);
+	public Exp selectDetail(String expCode);
 
 	/**
 	 * 조회수 증감
@@ -104,7 +105,7 @@ public interface SlsDao {
 	 * @param expCode
 	 * @return
 	 */
-	public List<ExpRes> expResDetailRes(ExpRes expRes);
+	public List<ExpRes> expResDetailRes(int schNo);
 
 	/**
 	 * 체험단 예약정보 리스트 삭제
@@ -129,12 +130,68 @@ public interface SlsDao {
 	public int expResCnf(String resCode);
 
 	/**
-	 * 예약 취소튼에 따른 예약변경
+	 * 예약 취소버튼에 따른 예약변경
 	 * 
 	 * @param chBox
 	 */
 	public int expResCnl(String resCode);
 
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+
+	/**
+	 * 체험 예약, 인원 조인
+	 * @param schNo 
+	 * @param schNo 
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ResSchCnt> selectByResCnt(String expCode);
+
+	/**
+	 * 체험단 예약인원 예약변경창 조회하기
+	 * @param resSchCnt 
+	 * 
+	 * @return
+	 */
+	public ResSchCnt changeExpRes(ResSchCnt resSchCnt);
+
+	/**
+	 * 체험단 예약인원 예약변경하기
+	 * @param resSchCnt 
+	 * 
+	 * @return
+	 */
+	public void changeExpResProc(ResSchCnt resSchCnt);
 	
+	/**
+	 * 등록인원
+	 * 
+	 * @param resSchCnt
+	 * @return
+	 */
+	public int selectByResCntUpdate(ResSchCnt resSchCnt);
+
+	/**
+	 * 총인원
+	 * 
+	 * @param resSchCnt
+	 * @return
+	 */
+	public int selectByschCntUpdate(ResSchCnt resSchCnt);
+	
+	/**
+	 * 인원 변경 
+	 * 
+	 * @param resSchCnt
+	 * @return
+	 */
+	public int cntChangeUpdate(ResSchCnt resSchCnt);
 	
 }
