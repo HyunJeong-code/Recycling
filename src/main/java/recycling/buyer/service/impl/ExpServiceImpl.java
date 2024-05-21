@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import recycling.buyer.dao.face.ExpDao;
 import recycling.buyer.service.face.ExpService;
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
 import recycling.util.Paging;
 
 @Service
@@ -62,5 +63,17 @@ public class ExpServiceImpl implements ExpService {
 	@Override
 	public List<Exp> selectTopRecExp() {
 		return expDao.selectTopRecExp();
+	}
+
+	@Override
+	public Exp selectByExpCode(String expCode) {
+		
+		return expDao.selectByExpCode(expCode);
+	}
+
+	@Override
+	public List<ExpFile> selectByExpFile(String expCode) {
+		
+		return expDao.selectByExpFile(expCode);
 	}
 }

@@ -1,6 +1,9 @@
 package recycling.buyer.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.ExpService;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
 import recycling.util.Paging;
 
 // 메뉴 - 체험단
@@ -59,9 +65,17 @@ public class ExpController {
 	}
 	
 	@GetMapping("/expdetail")
-	public void expDetail() {
+	public void expDetail(
+			String expCode,
+			Model model,
+			HttpSession session
+			) {
 		
+		Exp exp = expService.selectByExpCode(expCode);
+		List<ExpFile> expFiles = expService.selectByExpFile(expCode);
 		
+		model.addAttribute("exp", exp);
+		model.addAttribute("expFiles", expFiles);
 		
 	}
 	
@@ -73,5 +87,16 @@ public class ExpController {
 	@GetMapping("/exprvwdetail")
 	public void expRvwDetail() {
 		
+	}
+	
+	@GetMapping("/expresform")
+	public void expResForm() {
+		
+	}
+	
+	@PostMapping("/expresform")
+	public String expResFormProc() {
+		
+		return 
 	}
 }

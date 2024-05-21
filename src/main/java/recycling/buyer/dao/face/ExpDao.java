@@ -3,6 +3,7 @@ package recycling.buyer.dao.face;
 import java.util.List;
 
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
 import recycling.util.Paging;
 
 // 체험단 관련 DB 처리
@@ -54,5 +55,9 @@ public interface ExpDao {
 	 * @return 체험단 List
 	 */
 	public List<Exp> selectTopRecExp();
+
+	public Exp selectByExpCode(String expCode);
+
+	public List<ExpFile> selectByExpFile(String expCode);
 
 }

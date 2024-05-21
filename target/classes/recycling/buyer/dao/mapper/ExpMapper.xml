@@ -89,5 +89,19 @@
         )
         WHERE rnum BETWEEN 1 AND 5
     </select>
+    
+    <select id="selectByExpCode" resultType="Exp" parameterType="string">
+    	SELECT * FROM Exp
+    	<where>
+    		AND exp_code = #{expCode}
+    	</where>
+    </select>
+    
+    <select id="selectByExpFile" resultType="ExpFile" parameterType="string">
+    	SELECT * FROM exp_file
+    	<where>
+    		AND exp_code = #{expCode}
+    	</where>
+    </select>
 	
 </mapper>

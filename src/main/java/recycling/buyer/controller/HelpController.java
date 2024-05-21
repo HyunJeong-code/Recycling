@@ -181,7 +181,7 @@ public class HelpController {
 		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
 		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
-		boolean isPrivate = "private".equals(visibility);
+//		boolean isPrivate = "private".equals(visibility);
 		
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
