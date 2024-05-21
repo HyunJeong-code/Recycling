@@ -47,6 +47,7 @@
 	<!-- 조회 -->	
 	<select id="selectAll" resultMap="mgrJoin">
 		<include refid="mgrJoinDep"/>
+		ORDER BY mgr_code DESC
 	</select>
 	
 	<!-- 세부 조회 -->

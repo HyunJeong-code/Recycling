@@ -19,27 +19,27 @@ public interface MgrDao {
 	ManagerLogin selectByIdPw(Manager manager);
 
 	/**
-	 * 공지사항 전체 조회하기
-	 * 
-	 * @param paging - 페이징 정보 객체 
-	 * @return - DTO 객체
-	 */
-	public List<Notice> selectAll(Paging paging);
-
-	/**
-	 * 공지사항 세부 조회하기
-	 * 
-	 * @param notice - DTO 객체
+	 * 관리자 공지사항 전체조회
+	 *  
+	 * @param i - 매니저 카테고리 2번만 가져오기
 	 * @return
 	 */
-	public Notice selectDetail(Notice notice);
+	public List<Notice> selectAll(int i);
+
+	/**
+	 * 관리자 공지사항 세부조회 
+	 * 
+	 * @param ntcCode
+	 * @return
+	 */
+	public Notice selectDetail(String ntcCode);
 
 	/**
 	 * 조회수 증감
 	 * 
-	 * @param notice - DTO 객체
+	 * @param ntcCode
 	 */
-	public void hit(Notice notice);
+	public void hit(String ntcCode);
 
 	/**
 	 * 페이징 기능 + 검색기능

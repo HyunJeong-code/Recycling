@@ -76,15 +76,13 @@
 						
 						location.href="./cart";
 						
+						alert("장바구니가 삭제되었습니다.");
 					}
 					, error: function() {
 						console.log("AJAX 실패");
 					}
 				}) 
 			}
-			
-			
-		    
 		    console.log(arr);
 		}); // #dlt_btn click end
 		
