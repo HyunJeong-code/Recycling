@@ -193,8 +193,5 @@ public class CsController {
 	    csService.otoDel(otoCode);
 	    return "redirect:/manager/cs/main";
 	}
-	
-	// 80~90% 완료
-	// .....................
-
+	 
 }

@@ -49,26 +49,27 @@
 			</thead>
 			
 			<tbody>
-				<c:forEach var="buyer" items="${buyerList }">
-					<tr>
-						<td>${buyer.bCode }</td>
-						<td>${buyer.bCtCode }</td>
-						<td>
-							<a href="./buyerdetail?bCode=${buyer.bCode }">${buyer.bId }</a>
-						</td>
-						<td>${buyer.bName }</td>
-						<td>${buyer.bPhone }</td>
-						<td>${buyer.bEmail }</td>
-						<td>${buyer.rankNo }</td>
-						<td>
-							<fmt:parseDate value="${buyer.bEntDate }" var="bEntDate" pattern="yyyy-MM-dd" />
-							<fmt:formatDate value="${bEntDate }" pattern="yyyy-MM-dd" />
-						</td>
-					</tr>
-				</c:forEach>
+			    <c:forEach var="buyer" items="${buyerList}">
+			        <c:if test="${buyer.bOut != 'Y'}">
+			            <tr>
+			                <td>${buyer.bCode }</td>
+			                <td>${buyer.bCtCode }</td>
+			                <td>
+			                    <a href="./buyerdetail?bCode=${buyer.bCode }">${buyer.bId }</a>
+			                </td>
+			                <td>${buyer.bName }</td>
+			                <td>${buyer.bPhone }</td>
+			                <td>${buyer.bEmail }</td>
+			                <td>${buyer.rankNo }</td>
+			                <td>
+			                    <fmt:parseDate value="${buyer.bEntDate }" var="bEntDate" pattern="yyyy-MM-dd" />
+			                    <fmt:formatDate value="${bEntDate }" pattern="yyyy-MM-dd" />
+			                </td>
+			            </tr>
+			        </c:if>
+			    </c:forEach>
 			</tbody>
 		</table>
-		
 	</div><!-- .container -->
 	
 </body>
