@@ -8,19 +8,13 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-=======
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
->>>>>>> main
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,35 +25,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.BuyerService;
-<<<<<<< HEAD
-=======
-
-import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.Cart;
-import recycling.dto.buyer.CartOrder;
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
-
->>>>>>> main
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Cmp;
-<<<<<<< HEAD
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
-=======
-
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
->>>>>>> main
+
 
 // 마이페이지 - 회원 정보 관련
 
