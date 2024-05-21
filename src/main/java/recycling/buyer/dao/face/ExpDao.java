@@ -25,13 +25,34 @@ public interface ExpDao {
 	 */
 	public int selectCntAll(String search);
 
+	/**
+	 * 최신순 체험단 전체 리스트
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @return 체험단 List
+	 */
 	public List<Exp> selectRecentExp(Paging paging);
 
+	/**
+	 * 인기순위 체험단 전체 리스트
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @return 체험단 List
+	 */
 	public List<Exp> selectPopularExp(Paging paging);
 
-
+	/**
+	 * 인기순 체험단 5개 리스트
+	 * 
+	 * @return 체험단 List
+	 */
 	public List<Exp> selectTopPopExp();
 
+	/**
+	 * 새체험 체험단 5개 리스트
+	 * 
+	 * @return 체험단 List
+	 */
 	public List<Exp> selectTopRecExp();
 
 }

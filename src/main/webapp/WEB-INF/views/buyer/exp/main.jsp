@@ -1,105 +1,109 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<title>체험단 메인페이지</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-<script type="text/javascript">
-$(document).ready(function() {
-    function updateTopList(list) {
-        var container = $('#topExpList');
-        container.html('');
-        $.each(list, function(index, exp) {
-            var expHtml = `
-                <div class="expList">
-                    <div class="title">` + exp.expName + `</div>
-                    <div class="price">` + exp.expPrice + `원</div>
-                    <div>조회수: ` + exp.expHit + `</div>
-                    <div>등록일: ` + exp.expDate + `</div>
-                </div>
-            `;
-            container.append(expHtml);
-        });
-    }
-
-    $('#popularButton').on('click', function() {
-        updateTopList(${topPopList});
-    });
-
-    $('#recentButton').on('click', function() {
-        updateTopList(${topRecList});
-    });
-});
-
-</script>
 <style type="text/css">
 .wrap { 
-	width: 1200px; margin: auto; 
+    width: 1000px; margin: auto; 
 }
 
 .top-section { 
-	display: flex; 
-	justify-content: space-between; 
-	align-items: center; 
-	margin: 20px 0; 
-}
-
-.topPopList {
-	display: flex;
-	
-}
-
-.topRecList {
-	display: flex;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin: 20px 0; 
 }
 
 .body-section {
-	display: flex;
+    display: flex;
 }
 
 .category, .search {
-	margin: 10px 0; 
+    margin: 10px 0; 
 }
 
 .body-expList {
-	display: flex; 
-	flex-wrap: wrap; 
-	gap: 20px;
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px;
 }
 
 .expList {
-	border: 1px solid #ddd; 
-	padding: 10px; 
-	box-sizing: border-box;
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    box-sizing: border-box;
 }
 
 .expList img {
-	max-width: 100%; 
-	height: auto; 
-	display: block; 
-	margin: 0 auto 10px;
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    margin: 0 auto 10px;
 }
 
 .expList .title {
-	font-weight: bold; 
-	margin: 10px 0;
+    font-weight: bold; 
+    margin: 10px 0;
 }
 
 .expList .price {
-	color: #f00; 
-	margin: 10px 0;
+    color: #f00; 
+    margin: 10px 0;
 }
 
+.expAllList {
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    box-sizing: border-box;
+}
+
+.expAllList img {
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    margin: 0 auto 10px;
+}
+
+.expAllList .title {
+    font-weight: bold; 
+    margin: 10px 0;
+}
+
+.expAllList .price {
+    color: #f00; 
+    margin: 10px 0;
+}
 </style>
-<title>체험단 메인페이지</title>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    function updateTopList(listClass) {
+        $('.expList').hide(); // 모든 리스트 숨기기
+        $('.' + listClass).show(); // 선택된 리스트만 보이기
+    }
+
+    $('#popularButton').on('click', function() {
+        updateTopList('topPopList');
+    });
+
+    $('#recentButton').on('click', function() {
+        updateTopList('topRecList');
+    });
+
+    // 페이지 로드 시 기본으로 인기 체험 리스트를 보여줌
+    updateTopList('topPopList');
+});
+</script>
+
 </head>
 <body>
 <div class="wrap">
@@ -107,42 +111,40 @@ $(document).ready(function() {
     <div class="top-section">
         <!-- 상단 체험단 인기, 최신 -->
         <div>
-        	<button id="popularButton">인기 체험</button>
+            <button id="popularButton">인기 체험</button>
+            <button id="recentButton">새 체험</button>
         </div>
-        <div class="topPopList" id="topPopList">
-	        <c:forEach var="exp" items="${topPopList}">
-	            <div class="expList">
-	                <div class="title">${exp.expName}</div>
-	                <div class="price">${exp.expPrice}원</div>
-	                <div>조회수: ${exp.expHit}</div>
-	                <div>등록일: 
-		           		<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
-		          		<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-	                </div>
-	            </div>
-	        </c:forEach>
+        <div id="topExpList">
+            <c:forEach var="exp" items="${topPopList}">
+            <a href="./expdetail?expCode=${exp.expCode }">
+                <div class="expList topPopList">
+                    <div class="title">${exp.expName}</div>
+                    <div class="price">${exp.expPrice}원</div>
+                    <div>조회수: ${exp.expHit}</div>
+                    <div>등록일: 
+                        <fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
+                        <fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    </div>
+                </div>
+            </a>
+            </c:forEach>
+            <c:forEach var="exp" items="${topRecList}">
+           	<a href="./expdetail?expCode=${exp.expCode }">
+                <div class="expList topRecList" style="display: none;">
+                    <div class="title">${exp.expName}</div>
+                    <div class="price">${exp.expPrice}원</div>
+                    <div>조회수: ${exp.expHit}</div>
+                    <div>등록일: 
+                        <fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
+                        <fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    </div>
+                </div>
+            </a>
+            </c:forEach>
         </div>
-        <br><br>
-        <div>
-        	<button id="recentButton">새 체험</button>
-        </div>
-        <div class="topRecList" id="topRecList">
-	        <c:forEach var="exp" items="${topRecList}">
-	            <div class="expList">
-	                <div class="title">${exp.expName}</div>
-	                <div class="price">${exp.expPrice}원</div>
-	                <div>조회수: ${exp.expHit}</div>
-	                <div>등록일: 
-		           		<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
-		          		<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-	                </div>
-	            </div>
-	        </c:forEach>
-        </div>
-	        
     </div>
     <hr>
-    
+
     <div class="body-section">
         <form action="./main" method="get">
         <div class="category">
@@ -154,25 +156,26 @@ $(document).ready(function() {
         </div>
         <div class="search">
             <input type="text" name="search" placeholder="검색어를 입력해 주세요" value="${search}">
-            <button onclick="this.form.submit()">검색</button>
+            <button onclick="this.form.submit()" class="btn btn-primary">검색</button>
         </div>
         </form>
     </div>
-	<div class="body-expList">
+    <div class="body-expList">
         <c:forEach var="exp" items="${list}">
-            <div class="expList">
-<%--                 <img src="${exp.image}" alt="Product Image"> --%>
-                <div class="title">${exp.expName}</div>
-                <div class="price">${exp.expPrice}원</div>
-                <div>조회수: ${exp.expHit}</div>
-                <div>등록일:
-                	<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
-                	<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                </div>
-            </div>
+           	<a href="./expdetail?expCode=${exp.expCode }">
+	            <div class="expAllList">
+	                <div class="title">${exp.expName}</div>
+	                <div class="price">${exp.expPrice}원</div>
+	                <div>조회수: ${exp.expHit}</div>
+	                <div>등록일:
+	                    <fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
+	                    <fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+	                </div>
+	            </div>
+           	</a>
         </c:forEach>
-	</div>
+    </div>
+    <c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </div>
-<c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </body>
 </html>

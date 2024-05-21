@@ -58,4 +58,20 @@ public class ExpController {
         model.addAttribute("topRecList", topRecList);
 	}
 	
+	@GetMapping("/expdetail")
+	public void expDetail() {
+		
+		
+		
+	}
+	
+	@GetMapping("/exprvwlist")
+	public void expRvwList() {
+		
+	}
+	
+	@GetMapping("/exprvwdetail")
+	public void expRvwDetail() {
+		
+	}
 }
