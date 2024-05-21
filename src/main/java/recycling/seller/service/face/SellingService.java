@@ -148,5 +148,13 @@ public interface SellingService {
 	 */
 	public int updateOrderDetail(OrderDetail ordd);
 
+	/**
+	 * 송장 등록
+	 * 
+	 * @param myOrder - 송장 정보가 담긴 DTO
+	 * @return - INSERT 결과
+	 */
+	public int insertShip(MyOrder myOrder);
+
 
 }

@@ -152,6 +152,11 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+	public int insertShip(MyOrder myOrder) {
+		return sellingDao.insertShip(myOrder);
+	}
+	
+	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		

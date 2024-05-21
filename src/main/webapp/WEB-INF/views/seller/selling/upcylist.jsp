@@ -107,7 +107,99 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					}
 				}) 
 			}
-		}); //cencelBtn 클릭
+		}); //.updateSttBtn click end
+		
+		//송장번호 등록
+		$("#shipCreateBtn").click(function() {
+			var arr = [];
+			
+			$('input:checkbox[name=ordCheckList]').each(function () {
+		        if($(this).is(":checked")==true){
+		        	
+		        	var checkboxId = $(this).attr('id');
+
+	                var parentRow = $(this).closest('tr');
+
+	                var shipNameSelect = parentRow.find('select[name="shipName"]').val();
+	                var shipNoInput = parentRow.find('input[name="shipNo"]').val();
+	                
+		        	
+		        	var res = {};
+		        	
+		        	res.orddtCode = checkboxId;
+		        	res.shipName = shipNameSelect;
+		        	res.shipNo = shipNoInput;
+		        	
+		        	arr.push(res);
+		        	console.log(res);
+		        }
+		    });
+			
+			
+			// 체크된 상품이 없을 때 알림
+			if(arr.length == 0){
+				alert("선택된 상품이 없습니다.");
+			}else{
+				$.ajax({
+					type: "post"
+					, url: "./shipform"
+					, contentType: "application/json"
+					, data: JSON.stringify(arr)
+					, dataType : "Json"
+					, success: function(res) {
+						console.log("AJAX 성공");
+						
+						location.href="./upcylist";
+						
+						alert("송장이 등록되었습니다.");
+					}
+					, error: function() {
+						console.log("AJAX 실패");
+					}
+				}) 
+			}
+		    console.log(arr);
+		}); // #shipBtn click end
+		
+		
+		//송장 삭제
+		$("#shipDelBtn").click(function() {
+			var arr = [];
+			
+			$('input:checkbox[name=ordCheckList]').each(function () {
+		        if($(this).is(":checked")==true){
+			        if($(this).is(":checked")==true){
+			        	let res = $(this).val();
+			        	arr.push(res);
+			        }
+		        }
+		    });
+			
+			// 체크된 상품이 없을 때 알림
+			if(arr.length == 0){
+				alert("선택된 상품이 없습니다.");
+			}else{
+				$.ajax({
+					type: "post"
+					, url: "./shipdel"
+					, data: {
+						arr: arr 
+					}
+					, dataType : "Json"
+					, success: function(res) {
+						console.log("AJAX 성공");
+						
+						location.href="./upcylist";
+						
+						alert("송장이 삭제되었습니다.");
+					}
+					, error: function() {
+						console.log("AJAX 실패");
+					}
+				}) 
+			}
+		    console.log(arr);
+		}); // #shipBtn click end
 		
 		
 	}); //$ end
@@ -161,11 +253,13 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 <h1>새활용 판매 관리</h1>
 <div>
 	<button class="updateSttBtn" id="900">결제 완료</button>
-	<button class="updateSttBtn" id="910">배송 대기</button>
+	<button class="updateSttBtn" id="910">배송 준비 중</button>
 	<button class="updateSttBtn" id="920">배송중</button>
 	<button class="updateSttBtn" id="940">구매 확정</button>
 	<button class="updateSttBtn" id="970">반품</button>
 	<button class="updateSttBtn" id="980">취소</button>
+	<button id="shipCreateBtn">송장 직접입력</button>
+	<button id="shipDelBtn">송장 삭제</button>
 </div>
 <table border="1">
 	<thead>
@@ -177,6 +271,8 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			<th>총금액</th>
 			<th>주문일</th>
 			<th>주문 상태</th>
+			<th>택배사</th>
+			<th>송장번호</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -194,6 +290,29 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
            		<fmt:formatDate value="${ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
 	 		<td id="sttNo"><script>document.write(sttList[${ord.sttNo}])</script></td>
+	 		<td>
+	 			<c:if test="${ord.shipName != null}">
+	 				${ord.shipName }
+	 			</c:if>
+	 			<c:if test="${ord.shipName == null}">
+					<select name="shipName">
+					    <option value="">택배사 선택</option>
+					    <option value="우체국택배">우체국택배</option>
+					    <option value="CJ대한통운">CJ대한통운</option>
+					    <option value="한진택배">한진택배</option>
+					    <option value="로젠택배">로젠택배</option>
+					    <option value="롯데택배">롯데택배</option>
+					</select>
+	 			</c:if>
+	 		</td>
+	 		<td>
+	 			<c:if test="${ord.shipNo != 0}">
+	 				${ord.shipNo }
+	 			</c:if>
+	 			<c:if test="${ord.shipNo == 0}">
+	 				<input type="text" name="shipNo">
+	 			</c:if>
+	 		</td>
 	 	</tr>
 	</c:forEach>
 	</tbody>

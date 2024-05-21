@@ -29,11 +29,12 @@
 	
 	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
 		SELECT 
-			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
 		FROM 
-			order_detail od, orders o
+			order_detail od, orders o, ship s
 		<where>
-			AND o.ord_code = od.ord_code
+			AND od.ord_code = o.ord_code
+			AND od.orddt_code = s.orddt_code(+)
 			AND od.prd_code = #{prdCode}
 		</where>
 	</select>
@@ -80,6 +81,11 @@
 			AND orddt_code = #{orddtCode}
 		</where>
 	</update>
+	
+	<insert id="insertShip" parameterType="MyOrder">
+		INSERT INTO ship
+		VALUES ('SHIP' || LPAD(qst_seq.nextval, 6, '0'), #{orddtCode}, #{shipName}, #{shipNo}, sysdate)
+	</insert>
 
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (
