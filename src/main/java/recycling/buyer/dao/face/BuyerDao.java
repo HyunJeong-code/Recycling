@@ -126,7 +126,7 @@ public interface BuyerDao {
 	 * @param buyer - 업데이트 할 구매자 정보
 	 * @return 
 	 */
-	public boolean updateBuyer(Buyer buyer);
+	public int updateBuyer(Buyer buyer);
 	
 	/**
 	 * 기업 정보 업데이트

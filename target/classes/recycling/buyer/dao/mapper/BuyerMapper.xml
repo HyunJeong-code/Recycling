@@ -132,16 +132,6 @@
 		</where>
 	</select>
 	
-	<!-- 구매자 등급 조회 -->
-    <select id="selectBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
-    	SELECT Rank_No AS rankNo,
-    		   Rank_Name AS rankName
-    	FROM Buyer_Rank
-    	<where>
-    		AND Rank_No = #{rankNo }
-    	</where>
-    </select>
-	
 	<!-- 구매자 코드로 기업 정보 조회 -->
 	<select id="selectCmpBybCode" parameterType="string" resultType="recycling.dto.buyer.Cmp">
         SELECT Cmp_No AS cmpNo,
