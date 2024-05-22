@@ -134,5 +134,45 @@ public interface SellingService {
 	 */
 //	public List<AllPrd> selectAllPrd(BuyerLogin seller);
 
+	/**
+	 * 토큰 발급
+	 * 
+	 * @return - 토큰
+	 */
+	public String getToken();
+
+	/**
+	 * 결제 취소
+	 * 
+	 * @param order - 취소하는 주문 DTO
+	 * @param token - 토큰
+	 * @return - 결제 취소 결과
+	 */
+	public int cencelpay(OrderDetail order, String token);
+
+	/**
+	 * 주문 상태 변경
+	 * 
+	 * @param ordd - 주문상세 번호와 UPDATE하는 상태번호를 가진 DTO
+	 * @return - UPDATE 결과
+	 */
+	public int updateOrderDetail(OrderDetail ordd);
+
+	/**
+	 * 송장 등록
+	 * 
+	 * @param myOrder - 송장 정보가 담긴 DTO
+	 * @return - INSERT 결과
+	 */
+	public int insertShip(MyOrder myOrder);
+
+	/**
+	 * 송장 삭제
+	 * 
+	 * @param orddtCode - 삭제할 송장의 orddtCode
+	 * @return - DELETE 결과
+	 */
+	public int deleteShip(String orddtCode);
+
 
 }

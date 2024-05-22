@@ -56,6 +56,58 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			}
 		    console.log(arr);
 		}); // #dlt_btn click end
+		
+		
+		//주문 상태 변경
+		$(".updateSttBtn").click(function(e){
+			
+			//버튼의 주문 상태
+			var sttNo = $(this).attr('id');
+			var arr = new Array();
+			var flag = true;
+			$('input:checkbox[name=ordCheckList]').each(function () {
+		        if($(this).is(":checked")==true){
+		        	if($(this).val() == sttNo){
+		        		alert("선택된 주문의 주문 상태를 확인 해주세요.");
+		        		flag = false;
+		        		return false;
+		        	}
+		        	let res = $(this).attr('id');
+		        	arr.push(res);
+		        }
+		    });
+			
+			//주문상태가 같을 때
+			if(!flag){
+				return false;
+			}
+			// 체크된 상품이 없을 때 알림
+			if(arr.length == 0){
+				alert("선택된 상품이 없습니다.");
+			}else{
+				$.ajax({
+					type: "get"
+					, url: "./updatestt"
+					, data: {
+						arr: arr
+						, sttNo: sttNo
+					}
+					, dataType : "Json"
+					, success: function(res) {
+						console.log("AJAX 성공");
+						
+						location.href="./upcylist";
+						
+						alert("주문"+res.Msg +"되었습니다.");
+					}
+					, error: function() {
+						console.log("AJAX 실패");
+					}
+				}) 
+			}
+		}); //.updateSttBtn click end
+		
+		
 	}); //$ end
 
 </script>
@@ -103,9 +155,15 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 
 
 <h1>재활용 판매 관리</h1>
+
+<div>
+	<button class="updateSttBtn" id="900">대기중</button>
+	<button class="updateSttBtn" id="950">거래 완료</button>
+</div>
 <table border="1">
 	<thead>
 		<tr>
+			<th></th>
 			<th>주문번호</th>
 			<th>상품 이름</th>
 			<th>가격</th>
@@ -117,6 +175,9 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	<tbody>
 	<c:forEach var="order" items="${olist }">
 		<tr>
+			<td>
+            	<input type="checkbox" class="ordCheckList" name="ordCheckList" id="${ord.orddtCode }" value="${ord.sttNo}">
+            </td>
 	 		<td>${order.orddtCode }</td>
 	 		<td>${order.ordName }</td>
 	 		<td>${order.ordPrice }</td>
