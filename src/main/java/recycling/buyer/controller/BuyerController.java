@@ -66,7 +66,7 @@ public class BuyerController {
 	@Autowired private JavaMailSenderImpl mailSender;
 	
 	@GetMapping("/cart")
-	public void cart(Model model) {
+	public void cart(Model model, HttpSession session) {
 		
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("bCode", "BUY0000002");
@@ -150,8 +150,9 @@ public class BuyerController {
 	
 	@GetMapping("/pay")
 	public void pay(
-			@RequestParam List<String> checkList,
-			Model model
+			@RequestParam List<String> checkList
+			, Model model
+			, HttpSession session
 			) {
 		//logger.info("checkList : {}", checkList);
 		
@@ -185,6 +186,7 @@ public class BuyerController {
 				Orders order
 				, Model model
 				, @RequestParam("cartList[]") List<String> cartList
+				, HttpSession session
 			) {
 		
 		//테스트용 세션***********************************************테스트
@@ -237,7 +239,7 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/myorder")
-	public void myOrder(Model model) {
+	public void myOrder(Model model, HttpSession session) {
 		
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("bCode", "BUY0000002");
@@ -420,7 +422,7 @@ public class BuyerController {
 			) {
 		logger.info("/buyer/mypage/changepw [GET]");
 		
-		return "buyer/mypage/changepw";
+//		return "buyer/mypage/changepw";
 		
 	}
 	

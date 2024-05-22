@@ -1,38 +1,32 @@
 package recycling.seller.controller;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.dto.buyer.BuyerLogin;
-import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.ExpRes;
-import recycling.dto.seller.AllPrd;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.Prd;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
+import recycling.util.Range;
 
 // 상품-판매 관리
 
@@ -42,11 +36,9 @@ public class SellingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private SellingService sellingService;
-	@Autowired private BuyerService buyerService;
-	@Autowired HttpSession session;
 	
 	@GetMapping("/rcylist")
-	public void rcyList(Model model) {
+	public void rcyList(Model model, HttpSession session) {
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("sCode", "SEL0000003");
 		
@@ -89,7 +81,7 @@ public class SellingController {
 	}
 	
 	@GetMapping("/upcylist")
-	public void upcyList(Model model) {
+	public void upcyList(Model model, HttpSession session) {
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("sCode", "SEL0000003");
 		
@@ -125,7 +117,11 @@ public class SellingController {
 			}
 		}
 		
-		logger.info("{}",nplist);
+		//내림차순 정렬
+		Collections.sort(olist, new Range());
+		
+		logger.info("olist: {}",olist);
+		logger.info("nplist: {}",nplist);
 		
 		model.addAttribute("plist", nplist);
 		model.addAttribute("olist", olist);
@@ -166,87 +162,91 @@ public class SellingController {
 		return "redirect:/seller/selling/upcylist";
 	}
 	
-	@GetMapping("/paycencel")
-    public String payCencel(String orddtCode, Model model) {
-		logger.info("ordCode: {}",orddtCode);
+	@GetMapping("/updatestt")
+    public String updateStt(@RequestParam(value = "arr[]") List<String> list, int sttNo, Model model) {
+		logger.info("list: {}",list);
+		logger.info("sttNo: {}",sttNo);
 		
-		//Orders orders = buyerService.selectByordCode(ordCode);
+		if(sttNo >= 970) {
+			//토큰 발급
+			String token = sellingService.getToken();
+			
+			
+			String successRes = "";
+			String failRes = "";
+			//반복 취소
+			for(String orddtCode : list) {
+				
+				//OrderDetail 조회
+				OrderDetail order = sellingService.selectByorddtCode(orddtCode); 
+				logger.info("order: {}",order);
+				
+				//주문 취소(환불)
+				int res = sellingService.cencelpay(order, token);
+				
+				if(res == 1) {
+					OrderDetail ordd = new OrderDetail();
+					ordd.setOrddtCode(orddtCode);
+					ordd.setSttNo(sttNo);
+					int updateRes = sellingService.updateOrderDetail(ordd);
+					if(successRes != "") {
+						successRes += ", ";					
+					}
+					successRes += orddtCode;
+		        	
+				} else {
+					if(failRes != "") {
+						failRes += ", ";					
+					}
+					failRes += orddtCode;
+				}
+			}
+			
+			if(successRes != "") {
+				successRes += "환불 완료";
+			}
+			
+			if(failRes != "") {
+				failRes += "환불 실패";					
+			}
+			
+			model.addAttribute("Msg", successRes + failRes);
 		
-		//OrderDetail 조회
-		OrderDetail order = sellingService.selectByorddtCode(orddtCode); 
-		logger.info("order: {}",order);
-		
-		String token = Token();
-		logger.info("token: {}",token);
-		
-        // IAMPORT API에 전달할 요청 본문 생성
-        String requestBody = "{\"imp_uid\":\"" + order.getOrdCode() + "\",\"amount\":\"" + order.getOrdSum() + "\"}";
-        
-        // IAMPORT API에 전달할 URL 생성
-        String url = "https://api.iamport.kr/payments/cancel";
-        
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + token) // 헤더에 인증 토큰 포함
-                .method("POST", HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-        
-        try {
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            logger.info("response : {}", response.body());
-            
-            // 응답 코드에 따라 처리
-            if (response.statusCode() == 200) {
-                // 처리 성공
-            	model.addAttribute("cencelMsg", "취소 완료");
-            } else {
-                // 처리 실패
-                logger.error("Failed to cancel payment: {}", response.body());
-                model.addAttribute("cencelMsg", "취소 실패");
-            }
-        } catch (IOException | InterruptedException e) {
-            logger.error("Exception occurred while cancelling payment: {}", e.getMessage());
-            model.addAttribute("cencelMsg", "취소 실패");
-        }
-        
+		} else {
+			for(String orddtCode : list) {
+				OrderDetail ordd = new OrderDetail();
+				ordd.setOrddtCode(orddtCode);
+				ordd.setSttNo(sttNo);
+				int updateRes = sellingService.updateOrderDetail(ordd);
+			}
+			model.addAttribute("Msg", "변경");
+		}
         return "jsonView";
     }
 	
-	//포트원 토큰 생성
-    public String Token() {
-	    
-	   String imp_key = "3714420222233344";
-	   
-	   String imp_secret = "E8fCoFWtHDhFcM8MyXthV9Cvy7xGCelukkrB5GBXonp9E89exs6FavH3O2nysesbcd05cHl3SSyfeuq6";
-	    
-       String param = "";
-       param += "imp_key:" +imp_key;
-       param += ",imp_secret:" +imp_secret;
-       logger.debug("param : {}", param);
-       HttpRequest request = HttpRequest.newBuilder()
-              .uri(URI.create("https://api.iamport.kr/users/getToken"))
-              .header("Content-Type", "application/json")
-              .method("POST", HttpRequest.BodyPublishers.ofString("{\"imp_key\":\"3714420222233344\",\"imp_secret\":\"E8fCoFWtHDhFcM8MyXthV9Cvy7xGCelukkrB5GBXonp9E89exs6FavH3O2nysesbcd05cHl3SSyfeuq6\"}")).build();
-          HttpResponse<String> response = null;
-          try {
-             response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-             logger.debug("response.body()response.body():{}" ,response.body()); 
-
-               // JSON 파싱
-               JSONObject jsonResponse = (JSONObject) new JSONParser().parse(response.body());
-               if ((long) jsonResponse.get("code") == 0) {
-                   JSONObject responseBody = (JSONObject) jsonResponse.get("response");
-                   return (String) responseBody.get("access_token");
-               } else {
-                   logger.error("Failed to get access token: {}", jsonResponse.get("message"));
-               }
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-           return null;
-     }
+	@PostMapping("/shipform")
+	public String shipForm(@RequestBody List<MyOrder> list) {
+		logger.info("list: {}",list);
+		
+		for(MyOrder myOrder : list) {
+			int res = sellingService.insertShip(myOrder);
+			
+			logger.info("myOrder: {}",myOrder);			
+		}
+		
+	    return "jsonView";	
+	}
 	
+	@PostMapping("/shipdel")
+	public String shipDel(@RequestParam(value = "arr[]") List<String> list) {
+		
+		for(String orddtCode : list) {
+			logger.info("{}",orddtCode);
+			int deleteRes = sellingService.deleteShip(orddtCode);  
+		}
+		
+	    return "jsonView"; 
+	}
 
 	@GetMapping("/main")
 	public void main(HttpSession session, Model model) {
