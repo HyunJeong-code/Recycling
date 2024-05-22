@@ -5,7 +5,7 @@
   
 <mapper namespace="recycling.manager.dao.face.SlsDao">
 	
-	<!-- 체험단 기본 조회구조  -->
+	<!-- 체험단 조회구조[exp]  -->
 	<sql id="expBoard">
 	SELECT 
     	exp_code
@@ -18,14 +18,147 @@
 	FROM exp
 	</sql>
 	
+	<!-- 체험단 예약일정 조회구조[exp_sch] -->
+	<sql id="expSchBoard">
+	SELECT
+		sch_no
+		, exp_code
+		, sch_date
+		, sch_time
+		, sch_cnt		
+	FROM exp_sch
+	</sql>
+	
+	<!-- 체험단 예약 조회구조[exp_res] -->
+	<sql id="expResBoard">
+	SELECT
+		res_code, b_code, sch_no, res_name, res_phone
+		,res_email, res_expname, res_date, res_time, res_cnt
+		,res_price, res_sum, res_pay, pay_date, res_cnf
+		,res_cnl, res_dt
+	FROM exp_res
+	</sql>
+	
+	<!-- 체험단 파일조회구조[exp_file] -->
+	<sql id="expFileBoard">
+	SELECT
+    	exp_flno, exp_code, ct_pflno, origin_name, stored_name
+	FROM exp_file
+	</sql>
+	
 	<!-- exp Join expSch  -->
 	<sql id="expAndExpSch">
-	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price, e.exp_detail, e.exp_hit, e.exp_date,
-       s.sch_no, s.sch_date, s.sch_time, s.sch_cnt
+	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price
+	, e.exp_detail, e.exp_hit, e.exp_date, s.sch_no
+	, s.sch_date, s.sch_time, s.sch_cnt
 	FROM exp e
 	JOIN exp_sch s ON e.exp_code = s.exp_code
 	</sql>
 	
+	<!-- 판매자 정보 상세 조회(개인) -->
+	<select id="selectPriSeller" parameterType="string" resultType="hashmap">
+		SELECT 
+		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.s_entdate s_entdate, S.s_chk s_chk,
+		    B.b_code b_code, B.b_id b_id, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, B.b_entdate b_entdate,
+		    B.adr_postcode adr_postcode, B.adr_addr adr_addr, B.adr_detail adr_detail
+		FROM seller S, (
+		    SELECT 
+		        B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
+		        ADR.adr_postcode, ADR.adr_addr, ADR.adr_detail 
+		    FROM buyer B, buyer_adr ADR
+		    <where>
+		    	AND B.b_code = ADR.b_code(+)
+		        AND ADR.adr_chk = 'Y'
+		    </where> 
+		) B
+		<where>
+			AND S.b_code = B.b_code(+)
+		    AND B.b_out = 'N'
+		    AND B.b_code = #{bCode } 
+		</where> 
+	</select>
+	
+	<!-- 판매자 정보 상세 조회(기업) -->
+	<select id="selectCmpSeller" parameterType="string" resultType="hashmap">
+		SELECT 
+		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.s_entdate s_entdate, S.s_chk s_chk,
+		    B.b_code b_code, B.b_id b_id, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, B.b_entdate b_entdate,
+		    B.adr_postcode adr_postcode, B.adr_addr adr_addr, B.adr_detail adr_detail,
+		    B.cmp_ceo cmp_ceo, B.cmp_name cmp_name, B.cmp_num cmp_num, B.cmp_postcode cmp_postcode, B.cmp_addr cmp_addr, B.cmp_detail cmp_detail
+		FROM seller S, (
+		    SELECT 
+		        B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
+		        B.adr_postcode, B.adr_addr, B.adr_detail,
+		        C.cmp_ceo, C.cmp_name, C.cmp_num, C.cmp_postcode, C.cmp_addr, C.cmp_detail
+		    FROM cmp C, (
+		        SELECT 
+		            B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
+		            ADR.adr_postcode, ADR.adr_addr, ADR.adr_detail 
+		        FROM buyer B, buyer_adr ADR
+		        <where>
+			        AND B.b_code = ADR.b_code(+)
+		            AND ADR.adr_chk = 'Y'
+		        </where> 
+		        ) B
+		        <where>
+		        	AND B.b_code = C.b_code(+)
+		        </where>
+		    ) B
+		<where>
+			AND S.b_code = B.b_code(+)
+		    AND B.b_out = 'N'
+		    AND B.b_code = #{bcode }
+		</where> 
+	</select>
+	
+	<!-- 총 신고 횟수 -->
+	<select id="selectCntRpt" parameterType="string" resultType="int">
+		SELECT count(*) cnt FROM (
+		    SELECT P.prd_code, P.s_code 
+		    FROM prd P, prd_rpt R
+		    <where>
+			    AND P.prd_code(+) = R.prd_code
+			    AND P.s_code = #{sCode }
+		    </where> 
+		)
+	</select>
+	
+	<!-- 총 거래 완료 건수 -->
+	<select id="selectCntOrd" parameterType="string" resultType="int">
+		SELECT count(*) cnt FROM (
+		    SELECT P.prd_code, OD.orddt_code
+		    FROM prd P, order_detail OD
+		    <where>
+		    	AND P.prd_code(+) = OD.prd_code
+		    	AND OD.stt_no = 940
+		        AND P.s_code = #{sCode }
+		    </where> 
+		)
+	</select>
+	
+	<!-- 판매자 요청 관리 -->
+	<select id="selectBysChk" resultType="Map">
+		SELECT S.s_code s_code, B.b_ct_code ct_code, NVL(B.cmp_name, '-') cmp_name, B.b_name b_name, B.b_phone b_phone, B.b_email b_email
+			FROM seller S, (
+			    SELECT B.b_code, B.b_ct_code, B.b_name, B.b_phone, B.b_email, C.cmp_name, B.b_out FROM buyer B, cmp C
+			    WHERE B.b_code = C.b_code(+)
+			) B
+			<where>
+				AND S.b_code = B.b_code(+)
+			    AND S.s_chk = 'N'
+			    AND B.b_out = 'N'
+			</where>
+			ORDER BY S.s_entdate
+	</select>
+	
+	<!-- 구매자 코드 조회 -->
+	<select id="selectBysCode" resultType="string" parameterType="string">
+		SELECT B.b_code b_code FROM buyer B, Seller S
+		<where>
+			AND B.b_code = S.b_code(+)
+			AND S.s_code = #{sCode }
+		</where> 
+	</select>
 	
 	<!-- exp Join expSch resultMap-->
 	<resultMap type="java.util.HashMap" id="expJoin">
@@ -46,21 +179,29 @@
 	
 	
 	<!-- 체험단 조회 -->
-	<select id="selectAll" resultMap="expJoin">
-			<include refid="expAndExpSch"/>
+	<select id="selectAll" resultType="Exp">
+		<include refid="expBoard"/>
+		ORDER BY exp_date DESC
+	</select>
+	
+	<!-- 체험단 체험일정 조회 -->
+	<select id="selectSchAll" resultType="ExpSch" parameterType="String">
+		<include refid="expSchBoard"/>
+		<where>exp_code = #{expCode }</where>
 	</select>
 	
 	<!-- 체험단 세부 조회 -->
-	<select id="selectDetail" resultType="Exp" parameterType="Exp">
+	<select id="selectDetail" parameterType="Exp" resultType="Exp" >
 		<include refid="expBoard"/>
 		<where>exp_code = #{expCode }</where>
 	</select>
 	
+	<!-- 관리자쪽 구현 x -->
 	<!-- 세부조회에 따른 조회수 증가 -->
-	<update id="hit" parameterType="Exp">
-	    UPDATE exp SET exp_hit = exp_hit + 1
-    	WHERE exp_code = #{expCode }
-	</update>
+<!-- 	<update id="hit" parameterType="Exp" > -->
+<!-- 	    UPDATE exp SET exp_hit = exp_hit + 1 -->
+<!--     	WHERE exp_code = #{expCode } -->
+<!-- 	</update> -->
 	
 	<!-- 체험단 등록 -->
 	<insert id="insert" parameterType="Exp">
@@ -92,13 +233,17 @@
 	        SELECT EXP_FILE_SEQ.nextval FROM dual
 	    </selectKey>
 	    INSERT INTO Exp_File 
-	    	(exp_flNo, exp_code
-	    	, ct_pflNo ,origin_name
+	    	(exp_flNo
+	    	, exp_code
+	    	, ct_pflNo
+	    	, origin_name
 	     	, stored_name 
 	     	)
 	    VALUES
-	    	(#{expFlNo}, #{expCode}
-	    	, #{ctPflNo}, #{originName}
+	    	(#{expFlNo}
+	    	, #{expCode}
+	    	, #{ctPflNo}
+	    	, #{originName}
 	    	, #{storedName}
 	    	)
 	</insert>
@@ -119,8 +264,63 @@
 	    	, #{schCnt}
 	    	)
 	</insert>
-
 	
+	<!-- 업데이트 항목조회 -->
+	<select id="expUpdateView" parameterType="Exp" resultType="Exp" >
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 업데이트 -->
+	<update id="expUpdateProc" parameterType="Exp">
+		UPDATE Exp SET
+	    exp_code = #{expCode }
+	    , exp_name = #{expName }
+	    , exp_price = #{expPrice }
+	    , exp_detail = #{expDetail }
+	    , exp_date = default
+	    <where>exp_code = #{expCode }</where>
+	</update>
 
+	<!-- 체험 예약페이지 정보 조회 -->
+	<select id="expResDetail" resultType="Exp" parameterType="String">
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 체험 예약페이지 예약 조회 -->	
+	<select id="expResDetailRes" resultType="ExpRes" parameterType="ExpRes">
+		<include refid="expResBoard"/>
+		<where>sch_no = #{schNo}</where>
+	</select>
+	
+	<!-- 체험단 전체삭제 -->
+	<delete id="expListDel" parameterType="String">
+		DELETE FROM exp
+		<where> exp_code = #{expCode } </where>
+	</delete>
+	
+	<!-- 체험단 파일조회 -->
+	<select id="image" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where> exp_code = #{expCode }</where>
+	</select>
+
+	<!-- 예약 확정 버튼에 따른 상태변경 -->
+	<update id="expResCnf" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'Y' 
+	    ,res_cnl ='N'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
+	<!-- 예약 취소 버튼에 따른 상태변경 -->
+	<update id="expResCnl" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'N' 
+	    ,res_cnl ='Y'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
 	
 </mapper>

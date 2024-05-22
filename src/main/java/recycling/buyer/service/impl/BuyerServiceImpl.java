@@ -18,6 +18,7 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
@@ -86,7 +87,7 @@ public class BuyerServiceImpl implements BuyerService {
 	
 	@Override
 	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
-		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
+		return buyerDao.selectOrderDetailBybCode(bCode);
 	}
 
 	@Override
@@ -130,10 +131,25 @@ public class BuyerServiceImpl implements BuyerService {
 	
 	}
 
+<<<<<<< HEAD
 	@Override
 	public int changePw(String bId, String newPw) {
 		
 		return buyerDao.changePw(bId, newPw);
+=======
+		int updateSuccess = buyerDao.updateBuyer(buyer);
+		
+		if(updateSuccess > 0) {
+			
+			logger.info("성공적으로 업데이트 되었습니다: {}", buyer.getbId());
+			
+		} else {
+			
+			logger.info("업데이트에 실패했습니다: {}", buyer.getbId());
+			
+		}
+		return buyer;
+>>>>>>> 4c0413d411beef647bde2b40a979e6e4c4564160
 		
 	}
 	
@@ -200,4 +216,8 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
+	@Override
+	public int changePw(BuyerLogin buyerLogin) {
+		return buyerDao.changePw(buyerLogin);
+	}
 }

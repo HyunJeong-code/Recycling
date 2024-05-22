@@ -1,6 +1,7 @@
 package recycling.dto.seller;
 
 public class Prd {
+<<<<<<< HEAD
    
    private String prdCode;
    private int ctPno;
@@ -40,6 +41,47 @@ public class Prd {
             + ", prdDetail=" + prdDetail + ", prdDate=" + prdDate + ", prdHit=" + prdHit + ", prdOut=" + prdOut
             + "]";
    }
+=======
+	
+	private String prdCode;
+	private int ctPno;
+	private int ctPdtNo;
+	private String sCode;
+	private String prdName;
+	private int price;
+	private int prdCnt;
+	private int prdFee;
+	private String prdDetail;
+	private String prdDate;
+	private int prdHit;
+	private String prdOut;
+	
+	public Prd() {}
+
+	public Prd(String prdCode, int ctPno, int ctPdtNo, String sCode, String prdName, int price, int prdCnt, int prdFee,
+			String prdDetail, String prdDate, int prdHit, String prdOut) {
+		this.prdCode = prdCode;
+		this.ctPno = ctPno;
+		this.ctPdtNo = ctPdtNo;
+		this.sCode = sCode;
+		this.prdName = prdName;
+		this.price = price;
+		this.prdCnt = prdCnt;
+		this.prdFee = prdFee;
+		this.prdDetail = prdDetail;
+		this.prdDate = prdDate;
+		this.prdHit = prdHit;
+		this.prdOut = prdOut;
+	}
+
+	@Override
+	public String toString() {
+		return "Prd [prdCode=" + prdCode + ", ctPno=" + ctPno + ", ctPdtNo=" + ctPdtNo + ", sCode=" + sCode
+				+ ", prdName=" + prdName + ", price=" + price + ", prdCnt=" + prdCnt + ", prdFee=" + prdFee
+				+ ", prdDetail=" + prdDetail + ", prdDate=" + prdDate + ", prdHit=" + prdHit + ", prdOut=" + prdOut
+				+ "]";
+	}
+>>>>>>> 4c0413d411beef647bde2b40a979e6e4c4564160
 
    public String getPrdCode() {
       return prdCode;
@@ -125,6 +167,7 @@ public class Prd {
       return prdHit;
    }
 
+<<<<<<< HEAD
    public void setPrdHit(int prdHit) {
       this.prdHit = prdHit;
    }
@@ -137,3 +180,17 @@ public class Prd {
       this.prdOut = prdOut;
    }
 }
+=======
+	public void setPrdHit(int prdHit) {
+		this.prdHit = prdHit;
+	}
+
+	public String getPrdOut() {
+		return prdOut;
+	}
+
+	public void setPrdOut(String prdOut) {
+		this.prdOut = prdOut;
+	}
+}
+>>>>>>> 4c0413d411beef647bde2b40a979e6e4c4564160
