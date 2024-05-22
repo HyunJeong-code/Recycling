@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 // 마이페이지 - 회원 정보 관련
-
 @Controller
 @RequestMapping("/buyer/mypage")
 public class BuyerController {

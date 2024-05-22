@@ -133,7 +133,7 @@ public class CsController {
 		model.addAttribute("buyer", buyer);
 		
 //		logger.info("{}", bOut);
-//		logger.info("{}", bOutDate);
+//		logger.info("{}", bOutDate); 
 //		logger.info("{}", bCode);
 		
 		return "redirect:/manager/cs/buyerlist";
