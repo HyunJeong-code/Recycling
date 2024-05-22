@@ -6,6 +6,7 @@
 <mapper namespace="recycling.buyer.dao.face.RecyclingDao">
 
 	<select id="selectPrdList" resultType="Prd">
+<<<<<<< HEAD
 	    SELECT * FROM Prd
 	</select>
 	
@@ -18,5 +19,9 @@
 		SELECT * FROM SELLER_PROF
 		WHERE S_CODE = #{sCode}
 	</select>
+=======
+        SELECT * FROM Prd
+    </select>
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 
 </mapper>

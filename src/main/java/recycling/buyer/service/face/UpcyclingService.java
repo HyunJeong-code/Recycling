@@ -5,7 +5,10 @@ import java.util.List;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Review;
 import recycling.dto.seller.Prd;
+<<<<<<< HEAD
 import recycling.dto.seller.SellerProf;
+=======
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 
 public interface UpcyclingService {
 
@@ -34,11 +37,18 @@ public interface UpcyclingService {
 
 	/**
 	 * 리뷰 DTO 로드
+<<<<<<< HEAD
 	 * @param prdCode 
 	 * 
 	 * @return
 	 */
 	public List<Review> getUpcyvwList(String prdCode);
+=======
+	 * 
+	 * @return
+	 */
+	public List<Review> getUpcyvwList();
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 
 	/**
 	 * 리뷰 상세 조회
@@ -51,10 +61,16 @@ public interface UpcyclingService {
 	 * 리뷰 작성
 	 * 
 	 * @param rvwContent 리뷰 내용
+<<<<<<< HEAD
 	 * @param prdCode 
 	 * @param buyer 작성자 로그인 정보
 	 */
 	public void writeReview(String rvwContent, String prdCode, Buyer buyer);
+=======
+	 * @param buyer 작성자 로그인 정보
+	 */
+	public void writeReview(String rvwContent, Buyer buyer);
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 
 	
 	/**
@@ -72,6 +88,7 @@ public interface UpcyclingService {
 	 */
 	public void deleteReview(int rvwCode);
 
+<<<<<<< HEAD
 	/**
 	 * 판매자 상세 프로필을 가져오는 코드
 	 * 
@@ -80,4 +97,6 @@ public interface UpcyclingService {
 	 */
 	public SellerProf getSellerProf(String sCode);
 
+=======
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 }

@@ -9,6 +9,7 @@
 	body {
 		margin: 0;
 		padding: 0;
+<<<<<<< HEAD
 		display: flex;
 		justify-content: center;
 	}
@@ -21,10 +22,19 @@
 		padding: 20px;
 		width: 100%;
 		max-width: 1200px;
+=======
+	}
+	
+	.container {
+		display: flex;
+		align-items: flex-start;
+		padding: 20px;
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	}
 	
 	.group {
 		width: 200px;
+<<<<<<< HEAD
 		margin-bottom: 20px;
 		margin-right: auto;
 	}
@@ -35,10 +45,14 @@
 		max-width: 1200px;
 		margin-bottom: 20px;
 		justify-content: space-between;
+=======
+		margin-right: 20px;
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	}
 	
 	.mainThumbnail {
 		width: 500px;
+<<<<<<< HEAD
 		height: 500px; /* 고정 높이 */
 		background-color: #f0f0f0; /* 배경색 설정 */
 		margin-bottom: 20px;
@@ -55,6 +69,13 @@
 	
 	.prdInfo {
 		flex: 1;
+=======
+		margin-bottom: 20px;
+	}
+	
+	.prdInfo {
+		margin-bottom: 20px;
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	}
 	
 	.buyBtn, .reportBtn {
@@ -71,6 +92,7 @@
 		background-color: #0056b3;
 	}
 	
+<<<<<<< HEAD
 	.section {
 		width: 100%;
 		max-width: 1200px;
@@ -172,10 +194,18 @@
 	
 	window.onload = initMap;
 </script>
+=======
+	
+	
+	
+	
+</style>
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 </head>
 <body>
 	<div class="container">
 		<div class="group">
+<<<<<<< HEAD
 			<p>업사이클링>중분류</p>
 		</div>
 		
@@ -184,6 +214,14 @@
 				<img src="./resources/img/popular_400px.png">
 			</div>
 			
+=======
+			<h2>업사이클링>중분류</h2>
+		</div>
+		
+		<div class="detailUpper">
+			<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png"
+				class="mainThumbnail">
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 			<div class="prdInfo">
 				<p class="prdName">${prd.prdName}</h1>
 				<hr>
@@ -195,6 +233,7 @@
 				<a href="#" class="reportBtn">신고하기</a>
 			</div>
 		</div>
+<<<<<<< HEAD
 		
 		<div class="navBar">
 			<div id="btn-section1" class="navBtn" onclick="scrollToSection('section1')">상품상세</div>
@@ -254,6 +293,8 @@
 			<p>상품문의 내용</p>
 		</div>
 		
+=======
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	</div>
 
 </body>

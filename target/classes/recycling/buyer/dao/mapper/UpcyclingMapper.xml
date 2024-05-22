@@ -11,25 +11,35 @@
 	
 	<select id="selectPrd" resultType="Prd">
 	    SELECT * FROM Prd
+<<<<<<< HEAD
 	    WHERE PRD_CODE = #{prdCode}
 	</select>
 	
 	<select id="selectSellerProfByCode" resultType="SellerProf">
 		SELECT * FROM SELLER_PROF
 		WHERE S_CODE = #{sCode}
+=======
+	    WHERE ctPno = #{ctPno}
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	</select>
 
 	<select id="selectListCntAll" resultType="Prd">
         SELECT COUNT(*) FROM Prd
     </select>
     
+<<<<<<< HEAD
     <select id="selectRvwList"	parameterType="String"	resultType="Review">
     	SELECT COUNT(*) FROM Review
     	WHERE PRD_CODE = #{prdCode}
+=======
+    <select id="selectRvwList" resultType="Review">
+    	SELECT COUNT(*) FROM Review
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
     </select>
     
     <select id="selectRvwByCode" parameterType="int" resultType="Review">
         SELECT * FROM Review
+<<<<<<< HEAD
         WHERE RVW_CODE  = #{rvwCode}
     </select>
 
@@ -47,5 +57,22 @@
     <delete id="deleteReview" parameterType="int">
         DELETE FROM Review
         WHERE RVW_CODE = #{rvwCode}
+=======
+        WHERE rvwCode = #{rvwCode}
+    </select>
+
+	<update id="updateReview">
+        UPDATE Review SET rvwContent = #{rvwContent}
+        WHERE rvwCode = #{rvwCode}
+    </update>
+    
+    <insert id="writeReview">
+        INSERT INTO Review (rvwContent, bCode)
+        VALUES (#{rvwContent}, #{buyer.bCode})
+    </insert>
+    
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM Review WHERE rvwCode = #{rvwCode}
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
     </delete>
 </mapper>

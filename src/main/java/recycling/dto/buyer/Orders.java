@@ -19,7 +19,11 @@ public class Orders {
 
 	public Orders(String ordCode, String bCode, String ordName, String ordPhone, String sendName, String sendPhone,
 			String ordPostcode, String ordAddr, String ordDetail, String ordMemo, String ordDate, String ordPay,
+<<<<<<< HEAD
 			int ordSum, int ordFee) {
+=======
+			int ordSum, int ordFee, int sttNo) {
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 		this.ordCode = ordCode;
 		this.bCode = bCode;
 		this.ordName = ordName;
