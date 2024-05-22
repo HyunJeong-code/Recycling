@@ -92,6 +92,7 @@ public class SellerController {
 		 seller.setAccNo(accNo);
 		 sellerService.updateBank(seller);
 		 
+		 
 		 return "redirect:/sellermain";
 	 }
 	 
