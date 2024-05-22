@@ -10,6 +10,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<!-- footer.css -->
+<link rel="stylesheet" href="/resources/css/footer.css">
+
 <!-- 결제 API -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
@@ -318,5 +321,5 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	</tbody>
 </table>
 
-</body>
-</html>
+<!-- footer 추가 -->
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp" />

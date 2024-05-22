@@ -1,40 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="">
-</head>
-<body>
-
-<header>
-    <div class="head">
-        <div class="ntc"></div>
-        <div class="main">
-            <h1></h1>
-            <div class="search">
-                <form action="" method="">
-                    <input type="text" placeholder="Search">
-                </form>
-            </div>
-            <div class="top-btn">
-                <!-- 세션 조건 걸기(로그인 여부) -->
-                <button><a href="">Join</a></button>
-                <button><a href="">Login</a></button>
-
-                <button><a href="">Mypage</a></button>
-                <button><a href="">Logout</a></button>
-            </div>
+	<footer class="footer">
+        <div class="footer-content">
+            <ul>
+                <li><a href="#">이용약관 </a></li>
+                <li><a href="#">개인정보처리방침 </a></li>
+              </ul>
+            <ul>
+                <li>COMPANY <span>(주)제리</span></li>
+                <li>CEO <span>홍길동</span></li>
+                <li>ADDRESS <span>서울특별시 강남구 테헤란로 130 (역삼동, 호산빌딩)</span></li>
+                <li>BUSINESS LICENSE <span>000-00-00000</span><a href=" ">[사업자정보확인]</a></li>
+                <li>ECOMMERCE LICENSE <span>제 2017-서울중구-0717 호</span></li>
+                <li>PERSONAL INFORMATION MANAGET <a href=" ">홍길동 (email@email.com)</a></li>
+              </ul>
+            <ul class="social-media">
+                <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
+                <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+            </ul>
         </div>
-    </div>
-    <div class="menu">
-        <nav>
-
-        </nav>
-    </div>
-</header>
-
+    </footer>
+    
 </body>
 </html>
