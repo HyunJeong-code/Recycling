@@ -254,4 +254,24 @@
     		AND B_Code = #{bCode }
     	</where>
     </delete>
+    
+    <!-- 구매자 등급 조회 -->
+    <select id="selectBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
+    	SELECT Rank_No AS rankNo,
+    		   Rank_Name AS rankName
+    	FROM Buyer_Rank
+    	<where>
+    		Rank_No = #{rankNo }
+    	</where>
+    </select>
+    
+    <update id="changePw" parameterType="BuyerLogin">
+    	UPDATE buyer
+    	SET b_pw = #{bPw }
+    	<where>
+    		AND b_code = #{b_code }
+    		AND b_id = #{bId }
+    		
+    	</where>
+    </update>
 </mapper>
