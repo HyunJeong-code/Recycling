@@ -21,21 +21,21 @@ public interface MgrService {
 	 * 
 	 * @return - List<Notice>
 	 */
-	public List<Notice> selectAll(Paging paging);
+	public List<Notice> selectAll();
 
 	/**
-	 * 공지사항 세부 조회하기
+	 * 공지사항 세부조회
 	 * 
 	 * @param notice - Notice
 	 * @return
 	 */
-	public Notice selectDetail(Notice notice);
+	public Notice selectDetail(String ntcCode);
 
 	/**
 	 * 페이징 계산 시스템
 	 * 
 	 * @param pagingParam - 페이징 객체
-	 * @param search 
+	 * @param search - 검색 
 	 * @return
 	 */
 	public Paging selectCntAll(Paging pagingParam);

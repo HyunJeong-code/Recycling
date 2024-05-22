@@ -5,7 +5,7 @@
   
 <mapper namespace="recycling.manager.dao.face.SlsDao">
 	
-	<!-- 체험단 기본 조회구조  -->
+	<!-- 체험단 조회구조[exp]  -->
 	<sql id="expBoard">
 	SELECT 
     	exp_code
@@ -18,10 +18,39 @@
 	FROM exp
 	</sql>
 	
+	<!-- 체험단 예약일정 조회구조[exp_sch] -->
+	<sql id="expSchBoard">
+	SELECT
+		sch_no
+		, exp_code
+		, sch_date
+		, sch_time
+		, sch_cnt		
+	FROM exp_sch
+	</sql>
+	
+	<!-- 체험단 예약 조회구조[exp_res] -->
+	<sql id="expResBoard">
+	SELECT
+		res_code, b_code, sch_no, res_name, res_phone
+		,res_email, res_expname, res_date, res_time, res_cnt
+		,res_price, res_sum, res_pay, pay_date, res_cnf
+		,res_cnl, res_dt
+	FROM exp_res
+	</sql>
+	
+	<!-- 체험단 파일조회구조[exp_file] -->
+	<sql id="expFileBoard">
+	SELECT
+    	exp_flno, exp_code, ct_pflno, origin_name, stored_name
+	FROM exp_file
+	</sql>
+	
 	<!-- exp Join expSch  -->
 	<sql id="expAndExpSch">
-	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price, e.exp_detail, e.exp_hit, e.exp_date,
-       s.sch_no, s.sch_date, s.sch_time, s.sch_cnt
+	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price
+	, e.exp_detail, e.exp_hit, e.exp_date, s.sch_no
+	, s.sch_date, s.sch_time, s.sch_cnt
 	FROM exp e
 	JOIN exp_sch s ON e.exp_code = s.exp_code
 	</sql>
@@ -150,21 +179,29 @@
 	
 	
 	<!-- 체험단 조회 -->
-	<select id="selectAll" resultMap="expJoin">
-			<include refid="expAndExpSch"/>
+	<select id="selectAll" resultType="Exp">
+		<include refid="expBoard"/>
+		ORDER BY exp_date DESC
+	</select>
+	
+	<!-- 체험단 체험일정 조회 -->
+	<select id="selectSchAll" resultType="ExpSch" parameterType="String">
+		<include refid="expSchBoard"/>
+		<where>exp_code = #{expCode }</where>
 	</select>
 	
 	<!-- 체험단 세부 조회 -->
-	<select id="selectDetail" resultType="Exp" parameterType="Exp">
+	<select id="selectDetail" parameterType="Exp" resultType="Exp" >
 		<include refid="expBoard"/>
 		<where>exp_code = #{expCode }</where>
 	</select>
 	
+	<!-- 관리자쪽 구현 x -->
 	<!-- 세부조회에 따른 조회수 증가 -->
-	<update id="hit" parameterType="Exp">
-	    UPDATE exp SET exp_hit = exp_hit + 1
-    	WHERE exp_code = #{expCode }
-	</update>
+<!-- 	<update id="hit" parameterType="Exp" > -->
+<!-- 	    UPDATE exp SET exp_hit = exp_hit + 1 -->
+<!--     	WHERE exp_code = #{expCode } -->
+<!-- 	</update> -->
 	
 	<!-- 체험단 등록 -->
 	<insert id="insert" parameterType="Exp">
@@ -196,13 +233,17 @@
 	        SELECT EXP_FILE_SEQ.nextval FROM dual
 	    </selectKey>
 	    INSERT INTO Exp_File 
-	    	(exp_flNo, exp_code
-	    	, ct_pflNo ,origin_name
+	    	(exp_flNo
+	    	, exp_code
+	    	, ct_pflNo
+	    	, origin_name
 	     	, stored_name 
 	     	)
 	    VALUES
-	    	(#{expFlNo}, #{expCode}
-	    	, #{ctPflNo}, #{originName}
+	    	(#{expFlNo}
+	    	, #{expCode}
+	    	, #{ctPflNo}
+	    	, #{originName}
 	    	, #{storedName}
 	    	)
 	</insert>
@@ -223,8 +264,63 @@
 	    	, #{schCnt}
 	    	)
 	</insert>
-
 	
+	<!-- 업데이트 항목조회 -->
+	<select id="expUpdateView" parameterType="Exp" resultType="Exp" >
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 업데이트 -->
+	<update id="expUpdateProc" parameterType="Exp">
+		UPDATE Exp SET
+	    exp_code = #{expCode }
+	    , exp_name = #{expName }
+	    , exp_price = #{expPrice }
+	    , exp_detail = #{expDetail }
+	    , exp_date = default
+	    <where>exp_code = #{expCode }</where>
+	</update>
 
+	<!-- 체험 예약페이지 정보 조회 -->
+	<select id="expResDetail" resultType="Exp" parameterType="String">
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 체험 예약페이지 예약 조회 -->	
+	<select id="expResDetailRes" resultType="ExpRes" parameterType="ExpRes">
+		<include refid="expResBoard"/>
+		<where>sch_no = #{schNo}</where>
+	</select>
+	
+	<!-- 체험단 전체삭제 -->
+	<delete id="expListDel" parameterType="String">
+		DELETE FROM exp
+		<where> exp_code = #{expCode } </where>
+	</delete>
+	
+	<!-- 체험단 파일조회 -->
+	<select id="image" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where> exp_code = #{expCode }</where>
+	</select>
+
+	<!-- 예약 확정 버튼에 따른 상태변경 -->
+	<update id="expResCnf" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'Y' 
+	    ,res_cnl ='N'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
+	<!-- 예약 취소 버튼에 따른 상태변경 -->
+	<update id="expResCnl" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'N' 
+	    ,res_cnl ='Y'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
 	
 </mapper>

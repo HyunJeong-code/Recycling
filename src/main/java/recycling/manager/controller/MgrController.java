@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
-import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
@@ -137,37 +136,36 @@ public class MgrController {
 	
 	//공지사항 전체조회
 	@GetMapping("/noticelist")
-	public String noticeList(
-			Model model,
-			Paging pagingParam	//페이징 객체
+	public void noticeList(
+			Model model
 			) {
+		//관리자 공지사항 전체조회
+		List<Notice> mgrNoticeList = mgrService.selectAll();
+		model.addAttribute("notice", mgrNoticeList);
 		logger.info("controller: noticeList[GET]");
 		
 		
 		//페이징 계산, 검색기능
-		Paging paging = mgrService.selectCntAll(pagingParam);
+//		Paging paging = mgrService.selectCntAll(pagingParam);
 		
 		//전체 조회기능
-		List<Notice> list = mgrService.selectAll(paging);
+		List<Notice> list = mgrService.selectAll();
 		
 		//JSP로 보내기
-		model.addAttribute("paging", paging);
+//		model.addAttribute("paging", paging);
 		model.addAttribute("notice", list);
 		
 		logger.info("controller: noticelist : {}", list);
-		
-		return "/manager/noticelist";
-		
 	}
 	
 	//공지사항 상세 조회
 	@GetMapping("/noticedetail")
-	public void noticeDetail(Notice notice, Model model) {
-//			logger.info("controller: noticeDetail[Get]");
-			Notice view = mgrService.selectDetail(notice);
-			
-			model.addAttribute("view", view);
-//			logger.info("noticeDetail:{}", view );
-			
+	public void noticeDetail(
+			String ntcCode
+			, Model model
+			) {
+			//관리자 공지사항 세부조회
+			Notice mgrNoticeList = mgrService.selectDetail(ntcCode);
+			model.addAttribute("view", mgrNoticeList);
 	}
 }

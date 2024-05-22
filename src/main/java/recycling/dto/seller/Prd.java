@@ -41,89 +41,89 @@ public class Prd {
 				+ "]";
 	}
 
-	public String getPrdCode() {
-		return prdCode;
-	}
+   public String getPrdCode() {
+      return prdCode;
+   }
 
-	public void setPrdCode(String prdCode) {
-		this.prdCode = prdCode;
-	}
+   public void setPrdCode(String prdCode) {
+      this.prdCode = prdCode;
+   }
 
-	public int getCtPno() {
-		return ctPno;
-	}
+   public int getCtPno() {
+      return ctPno;
+   }
 
-	public void setCtPno(int ctPno) {
-		this.ctPno = ctPno;
-	}
+   public void setCtPno(int ctPno) {
+      this.ctPno = ctPno;
+   }
 
-	public int getCtPdtNo() {
-		return ctPdtNo;
-	}
+   public int getCtPdtNo() {
+      return ctPdtNo;
+   }
 
-	public void setCtPdtNo(int ctPdtNo) {
-		this.ctPdtNo = ctPdtNo;
-	}
+   public void setCtPdtNo(int ctPdtNo) {
+      this.ctPdtNo = ctPdtNo;
+   }
 
-	public String getsCode() {
-		return sCode;
-	}
+   public String getsCode() {
+      return sCode;
+   }
 
-	public void setsCode(String sCode) {
-		this.sCode = sCode;
-	}
+   public void setsCode(String sCode) {
+      this.sCode = sCode;
+   }
 
-	public String getPrdName() {
-		return prdName;
-	}
+   public String getPrdName() {
+      return prdName;
+   }
 
-	public void setPrdName(String prdName) {
-		this.prdName = prdName;
-	}
+   public void setPrdName(String prdName) {
+      this.prdName = prdName;
+   }
 
-	public int getPrice() {
-		return price;
-	}
+   public int getPrice() {
+      return price;
+   }
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
+   public void setPrice(int price) {
+      this.price = price;
+   }
 
-	public int getPrdCnt() {
-		return prdCnt;
-	}
+   public int getPrdCnt() {
+      return prdCnt;
+   }
 
-	public void setPrdCnt(int prdCnt) {
-		this.prdCnt = prdCnt;
-	}
+   public void setPrdCnt(int prdCnt) {
+      this.prdCnt = prdCnt;
+   }
 
-	public int getPrdFee() {
-		return prdFee;
-	}
+   public int getPrdFee() {
+      return prdFee;
+   }
 
-	public void setPrdFee(int prdFee) {
-		this.prdFee = prdFee;
-	}
+   public void setPrdFee(int prdFee) {
+      this.prdFee = prdFee;
+   }
 
-	public String getPrdDetail() {
-		return prdDetail;
-	}
+   public String getPrdDetail() {
+      return prdDetail;
+   }
 
-	public void setPrdDetail(String prdDetail) {
-		this.prdDetail = prdDetail;
-	}
+   public void setPrdDetail(String prdDetail) {
+      this.prdDetail = prdDetail;
+   }
 
-	public String getPrdDate() {
-		return prdDate;
-	}
+   public String getPrdDate() {
+      return prdDate;
+   }
 
-	public void setPrdDate(String prdDate) {
-		this.prdDate = prdDate;
-	}
+   public void setPrdDate(String prdDate) {
+      this.prdDate = prdDate;
+   }
 
-	public int getPrdHit() {
-		return prdHit;
-	}
+   public int getPrdHit() {
+      return prdHit;
+   }
 
 	public void setPrdHit(int prdHit) {
 		this.prdHit = prdHit;

@@ -4,4 +4,53 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.seller.dao.face.QnaDao">
+
+	<select id="selecBysCode" parameterType="String" resultType="QstA">
+		SELECT
+			qst_code, ct_qstno, q.prd_code, q.b_code, qst_title, qst_content, qst_name, qst_email, qst_date, qst_hit
+			,(SELECT count(*) FROM qna a
+				WHERE a.qst_code = q.qst_code) AS qstA
+		FROM
+			qst q, prd p, seller s
+		<where>
+			AND s.s_code = p.s_code
+			AND p.prd_code = q.prd_code
+			AND p.s_code = #{sCode}
+		</where>
+	</select>
+
+	<select id="selectQstByqstCode" parameterType="String" resultType="Qst">
+		SELECT * FROM qst
+		<where>
+			AND qst_code = #{qstCode}
+		</where>
+	</select>
+	
+	<insert id="insertQna" parameterType="Qna">
+		INSERT INTO qna (qna_code, qst_code, s_code, qna_content, qna_date)
+		VALUES ('QNA' || LPAD(qst_seq.nextval, 7, '0'), #{qstCode}, #{sCode}, #{qnaContent}, sysdate)
+	</insert>
+	
+	<select id="selectQnaByqstCode" parameterType="String" resultType="Qna">
+		SELECT * FROM qna
+		<where>
+			AND qst_code = #{qstCode}
+		</where>
+	</select>
+	
+	<update id="updateQna" parameterType="Qna">
+		UPDATE qna
+		SET qna_content = #{qnaContent}
+		<where>
+			AND qst_code = #{qstCode}
+		</where>
+	</update>
+	
+	<delete id="deleteQna">
+		delete qna
+		<where>
+			qna_code = #{qnaCode}
+		</where>
+	</delete>
+
 </mapper>

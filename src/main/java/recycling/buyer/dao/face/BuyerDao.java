@@ -94,7 +94,7 @@ public interface BuyerDao {
 	 * @param bCode - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
+	public List<MyOrder> selectOrderDetailBybCode(String bCode);
 
 	/**
 	 * 장바구니 수량 변경
@@ -113,14 +113,6 @@ public interface BuyerDao {
 	public Buyer selectBuyerBybId(String bId);
 
 	/**
-	 * 구매자 코드로 배송지 정보 조회
-	 * 
-	 * @param bCode - 구매자 코드
-	 * @return 조회된 배송지 정보
-	 */
-	public BuyerAdr selectBuyerAdrBybCode(String bCode);
-	
-	/**
 	 * 구매자 코드로 기업 정보 조회
 	 * 
 	 * @param bCode - 구매자 코드
@@ -132,23 +124,26 @@ public interface BuyerDao {
 	 * 구매자 정보 업데이트
 	 * 
 	 * @param buyer - 업데이트 할 구매자 정보
+	 * @return 
 	 */
-	public void updateBuyer(Buyer buyer);
-
-	/**
-	 * 구매자 배송지 정보 업데이트
-	 * 
-	 * @param buyerAdr - 업데이트 할 배송지 정보
-	 */
-	public void updateBuyerAdr(BuyerAdr buyerAdr);
-
+	public boolean updateBuyer(Buyer buyer);
+	
 	/**
 	 * 기업 정보 업데이트
 	 * 
 	 * @param cmp - 업데이트 할 기업 정보
+	 * @return 
 	 */
-	public void updateCmp(Cmp cmp);
-
+	public boolean updateCmp(Cmp cmp);
+	
+	/**
+	 * 구매자 배송지 목록 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 구매자 배송지 목록
+	 */
+	public List<BuyerAdr> selectBuyerAdrListBybCode(String bCode);
+	
 	/**
 	 * 배송지 등록
 	 * 
@@ -161,7 +156,7 @@ public interface BuyerDao {
 	 * 
 	 * @param buyerAdr - 수정할 배송지 정보
 	 */
-	public void updaterAdr(BuyerAdr buyerAdr);
+	public void updateAdr(BuyerAdr buyerAdr);
 
 	/**
 	 * 배송지 삭제
@@ -171,12 +166,12 @@ public interface BuyerDao {
 	public void deleteAdr(String adrCode);
 
 	/**
-	 * 구매자 배송지 목록 조회
+	 * 구매자 코드로 배송지 정보 조회
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 구매자 배송지 목록
+	 * @return 조회된 배송지 정보
 	 */
-	public List<BuyerAdr> selectBuyerAdrList(String bCode);
+	public BuyerAdr selectBuyerAdrBybCode(String bCode);
 
 	/**
 	 * 구매자 탈퇴

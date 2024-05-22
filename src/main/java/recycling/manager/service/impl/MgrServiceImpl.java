@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.dao.face.MgrDao;
@@ -29,24 +30,24 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
-	//조회기능
+	//공지사항 전체조회
 	@Override
-	public List<Notice> selectAll(Paging paging) {
-		logger.info("mgrservice: selectAll");
+	public List<Notice> selectAll() {
+		//ctNtcNo = 2일경우 manager공지사항이므로 2번만 조회
+		List<Notice> selectAllManager = mgrDao.selectAll(2);
 		
-		return mgrDao.selectAll(paging);
+		return selectAllManager;
 	}
 	
-	//세부사항 조회
+	//공지사항 세부조회
 	@Override
-	public Notice selectDetail(Notice notice) {
-		logger.info("MgrService: selectDetail");
+	public Notice selectDetail(String ntcCode) {
 
 		//조회수 증감
-		mgrDao.hit(notice);
+		mgrDao.hit(ntcCode);
 		
 		//세부사항 조회
-		return mgrDao.selectDetail(notice);
+		return mgrDao.selectDetail(ntcCode);
 	}
 
 	//페이징 계산기능
@@ -60,7 +61,6 @@ public class MgrServiceImpl implements MgrService {
 		int totalCount = mgrDao.selectCntAll(pagingParam);
 	    
 		//페이징 계산
-//		paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch(), pagingParam.getCategory() ); //카테고리
 		paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch() );
 		
 		return paging;

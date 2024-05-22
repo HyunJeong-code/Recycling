@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.seller.Exp;
+import recycling.dto.seller.Prd;
 import recycling.dto.seller.AllPrd;
 import recycling.dto.seller.Exp;
 import recycling.seller.dao.face.SellingDao;
@@ -31,6 +35,41 @@ public class SellingServiceImpl implements SellingService {
 //		
 //		return allPrd;
 //	}
+	
+	@Override
+	public List<Prd> selectAllrcyPrd(String sCode) {
+		return sellingDao.selectAllrcyPrd(sCode);
+	}
+	
+	@Override
+	public List<MyOrder> selectAllMyOrder(String prdCode) {
+		return sellingDao.selectAllMyOrder(prdCode);
+	}
+	
+	@Override
+	public List<Prd> selectAllupcyPrd(String sCode) {
+		return sellingDao.selectAllupcyPrd(sCode);
+	}
+	
+	@Override
+	public int deletePrd(String prdCode) {
+		return sellingDao.deletePrd(prdCode);
+	}
+	
+	@Override
+	public Prd selectByprdCode(String prdCode) {
+		return sellingDao.selectByprdCode(prdCode);
+	}
+	
+	@Override
+	public int updatePrd(Prd prd) {
+		return sellingDao.updatePrd(prd);
+	}
+	
+	@Override
+	public OrderDetail selectByorddtCode(String orddtCode) {
+		return sellingDao.selectByorddtCode(orddtCode);
+	}
 	
 	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
@@ -71,10 +110,14 @@ public class SellingServiceImpl implements SellingService {
 	}
 
 	@Override
-	public List<ExpRes> selectResList(Paging paging) {
-		
-		return sellingDao.selectResList(paging);
+	public List<ExpRes> selectResList(String expCode) {
+		return sellingDao.selectResList(expCode);
 	}
 
+//	@Override
+//	public List<ExpRes> selectResList(String expCode, Paging paging) {
+//		
+//		return sellingDao.selectResList(expCode, paging);
+//	}
 
 }
