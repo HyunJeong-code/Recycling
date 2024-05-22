@@ -36,11 +36,9 @@ public class SellingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private SellingService sellingService;
-	@Autowired private BuyerService buyerService;
-	@Autowired HttpSession session;
 	
 	@GetMapping("/rcylist")
-	public void rcyList(Model model) {
+	public void rcyList(Model model, HttpSession session) {
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("sCode", "SEL0000003");
 		
@@ -83,7 +81,7 @@ public class SellingController {
 	}
 	
 	@GetMapping("/upcylist")
-	public void upcyList(Model model) {
+	public void upcyList(Model model, HttpSession session) {
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("sCode", "SEL0000003");
 		

@@ -20,11 +20,7 @@
                 <ul>
                     <li><a href="">로그인</a></li>
                     <li><a href="">회원가입</a></li>
-                    <li><a href="">장바구니</a>
-                        <!-- <a href="">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </a> -->
-                    </li>
+                    <li><a href="">장바구니</a></li>
                 </ul>
             </div>
         </div>
