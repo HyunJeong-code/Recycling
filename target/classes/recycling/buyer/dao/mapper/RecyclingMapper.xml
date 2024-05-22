@@ -4,4 +4,19 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.RecyclingDao">
+
+	<select id="selectPrdList" resultType="Prd">
+	    SELECT * FROM Prd
+	</select>
+	
+	<select id="selectPrd" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectSellerProfByCode" resultType="SellerProf">
+		SELECT * FROM SELLER_PROF
+		WHERE S_CODE = #{sCode}
+	</select>
+
 </mapper>
