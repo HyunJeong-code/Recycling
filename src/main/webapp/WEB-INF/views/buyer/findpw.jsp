@@ -7,6 +7,7 @@
 <title>비밀번호 찾기</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
+	// VS Code 테스트
 $(function() {
 	$("#btnEmail").click(function() {
 		var email = $('#bEmail').val() + $('#bEmail2').val();

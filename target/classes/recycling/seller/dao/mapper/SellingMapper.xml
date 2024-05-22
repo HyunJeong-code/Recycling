@@ -95,6 +95,10 @@
 		</where>
 	</delete>
 
+<!-- 	<select id="selectAllPrd" parameterType="BuyerLogin" resultType="AllPrd"> -->
+		
+<!-- 	</select> -->
+
 	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
 		SELECT * FROM (
 			SELECT rownum rnum, E.* FROM (
@@ -161,6 +165,5 @@
 			AND e.exp_code = #{expCode}
 		</where>
 	</select>
-	
 
 </mapper>

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import recycling.buyer.service.face.BuyerService;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -247,6 +247,17 @@ public class SellingController {
 		
 	    return "jsonView"; 
 	}
+
+	@GetMapping("/main")
+	public void main(HttpSession session, Model model) {
+		logger.info("/seller/selling/main [GET]");
+		
+		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers");
+		logger.info("seller : {}", seller);
+		
+//		List<AllPrd> allPrd = sellingService.selectAllPrd(seller);
+	}
+	
 	@GetMapping("/explist")
 	public void expList(
 			Model model,
