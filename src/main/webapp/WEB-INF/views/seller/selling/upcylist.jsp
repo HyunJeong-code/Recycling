@@ -12,6 +12,7 @@
 
 <!-- footer.css -->
 <link rel="stylesheet" href="/resources/css/footer.css">
+<link rel="stylesheet" href="/resources/css/header.css">
 
 <!-- 결제 API -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -212,6 +213,8 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 </head>
 <body>
 
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp" />
+
 <h1>새활용 상품 관리</h1>
 
 <table border="1">
@@ -321,5 +324,8 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	</tbody>
 </table>
 
-<!-- footer 추가 -->
+<!-- import footer -->
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp" />
+
+</body>
+</html>
