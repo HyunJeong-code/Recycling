@@ -15,11 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
-import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
-import recycling.dto.seller.Prd;
-import recycling.dto.seller.PrdFile;
 import recycling.manager.dao.face.MgrDao;
 import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
