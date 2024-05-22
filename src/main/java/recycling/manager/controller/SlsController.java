@@ -1,6 +1,7 @@
 package recycling.manager.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,6 +32,79 @@ public class SlsController {
 	
 	@Autowired private SlsService slsService;
 	@Autowired HttpSession session;
+	
+	@GetMapping("/sellerdetail")
+	public void sellerDetail() {
+		logger.info("/manager/sls/sellerdetail [GET]");
+		
+		
+	}
+	
+	@GetMapping("/sellerpridetail")
+	public void sellerPriDetail(String sCode, Model model) {
+		logger.info("/manager/sls/sellerpridetail [GET]");
+		
+		logger.info("detail sCode : {}", sCode);
+		
+		String bCode = slsService.selectBysCode(sCode);
+		logger.info("bCode : {}", bCode);
+		
+		int rptCnt = slsService.selectCntRpt(sCode);
+		int ordCnt = slsService.selectCntOrd(sCode);
+		logger.info("rpt : {}, ord : {}", rptCnt, ordCnt);
+		
+		Map<String, Object> seller = null;
+		
+		seller = slsService.selectPriSeller(bCode);
+		model.addAttribute("seller", seller);
+		model.addAttribute("rptCnt", rptCnt);
+		model.addAttribute("ordCnt", ordCnt);
+		logger.info("P : {}", seller);
+		
+//		return "/manager/sls/sellerdetail";
+	}
+	
+	@GetMapping("/sellercmpdetail")
+	public void sellerCmpDetail(String sCode, Model model) {
+		logger.info("/manager/sls/sellerCmpdetail [GET]");
+		
+		logger.info("detail sCode : {}", sCode);
+		
+		String bCode = slsService.selectBysCode(sCode);
+		logger.info("bCode : {}", bCode);
+		
+		int rptCnt = slsService.selectCntRpt(sCode);
+		int ordCnt = slsService.selectCntOrd(sCode);
+		logger.info("rpt : {}, ord : {}", rptCnt, ordCnt);
+		
+		Map<String, Object> seller = null;
+		
+		seller = slsService.selectCmpSeller(bCode);
+		model.addAttribute("seller", seller);
+		model.addAttribute("rptCnt", rptCnt);
+		model.addAttribute("ordCnt", ordCnt);
+		logger.info("C : {}", seller);
+	}
+	
+	@GetMapping("/sellerchklist")
+	public void sellerChkList(Model model) {
+		logger.info("/manager/sls/sellerchklist [GET]");
+		
+		List<Map<String, Object>> sellerList = slsService.selectBysChk();
+		logger.info("{}", sellerList);
+		
+		model.addAttribute("sellerList", sellerList);
+	}
+	
+	@GetMapping("/sellerchkdetail")
+	public void sellerChkDetail(Model model) {
+		logger.info("/manager/sls/sellerchkdetail [GET]");		
+	}
+	
+	@GetMapping("/sellerchk")
+	public void sellerChk() {
+		logger.info("/manager/sls/sellerchk [GET]");				
+	}
 	
 	//체험단 전체조회
 	@GetMapping("/explist")

@@ -12,6 +12,7 @@ import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.seller.Seller;
 
 // 마이페이지 - 회원 정보 관련 DB 처리
 public interface BuyerDao {	
@@ -111,14 +112,6 @@ public interface BuyerDao {
 	 * @return 조회된 구매자 정보
 	 */
 	public Buyer selectBuyerBybId(String bId);
-	
-	/**
-	 * 구매자 등급 번호로 구매자 등급 조회
-	 * 
-	 * @param rankNo - 구매자 등급 번호
-	 * @return 구매자 등급
-	 */
-	public BuyerRank selectBuyerRank(int rankNo);
 
 	/**
 	 * 구매자 코드로 기업 정보 조회
@@ -134,7 +127,7 @@ public interface BuyerDao {
 	 * @param buyer - 업데이트 할 구매자 정보
 	 * @return 
 	 */
-	public boolean updateBuyer(Buyer buyer);
+	public int updateBuyer(Buyer buyer);
 	
 	/**
 	 * 기업 정보 업데이트
@@ -187,5 +180,28 @@ public interface BuyerDao {
 	 * @param bCode - 구매자 코드
 	 */
 	public void deleteBuyer(String bCode);
+
+	/**
+	 * 구매자 등급 번호로 구매자 등급 조회
+	 * 
+	 * @param rankNo - 구매자 등급 번호
+	 * @return 구매자 등급
+	 */
+	public BuyerRank selectBuyerRank(int rankNo);
+
+	public int changePw(BuyerLogin buyerLogin);
+
+}
+
+// 마이페이지 - 회원 정보 관련 DB 처리
+public interface BuyerDao {
+
+	/**
+	 * 판매자 찾기
+	 * 
+	 * @param sCode
+	 * @return
+	 */
+	List<Seller> findSeller(String sCode);
 
 }

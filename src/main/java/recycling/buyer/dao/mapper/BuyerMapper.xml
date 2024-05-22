@@ -105,6 +105,7 @@
 			AND o.ord_code = od.ord_code
 			AND o.b_code = #{bCode}
 		</where>
+		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
 	<update id="updatecCnt" parameterType="Cart">
@@ -131,16 +132,6 @@
 			AND B_Id = #{bId }
 		</where>
 	</select>
-	
-	<!-- 구매자 등급 조회 -->
-    <select id="selectBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
-    	SELECT Rank_No AS rankNo,
-    		   Rank_Name AS rankName
-    	FROM Buyer_Rank
-    	<where>
-    		AND Rank_No = #{rankNo }
-    	</where>
-    </select>
 	
 	<!-- 구매자 코드로 기업 정보 조회 -->
 	<select id="selectCmpBybCode" parameterType="string" resultType="recycling.dto.buyer.Cmp">
@@ -254,4 +245,24 @@
     		AND B_Code = #{bCode }
     	</where>
     </delete>
+    
+    <!-- 구매자 등급 조회 -->
+    <select id="selectBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
+    	SELECT Rank_No AS rankNo,
+    		   Rank_Name AS rankName
+    	FROM Buyer_Rank
+    	<where>
+    		Rank_No = #{rankNo }
+    	</where>
+    </select>
+    
+    <update id="changePw" parameterType="BuyerLogin">
+    	UPDATE buyer
+    	SET b_pw = #{bPw }
+    	<where>
+    		AND b_code = #{b_code }
+    		AND b_id = #{bId }
+    		
+    	</where>
+    </update>
 </mapper>

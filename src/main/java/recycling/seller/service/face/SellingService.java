@@ -2,12 +2,15 @@ package recycling.seller.service.face;
 
 import java.util.List;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.AllPrd;
+import recycling.dto.seller.Exp;
 import recycling.util.Paging;
 
 // 상품-판매 관련 처리
@@ -123,6 +126,53 @@ public interface SellingService {
 	 * @return - SELECT 결과
 	 */
 	public OrderDetail selectByorddtCode(String orddtCode);
+	/**
+	 * 모든 상품과 체험단을 조회
+	 * 
+	 * @param seller - 로그인한 판매자 정보
+	 * @return 모든 상품에 대한 정보
+	 */
+//	public List<AllPrd> selectAllPrd(BuyerLogin seller);
+
+	/**
+	 * 토큰 발급
+	 * 
+	 * @return - 토큰
+	 */
+	public String getToken();
+
+	/**
+	 * 결제 취소
+	 * 
+	 * @param order - 취소하는 주문 DTO
+	 * @param token - 토큰
+	 * @return - 결제 취소 결과
+	 */
+	public int cencelpay(OrderDetail order, String token);
+
+	/**
+	 * 주문 상태 변경
+	 * 
+	 * @param ordd - 주문상세 번호와 UPDATE하는 상태번호를 가진 DTO
+	 * @return - UPDATE 결과
+	 */
+	public int updateOrderDetail(OrderDetail ordd);
+
+	/**
+	 * 송장 등록
+	 * 
+	 * @param myOrder - 송장 정보가 담긴 DTO
+	 * @return - INSERT 결과
+	 */
+	public int insertShip(MyOrder myOrder);
+
+	/**
+	 * 송장 삭제
+	 * 
+	 * @param orddtCode - 삭제할 송장의 orddtCode
+	 * @return - DELETE 결과
+	 */
+	public int deleteShip(String orddtCode);
 
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.BuyerDao;
@@ -17,6 +16,7 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
@@ -141,9 +141,9 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public Buyer updateBuyerDetail(Buyer buyer) {
 
-		boolean updateSuccess = buyerDao.updateBuyer(buyer);
+		int updateSuccess = buyerDao.updateBuyer(buyer);
 		
-		if(updateSuccess) {
+		if(updateSuccess > 0) {
 			
 			logger.info("성공적으로 업데이트 되었습니다: {}", buyer.getbId());
 			
@@ -217,4 +217,8 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
+	@Override
+	public int changePw(BuyerLogin buyerLogin) {
+		return buyerDao.changePw(buyerLogin);
+	}
 }
