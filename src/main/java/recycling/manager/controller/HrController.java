@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.manager.Department;
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.MgrFile;
 import recycling.manager.service.face.HrService;
@@ -35,11 +34,10 @@ public class HrController {
 	public String main(
 			Model model
 			) {
-		logger.info("Controller: main[Get]");
-		
+
+		//사원 전체조회
 		List<Manager> select = hrService.selectAll();
 		model.addAttribute("select", select);
-		logger.info("select: {}", select);
 		
 		return "/manager/hr/main";
 	}
@@ -51,7 +49,6 @@ public class HrController {
 			, MgrFile mgrFile
 			, Model model
 			) {
-		logger.info("controller: empDetail[Get]");
 	
 		//세부사항 조회
 		Manager view = hrService.selectDetail(manager);
@@ -64,7 +61,7 @@ public class HrController {
 		logger.info("fileList:{}", fileList );
 	}
 
-	//파일 다운로드[미구현, 구현시 view쪽 DTO 일부수정] 
+	//파일 다운로드
 	@GetMapping("/hrdownload")
 	public String download(MgrFile mgrFile, Model model) {
 		

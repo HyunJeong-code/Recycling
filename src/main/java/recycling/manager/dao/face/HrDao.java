@@ -11,6 +11,13 @@ import recycling.dto.manager.MgrFile;
 public interface HrDao {
 	
 	/**
+	 * 페이징 시스템
+	 * 
+	 * @return
+	 */
+	public int getPaging();
+	
+	/**
 	 * Manager 전체 조회하기
 	 * 
 	 * @return
@@ -77,6 +84,8 @@ public interface HrDao {
 	 * @return
 	 */
 	public int listDel(String mgrCode);
+
+
 
 
 

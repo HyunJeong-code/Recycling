@@ -1,11 +1,11 @@
 package recycling.buyer.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,9 +22,13 @@ public class MypageController {
 	@Autowired private BuyerService buyerService;
 	
 	@GetMapping("/myboard")
-	public void myMain(HttpSession session) {
-		logger.info("/buyer/mypage/myboard");
+	public void myMain(
+				Authentication authentication,
+				Model model
+			) {
+		logger.info("/buyer/mypage/myboard [GET]");
 		
-		BuyerLogin buyers = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
 	}
 }

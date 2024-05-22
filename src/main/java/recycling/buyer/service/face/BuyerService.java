@@ -213,4 +213,6 @@ public interface BuyerService {
 	 */
 	public void deleteBuyer(String bCode);
 
+	public int changePw(BuyerLogin buyerLogin);
+
 }
