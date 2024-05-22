@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/expform.css">
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- bootstrap -->
@@ -100,85 +101,16 @@ $(document).ready(function() {
 	    
 </script>
 
-
-<style type="text/css">
-.full {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.wrap {
-	width: 60%;
-}
-
-.page {
-	text-align: center;
-}
-
-.section {
-	margin-top: 20px;
-}
-
-input[type="text"], input[type="date"], input[type="time"], textarea {
-	width: 100%;
-	padding: 8px;
-	margin-bottom: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
-}
-
-input[type="file"] {
-	margin-bottom: 10px;
-}
-
-button {
-	padding: 10px 20px;
-	background-color: #007bff;
-	color: #fff;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-}
-
-button:hover {
-	background-color: #0056b3;
-}
-
-button:focus {
-	outline: none;
-}
-
-#image_container {
-	margin-top: 10px;
-}
-
-img {
-	max-width: 100%;
-	height: auto;
-	margin-top: 10px;
-}
-
-@media ( max-width : 768px) {
-	.wrap {
-		width: 80%;
-	}
-}
-
-
-</style>
-
 </head>
 <body>
 
 	<div class="full">
+			<aside>
+				왼쪽
+			</aside>
 		<div class="wrap">
 			<div class="page">
 				<h1>체험단 등록</h1>
-
 			</div>
 			<div class="section">
 				<form action="./expform" method="post" enctype="multipart/form-data">

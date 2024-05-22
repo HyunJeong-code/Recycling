@@ -92,16 +92,17 @@ $(function() {
 		<div class="wrap">
 
 			<div class="page">
-				<h1>체험단 조회 페이지[판매자 기준 정렬]</h1>
-				<hr>
+				<h1 class ="explist_title">체험단 조회</h1>
 			</div>
-			<div class="search_form">
-				상품번호
-				검색
-			</div>
-			<div>
-			예약관리
-			</div>
+			
+			<form action="./explist" method="post" class="search_form">
+			    <select id="explist_category" name="category">
+			        <option value="title">제목</option>
+			        <option value="writerId">작성자</option>
+			    </select>
+			    <input type="text" id="search" name="search" placeholder="검색어를 입력하세요">
+			    <button type="submit">검색</button>
+			</form>
 			
 			<div class="section">
 				<table>
