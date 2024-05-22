@@ -105,6 +105,7 @@
 			AND o.ord_code = od.ord_code
 			AND o.b_code = #{bCode}
 		</where>
+		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
 	<update id="updatecCnt" parameterType="Cart">

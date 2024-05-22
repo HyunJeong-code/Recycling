@@ -1,6 +1,7 @@
 package recycling.seller.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.Prd;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
+import recycling.util.Range;
 
 // 상품-판매 관리
 
@@ -117,7 +119,11 @@ public class SellingController {
 			}
 		}
 		
-		logger.info("{}",nplist);
+		//내림차순 정렬
+		Collections.sort(olist, new Range());
+		
+		logger.info("olist: {}",olist);
+		logger.info("nplist: {}",nplist);
 		
 		model.addAttribute("plist", nplist);
 		model.addAttribute("olist", olist);
