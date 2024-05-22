@@ -8,7 +8,54 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>Insert title here</title>
+<script type="text/javascript">
+$(function() {
+	//예약관리 삭제기능
+	$("#btn_expdetail_cancel").click(function() {
+
+		var len = $("input[name=chkBox]:checked").length;
+		var chk = new Array();
+
+		$("input:checkbox[name=chkBox]").each(function() {
+			if ($(this).is(":checked") == true) {
+				chk.push($(this).attr('id'));
+			}
+		})
+
+		console.log(len);
+		console.log(chk);
+
+		if (len == 0) {
+			alert("삭제할 게시물 선택해주세요.");
+		} else {
+			$.ajax({
+				url : "./expdetaillistdel",
+				type : "post",
+				data : {
+					chBox : chk
+				},
+				success : function(res) {
+					if (res <= 0) {
+						alert("삭제 실패");
+					} else {
+						alert("삭제 성공");
+						location.reload();
+					}
+				},
+				error : function() {
+					console.log("error");
+				}
+			})
+		}
+
+	})//btn_reserve_cancel
+})
+</script>
+
+
+
 <style type="text/css">
 /* 기본 설정 */
 body {
@@ -142,6 +189,7 @@ body {
 	<table>
 		<thead>
 			<tr>
+				<th></th>
 				<th>모집날짜</th>
 				<th>시간</th>
 				<th>신청한인원</th>
@@ -155,6 +203,7 @@ body {
 	
 			<c:forEach var="expSchList" items="${expSchList}">
 				<tr>
+					<td><input type="checkbox" id="${expSchList.schNo }" name="chkBox"></td>
 					<td>
 						<fmt:parseDate value="${expSchList.schDate}" var="schDate" pattern="yyyy-MM-dd" />
 						<fmt:formatDate value="${schDate}" pattern="yyyy-MM-dd" /></td>
@@ -190,7 +239,9 @@ body {
 	</table>
 </div>
 				
+				
 				<div>
+				<button type="button" id ="btn_expdetail_cancel">삭제하기</button>
 				<a href="./explist" ><button type="button">돌아가기</button></a>
 				</div>
 			</div>

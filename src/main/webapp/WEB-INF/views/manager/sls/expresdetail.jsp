@@ -54,8 +54,8 @@ $(function() {
 
 	})//btn_reserve_complete
 
-/* 예약 취소버튼 클릭시[예약취소 변경] */
-	$("#btn_reserve_cancel").click(function() {
+/* 예약 취소버튼 클릭시[예약대기 변경] */
+	$("#btn_reserve_wait").click(function() {
 
 		var len = $("input[name=chkBox]:checked").length;
 		var chk = new Array();
@@ -80,7 +80,7 @@ $(function() {
 					if (res <= 0) {
 						alert("오류");
 					} else {
-						alert("예약 취소");
+						alert("예약 대기");
 						location.reload();
 					}
 				},
@@ -90,40 +90,91 @@ $(function() {
 			})
 		}
 
-	})//btn_reserve_cancel
+	})//btn_reserve_wait
 
 	/* 체험시간별 인원변경 */
 		$("#cnt_change_update").change(function() {
 					var parentRow = $(this).closest('tr');
 					var schCntInput = parentRow.find('.expCode').text();
+					var schCntInputNo = parseInt(parentRow.find('.schNo').val());
+			
 			$.ajax({
 				type: "post"
 				, url: "./cntchangeupdate"
 				, data: {
 					
 					expCode : schCntInput
+					, schNo : schCntInputNo
 					, schCnt : $(this).val()
 				}
 				, dataType : "json"
 				, success: function(res) {
 					console.log("AJAX 성공");
-					
-					console.log(res.cntRes);
-					
-					if(res.cntRes == 0){
-						alert("수량이 부족합니다");			
-					}
-					
-					location.href="./cart";
-					//$("#cartTable").load(window.location.href+" #cartTable");
+
+		            if (res.success) {
+		                alert("인원이 변경되었습니다.");
+		                console.log("succes")
+		            	/* 원래페이지로 이동 */
+						location.href = "./expresdetail?expCode=" + schCntInput + "&schNo=" + schCntInputNo;
+		            } else {
+		                alert("변경이 불가능합니다. 예약된 인원보다 적은 값을 입력하세요.");
+		            	console.log("fail")
+		            }
+				
 					
 				}
 				, error: function() {
 					console.log("AJAX 실패");
 				}
 			})
-		}) // .cartCnt change end
+		}) // cnt_change_update
 
+		//예약관리 삭제기능
+		$("#btn_reserve_cancel").click(function() {
+
+			var len = $("input[name=chkBox]:checked").length;
+			var chk = new Array();
+
+			$("input:checkbox[name=chkBox]").each(function() {
+				if ($(this).is(":checked") == true) {
+					chk.push($(this).attr('id'));
+				}
+			})
+
+			console.log(len);
+			console.log(chk);
+
+			if (len == 0) {
+				alert("삭제할 게시물 선택해주세요.");
+			} else {
+				$.ajax({
+					url : "./expresdetaillistdel",
+					type : "post",
+					data : {
+						chBox : chk
+					},
+					success : function(res) {
+						if (res <= 0) {
+							alert("삭제 실패");
+						} else {
+							alert("삭제 성공");
+							location.reload();
+						}
+					},
+					error : function() {
+						console.log("error");
+					}
+				})
+			}
+
+		})//btn_reserve_cancel
+		
+		
+		
+		
+		
+		
+		
 })
 </script>
 <style type="text/css">
@@ -239,6 +290,7 @@ $(function() {
                 <td>${expSch.schTime }</td>
                 <td>
                 	<input type="text" name="schCnt" value="${expSch.schCnt }" id="cnt_change_update"> 
+                	<input type="hidden" name="schNo" value="${expSch.schNo }" class ="schNo"> 
                 </td>
                 
                 <td>
@@ -274,8 +326,8 @@ $(function() {
 	<tr>
 		<td>예약 관리</td>
 		<td><button id = "btn_reserve_complete">예약완료</button></td>
+		<td><button id = "btn_reserve_wait">예약대기</button></td>
 		<td><button id = "btn_reserve_cancel">예약취소</button></td>
-		<td><button id = "btn_reserve_change">예약변경[고민중]</button></td>
 	</tr>
 	</tbody>
 </table>
@@ -320,7 +372,7 @@ $(function() {
 							예약확정
 						</c:when>
 						<c:when test="${res.resCnf eq 'N' }">
-							예약취소
+							예약대기
 						</c:when>
 					</c:choose>
 				</td>

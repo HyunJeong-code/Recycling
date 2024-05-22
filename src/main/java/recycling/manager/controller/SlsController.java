@@ -147,10 +147,11 @@ public class SlsController {
 			, String expCode
 			, int schNo
 			) {
+		
 		//체험단 조회
 		Exp expView = slsService.expResDetail(expCode);
 		model.addAttribute("exp", expView);
-
+		
 		//체험예약 조회
 		ExpSch expSch = slsService.selectExpSchbySchNo(schNo);
 		model.addAttribute("expSch", expSch);
@@ -158,7 +159,6 @@ public class SlsController {
 		//체험단 예약인원조회
 		List<ExpRes> resList = slsService.expResDetailRes(schNo);
 		model.addAttribute("resList", resList);
-		
 		
 	}
 	
@@ -192,11 +192,14 @@ public class SlsController {
 	@PostMapping("/changeexpres")
 	public String changeExpResProc(
 			ResSchCnt resSchCnt
+			, ExpRes expRes
 			){
+		logger.info("resSchCnt : {}",resSchCnt);
+		logger.info("resSchCnt : {}",expRes);
 		
-		logger.info("controller: resSchCnt :{}",resSchCnt);
+		
 		slsService.changeExpResProc(resSchCnt);
-
+		
 		
 		return "redirect:/manager/sls/expresdetail?expCode="+ resSchCnt.getExpCode() +"&schNo="+ resSchCnt.getSchNo();
 	}
@@ -204,31 +207,52 @@ public class SlsController {
 	// 체험단 시간 날짜 별 인원 변경
 	@PostMapping("/cntchangeupdate")
 	public String cntChangeUpdate(
-			ResSchCnt resSchCnt
+			 ExpSch expSch
 			, Model model
 			) {
-		logger.info("cartupdate : {}", resSchCnt);
+
+		//예약인원 조회
+		int resCnt = slsService.getTotalResCnt(expSch);
+		logger.info("expSch : {}", resCnt);
+
+		//변경인원
+		int total = expSch.getSchCnt();
 		
-		//등록인원
-		int resCnt = slsService.selectByresCntUpdate(resSchCnt);
-		logger.info("resCnt : {}",resCnt);
-		
-		//총인원
-		int schCnt = slsService.selectByschCntUpdate(resSchCnt);
-		logger.info("schCnt : {}",schCnt);
-		
-		int totalCnt = 0; 
-		
-		//인원 확인
-		if(resCnt <= schCnt) {
-			totalCnt = slsService.cntChangeUpdate(resSchCnt);
+		//예약인원보다 변경할 인원이 적을시 에러
+		if(resCnt <= total) {
+			//총인원 변경
+			slsService.cntChangeUpdate(expSch);
+			logger.info("expSch : {}", expSch);
+			
+			model.addAttribute("success", true);
+		}else {
+			model.addAttribute("success", false);
 		}
-		
-		model.addAttribute("schCnt", schCnt);
 		
 		return "jsonView";
 	}
 	
+	// 예약관리 삭제
+	@PostMapping("/expresdetaillistdel")	
+	public String expResDetailListDel(@RequestParam("chBox[]") List<String> chBox) {
+		logger.info("controller: expResDetaiLlistDel [POST]");
+		
+		slsService.expResDetailListDel(chBox);
+		logger.info("데이터 확인 chBox : {}", chBox);
+		
+		return "redirect:./explist";
+	}
+	
+	//expdetail 페이지 리스트 삭제
+	@PostMapping("/expdetaillistdel")	
+	public String expDetailListDel(@RequestParam("chBox[]") List<String> chBox) {
+		logger.info("controller: expDetaiLlistDel [POST]");
+		
+		slsService.expDetailListDel(chBox);
+		logger.info("데이터 확인 chBox : {}", chBox);
+		
+		return "redirect:./explist";
+	}
 	
 	
 }

@@ -171,27 +171,32 @@ public interface SlsDao {
 	public void changeExpResProc(ResSchCnt resSchCnt);
 	
 	/**
-	 * 등록인원
-	 * 
-	 * @param resSchCnt
-	 * @return
-	 */
-	public int selectByResCntUpdate(ResSchCnt resSchCnt);
-
-	/**
-	 * 총인원
-	 * 
-	 * @param resSchCnt
-	 * @return
-	 */
-	public int selectByschCntUpdate(ResSchCnt resSchCnt);
-	
-	/**
 	 * 인원 변경 
 	 * 
-	 * @param resSchCnt
+	 * @param expSch
 	 * @return
 	 */
-	public int cntChangeUpdate(ResSchCnt resSchCnt);
+	public int cntChangeUpdate(ExpSch expSch);
 	
+	/**
+	 * 예약인원 총합
+	 * 
+	 * @param expSch
+	 * @return
+	 */
+	public int getTotalResCnt(ExpSch expSch);
+	
+	/**
+	 * 예약자 체크삭제
+	 * 
+	 * @param chBox
+	 */
+	public int expResDetailListDel(String resCode);
+	
+	/**
+	 * expdetail 체크삭제[클래스]
+	 * 
+	 * @param chBox
+	 */
+	public int expDetailListDel(String schNo);
 }

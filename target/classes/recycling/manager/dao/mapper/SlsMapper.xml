@@ -176,6 +176,7 @@
 	<select id="expResDetailRes" resultType="ExpRes" parameterType="int">
 		<include refid="expResBoard"/>
 		<where>sch_no = #{schNo}</where>
+		ORDER BY res_date
 	</select>
 	
 	<!-- expResDetail페이지 예약일정조회 -->
@@ -239,36 +240,35 @@
 		WHERE s.exp_code = #{expCode}
 	</select>
 	
-	<!-- 등록인원 조회 -->
-	<select id="selectByResCntUpdate" resultType="int" parameterType="ResSchCnt">
-		<include refid="expResJoinExpSch"/>
-		<where>
-			AND r.res_code = #{resCode}
-			AND s.sch_no = #{schNo}
-			AND r.resCnt = #{resCnt}
-		</where>
-	</select>
-	
-	<!-- 총인원 조회 -->
-	<select id="selectByschCntUpdate" resultType="int" parameterType="ResSchCnt">
-		<include refid="expResJoinExpSch"/>
-				<where>
-			AND r.res_code = #{resCode}
-			AND s.sch_no = #{schNo}
-			AND s.schCnt = #{schCnt}
-		</where>
-	</select>
-	
 	<!-- 인원 변경 -->
-	<update id="cntChangeUpdate" parameterType="ResSchCnt">
+	<update id="cntChangeUpdate" parameterType="ExpSch">
 		UPDATE exp_sch SET
-		s.sch_no = #{schNo}
+		sch_cnt = #{schCnt}
 		<where>
-		AND s.schCnt = #{schCnt}
+			AND sch_no = #{schNo}
+			AND exp_code = #{expCode}
 		</where>
-	
 	</update>
 	
+	<!-- 예약인원 총합 조회 -->
+	<select id="getTotalResCnt" resultType="int">
+	    SELECT SUM(r.res_cnt) AS total
+	    FROM exp_sch s
+	    JOIN exp_res r ON s.sch_no = r.sch_no
+	    WHERE s.exp_code = #{expCode} AND s.sch_no = #{schNo}
+	</select>
+	
+	<!-- 체험단 전체삭제 -->
+	<delete id="expResDetailListDel" parameterType="String">
+		DELETE FROM exp_res
+		<where> res_code = #{resCode }</where>
+	</delete>
+	
+	<!-- 체험단 expdetail 페이지 리스트삭제 -->
+	<delete id="expDetailListDel" parameterType="String">
+		DELETE FROM exp_sch
+		<where> sch_no = #{schNo }</where>
+	</delete>
 	
 	
 </mapper>

@@ -236,23 +236,43 @@ public class SlsServiceImpl implements SlsService {
 		slsDao.changeExpResProc(resSchCnt);
 	}
 
-	//등록인원
-	@Override
-	public int selectByresCntUpdate(ResSchCnt resSchCnt) {
-		return slsDao.selectByResCntUpdate(resSchCnt);
-	}
-
-	//총인원
-	@Override
-	public int selectByschCntUpdate(ResSchCnt resSchCnt) {
-		return slsDao.selectByschCntUpdate(resSchCnt);
-	}
-
 	//인원변경
 	@Override
-	public int cntChangeUpdate(ResSchCnt resSchCnt) {
+	public int cntChangeUpdate(ExpSch expSch) {
 		
-		return slsDao.cntChangeUpdate(resSchCnt);
+		return slsDao.cntChangeUpdate(expSch);
+	}
+
+	@Override
+	public int getTotalResCnt(ExpSch expSch) {
+		return slsDao.getTotalResCnt(expSch);
+	}
+
+	@Override
+	public int expResDetailListDel(List<String> chBox) {
+		int result = 0;
+		
+		for(int i = 0; i < chBox.size(); i++) {
+			String resCode = chBox.get(i);
+			logger.info("{}", resCode);
+			
+			result += slsDao.expResDetailListDel(resCode);
+		}
+		return result;
+	}
+
+	@Override
+	public int expDetailListDel(List<String> chBox) {
+		int result = 0;
+		
+		for(int i = 0; i < chBox.size(); i++) {
+			String schNo = chBox.get(i);
+			logger.info("{}", schNo);
+			
+			result += slsDao.expDetailListDel(schNo);
+		}
+		return result;
+		
 	}
 
 

@@ -221,7 +221,7 @@ img {
 								<div class="modal-body">
 									<h3>체험 마감일</h3>
 									<input type="date" name="schDate" placeholder="종료일">
-
+										
 									<h3>시간</h3>
 									<!-- 시작시간 -->
 									<c:set var="startTimeHour" value="7" />
