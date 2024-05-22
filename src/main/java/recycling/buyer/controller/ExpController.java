@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.ExpService;
+import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
+import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 
 // 메뉴 - 체험단
@@ -68,14 +70,48 @@ public class ExpController {
 	public void expDetail(
 			String expCode,
 			Model model,
-			HttpSession session
+			HttpSession session,
+			String sCode,
+			String bCode
 			) {
 		
 		Exp exp = expService.selectByExpCode(expCode);
+		
+		//첨부파일 main=썸네일, detail=상세이미지
 		List<ExpFile> expFiles = expService.selectByExpFile(expCode);
+		
+		ExpFile main = null;
+		List<ExpFile> detail = new ArrayList<>();
+		
+		for (ExpFile file : expFiles) {
+	        if (file.getCtPflNo() == 600) {
+	        	main = file;
+	        } else if (file.getCtPflNo() == 610) {
+	        	detail.add(file);
+	        }
+	    }
+		
+		//판매자 상세정보
+		sCode = exp.getsCode();
+		Seller seller = expService.getSellerInfo(sCode);
+		
+		bCode = seller.getbCode();
+		Buyer buyer = expService.getBuyerInfo(bCode);
+		
+		String selType = "";
+		if("P".equals(buyer.getbCtCode())) {
+			selType = "개인";
+		} else if ("C".equals(buyer.getbCtCode())) {
+			selType = "기업";
+		}
 		
 		model.addAttribute("exp", exp);
 		model.addAttribute("expFiles", expFiles);
+		model.addAttribute("seller", seller);
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("selType", selType);
+		model.addAttribute("main", main);
+		model.addAttribute("detail", detail);
 		
 	}
 	
@@ -97,6 +133,6 @@ public class ExpController {
 	@PostMapping("/expresform")
 	public String expResFormProc() {
 		
-		return 
+		return "redirect:/buyer/exp/expdetail";
 	}
 }

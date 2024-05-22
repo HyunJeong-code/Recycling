@@ -2,8 +2,10 @@ package recycling.buyer.service.face;
 
 import java.util.List;
 
+import recycling.dto.buyer.Buyer;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
+import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 
 public interface ExpService {
@@ -61,8 +63,36 @@ public interface ExpService {
 	 */
 	public List<Exp> selectTopRecExp();
 
+	/**
+	 * expCode와 일치하는 체험단 상세정보
+	 * 
+	 * @param expCode - 체험단 코드
+	 * @return 체험단 상세정보
+	 */
 	public Exp selectByExpCode(String expCode);
 
+	/**
+	 * expCode와 일치하는 이미지
+	 * 
+	 * @param expCode - 체험단 코드
+	 * @return file 
+	 */
 	public List<ExpFile> selectByExpFile(String expCode);
+
+	/**
+	 * 판매자 상세정보
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return seller
+	 */
+	public Seller getSellerInfo(String sCode);
+
+	/**
+	 * 판매자의 구매자 정보
+	 * 
+	 * @param bCode - 구매자코드
+	 * @return buyer
+	 */
+	public Buyer getBuyerInfo(String bCode);
 
 }

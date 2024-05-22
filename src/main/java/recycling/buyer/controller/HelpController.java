@@ -163,8 +163,8 @@ public class HelpController {
 			Oto oto,
 			@RequestParam("ct_otono") String ctOtoNo, // 선택된 분류 값을 받음
 			@RequestParam("detail") List<MultipartFile> detail // 여러 파일 업로드 필드
-			, @RequestParam("visibility") String visibility,
-            @RequestParam(value = "password", required = false) String password
+//			, @RequestParam("visibility") String visibility,
+//            @RequestParam(value = "password", required = false) String password
 			) {
 		
 		//회원 로그인 세션 정보

@@ -104,4 +104,21 @@
     	</where>
     </select>
 	
+	<select id="getSellerInfo" resultType="Seller" parameterType="string">
+		SELECT * FROM Seller
+		<where>
+			AND s_code = #{sCode}
+		</where>
+	
+	</select>
+	
+	<select id="getBuyerInfo" resultType="Buyer" parameterType="string">
+		SELECT b.* FROM Buyer b 
+			JOIN Seller s ON s.b_code = b.b_code
+		<where>
+			AND b.b_code = #{bCode}
+		</where>
+	
+	</select>
+	
 </mapper>
