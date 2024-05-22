@@ -53,7 +53,7 @@
             var geocoder = new kakao.maps.services.Geocoder();
 
             // 주소로 좌표를 검색합니다
-            geocoder.addressSearch('서울 강남구 역삼동 826-27', function(result, status) {
+            geocoder.addressSearch('서울 서초구 서초동 1327-27', function(result, status) {
 
                  // 정상적으로 검색이 완료됐으면 
                  if (status === kakao.maps.services.Status.OK) {

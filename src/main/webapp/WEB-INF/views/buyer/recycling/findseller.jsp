@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	ArrayList<Map> gpsList = (ArrayList) request.getAttribute("gpsList");
+    ArrayList<Map<String, Object>> gpsList = (ArrayList<Map<String, Object>>) request.getAttribute("gpsList");
 %>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,7 @@
 </head>
 <body>
     
-    <div id="map" style="width:100%;height:350px;"></div>
+    <div id="map" style="width:550px;height:350px;"></div>
     
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41ba379def68013bd8f17aebb90337cb&libraries=services"></script>
     <script>
@@ -22,7 +22,7 @@
             mapOption = { 
                 center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
                 level: 5 // 지도의 확대 레벨 
-            }; 
+            };
         
         var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
         
@@ -41,7 +41,7 @@
                 // 마커와 인포윈도우를 표시합니다
                 displayMarker(locPosition, message);
                     
-              });
+            });
             
         } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
             
@@ -51,21 +51,39 @@
             displayMarker(locPosition, message);
         }
         
-        var gpsList = <%=gpsList%>;
+        var gpsList = [
+            <% for (int i = 0; i < gpsList.size(); i++) { %>
+                {
+                    sCode: '<%=gpsList.get(i).get("sCode")%>',
+                    bCode: '<%=gpsList.get(i).get("bCode")%>',
+                    accName: '<%=gpsList.get(i).get("accName")%>',
+                    accBank: '<%=gpsList.get(i).get("accBank")%>',
+                    accNo: '<%=gpsList.get(i).get("accNo")%>',
+                    sPostcode: '<%=gpsList.get(i).get("sPostcode")%>',
+                    sAddr: '<%=gpsList.get(i).get("sAddr")%>',
+                    sDetail: '<%=gpsList.get(i).get("sDetail")%>',
+                    sEntDate: '<%=gpsList.get(i).get("sEntDate")%>',
+                    sChk: '<%=gpsList.get(i).get("sChk")%>',
+                    sOut: '<%=gpsList.get(i).get("sOut")%>',
+                    sOutDate: '<%=gpsList.get(i).get("sOutDate")%>'
+                }<%= i == gpsList.size() - 1 ? "" : "," %>
+            <% } %>
+        ];
+
         console.log(gpsList);
 
-        for (var i = 0; i < gpsList.length; i++) {
+        for (let i = 0; i < gpsList.length; i++) {
+            let gps = gpsList[i];
+            let sCode = gps.sCode; // sCode 값을 가져옴
             
-            var gps = gpsList[i];
-        
             // 주소-좌표 변환 객체를 생성합니다
             var geocoder = new kakao.maps.services.Geocoder();
-
+            
             // 주소로 좌표를 검색합니다
             geocoder.addressSearch(gps.sAddr, function(result, status) {
 
-                 // 정상적으로 검색이 완료됐으면 
-                 if (status === kakao.maps.services.Status.OK) {
+                // 정상적으로 검색이 완료됐으면 
+                if (status === kakao.maps.services.Status.OK) {
 
                     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
@@ -87,8 +105,8 @@
 
                     // 마커에 클릭이벤트를 등록합니다
                     kakao.maps.event.addListener(marker, 'click', function() {
-                          // 마커 위에 인포윈도우를 표시합니다
-                          infowindow.open(map, marker);  
+                        // 마커 위에 인포윈도우를 표시합니다
+                        infowindow.open(map, marker);  
                     });
 
                 }
@@ -122,8 +140,8 @@
             
             // 마커에 클릭이벤트를 등록합니다
             kakao.maps.event.addListener(marker, 'click', function() {
-                  // 마커 위에 인포윈도우를 표시합니다
-                  infowindow.open(map, marker);
+                // 마커 위에 인포윈도우를 표시합니다
+                infowindow.open(map, marker);
             });
         }
         
