@@ -22,20 +22,23 @@ public class ExpServiceImpl implements ExpService {
 	@Autowired private ServletContext servletContext;
 	
 	@Override
-	public Paging getPaging(int curPage) {
-		
-		//총 게시글 수 조회
-		int totalCount = expDao.selectCntAll();
-		
-		//페이징 계산
-		Paging paging = new Paging( totalCount, curPage);
-		
-		return paging;
-	}
-
-	@Override
 	public List<Exp> selectAllExp(Paging paging) {
 		
 		return expDao.selectAllExp(paging);
+	}
+
+	@Override
+	public Paging getSearchPaging(int curPage, String search) {
+		
+		Paging paging = null;
+		
+		int totalCount = expDao.selectCntAll(search);
+		
+		if("".equals(search)) {
+			paging = new Paging(totalCount, curPage, search);
+		} else {
+			paging = new Paging(totalCount, curPage, search);
+		}
+		return paging;
 	}
 }

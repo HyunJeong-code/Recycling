@@ -8,6 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>changePw</title>
+
+<script type="text/javascript">
+
+</script>
+
 </head>
 <body>
 	<div class="full">

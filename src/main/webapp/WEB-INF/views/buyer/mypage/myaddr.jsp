@@ -13,57 +13,21 @@
 
 <script type="text/javascript">
 function execDaumPostcode(targetPostcode, targetAddress, targetDetail) {
-	
-	new daum.Postcode({
-		
-		oncomplete: function(data) {
-			
-			var addr = '';
-			var extraAddr = '';
-			
-			// 주소 타입에 따라 도로명 주소와 지번 주소 구분
-			if(data.userSelectedType === 'R') {	// 도로명 주소
-				
-				addr = data.roadAddress;
-			
-				// 참고 항목 문자열 조합			
-				if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-					
-					extraAddr += data.bname;
-					
-				}
-				
-				if(data.buildingName !== '' && data.apartment === 'Y') {
-					
-					extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-					
-				}
-				
-				if(extraAddr !== ''){
-					
-					extraAddr = ' (' + extraAddr + ')';
-					
-				}
-				
-				addr += extraAddr;
-				
-			} else {	// 지번 주소
-				
-				addr = data.jibunAddress;
-				
-			}
-			
-			// 우편번호와 주소 정보를 해당 필드에 넣기
-			document.getElementById(targetPostcode).value = data.zonecode;
-			document.getElementById(targetAddress).value = addr;
-			
-			// 상세 주소 필드로 포커스 이동
-			document.getElementById(targetDetail).focus();
-			
-		}
-		
-	}).open();
-	
+    var postcodeElem = document.getElementById(targetPostcode);
+    var addressElem = document.getElementById(targetAddress);
+    var detailElem = document.getElementById(targetDetail);
+
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
+            if (data.userSelectedType === 'R' && data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                addr += ' (' + data.bname + ')';
+            }
+            postcodeElem.value = data.zonecode;
+            addressElem.value = addr;
+            detailElem.focus();
+        }
+    }).open();
 }
 
 function toggleVisibility(elementId) {
@@ -87,6 +51,7 @@ function cancelForm() {
 	window.history.back();
 	
 }
+
 </script>
 
 <style type="text/css">
@@ -103,38 +68,66 @@ function cancelForm() {
 			<hr>
 			<div class="page">
 				<c:if test="${not empty buyerAdrList }">
-					<c:forEach var="addr" items="${buyerAdrList }">
-						<c:if test="${addr.adrChk eq 'Y'}">
-							<form action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
-								<input type="hidden" name="action" value="update">
-								<input type="hidden" name="adrCode" value="${addr.adrCode }">
-					
-								<label for="adrName">받는 사람 </label>
-								<input type="text" id="adrName" name="adrName" value="${addr.adrName }" required><br>
-					
-								<label for="adrPhone">연락처 </label>
-								<input type="text" id="adrPhone" name="adrPhone" value="${addr.adrPhone }" required><br>
-					
-								<label for="adrPostcode">우편번호 </label>
-								<input type="text" id="adrPostcodeEdit" name="adrPostcode" value="${addr.adrPostcode }" required>
-								<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcodeEdit', 'adrAddrEdit', 'adrDetailEdit')"><br>
-					
-								<label for="adrAddr">배송 주소 </label>
-								<input type="text" id="adrAddrEdit" name="adrAddr" class="addr-field" value="${addr.adrAddr }" required><br>
-					
-								<label for="adrDetail">상세 주소 </label>
-								<input type="text" id="adrDetailEdit" name="adrDetail" class="addr-field" value="${addr.adrDetail }" required><br>
-					
-								<input type="submit" value="수정하기">
-								<input type="hidden" name="adrChk" value="Y">
-							</form>
-						</c:if>
+					<h3>기본 배송지</h3>
+					<form action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
+						<c:forEach var="addr" items="${buyerAdrList }" begin="0" end="0">
+							<input type="hidden" name="action" value="update">
+							<input type="hidden" name="adrCode" value="${addr.adrCode }">
+				
+							<label for="adrName">받는 사람 </label>
+							<input type="text" id="adrName" name="adrName" value="${addr.adrName }" required><br>
+				
+							<label for="adrPhone">연락처 </label>
+							<input type="text" id="adrPhone" name="adrPhone" value="${addr.adrPhone }" required><br>
+				
+							<label for="adrPostcode">우편번호 </label>
+							<input type="text" id="adrPostcodeEdit" name="adrPostcode" value="${addr.adrPostcode }" required>
+							<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcodeEdit', 'adrAddrEdit', 'adrDetailEdit')"><br>
+				
+							<label for="adrAddr">배송 주소 </label>
+							<input type="text" id="adrAddrEdit" name="adrAddr" class="addr-field" value="${addr.adrAddr }" required><br>
+				
+							<label for="adrDetail">상세 주소 </label>
+							<input type="text" id="adrDetailEdit" name="adrDetail" class="addr-field" value="${addr.adrDetail }" required><br>
+				
+							<input type="submit" value="수정하기">
+						</c:forEach>
+					</form>
+					<hr>
+					<h3>추가 배송지</h3>
+					<c:forEach var="addr" items="${buyerAdrList }" begin="1">
+						<form action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
+							<input type="hidden" name="action" value="register">
+							<input type="hidden" name="adrCode" value="${addr.adrCode }">
+							
+							<label for="adrName">받는 사람 </label>
+							<input type="text" id="adrName" name="adrName" value="${addr.adrName }" required><br>
+				
+							<label for="adrPhone">연락처 </label>
+							<input type="text" id="adrPhone" name="adrPhone" value="${addr.adrPhone }" required><br>
+				
+							<label for="adrPostcode">우편번호 </label>
+							<input type="text" id="adrPostcodeEdit" name="adrPostcode" value="${addr.adrPostcode }" required>
+							<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcodeEdit', 'adrAddrEdit', 'adrDetailEdit')"><br>
+				
+							<label for="adrAddr">배송 주소 </label>
+							<input type="text" id="adrAddrEdit" name="adrAddr" class="addr-field" value="${addr.adrAddr }" required><br>
+				
+							<label for="adrDetail">상세 주소 </label>
+							<input type="text" id="adrDetailEdit" name="adrDetail" class="addr-field" value="${addr.adrDetail }" required><br>
+							
+							<input type="submit" value="수정하기">
+						</form>
 					</c:forEach>
+					<c:if test="${buyerAdrList.size() < 2 }">
+						<p>추가 배송지가 없습니다.</p>	
+					</c:if>
 				</c:if>
-				<input type="button" value="추가하기" onclick="toggleVisibility('addForm')"><br><br>
+				
+				<input type="button" value="추가 배송지 등록하기" onclick="toggleVisibility('addForm')"><br><br>
 				
 				<div id="addForm" style="display: none;">
-					<h3>추가 배송지</h3>
+					<h3>새 배송지 추가</h3>
 					<form action="${pageContext.request.contextPath}/buyer/mypage/myaddr" method="post">
 						<input type="hidden" name='action' value="register">
 							
@@ -155,58 +148,8 @@ function cancelForm() {
 						<input type="text" id="adrDetailAdd" name="adrDetail" class="addr-field" required><br>
 							
 						<input type="submit" value="등록하기">
-						<input type="button" value="취소하기" onclick="cancelForm()">
 					</form>
 				</div>
-				
-				<hr>
-				
-				<h3>추가된 배송지 목록</h3>
-				<c:if test="${not empty buyerAdrList }">
-					<c:forEach var="addr" items="${buyerAdrList }">
-						<c:if test="${addr.adrChk ne 'Y' }">
-							<form action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
-								<input type="hidden" name="action" value="update">
-								<input type="hidden" name="adrCode" value="${addr.adrCode }">
-								
-								<label for="adrName">받는 사람 </label>
-								<input type="text" id="adrNameEdit" name="adrName" value="${addr.adrName }" required><br>
-							
-								<label for="adrPhone">연락처 </label>
-								<input type="text" id="adrPhoneEdit" name="adrPhone" value="${addr.adrPhone }" required><br>
-							
-								<label for="adrPostcode">우편번호 </label>
-								<input type="text" id="adrPostcodeEdit2" name="adrPostcode" value="${addr.adrPostcode }" required>
-								<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcodeEdit2', 'adrAddrEdit2', 'adrDetailEdit2')"><br>
-							
-								<label for="adrAddr">배송 주소 </label>
-								<input type="text" id="adrAddrEdit2" name="adrAddr" class="addr-field" value="${addr.adrAddr }" required><br>
-							
-								<label for="adrDetail">상세 주소 </label>
-								<input type="text" id="adrDetailEdit2" name="adrDetail" class="addr-field" value="${addr.adrDetail }" required><br>
-							
-								<input type="submit" value="수정하기">
-								<input type="hidden" name="adrChk" value="N">
-							</form>
-							
-							<form action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post" style="display: inline;">
-								<input type="hidden" name="action" value="delete">
-								<input type="hidden" name="adrCode" value='${addr.adrCode }'>
-								<input type="submit" value="삭제하기">
-							</form>
-							
-							<br><br>
-						
-						</c:if>
-					</c:forEach>
-				</c:if>	
-				
-				<c:if test="${not empty success}">
-        			<p style="color: green;">${success }</p>
-    			</c:if>
-    			<c:if test="${not empty error}">
-       				<p style="color: red;">${error }</p>
-    			</c:if>
 			</div>
 		</div>
 	</div>

@@ -17,6 +17,7 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
@@ -85,16 +86,35 @@ public class BuyerServiceImpl implements BuyerService {
 	
 	@Override
 	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
-		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
+		return buyerDao.selectOrderDetailBybCode(bCode);
 	}
 
 	@Override
 	public Buyer getCurrentBuyer(String bId) {
-
+		return buyerDao.selectBuyerBybId(bId);
+	}
+	
+	@Override
+	public Buyer getBuyerDetail(String bId) {
+		
 		return buyerDao.selectBuyerBybId(bId);
 	
 	}
+	
+	@Override
+	public BuyerRank getBuyerRank(int rankNo) {
 
+		return buyerDao.selectBuyerRank(rankNo);
+	
+	}
+	
+	@Override
+	public Cmp getCmpDetail(String bCode) {
+		
+		return buyerDao.selectCmpBybCode(bCode);
+
+	}
+	
 	@Override
 	public boolean verifyPw(String bId, String password) {
 
@@ -118,36 +138,51 @@ public class BuyerServiceImpl implements BuyerService {
 		}
 		
 	}
+	
+	@Override
+	public Buyer updateBuyerDetail(Buyer buyer) {
+
+		boolean updateSuccess = buyerDao.updateBuyer(buyer);
+		
+		if(updateSuccess) {
+			
+			logger.info("성공적으로 업데이트 되었습니다: {}", buyer.getbId());
+			
+		} else {
+			
+			logger.info("업데이트에 실패했습니다: {}", buyer.getbId());
+			
+		}
+		return buyer;
+		
+	}
+	
+	@Override
+	public Cmp updateCmpDetail(Cmp cmp) {
+		
+		boolean cmpUpdate = buyerDao.updateCmp(cmp);
+		
+		if(cmpUpdate) {
+			
+			logger.info("성공적으로 업데이트 되었습니다: {}", cmp.getbCode());
+			
+		} else {
+			
+			logger.info("업데이트에 실패했습니다: {}", cmp.getbCode());
+			
+		}
+		
+		return cmp;
+		
+	}
 
 	@Override
-	public BuyerAdr getBuyerAdr(String bCode) {
-		
-		return buyerDao.selectBuyerAdrBybCode(bCode);
+	public List<BuyerAdr> getBuyerAdrList(String bCode) {
+
+		return buyerDao.selectBuyerAdrListBybCode(bCode);
 	
 	}
-
-	@Override
-	public Cmp getCmpDetail(String bCode) {
-		
-		return buyerDao.selectCmpBybCode(bCode);
-
-	}
-
-	@Override
-	public void updatePriDetail(Buyer buyer) {
-		
-		buyerDao.updateBuyer(buyer);
-		
-	}
-
-	@Override
-	public void updateCmpDetail(Buyer buyer, Cmp cmp) {
-		
-		buyerDao.updateBuyer(buyer);
-		buyerDao.updateCmp(cmp);
-		
-	}
-
+	
 	@Override
 	public void registerAdr(BuyerAdr buyerAdr) {
 		
@@ -158,7 +193,7 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public void updateAdr(BuyerAdr buyerAdr) {
 		
-		buyerDao.updaterAdr(buyerAdr);
+		buyerDao.updateAdr(buyerAdr); 
 		
 	}
 
@@ -168,27 +203,14 @@ public class BuyerServiceImpl implements BuyerService {
 		buyerDao.deleteAdr(adrCode);
 		
 	}
-
-	@Override
-	public List<BuyerAdr> getBuyerAdrList(String bCode) {
-
-		return buyerDao.selectBuyerAdrList(bCode);
 	
-	}
-
 	@Override
-	public List<BuyerAdr> getBuyerAdrList(Buyer buyer) {
-
-		if(buyer == null || buyer.getbCode() == null) {
-			
-			return null;
-			
-		}
+	public BuyerAdr getBuyerAdr(String bCode) {
 		
-		return buyerDao.selectBuyerAdrList(buyer.getbCode());
+		return buyerDao.selectBuyerAdrBybCode(bCode);
 	
 	}
-
+	
 	@Override
 	public void deleteBuyer(String bCode) {
 		
@@ -201,5 +223,10 @@ public class BuyerServiceImpl implements BuyerService {
 
 		return buyerDao.selectBuyerRank(rankNo);
 	
+	}
+	
+	@Override
+	public int changePw(BuyerLogin buyerLogin) {
+		return buyerDao.changePw(buyerLogin);
 	}
 }
