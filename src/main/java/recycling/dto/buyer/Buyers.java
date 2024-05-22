@@ -1,66 +1,31 @@
 package recycling.dto.buyer;
 
-import java.util.Collection;
+import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
-public class Buyers implements UserDetails {
+public class Buyers extends User {
 
 	private static final long serialVersionUID = 1L;
-	private BuyerLogin buyerLogin;
 	
-	public Buyers() {}
-	
-	public Buyers(BuyerLogin buyerLogin) {
-		this.buyerLogin = buyerLogin;
+	private BuyerTest buyer;
+
+	public Buyers(BuyerTest buyer) {
+		super(buyer.getbId(), buyer.getbPw(), List.of(new SimpleGrantedAuthority(buyer.getRole())));
+		this.buyer = buyer;
 	}
 
 	@Override
 	public String toString() {
-		return "Buyers [buyerLogin=" + buyerLogin + "]";
+		return "Buyers [buyer=" + buyer + "]";
 	}
 
-	public BuyerLogin getBuyerLogin() {
-		return buyerLogin;
+	public BuyerTest getBuyer() {
+		return buyer;
 	}
 
-	public void setBuyerLogin(BuyerLogin buyerLogin) {
-		this.buyerLogin = buyerLogin;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return buyerLogin.getAuth();
-	}
-	
-	@Override
-	public String getUsername() {
-		return buyerLogin.getbId();
-	}
-	
-	@Override
-	public String getPassword() {
-		return buyerLogin.getbPw();
-	}
-	
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-	
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-	
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-	
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
+	public void setBuyer(BuyerTest buyer) {
+		this.buyer = buyer;
 	}
 }

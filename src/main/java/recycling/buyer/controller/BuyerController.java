@@ -15,6 +15,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+<<<<<<< HEAD
+=======
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+>>>>>>> 71c934c8a1399e40cdaa81fd723429d500cce9ea
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +54,7 @@ public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerService buyerService;
+	@Autowired private BCryptPasswordEncoder pwEncoder;
 	@Autowired HttpSession session;
 	@Autowired private JavaMailSenderImpl mailSender;
 	
@@ -399,16 +408,9 @@ public class BuyerController {
 	
 	// 비밀번호 변경 페이지
 	@GetMapping("/changepw")
-	public String changePw(Model model) {
-		
-		if(session.getAttribute("buyers") == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
-		}
-		
+	public void changePw(
+			HttpSession session
+			) {
 		logger.info("/buyer/mypage/changepw [GET]");
 		
 		return "buyer/mypage/changepw";
@@ -418,41 +420,23 @@ public class BuyerController {
 	// 비밀번호 변경 처리
 	@PostMapping("/changepw")
 	public String changePwProc(
-			@RequestParam("currentPw") String currentPw,
 			@RequestParam("newPw") String newPw,
 			@RequestParam("confirmPw") String confirmPw,
+			Authentication authentication,
 			Model model
 			) {
 		
 		logger.info("/buyer/mypage/changepw [POST]");
 		
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
 		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
-		}
+		String oldPw = buyerLogin.getbPw();
+		String enPw = pwEncoder.encode(newPw);
+		buyerLogin.setbPw(enPw);
+		int res = buyerService.changePw(buyerLogin);
 		
-		if(!buyerService.verifyPw(buyerLogin.getbId(), currentPw)) {
-			
-			model.addAttribute("error", "현재 비밀번호가 틀렸습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
-		if(!newPw.equals(confirmPw)) {
-			
-			model.addAttribute("error", "새 비밀번호가 일치하지 않습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
-		buyerService.changePw(buyerLogin.getbId(), newPw);
+		logger.info("res : {}", res);
 		
 		model.addAttribute("success", "비밀번호가 변경되었습니다.");
 		

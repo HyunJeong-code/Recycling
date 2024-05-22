@@ -26,6 +26,8 @@ import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
+import recycling.dto.buyer.ExpRes;
+import recycling.dto.seller.AllPrd;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.Prd;
@@ -246,6 +248,16 @@ public class SellingController {
      }
 	
 
+	@GetMapping("/main")
+	public void main(HttpSession session, Model model) {
+		logger.info("/seller/selling/main [GET]");
+		
+		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers");
+		logger.info("seller : {}", seller);
+		
+//		List<AllPrd> allPrd = sellingService.selectAllPrd(seller);
+	}
+	
 	@GetMapping("/explist")
 	public void expList(
 			Model model,

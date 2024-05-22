@@ -188,4 +188,14 @@ public interface BuyerDao {
 	 */
 	public void deleteBuyer(String bCode);
 
+	/**
+	 * 구매자 등급 번호로 구매자 등급 조회
+	 * 
+	 * @param rankNo - 구매자 등급 번호
+	 * @return 구매자 등급
+	 */
+	public BuyerRank selectBuyerRank(int rankNo);
+
+	public int changePw(BuyerLogin buyerLogin);
+
 }

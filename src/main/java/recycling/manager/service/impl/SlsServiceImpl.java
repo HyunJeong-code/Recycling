@@ -3,6 +3,7 @@ package recycling.manager.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -27,6 +28,36 @@ public class SlsServiceImpl implements SlsService {
 
 	@Autowired private ServletContext servletContext;
 	@Autowired private SlsDao slsDao;
+	
+	@Override
+	public  List<Map<String, Object>> selectBysChk() {
+		return slsDao.selectBysChk();
+	}
+	
+	@Override
+	public String selectBysCode(String sCode) {
+		return slsDao.selectBysCode(sCode);
+	}
+	
+	@Override
+	public Map<String, Object> selectPriSeller(String bCode) {
+		return slsDao.selectPriSeller(bCode);
+	}
+	
+	@Override
+	public Map<String, Object> selectCmpSeller(String bCode) {
+		return slsDao.selectCmpSeller(bCode);
+	}
+	
+	@Override
+	public int selectCntRpt(String sCode) {
+		return slsDao.selectCntRpt(sCode);
+	}
+	
+	@Override
+	public int selectCntOrd(String sCode) {
+		return slsDao.selectCntOrd(sCode);
+	}
 	
 	//전체조회
 	@Override
@@ -204,10 +235,4 @@ public class SlsServiceImpl implements SlsService {
 		
 	}
 
-
-
-
-	
-	
-	
 }//main
