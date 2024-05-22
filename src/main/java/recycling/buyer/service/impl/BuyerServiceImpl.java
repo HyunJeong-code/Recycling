@@ -218,12 +218,7 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
-	@Override
-	public BuyerRank getBuyerRank(int rankNo) {
 
-		return buyerDao.selectBuyerRank(rankNo);
-	
-	}
 	
 	@Override
 	public int changePw(BuyerLogin buyerLogin) {

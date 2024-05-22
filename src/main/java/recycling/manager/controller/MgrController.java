@@ -18,17 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import recycling.dto.manager.Manager;
-import recycling.dto.manager.ManagerLogin;
-import recycling.dto.manager.Notice;
-import recycling.manager.service.face.MgrService;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
-import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
@@ -143,7 +136,7 @@ public class MgrController {
 	
 	//공지사항 전체조회
 	@GetMapping("/noticelist")
-	public void noticeList(
+	public String noticeList(
 			Model model
 			) {
 		//관리자 공지사항 전체조회
@@ -152,6 +145,7 @@ public class MgrController {
 		logger.info("controller: noticeList[GET]");
 		
 		
+		Paging pagingParam = null;
 		//페이징 계산, 검색기능
 		Paging paging = mgrService.selectCntAll(pagingParam);
 		

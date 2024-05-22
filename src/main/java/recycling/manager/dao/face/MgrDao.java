@@ -73,5 +73,7 @@ public interface MgrDao {
 	 */
 	public int insertMgrProf(MgrFile mgrFile);
 
+	public ManagerLogin selectByIdPw(Manager manager);
+
 	
 }
