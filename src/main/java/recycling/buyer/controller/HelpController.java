@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.HelpService;
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
@@ -33,9 +35,11 @@ public class HelpController {
 	public void main(
 			@RequestParam(defaultValue = "0") int curPage,
 			Model model,
-			HttpSession session,
+			Authentication authentication,
 			Buyer buyer
 			) {
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
 		
 		Paging paging = helpService.getPaging(curPage);
 		List<Faq> list = helpService.selectAllFaq(paging);

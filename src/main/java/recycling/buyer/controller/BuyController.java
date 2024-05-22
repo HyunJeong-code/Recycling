@@ -1,5 +1,7 @@
 package recycling.buyer.controller;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -11,7 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +28,9 @@ import recycling.buyer.service.face.BuyService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
+import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 import recycling.util.CurrentUser;
 
 // 구매자 메인페이지, 로그인/회원가입
@@ -34,23 +41,22 @@ public class BuyController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyService buyService;
-//	@Autowired private LoginServiceImpl loginService;
 	@Autowired private JavaMailSenderImpl mailSender;
 	
 	@GetMapping("/main")
 	public void main(
-//			@AuthenticationPrincipal(expression = "buyerLogin") BuyerLogin buyerLogin,
-			@AuthenticationPrincipal BuyerLogin buyerLogin,
-			@CurrentUser BuyerLogin buyer,
-			HttpSession session
+//			Authentication authentication,
+			Model model
 			) {
 		logger.info("/buyer/main [GET]");
 		
-		logger.info("@auth : {}", buyerLogin);		
-		logger.info("@auth : {}, {}", buyerLogin.getUsername(), buyerLogin.getPassword());		
+//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+//		logger.info("buyerLogin : {}", buyerLogin);
 		
-		logger.info("@current : {}", buyer);
-		logger.info("@current : {}, {}", buyer.getUsername(), buyer.getPassword());
+//		List<Map<String, Object>> ntcList = buyService.selectNtc();
+//		logger.info("ntcList : {}", ntcList);
+//		
+//		model.addAttribute("ntcList", ntcList);
 		
 	}
 	
@@ -101,24 +107,71 @@ public class BuyController {
 	}
 	
 	@PostMapping("/prijoin")
-	public void priJoinProc(Buyer buyer, BuyerAdr buyerAdr, MultipartFile buyerProf, String bEmail2, String mPhone, String lPhone) {
+	public String priJoinProc(
+			Buyer buyer, 
+			BuyerAdr buyerAdr, 
+			MultipartFile buyerProf, 
+			String sPhone, String inPhone, String mPhone, String lPhone,
+			String bEmail2, String inEmail
+			) {
 		logger.info("/buyer/prijoin [POST]");		
 		
 		logger.info("buyer : {}", buyer);
-		// 회원 정보 처리
-		buyer = buyService.buyerProc(buyer, bEmail2, mPhone, lPhone);
-		logger.info("buyer : {}", buyer);
-		
-		int stepOne = buyService.insertBuyer(buyer);
-		
-		if(stepOne == 0) {
-			logger.info("회원가입 실패");
-		} else {
-			logger.info("buyer : {}", buyer);			
-		}
-		
 		logger.info("buyerAdr : {}", buyerAdr);
 		logger.info("buyerProf : {}", buyerProf);
+		
+		// 회원 정보 처리
+		buyer = buyService.buyerProc(buyer, sPhone, inPhone, mPhone, lPhone, bEmail2, inEmail);
+		logger.info("buyer : {}", buyer);
+		
+		int res = buyService.insertBuyer(buyer);
+		
+		if(res > 0) {
+			// 회원 가입 성공
+			
+			int resProf = 0;
+			int resAdr = 0;
+			
+			// 프로필, 주소 입력 X
+			if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
+				return "./joinsuccess";
+			}
+			
+			// 프로필 삽입
+			if(!buyerProf.getOriginalFilename().equals("")) {
+				BuyerProf prof = buyService.fileSave(buyer, buyerProf);
+				if(prof != null) {
+					resProf = buyService.insertProf(prof);
+				} else {
+					// 회원 가입 실패
+					return "./prijoin";
+				}
+			}
+			
+			// 주소 삽입
+			if(!buyerAdr.getAdrPostcode().equals("")) {
+				buyerAdr = buyService.AdrProc(buyer, buyerAdr);
+				resAdr = buyService.insertAdr(buyerAdr);
+			}
+			
+			if(buyerProf.getOriginalFilename().equals("") && resAdr > 0) {
+				// 프로필 X, 주소 O
+				return "./joinsuccess";
+			} else if(resProf > 0 && buyerAdr.getAdrPostcode().equals("")) {
+				// 프로필 O, 주소 X
+				return "./joinsuccess";
+			} else if(resProf > 0 && resAdr > 0) {
+				// 프로필 O, 주소 O
+				return "./joinsuccess";
+			} else {
+				// 실패
+				return "./prijoin";
+			}
+		} else {
+			// 회원가입 실패
+			return "./prijoin";
+		}
+		
 	}
 	
 	@GetMapping("/cmpjoin")
@@ -127,8 +180,100 @@ public class BuyController {
 	}
 	
 	@PostMapping("/cmpjoin")
-	public void cmpJoinProc() {
-		logger.info("/buyer/cmpjoin [POST]");						
+	public String cmpJoinProc(
+			Buyer buyer, 
+			BuyerAdr buyerAdr, 
+			MultipartFile buyerProf,
+			String sPhone, String inPhone, String mPhone, String lPhone,
+			String bEmail2, String inEmail,
+			Cmp cmp,
+			MultipartFile cmpFile
+			) {
+		logger.info("/buyer/cmpjoin [POST]");
+		
+		logger.info("buyer : {}", buyer);
+		logger.info("buyerAdr : {}", buyerAdr);
+		logger.info("buyerProf: {}", buyerProf);
+		
+		logger.info("cmp: {}", cmp);
+		logger.info("cmpFile: {}", cmpFile);
+		
+		// 회원 정보 처리
+		buyer = buyService.buyerProc(buyer, sPhone, inPhone, mPhone, lPhone, bEmail2, inEmail);
+		logger.info("buyer : {}", buyer);
+		
+		int res = buyService.insertBuyer(buyer);
+		cmp = buyService.cmpProc(buyer, cmp);
+		
+		int resCmp = 0; 
+		if(res > 0) {
+			// 기업 정보 처리
+			resCmp = buyService.insertCmp(cmp);			
+		} else {
+			return "./prijoin";
+		}
+		
+		CmpFile file = null;
+		int resFile = 0;
+		if(resCmp > 0) {
+			// 기업 첨부 파일 처리
+			file = buyService.cmpFileSave(cmp, cmpFile);
+			
+			if(file != null) {
+				resFile = buyService.insertCmpFile(file);				
+			} else {
+				return "./prijoin";
+			}
+		} else {
+			return "./prijoin";			
+		}
+		
+		
+		if(resFile > 0) {
+			// 회원 가입 성공
+			
+			int resProf = 0;
+			int resAdr = 0;
+			
+			// 프로필, 주소 입력 X
+			if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
+				return "./joinsuccess";
+			}
+			
+			// 프로필 삽입
+			if(!buyerProf.getOriginalFilename().equals("")) {
+				BuyerProf prof = buyService.fileSave(buyer, buyerProf);
+				if(prof != null) {
+					resProf = buyService.insertProf(prof);
+				} else {
+					// 회원 가입 실패
+					return "./cmpjoin";
+				}
+			}
+			
+			// 주소 삽입
+			if(!buyerAdr.getAdrPostcode().equals("")) {
+				buyerAdr = buyService.AdrProc(buyer, buyerAdr);
+				resAdr = buyService.insertAdr(buyerAdr);
+			}
+			
+			if(buyerProf.getOriginalFilename().equals("") && resAdr > 0) {
+				// 프로필 X, 주소 O
+				return "./joinsuccess";
+			} else if(resProf > 0 && buyerAdr.getAdrPostcode().equals("")) {
+				// 프로필 O, 주소 X
+				return "./joinsuccess";
+			} else if(resProf > 0 && resAdr > 0) {
+				// 프로필 O, 주소 O
+				return "./joinsuccess";
+			} else {
+				// 실패
+				return "./cmpjoin";
+			}
+		} else {
+			// 회원가입 실패
+			return "./cmpjoin";
+		}
 	}
 	
 	@GetMapping("/login")
@@ -164,10 +309,15 @@ public class BuyController {
 	}
 	
 	@PostMapping("/findid")
-	public String findIdProc(Model model, Buyer buyer, String bEmail2, String mPhone, String lPhone) {
+	public String findIdProc(
+			Model model, 
+			Buyer buyer, 
+			String sPhone, String inPhone, String mPhone, String lPhone,
+			String bEmail2, String inEmail
+			) {
 		logger.info("/buyer/findid [POST]");
 		
-		buyer = buyService.buyerProc(buyer, bEmail2, mPhone, lPhone);
+		buyer = buyService.buyerProc(buyer, sPhone, inPhone, mPhone, lPhone, bEmail2, inEmail);
 		logger.info("findId : {}", buyer);
 		
 		String bId = buyService.selectByBuyerId(buyer);
@@ -187,10 +337,15 @@ public class BuyController {
 	}
 	
 	@PostMapping("/findpw")
-	public String findPwProc(Model model, Buyer buyer, String bEmail2, String mPhone, String lPhone) {
+	public String findPwProc(
+			Model model, 
+			Buyer buyer, 
+			String sPhone, String inPhone, String mPhone, String lPhone,
+			String bEmail2, String inEmail
+			) {
 		logger.info("/buyer/findpw [POST]");
 		
-		buyer = buyService.buyerProc(buyer, bEmail2, mPhone, lPhone);
+		buyer = buyService.buyerProc(buyer, sPhone, inPhone, mPhone, lPhone, bEmail2, inEmail);
 		
 		logger.info("findPw : {}", buyer);
 		
@@ -222,5 +377,27 @@ public class BuyController {
 		} else {
 			return "/buyer/findpw";
 		}
+	}
+	
+	@GetMapping("/buyerheader")
+	public void buyerHeader(
+			Model model,
+			Authentication authentication
+			) {
+		logger.info("/buyer/buyerheader [GET]");
+		
+		logger.info("auth : ", authentication);
+//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+//		logger.info("buyerLogin : {}", buyerLogin);
+		
+		List<Map<String, Object>> ntcList = buyService.selectNtc();
+		logger.info("ntcList : {}", ntcList);
+		
+		model.addAttribute("ntc", ntcList);
+	}
+	
+	@GetMapping("/mainsearch")
+	public void mainSearch() {
+		logger.info("/buyer/mainsearch [GET]");
 	}
 }

@@ -3,6 +3,7 @@ package recycling.buyer.dao.face;
 import java.util.List;
 
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
@@ -191,5 +192,7 @@ public interface BuyerDao {
 	 * @return 구매자 등급
 	 */
 	public BuyerRank selectBuyerRank(int rankNo);
+
+	public int changePw(BuyerLogin buyerLogin);
 
 }

@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.ManagerLogin;
+import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
@@ -85,28 +87,52 @@ public class MgrController {
 	}
 	
 	@PostMapping("/join")
-	public void joinProc() {
-		logger.info("/manager/join [POST]");		
+	public String joinProc(
+			Manager manager, 
+			String sPhone, String inPhone, String mPhone, String lPhone,
+			String mgrEmail2, String inEmail,
+			MultipartFile mgrProf
+			) {
+		logger.info("/manager/join [POST]");
+		
+		logger.info("mgr : {}", manager);
+		logger.info("phone : {}, {}", sPhone, inPhone);
+		logger.info("phone : {}, {}", mPhone, lPhone);
+		logger.info("mail : {}, {}", mgrEmail2, inEmail);
+		logger.info("mgrPic : {}", mgrProf);
+		
+		manager = mgrService.mgrProc(manager, sPhone, inPhone, mPhone, lPhone, mgrEmail2, inEmail);
+		logger.info("mgr : {}", manager);
+		
+		MgrFile mgrFile = mgrService.saveFile(mgrProf, manager);
+		logger.info("mgrFile : {}", mgrFile);
+		
+		int res = mgrService.selectByManager(manager);
+		logger.info("res : {}", res);
+		
+		if(res > 0 && mgrFile != null) {
+			// 회원정보 수정 및 프로필 사진 삽입
+			int resMgr = mgrService.updateManager(manager);
+			int resPic = mgrService.insertMgrProf(mgrFile);
+			
+			if(resMgr > 0 && resPic > 0) {
+				// 회원가입 성공
+				return "redirect:./main";
+			} else {
+				// 회원가입 실패
+				// 업데이트 및 삽입된 데이터 삭제
+				return "redirect:./joinfail";				
+			}
+		} else {
+			// 회원가입 실패
+			// 업데이트 및 삽입된 데이터 삭제
+			return "redirect:./joinfail";				
+		}
 	}
 	
 	@GetMapping("/login")
 	public void login() {
 		logger.info("/manager/login [GET]");		
-	}
-	
-	@PostMapping("login")
-	public String loginProc(HttpSession session, Manager manager) {
-		logger.info("/manager/login [POST]");
-		
-		ManagerLogin mgr = mgrService.selectByIdPw(manager);
-		
-		if(mgr != null) {
-			session.setAttribute("mgr", mgr);
-			return "redirect:./main";
-		} else {
-			session.invalidate();
-			return "redirect:./loginfail";
-		}
 	}
 	
 	//공지사항 전체조회
@@ -129,7 +155,6 @@ public class MgrController {
 		model.addAttribute("notice", list);
 		
 		logger.info("controller: noticelist : {}", list);
-		
 		
 		return "/manager/noticelist";
 		

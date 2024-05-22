@@ -17,6 +17,7 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
@@ -201,5 +202,10 @@ public class BuyerServiceImpl implements BuyerService {
 
 		return buyerDao.selectBuyerRank(rankNo);
 	
+	}
+	
+	@Override
+	public int changePw(BuyerLogin buyerLogin) {
+		return buyerDao.changePw(buyerLogin);
 	}
 }

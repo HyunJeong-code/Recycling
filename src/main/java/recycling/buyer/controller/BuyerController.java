@@ -8,6 +8,9 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
@@ -34,6 +38,7 @@ public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerService buyerService;
+	@Autowired private BCryptPasswordEncoder pwEncoder;
 	@Autowired HttpSession session;
 	
 	@GetMapping("/cart")
@@ -282,7 +287,6 @@ public class BuyerController {
 	public void changePw(
 			HttpSession session
 			) {
-		
 		logger.info("/buyer/mypage/changepw [GET]");
 		
 	}
@@ -290,40 +294,23 @@ public class BuyerController {
 	// 비밀번호 변경 처리
 	@PostMapping("/changepw")
 	public String changePwProc(
-			@RequestParam("currentPw") String currentPw,
 			@RequestParam("newPw") String newPw,
 			@RequestParam("confirmPw") String confirmPw,
-			HttpSession session,
+			Authentication authentication,
 			Model model
 			) {
 		
 		logger.info("/buyer/mypage/changepw [POST]");
 		
-		Buyer currentBuyer = (Buyer) session.getAttribute("currentBuyer");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
 		
-		if(currentBuyer == null) {
-			
-			return "redirect:/buyer/mypage/mymain";
-			
-		}
+		String oldPw = buyerLogin.getbPw();
+		String enPw = pwEncoder.encode(newPw);
+		buyerLogin.setbPw(enPw);
+		int res = buyerService.changePw(buyerLogin);
 		
-		if(!buyerService.verifyPw(currentBuyer.getbId(), currentPw)) {
-			
-			model.addAttribute("error", "현재 비밀번호가 틀렸습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
-		if(!newPw.equals(confirmPw)) {
-			
-			model.addAttribute("error", "새 비밀번호가 일치하지 않습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
-		buyerService.changePw(currentBuyer.getbId(), newPw);
+		logger.info("res : {}", res);
 		
 		model.addAttribute("success", "비밀번호가 변경되었습니다.");
 		

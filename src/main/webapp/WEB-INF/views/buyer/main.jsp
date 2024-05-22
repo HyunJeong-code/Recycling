@@ -6,20 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>새활용</title>
+<title>새활용 메인페이지</title>
 </head>
 <body>
-
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
 <div class="full">
-<sec:authorize access="isAnonymous()">
-<button><a href="./login">로그인</a></button>
-</sec:authorize>
-
-<sec:authorize access="hasRole('ROLE_BUYER')">
-<button><a href="./logout">로그아웃</a></button>
-</sec:authorize>
 	<div class="wrap">
 		<div class="ad">
 		</div>

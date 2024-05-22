@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.Cart;
@@ -209,4 +210,7 @@ public interface BuyerService {
 	 * @return 구매자 등급 정보
 	 */
 	public BuyerRank getBuyerRank(int rankNo);
+
+	public int changePw(BuyerLogin buyerLogin);
+
 }
