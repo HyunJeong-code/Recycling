@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>새활용 메인페이지</title>
+
+<!-- header css -->
+<link rel="stylesheet" href="/resources/css/header.css">
+
+<script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
+</head>
+<body>
 	<header class="header">
         <div class="notice-banner">
             <a href="">공지사항</a>
@@ -40,3 +52,5 @@
             </div>
         </div>
     </header>
+</body>
+</html>

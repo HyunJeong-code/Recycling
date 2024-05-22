@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>새활용 메인페이지</title>
+<!-- footer css -->
+<link rel="stylesheet" href="/resources/css/footer.css">
+
+<script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
+</head>
 	<footer class="footer">
         <div class="footer-content">
             <ul>
@@ -21,3 +31,5 @@
             </ul>
         </div>
     </footer>
+</body>
+</html>
