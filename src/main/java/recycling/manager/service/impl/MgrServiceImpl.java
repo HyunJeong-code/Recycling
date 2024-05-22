@@ -12,13 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import recycling.dto.manager.Manager;
-import recycling.dto.manager.ManagerLogin;
-import recycling.dto.manager.Notice;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.dao.face.MgrDao;
@@ -32,11 +29,6 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired private MgrDao mgrDao;
 	@Autowired private ServletContext servletContext;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
-	
-	@Override
-	public ManagerLogin selectByIdPw(Manager manager) {
-		return mgrDao.selectByIdPw(manager);
-	}
 	
 	//공지사항 전체조회
 	@Override

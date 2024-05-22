@@ -72,6 +72,7 @@
 			AND orddt_code = #{orddtCode}
 		</where>
 	</select>
+
 <!-- 	<select id="selectAllPrd" parameterType="BuyerLogin" resultType="AllPrd"> -->
 		
 <!-- 	</select> -->
@@ -133,7 +134,6 @@
 <!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
 <!-- 		</where> -->
 <!-- 	</select> -->
-
 	<select id="selectResList" parameterType="string" resultType="ExpRes">
 		SELECT er.*
 		FROM exp_res er

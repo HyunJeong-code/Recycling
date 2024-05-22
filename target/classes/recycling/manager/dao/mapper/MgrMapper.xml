@@ -79,18 +79,6 @@
 	    <where>ct_ntcno = #{ctNtcNo}</where>
 	    ORDER BY ntc_code DESC
 	</select>
-
-	<!-- 공지사항 세부 조회 -->
-	<select id="selectDetail" resultType="Notice" parameterType="String">
-		<include refid="noticeBoard"/>
-		<where>ntc_code = #{ntcCode }</where>
-	</select>
-	
-	<!-- 공지사항 조회수 증가 -->
-	<update id="hit" parameterType="Notice">
-		UPDATE notice SET ntc_hit = ntc_hit + 1
-		<where>ntc_code = #{ntcCode }</where>
-	</update>
 	
 	<!-- 검색 한번에 진행예정-->
 	<select id="selectCntAll" resultType="int" parameterType="recycling.util.Paging">
