@@ -1,6 +1,5 @@
 package recycling.buyer.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import recycling.buyer.service.face.HelpService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoCt;
+import recycling.dto.buyer.OtoFile;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;

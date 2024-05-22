@@ -420,7 +420,7 @@ public class BuyerController {
 			) {
 		logger.info("/buyer/mypage/changepw [GET]");
 		
-		return "buyer/mypage/changepw";
+//		return "buyer/mypage/changepw";
 		
 	}
 	

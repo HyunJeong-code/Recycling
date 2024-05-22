@@ -30,11 +30,6 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
-	@Override
-	public ManagerLogin selectByIdPw(Manager manager) {
-		return mgrDao.selectByIdPw(manager);
-	}
-	
 	//공지사항 전체조회
 	@Override
 	public List<Notice> selectAll() {

@@ -111,14 +111,6 @@ public interface BuyerDao {
 	 * @return 조회된 구매자 정보
 	 */
 	public Buyer selectBuyerBybId(String bId);
-	
-	/**
-	 * 구매자 등급 번호로 구매자 등급 조회
-	 * 
-	 * @param rankNo - 구매자 등급 번호
-	 * @return 구매자 등급
-	 */
-	public BuyerRank selectBuyerRank(int rankNo);
 
 	/**
 	 * 구매자 코드로 기업 정보 조회
