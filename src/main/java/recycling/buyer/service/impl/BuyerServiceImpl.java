@@ -142,9 +142,9 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public Buyer updateBuyerDetail(Buyer buyer) {
 
-		boolean updateSuccess = buyerDao.updateBuyer(buyer);
+		int updateSuccess = buyerDao.updateBuyer(buyer);
 		
-		if(updateSuccess) {
+		if(updateSuccess > 0) {
 			
 			logger.info("성공적으로 업데이트 되었습니다: {}", buyer.getbId());
 			
@@ -218,8 +218,11 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
+<<<<<<< HEAD
 
 	
+=======
+>>>>>>> main
 	@Override
 	public int changePw(BuyerLogin buyerLogin) {
 		return buyerDao.changePw(buyerLogin);

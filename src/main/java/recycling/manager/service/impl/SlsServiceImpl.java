@@ -160,9 +160,6 @@ public class SlsServiceImpl implements SlsService {
 			
 			//파일 업로드
 			slsDao.fileup(expFile);
-		
-		
-		
 	}
 
 	//체험 수정항목 조회
@@ -232,8 +229,10 @@ public class SlsServiceImpl implements SlsService {
 		}
 		
 		return result;
-		
 	}
+	
+	@Override
+	public void insert(Exp exp, ExpSch expSch, MultipartFile file) {}
 
 	@Override
 	public void insert(Exp exp, ExpSch expSch, MultipartFile file) {

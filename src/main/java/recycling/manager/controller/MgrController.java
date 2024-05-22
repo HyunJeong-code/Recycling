@@ -1,6 +1,5 @@
 package recycling.manager.controller;
 
-
 import java.util.List;
 import java.util.Random;
 
@@ -23,10 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.MgrFile;
-import recycling.dto.manager.Notice;
+import recycling.dto.manager.Notice;	
 import recycling.manager.service.face.MgrService;
-import recycling.util.Paging;
-
 
 // 관리자 메인 페이지 + 로그인, 회원가입 + 사원 전체 조회, 공지사항
 
@@ -147,19 +144,16 @@ public class MgrController {
 		
 		Paging pagingParam = null;
 		//페이징 계산, 검색기능
-		Paging paging = mgrService.selectCntAll(pagingParam);
+//		Paging paging = mgrService.selectCntAll(pagingParam);
 		
 		//전체 조회기능
-		List<Notice> list = mgrService.selectAll(paging);
+		List<Notice> list = mgrService.selectAll();
 		
 		//JSP로 보내기
-		model.addAttribute("paging", paging);
+//		model.addAttribute("paging", paging);
 		model.addAttribute("notice", list);
 		
 		logger.info("controller: noticelist : {}", list);
-		
-		return "/manager/noticelist";
-		
 	}
 	
 	//공지사항 상세 조회

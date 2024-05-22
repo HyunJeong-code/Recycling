@@ -213,6 +213,7 @@ public interface BuyerService {
 	 */
 	public void deleteBuyer(String bCode);
 
+<<<<<<< HEAD
 	/**
 	 * 구매자 등급 조회
 	 * 
@@ -221,6 +222,8 @@ public interface BuyerService {
 	 */
 
 
+=======
+>>>>>>> main
 	public int changePw(BuyerLogin buyerLogin);
 
 }
