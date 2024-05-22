@@ -58,9 +58,11 @@ public class RecyclingController {
 
         logger.info("11111111111111{}", gpsList);
         logger.info("11111111111111{}", location);
+
+        // 디비에 값을 불러오는게 아닌 직접 jsp에 주소 입력한것
+        return "buyer/recycling/findseller_origin";
         
-        return "buyer/recycling/findseller";
-//        return "buyer/recycling/findseller_origin";
+//        return "buyer/recycling/findseller";
     }
 	
 }
