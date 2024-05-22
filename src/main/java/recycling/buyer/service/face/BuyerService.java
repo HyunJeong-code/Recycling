@@ -137,11 +137,11 @@ public interface BuyerService {
 	/**
 	 * 구매자 비밀번호 확인
 	 * 
-	 * @param getbId - 구매자 아이디
+	 * @param bId - 구매자 아이디
 	 * @param password - 입력된 비밀번호
-	 * @return 비밀번호 일치 확인
+	 * @return 비밀번호 일치 확인 (1: 일치, 0: 불일치)
 	 */
-	public boolean verifyPw(String getbId, String password);
+	public int verifyPw(String bId, String password);
 
 	/**
 	 * 구매자 비밀번호 변경
@@ -149,7 +149,7 @@ public interface BuyerService {
 	 * @param bId - 구매자 아이디
 	 * @param newPw - 새 비밀번호
 	 */
-	public void changePw(String bId, String newPw);
+	public int changePw(String bId, String newPw);
 	
 	/**
 	 * 개인 구매자 상세 정보 업데이트
@@ -157,7 +157,7 @@ public interface BuyerService {
 	 * @param buyer - 업데이트 할 구매자 정보
 	 * @return 업데이트된 구매자 정보
 	 */
-	public boolean updateBuyerDetail(Buyer buyer);
+	public int updateBuyerDetail(Buyer buyer);
 	
 	/**
 	 * 기업 구매자 상세 정보 업데이트
@@ -165,7 +165,7 @@ public interface BuyerService {
 	 * @param cmp - 업데이트 할 기업 정보
 	 * @return 업데이트 된 기업 정보
 	 */
-	public boolean updateCmpDetail(Cmp cmp);
+	public int updateCmpDetail(Cmp cmp);
 	
 	/**
 	 * 구매자의 모든 배송지 정보
@@ -176,47 +176,44 @@ public interface BuyerService {
 	public List<BuyerAdr> getBuyerAdr(String bCode);
 	
 	/**
-	 * 구매자 배송지 개수
-	 * 
-	 * @param bCode - 구매자 코드
-	 * @return 구매자 배송지 개수
-	 */
-	public int cntBuyerAdr(String bCode);
-
-	/**
 	 * 새로운 배송지 등록
 	 * 
 	 * @param buyerAdr - 등록할 배송지 정보
+	 * @return 등록된 행 수
 	 */
-	public void registerBuyerAdr(BuyerAdr buyerAdr);
+	public int registerBuyerAdr(BuyerAdr buyerAdr);
 
 	/**
 	 * 기존 배송지 정보 수정
 	 * 
 	 * @param buyerAdr - 수정할 배송지 정보
+	 * @return 수정된 행 수
 	 */
-	public void updateBuyerAdr(BuyerAdr buyerAdr);
+	public int updateBuyerAdr(BuyerAdr buyerAdr);
 
 	/**
 	 * 배송지 삭제
 	 * 
 	 * @param adrCode - 삭제할 배송지 코드
+	 * @return 삭제된 행 수
 	 */
-	public void deleteBuyerAdr(String adrCode);
+	public int deleteBuyerAdr(String adrCode);
 
 	/**
 	 * 선택한 배송지를 기본 배송지로 설정
 	 * 
 	 * @param adrCode - 기본 배송지로 설정할 배송지 코드
 	 * @param bCode - 구매자 코드
+	 * @return 설정된 행 수
 	 */
-	public void setDefaultAdr(String adrCode, String bCode);
+	public int setDefaultAdr(String adrCode, String bCode);	
 	
 	/**
 	 * 구매자 탈퇴
 	 * 
 	 * @param bCode - 구매자 코드
+	 * @return 탈퇴한 행 수
 	 */
-	public void deleteBuyer(String bCode);
+	public int deleteBuyer(String bCode);
 
 }

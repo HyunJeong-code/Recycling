@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
@@ -90,69 +91,63 @@ public class BuyerServiceImpl implements BuyerService {
 
 	@Override
 	public Buyer getCurrentBuyer(String bId) {
-		return buyerDao.selectBuyerBybId(bId);
+		return buyerDao.getCurrentBuyer(bId);
 	}
 	
 	@Override
 	public Buyer getBuyerDetail(String bId) {
 		
-		return buyerDao.selectBuyerBybId(bId);
+		return buyerDao.getBuyerDetail(bId);
 	
 	}
 	
 	@Override
 	public BuyerRank getBuyerRank(int rankNo) {
 
-		return buyerDao.selectBuyerRank(rankNo);
+		return buyerDao.getBuyerRank(rankNo);
 	
 	}
 	
 	@Override
 	public Cmp getCmpDetail(String bCode) {
 		
-		return buyerDao.selectCmpBybCode(bCode);
+		return buyerDao.getCmpDetail(bCode);
 
 	}
 	
 	@Override
-	public boolean verifyPw(String bId, String password) {
+	public int verifyPw(String bId, String password) {
 
-		Buyer buyer = buyerDao.selectBuyerBybId(bId);
+		Buyer buyer = buyerDao.getBuyerDetail(bId);
 		
-		return buyer != null && buyer.getbPw().equals(password);
-	
-	}
-
-	@Override
-	public void changePw(String bId, String newPw) {
-		
-		Buyer buyer = buyerDao.selectBuyerBybId(bId);
-		
-		if(buyer != null) {
+		if(buyer != null && buyer.getbPw().equals(password)) {
 			
-			buyer.setbPw(newPw);
-			
-			buyerDao.updateBuyer(buyer);
+			return 1;	// 비밀번호가 일치하면 1을 반환
 			
 		}
 		
+		return 0;	// 비밀번호가 일치하지 않으면 0을 반환
+	
+	}
+
+	@Override
+	public int changePw(String bId, String newPw) {
+		
+		return buyerDao.changePw(bId, newPw);
+		
 	}
 	
 	@Override
-	public boolean updateBuyerDetail(Buyer buyer) {
+	public int updateBuyerDetail(Buyer buyer) {
 		
-		int updatedRows = buyerDao.updateBuyer(buyer);
-		
-		return updatedRows > 0;
+		return buyerDao.updateBuyerDetail(buyer);
 		
 	}
 	
 	@Override
-	public boolean updateCmpDetail(Cmp cmp) {
+	public int updateCmpDetail(Cmp cmp) {
 		
-		int updatedRows = buyerDao.updateCmp(cmp);
-		
-		return updatedRows > 0;
+		return buyerDao.updateCmpDetail(cmp);
 		
 	}
 	
@@ -164,45 +159,44 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 
 	@Override
-	public int cntBuyerAdr(String bCode) {
+	public int registerBuyerAdr(BuyerAdr buyerAdr) {
+		
+		// 시퀀스 값 가져오기
+		String adrCode = buyerDao.getAdrCode();
+		
+		buyerAdr.setAdrCode(adrCode);
+		
+		return buyerDao.registerBuyerAdr(buyerAdr);
+		
+	}
 
-		return buyerDao.cntBuyerAdr(bCode);
+	@Override
+	public int updateBuyerAdr(BuyerAdr buyerAdr) {
+		
+		return buyerDao.updateBuyerAdr(buyerAdr);
+		
+	}
+
+	@Override
+	public int deleteBuyerAdr(String adrCode) {
+		
+		return buyerDao.deleteBuyerAdr(adrCode);
+		
+	}
+
+	@Override
+	public int setDefaultAdr(String adrCode, String bCode) {
+		
+		buyerDao.unsetDefaultAdr(bCode);
+		
+		return buyerDao.setDefaultAdr(adrCode, bCode);
+		
+	}
 	
-	}
-
 	@Override
-	public void registerBuyerAdr(BuyerAdr buyerAdr) {
+	public int deleteBuyer(String bCode) {
 		
-		buyerDao.insertBuyerAdr(buyerAdr);
-		
-	}
-
-	@Override
-	public void updateBuyerAdr(BuyerAdr buyerAdr) {
-		
-		buyerDao.updateBuyerAdr(buyerAdr);
-		
-	}
-
-	@Override
-	public void deleteBuyerAdr(String adrCode) {
-		
-		buyerDao.deleteBuyerAdr(adrCode);
-		
-	}
-
-	@Override
-	public void setDefaultAdr(String adrCode, String bCode) {
-		
-		buyerDao.resetDefaultAdr(adrCode);
-		buyerDao.setDefaultAdr(adrCode);
-		
-	}
-
-	@Override
-	public void deleteBuyer(String bCode) {
-		
-		
+		return buyerDao.deleteBuyer(bCode);
 		
 	}
 

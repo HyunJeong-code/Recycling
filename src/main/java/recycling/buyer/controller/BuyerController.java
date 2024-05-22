@@ -6,15 +6,11 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -30,7 +26,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -333,7 +328,7 @@ public class BuyerController {
 		}
 		
 		// 비밀번호 확인
-		if(!buyerService.verifyPw(buyerLogin.getbId(), password)) {
+		if(buyerService.verifyPw(buyerLogin.getbId(), password) == 0) {
 			
 			model.addAttribute("error", "비밀번호가 틀렸습니다.");
 			
@@ -450,7 +445,7 @@ public class BuyerController {
 			
 		}
 		
-		if(!buyerService.verifyPw(buyerLogin.getbId(), currentPw)) {
+		if(buyerService.verifyPw(buyerLogin.getbId(), currentPw) == 0) {
 			
 			model.addAttribute("error", "현재 비밀번호가 틀렸습니다.");
 			
@@ -559,9 +554,9 @@ public class BuyerController {
 			
 		}
 		
-		boolean updateResult = buyerService.updateBuyerDetail(buyer);
+		int updateResult = buyerService.updateBuyerDetail(buyer);
 		
-		if(!updateResult) {
+		if(updateResult == 0) {
 			
 			logger.info("업데이트 실패: {}", buyer);
 			
@@ -689,9 +684,11 @@ public class BuyerController {
 			
 		}
 		
-		boolean updateResult = buyerService.updateBuyerDetail(buyer) && buyerService.updateCmpDetail(cmp);
+		int updateBuyerResult = buyerService.updateBuyerDetail(buyer);
+		int updateCmpResult = buyerService.updateCmpDetail(cmp);
 		
-		if(!updateResult) {
+		
+		if(updateBuyerResult == 0 || updateCmpResult == 0) {
 			
 			logger.info("업데이트 실패: {}, {}",  buyer, cmp);
 			
@@ -732,8 +729,13 @@ public class BuyerController {
 	// 배송지 관리 페이지 (등록, 수정, 삭제) 처리
 	@PostMapping("/myaddr")
 	public String myAddrProc(
-			@ModelAttribute BuyerAdr buyerAdr, 
 			@RequestParam("action") String action, 
+			@RequestParam(value = "adrCode", required = false) String adrCode,
+			@RequestParam(value = "adrName", required = false) String adrName, 
+			@RequestParam(value = "adrPhone", required = false) String adrPhone, 
+			@RequestParam(value = "adrPostcode", required = false) String adrPostcode, 
+			@RequestParam(value = "adrAddr", required = false) String adrAddr, 
+			@RequestParam(value = "adrDetail", required = false) String adrDetail,
 			Model model
 			) {
 		
@@ -742,50 +744,55 @@ public class BuyerController {
         if (buyerLogin == null) {
         
         	model.addAttribute("error", "로그인 해주세요.");
-            
+        	
         	return "redirect:/buyer/login";
         
         }
 
-        buyerAdr.setbCode(buyerLogin.getbCode());
+        String bCode = buyerLogin.getbCode();
 
-        switch (action) {
+        if("register".equals(action)) {
+        	
+        	BuyerAdr buyerAdr = new BuyerAdr();
+        	
+        	buyerAdr.setbCode(bCode);
+        	buyerAdr.setAdrName(adrName);
+        	buyerAdr.setAdrPhone(adrPhone);
+        	buyerAdr.setAdrPostcode(adrPostcode);
+        	buyerAdr.setAdrAddr(adrAddr);
+        	buyerAdr.setAdrDetail(adrDetail);
+        	buyerAdr.setAdrChk("N");
+        	
+        	buyerService.registerBuyerAdr(buyerAdr);
+        	
+        } else if ("update".equals(action)) {
+        	
+        	BuyerAdr buyerAdr = new BuyerAdr();
+        	
+        	buyerAdr.setAdrCode(adrCode);
+        	buyerAdr.setAdrName(adrName);
+        	buyerAdr.setAdrPhone(adrPhone);
+        	buyerAdr.setAdrPostcode(adrPostcode);
+        	buyerAdr.setAdrAddr(adrAddr);
+        	buyerAdr.setAdrDetail(adrDetail);
 
-        	case "register":
-            
-        		if (buyerService.cntBuyerAdr(buyerLogin.getbCode()) >= 3) {
-                
-        			model.addAttribute("error", "추가 배송지는 최대 2개까지 만들 수 있습니다.");
-                
-        		} else {
-                
-        			buyerService.registerBuyerAdr(buyerAdr);
-            
-        		}
-                
-        		break;
-            
-        	case "update":
-            
-        		buyerService.updateBuyerAdr(buyerAdr);
-                
-        		break;
-            
-        	case "delete":
-            
-        		buyerService.deleteBuyerAdr(buyerAdr.getAdrCode());
-                
-        		break;
-            
-        	case "setDefault":
-            
-        		buyerService.setDefaultAdr(buyerAdr.getAdrCode(), buyerLogin.getbCode());
-                
-        		break;
-        
+        	buyerService.updateBuyerAdr(buyerAdr);
+        	
+        } else if ("delete".equals(action)) {
+        	
+        	buyerService.deleteBuyerAdr(adrCode);
+        	
+        } else if ("setDefault".equals(action)) {
+        	
+        	buyerService.setDefaultAdr(adrCode, bCode);
+        	
         }
-
-        return "redirect:/buyer/mypage/myaddr";
+        
+        List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(bCode);
+        
+        model.addAttribute("buyerAdrList", buyerAdrList);
+        
+        return "buyer/mypage/myaddr";
 
 	}
 	
@@ -826,7 +833,7 @@ public class BuyerController {
 			
 		}
 		
-		if(!buyerService.verifyPw(buyer.getbId(), password)) {
+		if(buyerService.verifyPw(buyer.getbId(), password) == 0) {
 			
 			model.addAttribute("error", "비밀번호가 틀렸습니다.");
 			

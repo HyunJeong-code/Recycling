@@ -57,7 +57,7 @@ function deleteAdr(adrCode) {
 	
 	if(confirm("정말 삭제하시겠습니까?")) {
 		$.post('${pageContext.request.contextPath }/buyer/mypage/myaddr', 
-				{ action: 'delete', adrCode: adrCode }, 
+				{action: 'delete', adrCode: adrCode}, 
 				function(response) {
 			location.reload();
 		});
@@ -67,30 +67,34 @@ function deleteAdr(adrCode) {
 
 function setDefaultAdr(adrCode) {
 	
-    $.post('${pageContext.request.contextPath}/buyer/mypage/myaddr', 
-    		{ action: 'setDefault', adrCode: adrCode }, 
+    $.post('${pageContext.request.contextPath }/buyer/mypage/myaddr', 
+    		{action: 'setDefault', adrCode: adrCode}, 
     		function(response) {
         location.reload();
     });
     
 }
 
+// function swapAdrPosition(adrCode) {
+	
+// 	$.post('${pageContext.request.contextPath }/buyer/mypage/myaddr',
+// 			{action: 'swap', adrCode: adrCode},
+// 			function(response) {
+// 		location.reload();
+// 	});
+	
+// }
+
 function chkAdrLimit() {
 	
-    var limit = ${fn:length(buyerAdrList)};
+    var limit = ${fn:length(buyerAdrList) - 1};
     
-    if(limit >= 3) {
+    if(limit >= 2) {
         alert('추가 배송지는 최대 2개까지 등록할 수 있습니다.');
         return false;
     }
     return true;
     
-}
-
-function cancelForm() {
-	
-	window.history.back();
-
 }
 </script>
 
@@ -167,7 +171,7 @@ function cancelForm() {
 								<input type="hidden" name="adrChk" value="N">
 								<input type="submit" value="수정하기">
 								<input type="button" value="삭제하기" onclick="deleteAdr('${address.adrCode }')">
-								<input type="button" value="기본 배송지로 설정" onclick="setDefaultAdr('${address.adrCode }', '${address.adrName }', '${address.adrPhone }', '${address.adrPostcode}', '${address.adrAddr}', '${address.adrDetail}')">
+								<input type="button" value="기본 배송지로 설정" onclick="setDefaultAdr('${address.adrCode }')">
 							</form>
 						</c:if>	
 					</c:forEach>
@@ -180,22 +184,21 @@ function cancelForm() {
 					<h4>새 배송지 추가</h4>
 					<form class="addr-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">
 						<input type="hidden" name='action' value="register">
-						<input type="hidden" id="adrCodeAdd" name="adrCode" value="">
 							
-						<label for="adrName">받는 사람 </label>
+						<label for="adrNameAdd">받는 사람 </label>
 						<input type="text" id="adrNameAdd" name="adrName" required><br>
 							
-						<label for="adrPhone">연락처 </label>
+						<label for="adrPhoneAdd">연락처 </label>
 						<input type="text" id="adrPhoneAdd" name="adrPhone" required><br>
 							
-						<label for="adrPostcode">우편번호 </label>
+						<label for="adrPostcodeAdd">우편번호 </label>
 						<input type="text" id="adrPostcodeAdd" name="adrPostcode" required>
 						<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('adrPostcodeAdd', 'adrAddrAdd', 'adrDetailAdd')"><br>
 							
-						<label for="adrAddr">배송 주소 </label>
+						<label for="adrAddrAdd">배송 주소 </label>
 						<input type="text" id="adrAddrAdd" name="adrAddr" class="addr-field" required><br>
 							
-						<label for="adrDetail">상세 주소 </label>
+						<label for="adrDetailAdd">상세 주소 </label>
 						<input type="text" id="adrDetailAdd" name="adrDetail" class="addr-field"><br>
 						
 						<input type="hidden" name="adrChk" value="N">
