@@ -14,6 +14,7 @@
 		</div>
 		
 		<div class="section">
+			<p>중복 로그인입니다.</p>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->
