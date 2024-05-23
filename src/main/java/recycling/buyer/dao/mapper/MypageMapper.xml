@@ -4,4 +4,44 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.MypageDao">
+
+	<select id="selectQnaBybCode" parameterType="BuyerLogin" resultType="hashmap">
+		SELECT * FROM (
+		    SELECT * FROM (
+		        SELECT 
+		            'OTO' ctg, O.b_code bcode, O.oto_code code, O.ct_otono ctno, O.oto_title title, O.oto_name name, O.oto_date entdate, O.oto_hit hit, 
+		            NVL(A.ans_code, '-') ans
+		        FROM oto O, ans A
+		        WHERE O.oto_code = A.oto_code(+)
+		    )
+		    UNION
+		    SELECT * FROM (
+		        SELECT 
+		            'QST' ctg, Q.b_code bcode, Q.qst_code code, Q.ct_qstno ctno, Q.qst_title title, Q.qst_name name, Q.qst_date entdate, Q.qst_hit hit, 
+		            NVL(A.qna_code, '-') ans
+		        FROM qst Q, qna A
+		        WHERE Q.qst_code = A.qst_code(+)
+		    )
+		)
+		<where>
+			AND bcode = #{bCode }
+		</where>
+		ORDER BY entdate
+	</select>
+	
+	<select id="selectRvwBybCode" parameterType="BuyerLogin" resultType="hashmap">
+		SELECT rvw_code code, 
+		    CASE WHEN rvw_ct_no = 1 THEN '새활용'
+		    ELSE '체험단'
+		    END AS rvwct,
+		    rvw_title title,
+		    rvw_grade grade,
+		    rvw_date entdate,
+		    rvw_hit hit
+		FROM review
+		<where>
+			AND b_code = #{bCode }
+		</where>
+		ORDER BY rvw_date
+	</select>
 </mapper>

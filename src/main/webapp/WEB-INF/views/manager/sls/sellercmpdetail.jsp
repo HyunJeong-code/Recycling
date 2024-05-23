@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +45,7 @@
 						<th>전환일</th>
 						<td>
 							<fmt:parseDate value="${seller.S_ENTDATE }"  var="S_ENTDATE" pattern="yyyy-MM-dd" />
-	                   			<fmt:formatDate value="${S_ENTDATE }" pattern="yyyy-MM-dd"/>
+	                   		<fmt:formatDate value="${S_ENTDATE }" pattern="yyyy-MM-dd"/>
 						</td>
 					</c:if>
 					
@@ -51,7 +53,7 @@
 						<th>전환 신청일</th>
 						<td>
 							<fmt:parseDate value="${seller.S_ENTDATE }"  var="S_ENTDATE" pattern="yyyy-MM-dd" />
-	                   			<fmt:formatDate value="${S_ENTDATE }" pattern="yyyy-MM-dd"/>
+	                   		<fmt:formatDate value="${S_ENTDATE }" pattern="yyyy-MM-dd"/>
 						</td>							
 					</c:if>
 				</tr>
