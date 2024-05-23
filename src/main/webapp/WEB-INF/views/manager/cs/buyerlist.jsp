@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/list.css">
 <style type="text/css">
 	table, th {
 		text-align: center;
@@ -20,57 +21,65 @@
 </head>
 <body>
 
-	<div class="container">
-	
-		<h1>구매자 리스트</h1>
-		<hr>
+	<div class="full">
+		<aside>
+			aaaaa
+		</aside>
+		<div class="wrap">
+			<div class="page">
+				<div class="section">	
+					<h1>구매자 리스트</h1>
+					<hr>
+				</div>
+				
+				<table class="table table-striped table-hover table-sm">
 		
-		<table class="table table-striped table-hover table-sm">
-		
-			<colgroup>
-				<col style="width: 10%;">
-				<col style="width: 5%;">
-				<col style="width: 15%;">
-				<col style="width: 10%;">
-				<col style="width: 20%;">
-			</colgroup>
-			
-			<thead>
-				<tr>
-					<th>구매자 코드</th>
-					<th>구매자 분류 코드</th>								
-					<th>아이디</th>
-					<th>이름</th>
-					<th>휴대폰</th>
-					<th>이메일</th>
-					<th>등급</th>
-					<th>가입일</th>
-				</tr>
-			</thead>
-			
-			<tbody>
-			    <c:forEach var="buyer" items="${buyerList}">
-			        <c:if test="${buyer.bOut != 'Y'}">
-			            <tr>
-			                <td>${buyer.bCode }</td>
-			                <td>${buyer.bCtCode }</td>
-			                <td>
-			                    <a href="./buyerdetail?bCode=${buyer.bCode }">${buyer.bId }</a>
-			                </td>
-			                <td>${buyer.bName }</td>
-			                <td>${buyer.bPhone }</td>
-			                <td>${buyer.bEmail }</td>
-			                <td>${buyer.rankNo }</td>
-			                <td>
-			                    <fmt:parseDate value="${buyer.bEntDate }" var="bEntDate" pattern="yyyy-MM-dd" />
-			                    <fmt:formatDate value="${bEntDate }" pattern="yyyy-MM-dd" />
-			                </td>
-			            </tr>
-			        </c:if>
-			    </c:forEach>
-			</tbody>
-		</table>
-	</div><!-- .container -->
-	
+					<colgroup>
+						<col style="width: 10%;">
+						<col style="width: 5%;">
+						<col style="width: 15%;">
+						<col style="width: 10%;">
+						<col style="width: 20%;">
+					</colgroup>
+					
+					<thead>
+						<tr>
+							<th>구매자 코드</th>
+							<th>구매자 분류 코드</th>								
+							<th>아이디</th>
+							<th>이름</th>
+							<th>휴대폰</th>
+							<th>이메일</th>
+							<th>등급</th>
+							<th>가입일</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+					    <c:forEach var="buyer" items="${buyerList}">
+					        <c:if test="${buyer.bOut != 'Y'}">
+					            <tr>
+					                <td>${buyer.bCode }</td>
+					                <td>${buyer.bCtCode }</td>
+					                <td>
+					                    <a href="./buyerdetail?bCode=${buyer.bCode }">${buyer.bId }</a>
+					                </td>
+					                <td>${buyer.bName }</td>
+					                <td>${buyer.bPhone }</td>
+					                <td>${buyer.bEmail }</td>
+					                <td>${buyer.rankNo }</td>
+					                <td>
+					                    <fmt:parseDate value="${buyer.bEntDate }" var="bEntDate" pattern="yyyy-MM-dd" />
+					                    <fmt:formatDate value="${bEntDate }" pattern="yyyy-MM-dd" />
+					                </td>
+					            </tr>
+					        </c:if>
+					    </c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<%-- <c:import url="/WEB-INF/views/layout/manager/paging.jsp"/> --%>
 </body>
 </html>

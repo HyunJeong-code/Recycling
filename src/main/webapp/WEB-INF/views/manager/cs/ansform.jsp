@@ -59,6 +59,10 @@
                         <th>답글 내용</th>
                         <td colspan="2">${list.ansContent }</td>
                     </tr>
+                    
+                    <tr>
+						<td colspan="3"><hr></td>
+					</tr>
                 </c:forEach>
             </table>
         </c:if>
@@ -76,6 +80,7 @@
     <br>
     
     <a href="./otodel?otoCode=${oto.otoCode }"><button>문의글 삭제</button></a>
+    <a href="./main"><button>목록</button></a>
     
 </body>
 </html>
