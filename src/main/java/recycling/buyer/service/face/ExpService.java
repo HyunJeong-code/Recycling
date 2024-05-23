@@ -95,4 +95,6 @@ public interface ExpService {
 	 */
 	public Buyer getBuyerInfo(String bCode);
 
+	public Buyer getBuyerDetail(String getbId);
+
 }

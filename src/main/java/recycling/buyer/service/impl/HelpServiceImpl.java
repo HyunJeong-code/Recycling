@@ -79,12 +79,6 @@ public class HelpServiceImpl implements HelpService {
 		return helpDao.insertOto(oto);
 	}
 	
-//	@Override
-//	public void insertOto(Oto oto) {
-//
-//		helpDao.insertOto(oto);
-//	}
-
 	@Override
 	public List<OtoCt> selectAllOtoCt() {
 		return helpDao.selectAllOtoCt();

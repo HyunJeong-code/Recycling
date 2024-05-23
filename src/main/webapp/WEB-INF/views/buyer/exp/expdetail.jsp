@@ -25,7 +25,11 @@ function scrollToSection(sectionId) {
 body { font-family: Arial, sans-serif; }
 .container { width: 80%; margin: 0 auto; }
 .product-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-.product-image { width: 150px; height: 150px; background-color: #e9e9e9; display: flex; justify-content: center; align-items: center; }
+.exp_file_main { width: 350px; height: 250px; background-color: #e9e9e9; display: flex; justify-content: center; align-items: center; }
+.exp_file_detail {
+	width: 500px; 
+	height: 500px;
+}
 .product-info { flex-grow: 1; margin-left: 20px; }
 .tabs { display: flex; margin-top: 20px; }
 .tab { margin-right: 20px; cursor: pointer; }

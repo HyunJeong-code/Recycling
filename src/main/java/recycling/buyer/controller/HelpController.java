@@ -62,9 +62,9 @@ public class HelpController {
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage, 
 			@RequestParam(defaultValue = "") String search,
-			HttpSession session
+			Authentication authentication
 			) {
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		boolean isSeller = false;
 		
 		if (buyerLogin != null) {
@@ -130,13 +130,13 @@ public class HelpController {
 	public String otoForm(
 			Model model,
 			Oto oto,
-			HttpSession session
+			Authentication authentication
 			) {
 		logger.info("otoform [GET]");
 		
 		List<OtoCt> oct = helpService.getAllOct();
 		
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
 		if(buyerLogin == null) {
 			
@@ -149,8 +149,9 @@ public class HelpController {
 		
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());
-
+		oto.setOtoEmail(buyer.getbEmail());		
+		
+		
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct", oct);
@@ -160,7 +161,7 @@ public class HelpController {
 	
 	@PostMapping("/otoform")
 	public String otoFormProc(
-			HttpSession session,
+			Authentication authentication,
 			Model model,
 			Oto oto,
 			@RequestParam("ct_otono") String ctOtoNo, // 선택된 분류 값을 받음
@@ -170,7 +171,7 @@ public class HelpController {
 			) {
 		
 		//회원 로그인 세션 정보
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
 		if(buyerLogin == null) {
 			
@@ -241,6 +242,8 @@ public class HelpController {
 		Oto oto = helpService.selectByOtoCode(otoCode);
 		List<OtoCt> oct = helpService.getAllOct();
 		List<OtoFile> otoFiles = helpService.getOtoFiles(otoCode);
+		
+		
 		
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct",oct);

@@ -89,4 +89,10 @@ public class ExpServiceImpl implements ExpService {
 	public Buyer getBuyerInfo(String bCode) {
 		return expDao.getBuyerInfo(bCode);
 	}
+
+	@Override
+	public Buyer getBuyerDetail(String getbId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

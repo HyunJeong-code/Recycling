@@ -17,10 +17,24 @@
 }
 
 .top-section { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
     margin: 20px 0; 
+}
+
+.top-exp {
+	text-align: center;
+    margin-bottom: 30px;
+}
+
+div#topExpList{
+	display: flex;
+	    gap: 10px;
+}
+a {
+	display: contents;
+}
+
+div.title{
+	border-bottom: 1px solid #ddd;
 }
 
 .body-section {
@@ -110,7 +124,7 @@ $(document).ready(function() {
     <h1>체험단 메인페이지</h1>
     <div class="top-section">
         <!-- 상단 체험단 인기, 최신 -->
-        <div>
+        <div class="top-exp">
             <button id="popularButton">인기 체험</button>
             <button id="recentButton">새 체험</button>
         </div>
@@ -118,6 +132,9 @@ $(document).ready(function() {
             <c:forEach var="exp" items="${topPopList}">
             <a href="./expdetail?expCode=${exp.expCode }">
                 <div class="expList topPopList">
+						<c:if test="${not empty main[exp.expCode]}">
+                        	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;">
+                    	</c:if>
                     <div class="title">${exp.expName}</div>
                     <div class="price">${exp.expPrice}원</div>
                     <div>조회수: ${exp.expHit}</div>
@@ -131,6 +148,9 @@ $(document).ready(function() {
             <c:forEach var="exp" items="${topRecList}">
            	<a href="./expdetail?expCode=${exp.expCode }">
                 <div class="expList topRecList" style="display: none;">
+               		<c:if test="${not empty main[exp.expCode]}">
+                       	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;">
+                   	</c:if>
                     <div class="title">${exp.expName}</div>
                     <div class="price">${exp.expPrice}원</div>
                     <div>조회수: ${exp.expHit}</div>
@@ -164,6 +184,9 @@ $(document).ready(function() {
         <c:forEach var="exp" items="${list}">
            	<a href="./expdetail?expCode=${exp.expCode }">
 	            <div class="expAllList">
+	            	<c:if test="${not empty main[exp.expCode]}">
+                       	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;">
+                   	</c:if>
 	                <div class="title">${exp.expName}</div>
 	                <div class="price">${exp.expPrice}원</div>
 	                <div>조회수: ${exp.expHit}</div>
