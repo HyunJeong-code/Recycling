@@ -6,8 +6,19 @@ import recycling.dto.manager.Wash;
 
 public interface WashService {
 
-	public List<Wash> getWashList();
+	/**
+	 * 세척업체 DTO 리스트 조회
+	 * 
+	 * @return
+	 */
+	public List<Wash> selectWashList();
 
-	public Wash view(String wCode);
+	/**
+	 * 세척업체 상세조회
+	 * 
+	 * @param wCode	세척업체 코드
+	 * @return 세척업체 정보
+	 */
+	public Wash selectWash(String wCode);
 
 }

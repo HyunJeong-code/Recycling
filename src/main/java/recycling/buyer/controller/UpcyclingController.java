@@ -20,10 +20,7 @@ import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Review;
 import recycling.dto.seller.Prd;
-<<<<<<< HEAD
 import recycling.dto.seller.SellerProf;
-=======
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 
 // 메뉴 - 업사이클링
 
@@ -38,7 +35,7 @@ public class UpcyclingController {
 	public String upcyMain(Model model) {
 		logger.info("/buyer/upcycling/main [GET]");
 		
-		List<Prd> list = upcyclingService.getPrdList();
+		List<Prd> list = upcyclingService.selectPrdList();
 		
 		model.addAttribute("list", list);
 		
@@ -48,48 +45,30 @@ public class UpcyclingController {
 	
 	@GetMapping("/upcydetail")
 	public String  upcyDetail(@RequestParam("prdcode") String prdCode, Model model, HttpSession session) {
-<<<<<<< HEAD
 		logger.info("/upcydetail [GET] - prdCode: {}", prdCode );
 		
-		Prd prd = upcyclingService.view(prdCode);
-=======
-		logger.info("/upcydetail [GET]");
-		
-		Prd prd = upcyclingService.view(prdcode);
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
+		Prd prd = upcyclingService.selectPrd(prdCode);
 		
 		if (prd == null) {
 			return "not-found-page";
 		}
 		
-<<<<<<< HEAD
-		SellerProf sellerProf = upcyclingService.getSellerProf(prd.getsCode());
+		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
 		model.addAttribute("sellerProf", sellerProf);
 		
-=======
-		model.addAttribute("prd", prd);
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 		return "buyer/upcycling/upcydetail";
 		
 	}
 	
 	
 	@PostMapping("/cart")
-<<<<<<< HEAD
 	public String addCart(String prdCode, int bCode,
 			Model model, HttpSession session) {
 		logger.info("/cart [POST]");
 		
-		Prd prd = upcyclingService.view(prdCode);
-=======
-	public String addCart(int prdno, int bCode,
-			Model model, HttpSession session) {
-		logger.info("/cart [POST]");
-		
-		Prd prd = upcyclingService.view(prdno);
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
+		Prd prd = upcyclingService.selectPrd(prdCode);
 		Buyer buyer = upcyclingService.selectBuyerCode(bCode);
 		
 		List<Prd> cartList = (List<Prd>) session.getAttribute("cartList");
@@ -105,24 +84,14 @@ public class UpcyclingController {
 	
 	
 	@GetMapping("/upcyvwlist")
-<<<<<<< HEAD
 	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
 		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
 		
-		List<Review> upcyvwlist = upcyclingService.getUpcyvwList(prdCode);
+		List<Review> upcyvwlist = upcyclingService.selectRvwList(prdCode);
 		
 		model.addAttribute("upcyvwlist", upcyvwlist);
 		
 		return "buyer/upcycling/upcyvwlist";
-=======
-	public void upcyvwlist(
-			@RequestParam("review") Review review, int rvwCode, Model model) {
-		logger.info("/upcyvwlist[GET]");
-		
-		List<Review> upcyvwlist = upcyclingService.getUpcyvwList();
-		
-		model.addAttribute("upcyvwlist", upcyvwlist);
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	}
 	
 	
@@ -131,50 +100,34 @@ public class UpcyclingController {
 	        logger.info("/upcyrvwinfo [GET]");
 	        
 	        // 후기 상세 조회
-	        Review review = upcyclingService.selectReviewByCode(rvwCode);
+	        Review review = upcyclingService.selectRvw(rvwCode);
 	        model.addAttribute("review", review);
 	        
 	        return "upcyrvwinfo"; // 후기 상세 조회 페이지로 이동
 	    }
 	
 	 @GetMapping("/upcyrvwform")
-<<<<<<< HEAD
 	 public String upcyrvwform(@RequestParam("prdCode") String prdCode, Model model) {
 	        logger.info("/upcyrvwform [GET]");
 	        
 	        model.addAttribute("prdCode", prdCode);
 	        
-=======
-	 public String upcyrvwform() {
-	        logger.info("/upcyrvwform [GET]");
-	        
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	        return "upcyrvwform"; // 후기 작성 폼 페이지로 이동
 	    }
 	 
 	 @PostMapping("/upcyrvwform")
-<<<<<<< HEAD
 	 public String upcyrvwformProc(
 			 @RequestParam("rvwContent") String rvwContent,
 			 @RequestParam("prdCode") String prdCode,
 			 HttpSession session) {
-=======
-	 public String upcyrvwformProc(@RequestParam("rvwContent")String rvwContent, HttpSession session) {
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 		 logger.info("/upcyrvwformProc [POST]");
 		 
 		 //로그인 정보 불러오기
 		 Buyer buyer = (Buyer)session.getAttribute("buyer");
 		 
-<<<<<<< HEAD
-		 upcyclingService.writeReview(rvwContent, prdCode, buyer);
+		 upcyclingService.insertReview(rvwContent, prdCode, buyer);
 		 
 		 return "redirect:/buyer/upcycling/upcyvwlist?prdCode=" + prdCode;
-=======
-		 upcyclingService.writeReview(rvwContent, buyer);
-		 
-		 return "redirect:/buyer/upcyvwlist";
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	 }
 	 
 	 @GetMapping("/upcyrvwupdate")
@@ -182,7 +135,7 @@ public class UpcyclingController {
 		 logger.info("/upcyrvwupdate [GET]");
 		 
 		// 후기 상세 조회
-		 Review review = upcyclingService.selectReviewByCode(rvwCode);
+		 Review review = upcyclingService.selectRvw(rvwCode);
 		 model.addAttribute("review", review);
 		 
 		 return "upcyrvwupdate";

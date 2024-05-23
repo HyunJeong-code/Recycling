@@ -6,11 +6,12 @@
 <mapper namespace="recycling.buyer.dao.face.WashDao">
 
 	<select id="selectWashList" resultType="Wash">
-		SELECT COUNT(*) FROM Wash
+		SELECT * FROM Wash
 	</select>
 	
-	<select id="view" resultType="Wash">
-		SELECT * FROM Wash WHERE wCode = #{wCode}
+	<select id="selectWash" resultType="Wash">
+		SELECT * FROM Wash
+		WHERE W_CODE = #{wCode}
 	</select>
 
 

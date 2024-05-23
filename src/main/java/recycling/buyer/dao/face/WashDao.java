@@ -10,6 +10,6 @@ public interface WashDao {
 
 	public List<Wash> selectWashList();
 
-	public Wash view(String wCode);
+	public Wash selectWash(String wCode);
 
 }

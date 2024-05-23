@@ -10,18 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import recycling.buyer.service.face.RecyclingService;
-<<<<<<< HEAD
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.SellerAns;
 import recycling.dto.seller.SellerProf;
-=======
-import recycling.dto.buyer.Rcy;
-import recycling.dto.seller.Prd;
-import recycling.util.Paging;
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
+import recycling.dto.seller.SellerQST;
 
 // 메뉴 - 재활용품
 
@@ -30,84 +28,23 @@ import recycling.util.Paging;
 public class RecyclingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-<<<<<<< HEAD
 	@Autowired private RecyclingService recyclingService;
-=======
-	@Autowired RecyclingService recyclingService;
-	
-	@GetMapping("/main")
-	public void rcyMain(Model model,
-				@RequestParam(defaultValue = "0")int curPage,
-				@RequestParam(defaultValue = "") String search
-				) {
-		logger.info("/buyer/recycling/main [GET]");
-		
-		
-		List<Prd> list = recyclingService.getPrdList();
-		
-		model.addAttribute("list", list);
-		
-	}
-	
-	
-	@GetMapping("/rcydetail")
-	public void rcyDetail(int prdno, Model model, int curPage, HttpSession session ) {
-		logger.info("/buyer/recycling/main [GET]");
-		
-		Prd prd = recyclingService.view(prdno);
-		Paging paging = recyclingService.getDetailPaging(curPage);
-		
-		model.addAttribute("paging", paging);
-		model.addAttribute("prd", prd);
-		
-	}
-	
-	@GetMapping("/findseller")
-	public String findSeller(@RequestParam String location, Model model) {
-	    logger.info("/buyer/recycling/findseller [GET]");
-
-	    // 위치 기반 판매자 정보 조회
-	    String sellerName = recyclingService.findSeller(location);
-
-	    if (sellerName == null) {
-	        // 위치에 해당하는 판매자가 없을 경우 처리
-	        model.addAttribute("message", "해당 위치에 판매자가 없습니다.");
-	        return "error-page"; // 에러 페이지로 이동
-	    }
-
-	    // 판매자 정보를 모델에 추가
-	    model.addAttribute("sellerName", sellerName);
-	    model.addAttribute("location", location);
-
-	    return "seller-info"; // 판매자 정보 페이지로 이동
-	}
-	
-	@GetMapping("/rcycmt")
-	public void rcycmt(@RequestParam("rcy") Rcy rcy, @RequestParam("rvwCode") int rvwCode, Model model) {
-		logger.info("/buyer/recycling/rcycmt [GET]");
-		
-		List<Rcy> rcyList = recyclingService.gerRcyList();
-		
-		model.addAttribute("rcyList", rcyList);
-	
-	}
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	
 	@GetMapping("/main")
 	public String rcyMain(Model model) {
-		logger.info("/buyer/upcycling/main [GET]");
+		logger.info("/buyer/recycling/main [GET]");
 		
 		List<Prd> list = recyclingService.getPrdList();
 		
 		model.addAttribute("list", list);
 		
-		return "buyer/upcycling/main";
+		return "buyer/recycling/main";
 	}
 	
 	
 	@GetMapping("/rcydetail")
 	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, HttpSession session) {
-		logger.info("/upcydetail [GET] - prdCode: {}", prdCode );
+		logger.info("/rcydetail [GET] - prdCode: {}", prdCode );
 		
 		Prd prd = recyclingService.view(prdCode);
 		
@@ -124,5 +61,82 @@ public class RecyclingController {
 	}
 	
 
+	@GetMapping("/rcycmt")
+	public String sellerQST(@RequestParam("qstCode") String qstCode, Model model) {
+		logger.info("/buyer/recycling/rcycmt [GET]");
+		
+		SellerQST sellerQst = recyclingService.selectSellerQst(qstCode);
+		List<SellerAns> answers  = recyclingService.selectSellerAnswers(qstCode);
+		
+		model.addAttribute("sellerQst", sellerQst);
+		model.addAttribute("answers", answers);
+
+		// 판매자 문의 조회 등의 기능 수행
+		return "buyer/recycling/rcycmt";
+	}
+	
+	@PostMapping("/write")
+	public String insertSellerQST(SellerQST sellerQST, RedirectAttributes redirectAttributes) {
+		logger.info("/buyer/recycling/write [POST]");
+		
+		int result = recyclingService.insertSellerQST(sellerQST);
+		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
+		
+		return "redirect:/buyer/recycling/rcycmt";
+	}
+	
+	
+	@PostMapping("/edit")
+	public String editSellerQST(SellerQST sellerQST, RedirectAttributes redirectAttributes) {
+		logger.info("/buyer/recycling/edit [POST]");
+		
+		int result = recyclingService.updateSellerQST(sellerQST);
+		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
+		
+		return "redirect:/buyer/recycling/rcycmt";
+	}
+	
+	
+	@PostMapping("/delete")
+	public String deleteSellerQST(@RequestParam("qstCode") String qstCode, RedirectAttributes redirectAttributes) {
+		logger.info("/buyer/recycling/delete [POST] - qstCode: {}", qstCode);
+		
+		int result = recyclingService.deleteSellerQST(qstCode);
+		redirectAttributes.addAttribute("qstCode", qstCode);
+		
+		return "redirect:/buyer/recycling/rcycmt";
+	}
+	
+	
+	@PostMapping("/rcycmt/writeAnswer")
+	public String writeSellerAnswer(SellerAns sellerAns, RedirectAttributes redirectAttributes) {
+        logger.info("/buyer/recycling/rcycmt/writeAnswer [POST]");
+        
+        int result = recyclingService.insertSellerAnswer(sellerAns);
+        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
+        
+        return "redirect:/buyer/recycling/rcycmt";
+    }
+	
+	
+	@PostMapping("/rcycmt/editAnswer")
+    public String editSellerAnswer(SellerAns sellerAns, RedirectAttributes redirectAttributes) {
+        logger.info("/buyer/recycling/rcycmt/editAnswer [POST]");
+        
+        int result = recyclingService.updateSellerAnswer(sellerAns);
+        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
+        
+        return "redirect:/buyer/recycling/rcycmt";
+    }
+	
+	@PostMapping("/rcycmt/deleteAnswer")
+    public String deleteSellerAnswer(@RequestParam("qnaCode") String qnaCode, @RequestParam("qstCode") String qstCode, RedirectAttributes redirectAttributes) {
+        logger.info("/buyer/recycling/rcycmt/deleteAnswer [POST] - qnaCode: {}", qnaCode);
+        
+        int result = recyclingService.deleteSellerAnswer(qnaCode);
+        redirectAttributes.addAttribute("qstCode", qstCode);
+        
+        return "redirect:/buyer/recycling/rcycmt";
+    }
 	
 }

@@ -16,17 +16,33 @@ public class WashServiceImpl implements WashService {
 
 	@Autowired private WashDao washDao;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
 	
 	@Override
-	public List<Wash> getWashList() {
+	public List<Wash> selectWashList() {
 		
-		return washDao.selectWashList();
+		List<Wash> washList = washDao.selectWashList();
+		logger.info("selectWashList() - washList size : {}" , washList.size());
+		for(Wash wash : washList) {
+			logger.info("selectWashList() - washList : {}", wash);
+		}
+		
+		return washList;
 	}
-
-
+	
 	@Override
-	public Wash view(String wCode) {
-		return washDao.view(wCode);
+	public Wash selectWash(String wCode) {
+		
+		Wash wash = washDao.selectWash(wCode);
+		
+		if(wash != null) {
+			logger.info("selectByWashCode() - Wash found: {}", wash);
+		} else {
+			logger.info("selectByWashCode() - No Wash found with wCode: {}", wCode);
+		}
+		
+		return wash;
 	}
+
+	
+
 }

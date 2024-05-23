@@ -9,15 +9,10 @@ import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
-<<<<<<< HEAD
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.SellerAns;
 import recycling.dto.seller.SellerProf;
-=======
-import recycling.dto.buyer.Rcy;
-import recycling.dto.seller.Prd;
-import recycling.dto.seller.Seller;
-import recycling.util.Paging;
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
+import recycling.dto.seller.SellerQST;
 
 @Service
 public class RecyclingServiceImpl implements RecyclingService {
@@ -27,7 +22,6 @@ public class RecyclingServiceImpl implements RecyclingService {
 	
 	@Override
 	public List<Prd> getPrdList() {
-<<<<<<< HEAD
 		
 		List<Prd> prdList = recyclingDao.selectPrdList();
 		logger.info("getPrdList() - prdList size: {}", prdList.size());
@@ -36,23 +30,10 @@ public class RecyclingServiceImpl implements RecyclingService {
 	    }
 		
 		return prdList;
-=======
-		return recyclingDao.selectPrdList();
-	}
-
-	
-
-	@Override
-	public Prd view(int ctPno) {
-		
-		return recyclingDao.select(ctPno);
-		
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 	}
 
 	
 	@Override
-<<<<<<< HEAD
 	public Prd view(String prdCode) {
 		
 		Prd prd = recyclingDao.selectPrd(prdCode);
@@ -70,34 +51,56 @@ public class RecyclingServiceImpl implements RecyclingService {
 	public SellerProf getSellerProf(String sCode) {
 		return recyclingDao.selectSellerProfByCode(sCode);
 	}
-=======
-	public Paging getDetailPaging(int curPage) {
-		
-		int totalCount = recyclingDao.selectCntAll();
-		Paging paging = new Paging(totalCount, curPage);
-		
-		return paging;
-	}
 
-	
+
 	@Override
-	public String findSeller(String location) {
-		// 위치를 기반으로 판매자 주소 조회 로직
-        Seller seller = recyclingDao.findSellerByLocation(location);
-        
-        if (seller != null) {
-            return seller.getsAddr();
-        } else {
-            return null;
-        }
+	public SellerQST selectSellerQst(String qstCode) {
+		return recyclingDao.selectSellerQST(qstCode);
 	}
 
 	@Override
-	public List<Rcy> gerRcyList() {
-		return recyclingDao.selectRcy();
+	public List<SellerAns> selectSellerAnswers(String qstCode) {
+		return recyclingDao.selectSellerAnswers(qstCode);
 	}
+
+	@Override
+	public int insertSellerQST(SellerQST sellerQST) {
+		return recyclingDao.insertSellerQST(sellerQST);
+	}
+
+
+	@Override
+	public int updateSellerQST(SellerQST sellerQST) {
+		return recyclingDao.updateSellerQST(sellerQST);
+	}
+
+
+	@Override
+	public int  deleteSellerQST(String qstCode) {
+		return recyclingDao.deleteSellerQST(qstCode);
+	}
+
+
+	@Override
+	public int insertSellerAnswer(SellerAns sellerAns) {
+		return recyclingDao.insertSellerAnswer(sellerAns);
+	}
+
+
+	@Override
+	public int updateSellerAnswer(SellerAns sellerAns) {
+		return recyclingDao.updateSellerAnswer(sellerAns);
+	}
+
+
+	@Override
+	public int deleteSellerAnswer(String qnaCode) {
+		return recyclingDao.deleteSellerAnswer(qnaCode);
+	}
+
+
+
 	
 	
-	
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
+
 }

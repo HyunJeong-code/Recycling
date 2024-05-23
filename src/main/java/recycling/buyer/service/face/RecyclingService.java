@@ -2,14 +2,10 @@ package recycling.buyer.service.face;
 
 import java.util.List;
 
-<<<<<<< HEAD
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.SellerAns;
 import recycling.dto.seller.SellerProf;
-=======
-import recycling.dto.buyer.Rcy;
-import recycling.dto.seller.Prd;
-import recycling.util.Paging;
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
+import recycling.dto.seller.SellerQST;
 
 public interface RecyclingService {
 	
@@ -35,50 +31,71 @@ public interface RecyclingService {
 	 * @return	판매자 상세 정보
 	 */
 	public SellerProf getSellerProf(String sCode);
-	
-	
 
 	/**
-	 * 상품리스트의 상품 전체 조회
+	 * 판매자 문의 코드를 통해서 판매자 문의 불러오기
 	 * 
-	 * @return 상품 DTO를 가진 List
+	 * @param qstCode	문의 코드
+	 * @return	판매자 문의
 	 */
-	public List<Prd> getPrdList();
+	public SellerQST selectSellerQst(String qstCode);
 
-	
 	/**
-	 * 상품리스트 중 상품 번호를 통해 상품 상세 조회
+	 * 판매자 문의 작성
 	 * 
-	 * @param prdno 상품번호
-	 * @return 해당 상품번호의 상세페이지
+	 * @param sellerQST 판매자 문의
+	 * @return 
 	 */
-	public Prd view(int prdno);
+	public int insertSellerQST(SellerQST sellerQST);
 
+	/**
+	 * 판매자 문의 리스트를 조회
+	 * @param qstCode 판매자 문의 코드
+	 * @return	핀메매지 문의 리스트
+	 */
+	public List<SellerAns> selectSellerAnswers(String qstCode);
 	
 	/**
+	 * 판매자 문의 수정
 	 * 
+	 * @param sellerQST 판매자 문의
+	 * @return 
+	 */
+	public int updateSellerQST(SellerQST sellerQST);
+
+	/**
+	 * 판매자 문의 삭제
 	 * 
-	 * @param curPage
+	 * @param qstCode 문의 코드
+	 * @return 
+	 */
+	public int deleteSellerQST(String qstCode);
+
+	/** 
+	 * 판매자 문의 답변 작성
+	 * 
+	 * @param sellerAns
 	 * @return
 	 */
-	public Paging getDetailPaging(int curPage);
+	public int insertSellerAnswer(SellerAns sellerAns);
 
 	/**
-	 * 위치기반 판매자 위치 찾기
+	 * 판매자 문의 답변 수정
 	 * 
-	 * @param location
+	 * @param sellerAns
 	 * @return
 	 */
-	public String findSeller(String location);
+	public int updateSellerAnswer(SellerAns sellerAns);
 
+	
 	/**
-	 * 재활용품 문의 리스트 조회
+	 * 판매자 문의 답변 삭제
 	 * 
+	 * @param qnaCode
 	 * @return
 	 */
-	public List<Rcy> gerRcyList();
+	public int deleteSellerAnswer(String qnaCode);
 
-
-
+	
 
 }

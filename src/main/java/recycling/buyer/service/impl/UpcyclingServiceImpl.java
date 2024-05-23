@@ -12,99 +12,43 @@ import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Review;
 import recycling.dto.seller.Prd;
-<<<<<<< HEAD
 import recycling.dto.seller.SellerProf;
-=======
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
 
 @Service
 public class UpcyclingServiceImpl implements UpcyclingService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired UpcyclingDao upcyclingDao;
-<<<<<<< HEAD
-=======
 	
 	@Override
-	public List<Prd> getPrdList() {
+	public List<Prd> selectPrdList() {
 		
 		List<Prd> prdList = upcyclingDao.selectPrdList();
-		logger.info("getPrdList() - prdList size: {}", prdList.size());
+		logger.info("selectPrdList() - prdList size: {}", prdList.size());
 		for(Prd prd : prdList) {
-	        logger.info("getPrdList() - Prd: {}", prd);
-	    }
-		
-		return prdList;
-	}
-
-	@Override
-	public Prd view(int ctPno) {
-		return upcyclingDao.selectPrd(ctPno);
-	}
-
-	@Override
-	public Buyer selectBuyerCode(int bCode) {
-		return upcyclingDao.selectBcode(bCode);
-	}
-
-	
-	@Override
-	public List<Review> getUpcyvwList() {
-		return upcyclingDao.selectRvwList();
-	}
-
-	@Override
-	public Review selectReviewByCode(int rvwCode) {
-		return upcyclingDao.selectRvwByCode();
-	}
-
-	
-	@Override
-	public void writeReview(String rvwContent, Buyer buyer) {
-		upcyclingDao.writeReview(rvwContent, buyer);
-	}
-
-	@Override
-	public void updateReview(int rvwCode, String rvwContent) {
-		upcyclingDao.updateReview(rvwCode, rvwContent);
-	}
-
-	
-	@Override
-	public void deleteReview(int rvwCode) {
-		upcyclingDao.deleteReview(rvwCode);
-	}
->>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
-	
-	@Override
-	public List<Prd> getPrdList() {
-		
-		List<Prd> prdList = upcyclingDao.selectPrdList();
-		logger.info("getPrdList() - prdList size: {}", prdList.size());
-		for(Prd prd : prdList) {
-	        logger.info("getPrdList() - Prd: {}", prd);
+	        logger.info("selectPrdList() - Prd: {}", prd);
 	    }
 		
 		return prdList;
 	}
 	
 	@Override
-	public Prd view(String prdCode) {
+	public Prd selectPrd(String prdCode) {
 		
 		Prd prd = upcyclingDao.selectPrd(prdCode);
 		
 		if (prd != null) {
-            logger.info("viewByPrdCode() - Prd found: {}", prd);
+            logger.info("selectByPrdCode() - Prd found: {}", prd);
         } else {
-            logger.info("viewByPrdCode() - No Prd found with prdCode: {}", prdCode);
+            logger.info("selectByPrdCode() - No Prd found with prdCode: {}", prdCode);
         }
 		
 		return prd;
 	}
 
 	@Override
-	public SellerProf getSellerProf(String sCode) {
-		return upcyclingDao.selectSellerProfByCode(sCode);
+	public SellerProf selectSellerProf(String sCode) {
+		return upcyclingDao.selectSellerProf(sCode);
 	}
 	
 	@Override
@@ -114,19 +58,19 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 
 	
 	@Override
-	public List<Review> getUpcyvwList(String prdCode) {
+	public List<Review> selectRvwList(String prdCode) {
 		return upcyclingDao.selectRvwList(prdCode);
 	}
 
 	@Override
-	public Review selectReviewByCode(int rvwCode) {
-		return upcyclingDao.selectRvwByCode();
+	public Review selectRvw(int rvwCode) {
+		return upcyclingDao.selectRvw();
 	}
 
 	
 	@Override
-	public void writeReview(String rvwContent, String prdCode, Buyer buyer) {
-		upcyclingDao.writeReview(rvwContent, prdCode, buyer);
+	public void insertReview(String rvwContent, String prdCode, Buyer buyer) {
+		upcyclingDao.insertReview(rvwContent, prdCode, buyer);
 	}
 
 	@Override

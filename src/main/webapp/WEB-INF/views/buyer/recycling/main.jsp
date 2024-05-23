@@ -203,6 +203,7 @@
 </style>
 
 </head>
+
 <body>
 	<div class="mainContainer">
 		<div class="mainBanner">
@@ -279,23 +280,23 @@
 		<div class="prdContainer">
 			<div class="prdList">
 				<!-- 테스트용 상품 리스트 -->
- 				<c:forEach var="index" begin="1" end="32">
+<%-- 				<c:forEach var="index" begin="1" end="32">
 					<div class="prd" style="display: ${index <= 16 ? 'flex' : 'none'};">
 						<img src="${pageContext.request.contextPath}/resources/img/product_${index}.jpg">
-						<p class="prdTitle">Product ${index}</p>
+						<p class="prdTitle">Proddddddddddddddddduct ${index}</p>
 						<p class="prdPrice">30,000원</p>
 					</div>
-                </c:forEach>
+                </c:forEach> --%>
                 
-<%-- 				<c:forEach var="prd" items="${list}">
-				    <div class="prd" style="display: ${index <= 16 ? 'flex' : 'none'};">
+				<c:forEach var="prd" items="${list}">
+				    <div class="prd">
 				        <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdcode=${prd.prdCode}"">
-				            <img src="${pageContext.request.contextPath}/resources/img/product_${prd.getPrdCode()}.jpg">
+				            <img src="${pageContext.request.contextPath}/resources/img/product_${prd.prdCode}.jpg">
 				            <p class="prdTitle">${prd.prdName}</p>
 				            <p class="prdPrice">${prd.price}원</p>
 				        </a>
 				    </div>
-				</c:forEach> --%>
+				</c:forEach>
                 
 			</div>
 		</div>
@@ -306,7 +307,6 @@
 			<button onclick="nextPage()">다음</button>
 		</div>
 	</div>
-		
 
     <script>
 	    document.addEventListener('DOMContentLoaded', function() {
@@ -431,4 +431,5 @@
 	</script>
     
 </body>
+
 </html>
