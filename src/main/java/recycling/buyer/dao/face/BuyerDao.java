@@ -191,11 +191,6 @@ public interface BuyerDao {
 
 	public int changePw(BuyerLogin buyerLogin);
 
-}
-
-// 마이페이지 - 회원 정보 관련 DB 처리
-public interface BuyerDao {
-
 	/**
 	 * 판매자 찾기
 	 * 
@@ -203,5 +198,4 @@ public interface BuyerDao {
 	 * @return
 	 */
 	List<Seller> findSeller(String sCode);
-
 }
