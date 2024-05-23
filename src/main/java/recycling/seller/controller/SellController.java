@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,31 +28,20 @@ public class SellController {
 	@Autowired private SellService sellService;
 	
 	@GetMapping("/main")
-	public String main(HttpSession session) {
+	public String main(
+			) {
 		logger.info("/seller/main [GET]");
 		
-		String bCode = (String) session.getAttribute("bCode");
-		logger.info("{}", bCode);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
-		// 로그인이 안되어 있는 경우, 회원가입 페이지로 넘어감
-		if(bCode == null) {
-			return "buyer/login";
-		}
 		
-		Seller seller = sellService.selectSeller(bCode);
-		
-		session.setAttribute("sCode", seller.getsCode());
-		session.setAttribute("sChk", seller.getsChk());
-		
-		// 로그인은 되어있으나 판매자가 아닌 경우
-		if(seller == null) {
-			return "seller/sellerinfo";
-		// 판매자 신청은 했으나 허가 되지 않은 경우
-		} else if(seller.getsChk().equals("N")) {	
-			return "seller/sellerinfo";
 		// 판매자인 경우
+		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SELLER"))) {
+			return "/seller/main";
 		} else {
-			return "redirect: ./main";
+			// 로그인은 되어있으나 판매자가 아닌 경우
+			// 판매자 신청은 했으나 허가 되지 않은 경우
+			return "/seller/sellerinfo";
 		}
 	}
 	

@@ -5,13 +5,14 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.MgrFile;
-import recycling.dto.manager.Notice;	
+import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
 
 // 관리자 메인 페이지 + 로그인, 회원가입 + 사원 전체 조회, 공지사항
@@ -36,8 +37,18 @@ public class MgrController {
 	@Autowired private JavaMailSenderImpl mailSender;
 	
 	@GetMapping("/main")
-	public void main(HttpSession session) {
+	public String main(
+			) {
 		logger.info("/manager/main [GET]");
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		logger.info("auth : {}", auth);
+		
+		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"))) {
+			return "/manager/main";
+		} else {
+			return "/manager/login";
+		}
 	}
 	
 	@GetMapping("/join")

@@ -27,6 +27,9 @@ public class BuyerServiceImpl implements BuyerService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerDao buyerDao;
 	
+	// 장바구니
+	
+	// 회원 정보
 	@Override
 	public int insertOrder(Orders order) {
 		return buyerDao.insertOrder(order);

@@ -25,6 +25,7 @@ public class MypageController {
 	public void myMain(
 				Authentication authentication,
 				Model model
+				
 			) {
 		logger.info("/buyer/mypage/myboard [GET]");
 		
