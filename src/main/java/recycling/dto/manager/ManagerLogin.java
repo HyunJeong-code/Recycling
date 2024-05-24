@@ -3,8 +3,12 @@ package recycling.dto.manager;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.SpringSecurityCoreVersion;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public class ManagerLogin {
+public class ManagerLogin implements UserDetails {
+	
+	private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 	
 	private String mgrCode;
 	private int deptno;
@@ -38,7 +42,42 @@ public class ManagerLogin {
 		return "ManagerLogin [mgrCode=" + mgrCode + ", deptno=" + deptno + ", mgrId=" + mgrId + ", mgrPw=" + mgrPw
 				+ ", mgrOut=" + mgrOut + ", auth=" + auth + "]";
 	}
-
+	
+	@Override
+	public String getUsername() {
+		return mgrId;
+	}
+	
+	@Override
+	public String getPassword() {
+		return mgrPw;
+	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return auth;
+	}
+	
 	public String getMgrCode() {
 		return mgrCode;
 	}

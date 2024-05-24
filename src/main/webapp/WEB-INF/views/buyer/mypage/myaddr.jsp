@@ -75,16 +75,6 @@ function setDefaultAdr(adrCode) {
     
 }
 
-// function swapAdrPosition(adrCode) {
-	
-// 	$.post('${pageContext.request.contextPath }/buyer/mypage/myaddr',
-// 			{action: 'swap', adrCode: adrCode},
-// 			function(response) {
-// 		location.reload();
-// 	});
-	
-// }
-
 function chkAdrLimit() {
 	
     var limit = ${fn:length(buyerAdrList) - 1};

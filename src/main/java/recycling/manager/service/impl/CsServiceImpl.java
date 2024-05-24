@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.manager.Ans;
+import recycling.dto.manager.Manager;
 import recycling.manager.dao.face.CsDao;
 import recycling.manager.service.face.CsService;
 import recycling.util.Paging;
@@ -24,14 +26,14 @@ public class CsServiceImpl implements CsService {
 	@Override
 	public List<Oto> list(Paging paging) {
 		logger.info("service");
-		return csDao.selectAllOto(paging);
+		return csDao.list(paging);
 	}
 
 	@Override
 	public Paging getPaging(Paging pagingParam) {
 
 		// 총 게시글 수 조회
-		int totalCount = csDao.selectCntAll();
+		int totalCount = csDao.getPaging();
 
 		// 페이징 계산
 		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
@@ -41,31 +43,66 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public List<Buyer> buyerList(Paging paging) {
-		return csDao.selectAllBuyer(paging);
+		return csDao.buyerList(paging);
 	}
 
 	@Override
 	public Buyer buyerDetail(Buyer buyer) {
-		return csDao.selectByBuyer(buyer);
+		return csDao.buyerDetail(buyer);
 	}
 	
 	@Override
 	public Buyer getBuyer(String bCode) {
-		return csDao.selectBcode(bCode);
+		return csDao.getBuyer(bCode);
 	}
 
 	@Override
 	public void buyerUpdate(Buyer buyer) {
-		csDao.updateBuyer(buyer);
-	}
-	
-	@Override
-	public void buyerDel(String bCode, String ctBcode, int rankNo) {
-		csDao.deleteBuyer(bCode, ctBcode, rankNo);		
+		csDao.buyerUpdate(buyer);
 	}
 
-//	@Override
-//	public void buyerDel(String bCode) {
-//		csDao.deleteBuyer(bCode);
-//	}
+	@Override
+	public void buyerDel(Buyer buyer) {
+		int res = csDao.buyerDel(buyer);				
+	}
+
+	@Override
+	public Oto ansForm(String otoCode) {
+		return csDao.ansForm(otoCode);
+	}
+
+	@Override
+	public void ansFormInsert(String mgrCode, String ansCode, String ansContent, String otoCode) {
+	    Ans ans = new Ans();
+	    ans.setMgrCode(mgrCode);
+	    ans.setAnsCode(ansCode);
+	    ans.setAnsContent(ansContent);
+	    ans.setOtoCode(otoCode);
+
+	    csDao.ansFormInsert(ans);
+	}
+
+
+	@Override
+	public void otoDel(String otoCode) {
+//		System.out.println("Delete otoCode: " + otoCode);
+	    csDao.otoDel(otoCode);
+	}
+
+	@Override
+	public List<Ans> viewCom(String otoCode) {
+		logger.info("servocedddddddddddddddddddddd");
+		return csDao.viewCom(otoCode);
+	}
+
+	@Override
+	public boolean chkNull (List<Ans> comments) {
+		if(comments == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+
 }

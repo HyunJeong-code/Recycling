@@ -140,9 +140,9 @@
     </select>
     
     <!-- 비밀번호 변경 -->
-    <update id="changePw" parameterType="map">
+    <update id="changePw" parameterType="recycling.dto.buyer.BuyerLogin">
     	UPDATE Buyer
-    	SET B_Pw = #{newPw }
+    	SET B_Pw = #{bPw }
     	WHERE B_Id = #{bId }
     </update>
     
@@ -190,6 +190,10 @@
     	<where>
     		AND B_Code = #{bCode }
     	</where>
+    	ORDER BY CASE 
+		WHEN ADR_CHK ='Y' then 0
+		ELSE 1
+		END
     </select>
     
     <!-- 구매자 배송지 개수 -->
@@ -243,7 +247,7 @@
     </update>
     
     <!-- 선택한 추가 배송지의 Adr_Chk를 Y로 변경 -->
-    <update id="setDefaultAdr" parameterType="string">
+    <update id="setDefaultAdr" parameterType="recycling.dto.buyer.BuyerAdr">
     	UPDATE Buyer_Adr
     	SET Adr_Chk = 'Y'
     	<where>

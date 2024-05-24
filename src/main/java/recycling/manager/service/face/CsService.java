@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.manager.Ans;
 import recycling.util.Paging;
 
 // 구매 CS팀 관련 처리
@@ -64,11 +65,43 @@ public interface CsService {
 	 * @param bCode
 	 * @return 
 	 */
-	public void buyerDel(String bCode, String ctBcode, int rankNo);
+	public void buyerDel(Buyer buyer);
 
+	/**
+	 * 문의글 상세조회
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public Oto ansForm(String otoCode);
 
+	/**
+	 * 문의 답변 작성
+	 * 
+	 * @param mgrId
+	 * @param ansCode
+	 * @param ansContent
+	 * @param otoCode 
+	 * @return
+	 */
+//	public String ansFormInsert(String mgrId, String ansCode, String ansContent);
+	public void ansFormInsert(String mgrCode, String ansCode, String ansContent, String otoCode);
 
-	
-//	public void buyerDel(String bCode);
+	/**
+	 * 문의글 삭제
+	 * 
+	 * @param otoCode
+	 */
+	public void otoDel(String otoCode);
+
+	/**
+	 * 답변 리스트
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public List<Ans> viewCom(String otoCode);
+
+	public boolean chkNull(List<Ans> comments);
 
 }

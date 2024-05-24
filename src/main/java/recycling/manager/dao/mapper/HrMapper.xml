@@ -25,7 +25,6 @@
 		JOIN Department d ON m.deptno = d.deptno
 	</sql>
 
-
 	<!--  manager join department resultMap-->	
 	<resultMap type="java.util.HashMap" id="mgrJoin">
 	
@@ -48,6 +47,7 @@
 	<!-- 조회 -->	
 	<select id="selectAll" resultMap="mgrJoin">
 		<include refid="mgrJoinDep"/>
+		ORDER BY mgr_code DESC
 	</select>
 	
 	<!-- 세부 조회 -->
@@ -55,35 +55,95 @@
 		<include refid="mgrJoinDep"/>
 		WHERE mgr_code = #{mgrCode }
 	</select>
+
+	<!-- 세부사항 파일조회 -->
+	<select id="mgrFileList" resultType="MgrFile" parameterType="MgrFile">
+		SELECT
+			mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name
+		FROM Mgr_File
+		WHERE mgr_code = #{mgrCode }
+	</select>
 	
 	<!-- 데이터 삽입 -->
 	<insert id="insert" parameterType="Manager">
 		<selectKey order="BEFORE" keyProperty="mgrCode" resultType="String">
-			SELECT ('MGR'||LPAD(mgr_code_seq.nextval, 7, '0'))FROM dual
+			SELECT ('MGR'||LPAD(manager_seq.nextval, 7, '0'))FROM dual
 		</selectKey>
 		INSERT INTO manager
-		(	mgr_code, deptno
-		, mgrId, mgrPw
-		, mgrName, mgrPhone
-		, mgrEmail, mgrBirth
-		, mgrGender, mgrEntDate
+		(
+			mgr_code, deptno
+			, mgr_name, mgr_phone
+			, mgr_email, mgr_birth
+			, mgr_gender, mgr_entDate
 		)
 		VALUES
 		(	
 			#{mgrCode }, #{deptno }
-			, #{mgrId }, #{mgrPw }
 			, #{mgrName }, #{mgrPhone }
 			, #{mgrEmail }, #{mgrBirth }
 			, #{mgrGender }, #{mgrEntDate }
 		)
-		
 	</insert>
 	
-		<!-- 체크 유무에 따른 삭제 -->
-		<delete id="listDel" parameterType="String">
-			DELETE FROM manager
-			<where> mgr_code = #{mgrCode } </where>
-		</delete>
+	<!-- 파일 등록 -->
+	<insert id="fileup" parameterType="MgrFile">
+	    <selectKey order="BEFORE" keyProperty="mgrFlNo" resultType="int">
+	        SELECT MGR_FILE_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Mgr_File 
+	    	(mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name)
+	    VALUES
+	    	(#{mgrFlNo}, #{mgrCode}, #{ctMflNo}, #{originName}, #{storedName}
+	    	)
+	</insert>
+	
+	<!-- 파일 다운로드 -->
+	<select id="FileDown" resultType="MgrFile" parameterType="MgrFile">
+		SELECT
+			mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name
+		FROM Mgr_File
+		WHERE mgr_code = #{mgrCode }
+	</select>
+	
+	<!-- 업데이트 항목조회 -->
+	<select id="hrUpdateView" resultType="Manager" parameterType="Manager">
+		<include refid="selectByManager"/>
+		<where>mgr_code = #{mgrCode }</where>	
+	</select>
+	
+	<!-- 업데이트 -->
+	<update id="hrUpdate" parameterType="Manager">
+		UPDATE Manager SET
+		mgr_code = #{mgrCode }
+		, deptno = #{deptno }
+		, mgr_id = #{mgrId }
+		, mgr_pw = #{mgrPw }
+		, mgr_name = #{mgrName }
+		, mgr_phone = #{mgrPhone }
+		, mgr_email = #{mgrEmail }
+		, mgr_birth = #{mgrBirth }
+		, mgr_gender = #{mgrGender }
+		, mgr_entDate = #{mgrEntDate }
+		<where>mgr_code = #{mgrCode} </where>
+	</update>
+	
+	
+	<!-- 체크 유무에 따른 삭제 -->
+<!-- 	<delete id="listDel" parameterType="String"> -->
+<!-- 		DELETE FROM manager -->
+<!-- 		<where> mgr_code = #{mgrCode } </where> -->
+<!-- 	</delete> -->
+
+	<!-- 체크 유무에 따른 삭제 mgr_out = N[가입] -> Y[탈퇴] 변경-->
+	<update id="listDel" parameterType="String">
+	    UPDATE manager SET
+	    mgr_out = 'Y'
+	    , mgr_out_date = sysdate
+	    WHERE mgr_code = #{mgrCode }
+	</update>
+
+		
+		
 
 
 

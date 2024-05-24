@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.Cart;
@@ -133,23 +134,25 @@ public interface BuyerService {
 	 * @return 기업 구매자 정보
 	 */
 	public Cmp getCmpDetail(String bCode);
+
+	
 	
 	/**
 	 * 구매자 비밀번호 확인
 	 * 
-	 * @param bId - 구매자 아이디
-	 * @param password - 입력된 비밀번호
+	 * param bId - 구매자 아이디
+	 * @param currentPw - 입력된 비밀번호
 	 * @return 비밀번호 일치 확인 (1: 일치, 0: 불일치)
 	 */
-	public int verifyPw(String bId, String password);
-
+	public int verifyPw(String bId, String currentPw);
+	
 	/**
 	 * 구매자 비밀번호 변경
 	 * 
-	 * @param bId - 구매자 아이디
+	 * @param buyerLogin - 구매자 아이디
 	 * @param newPw - 새 비밀번호
 	 */
-	public int changePw(String bId, String newPw);
+	public int changePw(BuyerLogin buyerLogin, String newPw);
 	
 	/**
 	 * 개인 구매자 상세 정보 업데이트
@@ -206,6 +209,7 @@ public interface BuyerService {
 	 * @param bCode - 구매자 코드
 	 * @return 설정된 행 수
 	 */
+	public int unsetDefaultAdr(String bCode);	
 	public int setDefaultAdr(String adrCode, String bCode);	
 	
 	/**

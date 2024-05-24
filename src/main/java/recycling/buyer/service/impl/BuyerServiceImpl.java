@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
 
@@ -26,6 +28,7 @@ public class BuyerServiceImpl implements BuyerService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerDao buyerDao;
+	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
 	@Override
 	public int insertOrder(Orders order) {
@@ -116,24 +119,26 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public int verifyPw(String bId, String password) {
+	public int verifyPw(String bId, String currentPw) {
 
 		Buyer buyer = buyerDao.getBuyerDetail(bId);
 		
-		if(buyer != null && buyer.getbPw().equals(password)) {
+		if(buyer != null && pwEncoder.matches(currentPw, buyer.getbPw())) {
 			
-			return 1;	// 비밀번호가 일치하면 1을 반환
+			return 1;
 			
 		}
 		
-		return 0;	// 비밀번호가 일치하지 않으면 0을 반환
+		return 0;
 	
 	}
-
+	
 	@Override
-	public int changePw(String bId, String newPw) {
+	public int changePw(BuyerLogin buyerLogin, String newPw) {
+	
+		buyerLogin.setbPw(newPw);
 		
-		return buyerDao.changePw(bId, newPw);
+		return buyerDao.changePw(buyerLogin);
 		
 	}
 	
@@ -183,13 +188,20 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.deleteBuyerAdr(adrCode);
 		
 	}
+	@Override
+	public int unsetDefaultAdr(String bCode) {
+		
+		return buyerDao.unsetDefaultAdr(bCode);
+		
+		
+	}
 
 	@Override
 	public int setDefaultAdr(String adrCode, String bCode) {
-		
-		buyerDao.unsetDefaultAdr(bCode);
-		
-		return buyerDao.setDefaultAdr(adrCode, bCode);
+		BuyerAdr buyerAdr = new BuyerAdr();
+		buyerAdr.setbCode(bCode);
+		buyerAdr.setAdrCode(adrCode);
+		return buyerDao.setDefaultAdr(buyerAdr);
 		
 	}
 	
@@ -199,5 +211,7 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.deleteBuyer(bCode);
 		
 	}
+
+
 
 }

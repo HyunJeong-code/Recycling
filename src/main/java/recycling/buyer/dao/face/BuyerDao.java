@@ -143,7 +143,7 @@ public interface BuyerDao {
 	 * @param newPw - 새 비밀번호
 	 * @return 비밀번호 변경 결과
 	 */
-	public int changePw(String bId, String newPw);
+	public int changePw(BuyerLogin buyerLogin);
 
 	/**
 	 * 구매자 정보 업데이트
@@ -215,8 +215,7 @@ public interface BuyerDao {
 	 * @param bCode - 구매자 코드
 	 * @return 설정 결과
 	 */
-	public int setDefaultAdr(String adrCode, String bCode);
-
+	public int setDefaultAdr(BuyerAdr buyerAdr);
 	/**
 	 * 구매자 탈퇴
 	 * 
