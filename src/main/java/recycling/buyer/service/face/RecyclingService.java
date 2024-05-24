@@ -11,6 +11,6 @@ public interface RecyclingService {
 	 * 
 	 * @return
 	 */
-	List<Seller> findSeller();
+	public List<Seller> findSeller();
 
 }

@@ -312,7 +312,7 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- 임시 추가 -->
+		<!-- 지도 JSON 추가 -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>

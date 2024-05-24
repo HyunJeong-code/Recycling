@@ -9,7 +9,7 @@
 <title>새활용 메인페이지</title>
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+<c:import url="/WEB-INF/views/layout/buyer/buyerHeader.jsp"/>
 
 <div class="full">
 	<div class="wrap">
@@ -45,7 +45,7 @@
 	</div>
 </div>
 
-<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+<c:import url="/WEB-INF/views/layout/buyer/buyerFooter.jsp"/>
 
 </body>
 </html>

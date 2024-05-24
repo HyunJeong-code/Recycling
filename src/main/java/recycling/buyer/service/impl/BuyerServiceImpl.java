@@ -24,7 +24,9 @@ import recycling.dto.buyer.Orders;
 public class BuyerServiceImpl implements BuyerService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	@Autowired private BuyerDao buyerDao;
+	
+	@Autowired 
+	private BuyerDao buyerDao;
 	
 	// 장바구니
 	

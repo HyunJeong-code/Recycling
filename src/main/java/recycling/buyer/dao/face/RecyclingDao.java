@@ -13,7 +13,6 @@ public interface RecyclingDao {
 	 * @param sCode
 	 * @return
 	 */
-	List<Seller> findSeller();
-	
+	public List<Seller> findSeller();
 
 }

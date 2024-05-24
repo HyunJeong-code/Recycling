@@ -50,9 +50,10 @@ public class RecyclingController {
         List<Map<String, Object>> gpsList = new ArrayList<>();
         
         try {
-            location.forEach(seller -> {
-                gpsList.add((Map<String, Object>) objectMapper.convertValue(seller, JSONObject.class));
-            }); 
+        	location.forEach(seller -> {
+        	    gpsList.add(objectMapper.convertValue(seller, Map.class));
+//        		gpsList.add((Map<String, Object>) objectMapper.convertValue(seller, JSONObject.class));
+        	});
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,11 +61,16 @@ public class RecyclingController {
         model.addAttribute("gpsList", gpsList);
         model.addAttribute("location", location);
 
-        logger.info("11111111111111{}", gpsList);
-        logger.info("11111111111111{}", location);
+//        logger.info("11111111111111{}", gpsList);
+//        logger.info("11111111111111{}", location);
+
+        // 디비에 값을 불러오는게 아닌 직접 jsp에 주소 입력한것
+//        return "buyer/recycling/findseller_origin";
         
         return "buyer/recycling/findseller";
-//        return "buyer/recycling/findseller_origin";
+        
+        // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
+        
     }
 	
 }

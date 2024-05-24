@@ -11,7 +11,10 @@
 	<h1>사업장 위치</h1>
 	<hr>
 	
-	<div id="map" style="width:550px;height:350px;"></div>
+	<div style="display: flex; justify-content: center;">
+	  <div id="map" style="width:1150px;height:550px;"></div>
+	</div>
+	
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41ba379def68013bd8f17aebb90337cb"></script>
 	<script>
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

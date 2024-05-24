@@ -9,7 +9,9 @@
 	<select id="findSeller" parameterType="String" resultType="Seller">
 	    SELECT S_CODE, B_CODE, ACC_NAME, ACC_BANK, ACC_NO, S_POSTCODE, S_ADDR, S_DETAIL, S_ENTDATE, S_CHK, S_OUT, S_OUT_DATE
 	    FROM SELLER
-	    WHERE S_CODE = #{sCode}
+	    <!-- <where>
+	    	AND S_CODE = #{sCode }
+	    </where> -->
 	</select>
 
 </mapper>
