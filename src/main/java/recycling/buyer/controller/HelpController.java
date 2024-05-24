@@ -62,9 +62,9 @@ public class HelpController {
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage, 
 			@RequestParam(defaultValue = "") String search,
-			HttpSession session
+			Authentication authentication
 			) {
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		boolean isSeller = false;
 		
 		if (buyerLogin != null) {
@@ -130,13 +130,13 @@ public class HelpController {
 	public String otoForm(
 			Model model,
 			Oto oto,
-			HttpSession session
+			Authentication authentication
 			) {
 		logger.info("otoform [GET]");
 		
 		List<OtoCt> oct = helpService.getAllOct();
 		
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
 		if(buyerLogin == null) {
 			
@@ -149,8 +149,9 @@ public class HelpController {
 		
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());
-
+		oto.setOtoEmail(buyer.getbEmail());		
+		
+		
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct", oct);
@@ -160,17 +161,17 @@ public class HelpController {
 	
 	@PostMapping("/otoform")
 	public String otoFormProc(
-			HttpSession session,
+			Authentication authentication,
 			Model model,
 			Oto oto,
 			@RequestParam("ct_otono") String ctOtoNo, // 선택된 분류 값을 받음
 			@RequestParam("detail") List<MultipartFile> detail // 여러 파일 업로드 필드
-			, @RequestParam("visibility") String visibility,
-            @RequestParam(value = "password", required = false) String password
+//			, @RequestParam("visibility") String visibility,
+//            @RequestParam(value = "password", required = false) String password
 			) {
 		
 		//회원 로그인 세션 정보
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
 		if(buyerLogin == null) {
 			
@@ -183,7 +184,7 @@ public class HelpController {
 		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
 		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
-		boolean isPrivate = "private".equals(visibility);
+//		boolean isPrivate = "private".equals(visibility);
 		
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
@@ -241,6 +242,8 @@ public class HelpController {
 		Oto oto = helpService.selectByOtoCode(otoCode);
 		List<OtoCt> oct = helpService.getAllOct();
 		List<OtoFile> otoFiles = helpService.getOtoFiles(otoCode);
+		
+		
 		
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct",oct);

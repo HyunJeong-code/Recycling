@@ -4,4 +4,48 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.UpcyclingDao">
+
+	<select id="selectPrdList" resultType="Prd">
+	    SELECT * FROM Prd
+	</select>
+	
+	<select id="selectPrd" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectSellerProf" resultType="SellerProf">
+		SELECT * FROM SELLER_PROF
+		WHERE S_CODE = #{sCode}
+	</select>
+
+	<select id="selectListCntAll" resultType="Prd">
+        SELECT COUNT(*) FROM Prd
+    </select>
+    
+    <select id="selectRvwList"	parameterType="String"	resultType="Review">
+    	SELECT COUNT(*) FROM Review
+    	WHERE PRD_CODE = #{prdCode}
+    </select>
+    
+    <select id="selectRvw" parameterType="int" resultType="Review">
+        SELECT * FROM Review
+        WHERE RVW_CODE  = #{rvwCode}
+    </select>
+
+    <insert id="insertReview" parameterType="map">
+        INSERT INTO Review (RVW_CODE, RVW_CT_NO, PRD_CODE, B_CODE, RVW_TITLE, RVW_CONTENT, RVW_GRADE, RVW_DATE, RVW_HIT)
+        VALUES (#{rvwCode}, #{rvwCtNo}, #{prdCode}, #{bCode}, #{rvwTitle}, #{rvwContent}, #{rvwGrade}, SYSDATE, 0)
+    </insert>
+
+	<update id="updateReview" parameterType="map">
+        UPDATE Review 
+        SET RVW_TITLE = #{rvwTitle}, RVW_CONTENT = #{rvwContent}, RVW_GRADE = #{rvwGrade}
+        WHERE RVW_CODE = #{rvwCode}
+    </update>
+    
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM Review
+        WHERE RVW_CODE = #{rvwCode}
+    </delete>
 </mapper>

@@ -4,4 +4,85 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.seller.dao.face.SellerDao">
+
+ 	<!-- 판매자의 sCode로 구매자의 bCode를 조회 -->
+    <select id="getbCodeBysCode" parameterType="string" resultType="string">
+        SELECT bCode FROM seller WHERE sCode = #{sCode}
+    </select>
+
+    <!-- 구매자의 bCode로 비밀번호를 조회 -->
+    <select id="selectSeller" parameterType="string" resultType="string">
+        SELECT bPw FROM buyer WHERE bCode = #{bCode}
+    </select>
+
+	<!-- 판매자의 비밀번호를 사용하여 판매자 정보 조회 -->
+    <select id="getSellerInfoByPw" parameterType="string" resultType="recycling.dto.seller.Seller">
+        SELECT * FROM seller WHERE bCode = (
+            SELECT bCode FROM buyer WHERE bPw = #{bPw}
+        )
+    </select>
+
+    <!-- 판매자 비밀번호 변경을 위한 쿼리 -->
+    <update id="updatePw" parameterType="map">
+      UPDATE Buyer
+        SET bPw = #{newPw}
+        WHERE sCode = #{sCode}
+    </update>
+
+	<!-- 판매자 계좌 변경을 위한 쿼리 -->
+	<update id="updateBank" parameterType="recycling.dto.seller.Seller">
+    UPDATE seller
+    SET accName = #{accName}, accBank = #{accBank}, accNo = #{accNo}
+    WHERE sCode = #{sCode}
+	</update>
+	
+	<!-- 판매자 정보 업데이트 SQL 구문 작성 -->
+    <update id="updateSellerInfo" parameterType="recycling.dto.seller.Seller">
+        UPDATE Seller
+        SET 
+            bemail = #{bemail},
+            adSms = #{adSms},
+            adEmail = #{adEmail},
+        WHERE sCode = #{sCode}
+    </update>
+
+	<!-- 판매자 코드로 기업 정보 조회 -->
+	<select id="selectSellerBybCode" parameterType="string" resultType="recycling.dto.buyer.Cmp">
+		SELECT Cmp_Code AS cmpCode,
+               B_Code AS bCode,
+               Cmp_Name AS cmpName,
+               Cmp_Ceo AS cmpCeo,
+               Cmp_No AS cmpNo,
+               Cmp_Postcode AS cmpPostcode,
+               Cmp_Addr AS cmpAddr,
+               Cmp_Detail AS cmpDetail
+        FROM Cmp
+        <where>
+        	s_Code = #{sCode }
+        </where>
+	
+	</select>
+
+	<!-- 판매자 탈퇴 -->
+	<delete id="deletSeller" parameterType="int">
+		DELETE FROM Seller
+		<where>
+			B_Code = #{bCode }
+		</where>
+	
+	</delete>
+	
+	
+
+
 </mapper>
+
+
+
+
+
+
+
+
+
+
