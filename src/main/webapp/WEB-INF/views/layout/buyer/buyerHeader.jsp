@@ -14,6 +14,17 @@
 
     <script type="text/javascript">
         $(function(){
+        	
+            var header = $('.header');
+            var headerOffset = header.offset().top;
+
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > headerOffset) {
+                    header.addClass('fixed');
+                } else {
+                    header.removeClass('fixed');
+                }
+            });
         
             $('.menu, .sub-wrap').on('mouseover', function(){
                 $(".sub-wrap").stop().slideDown(200);
@@ -85,46 +96,47 @@
                 </ul>
             </div>
         </div>
+        <div>
+	        <div class="sub-wrap">
+	            <ul>
+	                <li><a href=""></a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">가까운 판매자 찾기</a></li>
+	                <li><a href="">분류1</a></li>
+	                <li><a href="">분류2</a></li>
+	                <li><a href="">분류3</a></li>
+	                <li><a href="">분류4</a></li>
+	                <li><a href="">분류5</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">분류1</a></li>
+	                <li><a href="">분류2</a></li>
+	                <li><a href="">분류3</a></li>
+	                <li><a href="">분류4</a></li>
+	                <li><a href="">분류5</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">업체 소개</a></li>
+	                <li><a href="">세척</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">체험단 예약</a></li>
+	                <li><a href="">체험단 후기</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">고객센터 안내</a></li>
+	                <li><a href="">공지사항</a></li>
+	                <li><a href="">자주 묻는 질문</a></li>
+	                <li><a href="">1:1 게시판</a></li>
+	                <li><a href="">Q & A</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">회사개요</a></li>
+	            </ul>
+	        </div>
+	    </div>
     </header>
-    <div>
-        <div class="sub-wrap">
-            <ul>
-                <li><a href=""></a></li>
-            </ul>
-            <ul>
-                <li><a href="">가까운 판매자 찾기</a></li>
-                <li><a href="">분류1</a></li>
-                <li><a href="">분류2</a></li>
-                <li><a href="">분류3</a></li>
-                <li><a href="">분류4</a></li>
-                <li><a href="">분류5</a></li>
-            </ul>
-            <ul>
-                <li><a href="">분류1</a></li>
-                <li><a href="">분류2</a></li>
-                <li><a href="">분류3</a></li>
-                <li><a href="">분류4</a></li>
-                <li><a href="">분류5</a></li>
-            </ul>
-            <ul>
-                <li><a href="">업체 소개</a></li>
-                <li><a href="">세척</a></li>
-            </ul>
-            <ul>
-                <li><a href="">체험단 예약</a></li>
-                <li><a href="">체험단 후기</a></li>
-            </ul>
-            <ul>
-                <li><a href="">고객센터 안내</a></li>
-                <li><a href="">공지사항</a></li>
-                <li><a href="">자주 묻는 질문</a></li>
-                <li><a href="">1:1 게시판</a></li>
-                <li><a href="">Q & A</a></li>
-            </ul>
-            <ul>
-                <li><a href="">회사개요</a></li>
-            </ul>
-        </div>
-    </div>
+    
 </body>
 </html>
