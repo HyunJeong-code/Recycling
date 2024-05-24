@@ -286,6 +286,7 @@ public class SellingController {
 		List<Exp> list = sellingService.selectMyExpList(paging);
 		
 		model.addAttribute("paging", paging);
+		model.addAttribute("search", search);
 		model.addAttribute("list", list);
 		
 //		return "/seller/selling/explist";
