@@ -39,7 +39,7 @@ public class SellingController {
 	@Autowired private SellingService sellingService;
 	
 	@GetMapping("/rcylist")
-	public void rcyList(Authentication authentication, Model model, HttpSession session) {
+	public void rcyList(Authentication authentication, Model model) {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
 		
@@ -82,7 +82,7 @@ public class SellingController {
 	}
 	
 	@GetMapping("/upcylist")
-	public void upcyList(Authentication authentication, Model model, HttpSession session) {
+	public void upcyList(Authentication authentication, Model model) {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
 		
