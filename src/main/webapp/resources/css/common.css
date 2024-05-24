@@ -1,6 +1,30 @@
 @charset "UTF-8";
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .full {
 	width: 1200px;
 	margin: 0 auto;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000; /* 텍스트 색상 */
+}
+
+a:hover {
+	color: #4CAF50;
+}
+
+a:visitied {
+	text-decoration: none;
+    color: #000;	
 }
