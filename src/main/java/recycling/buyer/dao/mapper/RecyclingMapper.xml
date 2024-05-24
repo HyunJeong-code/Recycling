@@ -13,5 +13,14 @@
 	    	AND S_CODE = #{sCode }
 	    </where> -->
 	</select>
+	
+	<!-- 판매자 코드로 재활용품 조회 -->
+    <select id="findRcyBySellerCode" parameterType="String" resultType="Rcy">
+        SELECT RCY_CODE, B_CODE, PRD_CODE, RCY_CMT, RCY_DATE
+        FROM RCY
+        <where>
+	    	AND B_CODE = #{bCode }
+	    </where>
+    </select>
 
 </mapper>

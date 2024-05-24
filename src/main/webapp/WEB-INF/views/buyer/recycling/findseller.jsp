@@ -13,12 +13,12 @@
 </head>
 <body>
 
-	<h1>판매자 찾기</h1>
-	<hr>
+    <h1>판매자 찾기</h1>
+    <hr>
     
     <div style="display: flex; justify-content: center;">
-	  <div id="map" style="width:1150px;height:550px;"></div>
-	</div>
+      <div id="map" style="width:1150px;height:550px;"></div>
+    </div>
     
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41ba379def68013bd8f17aebb90337cb&libraries=services"></script>
     <script>
@@ -70,7 +70,8 @@
                     sEntDate: '<%=gpsList.get(i).get("sEntDate")%>',
                     sChk: '<%=gpsList.get(i).get("sChk")%>',
                     sOut: '<%=gpsList.get(i).get("sOut")%>',
-                    sOutDate: '<%=gpsList.get(i).get("sOutDate")%>'
+                    sOutDate: '<%=gpsList.get(i).get("sOutDate")%>',
+                    rcyCode: '<%=gpsList.get(i).get("rcyCode")%>'
                 }<%= i == gpsList.size() - 1 ? "" : "," %>
             <% } %>
         ];
@@ -80,6 +81,7 @@
         for (let i = 0; i < gpsList.length; i++) {
             let gps = gpsList[i];
             let sCode = gps.sCode; // sCode 값을 가져옴
+            let rcyCode = gps.rcyCode; // rcyCode 값을 가져옴
             
             // 주소-좌표 변환 객체를 생성합니다
             var geocoder = new kakao.maps.services.Geocoder();
@@ -99,9 +101,7 @@
                     });
                     
                     // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-                    // var iwContent = '<div style="padding:5px;"><a href="/buyer/recycling/rcydetail?rcyCode=' + rcyCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                    // 임의로 넣은 a태그 주소임
-                    var iwContent = '<div style="padding:5px;"><a href="/seller/details?sCode=' + sCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                    var iwContent = '<div style="padding:5px;"><a href="/buyer/recycling/rcydetail?rcyCode=' + rcyCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
                         iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
                     // 인포윈도우를 생성합니다

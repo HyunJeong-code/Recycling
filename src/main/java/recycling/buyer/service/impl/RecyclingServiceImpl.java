@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
+import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Seller;
 
 @Service
@@ -23,5 +24,10 @@ public class RecyclingServiceImpl implements RecyclingService {
 	public List<Seller> findSeller() {
 		return recyclingDao.findSeller();
 	}
+	
+	@Override
+    public List<Rcy> findRcyBySellerCode(String sCode) {
+        return recyclingDao.findRcyBySellerCode(sCode);
+    }
 	
 }
