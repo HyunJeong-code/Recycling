@@ -197,6 +197,6 @@ public interface BuyerDao {
 	 * @param sCode
 	 * @return
 	 */
-	List<Seller> findSeller(String sCode);
+	public List<Seller> findSeller(String sCode);
 
 }

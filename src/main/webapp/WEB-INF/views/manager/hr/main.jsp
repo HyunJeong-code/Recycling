@@ -195,7 +195,7 @@ td a:hover {
 						<table border="1">
 							<thead>
 								<tr>
-									<th>V</th>
+									<th></th>
 									<th>사원번호</th>
 									<th>부서명</th>
 									<th>이름</th>

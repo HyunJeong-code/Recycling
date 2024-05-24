@@ -149,7 +149,7 @@ td a:hover {
      
     <div id="noticeSearch">
 	<form action="./noticelist" method="get">
-		<select id="category" name="category" class="type-box">
+		<select id="noticeList_category" name="category">
 			<option value="title">제목</option>
 			<option value="content">내용</option>
 		</select>
