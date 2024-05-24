@@ -30,18 +30,14 @@
 	</select>
 	
 	<select id="selectRvwBybCode" parameterType="BuyerLogin" resultType="hashmap">
-		SELECT rvw_code code, 
-		    CASE WHEN rvw_ct_no = 1 THEN '새활용'
-		    ELSE '체험단'
-		    END AS rvwct,
-		    rvw_title title,
-		    rvw_grade grade,
-		    rvw_date entdate,
-		    rvw_hit hit
-		FROM review
+		SELECT * FROM (
+		    SELECT '체험단' ctg, rvw_code code, b_code bcode, exp_code rvw, rvw_grade grade, rvw_content content, rvw_date entdate FROM exp_review
+		    UNION
+		    SELECT '새활용' ctg, upcy_code code, b_code bcode, prd_code rvw, upcy_grade grade, upcy_content content, upcy_date entdate FROM upcy_review
+		)
 		<where>
-			AND b_code = #{bCode }
+			AND bcode = #{bCode }
 		</where>
-		ORDER BY rvw_date
+		ORDER BY entdate
 	</select>
 </mapper>

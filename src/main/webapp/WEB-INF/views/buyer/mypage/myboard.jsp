@@ -42,12 +42,20 @@ h3, h4 {
 	width: 50px;
 }
 
-.ctg, .stt {
+.ctg {
+	width: 150px;
+}
+
+.stt {
 	width: 100px;
 }
 
 .title {
 	width: 500px;
+}
+
+.ans {
+	width: 150px;
 }
 
 .entdate {
@@ -58,17 +66,45 @@ h3, h4 {
 	width: 50px;
 }
 
+.grade {
+	width: 150px;
+}
+
+.content {
+	width: 400px;
+}
+
 .none {
 	width: 900px;
 }
 
+.dropctg {
+	display: inline;
+}
+
 th {
-	border-bottom: 1px solid #CEE741;
+	background-color:#CEE741;
 }
 
 td {
 	border-bottom: 1px solid black;
 	text-align: center;
+}
+
+input[type=text] {
+	border: none;
+	border-bottom: 1px solid black;
+}
+
+input[type=button] {
+	width: 100px;
+	border: none;
+}
+
+button {
+	width: 100px;
+	border: none;
+	background-color:#CEE741;
 }
 </style>
 </head>
@@ -85,6 +121,19 @@ td {
 		</div>
 		
 		<div class="section">
+			<div class="dropctg">
+				<select id="ctg" name="ctg">
+					<option value="">전체</option>
+					<option value="OTO">일대일 문의</option>
+					<option value="QST">판매자 문의</option>
+				</select>
+			</div>
+
+			<div class="search">
+				<input type="text" id="search" name="search" placeholder="검색어를 입력해주세요." class="search">
+				<input type="button" id="btnSearch" value="검색">
+			</div>
+
 			<table>
 				<tr>
 					<th class="chk"><input type="checkbox" id="allQna" name="allQna"></th>
@@ -185,35 +234,32 @@ td {
 					<th clas="chk"><input type="checkbox" id="allRvw" name="allRvw"></th>
 					<th class="stt">후기 분류</th>
 					<th class="grade">평점</th>
-					<th class="title">제목</th>
+					<th class="review">후기</th>
 					<th class="entdate">작성일</th>
-					<th class="hit">조회수</th>
 				</tr>
 				
 				<c:if test="${rvwSize ne 0 }">
 					<c:forEach var="rvw" items="${rvw }">
-						<td class="chk"><input type="checkbox" id="${rvw.CODE }" name="chkRvw"></td>
-						<td class="stt">${rvw.RVWCT }</td>
-						
-						<c:forEach begin="1" end="${rvw.GRADE }">
-							<td class="grade">★</td>
-						</c:forEach>
-						<td class="title">
-							<c:if test="${rvw.RVWCT eq '새활용' }">
-								<a href="../../buyer/mypage/upcyrvwdetail?expCode=${rvw.CODE }">${rvw.TITLE }</a>
-							</c:if>
-							<c:if test="${rvw.RVWCT eq '체험단' }">
-								<a href="../../buyer/mypage/exprvwdetail?expCode=${rvw.CODE }">${rvw.TITLE }</a>
-							</c:if>
+						<tr>
+							<td class="chk"><input type="checkbox" id="${rvw.CODE }" name="chkRvw"></td>
+							<td class="ctg">${rvw.CTG }</td>
+							
+							<td class="grade star">
+								<c:forEach begin="1" end="${rvw.GRADE }">
+									★
+								</c:forEach>
 							</td>
-						<td class="entdate">
-							<fmt:parseDate value="${rvw.ENTDATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
-							<fmt:formatDate value="${ENTDATE }" pattern="yyyy-MM-dd"/>
-						</td>
-						<td class="hit">${rvw.HIT }</td>
+							<td class="review">
+								${rvw.CONTENT }
+							</td>
+							<td class="entdate">
+								<fmt:parseDate value="${rvw.ENTDATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
+								<fmt:formatDate value="${ENTDATE }" pattern="yyyy-MM-dd"/>
+							</td>
+						</tr>
 					</c:forEach>
 				</c:if>				
-				
+					
 				<c:if test="${rvwSize eq 0 }">
 					<tr>
 						<td colspan="5" class="none">작성한 문의글이 없습니다.</td>
