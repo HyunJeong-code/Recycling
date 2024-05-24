@@ -36,7 +36,6 @@ public class BuyServiceImpl implements BuyService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
-	
 	@Override
 	public Buyer buyerProc(Buyer buyer, String sPhone, String inPhone, String mPhone, String lPhone, String bEmail2,
 			String inEmail) {	
@@ -126,6 +125,10 @@ public class BuyServiceImpl implements BuyService {
 		buyerAdr.setbCode(buyer.getbCode());
 		buyerAdr.setAdrName(buyer.getbName());
 		buyerAdr.setAdrPhone(buyer.getbPhone());
+		
+		if(buyerAdr.getAdrDetail().equals("")) {
+			buyerAdr.setAdrDetail("-");
+		}
 		return buyerAdr;
 	}
 	
@@ -137,6 +140,10 @@ public class BuyServiceImpl implements BuyService {
 	@Override
 	public Cmp cmpProc(Buyer buyer, Cmp cmp) {
 		cmp.setbCode(buyer.getbCode());
+		
+		if(cmp.getCmpDetail().equals("")) {
+			cmp.setCmpDetail("-");
+		}
 		return cmp;
 	}
 	
@@ -190,27 +197,6 @@ public class BuyServiceImpl implements BuyService {
 	@Override
 	public int insertCmpFile(CmpFile file) {
 		return buyDao.insertCmpFile(file);
-	}
-	
-	@Override
-	public BuyerLogin chkAuth(BuyerLogin buyerLogin) {
-		logger.info("buyService.chkAuth()");
-		
-		Collection<SimpleGrantedAuthority> auth = new ArrayList<SimpleGrantedAuthority>();
-		if (buyerLogin.getbOut().equals("N") && buyerLogin.getsCode() == null) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
-		} else if(buyerLogin.getbOut().equals("N") && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
-			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
-			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
-		} else if (buyerLogin.getbOut().equals("Y") && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
-			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
-		} else if (buyerLogin.getbOut().equals("N") && buyerLogin.getsChk().equals("N") && buyerLogin.getsOut().equals("N")) {
-			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
-		}
-		
-		buyerLogin.setAuth(auth);
-		
-		return buyerLogin;
 	}
 	
 	// 로그인 처리(임시)

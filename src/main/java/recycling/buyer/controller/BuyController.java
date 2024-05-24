@@ -131,7 +131,7 @@ public class BuyController {
 			
 			// 프로필, 주소 입력 X
 			if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
-				return "./joinsuccess";
+				return "/buyer/joinsuccess";
 			}
 			
 			// 프로필 삽입
@@ -141,7 +141,7 @@ public class BuyController {
 					resProf = buyService.insertProf(prof);
 				} else {
 					// 회원 가입 실패
-					return "./prijoin";
+					return "/buyer/prijoin";
 				}
 			}
 			
@@ -153,20 +153,20 @@ public class BuyController {
 			
 			if(buyerProf.getOriginalFilename().equals("") && resAdr > 0) {
 				// 프로필 X, 주소 O
-				return "./joinsuccess";
+				return "/buyer/joinsuccess";
 			} else if(resProf > 0 && buyerAdr.getAdrPostcode().equals("")) {
 				// 프로필 O, 주소 X
-				return "./joinsuccess";
+				return "/buyer/joinsuccess";
 			} else if(resProf > 0 && resAdr > 0) {
 				// 프로필 O, 주소 O
-				return "./joinsuccess";
+				return "/buyer/joinsuccess";
 			} else {
 				// 실패
-				return "./prijoin";
+				return "/buyer/prijoin";
 			}
 		} else {
 			// 회원가입 실패
-			return "./prijoin";
+			return "/buyer/prijoin";
 		}
 		
 	}
@@ -200,6 +200,7 @@ public class BuyController {
 		logger.info("buyer : {}", buyer);
 		
 		int res = buyService.insertBuyer(buyer);
+		
 		cmp = buyService.cmpProc(buyer, cmp);
 		
 		int resCmp = 0; 
@@ -207,7 +208,7 @@ public class BuyController {
 			// 기업 정보 처리
 			resCmp = buyService.insertCmp(cmp);			
 		} else {
-			return "./prijoin";
+			return "/buyer/cmpjoin";
 		}
 		
 		CmpFile file = null;
@@ -219,10 +220,10 @@ public class BuyController {
 			if(file != null) {
 				resFile = buyService.insertCmpFile(file);				
 			} else {
-				return "./prijoin";
+				return "/buyer/cmpjoin";
 			}
 		} else {
-			return "./prijoin";			
+			return "/buyer/cmpjoin";			
 		}
 		
 		
@@ -234,7 +235,7 @@ public class BuyController {
 			
 			// 프로필, 주소 입력 X
 			if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
-				return "./joinsuccess";
+				return "/buyer/joinsuccess";
 			}
 			
 			// 프로필 삽입
@@ -244,7 +245,7 @@ public class BuyController {
 					resProf = buyService.insertProf(prof);
 				} else {
 					// 회원 가입 실패
-					return "./cmpjoin";
+					return "/buyer/cmpjoin";
 				}
 			}
 			
@@ -256,20 +257,20 @@ public class BuyController {
 			
 			if(buyerProf.getOriginalFilename().equals("") && resAdr > 0) {
 				// 프로필 X, 주소 O
-				return "./joinsuccess";
+				return "/buyer/joinsuccess";
 			} else if(resProf > 0 && buyerAdr.getAdrPostcode().equals("")) {
 				// 프로필 O, 주소 X
-				return "./joinsuccess";
+				return "/buyer/joinsuccess";
 			} else if(resProf > 0 && resAdr > 0) {
 				// 프로필 O, 주소 O
-				return "./joinsuccess";
+				return "/buyer/joinsuccess";
 			} else {
 				// 실패
-				return "./cmpjoin";
+				return "/buyer/cmpjoin";
 			}
 		} else {
 			// 회원가입 실패
-			return "./cmpjoin";
+			return "/buyer/cmpjoin";
 		}
 	}
 	
