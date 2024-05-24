@@ -4,4 +4,99 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.manager.dao.face.MgrDao">
+
+	<select id="selectById" parameterType="string" resultType="ManagerLogin">
+		SELECT mgr_code, deptno, mgr_id, mgr_pw, mgr_out 
+		FROM manager
+		<where>
+			AND mgr_id = #{username }
+		</where>
+	</select>
+	
+	<select id="selectByManager" parameterType="Manager" resultType="int">
+		SELECT count(*)
+		FROM manager
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND mgr_name = #{mgrName }
+			AND mgr_phone = #{mgrPhone }
+			AND mgr_email = #{mgrEmail }
+			AND mgr_gender = #{mgrGender }
+			AND TO_CHAR(mgr_birth, 'YYYY-MM-DD') = TO_DATE(#{mgrBirth }, 'YYYY-MM-DD')
+			AND mgr_id IS NULL
+			AND mgr_pw IS NULL
+		</where>		
+	</select>
+	
+	<update id="updateManager" parameterType="Manager">
+		UPDATE manager
+		SET mgr_id = #{mgrId }, mgr_pw = #{mgrPw }
+		<where>
+			mgr_code = #{mgrCode }
+		</where>
+	</update>
+	
+	<insert id="insertMgrProf" parameterType="MgrFile">
+		INSERT INTO mgr_file (mgr_flno, ct_mflno, mgr_code, origin_name, stored_name)
+		VALUES(
+			mgr_file_seq.nextval,
+			#{ctMflNo },
+			#{mgrCode },
+			#{originName },
+			#{storedName }
+		)
+	</insert>
+	
+	<!-- 공지사항 기본 조회구조  -->
+	<sql id="noticeBoard">
+	SELECT 
+    	ntc_code
+	    , CT_ntcno
+	    , ntc_title
+	    , ntc_content
+	    , ntc_hit
+	    , ntc_date
+	FROM notice
+	</sql>
+	
+	<!-- 카테고리 + 검색기능 구조  -->
+	<sql id="noitceSearch">
+    <if test="search != null and search != ''">
+		<choose>
+			<when test="category == 'title'">
+				<where>ntc_title LIKE '%${search }%'</where>
+			</when>
+			<when test="category == 'content'">
+				<where>ntc_content LIKE '%${search }%'</where>
+			</when>
+		</choose>
+	</if>
+	</sql>
+	
+	<!-- 공지사항 조회 -->	
+	<select id="selectAll" resultType="Notice" parameterType="int">
+		<include refid="noticeBoard"/>
+	    <where>ct_ntcno = #{ctNtcNo}</where>
+	    ORDER BY ntc_code DESC
+	</select>
+	
+	<!-- 검색 한번에 진행예정-->
+	<select id="selectCntAll" resultType="int" parameterType="recycling.util.Paging">
+		SELECT count(*) FROM (
+		<include refid="noticeBoard" />
+		<include refid="noitceSearch"/>
+		)
+	</select>
+	
+	<!-- 공지사항 세부 조회 -->
+	<select id="selectDetail" resultType="Notice" parameterType="Notice">
+		<include refid="noticeBoard"/>
+		<where>ntc_code = #{ntcCode }</where>
+	</select>
+	
+	<!-- 세부조회에 따른 조회수 증가 -->
+	<update id="hit" parameterType="Notice">
+		UPDATE notice SET ntc_hit = ntc_hit + 1
+		<where>ntc_code = #{ntcCode }</where>
+	</update>
 </mapper>

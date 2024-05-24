@@ -30,13 +30,17 @@ import recycling.util.Paging;
 public class RecyclingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
+    @Autowired
 	private RecyclingService recyclingService;
+	
+	@GetMapping("/main")
+	public void main() {
+		logger.info("/buyer/recycling/main [GET]");
+	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/findseller", method = RequestMethod.GET)
-	public String findSeller(Model model, HttpSession session) {
+	public String findSeller(String sCode, String sAddr, Model model, HttpSession session) {
         
         ObjectMapper objectMapper = new ObjectMapper();
         
@@ -64,6 +68,8 @@ public class RecyclingController {
 //        return "buyer/recycling/findseller_origin";
         
         return "buyer/recycling/findseller";
+        
+        // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
         
     }
 	

@@ -13,9 +13,24 @@
 		<org.springframework-version>5.3.33</org.springframework-version>
 		<org.aspectj-version>1.9.20.1</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<spring.security.version>5.8.11</spring.security.version>
 	</properties>
 	
 	<dependencies>
+	
+		<!-- json -->
+	    <dependency>
+	        <groupId>com.googlecode.json-simple</groupId>
+	        <artifactId>json-simple</artifactId>
+	        <version>1.1.1</version>
+	    </dependency>
+	
+		<!-- gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.6</version>
+		</dependency>
 	
 		<!-- fileupload -->
 		<dependency>
@@ -78,14 +93,63 @@
 			</exclusions>
 		</dependency>
 		
-		<!-- 오라클 클라우드 DB -->
-		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/oraclepki -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
+		<!-- spring security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+			
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		
+		<dependency>     
+			<groupId>org.springframework.security</groupId>     
+			<artifactId>spring-security-taglibs</artifactId>     
+			<version>${spring.security.version}</version> 
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-test</artifactId>
+		    <version>${spring.security.version}</version>
+		</dependency>
+		
+		<!-- Email 인증 -->
+		<dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        
+        <dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		
+		<!-- 오라클 클라우드 DB -->
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/oraclepki -->
 		<dependency>
             <groupId>com.oracle.database.security</groupId>
             <artifactId>oraclepki</artifactId>
