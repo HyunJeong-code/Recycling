@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.ExpDao;
 import recycling.buyer.service.face.ExpService;
+import recycling.dto.buyer.Buyer;
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
+import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 
 @Service
@@ -40,5 +43,56 @@ public class ExpServiceImpl implements ExpService {
 			paging = new Paging(totalCount, curPage, search);
 		}
 		return paging;
+	}
+
+	@Override
+	public List<Exp> selectRecentExp(Paging paging) {
+		
+		return expDao.selectRecentExp(paging);
+	}
+
+	@Override
+	public List<Exp> selectPopularExp(Paging paging) {
+		return expDao.selectPopularExp(paging);
+	}
+
+
+	@Override
+	public List<Exp> selectTopPopExp() {
+		return expDao.selectTopPopExp();
+	}
+
+	@Override
+	public List<Exp> selectTopRecExp() {
+		return expDao.selectTopRecExp();
+	}
+
+	@Override
+	public Exp selectByExpCode(String expCode) {
+		
+		return expDao.selectByExpCode(expCode);
+	}
+
+	@Override
+	public List<ExpFile> selectByExpFile(String expCode) {
+		
+		return expDao.selectByExpFile(expCode);
+	}
+
+	@Override
+	public Seller getSellerInfo(String sCode) {
+		
+		return expDao.getSellerInfo(sCode);
+	}
+
+	@Override
+	public Buyer getBuyerInfo(String bCode) {
+		return expDao.getBuyerInfo(bCode);
+	}
+
+	@Override
+	public Buyer getBuyerDetail(String getbId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

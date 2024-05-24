@@ -28,22 +28,22 @@ public class SellController {
 	@Autowired private SellService sellService;
 	
 	@GetMapping("/main")
-	public String main(
-			) {
-		logger.info("/seller/main [GET]");
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		
-		// 판매자인 경우
-		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SELLER"))) {
-			return "/seller/main";
-		} else {
-			// 로그인은 되어있으나 판매자가 아닌 경우
-			// 판매자 신청은 했으나 허가 되지 않은 경우
-			return "/seller/sellerinfo";
-		}
-	}
+	   public String main(
+	         ) {
+	      logger.info("/seller/main [GET]");
+	      
+	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	      
+	      
+	      // 판매자인 경우
+	      if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SELLER"))) {
+	         return "/seller/main";
+	      } else {
+	         // 로그인은 되어있으나 판매자가 아닌 경우
+	         // 판매자 신청은 했으나 허가 되지 않은 경우
+	         return "/seller/sellerinfo";
+	      }
+	   }
 	
 	@GetMapping("/sellerinfo")
 	public void sellerinfo(HttpSession session) {
