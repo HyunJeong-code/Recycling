@@ -9,6 +9,23 @@
 <link rel="stylesheet" href="/resources/css/header.css">
 
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+$(function(){
+	
+    var header = $('.header');
+    var headerOffset = header.offset().top;
+
+    $(window).scroll(function() {
+        if ($(window).scrollTop() > headerOffset) {
+            header.addClass('fixed');
+        } else {
+            header.removeClass('fixed');
+        }
+    });
+
+});
+</script>
 </head>
 <body>
 	<header class="header">
