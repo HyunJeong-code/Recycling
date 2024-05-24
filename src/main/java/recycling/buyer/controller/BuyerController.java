@@ -66,12 +66,12 @@ public class BuyerController {
 	@Autowired private JavaMailSenderImpl mailSender;
 	
 	@GetMapping("/cart")
-	public void cart(Model model, HttpSession session) {
+	public void cart(Authentication authentication, Model model, HttpSession session) {
 		
-		//테스트용 세션***********************************************테스트
-		session.setAttribute("bCode", "BUY0000002");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
 		
-		String bCode = (String)session.getAttribute("bCode");
+		String bCode = buyerLogin.getbCode();
 		
 		//해당 session의 Cart List 정보
 		List<CartOrder> bf_list = buyerService.selectAllCart(bCode);
@@ -150,16 +150,17 @@ public class BuyerController {
 	
 	@GetMapping("/pay")
 	public void pay(
-			@RequestParam List<String> checkList
+			Authentication authentication
+			, @RequestParam List<String> checkList
 			, Model model
 			, HttpSession session
 			) {
 		//logger.info("checkList : {}", checkList);
 		
-		//테스트용 세션***********************************************테스트
-		session.setAttribute("bCode", "BUY0000002");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
 		
-		String bCode = (String)session.getAttribute("bCode");
+		String bCode = buyerLogin.getbCode();
 		
 		BuyerAdr buyeradr = buyerService.selectBybCode(bCode); 
 		
@@ -171,27 +172,26 @@ public class BuyerController {
             list.add(cart);
         }
 		
-		//logger.info("list : {}", list);
 		logger.info("buyer : {}", buyeradr);
 		
 		model.addAttribute("clist", list);
 		model.addAttribute("buyer", buyeradr);
 		
-		//List<Cart> list = buyerService.selectAllCart(bCode);
-		
 	}
 	
 	@PostMapping("/pay")
 	public String payProc(
-				Orders order
+				Authentication authentication
+				,Orders order
 				, Model model
 				, @RequestParam("cartList[]") List<String> cartList
 				, HttpSession session
 			) {
 		
-		//테스트용 세션***********************************************테스트
-		session.setAttribute("bCode", "BUY0000002");
-		String bCode = (String)session.getAttribute("bCode");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
+		
+		String bCode = buyerLogin.getbCode();
 		
 		order.setbCode(bCode);
 		
@@ -239,11 +239,12 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/myorder")
-	public void myOrder(Model model, HttpSession session) {
+	public void myOrder(Model model, Authentication authentication) {
 		
-		//테스트용 세션***********************************************테스트
-		session.setAttribute("bCode", "BUY0000002");
-		String bCode = (String)session.getAttribute("bCode");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
+		
+		String bCode = buyerLogin.getbCode();
 		
 		List<MyOrder> list = buyerService.selectOrderDetailBybCode(bCode);
 		

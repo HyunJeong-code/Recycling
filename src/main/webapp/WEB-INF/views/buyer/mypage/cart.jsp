@@ -30,24 +30,6 @@
 				$("#ord_form").submit();
 			}
 		    
-			/* $.ajax({
-				type: "get"
-				, url: "./pay"
-				, data: {
-					arr: arr 
-				}
-				, dataType : "Json"
-				, success: function(res) {
-					console.log("AJAX 성공");
-					
-					location.href="./pay";
-					
-				}
-				, error: function() {
-					console.log("AJAX 실패");
-				}
-			}) */
-		    
 		    console.log(arr);
 		}); // #ord_btn click end
 		
