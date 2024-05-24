@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,11 +39,11 @@ public class SellingController {
 	@Autowired private SellingService sellingService;
 	
 	@GetMapping("/rcylist")
-	public void rcyList(Model model, HttpSession session) {
-		//테스트용 세션***********************************************테스트
-		session.setAttribute("sCode", "SEL0000003");
+	public void rcyList(Authentication authentication, Model model, HttpSession session) {
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
 		
-		String sCode = (String)session.getAttribute("sCode");
+		String sCode = buyerLogin.getsCode();
 		
 		//로그인 되어있는 아이디의 재활용 판매 상품 조회
 		List<Prd> plist = sellingService.selectAllrcyPrd(sCode);
@@ -81,11 +82,11 @@ public class SellingController {
 	}
 	
 	@GetMapping("/upcylist")
-	public void upcyList(Model model, HttpSession session) {
-		//테스트용 세션***********************************************테스트
-		session.setAttribute("sCode", "SEL0000003");
+	public void upcyList(Authentication authentication, Model model, HttpSession session) {
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
 		
-		String sCode = (String)session.getAttribute("sCode");
+		String sCode = buyerLogin.getsCode();
 		
 		//로그인 되어있는 아이디의 재활용 판매 상품 조회
 		List<Prd> plist = sellingService.selectAllupcyPrd(sCode);
