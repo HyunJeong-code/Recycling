@@ -68,6 +68,7 @@ public interface SlsService {
 	 * 체험정보 업데이트
 	 * 
 	 * @param manager
+	 * @return 
 	 */
 	public void expUpdateProc(Exp exp);
 
@@ -88,11 +89,35 @@ public interface SlsService {
 	public List<ExpRes> expResDetailRes(int schNo);
 
 	/**
-	 * 체험단 예약정보 리스트 삭제
+	 * 체험단 리스트 리뷰삭제
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public int expReviewListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 파일삭제
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public int expFileListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 스케줄삭제
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public int expSchListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 삭제
 	 * 
 	 * @param chBox
 	 */
-	public int expListDel(List<String> chBox);
+	public int expListDel(String expCode);
 
 	/**
 	 * 이미지 업로드 번호조회
@@ -109,7 +134,6 @@ public interface SlsService {
 	 */
 	public int expResUpdate(List<String> chBox, String actionType);
 
-<<<<<<< HEAD
 	/**
 	 * 체험 예약 조회
 	 * 
@@ -135,6 +159,13 @@ public interface SlsService {
 	 * @return
 	 */
 	public ResSchCnt changeExpRes(ResSchCnt resSchCnt);
+	
+	/**
+	 * 체험단 예약인원 예약변경창 조회[ExpSchList]
+	 * 
+	 * @return
+	 */
+	public List<ExpSch> changeExpSch();
 	
 	/**
 	 * 체험단 예약인원 예약변경하기
@@ -174,14 +205,6 @@ public interface SlsService {
 	 */
 	public int expDetailListDel(List<String> chBox);
 
-
-	
-
-
-
-=======
-	public void insert(Exp exp, ExpSch expSch, MultipartFile file);
-	
 	/**
 	 * 판매자 코드로 구매자 코드 조회
 	 * 
@@ -221,6 +244,22 @@ public interface SlsService {
 	 * @return 총 거래 건수
 	 */
 	public int selectCntOrd(String sCode);
+
+	/**
+	 * 판매자 조회
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> sellerSelect(String getbCode);
+
+
+
+
+
 	
->>>>>>> 071de69dbf53445c2695e0ff7eca0ee8c8a25173
+
+
+
+	
+	
 }

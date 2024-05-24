@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -125,11 +127,13 @@ body {
 				</div>
 				
 				<div>
-					<label>예약일</label><input type="date" name="resTime" value="${update.resDate }">
+					<label>예약일</label><input type="date" name="schDate" value="${update.schDate }">
 				</div>
 				
 				<div>
-					<label>예약시간</label><input type="text" name="resTime" value="${update.resTime }">
+				<c:forEach var="expSch" items="${expSch}">
+					<label>예약시간</label><input type="text" name="schTime" value="${expSch.schTime }">
+				</c:forEach>
 				</div>
 
 				<div>

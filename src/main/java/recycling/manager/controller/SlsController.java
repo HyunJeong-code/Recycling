@@ -21,6 +21,7 @@ import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Seller;
 import recycling.manager.service.face.SlsService;
 
 
@@ -127,8 +128,7 @@ public class SlsController {
 				, ExpFile expFile
 				, Model model
 				) {
-			logger.info("contoller: expDetail[GET]");
-
+		
 			//expCode번호와 동일한 expfile 가져오기
 			ExpFile fileimage = slsService.image(expFile);
 			model.addAttribute("fileimage", fileimage);
@@ -152,28 +152,45 @@ public class SlsController {
 			
 	}
 	
+	//판매자 정보조회
+	@GetMapping("/sellerselect")
+	public void sellerSelect(
+			Seller seller
+			, Model model
+			) {
+		
+		List<Map<String, Object>> selList = slsService.sellerSelect(seller.getbCode());
+		model.addAttribute("selList", selList);
+		logger.info("selList:{}", selList);
+		
+	}
+	
 	//체험단 등록창
 	@GetMapping("/expform")
-	private void expform() {}
+	private void expform() {		
+	}
 	
 	//체험단 등록
 	@PostMapping("/expform")
 	public String expformProc(
+//			Authentication authentication
 			Exp exp
 			, @RequestParam("schTime") List<String> schTime
 			, ExpSch expSch
 			, @RequestParam("file") MultipartFile file
 			) {
-
-		//test세션
-		session.setAttribute("sCode", "SEL0000002");
-		String sCode = (String) session.getAttribute("sCode");
-		exp.setsCode(sCode);
+		
+//		ManagerLogin mgrLogin = (ManagerLogin) authentication.getPrincipal();
+//		logger.info("mgr : {}", mgrLogin);
+		
+		
+		//test데이터
+//		exp.setsCode("SEL0000001");
 		slsService.insert(exp, schTime, expSch, file);
 		
 		
-		
 		return "redirect:./explist";
+
 	}
 	
 	//체험단 수정창
@@ -182,25 +199,26 @@ public class SlsController {
 				Exp exp
 				, Model model
 			) {
-		logger.info("controller: expupdate[Get]");
-
+		
 		Exp update = slsService.expUpdateView(exp);
 		model.addAttribute("update", update);
 		
 		//exp정보
 		logger.info("controller: update{}",update );
-		
 		return "/manager/sls/expupdate";
 	}
 	
 	//체험단 수정하기
 	@PostMapping("/expupdate")
-	public void updateProc(
+	public String updateProc(
 			Exp exp
 			){
-		logger.info("controller: updateProc[Get]");
+		logger.info("controller: updateProc[Post]");
 		
 		slsService.expUpdateProc(exp);
+		logger.info("exp : {}",exp);
+		
+		return "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode();
 	}
 	
 	// 체험단삭제
@@ -208,8 +226,26 @@ public class SlsController {
 	public String empListDelete(@RequestParam("chBox[]") List<String> chBox) {
 		logger.info("controller: empListDelete [POST]");
 		
-		slsService.expListDel(chBox);
-		logger.info("데이터 확인 chBox : {}", chBox);
+	    int result = 0;
+	    
+	    for(int i = 0; i < chBox.size(); i++) {
+	        String expCode = chBox.get(i);
+	        logger.info("Deleting files associated with exp code: {}", expCode);
+	        
+	        // 체험 리뷰에 대한 삭제
+	        result += slsService.expReviewListDel(expCode);
+	        
+	        // 체험 예약에 대한 파일 삭제
+	        result += slsService.expFileListDel(expCode);
+	        
+	        // 체험 일정 삭제
+	        result += slsService.expSchListDel(expCode);
+	        
+	        // 체험 예약 삭제[무조건 마지막]
+	        result += slsService.expListDel(expCode);
+	    }
+	    
+	    logger.info("데이터 확인 chBox : {}", chBox);
 		
 		return "redirect:./explist";
 	}
@@ -252,12 +288,13 @@ public class SlsController {
 			ResSchCnt resSchCnt
 			, Model model
 			) {
-		logger.info("controller: changeExpRes [GET]");
-		
 		ResSchCnt expResUpdate = slsService.changeExpRes(resSchCnt);
 		model.addAttribute("update", expResUpdate);
-		
 		logger.info("controller: expResUpdate {}", expResUpdate);
+
+		List<ExpSch> expSch = slsService.changeExpSch();
+		model.addAttribute("expSch", expSch);
+		
 		
 		return "/manager/sls/changeexpres";
 	}
@@ -319,14 +356,13 @@ public class SlsController {
 	
 	//expdetail 페이지 리스트 삭제
 	@PostMapping("/expdetaillistdel")	
-	public String expDetailListDel(@RequestParam("chBox[]") List<String> chBox) {
-		logger.info("controller: expDetaiLlistDel [POST]");
-		
-		slsService.expDetailListDel(chBox);
-		logger.info("데이터 확인 chBox : {}", chBox);
-		
-		return "redirect:./explist";
+	public String expDetailListDel(@RequestParam("chBox[]") List<String> chBox, Model model) {
+	    
+	       int res = slsService.expDetailListDel(chBox);
+	       
+	       model.addAttribute("res", res);
+	       
+	        return "jsonView";
+	
 	}
-	
-	
 }

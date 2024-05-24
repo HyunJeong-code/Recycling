@@ -17,40 +17,45 @@ $(function() {
 
 		var len = $("input[name=chkBox]:checked").length;
 		var chk = new Array();
-
+		
 		$("input:checkbox[name=chkBox]").each(function() {
 			if ($(this).is(":checked") == true) {
 				chk.push($(this).attr('id'));
 			}
 		})
-
+		
 		console.log(len);
 		console.log(chk);
 
 		if (len == 0) {
 			alert("삭제할 게시물 선택해주세요.");
+			
+			
 		} else {
 			$.ajax({
 				url : "./expdetaillistdel",
 				type : "post",
 				data : {
 					chBox : chk
+					
 				},
-				success : function(res) {
-					if (res <= 0) {
-						alert("삭제 실패");
-					} else {
-						alert("삭제 성공");
-						location.reload();
-					}
-				},
+				 success: function(res) {
+	                    if (res.res < 0) {
+	                        alert("예약된 인원을 삭제해주세요.");
+	                    } else if (res == 0) {
+	                        alert("삭제 실패");
+	                    } else {
+	                        alert("삭제 성공");
+	                        location.reload();
+	                    }
+	                },
 				error : function() {
 					console.log("error");
 				}
 			})
 		}
 
-	})//btn_reserve_cancel
+	})//btn_expdetail_cancel
 })
 </script>
 
@@ -168,7 +173,7 @@ body {
 			<div class="section">
 			    
 	    		<img alt="없음" src="/upload/${fileimage.storedName }">
-
+		
 				<div>
 					<label>체험제목</label> <input type="text" value="${view.expName}" readonly="readonly">
 				</div>
@@ -209,15 +214,15 @@ body {
 						<fmt:formatDate value="${schDate}" pattern="yyyy-MM-dd" /></td>
 					<td>${expSchList.schTime}</td>
 					
-					<td>
-					<c:set var="totalResCnt" value="0" />
+						<!-- 예약인원 합계계산 -->
+						<c:set var="totalResCnt" value="0" />
 						<c:forEach var="resCnt" items="${resCnt}">
 							<c:if test="${expSchList.schNo == resCnt.schNo}">
 								<c:set var="totalResCnt" value="${totalResCnt + resCnt.resCnt}" />
 							</c:if>
 						</c:forEach>
-						${totalResCnt }
-					</td>
+						<td class ="totalResCnt">${totalResCnt }</td>
+					
 					<td>${expSchList.schCnt}</td>
 					<td>
 						<c:choose>
@@ -241,9 +246,10 @@ body {
 				
 				
 				<div>
-				<button type="button" id ="btn_expdetail_cancel">삭제하기</button>
+					<button type="button" id ="btn_expdetail_cancel">삭제하기</button>
 				<a href="./explist" ><button type="button">돌아가기</button></a>
 				</div>
+				<div></div>
 			</div>
 		</div>
 	</div>

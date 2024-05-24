@@ -189,19 +189,14 @@ public interface BuyerDao {
 	 */
 	public BuyerRank selectBuyerRank(int rankNo);
 
-	public int changePw(BuyerLogin buyerLogin);
-
-}
-
-// 마이페이지 - 회원 정보 관련 DB 처리
-public interface BuyerDao {
-
 	/**
 	 * 판매자 찾기
 	 * 
 	 * @param sCode
 	 * @return
 	 */
-	List<Seller> findSeller(String sCode);
+	public List<Seller> findSeller(String sCode);
+	
+	public int changePw(BuyerLogin buyerLogin);
 
 }

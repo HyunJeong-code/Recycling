@@ -379,10 +379,10 @@ $(function() {
 				<td>
 				
 					<c:choose>
-						<c:when test="${res.resCnf eq 'Y' }">
+						<c:when test="${res.resCnf eq 'N' }">
 							<a href="./changeexpres?expCode=${exp.expCode}&schNo=${expSch.schNo }&resCode=${res.resCode }"><button>예약변경</button></a>
 						</c:when>
-						<c:when test="${res.resCnf eq 'N' }">
+						<c:when test="${res.resCnf eq 'Y' }">
 							변경불가
 						</c:when>
 					</c:choose>

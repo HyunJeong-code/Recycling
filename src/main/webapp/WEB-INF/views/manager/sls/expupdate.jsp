@@ -119,7 +119,7 @@ body {
 				</div>
 
 				<div>
-					<a href="./explist"><button type="submit">수정완료</button></a>
+					<button type="submit">수정완료</button>
 				</div>
 				</form>
 

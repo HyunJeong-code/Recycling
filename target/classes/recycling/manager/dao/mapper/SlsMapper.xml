@@ -45,10 +45,9 @@
 	JOIN exp_sch s ON e.exp_code = s.exp_code
 	</sql>
 	
-<<<<<<< HEAD
 	<!-- expRes Join expSch  -->
 	<sql id="expResJoinExpSch">
-	    SELECT s.sch_no, s.exp_code, s.sch_date,
+	SELECT s.sch_no, s.exp_code, s.sch_date,
            s.sch_time, s.sch_cnt,
            r.res_code, r.b_code, r.res_name,
            r.res_phone, r.res_email,
@@ -60,7 +59,25 @@
     FROM exp_sch s
     JOIN exp_res r ON s.sch_no = r.sch_no
 	</sql>
-=======
+	
+	<!-- buyer Join Seller And Cmp -->
+	<sql id="buyerJoinSellerJoinCmp">
+	SELECT 
+	B.b_code
+		, B.b_ct_code, B.rank_no, B.b_id, B.b_pw, B.b_name, B.b_phone
+		, B.b_email, B.b_entdate, B.ad_sms, B.ad_email, B.b_out, B.b_out_date
+		, S.s_code, S.b_code, S.acc_name, S.acc_bank, S.acc_no, S.s_postcode
+		, S.s_addr, S.s_detail, S.s_entdate, S.s_chk, S.s_out, S.s_out_date
+		, C.cmp_no, C.b_code, C.cmp_name, C.cmp_ceo, C.cmp_num, C.cmp_postcode
+		, C.cmp_addr, C.cmp_detail
+	FROM 
+	    buyer B
+	LEFT JOIN 
+	    seller S ON B.b_code = S.b_code
+	LEFT JOIN 
+	    cmp C ON B.b_code = C.b_code
+	</sql>
+	
 	<!-- 판매자 정보 상세 조회(개인) -->
 	<select id="selectPriSeller" parameterType="string" resultType="hashmap">
 		SELECT 
@@ -182,8 +199,6 @@
 	<result property="schTime" column="sch_time"/>
 	<result property="schCnt" column="sch_cnt"/>
 	</resultMap>
->>>>>>> 071de69dbf53445c2695e0ff7eca0ee8c8a25173
-	
 	
 	<!-- 체험단 조회 -->
 	<select id="selectAll" resultType="Exp">
@@ -309,11 +324,30 @@
 		<where>sch_no = #{schNo}</where>
 	</select>
 	
-	<!-- 체험단 전체삭제 -->
-	<delete id="expListDel" parameterType="String">
-		DELETE FROM exp
-		<where> exp_code = #{expCode } </where>
+	<!-- 체험단 리스트 리뷰삭제 -->
+	<delete id="expReviewListDel" parameterType="int">
+		DELETE FROM exp_review
+		<where> exp_code = #{expCode }</where>
 	</delete>
+	
+	<!-- 체험단 리스트 파일삭제 -->
+	<delete id="expFileListDel" parameterType="int">
+		DELETE FROM exp_file
+		<where> exp_code = #{expCode }</where>
+	</delete>
+	
+	<!-- 체험단 스케쥴 삭제 -->
+	<delete id="expSchListDel" parameterType="int">
+		DELETE FROM exp_sch
+		<where> exp_code = #{expCode }</where>
+	</delete>
+	
+	<!-- 체험단 리스트 삭제 -->
+	<delete id="expListDel" parameterType="int">
+		DELETE FROM exp
+		<where> exp_code = #{expCode }</where>
+	</delete>
+
 	
 	<!-- 체험단 파일조회 -->
 	<select id="image" resultType="ExpFile" parameterType="ExpFile">
@@ -343,6 +377,16 @@
 		<include refid="expResJoinExpSch"/>
 		WHERE r.res_code = #{resCode}
 	</select>
+	
+	<!-- expresdetail페이지 예약인원 변경 조회 -->
+	<select id="changeExpSch">
+		<include refid="expSchBoard"/>
+		<where>
+			AND exp_code = #{expCode}
+			AND sch_no = #{schNo}
+		</where>
+	</select>
+	
 	
 	<!-- expresdetail페이지 예약인원 변경하기 -->
 	 <update id="changeExpResProc" parameterType="ResSchCnt">
@@ -375,8 +419,9 @@
 	</update>
 	
 	<!-- 예약인원 총합 조회 -->
+	<!-- COALESCE 예약원이 없을경우 사용 null값반환으로 인해 0으로 변경 -->
 	<select id="getTotalResCnt" resultType="int">
-	    SELECT SUM(r.res_cnt) AS total
+	    SELECT COALESCE(SUM(r.res_cnt), 0) AS total
 	    FROM exp_sch s
 	    JOIN exp_res r ON s.sch_no = r.sch_no
 	    WHERE s.exp_code = #{expCode} AND s.sch_no = #{schNo}
@@ -394,5 +439,17 @@
 		<where> sch_no = #{schNo }</where>
 	</delete>
 	
+	<!-- 판매자 기업조회 -->
+	<select id="sellerSelect" parameterType="String" resultType="hashmap">
+		<include refid="buyerJoinSellerJoinCmp"/>
+		ORDER BY cmp_no
+	</select>
 	
+	<!-- resCnt 조회하기 -->
+	<select id="getResCntBySchNo" parameterType="String" resultType="int">
+		SELECT COUNT(*) from(
+		<include refid="expResBoard"/>
+		)
+		<where> sch_no = #{schNo }</where>
+	</select>
 </mapper>

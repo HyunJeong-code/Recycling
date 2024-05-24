@@ -94,6 +94,7 @@ public interface SlsDao {
 	 * 체험정보 업데이트
 	 * 
 	 * @param manager
+	 * @return 
 	 */
 	public void expUpdateProc(Exp exp);
 	
@@ -117,9 +118,32 @@ public interface SlsDao {
 	public List<ExpRes> expResDetailRes(int schNo);
 
 	/**
-	 * 체험단 예약정보 리스트 삭제
+	 * 체험단 리스트 리뷰삭제
 	 * 
 	 * @param expCode
+	 * @return
+	 */	
+	public int expReviewListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 파일삭제
+	 * 
+	 * @param chBox
+	 */
+	public int expFileListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 스케줄삭제
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public int expSchListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트삭제
+	 * 
+	 * @param chBox
 	 */
 	public int expListDel(String expCode);
 
@@ -171,7 +195,14 @@ public interface SlsDao {
 	 * @return
 	 */
 	public ResSchCnt changeExpRes(ResSchCnt resSchCnt);
-
+	
+	/**
+	 * 체험단 예약인원 예약변경창 조회[ExpSchList]
+	 * 
+	 * @return
+	 */
+	public List<ExpSch> changeExpSch();
+	
 	/**
 	 * 체험단 예약인원 예약변경하기
 	 * @param resSchCnt 
@@ -209,8 +240,8 @@ public interface SlsDao {
 	 * @param chBox
 	 */
 	public int expDetailListDel(String schNo);
-=======
-	 * 판매자 코드로 구매자 코드 조회
+	
+	 /** 판매자 코드로 구매자 코드 조회
 	 * 
 	 * @param sCode - 판매자 코드
 	 * @return bCode - 구매자 코드
@@ -248,5 +279,24 @@ public interface SlsDao {
 	 * @return 총 거래 건수
 	 */
 	public int selectCntOrd(String sCode);
->>>>>>> 071de69dbf53445c2695e0ff7eca0ee8c8a25173
+
+	/**
+	 * 판매자 조회
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> sellerSelect(String getbCode);
+
+	/**
+	 * resCnt 조회해서 res_cnt가져오기
+	 * 
+	 * @param schNo
+	 * @return
+	 */
+	public int getResCntBySchNo(String schNo);
+
+
+
+
+	
 }

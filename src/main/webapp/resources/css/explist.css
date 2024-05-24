@@ -127,8 +127,6 @@ button:focus {
     background-color: #0056b3;
 }
 
-
-
 /* 체험단 등록 및 삭제 버튼 */
 .btn_explist_form_del {
     display: flex;
