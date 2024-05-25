@@ -87,8 +87,7 @@ public class BuyerController {
 			Integer count = buyerService.selectPrdCnt(e.getPrdCode());
 			logger.info("prd count : {}", count);
 			logger.info("cart count : {}", e.getcCnt());
-			
-			
+					
 			
 			//재고가 부족할시 장바구니에서 DELETE
 			if(count < e.getcCnt()) {
