@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
@@ -12,7 +13,7 @@ import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
-import recycling.dto.seller.Seller;
+import recycling.dto.buyer.CmpFile;
 
 // 마이페이지 - 회원 정보 관련 DB 처리
 public interface BuyerDao {	
@@ -95,7 +96,7 @@ public interface BuyerDao {
 	 * @param bCode - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> selectOrderDetailBybCode(String bCode);
+	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
 
 	/**
 	 * 장바구니 수량 변경
@@ -106,97 +107,147 @@ public interface BuyerDao {
 	public int updatecCnt(Cart cart);
 
 	/**
-	 * 구매자 아이디로 구매자 정보 조회
+	 * 현재 로그인된 구매자 정보 조회
 	 * 
 	 * @param bId - 구매자 아이디
-	 * @return 조회된 구매자 정보
+	 * @return 조회된 현재 구매자 정보
 	 */
-	public Buyer selectBuyerBybId(String bId);
+	public Buyer getCurrentBuyer(String bId);
 
 	/**
-	 * 구매자 코드로 기업 정보 조회
+	 * 구매자 상세 정보 조회
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @return 조회된 현재 구매자 정보
+	 */
+	public Buyer getBuyerDetail(String bId);
+
+	/**
+	 * 구매자 등급 조회
+	 * 
+	 * @param rankNo - 구매자 등급 번호
+	 * @return 조회된 구매자 등급 정보
+	 */
+	public BuyerRank getBuyerRank(int rankNo);
+
+	/**
+	 * 기업 구매자 정보 조회
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 조회된 기업 정보
+	 * @return 조회된 기업 구매자 코드
 	 */
-	public Cmp selectCmpBybCode(String bCode);
-	
+	public Cmp getCmpDetail(String bCode);
+
+	/**
+	 * 비밀번호 변경
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @param newPw - 새 비밀번호
+	 * @return 비밀번호 변경 결과
+	 */
+	public int changePw(BuyerLogin buyerLogin);
+
 	/**
 	 * 구매자 정보 업데이트
 	 * 
 	 * @param buyer - 업데이트 할 구매자 정보
-	 * @return 
+	 * @return 업데이트 결과
 	 */
-	public int updateBuyer(Buyer buyer);
+	public int updateBuyerDetail(Buyer buyer);
 	
 	/**
-	 * 기업 정보 업데이트
+	 * 기업 구매자 정보 업데이트
 	 * 
-	 * @param cmp - 업데이트 할 기업 정보
-	 * @return 
+	 * @param cmp - 업데이트 할 기업 구매자 정보
+	 * @return 업데이트 결과
 	 */
-	public boolean updateCmp(Cmp cmp);
+	public int updateCmpDetail(Cmp cmp);
 	
 	/**
-	 * 구매자 배송지 목록 조회
+	 * 구매자 프로필 업데이트
+	 * 
+	 * @param prof - 업데이트 할 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProf(BuyerProf prof);
+
+	/**
+	 * 사업자 등록증 업데이트 
+	 * 
+	 * @param file - 업데이트 할 사업자 등록증
+	 * @return 업데이트 결과
+	 */
+	public int updateCmpFile(CmpFile file);
+
+	/**
+	 * 모든 배송지 정보 조회
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 구매자 배송지 목록
+	 * @return 조회된 모든 배송지 정보
 	 */
-	public List<BuyerAdr> selectBuyerAdrListBybCode(String bCode);
-	
+	public List<BuyerAdr> getBuyerAdr(String bCode);
+
 	/**
-	 * 배송지 등록
+	 * 새로운 주소 코드
 	 * 
-	 * @param buyerAdr - 추가할 배송지 정보
+	 * @return 생성된 주소 코드
 	 */
-	public void registerAdr(BuyerAdr buyerAdr);
+	public String getAdrCode();
+
+	/**
+	 * 새로운 배송지 등록
+	 * 
+	 * @param buyerAdr - 등록할 배송지 정보
+	 * @return 등록 결과
+	 */
+	public int registerBuyerAdr(BuyerAdr buyerAdr);
 
 	/**
 	 * 배송지 수정
 	 * 
 	 * @param buyerAdr - 수정할 배송지 정보
+	 * @return 수정 결과
 	 */
-	public void updateAdr(BuyerAdr buyerAdr);
+	public int updateBuyerAdr(BuyerAdr buyerAdr);
 
 	/**
 	 * 배송지 삭제
 	 * 
-	 * @param adrCode - 삭제할 배송지 코드
+	 * @param adrCode - 삭제할 주소 코드
+	 * @return 삭제 결과
 	 */
-	public void deleteAdr(String adrCode);
+	public int deleteBuyerAdr(String adrCode);
 
 	/**
-	 * 구매자 코드로 배송지 정보 조회
+	 * 기본 배송지 설정 해제
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 조회된 배송지 정보
+	 * @return 해제 결과
 	 */
-	public BuyerAdr selectBuyerAdrBybCode(String bCode);
+	public int unsetDefaultAdr(String bCode);
 
+	/**
+	 * 기본 배송지 설정
+	 * 
+	 * @param adrCode - 기본 배송지로 설정할 배송지 코드
+	 * @param bCode - 구매자 코드
+	 * @return 설정 결과
+	 */
+	public int setDefaultAdr(BuyerAdr buyerAdr);
 	/**
 	 * 구매자 탈퇴
 	 * 
 	 * @param bCode - 구매자 코드
+	 * @return 탈퇴 결과
 	 */
-	public void deleteBuyer(String bCode);
+	public int deleteBuyer(String bCode);
 
 	/**
-	 * 구매자 등급 번호로 구매자 등급 조회
+	 * 판매자 탈퇴
 	 * 
-	 * @param rankNo - 구매자 등급 번호
-	 * @return 구매자 등급
+	 * @param sCode - 판매자 코드
+	 * @return 탈퇴 결과
 	 */
-	public BuyerRank selectBuyerRank(int rankNo);
-
-	public int changePw(BuyerLogin buyerLogin);
-	
-	/**
-	 * 판매자 찾기
-	 * 
-	 * @param sCode
-	 * @return
-	 */
-	public List<Seller> findSeller(String sCode);
+	public int deleteSeller(String sCode);
 
 }

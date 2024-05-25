@@ -80,17 +80,17 @@ public class RecyclingController {
         return "buyer/recycling/findseller";
         
         // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
-        
-	@GetMapping("/main")
-	public String rcyMain(Model model) {
-		logger.info("/buyer/recycling/main [GET]");
-		
-		List<Prd> list = recyclingService.getPrdList();
-		
-		model.addAttribute("list", list);
-		
-		return "buyer/recycling/main";
 	}
+//	@GetMapping("/main")
+//	public String rcyMain(Model model) {
+//		logger.info("/buyer/recycling/main [GET]");
+//		
+//		List<Prd> list = recyclingService.getPrdList();
+//		
+//		model.addAttribute("list", list);
+//		
+//		return "buyer/recycling/main";
+//	}
 	
 	
 	@GetMapping("/rcydetail")
