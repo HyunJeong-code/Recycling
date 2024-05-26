@@ -148,11 +148,19 @@ public class ExpController {
 	@GetMapping("/expresform")
 	public void expResForm(
 			String expCode,
+			Authentication authentication,
 			Model model
 			) {
-//        List<ExpSch> expSchedules = expService.getExpSchedules(expCode);
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+		Buyer buyer = expService.getBuyerDetail(buyerLogin.getbId());
+		
+        List<ExpSch> expSchList = expService.getExpSchList(expCode);
         
-//        model.addAttribute("expSchedules", expSchedules);
+        
+		model.addAttribute("buyer", buyer);
+        model.addAttribute("expSchList", expSchList);
 	}
 	
 	@PostMapping("/expresform")
@@ -162,9 +170,8 @@ public class ExpController {
 			Buyer buyer,
 			int schNo,
 			Exp exp,
-			String resName,
-			String resPhone,
 			int resCnt,
+			String resDate,
 			Model model
 			) {
 		
@@ -181,23 +188,24 @@ public class ExpController {
 		
 		buyer = expService.getBuyerDetail(buyerLogin.getbId());
 		
-//		ExpSch expSch = expService.getExpScheduleById(schNo);
-//        if (expSch.getSchCnt() < resCnt) {
-//            model.addAttribute("error", "예약 가능한 인원수를 초과했습니다.");
-//            return "buyer/exp/expresform";
-//        }
+		ExpSch expSch = expService.getExpSch(schNo);
+        if (expSch.getSchCnt() < resCnt) {
+            model.addAttribute("error", "예약 가능한 인원수를 초과했습니다.");
+            return "buyer/exp/expresform";
+        }
 		
         ExpRes expRes = new ExpRes();
-        expRes.setResCode(UUID.randomUUID().toString());
         expRes.setbCode(buyer.getbCode());
-        expRes.setSchNo(schNo);
-        expRes.setResName(resName);
-        expRes.setResPhone(resPhone);
-        expRes.setResCnt(resCnt);
-//        expRes.setResDate(new Date());
+        expRes.setSchNo(expSch.getSchNo());
+        expRes.setResName(buyer.getbName());
+        expRes.setResPhone(buyer.getbPhone());
+        expRes.setResEmail(buyer.getbEmail());
+        expRes.setResExpName(exp.getExpName());
+//        expRes.setResCnt(resCnt);
+//        expRes.setResDate(resDate);
         
-//        expService.saveExpRes(expRes);
-//        expService.updateExpSchCnt(schNo, expSch.getSchCnt() - resCnt);
+        expService.insertExpRes(expRes);
+        expService.updateExpSchCnt(schNo, expSch.getSchCnt() - resCnt);
 		
 		model.addAttribute("buyer", buyer);
 		
