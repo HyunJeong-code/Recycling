@@ -5,11 +5,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Buyer Join</title>
+<title>개인 회원가입</title>
 <link rel="stylesheet" href="../../../resources/css/common.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
+	
+	$("#inEmail").hide();
+	
+	$("#bEmail2").change(function() {
+		if($("#bEmail2").val() === "in") {
+			$("#inEmail").show();
+			$("#bEmail2").hide();
+		} else {
+			$("#inEmail").hide();
+			$("#bEmail2").show();
+		}
+	})
+	
 	$("#btnEmail").click(function() {
 		var email = $('#bEmail').val() + $('#bEmail2').val();
 		console.log("이메일 : " + email);
@@ -45,6 +58,18 @@ $(function() {
 			$("#emailNo").css("display", "block");			
 			$("#emailOk").css("display", "none");			
 		}
+	})
+	
+	$("#inPhone").hide();
+	
+	$("#sPhone").change(function() {
+		if($("#sPhone").val() === "in") {
+			$("#inPhone").show();		
+			$("#sPhone").hide();		
+		} else {
+			$("#inPhone").hide();				
+			$("#sPhone").show();		
+		}		
 	})
 	
 }) // End Jquery
@@ -101,12 +126,14 @@ function execDaumPostcode() {
 		
 		<div class="section">
 			<form action="./prijoin" method="post" enctype="multipart/form-data">
-			<div>
+			<div id="prof">
+				<label for="buyerProf">프로필 사진</label>
 				<input type="file" id="buyerProf" name="buyerProf">
 			</div>
 			
-			<div>
-				<input type="text" id="bCtCode" name="bCtCode" value="P">
+			<div id="infoBuyer">
+				<input type="text" id="bCtCode" name="bCtCode" value="P" style="display: none;">
+				
 				<label for="bId">아이디</label>
 				<input type="text" id="bId" name="bId">
 				<button id="chkBid">중복 확인</button><br>
@@ -117,7 +144,7 @@ function execDaumPostcode() {
 				<label for="chkBpw">비밀번호 확인</label>
 				<input type="text" id="chkBpw" name="chkBpw"><br>
 				
-				<div>
+				<div id="email">
 				<label for="bEmail">이메일</label>
 				<input type="text" id="bEmail" name="bEmail">
 				
@@ -125,8 +152,11 @@ function execDaumPostcode() {
 					<option>@naver.com</option>
 					<option>@gmail.com</option>
 					<option>@daum.net</option>
+					<option value="in">직접 입력</option>
 				</select>
+				<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
 				<input type="button" id="btnEmail" value="이메일 인증">
+				
 				</div>
 				
 				<div id="emailChk" style="display: none;">
@@ -143,12 +173,19 @@ function execDaumPostcode() {
 				<label for="bName">이름</label>
 				<input type="text" id="bName" name="bName"><br>
 				
-				<label for="bPhone">핸드폰 번호</label>
-				<input type="text" id="bPhone" name="bPhone">-<input type="text" id="mPhone" name="mPhone">-<input type="text" id="lPhone" name="lPhone">
+				<label for="sPhone">핸드폰 번호</label>
+				<select class="sPhone" id="sPhone" name="sPhone" required="required">
+					<option>010</option>
+					<option>011</option>
+					<option>017</option>
+					<option>016</option>
+					<option value="in">직접 입력</option>
+				</select>
+				<input type="text" id="inPhone" name="inPhone">-<input type="text" id="mPhone" name="mPhone" required="required">-<input type="text" id="lPhone" name="lPhone" required="required"><br>
 				<br>
 			</div>
 			
-			<div>
+			<div id="infoPlus">
 				<div id="infoAd">
 					<label for="adEmail">이메일</label>
 					<input type="checkbox" id="adEmail" name="adEmail" value="Y">
@@ -157,25 +194,27 @@ function execDaumPostcode() {
 					<input type="checkbox" id="adSms" name="adSms" value="Y">  
 				</div>
 				
-				<div id="address">
+				<div id="infoAdr">
 					<label for="adrPostcode">우편번호</label>
 					<input type="text" id="adrPostcode" name="adrPostcode">
 					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
 					<br>
 					
-					<label for="adrAddr">주소</label>
+					<label for="adrAddr">배송 주소</label>
 					<input type="text" id="adrAddr" name="adrAddr"><br>
 					
-					<label for="adrDetail">상세 주소</label>
+					<label for="adrDetail">배송 상세 주소</label>
 					<input type="text" id="adrDetail" name="adrDetail"><br>
+					
+					<input type="text" id="adrChk" name="adrChke" value="Y" style="display:none;">
 				</div>
 			</div>
 				<button>가입하기</button>
 				<button><a href="./join">취소하기</a></button>			
 			</form>
-		</div>
-	</div>
-</div>
+		</div> <!-- section End -->
+	</div> <!-- wrap End -->
+</div> <!-- full End -->
 
 </body>
 </html>

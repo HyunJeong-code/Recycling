@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.manager.Department;
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.MgrFile;
 import recycling.manager.dao.face.HrDao;
 import recycling.manager.service.face.HrService;
+import recycling.util.Paging;
 
 @Service
 public class HrServiceImpl implements HrService {
@@ -26,6 +26,20 @@ public class HrServiceImpl implements HrService {
 
 	@Autowired private ServletContext servletContext;
 	@Autowired private HrDao hrDao;
+	
+	//페이징 처리
+	@Override
+	public Paging getPaging(int curPage) {
+		
+		//전체 페이지수 카운팅
+		int totalCount = hrDao.getPaging();
+		
+		//전체 페이지, 현재 페이지 담기
+		Paging paging = new Paging(totalCount, curPage);
+		
+		return paging;
+	}
+	
 	
 	//전체 사원조회
 	@Override
@@ -119,8 +133,8 @@ public class HrServiceImpl implements HrService {
 		// 파일업로드 체험코드 가져오기
 		mgrFile.setMgrCode(mgrCode);
 		
-		//test 데이터
-		mgrFile.setctMflNo(1000);
+		//document 데이터 1010
+		mgrFile.setctMflNo(1010);
 		
 		//파일 업로드
 		hrDao.fileup(mgrFile);
@@ -157,6 +171,7 @@ public class HrServiceImpl implements HrService {
 		return result;
 		
 	}
+
 
 	
 

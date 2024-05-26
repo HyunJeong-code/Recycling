@@ -45,6 +45,13 @@
 	    </where>
 	</select>
 	
+	<select id="chkSeller" resultType="int" parameterType="string">
+		SELECT COUNT(*) FROM seller
+		<where>
+			AND b_code = #{bCode}
+		</where>
+	</select>
+	
 	<select id="selectByNotice" resultType="Notice" parameterType="string">
 		SELECT * FROM Notice
 		<where>
@@ -60,13 +67,6 @@
 		</where>
 	</update>
 	
-<!-- 	<insert id="insertOto" parameterType="Oto"> -->
-<!-- 		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, -->
-<!-- 						oto_name, oto_email, oto_hit) -->
-<!-- 		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail}, #{otoHit}) -->
-	
-<!-- 	</insert> -->
-
 	<insert id="insertOto" parameterType="Oto" useGeneratedKeys="true" keyProperty="otoCode" keyColumn="oto_code">
 		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
 		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})

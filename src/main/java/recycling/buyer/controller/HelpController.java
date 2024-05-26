@@ -1,6 +1,5 @@
 package recycling.buyer.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,9 +41,11 @@ public class HelpController {
 	public void main(
 			@RequestParam(defaultValue = "0") int curPage,
 			Model model,
-			HttpSession session,
+			Authentication authentication,
 			Buyer buyer
 			) {
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
 		
 		Paging paging = helpService.getPaging(curPage);
 		List<Faq> list = helpService.selectAllFaq(paging);
@@ -56,25 +58,33 @@ public class HelpController {
 	
 	@GetMapping("/noticelist")
 	public void noticeList(
-			@RequestParam(name = "ct_ntcno", defaultValue = "buyer") String ctNtcNo,
+			@RequestParam(name = "ct_ntcno", defaultValue = "buyers") String ctNtcNo,
 			Model model,
 			@RequestParam(defaultValue = "0")int curPage, 
 			@RequestParam(defaultValue = "") String search,
-			HttpSession session
+			Authentication authentication
 			) {
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
-
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		boolean isSeller = false;
+		
+		if (buyerLogin != null) {
+            Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
+            isSeller = helpService.chkSeller(buyer.getbCode());
+        }
+		
 //		Paging paging = helpService.getSearchPaging(curPage, search);
-		List<Notice> noticeList = null;
+		List<Notice> noticeList;
 
         // 판매자일 경우에만 공지사항 분류 선택 가능하도록 설정
-        if ("seller".equals(ctNtcNo)) {
+		
+		if (isSeller && "sellers".equals(ctNtcNo)) {
             noticeList = helpService.selectNoticeSeller();
         } else {
             noticeList = helpService.selectNoticeBuyer();
         }
-        
         model.addAttribute("noticeList", noticeList);
+        model.addAttribute("isSeller", isSeller);
+        model.addAttribute("ctNtcNo", ctNtcNo);
 //        model.addAttribute("paging", paging);
 	}
 	
@@ -120,13 +130,13 @@ public class HelpController {
 	public String otoForm(
 			Model model,
 			Oto oto,
-			HttpSession session
+			Authentication authentication
 			) {
 		logger.info("otoform [GET]");
 		
 		List<OtoCt> oct = helpService.getAllOct();
 		
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
 		if(buyerLogin == null) {
 			
@@ -139,8 +149,9 @@ public class HelpController {
 		
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());
-
+		oto.setOtoEmail(buyer.getbEmail());		
+		
+		
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct", oct);
@@ -150,17 +161,17 @@ public class HelpController {
 	
 	@PostMapping("/otoform")
 	public String otoFormProc(
-			HttpSession session,
+			Authentication authentication,
 			Model model,
 			Oto oto,
 			@RequestParam("ct_otono") String ctOtoNo, // 선택된 분류 값을 받음
 			@RequestParam("detail") List<MultipartFile> detail // 여러 파일 업로드 필드
-			, @RequestParam("visibility") String visibility,
-            @RequestParam(value = "password", required = false) String password
+//			, @RequestParam("visibility") String visibility,
+//            @RequestParam(value = "password", required = false) String password
 			) {
 		
 		//회원 로그인 세션 정보
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
 		if(buyerLogin == null) {
 			
@@ -173,7 +184,7 @@ public class HelpController {
 		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
 		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
-		boolean isPrivate = "private".equals(visibility);
+//		boolean isPrivate = "private".equals(visibility);
 		
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
@@ -231,6 +242,8 @@ public class HelpController {
 		Oto oto = helpService.selectByOtoCode(otoCode);
 		List<OtoCt> oct = helpService.getAllOct();
 		List<OtoFile> otoFiles = helpService.getOtoFiles(otoCode);
+		
+		
 		
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct",oct);

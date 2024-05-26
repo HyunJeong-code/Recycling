@@ -135,6 +135,23 @@ public interface HelpDao {
 	public int insertOtoFiles(OtoFile otoFile);
 
 
+	/**
+	 * 1:1문의 업로드 한 파일 보여주기
+	 * 
+	 * @param otoCode - 1:1문의 코드
+	 * @return otoCode와 일치하는 게시글의 파일 List view
+	 */
 	public List<OtoFile> getOtoFiles(String otoCode);
+
+
+	/**
+	 * 판매자 여부 확인
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int chkSeller(String bCode);
+
+
 
 }

@@ -18,6 +18,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +42,7 @@ import recycling.dto.buyer.Orders;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
@@ -57,6 +61,7 @@ public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerService buyerService;
+	@Autowired private BCryptPasswordEncoder pwEncoder;
 	@Autowired HttpSession session;
 	@Autowired private JavaMailSenderImpl mailSender;
 	
@@ -113,7 +118,7 @@ public class BuyerController {
 	}
 	
 	@PostMapping("/cartupdate")
-	public String cartupdate(Cart cart, Model model) {
+	public String cartUpdate(Cart cart, Model model) {
 		logger.info("cartupdate : {}", cart);
 		
 		CartOrder cartOrder = buyerService.selectBycCode(cart.getcCode());
@@ -133,7 +138,7 @@ public class BuyerController {
 	}
 	
 	@PostMapping("/cartdel")
-	public String cartdel(@RequestParam(value = "arr[]") List<String> list) {
+	public String cartDel(@RequestParam(value = "arr[]") List<String> list) {
 		logger.info("cartdel : {}", list);
 		
 		for(String cCode : list) {
@@ -166,7 +171,7 @@ public class BuyerController {
         }
 		
 		//logger.info("list : {}", list);
-		//logger.info("buyer : {}", buyeradr);
+		logger.info("buyer : {}", buyeradr);
 		
 		model.addAttribute("clist", list);
 		model.addAttribute("buyer", buyeradr);
@@ -223,7 +228,7 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/payinfo")
-	public void payinfo(@RequestParam("ordCode") String ordCode, Model model) {
+	public void payInfo(@RequestParam("ordCode") String ordCode, Model model) {
 		logger.info("{}",ordCode);
 		
 		Orders order = buyerService.selectByordCode(ordCode);
@@ -232,7 +237,7 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/myorder")
-	public void myorder(Model model) {
+	public void myOrder(Model model) {
 		
 		//테스트용 세션***********************************************테스트
 		session.setAttribute("bCode", "BUY0000002");
@@ -410,60 +415,35 @@ public class BuyerController {
 	
 	// 비밀번호 변경 페이지
 	@GetMapping("/changepw")
-	public String changePw(Model model) {
-		
-		if(session.getAttribute("buyers") == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
-		}
-		
+	public void changePw(
+			HttpSession session
+			) {
 		logger.info("/buyer/mypage/changepw [GET]");
 		
-		return "buyer/mypage/changepw";
+//		return "buyer/mypage/changepw";
 		
 	}
 	
 	// 비밀번호 변경 처리
 	@PostMapping("/changepw")
 	public String changePwProc(
-			@RequestParam("currentPw") String currentPw,
 			@RequestParam("newPw") String newPw,
 			@RequestParam("confirmPw") String confirmPw,
+			Authentication authentication,
 			Model model
 			) {
 		
 		logger.info("/buyer/mypage/changepw [POST]");
 		
-		BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyers");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
 		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
-		}
+		String oldPw = buyerLogin.getbPw();
+		String enPw = pwEncoder.encode(newPw);
+		buyerLogin.setbPw(enPw);
+		int res = buyerService.changePw(buyerLogin);
 		
-		if(!buyerService.verifyPw(buyerLogin.getbId(), currentPw)) {
-			
-			model.addAttribute("error", "현재 비밀번호가 틀렸습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
-		if(!newPw.equals(confirmPw)) {
-			
-			model.addAttribute("error", "새 비밀번호가 일치하지 않습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
-		buyerService.changePw(buyerLogin.getbId(), newPw);
+		logger.info("res : {}", res);
 		
 		model.addAttribute("success", "비밀번호가 변경되었습니다.");
 		

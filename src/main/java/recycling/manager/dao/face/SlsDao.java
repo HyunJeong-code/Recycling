@@ -1,6 +1,7 @@
 package recycling.manager.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.seller.Exp;
@@ -10,6 +11,14 @@ import recycling.dto.seller.ExpSch;
 // 판매제휴팀 DB 처리
 
 public interface SlsDao {
+	
+	/**
+	 * 판매자 전환 요청 전체 목록
+	 * 
+	 * @return 판매자 리스트
+	 */
+	public List<Map<String, Object>> selectBysChk();
+	
 	/**
 	 * 체험단 전체 조회하기
 	 * 
@@ -89,23 +98,89 @@ public interface SlsDao {
 	
 	/**
 	 * 
-	 * 체험정보
+	 * 체험 예약페이지 정보 조회
+	 * @param expCode 
 	 * 
 	 * @param expCode
 	 * @return
 	 */
-	public Exp expResDetail();
+	public Exp expResDetail(String expCode);
 
 	/**
 	 * 
-	 * 체험예약 정보
+	 * 체험 예약페이지 예약 조회
 	 * 
 	 * @param expCode
 	 * @return
 	 */
-	public List<ExpRes> expResDetailRes();
+	public List<ExpRes> expResDetailRes(ExpRes expRes);
 
+	/**
+	 * 체험단 예약정보 리스트 삭제
+	 * 
+	 * @param expCode
+	 */
+	public int expListDel(String expCode);
 
+	/**
+	 * 이미지 업로드 번호조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile image(ExpFile expFile);
+
+	/**
+	 * 예약 확정버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnf(String resCode);
+
+	/**
+	 * 예약 취소튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnl(String resCode);
+
+	/**
+	 * 판매자 코드로 구매자 코드 조회
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return bCode - 구매자 코드
+	 */
+	public String selectBysCode(String sCode);
 	
+	/**
+	 * 개인 판매자 상세 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 상세 정보
+	 */
+	public Map<String, Object> selectPriSeller(String bCode);
 	
+	/**
+	 * 기업 판매자 상세 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 상세 정보
+	 */
+	public Map<String, Object> selectCmpSeller(String bCode);
+	
+	/**
+	 * 신고 받은 횟수
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return 총 신고 횟수
+	 */
+	public int selectCntRpt(String sCode);
+	
+	/**
+	 * 총 거래완료 건수
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return 총 거래 건수
+	 */
+	public int selectCntOrd(String sCode);
 }

@@ -4,4 +4,21 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.manager.dao.face.ManagerDao">
+
+	<select id="selectByIdPw" parameterType="string" resultType="int">
+		SELECT count(*) FROM manager
+		<where>
+			AND mgr_id = #{mgrId }
+			AND mgr_pw = #{mgrPw }
+		</where>
+	</select>
+	
+	<update id="updatePw">
+		UPDATE manager
+		SET mgr_pw = #{mgrPw }
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND mgr_id = #{mgrId } 
+		</where>
+	</update>
 </mapper>

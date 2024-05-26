@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.ExpDao;
 import recycling.buyer.service.face.ExpService;
+import recycling.dto.buyer.Buyer;
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
+import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 
 @Service
@@ -22,20 +25,74 @@ public class ExpServiceImpl implements ExpService {
 	@Autowired private ServletContext servletContext;
 	
 	@Override
-	public Paging getPaging(int curPage) {
+	public List<Exp> selectAllExp(Paging paging) {
 		
-		//총 게시글 수 조회
-		int totalCount = expDao.selectCntAll();
+		return expDao.selectAllExp(paging);
+	}
+
+	@Override
+	public Paging getSearchPaging(int curPage, String search) {
 		
-		//페이징 계산
-		Paging paging = new Paging( totalCount, curPage);
+		Paging paging = null;
 		
+		int totalCount = expDao.selectCntAll(search);
+		
+		if("".equals(search)) {
+			paging = new Paging(totalCount, curPage, search);
+		} else {
+			paging = new Paging(totalCount, curPage, search);
+		}
 		return paging;
 	}
 
 	@Override
-	public List<Exp> selectAllExp(Paging paging) {
+	public List<Exp> selectRecentExp(Paging paging) {
 		
-		return expDao.selectAllExp(paging);
+		return expDao.selectRecentExp(paging);
+	}
+
+	@Override
+	public List<Exp> selectPopularExp(Paging paging) {
+		return expDao.selectPopularExp(paging);
+	}
+
+
+	@Override
+	public List<Exp> selectTopPopExp() {
+		return expDao.selectTopPopExp();
+	}
+
+	@Override
+	public List<Exp> selectTopRecExp() {
+		return expDao.selectTopRecExp();
+	}
+
+	@Override
+	public Exp selectByExpCode(String expCode) {
+		
+		return expDao.selectByExpCode(expCode);
+	}
+
+	@Override
+	public List<ExpFile> selectByExpFile(String expCode) {
+		
+		return expDao.selectByExpFile(expCode);
+	}
+
+	@Override
+	public Seller getSellerInfo(String sCode) {
+		
+		return expDao.getSellerInfo(sCode);
+	}
+
+	@Override
+	public Buyer getBuyerInfo(String bCode) {
+		return expDao.getBuyerInfo(bCode);
+	}
+
+	@Override
+	public Buyer getBuyerDetail(String getbId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
