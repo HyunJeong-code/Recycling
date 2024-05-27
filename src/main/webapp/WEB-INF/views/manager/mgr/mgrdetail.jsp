@@ -1,12 +1,170 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="../../../resources/css/common.css">
+<link rel="stylesheet" href="../../../resources/css/input.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+<script type="text/javascript">
+$(function() {
+	
+	// 핸드폰 번호 처리
+	var mgrPhone = "${manager.mgrPhone}".split("-");
+	console.log("mgrPhone : " + mgrPhone);
+
+	if($("#sPhone").val(mgrPhone[0])) {
+		$("#inPhone").hide();
+		$("#sPhone").val(mgrPhone[0]).attr("selected", "selected");
+	} else {
+		$("#inPhone").val(mgrPhone[0])
+	}
+	
+	$("#mPhone").val(mgrPhone[1]);
+	$("#lPhone").val(mgrPhone[2]);
+	
+	$("#sPhone").change(function() {
+		if($("#sPhone").val() === "in") {
+			$("#inPhone").show();		
+			$("#sPhone").hide();		
+		} else {
+			$("#inPhone").hide();				
+			$("#sPhone").show();		
+		}		
+	})
+	
+	// 이메일 처리
+	var mgrEmail = "${manager.mgrEmail}".split("@");
+	console.log("mgrEmail: " + mgrEmail);
+	
+	$("#mgrEmail").val(mgrEmail[0]);
+	
+	if($("#mgrEmail2").val("@" + mgrEmail[1])) {
+		$("#inEmail").hide();
+		$("mgrEmail2").val(mgrEmail[1]).attr("selected", "selected");
+	} else {
+		$("#inEmail").val(mgrEmail[1]);
+	}
+	
+	$("#mgrEmail2").change(function() {
+		if($("#mgrEmail2").val() === "in") {
+			$("#inEmail").show();
+			$("#mgrEmail2").hide();
+		} else {
+			$("#inEmail").hide();
+			$("#mgrEmail2").show();
+		}
+	})
+	
+	$("#update").click(function() {
+		console.log("deptno : " + $("#detpno").val());
+		
+		if($("#detpno").val() === 'CEO') {
+			$("#detpno").val(10);
+		} else if ($("#detpno").val() === '인사팀') {
+			$("#detpno").val(20);
+		} else if($("#detpno").val() === '판매제휴팀') {
+			$("#detpno").val(30);			
+		} else {
+			$("#detpno").val(40);						
+		}
+	})
+})
+</script>
 </head>
 <body>
+<div class="full">
+	<div class="wrap">
+		<div class="page">
+			<h3>사원 정보 변경</h3>
+		</div>
+		
+		<div class="section">
+		<c:set var="manager" value="${manager }"/>
+		<c:set var="mgrFile" value="${mgrFile }"/>
+			<form action="./mgrdetail" method="post" enctype="multipart/form-data">
+				<div>
+					<label for="mgrProf">사원증</label>
+					<input type="file" id="mgrProf" name="mgrProf" required="required">
+					<input type="hidden" id="mgrFlNo" name="mgrFlNo" value="${mgrFile.mgrFlNo }">
+				</div>
+		
+			<div>
+				<label for="mgrCode">사원 번호</label>	
+				<input type="text" class="m" id="mgrCode" name="mgrCode" value="${manager.mgrCode }" readonly="readonly"><br>
+				
+				<label for="deptno">부서</label>
+					<c:if test="${manager.deptno eq 20}">
+						<input type="text" class="m" id="deptName" name="deptName" value="인사팀" readonly="readonly">
+						<input type="hidden" class="m" id="deptno" name="deptno" value="${manager.deptno }">
+					</c:if>
+					<c:if test="${manager.deptno eq 10}">
+						<input type="text" class="m" id="deptName" name="deptName" value="CEO" readonly="readonly">
+						<input type="hidden" class="m" id="deptno" name="deptno" value="${manager.deptno }">
+					</c:if>
+					<c:if test="${manager.deptno eq 30}">
+						<input type="text" class="m" id="deptName" name="deptName" value="판매제휴팀"  readonly="readonly">
+						<input type="hidden" class="m" id="deptno" name="deptno" value="${manager.deptno }">
+					</c:if>
+					<c:if test="${manager.deptno eq 40}">
+						<input type="text" class="m" id="deptName" name="deptName" value="구매CS팀" readonly="readonly">
+						<input type="hidden" class="m" id="deptno" name="deptno" value="${manager.deptno }">
+					</c:if>
+				<br>			
+				
+				<label for="mgrEntDate">입사일</label>
+				<input type="date" id="mgrEntDate" name="mgrEntDate" value="${manager.mgrEntDate }" readonly="readonly"><br>
+				
+				<label for="mgrId">아이디</label>
+				<input type="text" class="m" id="mgrId" name="mgrId" value="${manager.mgrId }" readonly="readonly"><br>
+				
+				<label for="mgrName">이름</label>	
+				<input type="text" class="m" id="mgrName" name="mgrName" value="${manager.mgrName }"><br>
+				
+				<label for="sPhone">핸드폰 번호</label>
+				<select class="sPhone" id="sPhone" name="sPhone">
+					<option value="010">010</option>
+					<option value="011">011</option>
+					<option value="017">017</option>
+					<option value="016">016</option>
+					<option value="in">직접 입력</option>
+				</select>
+				<input type="text" class="s" id="inPhone" name="inPhone">-<input type="text" class="s" id="mPhone" name="mPhone">-<input type="text" class="s" id="lPhone" name="lPhone"><br>
+				
+				<label for="mgrBirth">생년월일</label>
+				<input type="date" id="mgrBirth" name="mgrBirth" value="${manager.mgrBirth }" readonly="readonly"><br>
+				
+				<label for="mgrGender">성별</label>
+				<c:if test="${manager.mgrGender eq 'W' }">
+					<input type="text" class="s" id="mgrGender" name="mgrGender" value="여성">
+				</c:if>
+				<c:if test="${manager.mgrGender eq 'M' }">
+					<input type="text" class="s" id="mgrGender" name="mgrGender" value="남성">
+				</c:if>
+			</div>
+
+			<div>
+				<label for="mgrEmail">이메일</label>	
+				<input type="text" id="mgrEmail" name="mgrEmail" required="required">
+				
+				<select class="mgrEmail2" name="mgrEmail2" id="mgrEmail2">
+					<option>@naver.com</option>
+					<option>@gmail.com</option>
+					<option>@daum.net</option>
+					<option value="in">직접 입력</option>
+				</select>
+				<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">		
+			</div>
+				
+				
+				<button id="update">변경하기</button>
+			</form>
+		</div> <!-- section End -->
+	</div> <!-- wrap End -->
+</div> <!-- full End -->
 
 </body>
 </html>
