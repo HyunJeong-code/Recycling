@@ -118,10 +118,10 @@ public class ExpServiceImpl implements ExpService {
 	}
 
 	@Override
-	public void updateExpSchCnt(int schNo, int newCnt) {
+	public void updateExpSchCnt(int schNo, int resCnt) {
 		Map<String, Object> params = new HashMap<>();
         params.put("schNo", schNo);
-        params.put("newCnt", newCnt);
+        params.put("resCnt", resCnt);
 		expDao.updateExpSchCnt(params);
 	}
 }

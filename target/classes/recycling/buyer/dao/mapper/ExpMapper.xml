@@ -159,8 +159,62 @@
 		</where>
 	</select>
 	
-	<insert id="insertExpRes" parameterType="ExpRes">
-		INSERT INTO exp_res (res_code, b_code, sch_no, res_name, res_phone, res_email, res_expname, res_date, res_time, res_cnt)
-    VALUES ('RES' || lpad(exp_res_seq.nextval, 7, '0'), #{bCode}, #{schNo}, #{resName}, #{resPhone}, #{resEmail}, #{resExpname}, #{resDate}, #{resTime}, #{resCnt})
+	<insert id="insertExpRes" parameterType="ExpRes" useGeneratedKeys="true" keyProperty="resCode" keyColumn="res_code">
+		INSERT INTO exp_res (
+			res_code, 
+			b_code, 
+			sch_no, 
+			res_name, 
+			res_phone, 
+			res_email, 
+			res_expname, 
+			res_date, 
+			res_time, 
+			res_cnt, 
+			res_price, 
+			res_sum, 
+			res_pay, 
+			pay_date,
+			res_cnf,
+			res_cnl,
+			res_dt 
+			) VALUES (
+    		'RES' || lpad(exp_res_seq.nextval, 7, '0'), 
+    		#{bCode}, 
+    		#{schNo}, 
+    		#{resName}, 
+    		#{resPhone}, 
+    		#{resEmail}, 
+    		#{resExpName}, 
+    		TO_DATE(#{resDate},'YYYY-MM-DD HH24:MI:SS'),
+<!-- 			#{resDate}, -->
+    		#{resTime}, 
+    		#{resCnt}, 
+    		#{resPrice}, 
+    		#{resSum}, 
+    		#{resPay}, 
+    		SYSDATE, 
+    		#{resCnf}, 
+    		#{resCnl}, 
+    		#{resDt}
+    		)
 	</insert>
+	
+	<update id="updateExpSchCnt" parameterType="map">
+		UPDATE exp_sch
+		SET sch_cnt = sch_cnt - (
+			SELECT SUM(res_cnt)
+			FROM exp_res
+			<where>
+				AND sch_no = #{schNo}
+				AND res_date = #{resDate}
+				AND res_time = #{resTime}
+			</where>
+		)
+		<where>
+			AND sch_no = #{schNo}
+			AND sch_date = #{schDate}
+			AND sch_time = #{schTime}
+		</where>
+	</update>
 </mapper>

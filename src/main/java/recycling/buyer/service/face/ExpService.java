@@ -117,6 +117,6 @@ public interface ExpService {
 
 	public void insertExpRes(ExpRes expRes);
 
-	public void updateExpSchCnt(int schNo, int newCnt);
+	public void updateExpSchCnt(int schNo, int resCnt);
 
 }
