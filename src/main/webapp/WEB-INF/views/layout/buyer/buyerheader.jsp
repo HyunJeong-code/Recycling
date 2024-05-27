@@ -21,29 +21,33 @@
             var headerOffset = header.offset().top;
 
             $(window).scroll(function() {
-                if ($(window).scrollTop() >= headerOffset + 100) {
+                if ($(window).scrollTop() >= headerOffset+600) {
                     if (!header.hasClass('fixed')) {
                         header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
-                        //$(".full").stop().animate({ 'padding-top': '200px' }, 300);
+                        //$("body").css("margin-top","210px");
                     }
                 } else {
                     if (header.hasClass('fixed')) {
                         header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
                             header.css('top', '');
-                            //$(".full").stop().animate({ 'padding-top': '100px' }, 300);
+                            //$("body").css("margin-top","0");
                         });
                     }
                 }
+            });
+            
+         	// 페이지 로딩 시 sub-wrap을 숨긴 상태로 설정
+            $(".sub-wrap").hide();
+            
+         	
+         	//메뉴 스크롤 업/다운
+            $('.menu, .sub-wrap').on('mouseleave', function(){
+                $(".sub-wrap").stop().slideUp(200);
             });
         
             $('.menu, .sub-wrap').on('mouseover', function(){
                 $(".sub-wrap").stop().slideDown(200);
             });
-
-            $('.menu, .sub-wrap').on('mouseleave', function(){
-                $(".sub-wrap").stop().slideUp(200);
-            });
-
         });
     </script>
     
