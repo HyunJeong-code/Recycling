@@ -131,25 +131,10 @@ public class BuyerServiceImpl implements BuyerService {
 	
 	}
 
-<<<<<<< HEAD
 	@Override
-	public int changePw(String bId, String newPw) {
+	public int changePw(BuyerLogin buyerLogin) {
 		
-		return buyerDao.changePw(bId, newPw);
-=======
-		int updateSuccess = buyerDao.updateBuyer(buyer);
-		
-		if(updateSuccess > 0) {
-			
-			logger.info("성공적으로 업데이트 되었습니다: {}", buyer.getbId());
-			
-		} else {
-			
-			logger.info("업데이트에 실패했습니다: {}", buyer.getbId());
-			
-		}
-		return buyer;
->>>>>>> 4c0413d411beef647bde2b40a979e6e4c4564160
+		return 0;
 		
 	}
 	
@@ -216,8 +201,4 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
-	@Override
-	public int changePw(BuyerLogin buyerLogin) {
-		return buyerDao.changePw(buyerLogin);
-	}
 }

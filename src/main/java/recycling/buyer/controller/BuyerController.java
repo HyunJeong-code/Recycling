@@ -465,30 +465,16 @@ public class BuyerController {
 		logger.info("/buyer/mypage/changepw [POST]");
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
 		logger.info("buyerLogin : {}", buyerLogin);
 		
 		String oldPw = buyerLogin.getbPw();
 		String enPw = pwEncoder.encode(newPw);
+		
 		buyerLogin.setbPw(enPw);
+		
 		int res = buyerService.changePw(buyerLogin);
 		
-		if(buyerService.verifyPw(buyerLogin.getbId(), currentPw) == 0) {
-			
-			model.addAttribute("error", "현재 비밀번호가 틀렸습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
-		if(!newPw.equals(confirmPw)) {
-			
-			model.addAttribute("error", "새 비밀번호가 일치하지 않습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
-		buyerService.changePw(buyerLogin.getbId(), newPw);
 		logger.info("res : {}", res);
 		
 		model.addAttribute("success", "비밀번호가 변경되었습니다.");

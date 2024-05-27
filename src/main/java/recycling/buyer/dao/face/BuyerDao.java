@@ -110,11 +110,7 @@ public interface BuyerDao {
 	 * @param bId - 구매자 아이디
 	 * @return 조회된 현재 구매자 정보
 	 */
-<<<<<<< HEAD
 	public Buyer getCurrentBuyer(String bId);
-=======
-	public Buyer selectBuyerBybId(String bId);
->>>>>>> 4c0413d411beef647bde2b40a979e6e4c4564160
 
 	/**
 	 * 구매자 상세 정보 조회
@@ -155,11 +151,7 @@ public interface BuyerDao {
 	 * @param buyer - 업데이트 할 구매자 정보
 	 * @return 업데이트 결과
 	 */
-<<<<<<< HEAD
 	public int updateBuyerDetail(Buyer buyer);
-=======
-	public int updateBuyer(Buyer buyer);
->>>>>>> 4c0413d411beef647bde2b40a979e6e4c4564160
 	
 	/**
 	 * 기업 구매자 정보 업데이트

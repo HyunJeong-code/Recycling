@@ -128,15 +128,12 @@
 		WHERE B_Id = #{bId }
 	</select>
 	
-<<<<<<< HEAD
 	<!-- 구매자 등급 조회 -->
     <select id="getBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
     	SELECT * FROM Buyer_Rank
     	WHERE Rank_No = #{rankNo }
     </select>
 	
-=======
->>>>>>> 4c0413d411beef647bde2b40a979e6e4c4564160
 	<!-- 구매자 코드로 기업 정보 조회 -->
 	<select id="getCmpDetail" parameterType="string" resultType="recycling.dto.buyer.Cmp">
         SELECT * FROM Cmp
