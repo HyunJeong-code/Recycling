@@ -5,6 +5,31 @@
   
 <mapper namespace="recycling.manager.dao.face.SlsDao">
 	
+	<!-- 판매자 sql 아이디 -->
+	<sql id="selectSellerList">
+		SELECT * FROM SELLER
+	</sql>
+	
+	<!-- 판매자 목록 -->
+	<select id="main" resultType="Seller" parameterType="recycling.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectSellerList" />
+				ORDER BY s_code DESC
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 총 판매자 페이징 -->
+	<select id="getPaging" resultType="int">
+		SELECT count(*) FROM (
+			<include refid="selectSellerList" />
+		)
+	</select>
+
 	<!-- 체험단 조회구조[exp]  -->
 	<sql id="expBoard">
 	SELECT 
@@ -370,7 +395,6 @@
 	    ,res_cnl ='Y'
 	    <where>res_code = #{resCode }</where>
 	</update>
-	
 	
 	<!-- expresdetail페이지 예약인원 변경창 조회 -->
 	<select id="changeExpRes" resultType="ResSchCnt" parameterType="ResSchCnt">

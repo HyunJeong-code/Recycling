@@ -1,6 +1,7 @@
 package recycling.manager.service.impl;
 
 import java.io.Console;
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import recycling.dto.seller.Seller;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
@@ -22,14 +24,35 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
+import recycling.util.Paging;
 
 @Service
 public class SlsServiceImpl implements SlsService {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired private ServletContext servletContext;
-	@Autowired private SlsDao slsDao;
+	@Autowired
+	private SlsDao slsDao;
+	
+	@Autowired
+	private ServletContext servletContext;
+
+	@Override
+	public List<Seller> main(Paging paging) {
+		return slsDao.main(paging);
+	}
+
+	@Override
+	public Paging getPaging(Paging pagingParam) {
+		
+		// 총 게시글 수 조회
+		int totalCount = slsDao.getPaging();
+
+		// 페이징 계산
+		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
+
+		return paging;
+	}
 	
 	@Override
 	public  List<Map<String, Object>> selectBysChk() {
@@ -332,11 +355,5 @@ public class SlsServiceImpl implements SlsService {
 	public List<Map<String, Object>> sellerSelect(String getbCode) {
 		return slsDao.sellerSelect(getbCode);
 	}
-
-
-
-
-
-
 
 }//main

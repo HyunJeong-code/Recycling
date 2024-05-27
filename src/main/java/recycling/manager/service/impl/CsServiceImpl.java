@@ -25,7 +25,7 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public List<Oto> list(Paging paging) {
-		logger.info("service");
+//		logger.info("service");
 		return csDao.list(paging);
 	}
 
@@ -91,7 +91,7 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public List<Ans> viewCom(String otoCode) {
-		logger.info("servocedddddddddddddddddddddd");
+//		logger.info("servocedddddddddddddddddddddd");
 		return csDao.viewCom(otoCode);
 	}
 
@@ -103,6 +103,5 @@ public class CsServiceImpl implements CsService {
 			return true;
 		}
 	}
-
 
 }

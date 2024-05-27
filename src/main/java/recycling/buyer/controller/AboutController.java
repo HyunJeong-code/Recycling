@@ -28,14 +28,4 @@ public class AboutController {
         return "/buyer/about/location";
     }
 	
-	@GetMapping("/location2")
-	public String location2() {
-		return "/buyer/about/location2";
-	}
-	
-	@GetMapping("/location3")
-	public String location3() {
-		return "/buyer/about/location3";
-	}
-	
 }

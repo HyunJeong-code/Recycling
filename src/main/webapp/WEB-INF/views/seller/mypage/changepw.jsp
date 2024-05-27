@@ -7,6 +7,16 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="full">
+	<div class="wrap">
+		<div class="page">
+
+		</div>
+		
+		<div class="section">
+		</div> <!-- section End -->
+	</div> <!-- wrap End -->
+</div> <!-- full End -->
 
 </body>
 </html>

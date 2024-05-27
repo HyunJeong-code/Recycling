@@ -1,20 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-<!-- footer,header css -->
-<link rel="stylesheet" href="/resources/css/footer.css">
-<link rel="stylesheet" href="/resources/css/header.css">
-
-<script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
 
 <!-- 결제 API -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -215,7 +207,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 </head>
 <body>
 
-<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp" />
+<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp" />
 
 <h1>새활용 상품 관리</h1>
 

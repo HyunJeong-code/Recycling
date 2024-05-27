@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,24 +27,6 @@
 			}else{
 				$("#ord_form").submit();
 			}
-		    
-			/* $.ajax({
-				type: "get"
-				, url: "./pay"
-				, data: {
-					arr: arr 
-				}
-				, dataType : "Json"
-				, success: function(res) {
-					console.log("AJAX 성공");
-					
-					location.href="./pay";
-					
-				}
-				, error: function() {
-					console.log("AJAX 실패");
-				}
-			}) */
 		    
 		    console.log(arr);
 		}); // #ord_btn click end
