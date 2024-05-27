@@ -9,12 +9,35 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+<<<<<<< HEAD
                 
+=======
+<<<<<<< HEAD
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+                                                		
+        
+        
+=======
+<<<<<<< HEAD
+=======
+                        
+        
+>>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-test-sources/test-annotations"/>
+<<<<<<< HEAD
                 
 
+=======
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+>>>>>>> f19f9ceb93cb50d853ecf2cef33dca70a5aa799e
+                                		
+>>>>>>> 710a7b0255fcbaa0a050cc275a6a713338d48f1b
+        
+        
+        
+>>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
         <property name="java-output-path" value="target/classes"/>
                 
         
