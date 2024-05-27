@@ -37,8 +37,14 @@ public class RecyclingController {
 	private RecyclingService recyclingService;
 	
 	@GetMapping("/main")
-	public void main() {
+	public String rcyMain(Model model) {
 		logger.info("/buyer/recycling/main [GET]");
+		
+		List<Prd> list = recyclingService.getPrdList();
+		
+		model.addAttribute("list", list);
+		
+		return "buyer/recycling/main";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -75,16 +81,6 @@ public class RecyclingController {
         // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
 	}
         
-	@GetMapping("/main")
-	public String rcyMain(Model model) {
-		logger.info("/buyer/recycling/main [GET]");
-		
-		List<Prd> list = recyclingService.getPrdList();
-		
-		model.addAttribute("list", list);
-		
-		return "buyer/recycling/main";
-	}
 	
 	
 	@GetMapping("/rcydetail")

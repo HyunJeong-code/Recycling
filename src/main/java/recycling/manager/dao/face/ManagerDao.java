@@ -1,5 +1,7 @@
 package recycling.manager.dao.face;
 
+import org.apache.ibatis.annotations.Param;
+
 // 관리자 정보 DB 처리
 
 public interface ManagerDao {
@@ -11,7 +13,7 @@ public interface ManagerDao {
 	 * @param mgrPw - 비밀번호 확인을 위한 입력 비밀번호
 	 * @return 0 : 실패, 1 : 성공
 	 */
-	public int selectByIdPw(String mgrId, String mgrPw);
+	public int selectByIdPw(@Param("mgrId") String mgrId, @Param("mgrPw") String mgrPw);
 	
 	/**
 	 * 비밀번호 변경

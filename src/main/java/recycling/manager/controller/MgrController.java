@@ -166,6 +166,52 @@ public class MgrController {
 		logger.info("controller: noticelist : {}", list);
 	}
 	
+	@GetMapping("findid")
+	public void findId() {
+		logger.info("/manager/findid [GET]");
+	}
+	
+	@PostMapping("findid")
+	public void findIdProc(
+				Model model,
+				Manager manager,
+				String mgrPhone, String mPhone, String lPhone,
+				String mgrEmail, String mgrEamil2
+			) {
+		logger.info("/manager/findid [POST]");
+		
+		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
+		
+		if(manager == null) {
+			
+		} else {
+			
+		}
+	}
+	
+	@GetMapping("/findpw")
+	public void findPw() {
+		logger.info("/manager/findpw [GET]");
+	}
+	
+	@PostMapping("/findpw")
+	public String findPwProc(
+				Model model,
+				Manager manager,
+				String mgrPhone, String mPhone, String lPhone,
+				String mgrEmail, String mgrEamil2
+			) {
+		logger.info("/manager/findpw [POST]");
+		
+		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
+		
+		if(manager == null) {
+			return "";
+		} else {
+			return "";
+		}
+	}
+	
 	//공지사항 상세 조회
 	@GetMapping("/noticedetail")
 	public void noticeDetail(

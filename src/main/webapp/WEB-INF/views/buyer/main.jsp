@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>새활용 메인페이지</title>
+<link rel="stylesheet" href="../../../resources/css/common.css">
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
@@ -14,15 +15,10 @@
 <div class="full">
 	<div class="wrap">
 		
-		<div class="ad">
+		<div class="page">
 		</div>
 		
-		<div>
-			<div class="wash">
-			</div>
-			
-			<div class="hit">
-			</div>
+		<div class="section">
 		</div>
 		
 		<div>

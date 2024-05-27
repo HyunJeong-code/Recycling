@@ -16,6 +16,8 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Override
 	public int selectByIdPw(String mgrId, String mgrPw) {
+		logger.info("ManagerService.selectByIdPw");
+		logger.info("id : {}, pw : {}", mgrId, mgrPw);
 		return managerDao.selectByIdPw(mgrId, mgrPw);
 	}
 	

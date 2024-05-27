@@ -52,7 +52,6 @@
 	                <ul>
 	                    <li><a href="../../buyer/login">로그인</a></li>
 	                    <li><a href="../../buyer/join">회원가입</a></li>
-	                    </li>
 	                </ul>
             	</sec:authorize>
             	<sec:authorize access="hasRole('ROLE_BUYER')">
