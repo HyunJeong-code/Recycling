@@ -16,6 +16,10 @@
 		overflow: auto;
 		width: 100%;
 		min-height: 100vh;
+<<<<<<< HEAD
+=======
+		padding-bottom: 50px;
+>>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 		position: relative;
 	}
 	
@@ -31,7 +35,11 @@
 		flex: 1;
 		overflow-y: auto;
 		margin-top: 20px;
+<<<<<<< HEAD
 		margin-bottom: 50px;
+=======
+		margin-bottom: 100px;
+>>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 		max-width: 1000px;
 		text-align: center;
 		width: 100%;
@@ -221,10 +229,16 @@
 
 </head>
 
+<header>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+</header>
 <body>
+<<<<<<< HEAD
 	<header>
 		<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 	</header>
+=======
+>>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	
 	<div class="mainContainer">
 		<div class="mainBanner">
@@ -335,9 +349,13 @@
 		<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/> 
 	</footer>
 	
+<<<<<<< HEAD
 </body>
 
 <script>
+=======
+    <script>
+>>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	    document.addEventListener('DOMContentLoaded', function() {
 			const newPrdBtn = document.getElementById('newPrdBtn');
 	        const popPrdBtn = document.getElementById('popPrdBtn');
@@ -479,6 +497,12 @@
 	        
 	    });
 	</script>
+
+<<<<<<< HEAD
+=======
+	
+</body>
+>>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 
 
 </html>

@@ -14,27 +14,35 @@
 	    </where> -->
 	</select>
 
+<<<<<<< HEAD
+=======
+	<!-- 상품 목록 조회 -->
+>>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE CT_PNO = 0
 	</select>
-	
-	<select id="selectPrd" resultType="Prd">
+
+	<!-- 상품 조회 -->
+	<select id="selectPrd" parameterType="String" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE PRD_CODE = #{prdCode}
 	</select>
-	
-	<select id="selectSellerProfByCode" resultType="SellerProf">
+
+	<!-- 판매자 프로필 조회 -->
+	<select id="selectSellerProfByCode" parameterType="String" resultType="SellerProf">
 		SELECT * FROM SELLER_PROF
 		WHERE S_CODE = #{sCode}
 	</select>
-	
+
+	<!-- 판매자 문의 등록 -->
 	<insert id="insertSellerQST" parameterType="SellerQST">
         INSERT INTO SELLER_QST (QST_CODE, CTQSTNO, PRD_CODE, B_CODE, QST_TITLE, QST_CONTENT, QST_NAME, QST_EMAIL, QST_DATE, QST_HIT)
         VALUES (#{qstCode}, #{CTqstno}, #{PrdCode}, #{bCode}, #{qstTitle}, #{qstContent}, #{qstName}, #{qstEmail}, #{qstDate}, #{qstHit})
     </insert>
-    
-	<update id="updateSellerQST" parameterType="recycling.dto.seller.SellerQST">
+
+	<!-- 판매자 문의 수정 -->
+	<update id="updateSellerQST" parameterType="SellerQST">
 		UPDATE SELLER_QST
 		SET CTQSTNO = #{CTqstno},
 			PRD_CODE = #{PrdCode},
@@ -47,29 +55,34 @@
 			QST_HIT = #{qstHit}
         WHERE QST_CODE = #{qstCode}
     </update>
-    
+
+    <!-- 판매자 문의 삭제 -->
     <delete id="deleteSellerQST">
 		DELETE FROM SELLER_QST
 		WHERE QST_CODE = #{qstCode}
 	</delete>
-	
-	<select id="selectSellerAnswers" resultType="recycling.dto.seller.SellerAns">
+
+	<!-- 판매자 답변 목록 조회 -->
+	<select id="selectSellerAnswers" parameterType="String" resultType="SellerAns">
 		SELECT * FROM SELLER_ANS
 		WHERE QST_CODE = #{qstCode}
 	</select>
-	
-	<insert id="insertSellerAnswer" parameterType="recycling.dto.seller.SellerAns">
+
+	<!-- 판매자 답변 등록 -->
+	<insert id="insertSellerAnswer" parameterType="SellerAns">
 		INSERT INTO SELLER_ANS (QNA_CODE, QST_CODE, S_CODE, QNA_CONTENT, QNA_DATE)
 		VALUES (#{qnaCode}, #{qstCode}, #{sCode}, #{qnaContent}, #{qnaDate})
 	</insert>
-	
-	<update id="updateSellerAnswer" parameterType="recycling.dto.seller.SellerAns">
+
+	<!-- 판매자 답변 수정 -->
+	<update id="updateSellerAnswer" parameterType="SellerAns">
 		UPDATE SELLER_ANS
 		SET QNA_CONTENT = #{qnaContent},
 			QNA_DATE = #{qnaDate}
 		WHERE QNA_CODE = #{qnaCode}
 	</update>
-	
+
+	<!-- 판매자 답변 삭제 -->
 	<delete id="deleteSellerAnswer">
 		DELETE FROM SELLER_ANS
 		WHERE QNA_CODE = #{qnaCode}
