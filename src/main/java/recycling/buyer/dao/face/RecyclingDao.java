@@ -21,6 +21,7 @@ public interface RecyclingDao {
 	 * @return
 	 */
 	public List<Seller> findSeller();
+	
 	public List<Prd> selectPrdList();
 
 	public Prd selectPrd(String prdCode);

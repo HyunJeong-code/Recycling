@@ -2,16 +2,16 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
+import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
-import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.BuyerRank;
-import recycling.dto.buyer.Cmp;
 import recycling.dto.seller.Seller;
 
 // 마이페이지 - 회원 정보 관련 DB 처리
@@ -190,7 +190,6 @@ public interface BuyerDao {
 	public BuyerRank selectBuyerRank(int rankNo);
 
 	public int changePw(BuyerLogin buyerLogin);
-	
 	/**
 	 * 판매자 찾기
 	 * 
@@ -198,5 +197,5 @@ public interface BuyerDao {
 	 * @return
 	 */
 	public List<Seller> findSeller(String sCode);
-
 }
+

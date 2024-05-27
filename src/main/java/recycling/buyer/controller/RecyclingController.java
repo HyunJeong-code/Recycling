@@ -47,6 +47,7 @@ public class RecyclingController {
 		return "buyer/recycling/main";
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/findseller", method = RequestMethod.GET)
 	public String findSeller(String sCode, String sAddr, Model model, HttpSession session) {
@@ -79,10 +80,9 @@ public class RecyclingController {
         return "buyer/recycling/findseller";
         
         // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
-	}
+//        return "buyer/recycling/findseller_origin";
+        }
         
-	
-	
 	@GetMapping("/rcydetail")
 	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, HttpSession session) {
 		logger.info("/rcydetail [GET] - prdCode: {}", prdCode );
