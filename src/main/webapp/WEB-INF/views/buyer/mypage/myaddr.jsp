@@ -105,7 +105,14 @@ function chkAdrLimit() {
 			<h3>배송지 관리</h3>
 			<hr>
 			<div class="page">
-			<a href="/buyer/main">메인</a><br>
+				<c:choose>
+					<c:when test="${buyerLogin.bCtCode == 'P' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a>
+					</c:when>
+					<c:when test="${buyerLogin.bCtCode == 'C' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a>
+					</c:when>
+				</c:choose>
 				<c:if test="${not empty buyerAdrList }">
 					<h4>기본 배송지</h4>
 					<c:forEach var="address" items="${buyerAdrList }" varStatus="status">

@@ -139,6 +139,22 @@ public interface BuyerDao {
 	public Cmp getCmpDetail(String bCode);
 
 	/**
+	 * 구매자 프로필 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 조회된 프로필 조회
+	 */
+	public BuyerProf getBuyerProf(String bCode);
+	
+	/**
+	 * 
+	 * 
+	 * @param cmpNo
+	 * @return
+	 */
+	public CmpFile getCmpFile(int cmpNo);
+	
+	/**
 	 * 비밀번호 변경
 	 * 
 	 * @param bId - 구매자 아이디
@@ -172,13 +188,13 @@ public interface BuyerDao {
 	public int updateBuyerProf(BuyerProf prof);
 
 	/**
-	 * 사업자 등록증 업데이트 
 	 * 
-	 * @param file - 업데이트 할 사업자 등록증
-	 * @return 업데이트 결과
+	 * 
+	 * @param file
+	 * @return
 	 */
 	public int updateCmpFile(CmpFile file);
-
+	
 	/**
 	 * 모든 배송지 정보 조회
 	 * 

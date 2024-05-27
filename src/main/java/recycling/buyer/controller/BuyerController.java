@@ -1,16 +1,11 @@
 package recycling.buyer.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -18,10 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -333,6 +326,7 @@ public class BuyerController {
 			) {
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
 		logger.info("/buyer/mypage/mymain [POST]");
 		
 		if(buyerLogin == null) {
@@ -388,9 +382,11 @@ public class BuyerController {
 		
 		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		BuyerRank buyerRank = buyerService.getBuyerRank(buyer.getRankNo());
+		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
 		
-		model.addAttribute("buyer", buyer);
-		model.addAttribute("buyerRank", buyerRank);
+	    model.addAttribute("buyer", buyer);
+	    model.addAttribute("buyerRank", buyerRank);
+	    model.addAttribute("buyerProf", buyerProf);
 		
 		return "/buyer/mypage/mypagepri";
 		
@@ -416,9 +412,13 @@ public class BuyerController {
 		
 		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		Cmp cmp = buyerService.getCmpDetail(buyerLogin.getbCode());
+		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
+		CmpFile cmpFile = buyerService.getCmpFile(cmp.getCmpNo());
 		
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("cmp", cmp);
+		model.addAttribute("buyerProf", buyerProf);
+		model.addAttribute("cmpFile", cmpFile);
 		
 		return "/buyer/mypage/mypagecmp";
 		
@@ -441,6 +441,8 @@ public class BuyerController {
 		}
 		
 		logger.info("/buyer/mypage/changepw [GET]");
+		
+		model.addAttribute("buyerLogin", buyerLogin);
 		
 		return "buyer/mypage/changepw";
 		
@@ -512,9 +514,12 @@ public class BuyerController {
 		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		BuyerRank buyerRank = buyerService.getBuyerRank(currentBuyer.getRankNo());
+		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
 		
 		model.addAttribute("currentBuyer", currentBuyer);
 		model.addAttribute("buyerRank", buyerRank);
+		model.addAttribute("buyerProf", buyerProf);
+		model.addAttribute("buyerLogin", buyerLogin);
 		
 		return "/buyer/mypage/mydetailpri";
 		
@@ -572,32 +577,15 @@ public class BuyerController {
 		// 프로필 이미지 업데이트
 	    if (!buyerProf.isEmpty()) {
 	    	
-	        BuyerProf prof = new BuyerProf();
-	        String originalFilename = buyerProf.getOriginalFilename();
-	        String storedName = System.currentTimeMillis() + "_" + originalFilename;
-	        Path path = Paths.get("uploads/" + storedName);
-
-	        try {
-	           
-	        	Files.createDirectories(path.getParent());
-	            
-	        	buyerProf.transferTo(path.toFile());
-	        
-	        } catch (IOException e) {
-	            
-	        	e.printStackTrace();
-	            
-	        	model.addAttribute("error", "프로필 이미지 저장 실패");
-	            
-	        	return "redirect:/buyer/mypage/mydetailpri";
-	        
-	        }
-
-	        prof.setbCode(buyer.getbCode());
-	        prof.setOriginName(originalFilename);
-	        prof.setStoredName(storedName);
-
-	        buyerService.updateBuyerProf(prof);
+	    	 int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
+	         
+	    	 if (result == 0) {
+	             
+	    		 model.addAttribute("error", "프로필 이미지 저장 실패");
+	             
+	    		 return "redirect:/buyer/mypage/mydetailpri";
+	         
+	    	 }
 	        
 	    }
 		
@@ -640,9 +628,12 @@ public class BuyerController {
 		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		Cmp currentCmp = buyerService.getCmpDetail(buyerLogin.getbCode());
+		BuyerProf buyerProf = buyerService.getBuyerProf(currentBuyer.getbCode());
 		
 		model.addAttribute("currentBuyer", currentBuyer);
 		model.addAttribute("currentCmp", currentCmp);
+		model.addAttribute("buyerProf", buyerProf);
+		model.addAttribute("buyerLogin", buyerLogin);
 		
 		return "/buyer/mypage/mydetailcmp";
 		
@@ -698,69 +689,34 @@ public class BuyerController {
 		}
 		
 		// 프로필 이미지 업데이트
-	    if (!cmpProf.isEmpty()) {
+		if (!cmpProf.isEmpty()) {
 	        
-	    	BuyerProf prof = new BuyerProf();
-	        String originalFilename = cmpProf.getOriginalFilename();
-	        String storedName = System.currentTimeMillis() + "_" + originalFilename;
-	        Path path = Paths.get("uploads/" + storedName);
-
-	        try {
-
-	        	Files.createDirectories(path.getParent());
-	           
-	        	cmpProf.transferTo(path.toFile());
-	       
-	        } catch (IOException e) {
+			int result = buyerService.updateBuyerProf(cmpProf, buyerLogin.getbCode());
 	        
-	        	e.printStackTrace();
-	            
-	        	model.addAttribute("error", "프로필 이미지 저장 실패");
-	            
-	        	return "redirect:/buyer/mypage/mydetailcmp";
+			if (result == 0) {
 	        
-	        }
-
-	        prof.setbCode(buyer.getbCode());
-	        prof.setOriginName(originalFilename);
-	        prof.setStoredName(storedName);
-
-	        buyerService.updateBuyerProf(prof);
-
-	    }
-
-	    // 사업자 등록증 업데이트
-	    if (!cmpFile.isEmpty()) {
-	    	
-	        String originalFilename = cmpFile.getOriginalFilename();
-	        String storedName = System.currentTimeMillis() + "_" + originalFilename;
-	        Path path = Paths.get("uploads/" + storedName);
-
-	        try {
+				model.addAttribute("error", "프로필 이미지 저장 실패");
 	            
-	        	Files.createDirectories(path.getParent());
-	            
-	        	cmpFile.transferTo(path.toFile());
+				return "redirect:/buyer/mypage/mydetailcmp";
 	        
-	        } catch (IOException e) {
-	        
-	        	e.printStackTrace();
-	            
-	        	model.addAttribute("error", "사업자 등록증 저장 실패");
-	            
-	        	return "redirect:/buyer/mypage/mydetailcmp";
-	        
-	        }
-
-	        CmpFile file = new CmpFile();
-
-	        file.setCmpNo(cmp.getCmpNo());
-	        file.setOriginName(originalFilename);
-	        file.setStoredName(storedName);
-
-	        buyerService.updateCmpFile(file);
+			}
 	    
-	    }
+		}
+		
+	    // 사업자 등록증 업데이트
+		if (!cmpFile.isEmpty()) {
+	        
+			int result = buyerService.updateCmpFile(cmpFile, buyerLogin.getbCode());
+	        
+			if (result == 0) {
+	        
+				model.addAttribute("error", "사업자 등록증 저장 실패");
+	            
+				return "redirect:/buyer/mypage/mydetailcmp";
+	        
+			}
+	    
+		}
 		
 		int updateBuyerResult = buyerService.updateBuyerDetail(buyer);
 		int updateCmpResult = buyerService.updateCmpDetail(cmp);
@@ -800,6 +756,7 @@ public class BuyerController {
         List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(buyerLogin.getbCode());
         
         model.addAttribute("buyerAdrList", buyerAdrList);
+        model.addAttribute("buyerLogin", buyerLogin);
         
         return "/buyer/mypage/myaddr";
 		
@@ -929,6 +886,7 @@ public class BuyerController {
 			
 			buyerService.deleteBuyer(buyerLogin.getbCode());
 			
+			// 구매자가 판매자인 경우, 판매자 탈퇴 처리
 			if("Y".equals(buyerLogin.getsChk())) {
 				
 				buyerService.deleteSeller(buyerLogin.getsCode());

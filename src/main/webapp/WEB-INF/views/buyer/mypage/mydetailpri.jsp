@@ -112,12 +112,19 @@ function cancelUpdate() {
 			<h2>개인 정보 수정</h2>
 			<hr>
 			<div class="page">
-				<a href="/buyer/main">메인</a>
+				<c:choose>
+					<c:when test="${buyerLogin.bCtCode == 'P' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a>
+					</c:when>
+					<c:when test="${buyerLogin.bCtCode == 'C' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a>
+					</c:when>
+				</c:choose>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailpri" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
 					
 					<label for="buyerProf">프로필 이미지 </label><br>
-					<img src="/uploads/${buyerProf.storedName }" alt="프로필 이미지" style="width:150px; height:150px;"><br>
+					<img src="${pageContext.request.contextPath}/resources/image/${buyerProf.storedName}" alt="프로필 이미지" style="width: 100px; height: 100px;"><br>
 					<input type="file" id="buyerProf" name="buyerProf"><br>
 					
 					<label for="bName">이름 </label>

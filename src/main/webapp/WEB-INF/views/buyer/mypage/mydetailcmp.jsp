@@ -112,12 +112,19 @@ function cancelUpdate() {
 			<h2>기업 정보 수정</h2>
 			<hr>
 			<div class="page">
-				<a href="/buyer/main">메인</a>
+				<c:choose>
+					<c:when test="${buyerLogin.bCtCode == 'P' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a>
+					</c:when>
+					<c:when test="${buyerLogin.bCtCode == 'C' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a>
+					</c:when>
+				</c:choose>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailcmp" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
 					
 					<label for="cmpProf">프로필 이미지 </label><br>
-					<img src="/uploads/${cmpProf.storedName }" alt="프로필 이미지" style="width:150px; height:150px;"><br>
+					<img src="${pageContext.request.contextPath}/resources/image/${buyerProf.storedName}" alt="프로필 이미지" style="width: 100px; height: 100px;"><br>
                     <input type="file" id="cmpProf" name="cmpProf"><br>
 					
 					<label for="bName">담당자 이름 </label>
@@ -173,7 +180,9 @@ function cancelUpdate() {
 					<input type="text" id="cmpDetail" name="cmpDetail" value="${currentCmp.cmpDetail }"><br>
 					
 					<label for="cmpFile">사업자 등록증 첨부 </label><br>
-					
+					<c:if test="${not empty cmpFile }">
+    					<img src="${pageContext.request.contextPath }/resources/cmpfile/${cmpFile.storedName }" alt="사업자 등록증" style="width: 100px; height: 100px;">
+					</c:if>
 					<input type="file" id="cmpFile" name="cmpFile"><br>
 					
 					<input type="submit" value="수정하기">

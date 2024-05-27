@@ -140,6 +140,22 @@ public interface BuyerService {
 	public Cmp getCmpDetail(String bCode);
 	
 	/**
+	 * 구매자 프로필 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 조회된 프로필 정보
+	 */
+	public BuyerProf getBuyerProf(String bCode);
+	
+	/**
+	 * 사업자 등록증 조회
+	 * 
+	 * @param cmpNo - 기업 번호
+	 * @return 조회된 사업자 등록증 정보
+	 */
+	public CmpFile getCmpFile(int cmpNo);
+	
+	/**
 	 * 구매자 비밀번호 확인
 	 * 
 	 * param bId - 구매자 아이디
@@ -175,18 +191,19 @@ public interface BuyerService {
 	/**
 	 * 구매자 프로필 업데이트
 	 * 
-	 * @param prof - 업데이트 할 프로필 정보
+	 * @param buyerProf - 업데이트 할 프로필 정보
 	 * @return 업데이트 결과
 	 */
-	public int updateBuyerProf(BuyerProf prof);
+	public int updateBuyerProf(MultipartFile buyerProf, String bCode);
 	
 	/**
 	 * 사업자 등록증 업데이트
 	 * 
-	 * @param file - 업데이트 할 사업자 등록증
+	 * @param cmpFile - 업데이트 할 사업자 등록증
+	 * @param bCode - 구매자 코드
 	 * @return 업데이트 결과
 	 */
-	public int updateCmpFile(CmpFile file);
+	public int updateCmpFile(MultipartFile cmpFile, String bCode);
 	
 	/**
 	 * 구매자의 모든 배송지 정보
@@ -242,7 +259,7 @@ public interface BuyerService {
 	 * 구매자 탈퇴
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 탈퇴한 행 수
+	 * @return 처리 결과
 	 */
 	public int deleteBuyer(String bCode);
 
@@ -250,7 +267,7 @@ public interface BuyerService {
 	 * 판매자 탈퇴
 	 * 
 	 * @param sCode - 판매자 코드
-	 * @return 탈퇴한 행 수
+	 * @return 처리 결과
 	 */
 	public int deleteSeller(String sCode);
 

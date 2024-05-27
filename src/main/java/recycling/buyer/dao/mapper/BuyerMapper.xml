@@ -138,7 +138,19 @@
     	SELECT * FROM Buyer_Rank
     	WHERE Rank_No = #{rankNo }
     </select>
-	
+    
+    <!-- 구매자 프로필 조회 -->
+    <select id="getBuyerProf" parameterType="string" resultType="recycling.dto.buyer.BuyerProf">
+    	SELECT * FROM Buyer_Prof
+    	WHERE B_Code = #{bCode }
+    </select>
+    
+    <!-- 사업자 등록증 조회 -->
+    <select id="getCmpFile" parameterType="int" resultType="recycling.dto.buyer.CmpFile">
+    	SELECT * FROM Cmp_File
+    	WHERE Cmp_No = #{cmpNo }
+    </select>
+    
     <!-- 비밀번호 변경 -->
     <update id="changePw" parameterType="recycling.dto.buyer.BuyerLogin">
     	UPDATE Buyer
@@ -278,14 +290,20 @@
     </select>
     
     <!-- 구매자 탈퇴 -->
-    <delete id="deleteBuyer" parameterType="string">
-    	DELETE FROM Buyer
+    <update id="deleteBuyer" parameterType="string">
+    	UPDATE Buyer
+    	SET
+    		B_Out = 'Y',
+    		B_Out_Date = SYSDATE
    		WHERE B_Code = #{bCode }
-    </delete>
+    </update>
     
-    <!-- 판매자 탈퇴 -->
+	<!-- 판매자 탈퇴 -->
     <delete id="deleteSeller" parameterType="string">
-    	DELETE FROM Seller
+    	UPDATE Seller
+    	SET
+    		S_Out = 'Y',
+    		S_Out_Date = SYSDATE
     	WHERE S_Code = #{sCode }
     </delete>
 </mapper>
