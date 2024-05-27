@@ -14,10 +14,7 @@
 	    </where> -->
 	</select>
 
-<<<<<<< HEAD
-=======
 	<!-- 상품 목록 조회 -->
->>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE CT_PNO = 0

@@ -28,10 +28,6 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.findSeller();
 	}
 	
-<<<<<<< HEAD
-=======
-	
->>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	@Override
 	public List<Prd> getPrdList() {
 		
