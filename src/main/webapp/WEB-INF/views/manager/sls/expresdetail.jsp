@@ -13,8 +13,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <title>체험단 예약 관리</title>
-<script type="text/javascript">
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/sls/expresdetail.css">
 
+<script type="text/javascript">
 /* 예약 확정버튼 클릭시[] */
 $(function() {
 	$("#btn_reserve_complete").click(function() {
@@ -177,83 +179,12 @@ $(function() {
 		
 })
 </script>
-<style type="text/css">
-.full {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-}
-
-.wrap {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
-    width: 100%;
-}
-
-.page h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.page hr {
-    margin: 10px 0;
-}
-
-.section {
-    margin-top: 20px;
-}
-
-.table th, .table td {
-    border: 1px solid #dee2e6;
-    padding: 8px;
-    text-align: center;
-}
-
-.table th {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.table th:first-child, .table td:first-child {
-    background-color: #f8f9fa;
-    font-weight: bold;
-}
-
-.btn {
-    padding: 5px 15px;
-    border-radius: 4px;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-    border-color: #bd2130;
-}
-</style>
-
 </head>
 <body>
     <div class="full">
+    	<aside>
+    	
+    	</aside>
         <div class="wrap">
             <div class="page">
 	            <h1>체험단 예약 관리</h1>
@@ -263,7 +194,7 @@ $(function() {
         
             <div class="section">
 
-<table border="1" class="table table-hover table-sm" style="width:1000px;">
+<table>
 	
 	<thead>
         <tr>
@@ -280,7 +211,7 @@ $(function() {
 	<tbody>
             <tr>
                 <td class="expCode">${exp.expCode}</td>
-                <td>${exp.expName}</td>
+                <td class="expName_fix">${exp.expName}</td>
                 <td>${exp.expPrice}</td>
 
                 <td>
@@ -320,7 +251,6 @@ $(function() {
     </tbody>
 </table>
 
-<c:out value=""></c:out>
 <table>
 	<tbody>
 	<tr>
@@ -335,7 +265,7 @@ $(function() {
 <hr>
 <h2>체험단 예약 리스트</h2>
 
-<table border="1" class="table table-hover table-sm" style="width:1000px;">
+<table>
 	
 	<thead>
         <tr>

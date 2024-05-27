@@ -129,10 +129,9 @@ $(function() {
 							<input type="file" id="file" name="file" required="required">
 						</div>
 
-
-				<button class="btn_bot_join">등록하기</button>
-				<a href="./main"><button class="btn_bot_cencle">취소하기</button></a>
-
+					<div class ="btn_inform">
+						<button class="btn_bot_join">등록하기</button>
+					</div>
 				</form>
 			</div><!-- section -->
 			</div>

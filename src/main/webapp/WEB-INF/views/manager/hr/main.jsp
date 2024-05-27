@@ -79,7 +79,7 @@
 			</div>
 			
 					<div class = "section">
-						<table border="1">
+						<table>
 							<thead>
 								<tr>
 									<th></th>
@@ -88,7 +88,6 @@
 									<th>사원번호</th>
 									<th>핸드폰 번호</th>
 									<th>이메일</th>
-<!-- 									<th>입사일</th> -->
 									<th>상세조회</th>
 								</tr>
 							</thead>
@@ -104,25 +103,19 @@
 										<td>${select.mgrCode }</td>
 										<td>${select.mgrPhone }</td>
 										<td>${select.mgrEmail }</td>
-<!-- 										<td> -->
-<!-- 												데이터 타입이 String일 경우 사용  -->
-<%-- 												<fmt:parseDate value="${select.mgrEntDate }" var="mgrEntDate" pattern="yyyy-MM-dd" /> --%>
-<%-- 												<fmt:formatDate value="${mgrEntDate }" pattern="yyyy-MM-dd" /> --%>
-<!-- 										</td> -->
-					
 										<td><a href="./empdetail?mgrCode=${select.mgrCode }">
-												<button class="btn_section_detail">상세정보 보기</button>
-										</a></td>
+												<button class="btn_section_detail">상세정보 보기</button></a>
+										</td>
 									</tr>
 									</c:if>
 								</c:forEach>
 							</tbody>
 						</table>
+					</div><!-- section -->
 							<div class="btn_bot_wrap">
 									<a href="./empform"><button class="btn_bot_inform">사원정보 입력</button></a>
 									<button class="btn_bot_del">삭제하기</button>
 							</div>
-					</div><!-- section -->
 		</div><!-- wrap -->
 	</div><!-- full -->
 

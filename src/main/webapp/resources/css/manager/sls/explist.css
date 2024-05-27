@@ -159,6 +159,10 @@ table caption {
 	display: none;
 }
 
+table tr:hover {
+  background-color: #f5f5f5;
+}
+
 /* 버튼세팅 */
 .btn_section_detail {
 	padding: 10px 20px;
@@ -175,7 +179,8 @@ table caption {
 	padding-top: 10 px;
 	display: flex;
 	float: right;
-	margin: 0 0 20px 0;
+	margin: 20px 0;
+	justify-content: flex-end
 }
 
 /* 버튼 세팅 */
@@ -206,4 +211,19 @@ table caption {
 
 .btn_bot_del:hover {
 	background-color: #da190b;
+}
+
+button[type="submit"]:hover,
+.btn_section_detail:hover,
+.btn_bot_inform:hover,
+.btn_bot_del:hover {
+  background-color: #0056b3;
+}
+
+table .expName_fix{
+	width: 330px;
+}
+
+table .expName_fix_con{
+	text-align: left;	
 }
