@@ -21,10 +21,18 @@
             var headerOffset = header.offset().top;
 
             $(window).scroll(function() {
-                if ($(window).scrollTop() > headerOffset) {
-                    header.addClass('fixed');
+                if ($(window).scrollTop() >= headerOffset + 100) {
+                    if (!header.hasClass('fixed')) {
+                        header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
+                        //$(".full").stop().animate({ 'padding-top': '200px' }, 300);
+                    }
                 } else {
-                    header.removeClass('fixed');
+                    if (header.hasClass('fixed')) {
+                        header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
+                            header.css('top', '');
+                            //$(".full").stop().animate({ 'padding-top': '100px' }, 300);
+                        });
+                    }
                 }
             });
         

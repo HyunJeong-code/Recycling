@@ -181,12 +181,22 @@ public class UpcyclingController {
 		
 		 String bCode = buyerLogin.getbCode();
 		
+		 //아이디 상세 가져오기
+		 Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+		 
+		 //배송지 주소 가져오기
 		 List<BuyerAdr> buyeradr = buyerService.selectBybCode(bCode); 
-		
+		 
+		 cartOrder.setcCnt(1);
+		 cartOrder.setPrdName("test");
+		 cartOrder.setPrdFee(0);
+		 cartOrder.setPrice(1);
+		 
 		 logger.info("buyer : {}", buyeradr);
 		
+		 model.addAttribute("buyer", buyer);
 		 model.addAttribute("cart", cartOrder);
-		 model.addAttribute("buyer", buyeradr);
+		 model.addAttribute("buyeradr", buyeradr);
 	 }
 	 
 	 
