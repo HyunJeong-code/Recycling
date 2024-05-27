@@ -1,6 +1,8 @@
 package recycling.buyer.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,11 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-<<<<<<< HEAD
-=======
 import com.fasterxml.jackson.databind.ObjectMapper;
 
->>>>>>> 53e402b10baf75bfb95587ff125296e39c4efe7c
 import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;

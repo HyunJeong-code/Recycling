@@ -11,6 +11,7 @@
     List<CartOrder> clist = (List<CartOrder>) request.getAttribute("clist");
     Gson gson = new Gson();
     String jsonData = gson.toJson(clist);
+    String buyeradrJson = gson.toJson(request.getAttribute("buyeradr"));
 %>
 <!DOCTYPE html>
 <html>
@@ -76,17 +77,35 @@
 
         }) // $("#btnPostcode").click end
 
-        //닫기 버튼 구현
-        //$(".closeIcon").click(function() {
-        //})
-    })
-    
-    //const myModal = document.getElementById('myModal')
-    //const myInput = document.getElementById('myInput')
+		
+		//배송지 입력 체크시
+		$("#adrChk input").change(function() {
+            if ($(this).is(':checked')) {
+            	
+            	if($(this).val() == -1){
+                    $("#ordName").val("");
+                    $("#ordPhone").val("");
+                    $("#ordPostcode").val("");
+                    $("#ordAddr").val("");
+                    $("#ordDetail").val("");
+                    return ;
+            	}
+            	
+                var i = $(this).val();
+                var buyeradr = JSON.parse('<%= buyeradrJson %>');
+                console.log(buyeradr[i].adrDetail);
 
-    //myModal.addEventListener('shown.bs.modal', () => {
-    //  myInput.focus()
-    //})
+                $("#ordName").val(buyeradr[i].adrName);
+                $("#ordPhone").val(buyeradr[i].adrPhone);
+                $("#ordPostcode").val(buyeradr[i].adrPostcode);
+                $("#ordAddr").val(buyeradr[i].adrAddr);
+                $("#ordDetail").val(buyeradr[i].adrDetail);
+                
+            }
+        });
+        
+    }) //$ end
+    
     
 
         //가맹점 식별코드 초기화
@@ -150,15 +169,6 @@
             }, function (rsp) { // callback
                 //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
                 
-			  	/* $.post("test_data",
-				  {
-				    amount: $("#amount").val(),
-				    rsp: rsp
-				  },
-				  function(data, status){
-				    alert("Data: " + data + "\nStatus: " + status);
-				  }); */
-
                 console.log(rsp)
                 
                 //결제 성공시
@@ -200,25 +210,6 @@
                 	console.log("결제실패"+rsp)
                 }
 
-/*                 $("<form>")
-                    .attr("action","")
-                    .attr("method","post")
-                    .append(
-                        $("<input>")
-                        .attr({
-                            type: "text"
-                            , name: "imp_uid"
-                            , value: rsp.imp_uid
-                        }))
-                    .append(
-                        $("<input>")
-                        .attr({
-                            type: "text"
-                            , name: "merchant_uid"
-                            , value: rsp.merchant_uid
-                        }))
-                    .appendTo($(document.body))
-                    .submit() */ 
             });
         }
     
@@ -231,55 +222,82 @@
 
 <table>
 	
-		<thead>
+	<thead>
+		<tr>
+			<th>카트 코드</th>
+			<th>상품 이미지</th>
+			<th>상품 이름</th>
+			<th>상품 가격</th>
+			<th>배송비</th>
+			<th>수량</th>
+			<th>총 금액</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="cart" items="${clist }">
 			<tr>
-				<th>카트 코드</th>
-				<th>상품 이미지</th>
-				<th>상품 이름</th>
-				<th>상품 가격</th>
-				<th>배송비</th>
-				<th>수량</th>
-				<th>총 금액</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="cart" items="${clist }">
-				<tr>
-			 		<td>${cart.cCode }</td>
-			 		<td>${cart.storedName }</td>
-			 		<td>${cart.prdName }</td>
-			 		<td>${cart.price }</td>
-			 		<td>${cart.prdFee }</td>
-			 		<td>${cart.cCnt }</td>
-			 		<td>
-			 			${cart.cCnt * cart.price + cart.prdFee }
-			 		</td>
-			 	</tr>
-			</c:forEach>
-		 	
-	 	</tbody>
-	</table>
+		 		<td>${cart.cCode }</td>
+		 		<td>${cart.storedName }</td>
+		 		<td>${cart.prdName }</td>
+		 		<td>${cart.price }</td>
+		 		<td>${cart.prdFee }</td>
+		 		<td>${cart.cCnt }</td>
+		 		<td>
+		 			${cart.cCnt * cart.price + cart.prdFee }
+		 		</td>
+		 	</tr>
+		</c:forEach>
+	 	
+ 	</tbody>
+</table>
+<br>
 
-상품: <span id="product_name">친환경 컵</span>
+<h5>개인정보</h5>
+이름 : ${buyer.bName }<br>
+전화번호 : ${buyer.bPhone }
 
-<br><br>
+<br>
+<h5>배송지 입력</h5>
+<div id="adrChk">
+<c:forEach var="adr" varStatus="status" items="${buyeradr }">
+	<label for>
+		${adr.adrPostcode }
+		${adr.adrAddr }
+		${adr.adrDetail }
+	</label>
+	<c:choose>
+		<c:when test="${status.index == 0}">
+			<input type="radio" id="${adr.adrCode }" name="adr" value="${status.index }" checked>
+		</c:when>
+		<c:otherwise>
+			<input type="radio" id="${adr.adrCode }" name="adr" value="${status.index }">
+		</c:otherwise>
+	</c:choose>
+	<br>
+</c:forEach>
+<label for>직접입력</label>
+<input type="radio" name="adr" value="-1">
+
+</div>
+
+<br>
 <form id="order_form" action="./pay" method="post">
-<label>이름
-	<input type="text" name="ordName" id="ordName" value="${buyer.adrName }">
+<label>받는 사람
+	<input type="text" name="ordName" id="ordName" value="${buyeradr[0].adrName }">
 </label><br>
 <label>연락처
-	<input type="text" name="ordPhone" id="ordPhone" value="${buyer.adrPhone }">
+	<input type="text" name="ordPhone" id="ordPhone" value="${buyeradr[0].adrPhone }">
 </label><br>
 <!-- 클릭시 주소 모달창 활성화 -->
 <button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#exampleModal">주소 찾기</button>
 <label>우편 번호
-	<input type="text" name="ordPostcode" id="ordPostcode" value="${buyer.adrPostcode }">
+	<input type="text" name="ordPostcode" id="ordPostcode" value="${buyeradr[0].adrPostcode }">
 </label><br>
 <label>배송 주소
-	<input type="text" name="ordAddr" id="ordAddr" value="${buyer.adrAddr }">
+	<input type="text" name="ordAddr" id="ordAddr" value="${buyeradr[0].adrAddr }">
 </label><br>
 <label>상세 주소
-	<input type="text" name="ordDetail" id="ordDetail" value="${buyer.adrDetail }">
+	<input type="text" name="ordDetail" id="ordDetail" value="${buyeradr[0].adrDetail }">
 </label><br>
 <label>메모
 	<input type="text" name="ordMemo" id="ordMemo">
