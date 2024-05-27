@@ -4,8 +4,10 @@ body {
 }
 
 .full {
+	width: 1200px;
 	height: auto;
-    min-height: calc(100% - 240px);
+    min-height: calc(100vh - 450px);
+    margin: 0 auto;
     padding: 100px 20px;
 }
 

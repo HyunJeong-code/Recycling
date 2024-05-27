@@ -103,6 +103,8 @@
 </script>
 </head>
 <body>
+	
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
 	<form action="./pay" method="get" id="ord_form">
 	<table id="cartTable">
@@ -145,5 +147,6 @@
 	
 	</form>
 
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>
