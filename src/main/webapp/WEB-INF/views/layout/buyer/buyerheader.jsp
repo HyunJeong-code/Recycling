@@ -24,13 +24,13 @@
                 if ($(window).scrollTop() >= headerOffset+600) {
                     if (!header.hasClass('fixed')) {
                         header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
-                        //$("body").css("margin-top","210px");
+                        $("body").css("padding-top","210px");
                     }
                 } else {
                     if (header.hasClass('fixed')) {
                         header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
                             header.css('top', '');
-                            //$("body").css("margin-top","0");
+                            $("body").css("padding-top","0");
                         });
                     }
                 }
