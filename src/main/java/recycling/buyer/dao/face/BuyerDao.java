@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
@@ -12,6 +13,7 @@ import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 
 // 마이페이지 - 회원 정보 관련 DB 처리
 public interface BuyerDao {	
@@ -94,7 +96,7 @@ public interface BuyerDao {
 	 * @param bCode - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> selectOrderDetailBybCode(String bCode);
+	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
 
 	/**
 	 * 장바구니 수량 변경
@@ -143,7 +145,7 @@ public interface BuyerDao {
 	 * @param newPw - 새 비밀번호
 	 * @return 비밀번호 변경 결과
 	 */
-	public int changePw(String bId, String newPw);
+	public int changePw(BuyerLogin buyerLogin);
 
 	/**
 	 * 구매자 정보 업데이트
@@ -160,6 +162,22 @@ public interface BuyerDao {
 	 * @return 업데이트 결과
 	 */
 	public int updateCmpDetail(Cmp cmp);
+	
+	/**
+	 * 구매자 프로필 업데이트
+	 * 
+	 * @param prof - 업데이트 할 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProf(BuyerProf prof);
+
+	/**
+	 * 사업자 등록증 업데이트 
+	 * 
+	 * @param file - 업데이트 할 사업자 등록증
+	 * @return 업데이트 결과
+	 */
+	public int updateCmpFile(CmpFile file);
 
 	/**
 	 * 모든 배송지 정보 조회
@@ -215,8 +233,7 @@ public interface BuyerDao {
 	 * @param bCode - 구매자 코드
 	 * @return 설정 결과
 	 */
-	public int setDefaultAdr(String adrCode, String bCode);
-
+	public int setDefaultAdr(BuyerAdr buyerAdr);
 	/**
 	 * 구매자 탈퇴
 	 * 
@@ -226,13 +243,11 @@ public interface BuyerDao {
 	public int deleteBuyer(String bCode);
 
 	/**
-	 * 구매자 등급 번호로 구매자 등급 조회
+	 * 판매자 탈퇴
 	 * 
-	 * @param rankNo - 구매자 등급 번호
-	 * @return 구매자 등급
+	 * @param sCode - 판매자 코드
+	 * @return 탈퇴 결과
 	 */
-	public BuyerRank selectBuyerRank(int rankNo);
-
-	public int changePw(BuyerLogin buyerLogin);
+	public int deleteSeller(String sCode);
 
 }

@@ -8,5 +8,8 @@
 </head>
 <body>
 
+	<h1>구매자 삭제</h1>
+	<hr>
+	
 </body>
 </html>

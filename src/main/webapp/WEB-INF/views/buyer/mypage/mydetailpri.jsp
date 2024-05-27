@@ -14,8 +14,20 @@
 <script type="text/javascript">
 $(function() {
 	var num;
+	var originalEmail = $('#bEmail').val();
+	var emailChanged = false;
+	
+	$("#bEmail").on('input', function() {
+		var currentEmail = $(this).val();
+		emailChanged = currentEmail !== originalEmail;
+	});
 	
 	$("#btnEmail").click(function() {
+		if (!emailChanged) {
+			alert("이메일을 변경해주세요.");
+			return;
+		}
+		
 		var email = $('#bEmail').val();
 		console.log("이메일 : " + email);
 		var emailNum = $("#emailNum")
@@ -31,8 +43,8 @@ $(function() {
 				num = res;
 				alert("인증번호가 발송되었습니다. 입력하신 메일의 메일함을 확인해주세요.");
 			}
-		}) // End Ajax
-	}) // End 이메일 인증
+		})
+	})
 	
 	$("#emailNum").focusout(function() {
 		var inputNum = $("#emailNum").val();
@@ -52,15 +64,18 @@ $(function() {
 		}
 	});
 	
-	// 수정 버튼 클릭 시 이메일 인증 여부 확인
 	$("form").submit(function(e) {
-		if($("#emailOk").css("display") !== "block") {
+		if (emailChanged && $("#emailOk").css("display") !== "block") {
 			alert("이메일 인증을 완료해주세요.");
 			e.preventDefault();
 		}
 	});
 	
-}) // End Jquery
+	<c:if test="${not empty success }">
+		alert("${success }");
+	</c:if>
+	
+})
 </script>
 
 <script>
@@ -100,9 +115,9 @@ function cancelUpdate() {
 				<a href="/buyer/main">메인</a>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailpri" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
-					<input type="hidden" name="adrCode" value="${buyerAdr.adrCode }">
 					
-					<label for="buyerProf">프로필 이미지 </label>
+					<label for="buyerProf">프로필 이미지 </label><br>
+					<img src="/uploads/${buyerProf.storedName }" alt="프로필 이미지" style="width:150px; height:150px;"><br>
 					<input type="file" id="buyerProf" name="buyerProf"><br>
 					
 					<label for="bName">이름 </label>

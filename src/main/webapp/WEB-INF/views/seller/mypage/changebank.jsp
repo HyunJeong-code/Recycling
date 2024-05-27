@@ -7,14 +7,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-<nav>
-	<ul>
-		<li><a href=""></a></li>
-		<li><a href=""></a></li>
-		<li><a href=""></a></li>
-		<li><a href=""></a></li>
-		<li><a href=""></a></li>
-	</ul>
-</nav>
+<div class="full">
+	<div class="wrap">
+		<div class="page">
+
+		</div>
+		
+		<div class="section">
+		</div> <!-- section End -->
+	</div> <!-- wrap End -->
+</div> <!-- full End -->
+
 </body>
 </html>

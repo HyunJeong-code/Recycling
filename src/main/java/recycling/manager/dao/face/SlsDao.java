@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 
 // 판매제휴팀 DB 처리
+import recycling.dto.seller.Seller;
+import recycling.util.Paging;
 
+// 판매제휴팀 DB 처리
 public interface SlsDao {
 	
 	/**
@@ -35,12 +39,28 @@ public interface SlsDao {
 	public List<ExpSch> selectSchAll(String expCode);
 
 	/**
-	 * 체험단 세부 조회하기
+	 * 판매자 조회
 	 * 
-	 * @param exp - DTO 객체
+	 * @param paging
 	 * @return
 	 */
-	public Exp selectDetail(Exp exp);
+	public List<Seller> main(Paging paging);
+
+	/**
+	 * 페이징
+	 * 
+	 * @return
+	 */
+	public int getPaging();
+
+
+	/**
+	 * 체험단 세부 조회하기
+	 * 
+	 * @param expCode - DTO 객체
+	 * @return
+	 */
+	public Exp selectDetail(String expCode);
 
 	/**
 	 * 조회수 증감
@@ -93,6 +113,7 @@ public interface SlsDao {
 	 * 체험정보 업데이트
 	 * 
 	 * @param manager
+	 * @return 
 	 */
 	public void expUpdateProc(Exp exp);
 	
@@ -113,12 +134,35 @@ public interface SlsDao {
 	 * @param expCode
 	 * @return
 	 */
-	public List<ExpRes> expResDetailRes(ExpRes expRes);
+	public List<ExpRes> expResDetailRes(int schNo);
 
 	/**
-	 * 체험단 예약정보 리스트 삭제
+	 * 체험단 리스트 리뷰삭제
 	 * 
 	 * @param expCode
+	 * @return
+	 */	
+	public int expReviewListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 파일삭제
+	 * 
+	 * @param chBox
+	 */
+	public int expFileListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 스케줄삭제
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public int expSchListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트삭제
+	 * 
+	 * @param chBox
 	 */
 	public int expListDel(String expCode);
 
@@ -138,14 +182,85 @@ public interface SlsDao {
 	public int expResCnf(String resCode);
 
 	/**
-	 * 예약 취소튼에 따른 예약변경
+	 * 예약 취소버튼에 따른 예약변경
 	 * 
 	 * @param chBox
 	 */
 	public int expResCnl(String resCode);
 
 	/**
-	 * 판매자 코드로 구매자 코드 조회
+<<<<<<< HEAD
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+
+	/**
+	 * 체험 예약, 인원 조인
+	 * @param schNo 
+	 * @param schNo 
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ResSchCnt> selectByResCnt(String expCode);
+
+	/**
+	 * 체험단 예약인원 예약변경창 조회하기
+	 * @param resSchCnt 
+	 * 
+	 * @return
+	 */
+	public ResSchCnt changeExpRes(ResSchCnt resSchCnt);
+	
+	/**
+	 * 체험단 예약인원 예약변경창 조회[ExpSchList]
+	 * 
+	 * @return
+	 */
+	public List<ExpSch> changeExpSch();
+	
+	/**
+	 * 체험단 예약인원 예약변경하기
+	 * @param resSchCnt 
+	 * 
+	 * @return
+	 */
+	public void changeExpResProc(ResSchCnt resSchCnt);
+	
+	/**
+	 * 인원 변경 
+	 * 
+	 * @param expSch
+	 * @return
+	 */
+	public int cntChangeUpdate(ExpSch expSch);
+	
+	/**
+	 * 예약인원 총합
+	 * 
+	 * @param expSch
+	 * @return
+	 */
+	public int getTotalResCnt(ExpSch expSch);
+	
+	/**
+	 * 예약자 체크삭제
+	 * 
+	 * @param chBox
+	 */
+	public int expResDetailListDel(String resCode);
+	
+	/**
+	 * expdetail 체크삭제[클래스]
+	 * 
+	 * @param chBox
+	 */
+	public int expDetailListDel(String schNo);
+	
+	 /** 판매자 코드로 구매자 코드 조회
 	 * 
 	 * @param sCode - 판매자 코드
 	 * @return bCode - 구매자 코드
@@ -183,4 +298,19 @@ public interface SlsDao {
 	 * @return 총 거래 건수
 	 */
 	public int selectCntOrd(String sCode);
+
+	/**
+	 * 판매자 조회
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> sellerSelect(String getbCode);
+
+	/**
+	 * resCnt 조회해서 res_cnt가져오기
+	 * 
+	 * @param schNo
+	 * @return
+	 */
+	public int getResCntBySchNo(String schNo);
 }

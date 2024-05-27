@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -195,7 +193,7 @@ td a:hover {
 						<table border="1">
 							<thead>
 								<tr>
-									<th>V</th>
+									<th></th>
 									<th>사원번호</th>
 									<th>부서명</th>
 									<th>이름</th>

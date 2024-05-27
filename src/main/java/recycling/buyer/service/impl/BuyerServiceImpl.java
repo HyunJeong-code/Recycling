@@ -1,12 +1,19 @@
 package recycling.buyer.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
@@ -19,14 +26,17 @@ import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerDao buyerDao;
+	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
 	@Override
 	public int insertOrder(Orders order) {
@@ -87,7 +97,7 @@ public class BuyerServiceImpl implements BuyerService {
 	
 	@Override
 	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
-		return buyerDao.selectOrderDetailBybCode(bCode);
+		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
 	}
 
 	@Override
@@ -117,24 +127,26 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public int verifyPw(String bId, String password) {
+	public int verifyPw(String bId, String currentPw) {
 
 		Buyer buyer = buyerDao.getBuyerDetail(bId);
 		
-		if(buyer != null && buyer.getbPw().equals(password)) {
+		if(buyer != null && pwEncoder.matches(currentPw, buyer.getbPw())) {
 			
-			return 1;	// 비밀번호가 일치하면 1을 반환
+			return 1;
 			
 		}
 		
-		return 0;	// 비밀번호가 일치하지 않으면 0을 반환
+		return 0;
 	
 	}
-
+	
 	@Override
-	public int changePw(BuyerLogin buyerLogin) {
+	public int changePw(BuyerLogin buyerLogin, String newPw) {
+	
+		buyerLogin.setbPw(newPw);
 		
-		return 0;
+		return buyerDao.changePw(buyerLogin);
 		
 	}
 	
@@ -150,6 +162,20 @@ public class BuyerServiceImpl implements BuyerService {
 		
 		return buyerDao.updateCmpDetail(cmp);
 		
+	}
+	
+	@Override
+	public int updateBuyerProf(BuyerProf prof) {
+
+		return buyerDao.updateBuyerProf(prof);
+	
+	}
+
+	@Override
+	public int updateCmpFile(CmpFile file) {
+
+		return buyerDao.updateCmpFile(file);
+	
 	}
 	
 	@Override
@@ -184,13 +210,23 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.deleteBuyerAdr(adrCode);
 		
 	}
+	@Override
+	public int unsetDefaultAdr(String bCode) {
+		
+		return buyerDao.unsetDefaultAdr(bCode);
+		
+		
+	}
 
 	@Override
 	public int setDefaultAdr(String adrCode, String bCode) {
 		
-		buyerDao.unsetDefaultAdr(bCode);
+		BuyerAdr buyerAdr = new BuyerAdr();
 		
-		return buyerDao.setDefaultAdr(adrCode, bCode);
+		buyerAdr.setbCode(bCode);
+		buyerAdr.setAdrCode(adrCode);
+		
+		return buyerDao.setDefaultAdr(buyerAdr);
 		
 	}
 	
@@ -199,6 +235,13 @@ public class BuyerServiceImpl implements BuyerService {
 		
 		return buyerDao.deleteBuyer(bCode);
 		
+	}
+
+	@Override
+	public int deleteSeller(String sCode) {
+
+		return buyerDao.deleteSeller(sCode);
+	
 	}
 
 }

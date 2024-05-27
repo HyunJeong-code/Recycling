@@ -2,11 +2,15 @@ package recycling.buyer.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
@@ -138,13 +142,19 @@ public interface BuyerService {
 	/**
 	 * 구매자 비밀번호 확인
 	 * 
-	 * @param bId - 구매자 아이디
-	 * @param password - 입력된 비밀번호
+	 * param bId - 구매자 아이디
+	 * @param currentPw - 입력된 비밀번호
 	 * @return 비밀번호 일치 확인 (1: 일치, 0: 불일치)
 	 */
-	public int verifyPw(String bId, String password);
-
-	public int changePw(BuyerLogin buyerLogin);
+	public int verifyPw(String bId, String currentPw);
+	
+	/**
+	 * 구매자 비밀번호 변경
+	 * 
+	 * @param buyerLogin - 구매자 아이디
+	 * @param newPw - 새 비밀번호
+	 */
+	public int changePw(BuyerLogin buyerLogin, String newPw);
 	
 	/**
 	 * 개인 구매자 상세 정보 업데이트
@@ -161,6 +171,22 @@ public interface BuyerService {
 	 * @return 업데이트 된 기업 정보
 	 */
 	public int updateCmpDetail(Cmp cmp);
+	
+	/**
+	 * 구매자 프로필 업데이트
+	 * 
+	 * @param prof - 업데이트 할 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProf(BuyerProf prof);
+	
+	/**
+	 * 사업자 등록증 업데이트
+	 * 
+	 * @param file - 업데이트 할 사업자 등록증
+	 * @return 업데이트 결과
+	 */
+	public int updateCmpFile(CmpFile file);
 	
 	/**
 	 * 구매자의 모든 배송지 정보
@@ -201,6 +227,15 @@ public interface BuyerService {
 	 * @param bCode - 구매자 코드
 	 * @return 설정된 행 수
 	 */
+	public int unsetDefaultAdr(String bCode);	
+	
+	/**
+	 * 
+	 * 
+	 * @param adrCode
+	 * @param bCode
+	 * @return
+	 */
 	public int setDefaultAdr(String adrCode, String bCode);	
 	
 	/**
@@ -211,6 +246,12 @@ public interface BuyerService {
 	 */
 	public int deleteBuyer(String bCode);
 
-	
+	/**
+	 * 판매자 탈퇴
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return 탈퇴한 행 수
+	 */
+	public int deleteSeller(String sCode);
 
 }
