@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import recycling.buyer.service.face.BuyerService;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.UpcyReview;
+import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.dto.seller.SellerProf;
@@ -27,6 +34,7 @@ import recycling.dto.seller.SellerProf;
 public class UpcyclingController {
 	
 	@Autowired private UpcyclingService upcyclingService;
+	@Autowired private BuyerService buyerService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@GetMapping("/main")
@@ -155,7 +163,63 @@ public class UpcyclingController {
 	 }
 	
 	 
-	
+	 @GetMapping("/pay")
+	 public void pay(
+			 Authentication authentication
+			 , CartOrder cartOrder
+			 , Model model
+			 ) {
+		 //logger.info("checkList : {}", checkList);
+		 
+		 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	     logger.info("buyerLogin : {}", buyerLogin);
+		
+		 String bCode = buyerLogin.getbCode();
+		
+		 //아이디 상세 가져오기
+		 Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+		 
+		 //배송지 주소 가져오기
+		 List<BuyerAdr> buyeradr = buyerService.selectBybCode(bCode); 
+		 
+		 cartOrder.setcCnt(1);
+		 cartOrder.setPrdName("test");
+		 cartOrder.setPrdFee(0);
+		 cartOrder.setPrice(1);
+		 
+		 logger.info("buyer : {}", buyeradr);
+		
+		 model.addAttribute("buyer", buyer);
+		 model.addAttribute("cart", cartOrder);
+		 model.addAttribute("buyeradr", buyeradr);
+	 }
+	 
+	 
+	 @PostMapping("/pay")
+ 	 public String payProc( 
+	 			 Authentication authentication
+	 			 ,OrderDetail orderDetail
+				 ,Orders order
+				 , Model model
+	 		 ) {
+ 		
+	 	 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+         logger.info("buyerLogin : {}", buyerLogin);
+		
+		 String bCode = buyerLogin.getbCode();
+		
+		 order.setbCode(bCode);
+		
+		 logger.info("order: {}", order);
+		
+		 int res = buyerService.insertOrder(order);
+		
+		 int ordRes = buyerService.insertOrderDetail(orderDetail);
+         
+		 model.addAttribute("order", order);
+		
+		 return "jsonView";
+	}
 	
 	
 }

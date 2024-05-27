@@ -151,8 +151,13 @@ public class BuyerController {
 		
 		String bCode = buyerLogin.getbCode();
 		
-		BuyerAdr buyeradr = buyerService.selectBybCode(bCode); 
+		//아이디 상세 가져오기
+		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		
+		//배송지 주소 가져오기
+		List<BuyerAdr> buyeradr = buyerService.selectBybCode(bCode); 
+		
+		//선택한 주문카트 리스트
 		List<CartOrder> list = new ArrayList<CartOrder>();
 		
 		for (String cCode : checkList) {
@@ -163,9 +168,9 @@ public class BuyerController {
 		
 		logger.info("buyer : {}", buyeradr);
 		
+		model.addAttribute("buyer", buyer);
 		model.addAttribute("clist", list);
-		model.addAttribute("buyer", buyeradr);
-		
+		model.addAttribute("buyeradr", buyeradr);
 	}
 	
 	@PostMapping("/pay")
@@ -174,7 +179,6 @@ public class BuyerController {
 				,Orders order
 				, Model model
 				, @RequestParam("cartList[]") List<String> cartList
-				, HttpSession session
 			) {
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
