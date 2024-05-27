@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import recycling.buyer.dao.face.UpcyclingDao;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Review;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.SellerProf;
 
@@ -18,7 +17,7 @@ import recycling.dto.seller.SellerProf;
 public class UpcyclingServiceImpl implements UpcyclingService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	@Autowired UpcyclingDao upcyclingDao;
+	@Autowired private UpcyclingDao upcyclingDao;
 	
 	@Override
 	public List<Prd> selectPrdList() {
@@ -57,15 +56,15 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	}
 
 	
-	@Override
-	public List<Review> selectRvwList(String prdCode) {
-		return upcyclingDao.selectRvwList(prdCode);
-	}
-
-	@Override
-	public Review selectRvw(int rvwCode) {
-		return upcyclingDao.selectRvw();
-	}
+//	@Override
+//	public List<Review> selectRvwList(String prdCode) {
+//		return upcyclingDao.selectRvwList(prdCode);
+//	}
+//
+//	@Override
+//	public Review selectRvw(int rvwCode) {
+//		return upcyclingDao.selectRvw();
+//	}
 
 	
 	@Override

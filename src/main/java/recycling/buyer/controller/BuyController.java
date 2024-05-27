@@ -107,7 +107,7 @@ public class BuyController {
 	public String priJoinProc(
 			Buyer buyer, 
 			BuyerAdr buyerAdr, 
-			MultipartFile buyerProf, 
+			MultipartFile buyerProf,
 			String sPhone, String inPhone, String mPhone, String lPhone,
 			String bEmail2, String inEmail
 			) {

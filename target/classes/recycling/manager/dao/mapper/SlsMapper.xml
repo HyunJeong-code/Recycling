@@ -411,6 +411,7 @@
 		</where>
 	</select>
 	
+	
 	<!-- expresdetail페이지 예약인원 변경하기 -->
 	 <update id="changeExpResProc" parameterType="ResSchCnt">
 		UPDATE exp_res SET

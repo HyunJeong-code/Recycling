@@ -3,7 +3,6 @@ package recycling.buyer.service.face;
 import java.util.List;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Review;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.SellerProf;
 
@@ -46,14 +45,14 @@ public interface UpcyclingService {
 	 * 
 	 * @return
 	 */
-	public List<Review> selectRvwList(String prdCode);
+//	public List<Review> selectRvwList(String prdCode);
 
 	/**
 	 * 리뷰 상세 조회
 	 * @param rvwCode 리뷰번호
 	 * @return 특정 리뷰번호 로드
 	 */
-	public Review selectRvw(int rvwCode);
+//	public Review selectRvw(int rvwCode);
 
 	/**
 	 * 리뷰 작성

@@ -9,6 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
 <sec:authorize access="hasAnyRole('ROLE_MANAGER')">
 	<button><a href="./logout">로그아웃</a></button>
 </sec:authorize>

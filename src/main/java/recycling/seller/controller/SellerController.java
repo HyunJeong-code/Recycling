@@ -33,19 +33,19 @@ public class SellerController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private SellerService sellerService;
 	
-	@GetMapping("/sellerdetail")
-	public String sellerDetail(
-			Authentication authentication
-			) {
-		logger.info("/seller/mypage/sellerdetail [GET]");
-		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		if(buyerLogin.getbCtCode().equals("P")) {
-			return "/seller/mypage/sellerpridetail";
-		} else {
-			return "/seller/mypage/sellercmpdetail";
-		}
-	}
+//	@GetMapping("/sellerdetail")
+//	public String sellerDetail(
+//			Authentication authentication
+//			) {
+//		logger.info("/seller/mypage/sellerdetail [GET]");
+//		
+//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+//		if(buyerLogin.getbCtCode().equals("P")) {
+//			return "/seller/mypage/sellerpridetail";
+//		} else {
+//			return "/seller/mypage/sellercmpdetail";
+//		}
+//	}
 	
     @GetMapping("/sellermain")
     public String main(@RequestParam("pw") String pw, HttpSession session) {
