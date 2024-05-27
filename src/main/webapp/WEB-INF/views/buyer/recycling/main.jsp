@@ -157,7 +157,7 @@
 	.prdList {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		justify-content: flex-start;
 		width: 100%;
 		box-sizing: border-box;
 	}

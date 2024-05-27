@@ -10,93 +10,102 @@
 
 	body {
 		display: flex;
-		justify-content: center;
-		align-items: flex-start;
-		height: 100vh;
+		flex-direction: column;
+		align-items: center;
 		margin: 0;
 		overflow: auto;
+		width: 100%;
+		min-height: 100vh;
+		position: relative;
 	}
+	
+	header, footer {
+        width: 100%;
+        flex-shrink: 0;
+    }
+    
+    
+
 
 	.mainContainer {
+		flex: 1;
+		overflow-y: auto;
 		margin-top: 20px;
-		width: 1000px;
+		margin-bottom: 50px;
+		max-width: 1000px;
 		text-align: center;
-		
+		width: 100%;
 	}
 
 	.mainBanner {
-		width: 1000px;
+		width: 100%;
+		max-width: 1000px;
 		height: 350px;
 		border: 1px solid black;
 		overflow: hidden;
-		justify-content: center;
-		position: relative;
 		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-around;
-		align-items: flex-start;
+		flex-direction: column;
+		align-items: center;
 		padding-top: 20px;
 		background-color: #f8f9fa;
-    }
+	}
 
-    
-    .btnArea {
-    	display: flex;
-    	justify-content: center;
-    	align-items: center;
-    	overflow: hidden;
-    }
-    
-    
-    .bannerBtn {
-    	padding: 10px 20px;
-    	background-color: gray;
-    	color: white;
-    	border: none;
-    	cursor: pointer;
-    	margin-right: 10px;
-    	border-radius: 30px;
-    }
-    
-    
-    .bannerInfo {
-    	width: 100%;
-    	display: flex;
-    	justify-content: space-around;
-    	align-items: flex-start;
-    	flex-wrap: wrap;
-    }
-    
-    .bannerContent {
-    	width: 220px;
-    	padding: 10px;
-    	margin-bottom: 20px;
-    	background-color: #f8f9fa;
-    	text-align: left;
-    	display: flex;
-    	flex-direction: column;
-    	justify-content: center;
-    	align-items: flex-start;
-    }
-    
-    .bannerContent img {
-    	width: 200px;
-    	height: 200px;
-    	margin-top: 10px;
-    	margin-bottom: 5px;
-    }
-    
+	.btnArea {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: visible;
+		width: 100%;
+	}
+
+	.bannerBtn {
+		padding: 10px 20px;
+		background-color: gray;
+		color: white;
+		border: none;
+		cursor: pointer;
+		margin-right: 10px;
+		border-radius: 30px;
+	}
+
+	.bannerInfo {
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	.bannerContent {
+		width: 220px;
+		padding: 10px;
+		margin-bottom: 20px;
+		background-color: #f8f9fa;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.bannerContent img {
+		width: 200px;
+		height: 200px;
+		margin-top: 10px;
+		margin-bottom: 5px;
+	}
+
 	.bannerTitle,
 	.bannerPrice {
 		margin-top: 5px;
 		margin-bottom: 5px;
-        }
-        
+	}
+
 	.bannerPrice {
 		font-size: 16px;
 		font-weight: bold;
 	}
-	
+
 	.categoryContainer {
 		display: flex;
 		flex-direction: column;
@@ -105,34 +114,37 @@
 		margin-bottom: 10px;
 		padding: 10px 0;
 	}
-	
+
 	.categoryBig {
 		font-weight: bold;
 		font-size: large;
 		text-align: left;
 		margin-bottom: 10px;
 	}
-	
+
 	.categoryBox {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 10px;
 		background-color: #d1d1d1;
 		padding: 3px;
+		justify-content: center;
 	}
-	
+
 	.categoryMid {
 		cursor: pointer;
 		padding: 8px 16px;
 		color: #6b6b6b;
+		white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
 	}
-	
+
 	.sortBtn {
 		display: flex;
 		justify-content: flex-start;
 		margin-bottom: 20px;
+		
 	}
-	
+
 	.sortBtn button {
 		padding: 10px 20px;
 		background-color: gray;
@@ -142,69 +154,78 @@
 		margin-right: 10px;
 		border-radius: 15px;
 	}
-	
-	
+
 	.prdContainer {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-  		margin-top: 20px;
-  		padding: 1 20px;
-		justify-content: flex-start;
-		
+		margin-top: 20px;
+		max-width: 1000px;
+		width: 100%;
 	}
-	
+
 	.prdList {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		justify-content: flex-start;
 		width: 100%;
 		box-sizing: border-box;
 	}
-	
+
 	.productInfo {
-    	width: 100%;
-    	display: flex;
-    	justify-content: space-around;
-    	align-items: flex-start;
-    	flex-wrap: wrap;
-    }
-    
-    .prd {
-    	width: 220px;
-    	padding: 10px;
-    	margin-bottom: 20px;
-    	text-align: left;
-    	display: flex;
-    	flex-direction: column;
-    	justify-content: center;
-    	align-items: flex-start;
-    }
-    
-    .prd img {
-    	width: 200px;
-    	height: 200px;
-    	margin-top: 10px;
-    	margin-bottom: 5px;
-    }
-    
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
+
+	.prd {
+		width: 220px;
+		padding: 10px;
+		margin-bottom: 20px;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.prd img {
+		width: 200px;
+		height: 200px;
+		margin-top: 10px;
+		margin-bottom: 5px;
+	}
+
 	.prdTitle,
 	.prdPrice {
 		margin-top: 5px;
 		margin-bottom: 5px;
-        }
-        
+	}
+
 	.prdPrice {
 		font-size: 16px;
 		font-weight: bold;
 	}
 	
+	.spacer {
+		height: 130px;
+		opacity: 1;
+		pointer-events: none;
+	}
 	
+
+
 </style>
 
 </head>
 
 <body>
+	<header>
+		<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	</header>
+	
 	<div class="mainContainer">
 		<div class="mainBanner">
 			<div class="btnArea">
@@ -307,10 +328,18 @@
 			<button onclick="nextPage()">다음</button>
 		</div>
 	</div>
+	
+	<div class="spacer"></div>
+	
+	<footer>
+		<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/> 
+	</footer>
+	
+</body>
 
-    <script>
+<script>
 	    document.addEventListener('DOMContentLoaded', function() {
-	        const newPrdBtn = document.getElementById('newPrdBtn');
+			const newPrdBtn = document.getElementById('newPrdBtn');
 	        const popPrdBtn = document.getElementById('popPrdBtn');
 	        const newPrds = document.querySelectorAll('.bannerContent[id^="newPrd"]');
 	        const popPrds = document.querySelectorAll('.bannerContent[id^="popPrd"]');
@@ -427,9 +456,29 @@
 	
 	        // 초기 설정: 첫 번째 페이지 표시
 	        showPage(currentPage);
+	        
+		// footer 위치 조정 함수
+		function adjustFooterPosition() {
+			var bodyHeight = document.body.clientHeight;
+			var windowHeight = window.innerHeight;
+			var footer = document.querySelector('footer');
+
+			if (windowHeight > bodyHeight) {
+				var offset = windowHeight - bodyHeight;
+				footer.style.bottom = offset + 'px';
+			} else {
+				footer.style.bottom = '0';
+			}
+		}
+
+		// resize 이벤트 리스너 등록하여 footer 위치 조정
+		window.addEventListener('resize', adjustFooterPosition);
+
+		// 페이지 로드 후 초기에도 한 번 실행하여 화면 크기에 맞게 footer를 조정합니다.
+		adjustFooterPosition();
+	        
 	    });
 	</script>
-    
-</body>
+
 
 </html>

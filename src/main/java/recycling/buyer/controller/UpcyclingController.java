@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.Seller;
 import recycling.dto.seller.SellerProf;
 
 @Controller
@@ -49,10 +51,13 @@ public class UpcyclingController {
 			return "not-found-page";
 		}
 		
+		Seller seller = upcyclingService.selectSeller(prd.getsCode());
 		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
+		model.addAttribute("seller", seller);
 		model.addAttribute("sellerProf", sellerProf);
+		
 		
 		return "buyer/upcycling/upcydetail";
 		
@@ -79,28 +84,18 @@ public class UpcyclingController {
 	}
 	
 	
-//	@GetMapping("/upcyvwlist")
-//	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
-//		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
-//		
-//		List<Review> upcyvwlist = upcyclingService.selectRvwList(prdCode);
-//		
-//		model.addAttribute("upcyvwlist", upcyvwlist);
-//		
-//		return "buyer/upcycling/upcyvwlist";
-//	}
-//	
-//	
-//	 @GetMapping("/upcyrvwinfo")
-//	 public String upcyrvwinfo(@RequestParam("rvwCode") int rvwCode, Model model) {
-//	        logger.info("/upcyrvwinfo [GET]");
-//	        
-//	        // 후기 상세 조회
-//	        Review review = upcyclingService.selectRvw(rvwCode);
-//	        model.addAttribute("review", review);
-//	        
-//	        return "upcyrvwinfo"; // 후기 상세 조회 페이지로 이동
-//	    }
+	@GetMapping("/upcyvwlist")
+	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
+		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
+		
+		List<UpcyReview> upcyvwlist = upcyclingService.selectRvwList(prdCode);
+		
+		model.addAttribute("upcyvwlist", upcyvwlist);
+		
+		return "buyer/upcycling/upcyvwlist";
+	}
+	
+	
 	
 	 @GetMapping("/upcyrvwform")
 	 public String upcyrvwform(@RequestParam("prdCode") String prdCode, Model model) {
@@ -113,7 +108,7 @@ public class UpcyclingController {
 	 
 	 @PostMapping("/upcyrvwform")
 	 public String upcyrvwformProc(
-			 @RequestParam("rvwContent") String rvwContent,
+			 @RequestParam("upcyContent") String upcyContent,
 			 @RequestParam("prdCode") String prdCode,
 			 HttpSession session) {
 		 logger.info("/upcyrvwformProc [POST]");
@@ -121,29 +116,29 @@ public class UpcyclingController {
 		 //로그인 정보 불러오기
 		 Buyer buyer = (Buyer)session.getAttribute("buyer");
 		 
-		 upcyclingService.insertReview(rvwContent, prdCode, buyer);
+		 upcyclingService.insertReview(upcyContent, prdCode, buyer);
 		 
 		 return "redirect:/buyer/upcycling/upcyvwlist?prdCode=" + prdCode;
 	 }
 	 
-//	 @GetMapping("/upcyrvwupdate")
-//	 public String upcyrvwupdate(@RequestParam("rvwCode") int rvwCode, Model model) {
-//		 logger.info("/upcyrvwupdate [GET]");
-//		 
-//		// 후기 상세 조회
-//		 Review review = upcyclingService.selectRvw(rvwCode);
-//		 model.addAttribute("review", review);
-//		 
-//		 return "upcyrvwupdate";
-//	 }
+	 @GetMapping("/upcyrvwupdate")
+	 public String upcyrvwupdate(@RequestParam("upcyCode") String upcyCode, Model model) {
+		 logger.info("/upcyrvwupdate [GET]");
+		 
+		// 후기 상세 조회
+		 UpcyReview upcyReview = upcyclingService.selectRvw(upcyCode);
+		 model.addAttribute("upcyReview", upcyReview);
+		 
+		 return "upcyrvwupdate";
+	 }
 	 
 	 @PostMapping("/upcyrvwupdateProc")
 	 public String  upcyrvwupdate(
-			 @RequestParam("rvwCode") int rvwCode
-			 , @RequestParam("rvwContent") String rvwContent) {
+			 @RequestParam("upcyCode") String upcyCode
+			 , @RequestParam("rvwContent") String upcyContent) {
 		 
 		 logger.info("/upcyrvwupdateProc [GET]");
-		 upcyclingService.updateReview(rvwCode, rvwContent);
+		 upcyclingService.updateReview(upcyCode, upcyContent);
 		 
 		 
 		 return "redirect:/buyer/upcycling/main";
@@ -151,10 +146,10 @@ public class UpcyclingController {
 	 }
 	 
 	 @PostMapping("/upcyrvwdel")
-	 public String upcyrvwdel(@RequestParam("rvwCode") int rvwCode) {
+	 public String upcyrvwdel(@RequestParam("upcyCode") String upcyCode) {
 		 logger.info("/upcyrvwdel [POST]");
 		 
-		 upcyclingService.deleteReview(rvwCode);
+		 upcyclingService.deleteReview(upcyCode);
 		 
 		 return "redirect:/buyer/upcycling/main";
 	 }

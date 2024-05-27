@@ -86,6 +86,26 @@ public class SellerProf {
 	public void setTotalTransaction(int totalTransaction) {
 		this.totalTransaction = totalTransaction;
 	}
+	
+	
+	public String getTierName() {
+        String tierName = "";
+        switch (sTier) {
+            case "1":
+                tierName = "일반회원";
+                break;
+            case "2":
+                tierName = "기업회원";
+                break;
+            case "3":
+                tierName = "VIP";
+                break;
+            default:
+                tierName = "Unknown";
+                break;
+        }
+        return tierName;
+    }
 
 
 }

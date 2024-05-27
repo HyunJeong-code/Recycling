@@ -7,11 +7,17 @@
 
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
+	    WHERE CT_PNO = 1
 	</select>
 	
 	<select id="selectPrd" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectSeller" resultType="Seller">
+		SELECT * FROM SELLER
+		WHERE S_CODE = #{sCode}
 	</select>
 	
 	<select id="selectSellerProf" resultType="SellerProf">
@@ -23,19 +29,19 @@
         SELECT COUNT(*) FROM Prd
     </select>
     
-<!--     <select id="selectRvwList"	parameterType="String"	resultType="Review"> -->
-<!--     	SELECT COUNT(*) FROM Review -->
-<!--     	WHERE PRD_CODE = #{prdCode} -->
-<!--     </select> -->
+     <select id="selectRvwList"	parameterType="String"	resultType="UpcyReview">
+     	SELECT COUNT(*) FROM UpcyReview 
+     	WHERE PRD_CODE = #{prdCode}
+     </select>
     
-<!--     <select id="selectRvw" parameterType="int" resultType="Review"> -->
-<!--         SELECT * FROM Review -->
-<!--         WHERE RVW_CODE  = #{rvwCode} -->
-<!--     </select> -->
+     <select id="selectRvw" parameterType="String" resultType="UpcyReview">
+         SELECT * FROM UpcyReview 
+         WHERE UPCY_CODE  = #{upcyCode} 
+     </select> 
 
     <insert id="insertReview" parameterType="map">
-        INSERT INTO Review (RVW_CODE, RVW_CT_NO, PRD_CODE, B_CODE, RVW_TITLE, RVW_CONTENT, RVW_GRADE, RVW_DATE, RVW_HIT)
-        VALUES (#{rvwCode}, #{rvwCtNo}, #{prdCode}, #{bCode}, #{rvwTitle}, #{rvwContent}, #{rvwGrade}, SYSDATE, 0)
+        INSERT INTO UpcyReview (UPCY_CODE, B_CODE, PRD_CODE, UPCY_GRADE, UPCY_CONTENT, UPCY_DATE)
+        VALUES (#{upcyCode}, #{bCode}, #{prdCode}, #{upcyGrade}, #{upcyContent}, #{upcyDate})
     </insert>
 
 	<update id="updateReview" parameterType="map">
