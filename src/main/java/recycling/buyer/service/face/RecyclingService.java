@@ -15,16 +15,13 @@ public interface RecyclingService {
 	 * 
 	 * @return
 	 */
-<<<<<<< HEAD
 	public List<Seller> findSeller();
 	
 	 /** 제품 DTO에서 리스트를 불러온다
-=======
 	List<Seller> findSeller();
 	
 	/**
 	 * 제품 DTO에서 리스트를 불러온다
->>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	 * 
 	 * @return
 	 */
