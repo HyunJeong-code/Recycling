@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Review;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.SellerProf;
 
@@ -21,9 +20,9 @@ public interface UpcyclingDao {
 
 	public Buyer selectBcode(int bCode);
 
-	public List<Review> selectRvwList(String prdCode);
+//	public List<Review> selectRvwList(String prdCode);
 
-	public Review selectRvw();
+//	public Review selectRvw();
 
 	public void insertReview(@Param("rvwContent") String rvwContent, @Param("prdCode") String prdCode, @Param("buyer") Buyer buyer);
 

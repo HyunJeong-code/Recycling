@@ -15,14 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import recycling.buyer.service.face.RecyclingService;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Review;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.SellerProf;
-
-// 메뉴 - 업사이클링
 
 @Controller
 @RequestMapping("/buyer/upcycling")
@@ -83,28 +79,28 @@ public class UpcyclingController {
 	}
 	
 	
-	@GetMapping("/upcyvwlist")
-	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
-		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
-		
-		List<Review> upcyvwlist = upcyclingService.selectRvwList(prdCode);
-		
-		model.addAttribute("upcyvwlist", upcyvwlist);
-		
-		return "buyer/upcycling/upcyvwlist";
-	}
-	
-	
-	 @GetMapping("/upcyrvwinfo")
-	 public String upcyrvwinfo(@RequestParam("rvwCode") int rvwCode, Model model) {
-	        logger.info("/upcyrvwinfo [GET]");
-	        
-	        // 후기 상세 조회
-	        Review review = upcyclingService.selectRvw(rvwCode);
-	        model.addAttribute("review", review);
-	        
-	        return "upcyrvwinfo"; // 후기 상세 조회 페이지로 이동
-	    }
+//	@GetMapping("/upcyvwlist")
+//	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
+//		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
+//		
+//		List<Review> upcyvwlist = upcyclingService.selectRvwList(prdCode);
+//		
+//		model.addAttribute("upcyvwlist", upcyvwlist);
+//		
+//		return "buyer/upcycling/upcyvwlist";
+//	}
+//	
+//	
+//	 @GetMapping("/upcyrvwinfo")
+//	 public String upcyrvwinfo(@RequestParam("rvwCode") int rvwCode, Model model) {
+//	        logger.info("/upcyrvwinfo [GET]");
+//	        
+//	        // 후기 상세 조회
+//	        Review review = upcyclingService.selectRvw(rvwCode);
+//	        model.addAttribute("review", review);
+//	        
+//	        return "upcyrvwinfo"; // 후기 상세 조회 페이지로 이동
+//	    }
 	
 	 @GetMapping("/upcyrvwform")
 	 public String upcyrvwform(@RequestParam("prdCode") String prdCode, Model model) {
@@ -130,16 +126,16 @@ public class UpcyclingController {
 		 return "redirect:/buyer/upcycling/upcyvwlist?prdCode=" + prdCode;
 	 }
 	 
-	 @GetMapping("/upcyrvwupdate")
-	 public String upcyrvwupdate(@RequestParam("rvwCode") int rvwCode, Model model) {
-		 logger.info("/upcyrvwupdate [GET]");
-		 
-		// 후기 상세 조회
-		 Review review = upcyclingService.selectRvw(rvwCode);
-		 model.addAttribute("review", review);
-		 
-		 return "upcyrvwupdate";
-	 }
+//	 @GetMapping("/upcyrvwupdate")
+//	 public String upcyrvwupdate(@RequestParam("rvwCode") int rvwCode, Model model) {
+//		 logger.info("/upcyrvwupdate [GET]");
+//		 
+//		// 후기 상세 조회
+//		 Review review = upcyclingService.selectRvw(rvwCode);
+//		 model.addAttribute("review", review);
+//		 
+//		 return "upcyrvwupdate";
+//	 }
 	 
 	 @PostMapping("/upcyrvwupdateProc")
 	 public String  upcyrvwupdate(

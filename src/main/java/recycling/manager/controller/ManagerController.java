@@ -5,7 +5,9 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,22 +31,28 @@ public class ManagerController {
 	}
 	
 	@PostMapping("/main")
-	public String mainProc(HttpSession session, String mgrPw) {
+	public String mainProc(
+				Authentication authentication,
+				String mgrPw,
+				Model model
+			) {
 		logger.info("/manager/mgr/main [POST]");
 		
-		ManagerLogin mgr = (ManagerLogin) session.getAttribute("manager");
+		ManagerLogin mgr = (ManagerLogin) authentication.getPrincipal();
 		logger.info("mgr : {}", mgr);
 		logger.info("mgrPw : {}", mgrPw);
 		
 		String mgrId = mgr.getMgrId();
+		logger.info("id : {}", mgrId);
 		
 		int res = managerService.selectByIdPw(mgrId, mgrPw);
+		
+		model.addAttribute("msg", "비밀번호가 올바르지 못합니다.");
 		
 		if(res > 0) {
 			return "/manager/mgr/mgrdetail";
 		} else {
-			// 실패 팝업?
-			return "redirect:./main";
+			return "redirect:";
 		}
 	}
 	

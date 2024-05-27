@@ -23,15 +23,15 @@
         SELECT COUNT(*) FROM Prd
     </select>
     
-    <select id="selectRvwList"	parameterType="String"	resultType="Review">
-    	SELECT COUNT(*) FROM Review
-    	WHERE PRD_CODE = #{prdCode}
-    </select>
+<!--     <select id="selectRvwList"	parameterType="String"	resultType="Review"> -->
+<!--     	SELECT COUNT(*) FROM Review -->
+<!--     	WHERE PRD_CODE = #{prdCode} -->
+<!--     </select> -->
     
-    <select id="selectRvw" parameterType="int" resultType="Review">
-        SELECT * FROM Review
-        WHERE RVW_CODE  = #{rvwCode}
-    </select>
+<!--     <select id="selectRvw" parameterType="int" resultType="Review"> -->
+<!--         SELECT * FROM Review -->
+<!--         WHERE RVW_CODE  = #{rvwCode} -->
+<!--     </select> -->
 
     <insert id="insertReview" parameterType="map">
         INSERT INTO Review (RVW_CODE, RVW_CT_NO, PRD_CODE, B_CODE, RVW_TITLE, RVW_CONTENT, RVW_GRADE, RVW_DATE, RVW_HIT)
