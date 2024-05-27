@@ -40,8 +40,11 @@ public class BuyServiceImpl implements BuyService {
 	public Buyer buyerProc(Buyer buyer, String sPhone, String inPhone, String mPhone, String lPhone, String bEmail2,
 			String inEmail) {	
 		// 비밀번호 암호화
-		String enPw = pwEncoder.encode(buyer.getbPw());
-		buyer.setbPw(enPw);
+		
+		if(buyer.getbPw() != null) {
+			String enPw = pwEncoder.encode(buyer.getbPw());
+			buyer.setbPw(enPw);			
+		}
 		
 		// 핸드폰 번호 처리
 		if(inPhone.equals("")) {

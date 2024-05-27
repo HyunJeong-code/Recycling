@@ -73,14 +73,16 @@ public class MgrServiceImpl implements MgrService {
 			String mgrEmail2, String inEmail) {
 		
 		// 비밀번호 암호화
-		String enPw = pwEncoder.encode(manager.getMgrPw());
-		manager.setMgrPw(enPw);
+		if(manager.getMgrPw() != null) {
+			String enPw = pwEncoder.encode(manager.getMgrPw());
+			manager.setMgrPw(enPw);			
+		}
 		
 		// 핸드폰 번호 처리
 		if(inPhone.equals("")) {
-			manager.setMgrPhone(sPhone+mPhone+lPhone);
+			manager.setMgrPhone(sPhone+"-"+mPhone+"-"+lPhone);
 		} else {
-			manager.setMgrPhone(inPhone+mPhone+lPhone);			
+			manager.setMgrPhone(inPhone+"-"+mPhone+"-"+lPhone);			
 		}
 		
 		// 이메일 처리

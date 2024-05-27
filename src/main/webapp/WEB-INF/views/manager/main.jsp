@@ -6,14 +6,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>메인페이지</title>
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
-<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
-<sec:authorize access="hasAnyRole('ROLE_MANAGER')">
-	<button><a href="./logout">로그아웃</a></button>
-</sec:authorize>
+<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+
+<sec:authentication var="managerLogin" property="principal"/>
+<c:if test="${managerLogin.deptno eq 10}">
+	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 20}">
+	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 30}">
+	<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 40}">
+	<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+</c:if>
+
+
 </body>
 </html>
