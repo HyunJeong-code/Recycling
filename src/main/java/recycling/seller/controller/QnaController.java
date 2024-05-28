@@ -7,12 +7,14 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
 import recycling.dto.seller.Qna;
@@ -26,14 +28,13 @@ public class QnaController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired QnaService qnaService;
-	@Autowired HttpSession session;
 	
 	@GetMapping("/main")
-	public void main(Model model) {
-		//테스트용 세션***********************************************테스트
-		session.setAttribute("sCode", "SEL0000003");
+	public void main(Authentication authentication, Model model) {
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
 		
-		String sCode = (String)session.getAttribute("sCode");
+		String sCode = buyerLogin.getsCode();
 		
 		List<QstA> qlist = qnaService.selectBysCode(sCode);
 		
@@ -50,13 +51,13 @@ public class QnaController {
 	
 	
 	@PostMapping("/qnaform")
-	public void qnaFormProc(Qna qna) {
+	public void qnaFormProc(Authentication authentication, Qna qna) {
 		logger.info("{}",qna);
 		
-		//테스트용 세션***********************************************테스트
-		session.setAttribute("sCode", "SEL0000003");
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
 		
-		String sCode = (String)session.getAttribute("sCode");
+		String sCode = buyerLogin.getsCode();
 		
 		qna.setsCode(sCode);
 		

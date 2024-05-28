@@ -1,6 +1,7 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
@@ -53,7 +54,7 @@ public interface BuyerService {
 	 * @param bCode - 조회할 bCode
 	 * @return - 조회한 BuyerAdr 정보
 	 */
-	public BuyerAdr selectBybCode(String bCode);
+	public List<BuyerAdr> selectBybCode(String bCode);
 
 	/**
 	 * ordCode로 Orders 조회하기

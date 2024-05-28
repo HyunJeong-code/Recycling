@@ -16,14 +16,6 @@ import recycling.dto.buyer.CmpFile;
 
 public interface BuyService {
 	
-	/** 
-	 * 로그인 권한 처리
-	 * 
-	 * @param buyerLogin - 로그인 정보
-	 * @return 권한 정보가 포함된 로그인 정보
-	 */
-	public BuyerLogin chkAuth(BuyerLogin buyerLogin);
-	
 	/**
 	 * 구매자 기본정보 회원가입 처리
 	 * 

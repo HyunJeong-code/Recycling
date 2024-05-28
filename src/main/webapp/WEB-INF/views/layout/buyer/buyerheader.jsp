@@ -1,59 +1,161 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%><!DOCTYPE html>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<style type="text/css">
-header {
-	width: 1200px;
-	margin: 0 auto;
-}
+<title>새활용 메인페이지</title>
 
-.ntc {
-	background-color: black;
-	color: white;
-}
-</style>
+<!-- header css -->
+<link rel="stylesheet" href="/resources/css/header.css">
+
+<script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+        	
+            var header = $('.header');
+            var headerOffset = header.offset().top;
+
+            $(window).scroll(function() {
+                if ($(window).scrollTop() >= headerOffset+600) {
+                    if (!header.hasClass('fixed')) {
+                        header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
+                        $("body").css("padding-top","210px");
+                    }
+                } else {
+                    if (header.hasClass('fixed')) {
+                        header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
+                            header.css('top', '');
+                            $("body").css("padding-top","0");
+                        });
+                    }
+                }
+            });
+            
+         	// 페이지 로딩 시 sub-wrap을 숨긴 상태로 설정
+            $(".sub-wrap").hide();
+            
+         	
+         	//메뉴 스크롤 업/다운
+            $('.menu, .sub-wrap').on('mouseleave', function(){
+                $(".sub-wrap").stop().slideUp(200);
+            });
+        
+            $('.menu, .sub-wrap').on('mouseover', function(){
+                $(".sub-wrap").stop().slideDown(200);
+            });
+        });
+ </script>
+    
+    
+</head>
 <body>
-	<header>
-	    <div class="head">
-	        <div class="ntc">
-	        	<c:forEach var="ntc" items="${ntcList }">
-		        	<h6><a href="/buyer/help/noticedetail?ntcCode=${ntc.NTC_CODE }">${ntc.TITLE }</a></h6>
-	        	</c:forEach>
-	        </div>
-	        <div class="main">
-	            <h1>새활용</h1>
-	            <div class="search">
-	                <form action="" method="">
-	                    <input type="text" placeholder="Search">
-	                    <button>검색</button>
-	                </form>
-	            </div>
-	            <div class="top-btn">
-	                <!-- 세션 조건 걸기(로그인 여부) -->
-	                <sec:authorize access="isAnonymous()">
-		                <button><a href="./join">회원가입</a></button>
-						<button><a href="./login">로그인</a></button>
-					</sec:authorize>
-					
-					<sec:authorize access="hasRole('ROLE_BUYER')">
-						<button><a href="./logout">로그아웃</a></button>
-						<c:if test="">
-		                <button><a href="">마이페이지</a></button>
-		                </c:if>
-						<c:if test="">
-		                <button><a href="">마이페이지</a></button>
-		                </c:if>	                
-					</sec:authorize>
-	
-	            </div>
+	<header class="header">
+        <div class="notice-banner">
+            <a href="">공지사항</a>
+        </div>
+        <div class="container">
+            <div class="nav-ul">
+                <ul>
+                    <li><a href="">고객센터</a></li>
+                    <li><a href="">회사소개</a></li>
+                </ul>
+            </div>
+            <div class="logo">
+                <a href="#">
+                    <img src="/resources/img/logo.png" alt="Logo">
+                </a>
+            </div>
+            <div class="nav-ul">
+            	<sec:authorize access="isAnonymous()">
+	                <ul>
+	                    <li><a href="../../buyer/login">로그인</a></li>
+	                    <li><a href="../../buyer/join">회원가입</a></li>
+	                </ul>
+            	</sec:authorize>
+            	<sec:authorize access="hasRole('ROLE_BUYER')">
+            	 	<ul>
+	                    <li><a href="/buyer/logout">로그아웃</a></li>
+	                    <li><a href="../../buyer/mypage/myboard">마이페이지</a></li>
+	                    <li><a href="../../buyer/mypage/cart">장바구니</a>
+	                    </li>
+	                </ul>
+            	</sec:authorize>
+            </div>
+        </div>
+        <div class="container">
+            <div>
+                <div class="select-page">
+                    <button class="selected">Buyer</button><button>Seller</button>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <button type="submit">
+                    <span class="sch_send">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="nav-ul menu">
+                <ul class="menu-ul">
+                    <li class="selected"><a href="">홈</a></li>
+                    <li><a href="">재활용품</a></li>
+                    <li><a href="">업사이클링</a></li>
+                    <li><a href="">세척업체 소개</a></li>
+                    <li><a href="">체험단</a></li>
+                    <li><a href="">고객센터</a></li>
+                    <li><a href="">회사소개</a></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+	        <div class="sub-wrap">
+	            <ul>
+	                <li><a href=""></a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">가까운 판매자 찾기</a></li>
+	                <li><a href="">분류1</a></li>
+	                <li><a href="">분류2</a></li>
+	                <li><a href="">분류3</a></li>
+	                <li><a href="">분류4</a></li>
+	                <li><a href="">분류5</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">분류1</a></li>
+	                <li><a href="">분류2</a></li>
+	                <li><a href="">분류3</a></li>
+	                <li><a href="">분류4</a></li>
+	                <li><a href="">분류5</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">업체 소개</a></li>
+	                <li><a href="">세척</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">체험단 예약</a></li>
+	                <li><a href="">체험단 후기</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">고객센터 안내</a></li>
+	                <li><a href="">공지사항</a></li>
+	                <li><a href="">자주 묻는 질문</a></li>
+	                <li><a href="">1:1 게시판</a></li>
+	                <li><a href="">Q & A</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">회사개요</a></li>
+	            </ul>
 	        </div>
 	    </div>
-	</header>
+    </header>
+    
 </body>
 </html>

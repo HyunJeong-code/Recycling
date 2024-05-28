@@ -155,6 +155,41 @@ function cmpDaumPostcode() {
     }).open();
 }
 </script>
+<style type="text/css">
+.wrap {
+	width: 1000px;
+	text-align: center;
+}
+
+.page {
+	border: none;
+	border-bottom: 3px solid black;
+	vertical-align: middle;
+}
+
+input[type="text"] {
+	border: none;
+	border-bottom: 1px solid black;
+}
+
+input[type="button"] {
+	width: 100px;
+	border: none;
+}
+
+button {
+	width: 100px;
+	border: none;
+}
+
+a {
+	text-decoration-line: none;
+}
+
+a:link, a:visited, a:hover, a:active {
+	color: black;
+}
+</style>
 </head>
 <body>
 
@@ -176,7 +211,7 @@ function cmpDaumPostcode() {
 				
 				<label for="bId">아이디</label>
 				<input type="text" id="bId" name="bId">
-				<button id="chkBid">중복 확인</button><br>
+				<input type="button" id="chkBid" value="중복 확인"><br>
 				
 				<label for="bPw">비밀번호</label>
 				<input type="text" id="bPw" name="bPw"><br>

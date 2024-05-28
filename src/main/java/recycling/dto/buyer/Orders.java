@@ -17,9 +17,12 @@ public class Orders {
 	private int ordSum; // ordFee와 상세주문들 총 금액의 합
 	private int ordFee;
 
+	
+
 	public Orders(String ordCode, String bCode, String ordName, String ordPhone, String sendName, String sendPhone,
 			String ordPostcode, String ordAddr, String ordDetail, String ordMemo, String ordDate, String ordPay,
 			int ordSum, int ordFee) {
+		super();
 		this.ordCode = ordCode;
 		this.bCode = bCode;
 		this.ordName = ordName;

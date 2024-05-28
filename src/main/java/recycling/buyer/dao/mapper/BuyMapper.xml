@@ -74,12 +74,26 @@
 	</update>
 	
 	<insert id="insertProf" parameterType="BuyerProf">
-		INSERT INTO buyerprof (b_profno, b_code, origin_name, stored_name)
+		INSERT INTO buyer_prof (b_profno, b_code, origin_name, stored_name)
 		VALUES(
 			buyer_prof_seq.nextval,
 			#{bCode },
 			#{originName },
 			#{storedName }
+		)
+	</insert>
+	
+	<insert id="insertAdr" parameterType="BuyerAdr">
+		INSERT INTO buyer_adr (adr_code, b_code, adr_name, adr_phone, adr_postcode, adr_addr, adr_detail, adr_chk)
+		VALUES (
+			'ADR' || lpad(buyer_adr_seq.nextval, 7, '0'),
+			#{bCode },
+			#{adrName },
+			#{adrPhone },
+			#{adrPostcode },
+			#{adrAddr },
+			#{adrDetail },
+			'Y'
 		)
 	</insert>
 	

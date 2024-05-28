@@ -8,5 +8,20 @@
 </head>
 <body>
 
+<body>
+    <div class="full">
+        <div class="wrap">
+            <div class="page">
+            
+            </div>
+        
+            <div class="section">
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+
 </body>
 </html>
