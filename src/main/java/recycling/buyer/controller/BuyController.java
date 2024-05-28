@@ -375,11 +375,7 @@ public class BuyController {
 			return "/buyer/findpw";
 		}
 	}
-<<<<<<< HEAD
 
-	
-=======
->>>>>>> main
 	@GetMapping("/buyerheader")
 	public void buyerHeader(
 			Model model,

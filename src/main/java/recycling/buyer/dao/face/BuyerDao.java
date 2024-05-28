@@ -190,4 +190,6 @@ public interface BuyerDao {
 
 	public int changePw(BuyerLogin buyerLogin);
 
+	public BuyerRank selectBuyerRank(int rankNo);
+
 }

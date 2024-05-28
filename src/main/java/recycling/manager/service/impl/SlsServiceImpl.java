@@ -234,10 +234,6 @@ public class SlsServiceImpl implements SlsService {
 	@Override
 	public void insert(Exp exp, ExpSch expSch, MultipartFile file) {}
 
-	@Override
-	public void insert(Exp exp, ExpSch expSch, MultipartFile file) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }//main

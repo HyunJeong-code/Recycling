@@ -157,4 +157,10 @@ public class MgrServiceImpl implements MgrService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ManagerLogin selectByIdPw(Manager manager) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

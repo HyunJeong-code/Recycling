@@ -218,11 +218,6 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
-<<<<<<< HEAD
-
-	
-=======
->>>>>>> main
 	@Override
 	public int changePw(BuyerLogin buyerLogin) {
 		return buyerDao.changePw(buyerLogin);
