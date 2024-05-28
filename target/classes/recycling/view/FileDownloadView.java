@@ -29,8 +29,8 @@ public class FileDownloadView extends AbstractView {
 		logger.info("renderMergedOutputModel");
 		
 		// HTML 응답 테스트
-//			response.setContentType("text/html; charset=utf-8");
-//			response.getWriter().append("<h1>하이!!</h1>");
+//		response.setContentType("text/html; charset=utf-8");
+//		response.getWriter().append("<h1>하이!!</h1>");
 		
 		//-------------------------------------------------------------
 		

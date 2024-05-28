@@ -70,15 +70,15 @@ $(function(){
             <div class="nav-ul">
             	<sec:authorize access="isAnonymous()">
 	                <ul>
-	                    <li><a href="../../buyer/login">로그인</a></li>
-	                    <li><a href="../../buyer/join">회원가입</a></li>
+	                    <li><a href="/buyer/login">로그인</a></li>
+	                    <li><a href="/buyer/join">회원가입</a></li>
 	                </ul>
             	</sec:authorize>
             	<sec:authorize access="hasRole('ROLE_BUYER')">
             	 	<ul>
 	                    <li><a href="/buyer/logout">로그아웃</a></li>
-	                    <li><a href="../../buyer/mypage/myboard">마이페이지</a></li>
-	                    <li><a href="../../buyer/mypage/cart">장바구니</a>
+	                    <li><a href="/buyer/mypage/myboard">마이페이지</a></li>
+	                    <li><a href="/buyer/mypage/cart">장바구니</a>
 	                    </li>
 	                </ul>
             	</sec:authorize>

@@ -31,12 +31,9 @@ public class SlsServiceImpl implements SlsService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	private SlsDao slsDao;
+	@Autowired private ServletContext servletContext;
+	@Autowired private SlsDao slsDao;
 	
-	@Autowired
-	private ServletContext servletContext;
-
 	@Override
 	public List<Seller> main(Paging paging) {
 		return slsDao.main(paging);
@@ -54,6 +51,7 @@ public class SlsServiceImpl implements SlsService {
 		return paging;
 	}
 	
+	//전체조회
 	@Override
 	public  List<Map<String, Object>> selectBysChk() {
 		return slsDao.selectBysChk();

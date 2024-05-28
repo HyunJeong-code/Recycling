@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import recycling.buyer.service.face.MypageService;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 내 게시물 관련
 
@@ -27,22 +28,29 @@ public class MypageController {
 	@GetMapping("/myboard")
 	public void myMain(
 				Authentication authentication,
+				PagingAndCtg paging,
 				Model model
-				
 			) {
 		logger.info("/buyer/mypage/myboard [GET]");
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("buyerLogin : {}", buyerLogin);
 		
-		List<Map<String, Object>> qna = mypageService.selectQnaBybCode(buyerLogin);
+		logger.info("paging : {}", paging);
+		// 문의글 페이지 수 계산
+		paging = new PagingAndCtg(mypageService.selectCntPage(paging), paging.getCurPage(), paging.getSearch(), paging.getCtg());
+		paging.setUser(buyerLogin.getbCode());
+		logger.info("AFTER - paging : {}", paging);
+		
+		List<Map<String, Object>> qna = mypageService.selectQnaBybCode(paging);
 		logger.info("QNA : {}", qna);
 		logger.info("QNA : {}", qna.size());
 		
+		model.addAttribute("paging", paging);
 		model.addAttribute("qna", qna);
 		model.addAttribute("qnaSize", qna.size());
 		
-		List<Map<String, Object>> rvw = mypageService.selectRvwBybCode(buyerLogin);
+		List<Map<String, Object>> rvw = mypageService.selectRvwBybCode(paging);
 		logger.info("RVW : {}", rvw);
 		logger.info("RVW : {}", rvw.size());
 		

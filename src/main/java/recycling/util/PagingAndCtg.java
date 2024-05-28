@@ -2,7 +2,7 @@ package recycling.util;
 
 public class PagingAndCtg {
 	
-	private int curPage; // 현재 페이지 번호
+	private int curPage = 1; // 현재 페이지 번호
 	private int totalCount; // 총 게시글 수
 	private int listCount; // 한 페이지 당 보여질 게시글 수
 	private int totalPage; // 총 페이지의 수
@@ -11,8 +11,9 @@ public class PagingAndCtg {
 	private int endPage; // 화면에 보이는 끝 페이지네이션 번호
 	private int startNo; // 화면의 보이는 게시글의 시작 번호
 	private int endNo; // 화면에 보이는 게시글의 끝 번호
-	private String search; // 검색어
-	private int ctg;
+	private String search = ""; // 검색어
+	private String ctg = ""; // 카테고리
+	private String user = ""; // 사용자
 	
 	public PagingAndCtg() {}
 
@@ -39,7 +40,7 @@ public class PagingAndCtg {
 	}
 	
 	// 검색어 + 카테고리가 들어간 페이징 처리
-	public PagingAndCtg(int totalCount, int curPage, String search, int ctg) {
+	public PagingAndCtg(int totalCount, int curPage, String search, String ctg) {
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		setSearch(search);
@@ -76,12 +77,13 @@ public class PagingAndCtg {
 		startNo = (curPage - 1) * listCount + 1;
 		endNo = curPage * listCount;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "PagingAndCtg [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount
 				+ ", totalPage=" + totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage="
-				+ endPage + ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", ctg=" + ctg + "]";
+				+ endPage + ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", ctg=" + ctg
+				+ ", user=" + user + "]";
 	}
 
 	public void setCurPage(int curPage) {
@@ -160,11 +162,19 @@ public class PagingAndCtg {
 		this.search = search;
 	}
 
-	public int getCtg() {
+	public String getCtg() {
 		return ctg;
 	}
 
-	public void setCtg(int ctg) {
+	public void setCtg(String ctg) {
 		this.ctg = ctg;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 }

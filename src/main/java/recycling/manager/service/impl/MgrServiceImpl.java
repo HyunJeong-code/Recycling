@@ -155,4 +155,17 @@ public class MgrServiceImpl implements MgrService {
 	public int insertMgrProf(MgrFile mgrFile) {
 		return mgrDao.insertMgrProf(mgrFile);
 	}
+
+	@Override
+	public List<Notice> selectAll(Paging paging) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ManagerLogin selectByIdPw(Manager manager) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
