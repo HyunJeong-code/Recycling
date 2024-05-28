@@ -1,14 +1,10 @@
 package recycling.buyer.controller;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,6 +121,10 @@ public class ExpController {
 			selType = "기업";
 		}
 		
+		//체험단 후기
+		
+		
+		
 		model.addAttribute("exp", exp);
 		model.addAttribute("expFiles", expFiles);
 		model.addAttribute("seller", seller);
@@ -135,31 +135,23 @@ public class ExpController {
 		
 	}
 	
-	@GetMapping("/exprvwlist")
-	public void expRvwList() {
-		
-	}
 	
-	@GetMapping("/exprvwdetail")
-	public void expRvwDetail() {
-		
-	}
-	
-	//여기부터 시작
+	//체험단 작성폼
 	@GetMapping("/expresform")
 	public void expResForm(
 			String expCode,
 			Authentication authentication,
 			Model model
 			) {
-		
+		//구매자 로그인 세션 정보
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
 		Buyer buyer = expService.getBuyerDetail(buyerLogin.getbId());
 		
+		//체험 일정 리스트
         List<ExpSch> expSchList = expService.getExpSchList(expCode);
         logger.info("expSchList: {}", expSchList);
         
+        //체험단 체험비
         Exp exp = expService.selectByExpCode(expCode);
         int resPrice = exp.getExpPrice();
         
@@ -168,6 +160,7 @@ public class ExpController {
         model.addAttribute("resPrice", resPrice);
 	}
 	
+	//체험단 작성폼
 	@PostMapping("/expresform")
 	public String expResFormProc(
 	        Authentication authentication,
@@ -178,7 +171,8 @@ public class ExpController {
 	        String resTime,
 	        Model model
 	        ) {
-	    
+		
+	    //구매자 로그인 세션 정보
 	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 	    logger.info("buyerLogin : {}", buyerLogin);
 	    
@@ -189,6 +183,7 @@ public class ExpController {
 	    
 	    buyer = expService.getBuyerDetail(buyerLogin.getbId());
 	    
+	    //체험 일정번호 일치하는 인원수
 	    ExpSch expSch = expService.getExpSch(schNo);
 	    
 	    if (expSch.getSchCnt() < resCnt) {
@@ -196,10 +191,12 @@ public class ExpController {
 	        return "buyer/exp/expresform";
 	    }
 	    
+	    //체험 예약 시 총 가격
 	    Exp exp = expService.selectByExpCode(expSch.getExpCode());
 	    int resPrice = exp.getExpPrice();
 	    int resSum = resCnt * resPrice;
 	    
+	    //체험예약
 	    ExpRes expRes = new ExpRes();
 	    expRes.setbCode(buyer.getbCode());
 	    expRes.setSchNo(expSch.getSchNo());
@@ -225,6 +222,7 @@ public class ExpController {
 	    
 	    logger.info("expRes : {}", expRes);
 	    
+	    //db삽입, 인원수 update
 	    expService.insertExpRes(expRes);
 	    expService.updateExpSchCnt(schNo, resCnt);
 	    
@@ -234,7 +232,7 @@ public class ExpController {
 	    model.addAttribute("resSum", resSum);
 	    model.addAttribute("resPrice", resPrice); // resPrice를 모델에 추가
 
-	    return "redirect:/buyer/exp/expdetail";
+	    return "redirect:/buyer/exp/main";
 	}
 
 }

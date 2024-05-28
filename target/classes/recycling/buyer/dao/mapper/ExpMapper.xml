@@ -187,7 +187,6 @@
     		#{resEmail}, 
     		#{resExpName}, 
     		TO_DATE(#{resDate},'YYYY-MM-DD HH24:MI:SS'),
-<!-- 			#{resDate}, -->
     		#{resTime}, 
     		#{resCnt}, 
     		#{resPrice}, 
@@ -200,21 +199,11 @@
     		)
 	</insert>
 	
+
 	<update id="updateExpSchCnt" parameterType="map">
-		UPDATE exp_sch
-		SET sch_cnt = sch_cnt - (
-			SELECT SUM(res_cnt)
-			FROM exp_res
-			<where>
-				AND sch_no = #{schNo}
-				AND res_date = #{resDate}
-				AND res_time = #{resTime}
-			</where>
-		)
-		<where>
-			AND sch_no = #{schNo}
-			AND sch_date = #{schDate}
-			AND sch_time = #{schTime}
-		</where>
+	    UPDATE exp_sch
+	    SET sch_cnt = sch_cnt - #{resCnt}
+	    WHERE sch_no = #{schNo}
 	</update>
+
 </mapper>

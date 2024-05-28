@@ -124,4 +124,5 @@ public class ExpServiceImpl implements ExpService {
         params.put("resCnt", resCnt);
 		expDao.updateExpSchCnt(params);
 	}
+	
 }
