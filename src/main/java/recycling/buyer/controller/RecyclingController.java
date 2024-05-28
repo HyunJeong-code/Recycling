@@ -82,7 +82,6 @@ public class RecyclingController {
 //        return "buyer/recycling/findseller_origin";
         }
 
-	}
 //	@GetMapping("/main")
 //	public String rcyMain(Model model) {
 //		logger.info("/buyer/recycling/main [GET]");

@@ -319,5 +319,10 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.deleteSeller(sCode);
 	
 	}
+	
+	@Override
+	public int changePw(BuyerLogin buyerLogin) {
+		return buyerDao.changePw(buyerLogin);
+	}
 
 }

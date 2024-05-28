@@ -25,6 +25,7 @@ import recycling.dto.manager.Manager;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
+import recycling.util.Paging;
 
 // 관리자 메인 페이지 + 로그인, 회원가입 + 사원 전체 조회, 공지사항
 
@@ -144,7 +145,7 @@ public class MgrController {
 	
 	//공지사항 전체조회
 	@GetMapping("/noticelist")
-	public String noticeList(
+	public void noticeList(
 			Model model
 			) {
 		//관리자 공지사항 전체조회

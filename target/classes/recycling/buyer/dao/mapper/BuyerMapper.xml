@@ -212,11 +212,9 @@
     <select id="getBuyerAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
-    	<where>
-    		AND B_Code = #{bCode }
-    	</where>
+   		WHERE B_Code = #{bCode }
     	ORDER BY CASE 
-		WHEN ADR_CHK ='Y' then 0
+		WHEN Adr_Chk ='Y' THEN 0
 		ELSE 1
 		END
     </select>

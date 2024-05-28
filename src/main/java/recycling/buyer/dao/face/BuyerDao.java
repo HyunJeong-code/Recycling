@@ -269,8 +269,6 @@ public interface BuyerDao {
 	 * @return 탈퇴 결과
 	 */
 
-	public int changePw(BuyerLogin buyerLogin);
-	
 	/**
 	 * 판매자 찾기
 	 * 
