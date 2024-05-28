@@ -58,6 +58,11 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 
 	@Override
+	public Seller selectSeller(String getsCode) {
+		return recyclingDao.selectSeller(getsCode);
+	}
+	
+	@Override
 	public SellerProf getSellerProf(String sCode) {
 		return recyclingDao.selectSellerProfByCode(sCode);
 	}
@@ -107,6 +112,8 @@ public class RecyclingServiceImpl implements RecyclingService {
 	public int deleteSellerAnswer(String qnaCode) {
 		return recyclingDao.deleteSellerAnswer(qnaCode);
 	}
+
+
 
 
 

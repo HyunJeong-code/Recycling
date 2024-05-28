@@ -121,4 +121,89 @@
 	
 	</select>
 	
+	<update id="updateExpHit" parameterType="string">
+		UPDATE Exp
+			SET exp_hit = exp_hit + 1
+		<where>
+			AND exp_code = #{expCode }
+		</where>
+	</update>
+	
+	<select id="getBuyerDetail" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT B_Code AS bCode,
+		       B_Ct_Code AS bCtCode,
+		       B_Id AS bId,
+		       B_Pw AS bPw,
+		       B_Name AS bName,
+		       B_Phone AS bPhone,
+		       B_Email AS bEmail,
+		       Ad_Sms AS adSms,
+		       Ad_Email AS adEmail
+		FROM Buyer
+		<where>
+			AND B_Id = #{bId }
+		</where>
+	</select>
+	
+	<select id="getExpSchList" resultType="ExpSch" parameterType="string">
+		SELECT * FROM exp_sch
+		<where>
+			AND exp_code = #{expCode}
+		</where>
+	</select>
+	
+	<select id="getExpSch" resultType="ExpSch" parameterType="int">
+		SELECT * from exp_sch
+		<where>
+			AND sch_no = #{schNo}
+		</where>
+	</select>
+	
+	<insert id="insertExpRes" parameterType="ExpRes" useGeneratedKeys="true" keyProperty="resCode" keyColumn="res_code">
+		INSERT INTO exp_res (
+			res_code, 
+			b_code, 
+			sch_no, 
+			res_name, 
+			res_phone, 
+			res_email, 
+			res_expname, 
+			res_date, 
+			res_time, 
+			res_cnt, 
+			res_price, 
+			res_sum, 
+			res_pay, 
+			pay_date,
+			res_cnf,
+			res_cnl,
+			res_dt 
+			) VALUES (
+    		'RES' || lpad(exp_res_seq.nextval, 7, '0'), 
+    		#{bCode}, 
+    		#{schNo}, 
+    		#{resName}, 
+    		#{resPhone}, 
+    		#{resEmail}, 
+    		#{resExpName}, 
+    		TO_DATE(#{resDate},'YYYY-MM-DD HH24:MI:SS'),
+    		#{resTime}, 
+    		#{resCnt}, 
+    		#{resPrice}, 
+    		#{resSum}, 
+    		#{resPay}, 
+    		SYSDATE, 
+    		#{resCnf}, 
+    		#{resCnl}, 
+    		#{resDt}
+    		)
+	</insert>
+	
+
+	<update id="updateExpSchCnt" parameterType="map">
+	    UPDATE exp_sch
+	    SET sch_cnt = sch_cnt - #{resCnt}
+	    WHERE sch_no = #{schNo}
+	</update>
+
 </mapper>

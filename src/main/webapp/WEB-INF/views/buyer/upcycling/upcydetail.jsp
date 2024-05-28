@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -142,35 +143,52 @@
 	
 	
 </style>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba546373fe2d97f20f50b230fdbb91ed"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5141af38fa883955ccca452855c2266&libraries=services"></script>
 <script>
 	function scrollToSection(sectionId) {
 		document.querySelectorAll('.navBtn').forEach(btn => btn.classList.remove('active'));
 		document.getElementById('btn-' + sectionId).classList.add('active');
 		document.getElementById(sectionId).scrollIntoView({ behavior: 'auto' });
 	}
-	
-	let map;
-	function initMap() {
-		// 지도 초기화 및 설정
-		var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
-		var mapOption = { 
-			center: new kakao.maps.LatLng(37.5665, 126.978), // 지도의 중심좌표
-			level: 3 // 지도의 확대 레벨
-		};
 
-		map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    window.onload = function () {
+        var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+        var mapOption = { 
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
 
-		// 판매자의 거래위치 정보를 표시할 마커 추가
-		var markerPosition  = new kakao.maps.LatLng(37.5665, 126.978); 
-		var marker = new kakao.maps.Marker({
-			position: markerPosition
-		});
-
-		marker.setMap(map);
-	}
-	
-	window.onload = initMap;
+        // 지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption); 
+        
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+        
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch('${seller.sAddr}', function(result, status) {
+        
+            // 정상적으로 검색이 완료됐으면 
+            if (status === kakao.maps.services.Status.OK) {
+        
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+        
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">${seller.sAddr}</div>'
+                });
+                infowindow.open(map, marker);
+        
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            } 
+        });
+    };
 </script>
 </head>
 <body>
@@ -185,7 +203,7 @@
 			</div>
 			
 			<div class="prdInfo">
-				<p class="prdName">${prd.prdName}</h1>
+				<p class="prdName">${prd.prdName}</p>
 				<hr>
 				<p class="prdPrice">${prd.price}<p>
 				<hr>
@@ -201,41 +219,42 @@
 			<div id="btn-section2" class="navBtn" onclick="scrollToSection('section2')">판매자 정보</div>
 			<div id="btn-section3" class="navBtn" onclick="scrollToSection('section3')">거래위치 정보</div>
 			<div id="btn-section4" class="navBtn" onclick="scrollToSection('section4')">상품평</div>
-			<div id="btn-section5" class="navBtn" onclick="scrollToSection('section5')">상품문의</div>
+			<!-- <div id="btn-section5" class="navBtn" onclick="scrollToSection('section5')">상품문의</div> -->
 		</div>
 		
 		<div id="section1" class="section">
 			<h3>상품상세</h3>
-			<p>상품상세 내용</p>
+			<p>상품상세 이미지</p>
 		</div>
 		
 		<div id="section2" class="section">
 			<h3>판매자 정보</h3>
 			<div class="seller-info">
 				<div class="seller-section">
-					<img src="${sellerProf.storedName}" alt="${sellerProf.originName}" class="seller-photo">
+					
+					<%-- <img src="${sellerProf.storedName}" alt="${sellerProf.originName}" class="seller-photo"> --%>
 					<p>아이디: ${sellerProf.sCode}</p>
-					<p>등급: ${sellerProf.sellerTier}</p>
-					<p>평점: ${sellerProf.sellerRating}/10</p>
-					<p>총 거래 횟수: ${sellerProf.totalTransactions}</p>
+					<p>등급: ${sellerProf.tierName}</p>
+					<p>평점: ${sellerProf.sRating}/10</p>
+					<p>총 거래 횟수: ${sellerProf.totalTransaction}</p>
 				</div>
 			</div>
 		</div>
 		
 		<div id="section3" class="section">
 			<h3>거래위치 정보</h3>
-			<div id="map" style="height: 400px; width: 100%;"></div>
-			<p>거래위치 정보 내용</p>
+			<div id="map" style="width:100%;height:350px;"></div>
+			<h2>${seller.sAddr}</h2>
 		</div>
 		
 		<div id="section4" class="section">
 			<h3>상품평</h3>
 			<div id="reviews">
-				<c:forEach var="review" items="${upcyvwlist}">
+				<c:forEach var="upcyReview" items="${upcyvwlist}">
 					<div class="review-item">
-						<p><strong>${review.bCode}</strong></p>
-						<p>${review.rvwContent}</p>
-						<p>${review.rvwDate}</p>
+						<p><strong>${upcyReview.bCode}</strong></p>
+						<p>${upcyReview.upcyContent}</p>
+						<p>${upcyReview.upcyDate}</p>
 					</div>
 				</c:forEach>
 				
@@ -249,10 +268,10 @@
 			</div>
 		</div>
 		
-		<div id="section5" class="section">
+<!-- 		<div id="section5" class="section">
 			<h3>상품문의</h3>
 			<p>상품문의 내용</p>
-		</div>
+		</div> -->
 		
 	</div>
 

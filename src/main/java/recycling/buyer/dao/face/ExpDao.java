@@ -1,10 +1,13 @@
 package recycling.buyer.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.ExpRes;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
+import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 
@@ -89,5 +92,34 @@ public interface ExpDao {
 	 * @return buyer
 	 */
 	public Buyer getBuyerInfo(String bCode);
+
+	/**
+	 * expCode와 일치하는 체험단 조회수
+	 * 
+	 * @param expCode - 체험단 코드
+	 */
+	public void updateExpHit(String expCode);
+
+	/**
+	 * 개인 구매자 정보 조회
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
+	 */
+	public Buyer getBuyerDetail(String bId);
+
+	/**
+	 * 체험단 시간/날짜 예약 가능 시간List
+	 * 
+	 * @param expCode - 체험단 코드
+	 * @return 시간/날짜 List 
+	 */
+	public List<ExpSch> getExpSchList(String expCode);
+
+	public ExpSch getExpSch(int schNo);
+
+	public void insertExpRes(ExpRes expRes);
+
+	public void updateExpSchCnt(Map<String, Object> params);
 
 }

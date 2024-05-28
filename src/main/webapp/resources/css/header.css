@@ -24,10 +24,20 @@ li {
     margin: auto;
     color: #fff;
 }
+
 .header {
     background-color: #f1f1f1;
     color: #000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 99;
+}
+
+.header.fixed {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 .container {
@@ -171,13 +181,14 @@ li {
 }
 
 .sub-wrap {
+	display: none;
     width: 1160px;
     margin: 0 auto;
     position: absolute;
     background-color: #f1f1f1;
     left: 50%;
     transform: translateX(-50%);
-    display: none;
+    z-index: 99;
 }
 
 .sub-wrap ul:first-child li {

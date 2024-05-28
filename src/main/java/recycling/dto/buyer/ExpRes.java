@@ -15,6 +15,7 @@ public class ExpRes {
 	private int resPrice;
 	private int resSum;
 	private String resPay;
+	private String payDate;
 	private String resCnf;
 	private String resCnl;
 	private String resDt;
@@ -22,9 +23,8 @@ public class ExpRes {
 	public ExpRes() {}
 
 	public ExpRes(String resCode, String bCode, int schNo, String resName, String resPhone, String resEmail,
-			String resExpName, String resDate, String resTime, int resCnt, int resPrice, String resPay,
-			String resCnf, String resCnl, String resDt) {
-		super();
+			String resExpName, String resDate, String resTime, int resCnt, int resPrice, int resSum, String resPay,
+			String payDate, String resCnf, String resCnl, String resDt) {
 		this.resCode = resCode;
 		this.bCode = bCode;
 		this.schNo = schNo;
@@ -36,8 +36,9 @@ public class ExpRes {
 		this.resTime = resTime;
 		this.resCnt = resCnt;
 		this.resPrice = resPrice;
-		this.resSum = (resCnt * resPrice);
+		this.resSum = resSum;
 		this.resPay = resPay;
+		this.payDate = payDate;
 		this.resCnf = resCnf;
 		this.resCnl = resCnl;
 		this.resDt = resDt;
@@ -48,8 +49,8 @@ public class ExpRes {
 		return "ExpRes [resCode=" + resCode + ", bCode=" + bCode + ", schNo=" + schNo + ", resName=" + resName
 				+ ", resPhone=" + resPhone + ", resEmail=" + resEmail + ", resExpName=" + resExpName + ", resDate="
 				+ resDate + ", resTime=" + resTime + ", resCnt=" + resCnt + ", resPrice=" + resPrice + ", resSum="
-				+ resSum + ", resPay=" + resPay + ", resCnf=" + resCnf + ", resCnl=" + resCnl + ", resDt=" + resDt
-				+ "]";
+				+ resSum + ", resPay=" + resPay + ", payDate=" + payDate + ", resCnf=" + resCnf + ", resCnl=" + resCnl
+				+ ", resDt=" + resDt + "]";
 	}
 
 	public String getResCode() {
@@ -178,5 +179,13 @@ public class ExpRes {
 
 	public void setResDt(String resDt) {
 		this.resDt = resDt;
+	}
+
+	public String getPayDate() {
+		return payDate;
+	}
+
+	public void setPayDate(String payDate) {
+		this.payDate = payDate;
 	}
 }

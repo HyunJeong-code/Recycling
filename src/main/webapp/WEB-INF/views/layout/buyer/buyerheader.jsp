@@ -16,18 +16,39 @@
 <script type="text/javascript">
 $(function(){
 
-    $('.menu, .sub-wrap').on('mouseover', function(){
-        $(".sub-wrap").stop().slideDown(200);
-    });
+    var header = $('.header');
+    var headerOffset = header.offset().top;
 
+    $(window).scroll(function() {
+        if ($(window).scrollTop() >= headerOffset+600) {
+            if (!header.hasClass('fixed')) {
+                header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
+                $("body").css("padding-top","210px");
+            }
+        } else {
+            if (header.hasClass('fixed')) {
+                header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
+                    header.css('top', '');
+                    $("body").css("padding-top","0");
+                });
+            }
+        }
+    });
+    
+    // 페이지 로딩 시 sub-wrap을 숨긴 상태로 설정
+    $(".sub-wrap").hide();
+    
+    
+    //메뉴 스크롤 업/다운
     $('.menu, .sub-wrap').on('mouseleave', function(){
         $(".sub-wrap").stop().slideUp(200);
     });
 
+    $('.menu, .sub-wrap').on('mouseover', function(){
+        $(".sub-wrap").stop().slideDown(200);
+    });
 });
- </script>
-    
-    
+</script>
 </head>
 <body>
 	<header class="header">
@@ -90,46 +111,47 @@ $(function(){
                 </ul>
             </div>
         </div>
+        <div>
+	        <div class="sub-wrap">
+	            <ul>
+	                <li><a href=""></a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">가까운 판매자 찾기</a></li>
+	                <li><a href="">분류1</a></li>
+	                <li><a href="">분류2</a></li>
+	                <li><a href="">분류3</a></li>
+	                <li><a href="">분류4</a></li>
+	                <li><a href="">분류5</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">분류1</a></li>
+	                <li><a href="">분류2</a></li>
+	                <li><a href="">분류3</a></li>
+	                <li><a href="">분류4</a></li>
+	                <li><a href="">분류5</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">업체 소개</a></li>
+	                <li><a href="">세척</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">체험단 예약</a></li>
+	                <li><a href="">체험단 후기</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">고객센터 안내</a></li>
+	                <li><a href="">공지사항</a></li>
+	                <li><a href="">자주 묻는 질문</a></li>
+	                <li><a href="">1:1 게시판</a></li>
+	                <li><a href="">Q & A</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">회사개요</a></li>
+	            </ul>
+	        </div>
+	    </div>
     </header>
-    <div>
-        <div class="sub-wrap">
-            <ul>
-                <li><a href=""></a></li>
-            </ul>
-            <ul>
-                <li><a href="">가까운 판매자 찾기</a></li>
-                <li><a href="">분류1</a></li>
-                <li><a href="">분류2</a></li>
-                <li><a href="">분류3</a></li>
-                <li><a href="">분류4</a></li>
-                <li><a href="">분류5</a></li>
-            </ul>
-            <ul>
-                <li><a href="">분류1</a></li>
-                <li><a href="">분류2</a></li>
-                <li><a href="">분류3</a></li>
-                <li><a href="">분류4</a></li>
-                <li><a href="">분류5</a></li>
-            </ul>
-            <ul>
-                <li><a href="">업체 소개</a></li>
-                <li><a href="">세척</a></li>
-            </ul>
-            <ul>
-                <li><a href="">체험단 예약</a></li>
-                <li><a href="">체험단 후기</a></li>
-            </ul>
-            <ul>
-                <li><a href="">고객센터 안내</a></li>
-                <li><a href="">공지사항</a></li>
-                <li><a href="">자주 묻는 질문</a></li>
-                <li><a href="">1:1 게시판</a></li>
-                <li><a href="">Q & A</a></li>
-            </ul>
-            <ul>
-                <li><a href="">회사개요</a></li>
-            </ul>
-        </div>
-    </div>
+    
 </body>
 </html>
