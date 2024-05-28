@@ -144,7 +144,7 @@ public class MgrController {
 	
 	//공지사항 전체조회
 	@GetMapping("/noticelist")
-	public void noticeList(
+	public String noticeList(
 			Model model
 			) {
 		//관리자 공지사항 전체조회
@@ -153,6 +153,7 @@ public class MgrController {
 		logger.info("controller: noticeList[GET]");
 		
 		
+		Paging pagingParam = null;
 		//페이징 계산, 검색기능
 //		Paging paging = mgrService.selectCntAll(pagingParam);
 		

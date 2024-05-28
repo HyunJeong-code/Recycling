@@ -356,4 +356,6 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.sellerSelect(getbCode);
 	}
 
+
+
 }//main

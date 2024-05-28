@@ -15,11 +15,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -411,12 +414,12 @@ public class BuyerController {
 	
 	// 비밀번호 변경 페이지
 	@GetMapping("/changepw")
-	public void changePw(
+	public String changePw(
 			HttpSession session
 			) {
 		logger.info("/buyer/mypage/changepw [GET]");
 		
-//		return "buyer/mypage/changepw";
+		return "buyer/mypage/changepw";
 		
 	}
 	

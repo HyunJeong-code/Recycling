@@ -187,7 +187,6 @@ public interface BuyerDao {
 	 * @param rankNo - 구매자 등급 번호
 	 * @return 구매자 등급
 	 */
-	public BuyerRank selectBuyerRank(int rankNo);
 
 	public int changePw(BuyerLogin buyerLogin);
 	
@@ -198,4 +197,7 @@ public interface BuyerDao {
 	 * @return
 	 */
 	public List<Seller> findSeller(String sCode);
+
+	public BuyerRank selectBuyerRank(int rankNo);
+
 }
