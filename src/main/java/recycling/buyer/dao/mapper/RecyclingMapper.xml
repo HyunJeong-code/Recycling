@@ -36,8 +36,8 @@
 	</select>
 
 	<!-- 판매자 프로필 조회 -->
-	<select id="selectSellerProfByCode" parameterType="String" resultType="SellerProf">
-		SELECT * FROM SELLER_PROF
+	<select id="selectSellerProfByCode" parameterType="String" resultType="Seller">
+		SELECT * FROM SELLER
 		WHERE S_CODE = #{sCode}
 	</select>
 

@@ -35,6 +35,7 @@ import recycling.dto.seller.SellerQST;
 public class RecyclingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
     @Autowired
 	private RecyclingService recyclingService;
 	
@@ -125,7 +126,7 @@ public class RecyclingController {
 			return "not-found-page";
 		}
 		
-		SellerProf sellerProf = recyclingService.getSellerProf(prd.getsCode());
+		Seller sellerProf = recyclingService.getSeller(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
 		model.addAttribute("sellerProf", sellerProf);

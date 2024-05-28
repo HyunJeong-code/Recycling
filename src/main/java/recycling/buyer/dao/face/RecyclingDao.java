@@ -33,7 +33,7 @@ public interface RecyclingDao {
 
 	public Prd selectPrd(String prdCode);
 
-	public SellerProf selectSellerProfByCode(String sCode);
+	public Seller selectSellerProfByCode(String sCode);
 
 	public SellerQST selectSellerQST(String qstCode);
 

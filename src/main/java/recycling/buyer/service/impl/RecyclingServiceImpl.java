@@ -61,7 +61,7 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 
 	@Override
-	public SellerProf getSellerProf(String sCode) {
+	public Seller getSeller(String sCode) {
 		return recyclingDao.selectSellerProfByCode(sCode);
 	}
 
@@ -89,7 +89,7 @@ public class RecyclingServiceImpl implements RecyclingService {
 
 
 	@Override
-	public int  deleteSellerQST(String qstCode) {
+	public int deleteSellerQST(String qstCode) {
 		return recyclingDao.deleteSellerQST(qstCode);
 	}
 

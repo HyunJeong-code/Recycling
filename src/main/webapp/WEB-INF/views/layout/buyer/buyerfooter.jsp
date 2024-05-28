@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>새활용 메인페이지</title>
 <!-- footer css -->
-<link rel="stylesheet" href="/resources/css/footer.css">
+<link rel="stylesheet" href="../../../resources/css/footer.css">
 
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
 </head>
