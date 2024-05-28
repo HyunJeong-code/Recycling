@@ -67,7 +67,7 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public BuyerAdr selectBybCode(String bCode) {
+	public List<BuyerAdr> selectBybCode(String bCode) {
 		return buyerDao.selectBybCode(bCode);
 	}
 	

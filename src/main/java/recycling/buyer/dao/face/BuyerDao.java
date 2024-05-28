@@ -48,7 +48,7 @@ public interface BuyerDao {
 	 * @param bCode - 조회할 bCode
 	 * @return - 조회한 BuyerAdr 정보
 	 */
-	public BuyerAdr selectBybCode(String bCode);
+	public List<BuyerAdr> selectBybCode(String bCode);
 
 	/**
 	 * ordCode로 Orders 조회하기
@@ -265,5 +265,5 @@ public interface BuyerDao {
 	 * @return 탈퇴 결과
 	 */
 	public int deleteSeller(String sCode);
-
+	
 }

@@ -21,23 +21,35 @@
             var headerOffset = header.offset().top;
 
             $(window).scroll(function() {
-                if ($(window).scrollTop() > headerOffset) {
-                    header.addClass('fixed');
+                if ($(window).scrollTop() >= headerOffset+600) {
+                    if (!header.hasClass('fixed')) {
+                        header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
+                        $("body").css("padding-top","210px");
+                    }
                 } else {
-                    header.removeClass('fixed');
+                    if (header.hasClass('fixed')) {
+                        header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
+                            header.css('top', '');
+                            $("body").css("padding-top","0");
+                        });
+                    }
                 }
+            });
+            
+         	// 페이지 로딩 시 sub-wrap을 숨긴 상태로 설정
+            $(".sub-wrap").hide();
+            
+         	
+         	//메뉴 스크롤 업/다운
+            $('.menu, .sub-wrap').on('mouseleave', function(){
+                $(".sub-wrap").stop().slideUp(200);
             });
         
             $('.menu, .sub-wrap').on('mouseover', function(){
                 $(".sub-wrap").stop().slideDown(200);
             });
-
-            $('.menu, .sub-wrap').on('mouseleave', function(){
-                $(".sub-wrap").stop().slideUp(200);
-            });
-
         });
-    </script>
+ </script>
     
     
 </head>
@@ -59,15 +71,20 @@
                 </a>
             </div>
             <div class="nav-ul">
-                <ul>
-                    <li><a href="">로그인</a></li>
-                    <li><a href="">회원가입</a></li>
-                    <li><a href="">장바구니</a>
-                        <!-- <a href="">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </a> -->
-                    </li>
-                </ul>
+            	<sec:authorize access="isAnonymous()">
+	                <ul>
+	                    <li><a href="../../buyer/login">로그인</a></li>
+	                    <li><a href="../../buyer/join">회원가입</a></li>
+	                </ul>
+            	</sec:authorize>
+            	<sec:authorize access="hasRole('ROLE_BUYER')">
+            	 	<ul>
+	                    <li><a href="/buyer/logout">로그아웃</a></li>
+	                    <li><a href="../../buyer/mypage/myboard">마이페이지</a></li>
+	                    <li><a href="../../buyer/mypage/cart">장바구니</a>
+	                    </li>
+	                </ul>
+            	</sec:authorize>
             </div>
         </div>
         <div class="container">

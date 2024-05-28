@@ -17,6 +17,9 @@ public interface RecyclingService {
 	 */
 	public List<Seller> findSeller();
 	
+	 /** 제품 DTO에서 리스트를 불러온다
+	List<Seller> findSeller();
+	
 	/**
 	 * 제품 DTO에서 리스트를 불러온다
 	 * 

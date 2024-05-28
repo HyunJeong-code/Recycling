@@ -3,8 +3,9 @@ package recycling.buyer.service.face;
 import java.util.List;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Review;
+import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.Seller;
 import recycling.dto.seller.SellerProf;
 
 public interface UpcyclingService {
@@ -23,6 +24,15 @@ public interface UpcyclingService {
 	 * @return 제품번호의 상세페이지
 	 */
 	public Prd selectPrd(String prdCode);
+	
+	/**
+	 * 판매자 정보을 가져오는 코드
+	 * 
+	 * @param	getsCode 프라이머리키인 sCode
+	 * 
+	 */
+	public Seller selectSeller(String getsCode);
+
 
 	/**
 	 * 판매자 상세 프로필을 가져오는 코드
@@ -46,14 +56,14 @@ public interface UpcyclingService {
 	 * 
 	 * @return
 	 */
-	public List<Review> selectRvwList(String prdCode);
+	public List<UpcyReview> selectRvwList(String prdCode);
 
 	/**
 	 * 리뷰 상세 조회
 	 * @param rvwCode 리뷰번호
 	 * @return 특정 리뷰번호 로드
 	 */
-	public Review selectRvw(int rvwCode);
+	public UpcyReview selectRvw(String upcyCode);
 
 	/**
 	 * 리뷰 작성
@@ -71,14 +81,16 @@ public interface UpcyclingService {
 	 * @param rvwCode 리뷰코드
 	 * @param rvwContent 리뷰내용
 	 */
-	public void updateReview(int rvwCode, String rvwContent);
+	public void updateReview(String upcyCode, String upcyContent);
 
 	/**
 	 * 리뷰 삭제 메소드
 	 * 
 	 * @param rvwCode 리뷰코드
 	 */
-	public void deleteReview(int rvwCode);
+	public void deleteReview(String upcyCode);
 
+
+	
 
 }

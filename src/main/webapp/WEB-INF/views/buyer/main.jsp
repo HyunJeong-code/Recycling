@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>새활용 메인페이지</title>
+<link rel="stylesheet" href="../../../resources/css/common.css">
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
@@ -18,15 +19,10 @@
 		<a href="/buyer/login">로그인</a><br>
 		<a href="/buyer/mypage/mymain">마이페이지</a><br>
 		
-		<div class="ad">
+		<div class="page">
 		</div>
 		
-		<div>
-			<div class="wash">
-			</div>
-			
-			<div class="hit">
-			</div>
+		<div class="section">
 		</div>
 		
 		<div>

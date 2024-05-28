@@ -6,30 +6,23 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import recycling.buyer.service.face.RecyclingService;
-import recycling.dto.buyer.Buyer;
-import recycling.dto.seller.Seller;
-import recycling.util.Paging;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.Seller;
 import recycling.dto.seller.SellerAns;
 import recycling.dto.seller.SellerProf;
 import recycling.dto.seller.SellerQST;
@@ -44,9 +37,16 @@ public class RecyclingController {
 	private RecyclingService recyclingService;
 	
 	@GetMapping("/main")
-	public void main() {
+	public String rcyMain(Model model) {
 		logger.info("/buyer/recycling/main [GET]");
+		
+		List<Prd> list = recyclingService.getPrdList();
+		
+		model.addAttribute("list", list);
+		
+		return "buyer/recycling/main";
 	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/findseller", method = RequestMethod.GET)
@@ -80,19 +80,9 @@ public class RecyclingController {
         return "buyer/recycling/findseller";
         
         // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
-	}
-//	@GetMapping("/main")
-//	public String rcyMain(Model model) {
-//		logger.info("/buyer/recycling/main [GET]");
-//		
-//		List<Prd> list = recyclingService.getPrdList();
-//		
-//		model.addAttribute("list", list);
-//		
-//		return "buyer/recycling/main";
-//	}
-	
-	
+//        return "buyer/recycling/findseller_origin";
+        }
+        
 	@GetMapping("/rcydetail")
 	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, HttpSession session) {
 		logger.info("/rcydetail [GET] - prdCode: {}", prdCode );

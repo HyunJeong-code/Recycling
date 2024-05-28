@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,20 +16,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import recycling.buyer.service.face.RecyclingService;
+import recycling.buyer.service.face.BuyerService;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Review;
+import recycling.dto.buyer.UpcyReview;
+import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.Seller;
 import recycling.dto.seller.SellerProf;
-
-// 메뉴 - 업사이클링
 
 @Controller
 @RequestMapping("/buyer/upcycling")
 public class UpcyclingController {
 	
 	@Autowired private UpcyclingService upcyclingService;
+	@Autowired private BuyerService buyerService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@GetMapping("/main")
@@ -53,10 +59,13 @@ public class UpcyclingController {
 			return "not-found-page";
 		}
 		
+		Seller seller = upcyclingService.selectSeller(prd.getsCode());
 		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
+		model.addAttribute("seller", seller);
 		model.addAttribute("sellerProf", sellerProf);
+		
 		
 		return "buyer/upcycling/upcydetail";
 		
@@ -87,7 +96,7 @@ public class UpcyclingController {
 	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
 		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
 		
-		List<Review> upcyvwlist = upcyclingService.selectRvwList(prdCode);
+		List<UpcyReview> upcyvwlist = upcyclingService.selectRvwList(prdCode);
 		
 		model.addAttribute("upcyvwlist", upcyvwlist);
 		
@@ -95,16 +104,6 @@ public class UpcyclingController {
 	}
 	
 	
-	 @GetMapping("/upcyrvwinfo")
-	 public String upcyrvwinfo(@RequestParam("rvwCode") int rvwCode, Model model) {
-	        logger.info("/upcyrvwinfo [GET]");
-	        
-	        // 후기 상세 조회
-	        Review review = upcyclingService.selectRvw(rvwCode);
-	        model.addAttribute("review", review);
-	        
-	        return "upcyrvwinfo"; // 후기 상세 조회 페이지로 이동
-	    }
 	
 	 @GetMapping("/upcyrvwform")
 	 public String upcyrvwform(@RequestParam("prdCode") String prdCode, Model model) {
@@ -117,7 +116,7 @@ public class UpcyclingController {
 	 
 	 @PostMapping("/upcyrvwform")
 	 public String upcyrvwformProc(
-			 @RequestParam("rvwContent") String rvwContent,
+			 @RequestParam("upcyContent") String upcyContent,
 			 @RequestParam("prdCode") String prdCode,
 			 HttpSession session) {
 		 logger.info("/upcyrvwformProc [POST]");
@@ -125,29 +124,29 @@ public class UpcyclingController {
 		 //로그인 정보 불러오기
 		 Buyer buyer = (Buyer)session.getAttribute("buyer");
 		 
-		 upcyclingService.insertReview(rvwContent, prdCode, buyer);
+		 upcyclingService.insertReview(upcyContent, prdCode, buyer);
 		 
 		 return "redirect:/buyer/upcycling/upcyvwlist?prdCode=" + prdCode;
 	 }
 	 
 	 @GetMapping("/upcyrvwupdate")
-	 public String upcyrvwupdate(@RequestParam("rvwCode") int rvwCode, Model model) {
+	 public String upcyrvwupdate(@RequestParam("upcyCode") String upcyCode, Model model) {
 		 logger.info("/upcyrvwupdate [GET]");
 		 
 		// 후기 상세 조회
-		 Review review = upcyclingService.selectRvw(rvwCode);
-		 model.addAttribute("review", review);
+		 UpcyReview upcyReview = upcyclingService.selectRvw(upcyCode);
+		 model.addAttribute("upcyReview", upcyReview);
 		 
 		 return "upcyrvwupdate";
 	 }
 	 
 	 @PostMapping("/upcyrvwupdateProc")
 	 public String  upcyrvwupdate(
-			 @RequestParam("rvwCode") int rvwCode
-			 , @RequestParam("rvwContent") String rvwContent) {
+			 @RequestParam("upcyCode") String upcyCode
+			 , @RequestParam("rvwContent") String upcyContent) {
 		 
 		 logger.info("/upcyrvwupdateProc [GET]");
-		 upcyclingService.updateReview(rvwCode, rvwContent);
+		 upcyclingService.updateReview(upcyCode, upcyContent);
 		 
 		 
 		 return "redirect:/buyer/upcycling/main";
@@ -155,16 +154,72 @@ public class UpcyclingController {
 	 }
 	 
 	 @PostMapping("/upcyrvwdel")
-	 public String upcyrvwdel(@RequestParam("rvwCode") int rvwCode) {
+	 public String upcyrvwdel(@RequestParam("upcyCode") String upcyCode) {
 		 logger.info("/upcyrvwdel [POST]");
 		 
-		 upcyclingService.deleteReview(rvwCode);
+		 upcyclingService.deleteReview(upcyCode);
 		 
 		 return "redirect:/buyer/upcycling/main";
 	 }
 	
 	 
-	
+	 @GetMapping("/pay")
+	 public void pay(
+			 Authentication authentication
+			 , CartOrder cartOrder
+			 , Model model
+			 ) {
+		 //logger.info("checkList : {}", checkList);
+		 
+		 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	     logger.info("buyerLogin : {}", buyerLogin);
+		
+		 String bCode = buyerLogin.getbCode();
+		
+		 //아이디 상세 가져오기
+		 Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+		 
+		 //배송지 주소 가져오기
+		 List<BuyerAdr> buyeradr = buyerService.selectBybCode(bCode); 
+		 
+		 cartOrder.setcCnt(1);
+		 cartOrder.setPrdName("test");
+		 cartOrder.setPrdFee(0);
+		 cartOrder.setPrice(1);
+		 
+		 logger.info("buyer : {}", buyeradr);
+		
+		 model.addAttribute("buyer", buyer);
+		 model.addAttribute("cart", cartOrder);
+		 model.addAttribute("buyeradr", buyeradr);
+	 }
+	 
+	 
+	 @PostMapping("/pay")
+ 	 public String payProc( 
+	 			 Authentication authentication
+	 			 ,OrderDetail orderDetail
+				 ,Orders order
+				 , Model model
+	 		 ) {
+ 		
+	 	 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+         logger.info("buyerLogin : {}", buyerLogin);
+		
+		 String bCode = buyerLogin.getbCode();
+		
+		 order.setbCode(bCode);
+		
+		 logger.info("order: {}", order);
+		
+		 int res = buyerService.insertOrder(order);
+		
+		 int ordRes = buyerService.insertOrderDetail(orderDetail);
+         
+		 model.addAttribute("order", order);
+		
+		 return "jsonView";
+	}
 	
 	
 }
