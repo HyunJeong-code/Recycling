@@ -31,12 +31,9 @@ public class SlsServiceImpl implements SlsService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	private SlsDao slsDao;
+	@Autowired private ServletContext servletContext;
+	@Autowired private SlsDao slsDao;
 	
-	@Autowired
-	private ServletContext servletContext;
-
 	@Override
 	public List<Seller> main(Paging paging) {
 		return slsDao.main(paging);
@@ -54,6 +51,37 @@ public class SlsServiceImpl implements SlsService {
 		return paging;
 	}
 	
+	@Override
+	public  List<Map<String, Object>> selectBysChk() {
+		return slsDao.selectBysChk();
+	}
+	
+	@Override
+	public String selectBysCode(String sCode) {
+		return slsDao.selectBysCode(sCode);
+	}
+	
+	@Override
+	public Map<String, Object> selectPriSeller(String bCode) {
+		return slsDao.selectPriSeller(bCode);
+	}
+	
+	@Override
+	public Map<String, Object> selectCmpSeller(String bCode) {
+		return slsDao.selectCmpSeller(bCode);
+	}
+	
+	@Override
+	public int selectCntRpt(String sCode) {
+		return slsDao.selectCntRpt(sCode);
+	}
+	
+	@Override
+	public int selectCntOrd(String sCode) {
+		return slsDao.selectCntOrd(sCode);
+	}
+	
+	//전체조회
 	@Override
 	public  List<Map<String, Object>> selectBysChk() {
 		return slsDao.selectBysChk();
@@ -355,5 +383,11 @@ public class SlsServiceImpl implements SlsService {
 	public List<Map<String, Object>> sellerSelect(String getbCode) {
 		return slsDao.sellerSelect(getbCode);
 	}
+
+
+
+
+
+
 
 }//main

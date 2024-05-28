@@ -82,6 +82,19 @@ public class RecyclingController {
 //        return "buyer/recycling/findseller_origin";
         }
 
+	}
+//	@GetMapping("/main")
+//	public String rcyMain(Model model) {
+//		logger.info("/buyer/recycling/main [GET]");
+//		
+//		List<Prd> list = recyclingService.getPrdList();
+//		
+//		model.addAttribute("list", list);
+//		
+//		return "buyer/recycling/main";
+//	}
+	
+	
 	@GetMapping("/rcydetail")
 	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, HttpSession session) {
 		logger.info("/rcydetail [GET] - prdCode: {}", prdCode );

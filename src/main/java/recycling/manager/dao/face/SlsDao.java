@@ -189,7 +189,6 @@ public interface SlsDao {
 	public int expResCnl(String resCode);
 
 	/**
-<<<<<<< HEAD
 	 * 체험 예약 조회
 	 * 
 	 * @param schNo - 체험 일정번호로 조회
