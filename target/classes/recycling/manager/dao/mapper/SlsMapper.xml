@@ -276,7 +276,7 @@
 	</insert>
 
 	<!-- 파일 등록 -->
-	<insert id="fileup" parameterType="ExpFile">
+	<insert id="expFileUp" parameterType="ExpFile">
 	    <selectKey order="BEFORE" keyProperty="expFlNo" resultType="int">
 	        SELECT EXP_FILE_SEQ.nextval FROM dual
 	    </selectKey>
@@ -372,12 +372,23 @@
 		DELETE FROM exp
 		<where> exp_code = #{expCode }</where>
 	</delete>
-
+	
+	<!-- 체험단 프로필조회 -->
+	<select id="expProImage" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where> 
+				AND exp_code = #{expCode }
+				AND ct_pflno = '600'
+		</where>
+	</select>
 	
 	<!-- 체험단 파일조회 -->
-	<select id="image" resultType="ExpFile" parameterType="ExpFile">
+	<select id="expImage" resultType="ExpFile" parameterType="ExpFile">
 		<include refid="expFileBoard"/>
-		<where> exp_code = #{expCode }</where>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '610'
+		</where>
 	</select>
 
 	<!-- 예약 확정 버튼에 따른 상태변경 -->
@@ -476,4 +487,45 @@
 		)
 		<where> sch_no = #{schNo }</where>
 	</select>
+	
+	<!-- 업데이트 프로필 조회 -->
+	<select id="expUpdateProfile" resultType="ExpFile" parameterType="String">
+		<include refid="expFileBoard"></include>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '600'
+		</where>
+	</select>
+	
+	<!-- 업데이트 파일 조회 -->
+	<select id="expUpdateFile" resultType="ExpFile" parameterType="String">
+		<include refid="expFileBoard"></include>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '610'
+		</where>
+	</select>
+	
+	<!-- 업데이트 프로필 수정하기 -->
+	<update id="expUpdateProfileProc" parameterType="ExpFile">
+			UPDATE exp_file SET
+				origin_name = #{originName }, 
+				stored_name = #{storedName }
+		<where>
+			AND exp_code = #{expCode }
+			AND exp_flno = #{expFlNo }
+		</where>
+	</update>
+	
+	<!-- 업데이트 파일 수정하기 -->
+	<update id="expUpdateFileProc" parameterType="ExpFile">
+			UPDATE exp_file SET
+				origin_name = #{originName }, 
+				stored_name = #{storedName }
+		<where>
+			AND exp_code = #{expCode }
+			AND exp_flno = #{expFlNo }
+		</where>
+	</update>
+	
 </mapper>

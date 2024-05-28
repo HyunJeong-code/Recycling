@@ -20,75 +20,109 @@
 <script type="text/javascript">
 //파일 미리보기
 function setThumbnail(event) {
-	var reader = new FileReader()
+    var fileInput = event.target;
+    var files = fileInput.files;
+    var container = document.querySelector("div#image_container");
 
-	reader.onload = function(event) {
-		var img = document.createElement("img")
-		img.setAttribute("src", event.target.result)
-		img.setAttribute("class", "col-lg-6")
-		document.querySelector("div#image_container").appendChild(img)
-	}
+    // 이미지 컨테이너의 모든 자식 요소를 삭제합니다.
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
 
-	reader.readAsDataURL(event.target.files[0]);
+    // 파일이 선택되었는지 확인하고, 선택된 파일이 있다면 이미지를 추가합니다.
+    if (files && files.length > 0) {
+        var reader = new FileReader();
+
+        // 선택한 파일의 첫 번째 파일을 읽어옵니다.
+        reader.readAsDataURL(files[0]);
+
+        // 파일이 로드될 때마다 실행될 onload 함수를 설정합니다.
+        reader.onload = function(event) {
+            var img = document.createElement("img");
+            img.setAttribute("src", event.target.result);
+            img.setAttribute("class", "col-lg-6");
+            container.appendChild(img);
+        };
+    }
 }
+
+
+function setThumbnail2(event) {
+    var fileInput = event.target;
+    var files = fileInput.files;
+    var container = document.querySelector("div#image_container2");
+
+    for (var i = 0; i < files.length; i++) {
+        var fileName = files[i].name;
+        var img = document.createElement("img");
+        img.setAttribute("src", "");
+        img.setAttribute("class", "col-lg-6");
+        container.appendChild(img);
+
+        var div = document.createElement("div");
+        div.innerText = fileName;
+        container.appendChild(div);
+    }
+}
+
 
 $(document).ready(function() {
 	
-				// applyBtn 함수 정의
-				function applyBtn() {
-					// 체험일 입력값 가져오기
-					var schDate = document.getElementsByName("schDate")[0].value;
+	// applyBtn 함수 정의
+	function applyBtn() {
+		// 체험일 입력값 가져오기
+		var schDate = document.getElementsByName("schDate")[0].value;
 
-					// 시간 입력값 가져오기
-					var selectedTimes = document.querySelectorAll('.hourBtnClick.selected');
-					var schTime = [];
-					selectedTimes.forEach(function(time) {
-						schTime.push(time.value);
-					});
+		// 시간 입력값 가져오기
+		var selectedTimes = document.querySelectorAll('.hourBtnClick.selected');
+		var schTime = [];
+		selectedTimes.forEach(function(time) {
+			schTime.push(time.value);
+		});
 
-					// 인원 입력값 가져오기
-					var schCnt = document.getElementsByName("schCnt")[0].value;
+		// 인원 입력값 가져오기
+		var schCnt = document.getElementsByName("schCnt")[0].value;
 
-					document.getElementById("schDateDisplay").innerText = "체험일: " + schDate;
-					document.getElementById("schTimeDisplay").innerText = "시간: " + schTime.join(", ");
-					document.getElementById("schCntDisplay").innerText = "인원: " + schCnt;
-				}
+		document.getElementById("schDateDisplay").innerText = "체험일: " + schDate;
+		document.getElementById("schTimeDisplay").innerText = "시간: " + schTime.join(", ");
+		document.getElementById("schCntDisplay").innerText = "인원: " + schCnt;
+	}
 
-				// applyBtn 버튼 클릭 이벤트 리스너 추가
-				$("#applyBtn").on("click", applyBtn);
+	// applyBtn 버튼 클릭 이벤트 리스너 추가
+	$("#applyBtn").on("click", applyBtn);
 
-				var selectedTimes = [];
+	var selectedTimes = [];
 
-				// 시간 버튼에 대한 클릭 이벤트 핸들러 등록
-				$(".hourBtnClick").on('click', function(e) {
-				    var button = $(this);
-				    var time = button.val();
+	// 시간 버튼에 대한 클릭 이벤트 핸들러 등록
+	$(".hourBtnClick").on('click', function(e) {
+	    var button = $(this);
+	    var time = button.val();
 
-				    // 선택한 버튼의 색상을 변경하거나 원래대로 돌아오도록 처리
-				    if (button.hasClass('selected')) {
-				        //선택 해제
-				        button.removeClass('selected');
-				        button.css({
-				            'background-color' : ''
-				        });
+	    // 선택한 버튼의 색상을 변경하거나 원래대로 돌아오도록 처리
+	    if (button.hasClass('selected')) {
+	        //선택 해제
+	        button.removeClass('selected');
+	        button.css({
+	            'background-color' : ''
+	        });
 
-				        // 선택한 시간 배열에서 제거
-				        var index = selectedTimes.indexOf(time);
-				        if (index !== -1) {
-				            selectedTimes.splice(index, 1);
-				        }
-				    } else {
-				        //선택
-				        button.addClass('selected');
-				        button.css({
-				            'background-color' : '#0056b3'
-				        });
+	        // 선택한 시간 배열에서 제거
+	        var index = selectedTimes.indexOf(time);
+	        if (index !== -1) {
+	            selectedTimes.splice(index, 1);
+	        }
+	    } else {
+	        //선택
+	        button.addClass('selected');
+	        button.css({
+	            'background-color' : '#0056b3'
+	        });
 
-				        // 선택한 시간 배열에 추가
-				        selectedTimes.push(time);
-				        console.log(time)
-				    }
-				});//hourBtnClick
+	        // 선택한 시간 배열에 추가
+	        selectedTimes.push(time);
+	        console.log(time)
+	    }
+	});//hourBtnClick
 				
 	
 	$("form").on("submit", function(e) {
@@ -129,6 +163,13 @@ $(document).ready(function() {
 	        return false;
 	    }
 	
+	    // 체험썸네일 확인
+	    var profile = document.getElementsByName("profile")[0].value;
+	    if (profile === "") {
+	        alert("파일이 존재하지 않습니다.");
+	        return false;
+	    }
+	    
 	    // 체험 파일 확인
 	    var file = document.getElementsByName("file")[0].value;
 	    if (file === "") {
@@ -145,7 +186,7 @@ $(document).ready(function() {
 	    
 	 // 체험일 확인
 	    var schTime = document.getElementsByName("schTime")[0].value;
-	    if (schDate === "") {
+	    if (schTime === "") {
 	        alert("체험시간을 입력하세요.");
 	        return false;
 	    }
@@ -203,9 +244,20 @@ $(document).ready(function() {
         document.getElementById("schDate").min = today;
     };
     
+    // 일반 파일 이름 표시
+    $('#file').on('change', function(event) {
+        var files = event.target.files;
+        var fileNames = [];
+        for (var i = 0; i < files.length; i++) {
+            fileNames.push(files[i].name);
+        }
+        $('.upload_name').val(fileNames.join(', '));
+    });
     
-    
-    
+    $('#profile').on('change', function(event) {
+        var profileName = event.target.files[0].name;
+        $('.profile_name').val(profileName);
+    });
     
     
 });
@@ -217,7 +269,8 @@ $(document).ready(function() {
 
 	<div class="full">
 			<aside>
-				왼쪽
+				<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+				<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
 			</aside>
 		<div class="wrap">
 			<div class="page">
@@ -276,11 +329,23 @@ $(document).ready(function() {
 						<textarea rows="5" cols="22" id ="expDetail" name="expDetail" placeholder="업체에서 제공한 설명을 적어주세요"></textarea>
 					</div>
 					
-					<div>
-						이미지 첨부 <input type="file" name="file" onchange="setThumbnail(event);">
-						<div id="image_container"></div>
+					<label>썸네일</label>
+					<div class=filebox>
+						<input class="profile_name" placeholder="선택된 파일 없음" disabled>
+						<input type="file" id="profile" name="profile" onchange="setThumbnail(event);" required="required">
+						<label for="profile">파일찾기</label>
 					</div>
+						<div id="image_container"></div>
+					
+					<label>체험내용</label>
+					<div class="filebox">
+						<input class="upload_name" placeholder="선택된 파일 없음" disabled>
+						<input multiple="multiple" type="file" id="file" name="file" onchange="setThumbnail2(event);"  required="required">
+					<label for="file">파일찾기</label>
+					</div>
+						<div id="image_container2"></div>
 
+				
 					<!-- 모달 버튼 -->
 					<div class="btnPostcode_wrap">
 						<button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#expformModal">

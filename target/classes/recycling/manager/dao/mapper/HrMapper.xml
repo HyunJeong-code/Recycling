@@ -56,12 +56,26 @@
 		WHERE mgr_code = #{mgrCode }
 	</select>
 
+	<!-- 세부사항 프로필조회 -->
+	<select id="mgrProFileList" resultType="MgrFile" parameterType="MgrFile">
+		SELECT
+			mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name
+		FROM Mgr_File
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND ct_mflno = 1000
+		</where>
+	</select>
+
 	<!-- 세부사항 파일조회 -->
 	<select id="mgrFileList" resultType="MgrFile" parameterType="MgrFile">
 		SELECT
 			mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name
 		FROM Mgr_File
-		WHERE mgr_code = #{mgrCode }
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND ct_mflno = 1010
+		</where>
 	</select>
 	
 	<!-- 데이터 삽입 -->
@@ -81,7 +95,7 @@
 			#{mgrCode }, #{deptno }
 			, #{mgrName }, #{mgrPhone }
 			, #{mgrEmail }, #{mgrBirth }
-			, #{mgrGender }, #{mgrEntDate }
+			, #{mgrGender }, sysdate
 		)
 	</insert>
 	

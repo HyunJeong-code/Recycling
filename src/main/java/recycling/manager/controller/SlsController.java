@@ -1,5 +1,7 @@
 package recycling.manager.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,13 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import recycling.dto.seller.Seller;
-import recycling.manager.service.face.SlsService;
-import recycling.util.Paging;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +25,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
 import recycling.manager.service.face.SlsService;
+import recycling.util.Paging;
 
 @Controller
 @RequestMapping("/manager/sls")
@@ -158,12 +154,16 @@ public class SlsController {
 				, Model model
 				) {
 		
-			//expCode번호와 동일한 expfile 가져오기
-			ExpFile fileimage = slsService.image(expFile);
-			model.addAttribute("fileimage", fileimage);
-			logger.info("expDetail fileimage:{}", fileimage );
+			//프로필 조회
+			ExpFile profileimage = slsService.expProImage(expFile);
+			model.addAttribute("profileimage", profileimage);
+			logger.info("expDetail profileimage:{}", profileimage );
+		
+			//파일 조회
+			List <ExpFile> fileimage = slsService.expImage(expFile);
+			model.addAttribute("fileImage", fileimage);
+			logger.info("expDetail fileImage:{}", fileimage );
 			
-	        
 			//상세조회
 			Exp view = slsService.selectDetail(expCode);
 			model.addAttribute("view", view);
@@ -206,19 +206,19 @@ public class SlsController {
 			Exp exp
 			, @RequestParam("schTime") List<String> schTime
 			, ExpSch expSch
-			, @RequestParam("file") MultipartFile file
+			, @RequestParam("profile") MultipartFile profile
+			, @RequestParam("file") List<MultipartFile> file
+			, Model model
 			) {
 		
 //		ManagerLogin mgrLogin = (ManagerLogin) authentication.getPrincipal();
-//		logger.info("mgr : {}", mgrLogin);
+		slsService.insert(exp, schTime, expSch, profile, file);
 		
 		
-		//test데이터
-//		exp.setsCode("SEL0000001");
-		slsService.insert(exp, schTime, expSch, file);
+		model.addAttribute("msg", "체험일이 등록되었습니다.");
+		model.addAttribute("url", "/manager/sls/explist");
 		
-		
-		return "redirect:./explist";
+		return "/layout/alert";
 
 	}
 	
@@ -228,12 +228,16 @@ public class SlsController {
 				Exp exp
 				, Model model
 			) {
-		
+		//수정창 조회
 		Exp update = slsService.expUpdateView(exp);
 		model.addAttribute("update", update);
 		
-		//exp정보
-		logger.info("controller: update{}",update );
+		ExpFile profile = slsService.expUpdateProfile(update.getExpCode());
+		model.addAttribute("profile",profile);
+
+		List<ExpFile> file = slsService.expUpdateFile(update.getExpCode());
+		model.addAttribute("fileImage",file);
+		
 		return "/manager/sls/expupdate";
 	}
 	
@@ -241,13 +245,21 @@ public class SlsController {
 	@PostMapping("/expupdate")
 	public String updateProc(
 			Exp exp
+			, Model model
 			){
-		logger.info("controller: updateProc[Post]");
-		
 		slsService.expUpdateProc(exp);
-		logger.info("exp : {}",exp);
 		
-		return "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode();
+		ExpFile profile = slsService.expUpdateProfileProc(exp.getExpCode());
+		model.addAttribute("profile",profile);
+
+		List<ExpFile> file = slsService.expUpdateFileProc(exp.getExpCode());
+		model.addAttribute("fileImage",file);
+		
+		
+		model.addAttribute("msg", "체험단 수정이 완료되었습니다.");
+		model.addAttribute("url", "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode());
+		
+		return "/layout/alert";
 	}
 	
 	// 체험단삭제

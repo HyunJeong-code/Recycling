@@ -112,7 +112,7 @@
 					</div><!-- section -->
 							<div class="btn_bot_wrap">
 									<a href="./empform"><button class="btn_bot_inform">사원정보 입력</button></a>
-									<button class="btn_bot_del">삭제하기</button>
+									<button id="listDel" class="btn_bot_del">삭제하기</button>
 							</div>
 		</div><!-- wrap -->
 	</div><!-- full -->

@@ -72,8 +72,9 @@ public interface SlsService {
 	 * @param selectedTimes 
 	 * @param expSch 
 	 * @param file 
+	 * @param file2 
 	 */
-	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile file);
+	public void insert(Exp exp, List<String> schTime, ExpSch expSch,MultipartFile profile, List<MultipartFile> file);
 	
 	/**
 	 * 체험정보 업데이트항목 조회
@@ -139,12 +140,19 @@ public interface SlsService {
 	public int expListDel(String expCode);
 
 	/**
+	 * 체험 프로필 이미지
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expProImage(ExpFile expFile);
+	
+	/**
 	 * 이미지 업로드 번호조회
 	 * 
 	 * @param expFile
 	 * @return
 	 */
-	public ExpFile image(ExpFile expFile);
+	public List<ExpFile> expImage(ExpFile expFile);
 
 	/**
 	 * 예약 확정, 취소버튼에 따른 예약변경
@@ -270,6 +278,42 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<Map<String, Object>> sellerSelect(String getbCode);
+
+
+	/**
+	 * 업데이트 프로필 조회
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public ExpFile expUpdateProfile(String expCode);
+
+	/**
+	 * 업데이트 파일 조회
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpFile> expUpdateFile(String expCode);
+
+	/**
+	 * 업데이트 프로필 수정하기
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public ExpFile expUpdateProfileProc(String expCode);
+
+	/**
+	 * 업데이트 파일 수정하기
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpFile> expUpdateFileProc(String expCode);
+
+
+	
 
 
 
