@@ -2,11 +2,15 @@ package recycling.buyer.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
@@ -138,6 +142,22 @@ public interface BuyerService {
 	
 	
 	/**
+	 * 구매자 프로필 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 조회된 프로필 정보
+	 */
+	public BuyerProf getBuyerProf(String bCode);
+	
+	/**
+	 * 사업자 등록증 조회
+	 * 
+	 * @param cmpNo - 기업 번호
+	 * @return 조회된 사업자 등록증 정보
+	 */
+	public CmpFile getCmpFile(int cmpNo);
+	
+	/**
 	 * 구매자 비밀번호 확인
 	 * 
 	 * param bId - 구매자 아이디
@@ -169,6 +189,23 @@ public interface BuyerService {
 	 * @return 업데이트 된 기업 정보
 	 */
 	public int updateCmpDetail(Cmp cmp);
+	
+	/**
+	 * 구매자 프로필 업데이트
+	 * 
+	 * @param buyerProf - 업데이트 할 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProf(MultipartFile buyerProf, String bCode);
+	
+	/**
+	 * 사업자 등록증 업데이트
+	 * 
+	 * @param cmpFile - 업데이트 할 사업자 등록증
+	 * @param bCode - 구매자 코드
+	 * @return 업데이트 결과
+	 */
+	public int updateCmpFile(MultipartFile cmpFile, String bCode);
 	
 	/**
 	 * 구매자의 모든 배송지 정보
@@ -210,14 +247,30 @@ public interface BuyerService {
 	 * @return 설정된 행 수
 	 */
 	public int unsetDefaultAdr(String bCode);	
+	
+	/**
+	 * 
+	 * 
+	 * @param adrCode
+	 * @param bCode
+	 * @return
+	 */
 	public int setDefaultAdr(String adrCode, String bCode);	
 	
 	/**
 	 * 구매자 탈퇴
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 탈퇴한 행 수
+	 * @return 처리 결과
 	 */
 	public int deleteBuyer(String bCode);
+
+	/**
+	 * 판매자 탈퇴
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return 처리 결과
+	 */
+	public int deleteSeller(String sCode);
 
 }

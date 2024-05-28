@@ -105,6 +105,14 @@ function chkAdrLimit() {
 			<h3>배송지 관리</h3>
 			<hr>
 			<div class="page">
+				<c:choose>
+					<c:when test="${buyerLogin.bCtCode == 'P' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a>
+					</c:when>
+					<c:when test="${buyerLogin.bCtCode == 'C' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a>
+					</c:when>
+				</c:choose>
 				<c:if test="${not empty buyerAdrList }">
 					<h4>기본 배송지</h4>
 					<c:forEach var="address" items="${buyerAdrList }" varStatus="status">
@@ -136,6 +144,7 @@ function chkAdrLimit() {
 					</c:forEach>
 					<hr>
 					<h4>추가 배송지</h4>
+					<c:set var="listLength" value="0" />
 					<c:forEach var="address" items="${buyerAdrList }" varStatus="status">
 						<c:if test="${status.index > 0 }">
 							<form class="addr-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post" onsubmit="showAlert('수정되었습니다.');">
@@ -164,12 +173,15 @@ function chkAdrLimit() {
 								<input type="button" value="기본 배송지로 설정" onclick="setDefaultAdr('${address.adrCode }')">
 							</form>
 						</c:if>	
+						<c:set var="listLength" value="${listLength + 1}" />
 					</c:forEach>
 					<c:if test="${fn:length(buyerAdrList) <= 1 }">
 						<p>추가 배송지가 없습니다.</p>
 					</c:if>
 				</c:if>
+				<c:if test="${fn:length(buyerAdrList) <= 2 }">
 				<input type="button" value="추가 배송지 등록하기" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }"><br><br>
+				</c:if>
 				<div id="addForm" style="display: none;">
 					<h4>새 배송지 추가</h4>
 					<form class="addr-form" action="${pageContext.request.contextPath }/buyer/mypage/myaddr" method="post">

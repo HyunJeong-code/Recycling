@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,8 +40,10 @@ a {
 <form action="./noticelist" method="get">
         <label for="ct_ntcno">분류 선택:</label>
         <select name="ct_ntcno" id="ct_ntcno">
-            <option value="buyer">구매자</option>
-            <option value="seller" disabled>판매자</option>
+            <option value="buyers" ${ctNtcNo == 'buyers' ? 'selected' : ''}>구매자</option>
+	        <c:if test="${isSeller}">
+	            <option value="sellers" ${ctNtcNo == 'sellers' ? 'selected' : ''}>판매자</option>
+	        </c:if>
         </select>
         <input type="submit" value="검색">
     </form>

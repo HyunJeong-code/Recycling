@@ -10,7 +10,10 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 
 // 판매제휴팀 DB 처리
+import recycling.dto.seller.Seller;
+import recycling.util.Paging;
 
+// 판매제휴팀 DB 처리
 public interface SlsDao {
 	
 	/**
@@ -34,6 +37,22 @@ public interface SlsDao {
 	 * @return
 	 */
 	public List<ExpSch> selectSchAll(String expCode);
+
+	/**
+	 * 판매자 조회
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Seller> main(Paging paging);
+
+	/**
+	 * 페이징
+	 * 
+	 * @return
+	 */
+	public int getPaging();
+
 
 	/**
 	 * 체험단 세부 조회하기
@@ -293,9 +312,4 @@ public interface SlsDao {
 	 * @return
 	 */
 	public int getResCntBySchNo(String schNo);
-
-
-
-
-	
 }

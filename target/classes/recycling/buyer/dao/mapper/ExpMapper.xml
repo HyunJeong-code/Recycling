@@ -9,21 +9,116 @@
 	SELECT * FROM Exp
 	</sql>
 	
-<!-- 	<select id="selectAllExp" parameterType="util.Paging" resultType="Exp"> -->
-<!-- 		SELECT * FROM ( -->
-<!-- 			SELECT rownum rnum, E.* FROM ( -->
-<!-- 				<include refid="selectExp"/> -->
-<!-- 				ORDER BY exp_code -->
-<!-- 			) E -->
-<!-- 		) -->
-<!-- 		<where> -->
-<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
-<!-- 		</where> -->
-<!-- 	</select> -->
+	<select id="selectAllExp" parameterType="recycling.util.Paging" resultType="Exp">
+		SELECT * FROM (
+			SELECT rownum rnum, E.* FROM (
+				<include refid="selectExp"/>
+				<where>
+					AND exp_name LIKE '%' || #{search } || '%' 
+						OR exp_code LIKE '%' || #{search } || '%' 
+				</where>
+				ORDER BY exp_code
+			) E
+		)
+		<where>
+			AND rnum BETWEEN #{startNo} AND #{endNo}
+		</where>
+	</select>
 	
-<!-- 	<select id="selectCntAll" resultType="int"> -->
-<!-- 		SELECT count(*) FROM ( -->
-<!-- 		SELECT * FROM Exp -->
-<!-- 		) -->
-<!-- 	</select> -->
+	<select id="selectCntAll" parameterType="string" resultType="int">
+		SELECT count(*) FROM Exp
+		<where>
+			AND exp_name LIKE '%' || #{key } || '%' 
+				OR exp_code LIKE '%' || #{search } || '%'
+		</where>
+		ORDER BY exp_date DESC
+	</select>
+	
+<!-- 	최신 체험단 조회 -->
+	<select id="selectRecentExp" parameterType="recycling.util.Paging" resultType="exp">
+        SELECT * FROM (
+            SELECT rownum rnum, E.* FROM (
+                <include refid="selectExp"/>
+                <where>
+                    AND exp_name LIKE '%' || #{search} || '%' 
+                        OR exp_code LIKE '%' || #{search} || '%' 
+                </where>
+                ORDER BY exp_date DESC
+            ) E
+        )
+        <where>
+            AND rnum BETWEEN #{startNo} AND #{endNo}
+        </where>
+    </select>
+
+    <!-- 인기 체험단 조회 -->
+    <select id="selectPopularExp" parameterType="recycling.util.Paging" resultType="exp">
+        SELECT * FROM (
+            SELECT rownum rnum, E.* FROM (
+                <include refid="selectExp"/>
+                <where>
+                    AND exp_name LIKE '%' || #{search} || '%' 
+                        OR exp_code LIKE '%' || #{search} || '%' 
+                </where>
+                ORDER BY exp_hit DESC
+            ) E
+        )
+        <where>
+            AND rnum BETWEEN #{startNo} AND #{endNo}
+        </where>
+    </select>
+
+    <!-- 상단 인기 체험 조회 -->
+    <select id="selectTopPopExp" resultType="exp">
+    	SELECT * FROM (
+            SELECT rownum rnum, E.* FROM (
+                <include refid="selectExp"/>
+                ORDER BY exp_hit DESC
+            ) E
+        )
+        WHERE rnum BETWEEN 1 AND 5
+    </select>
+    
+    <!-- 상단 새체험 조회 -->
+    <select id="selectTopRecExp" resultType="exp">
+    	SELECT * FROM (
+            SELECT rownum rnum, E.* FROM (
+                <include refid="selectExp"/>
+                ORDER BY exp_date DESC
+            ) E
+        )
+        WHERE rnum BETWEEN 1 AND 5
+    </select>
+    
+    <select id="selectByExpCode" resultType="Exp" parameterType="string">
+    	SELECT * FROM Exp
+    	<where>
+    		AND exp_code = #{expCode}
+    	</where>
+    </select>
+    
+    <select id="selectByExpFile" resultType="ExpFile" parameterType="string">
+    	SELECT * FROM exp_file
+    	<where>
+    		AND exp_code = #{expCode}
+    	</where>
+    </select>
+	
+	<select id="getSellerInfo" resultType="Seller" parameterType="string">
+		SELECT * FROM Seller
+		<where>
+			AND s_code = #{sCode}
+		</where>
+	
+	</select>
+	
+	<select id="getBuyerInfo" resultType="Buyer" parameterType="string">
+		SELECT b.* FROM Buyer b 
+			JOIN Seller s ON s.b_code = b.b_code
+		<where>
+			AND b.b_code = #{bCode}
+		</where>
+	
+	</select>
+	
 </mapper>

@@ -10,6 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import recycling.dto.seller.Seller;
+import recycling.manager.service.face.SlsService;
+import recycling.util.Paging;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,15 +31,110 @@ import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
 import recycling.manager.service.face.SlsService;
 
-
 @Controller
 @RequestMapping("/manager/sls")
 public class SlsController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired private SlsService slsService;
-	@Autowired HttpSession session;
+	@Autowired
+	private SlsService slsService;
+	@Autowired 
+	HttpSession session;
+	
+	// 문의글 메인 페이지
+	@RequestMapping("/main")
+	public void main(@RequestParam(defaultValue = "0") int curPage, @RequestParam(defaultValue = "") String search,
+			String category, Paging pagingParam, Model model) {
+
+		Paging paging = new Paging();
+
+		// 페이징 계산
+		paging = slsService.getPaging(pagingParam);
+//		logger.info("{}", paging);
+
+		// 판매자 목록 조회
+		List<Seller> main = slsService.main(paging);
+//		logger.info("controller list: {}", list);
+
+		model.addAttribute("paging", paging);
+		model.addAttribute("main", main);
+
+	}
+	
+	
+	@GetMapping("/sellerdetail")
+	public void sellerDetail() {
+		logger.info("/manager/sls/sellerdetail [GET]");
+		
+		
+	}
+	
+	@GetMapping("/sellerpridetail")
+	public void sellerPriDetail(String sCode, Model model) {
+		logger.info("/manager/sls/sellerpridetail [GET]");
+		
+		logger.info("detail sCode : {}", sCode);
+		
+		String bCode = slsService.selectBysCode(sCode);
+		logger.info("bCode : {}", bCode);
+		
+		int rptCnt = slsService.selectCntRpt(sCode);
+		int ordCnt = slsService.selectCntOrd(sCode);
+		logger.info("rpt : {}, ord : {}", rptCnt, ordCnt);
+		
+		Map<String, Object> seller = null;
+		
+		seller = slsService.selectPriSeller(bCode);
+		model.addAttribute("seller", seller);
+		model.addAttribute("rptCnt", rptCnt);
+		model.addAttribute("ordCnt", ordCnt);
+		logger.info("P : {}", seller);
+		
+//		return "/manager/sls/sellerdetail";
+	}
+	
+	@GetMapping("/sellercmpdetail")
+	public void sellerCmpDetail(String sCode, Model model) {
+		logger.info("/manager/sls/sellerCmpdetail [GET]");
+		
+		logger.info("detail sCode : {}", sCode);
+		
+		String bCode = slsService.selectBysCode(sCode);
+		logger.info("bCode : {}", bCode);
+		
+		int rptCnt = slsService.selectCntRpt(sCode);
+		int ordCnt = slsService.selectCntOrd(sCode);
+		logger.info("rpt : {}, ord : {}", rptCnt, ordCnt);
+		
+		Map<String, Object> seller = null;
+		
+		seller = slsService.selectCmpSeller(bCode);
+		model.addAttribute("seller", seller);
+		model.addAttribute("rptCnt", rptCnt);
+		model.addAttribute("ordCnt", ordCnt);
+		logger.info("C : {}", seller);
+	}
+	
+	@GetMapping("/sellerchklist")
+	public void sellerChkList(Model model) {
+		logger.info("/manager/sls/sellerchklist [GET]");
+		
+		List<Map<String, Object>> sellerList = slsService.selectBysChk();
+		logger.info("{}", sellerList);
+		
+		model.addAttribute("sellerList", sellerList);
+	}
+	
+	@GetMapping("/sellerchkdetail")
+	public void sellerChkDetail(Model model) {
+		logger.info("/manager/sls/sellerchkdetail [GET]");		
+	}
+	
+	@GetMapping("/sellerchk")
+	public void sellerChk() {
+		logger.info("/manager/sls/sellerchk [GET]");				
+	}
 	
 	@GetMapping("/sellerdetail")
 	public void sellerDetail() {

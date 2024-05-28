@@ -1,13 +1,19 @@
 package recycling.buyer.service.impl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
@@ -20,8 +26,10 @@ import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
@@ -29,6 +37,7 @@ public class BuyerServiceImpl implements BuyerService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerDao buyerDao;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
+	@Autowired private ServletContext servletContext;
 	
 	@Override
 	public int insertOrder(Orders order) {
@@ -119,6 +128,20 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
+	public BuyerProf getBuyerProf(String bCode) {
+
+		return buyerDao.getBuyerProf(bCode);
+	
+	}
+	
+	@Override
+	public CmpFile getCmpFile(int cmpNo) {
+
+		return buyerDao.getCmpFile(cmpNo);
+	
+	}
+	
+	@Override
 	public int verifyPw(String bId, String currentPw) {
 
 		Buyer buyer = buyerDao.getBuyerDetail(bId);
@@ -156,6 +179,79 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 	
+	@Override
+	public int updateBuyerProf(MultipartFile buyerProf, String bCode) {
+
+		if (buyerProf.isEmpty()) {
+			
+            return 0;
+        
+		}
+
+		BuyerProf prof = new BuyerProf();
+        String originalFilename = buyerProf.getOriginalFilename();
+        String storedName = System.currentTimeMillis() + "_" + originalFilename;
+        Path path = Paths.get(servletContext.getRealPath("/resources/image/") + storedName);
+        
+        try {
+            
+        	Files.createDirectories(path.getParent());
+            buyerProf.transferTo(path.toFile());
+            
+            prof.setbCode(bCode);
+            prof.setOriginName(originalFilename);
+            prof.setStoredName(storedName);
+            
+            return buyerDao.updateBuyerProf(prof);
+        
+        } catch (IOException e) {
+        
+        	e.printStackTrace();
+            
+        	return 0;
+        
+        }
+	
+	}
+	
+	@Override
+	public int updateCmpFile(MultipartFile cmpFile, String bCode) {
+		
+		if (cmpFile.isEmpty()) {
+			
+	        return 0;
+	    
+		}
+
+	    CmpFile file = new CmpFile();
+	    String originalFilename = cmpFile.getOriginalFilename();
+	    String storedName = System.currentTimeMillis() + "_" + originalFilename;
+	    Path path = Paths.get(servletContext.getRealPath("/resources/cmpfile/") + storedName);
+
+	    try {
+
+	    	Files.createDirectories(path.getParent());
+	        cmpFile.transferTo(path.toFile());
+
+	        Cmp cmp = buyerDao.getCmpDetail(bCode);
+
+	        file.setCmpNo(cmp.getCmpNo());
+	        file.setOriginName(originalFilename);
+	        file.setStoredName(storedName);
+
+
+	        return buyerDao.updateCmpFile(file);
+	    
+	    } catch (IOException e) {
+	    
+	    	e.printStackTrace();
+	        
+	    	return 0;
+	    
+	    }
+		
+	}
+
 	@Override
 	public List<BuyerAdr> getBuyerAdr(String bCode) {
 
@@ -198,9 +294,12 @@ public class BuyerServiceImpl implements BuyerService {
 
 	@Override
 	public int setDefaultAdr(String adrCode, String bCode) {
+		
 		BuyerAdr buyerAdr = new BuyerAdr();
+		
 		buyerAdr.setbCode(bCode);
 		buyerAdr.setAdrCode(adrCode);
+		
 		return buyerDao.setDefaultAdr(buyerAdr);
 		
 	}
@@ -212,6 +311,11 @@ public class BuyerServiceImpl implements BuyerService {
 		
 	}
 
+	@Override
+	public int deleteSeller(String sCode) {
 
+		return buyerDao.deleteSeller(sCode);
+	
+	}
 
 }

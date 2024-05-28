@@ -127,16 +127,28 @@
 		WHERE B_Id = #{bId }
 	</select>
 	
+	<!-- 기업 상세 정보 조회 -->
+	<select id="getCmpDetail" parameterType="string" resultType="recycling.dto.buyer.Cmp">
+		SELECT * FROM Cmp
+		WHERE B_Code = #{bCode }
+	</select>
+	
 	<!-- 구매자 등급 조회 -->
     <select id="getBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
     	SELECT * FROM Buyer_Rank
     	WHERE Rank_No = #{rankNo }
     </select>
-	
-	<!-- 구매자 코드로 기업 정보 조회 -->
-	<select id="getCmpDetail" parameterType="string" resultType="recycling.dto.buyer.Cmp">
-        SELECT * FROM Cmp
-        WHERE B_Code = #{bCode }
+    
+    <!-- 구매자 프로필 조회 -->
+    <select id="getBuyerProf" parameterType="string" resultType="recycling.dto.buyer.BuyerProf">
+    	SELECT * FROM Buyer_Prof
+    	WHERE B_Code = #{bCode }
+    </select>
+    
+    <!-- 사업자 등록증 조회 -->
+    <select id="getCmpFile" parameterType="int" resultType="recycling.dto.buyer.CmpFile">
+    	SELECT * FROM Cmp_File
+    	WHERE Cmp_No = #{cmpNo }
     </select>
     
     <!-- 비밀번호 변경 -->
@@ -147,10 +159,10 @@
     </update>
     
     <!-- 구매자 정보 업데이트 -->
-    <update id="updateBuyer" parameterType="recycling.dto.buyer.Buyer">
+    <update id="updateBuyerDetail" parameterType="recycling.dto.buyer.Buyer">
         UPDATE Buyer
         SET 
-        	<if test="bPw != null">
+        	<if test="bPw != null and bPw != ''">
         		B_Pw = #{bPw },
         	</if>
             B_Name = #{bName },
@@ -158,13 +170,11 @@
             B_Email = #{bEmail },
             Ad_Sms = #{adSms },
             Ad_Email = #{adEmail }
-        <where>
-        	AND B_Code = #{bCode }
-        </where>
+       	WHERE B_Code = #{bCode }
     </update>
     
     <!-- 기업 정보 업데이트 -->
-    <update id="updateCmp" parameterType="recycling.dto.buyer.Cmp">
+    <update id="updateCmpDetail" parameterType="recycling.dto.buyer.Cmp">
         UPDATE Cmp
         SET Cmp_Name = #{cmpName },
             Cmp_Ceo = #{cmpCeo },
@@ -172,11 +182,27 @@
             Cmp_Postcode = #{cmpPostcode },
             Cmp_Addr = #{cmpAddr },
             Cmp_Detail = #{cmpDetail }
-        <where>
-        	AND B_Code = #{bCode }
-        </where>
+        WHERE B_Code = #{bCode }
     </update>
-	
+    
+    <!-- 구매자 프로필 업데이트 -->
+    <update id="updateBuyerProf" parameterType="recycling.dto.buyer.BuyerProf">
+        UPDATE Buyer_Prof
+        SET 
+        	Origin_Name = #{originName }, 
+        	Stored_Name = #{storedName }
+        WHERE b_code = #{bCode }
+    </update>
+    
+    <!-- 사업자 등록증 업데이트 -->
+    <update id="updateCmpFile" parameterType="recycling.dto.buyer.CmpFile">
+        UPDATE Cmp_File
+        SET
+        	Origin_Name = #{originName }, 
+        	Stored_Name = #{storedName }
+        WHERE Cmp_No = #{cmpNo }	
+    </update>
+    
 	<!-- 시퀀스 값 가져오기 -->
     <select id="getAdrCode" resultType="string">
     	SELECT 'ADR' || lpad(buyer_adr_seq.nextval, 7, '0') 
@@ -200,9 +226,7 @@
     <select id="cntBuyerAdr" parameterType="string" resultType="int">
     	SELECT count(*)
     	FROM Buyer_Adr
-    	<where>
-    		AND b_Code = #{bCode }
-    	</where>
+   		WHERE b_Code = #{bCode }
     </select>
     
     <!-- 새로운 배송지 등록 -->
@@ -224,26 +248,20 @@
     		Adr_Addr = #{adrAddr }, 
     		Adr_Detail = #{adrDetail },
     		Adr_Chk = #{adrChk }
-    	<where>
-    		AND Adr_Code = #{adrCode }
-    	</where>	
+   		WHERE Adr_Code = #{adrCode }
     </update>
     
     <!-- 배송지 삭제 -->
     <delete id="deleteBuyerAdr" parameterType="string">
     	DELETE FROM Buyer_Adr
-    	<where>
-    		AND Adr_Code = #{adrCode }
-    	</where>
+   		WHERE Adr_Code = #{adrCode }
     </delete>
     
     <!-- 기본 배송지의 Adr_Chk를 N으로 변경 -->
     <update id="unsetDefaultAdr" parameterType="string">
     	UPDATE Buyer_Adr
     	SET Adr_Chk = 'N' 
-    	<where>
-    		AND B_Code = #{bCode }
-    	</where>
+   		WHERE B_Code = #{bCode }
     </update>
     
     <!-- 선택한 추가 배송지의 Adr_Chk를 Y로 변경 -->
@@ -270,16 +288,24 @@
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
-    	<where>
-    		AND Adr_Code = #{adrCode }
-    	</where>
+   		WHERE Adr_Code = #{adrCode }
     </select>
     
     <!-- 구매자 탈퇴 -->
-    <delete id="deleteBuyer" parameterType="string">
-    	DELETE FROM Buyer
-    	<where>
-    		AND B_Code = #{bCode }
-    	</where>
+    <update id="deleteBuyer" parameterType="string">
+    	UPDATE Buyer
+    	SET
+    		B_Out = 'Y',
+    		B_Out_Date = SYSDATE
+   		WHERE B_Code = #{bCode }
+    </update>
+    
+	<!-- 판매자 탈퇴 -->
+    <delete id="deleteSeller" parameterType="string">
+    	UPDATE Seller
+    	SET
+    		S_Out = 'Y',
+    		S_Out_Date = SYSDATE
+    	WHERE S_Code = #{sCode }
     </delete>
 </mapper>

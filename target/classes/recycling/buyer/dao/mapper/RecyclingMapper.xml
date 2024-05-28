@@ -4,4 +4,74 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.RecyclingDao">
+
+	<!-- 판매자 찾기 -->
+	<select id="findSeller" parameterType="String" resultType="Seller">
+	    SELECT S_CODE, B_CODE, ACC_NAME, ACC_BANK, ACC_NO, S_POSTCODE, S_ADDR, S_DETAIL, S_ENTDATE, S_CHK, S_OUT, S_OUT_DATE
+	    FROM SELLER
+	    <!-- <where>
+	    	AND S_CODE = #{sCode }
+	    </where> -->
+	</select>
+
+	<select id="selectPrdList" resultType="Prd">
+	    SELECT * FROM Prd
+	</select>
+	
+	<select id="selectPrd" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectSellerProfByCode" resultType="SellerProf">
+		SELECT * FROM SELLER_PROF
+		WHERE S_CODE = #{sCode}
+	</select>
+	
+	<insert id="insertSellerQST" parameterType="SellerQST">
+        INSERT INTO SELLER_QST (QST_CODE, CTQSTNO, PRD_CODE, B_CODE, QST_TITLE, QST_CONTENT, QST_NAME, QST_EMAIL, QST_DATE, QST_HIT)
+        VALUES (#{qstCode}, #{CTqstno}, #{PrdCode}, #{bCode}, #{qstTitle}, #{qstContent}, #{qstName}, #{qstEmail}, #{qstDate}, #{qstHit})
+    </insert>
+    
+	<update id="updateSellerQST" parameterType="recycling.dto.seller.SellerQST">
+		UPDATE SELLER_QST
+		SET CTQSTNO = #{CTqstno},
+			PRD_CODE = #{PrdCode},
+			B_CODE = #{bCode},
+			QST_TITLE = #{qstTitle},
+			QST_CONTENT = #{qstContent},
+			QST_NAME = #{qstName},
+			QST_EMAIL = #{qstEmail},
+			QST_DATE = #{qstDate},
+			QST_HIT = #{qstHit}
+        WHERE QST_CODE = #{qstCode}
+    </update>
+    
+    <delete id="deleteSellerQST">
+		DELETE FROM SELLER_QST
+		WHERE QST_CODE = #{qstCode}
+	</delete>
+	
+	<select id="selectSellerAnswers" resultType="recycling.dto.seller.SellerAns">
+		SELECT * FROM SELLER_ANS
+		WHERE QST_CODE = #{qstCode}
+	</select>
+	
+	<insert id="insertSellerAnswer" parameterType="recycling.dto.seller.SellerAns">
+		INSERT INTO SELLER_ANS (QNA_CODE, QST_CODE, S_CODE, QNA_CONTENT, QNA_DATE)
+		VALUES (#{qnaCode}, #{qstCode}, #{sCode}, #{qnaContent}, #{qnaDate})
+	</insert>
+	
+	<update id="updateSellerAnswer" parameterType="recycling.dto.seller.SellerAns">
+		UPDATE SELLER_ANS
+		SET QNA_CONTENT = #{qnaContent},
+			QNA_DATE = #{qnaDate}
+		WHERE QNA_CODE = #{qnaCode}
+	</update>
+	
+	<delete id="deleteSellerAnswer">
+		DELETE FROM SELLER_ANS
+		WHERE QNA_CODE = #{qnaCode}
+	</delete>
+
 </mapper>

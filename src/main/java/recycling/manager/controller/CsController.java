@@ -133,7 +133,7 @@ public class CsController {
 		model.addAttribute("buyer", buyer);
 		
 //		logger.info("{}", bOut);
-//		logger.info("{}", bOutDate);
+//		logger.info("{}", bOutDate); 
 //		logger.info("{}", bCode);
 		
 		return "redirect:/manager/cs/buyerlist";
@@ -147,8 +147,8 @@ public class CsController {
 		Oto oto = csService.ansForm(otoCode);
 		model.addAttribute("oto", oto);
 		
-		logger.info("ans{}", ansCode);
-		logger.info("oto{}", otoCode);
+//		logger.info("ans{}", ansCode);
+//		logger.info("oto{}", otoCode);
 		
 		// 답글 리스트 불러오기
 		List<Ans> comments = csService.viewCom(otoCode);
@@ -158,7 +158,7 @@ public class CsController {
 		model.addAttribute("comments", comments);
 		model.addAttribute("chkNull", chkNull);
 
-		logger.info("11111111111111{}", comments);
+//		logger.info("11111111111111{}", comments);
 		
 		
 //		return "manager/cs/ansform";

@@ -125,15 +125,15 @@ public class Prd {
       return prdHit;
    }
 
-   public void setPrdHit(int prdHit) {
-      this.prdHit = prdHit;
-   }
+	public void setPrdHit(int prdHit) {
+		this.prdHit = prdHit;
+	}
 
-   public String getPrdOut() {
-      return prdOut;
-   }
+	public String getPrdOut() {
+		return prdOut;
+	}
 
-   public void setPrdOut(String prdOut) {
-      this.prdOut = prdOut;
-   }
+	public void setPrdOut(String prdOut) {
+		this.prdOut = prdOut;
+	}
 }

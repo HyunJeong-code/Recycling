@@ -1,0 +1,223 @@
+@charset "UTF-8";
+a {
+    text-decoration: none;
+    color: #000; /* 텍스트 색상 */
+}
+
+.notice-banner {
+    width: 100%;
+    height: 40px;
+    background-color: #000;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
+}
+
+.notice-banner a {
+    font-size: 15px;
+    font-weight: 700;
+    margin: auto;
+    color: #fff;
+}
+
+.header {
+    background-color: #f1f1f1;
+    color: #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header.fixed {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-ul ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+
+.nav-ul ul li a {
+    color: #333; /* 텍스트 색상 */
+    font-size: 13px;
+    text-decoration: none;
+    margin: 5px;
+}
+
+.nav-ul ul li a:hover {
+    text-decoration: underline;
+}
+
+.logo {
+    margin_top: 15px;
+}
+
+.text-logo {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.select-page button {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 5px 20px;
+    border: 1px solid #eee;
+    border-radius: 0;
+}
+
+.select-page .selected {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.search-bar {
+    display: flex;
+    flex: 1;
+    max-width: 300px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-bar button {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #4CAF50;
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar .cartBtn {
+    font-size: 18px;
+    margin: auto 10px;
+}
+
+.search-bar button:hover {
+    background-color: #45A049;
+}
+
+.header-buttons .button {
+    color: #4CAF50;
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 10px 20px;
+    border: 1px solid #4CAF50;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.header-buttons .button:hover {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.menu {
+    width: 1200px;
+    padding-top: 20px;
+}
+
+.menu ul li, .sub-wrap ul li {
+    width: 140px;
+    text-align: center;
+}
+
+.menu .menu-ul li:first-child {
+    width: 50px;
+}
+
+.menu .menu-ul li {
+    padding-bottom: 15px;
+}
+
+.menu .menu-ul .selected {
+    border-bottom: 3px solid #4CAF50;
+}
+
+.menu .menu-ul li:hover {
+    border-bottom: 3px solid #4CAF50;
+}
+
+.menu .menu-ul li a:hover {
+    text-decoration: none;
+}
+
+.menu .menu-ul li a {
+    color: #333;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sub-wrap {
+    width: 1160px;
+    margin: 0 auto;
+    position: absolute;
+    background-color: #f1f1f1;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+.sub-wrap ul:first-child li {
+    width: 50px;
+}
+
+.sub-wrap ul {
+    display:block;
+}
+
+.sub-wrap ul li {
+    margin: 15px 0;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sub-wrap ul li a:hover {
+    text-decoration: none;
+    color : #4CAF50;
+}
+
+.menu > ul {
+    display: flex; align-items: center; justify-content: space-around; height: 100%;
+}
+
+.sub-wrap {
+    display: flex;
+    justify-content: space-around;
+}
+
+.sub-wrap li {
+}
+
+.menu {
+    width: 1200px;
+    padding-top: 20px;
+    position: relative; /* 이 줄을 추가합니다 */
+}

@@ -20,6 +20,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,7 @@ import recycling.buyer.service.face.BuyerService;
 
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
@@ -47,6 +50,11 @@ import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
+import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.buyer.Orders;
+
 
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -84,8 +92,7 @@ public class BuyerController {
 			Integer count = buyerService.selectPrdCnt(e.getPrdCode());
 			logger.info("prd count : {}", count);
 			logger.info("cart count : {}", e.getcCnt());
-			
-			
+					
 			
 			//재고가 부족할시 장바구니에서 DELETE
 			if(count < e.getcCnt()) {
@@ -308,7 +315,8 @@ public class BuyerController {
 		
 	}
 	
-
+	
+	
 
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
@@ -385,9 +393,11 @@ public class BuyerController {
 		
 		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		BuyerRank buyerRank = buyerService.getBuyerRank(buyer.getRankNo());
+		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
 		
-		model.addAttribute("buyer", buyer);
-		model.addAttribute("buyerRank", buyerRank);
+	    model.addAttribute("buyer", buyer);
+	    model.addAttribute("buyerRank", buyerRank);
+	    model.addAttribute("buyerProf", buyerProf);
 		
 		return "/buyer/mypage/mypagepri";
 		
@@ -412,10 +422,14 @@ public class BuyerController {
 		}
 		
 		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
-		Cmp cmp = buyerService.getCmpDetail(buyerLogin.getbId());
+		Cmp cmp = buyerService.getCmpDetail(buyerLogin.getbCode());
+		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
+		CmpFile cmpFile = buyerService.getCmpFile(cmp.getCmpNo());
 		
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("cmp", cmp);
+		model.addAttribute("buyerProf", buyerProf);
+		model.addAttribute("cmpFile", cmpFile);
 		
 		return "/buyer/mypage/mypagecmp";
 		
@@ -465,14 +479,7 @@ public class BuyerController {
 			
 		}
 		
-		if(!pwEncoder.matches(currentPw, buyerLogin.getbPw())) {
-			
-			model.addAttribute("error", "현재 비밀번호가 틀렸습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
+		// 프론트로..!
 		if(!newPw.equals(confirmPw)) {
 			
 			model.addAttribute("error", "새 비밀번호가 일치하지 않습니다.");
@@ -509,9 +516,12 @@ public class BuyerController {
 		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		BuyerRank buyerRank = buyerService.getBuyerRank(currentBuyer.getRankNo());
+		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
 		
 		model.addAttribute("currentBuyer", currentBuyer);
 		model.addAttribute("buyerRank", buyerRank);
+		model.addAttribute("buyerProf", buyerProf);
+		model.addAttribute("buyerLogin", buyerLogin);
 		
 		return "/buyer/mypage/mydetailpri";
 		
@@ -522,9 +532,10 @@ public class BuyerController {
 	public String myDetailPriProc(
 			Authentication authentication,
 			Buyer buyer,
-			@RequestParam("buyerProf") MultipartFile buyerProf,
 			@RequestParam(value = "adSms", required = false, defaultValue = "N") String adSms,
 	        @RequestParam(value = "adEmail", required = false, defaultValue = "N") String adEmail,
+	        @RequestParam(value = "emailNum", required = false) Integer emailNum,
+	        @RequestParam("buyerProf") MultipartFile buyerProf,
 			Model model
 			) {
 		
@@ -540,14 +551,23 @@ public class BuyerController {
 			
 		}
 		
+		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+		boolean emailChanged = !buyer.getbEmail().equals(currentBuyer.getbEmail());
+		
+		if(emailChanged && (emailNum == null || !emailNum.equals(session.getAttribute("emailAuthCode")))) {
+			
+			model.addAttribute("error", "이메일 인증을 완료해주세요.");
+			
+            return "redirect:/buyer/mypage/mydetailpri";
+			
+		}
+		
 		buyer.setbCode(buyerLogin.getbCode());
 		buyer.setbCtCode(buyerLogin.getbCtCode());
 		
 		// 광고성 정보 수신 여부
 		buyer.setAdSms(adSms);
 		buyer.setAdEmail(adEmail);
-		
-		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		
 		// 기존 비밀번호 유지
 		if(buyer.getbPw() == null || buyer.getbPw().isEmpty()) {
@@ -556,28 +576,20 @@ public class BuyerController {
 			
 		}
 		
-		// 프로필 이미지 처리
-		if(buyerProf != null && !buyerProf.isEmpty()) {
-			
-			String fileName = System.currentTimeMillis() + "_" + buyerProf.getOriginalFilename();
-			String filePath = "D:/uploads/" + fileName;
-			
-			try {
-				
-				buyerProf.transferTo(new File(filePath));
-				
-				// 파일 이름을 세션에 저장
-				session.setAttribute("buyerProfName", fileName);
-				
-			} catch (IOException e) {
-				
-				model.addAttribute("error", "파일 업로드 실패: " + e.getMessage());
-				
-				return "redirect:/buyer/mypage/mydetailpri";
-				
-			}
-			
-		}
+		// 프로필 이미지 업데이트
+	    if (!buyerProf.isEmpty()) {
+	    	
+	    	 int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
+	         
+	    	 if (result == 0) {
+	             
+	    		 model.addAttribute("error", "프로필 이미지 저장 실패");
+	             
+	    		 return "redirect:/buyer/mypage/mydetailpri";
+	         
+	    	 }
+	        
+	    }
 		
 		int updateResult = buyerService.updateBuyerDetail(buyer);
 		
@@ -617,9 +629,12 @@ public class BuyerController {
 		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		Cmp currentCmp = buyerService.getCmpDetail(buyerLogin.getbCode());
+		BuyerProf buyerProf = buyerService.getBuyerProf(currentBuyer.getbCode());
 		
 		model.addAttribute("currentBuyer", currentBuyer);
 		model.addAttribute("currentCmp", currentCmp);
+		model.addAttribute("buyerProf", buyerProf);
+		model.addAttribute("buyerLogin", buyerLogin);
 		
 		return "/buyer/mypage/mydetailcmp";
 		
@@ -631,10 +646,11 @@ public class BuyerController {
 			Authentication authentication,
 			Buyer buyer,
 			Cmp cmp,
-			@RequestParam("cmpFile") MultipartFile cmpFile,
-			@RequestParam("cmpProf") MultipartFile cmpProf,
 			@RequestParam(value = "adSms", required = false, defaultValue = "N") String adSms,
 	        @RequestParam(value = "adEmail", required = false, defaultValue = "N") String adEmail,
+	        @RequestParam(value = "emailNum", required = false) Integer emailNum,
+	        @RequestParam("cmpProf") MultipartFile cmpProf,
+            @RequestParam("cmpFile") MultipartFile cmpFile,
 			Model model
 			) {
 		
@@ -650,14 +666,21 @@ public class BuyerController {
 			
 		}
 		
+		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+		
+		boolean emailChanged = !buyer.getbEmail().equals(currentBuyer.getbEmail());
+		
+		if (emailChanged && (emailNum == null || !emailNum.equals(session.getAttribute("emailAuthCode")))) {
+	        model.addAttribute("error", "이메일 인증을 완료해주세요.");
+	        return "redirect:/buyer/mypage/mydetailcmp";
+	    }
+		
 		buyer.setbCode(buyerLogin.getbCode());
 		buyer.setbCtCode(buyerLogin.getbCtCode());
 		
 		// 광고성 정보 수신 여부
 		buyer.setAdSms(adSms);
 		buyer.setAdEmail(adEmail);
-		
-		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		
 		// 기존 비밀번호 유지
 		if(buyer.getbPw() == null || buyer.getbPw().isEmpty()) {
@@ -666,55 +689,38 @@ public class BuyerController {
 			
 		}
 		
-		// 프로필 이미지 처리
-		if (cmpProf != null && !cmpProf.isEmpty()) {
-            
-			String fileName = System.currentTimeMillis() + "_" + cmpProf.getOriginalFilename();
-			String filePath = "D:/uploads/" + fileName;
-
-			try {
-            
-				cmpProf.transferTo(new File(filePath));
-               
-				// 파일 이름을 세션에 저장
-				session.setAttribute("cmpProfName", fileName);
-        
-			} catch (IOException e) {
-             
-				model.addAttribute("error", "파일 업로드 실패: " + e.getMessage());
-            
+		// 프로필 이미지 업데이트
+		if (!cmpProf.isEmpty()) {
+	        
+			int result = buyerService.updateBuyerProf(cmpProf, buyerLogin.getbCode());
+	        
+			if (result == 0) {
+	        
+				model.addAttribute("error", "프로필 이미지 저장 실패");
+	            
 				return "redirect:/buyer/mypage/mydetailcmp";
-            
+	        
 			}
-        
+	    
 		}
 		
-		// 사업자 등록증 처리
-		if(cmpFile != null && !cmpFile.isEmpty()) {
-			
-			String fileName = System.currentTimeMillis() + "_" + cmpFile.getOriginalFilename();
-			String filePath = "D:/uploads/" + fileName;
-			
-			try {
-				
-				cmpFile.transferTo(new File(filePath));
-				
-				// 파일 이름을 세션에 저장
-				session.setAttribute("cmpFileName", fileName);
-				
-			} catch (IOException e) {
-				
-				model.addAttribute("error", "사업자 등록증 업로드 실패: " + e.getMessage());
-				
-				return "/buyer/mypage/mydetailcmp";
-				
+	    // 사업자 등록증 업데이트
+		if (!cmpFile.isEmpty()) {
+	        
+			int result = buyerService.updateCmpFile(cmpFile, buyerLogin.getbCode());
+	        
+			if (result == 0) {
+	        
+				model.addAttribute("error", "사업자 등록증 저장 실패");
+	            
+				return "redirect:/buyer/mypage/mydetailcmp";
+	        
 			}
-			
+	    
 		}
 		
 		int updateBuyerResult = buyerService.updateBuyerDetail(buyer);
 		int updateCmpResult = buyerService.updateCmpDetail(cmp);
-		
 		
 		if(updateBuyerResult == 0 || updateCmpResult == 0) {
 			
@@ -728,7 +734,7 @@ public class BuyerController {
 		
 		model.addAttribute("success", "기업 정보가 수정되었습니다.");
 		
-		return "/buyer/mypage/mydetailcmp";
+		return "redirect:/buyer/mypage/mydetailcmp";
 		
 	}
 	
@@ -751,6 +757,7 @@ public class BuyerController {
         List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(buyerLogin.getbCode());
         
         model.addAttribute("buyerAdrList", buyerAdrList);
+        model.addAttribute("buyerLogin", buyerLogin);
         
         return "/buyer/mypage/myaddr";
 		
@@ -824,19 +831,19 @@ public class BuyerController {
         
         model.addAttribute("buyerAdrList", buyerAdrList);
         
-        return "buyer/mypage/myaddr";
+        return "redirect:/buyer/mypage/myaddr";
 
 	}
 	
 	// 회원 탈퇴
 	@GetMapping("/outbuyer")
 	public String outBuyer(
-			@AuthenticationPrincipal BuyerLogin buyerLogin,
+			Authentication authentication,
 			Model model) {
 		
 		logger.info("/buyer/mypage/outbuyer [GET]");
 		
-		if(buyerLogin == null) {
+		if(authentication == null) {
 			
 			model.addAttribute("error", "로그인 해주세요.");
 			
@@ -852,6 +859,7 @@ public class BuyerController {
 	@PostMapping("/outbuyer")
 	public String outBuyerProc(
 			String password,
+			Authentication authentication,
 			@RequestParam(value = "privacyConsent", required = false) String ps,
 			@RequestParam(value = "infoConsent", required = false) String is,
 			Model model
@@ -859,25 +867,34 @@ public class BuyerController {
 		
 		logger.info("/buyer/mypage/outbuyer [POST]");
 		
-		BuyerLogin buyer = (BuyerLogin) session.getAttribute("buyers");
-		
-		if(buyer == null) {
+		if(authentication == null) {
 			
 			return "redirect:/buyer/login";
 			
 		}
 		
-//		if(buyerService.verifyPw(buyer.getbId(), password) == 0) {
-//			
-//			model.addAttribute("error", "비밀번호가 틀렸습니다.");
-//			
-//			return "/buyer/mypage/outbuyer";
-//			
-//		}
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+		if(!pwEncoder.matches(password, buyerLogin.getbPw())) {
+			
+			model.addAttribute("error", "비밀번호가 틀렸습니다.");
+			
+			return "/buyer/mypage/outbuyer";
+			
+		}
 		
 		if("agree".equals(ps) && "agree".equals(is)) {
 			
-			buyerService.deleteBuyer(buyer.getbCode());
+			buyerService.deleteBuyer(buyerLogin.getbCode());
+			
+			// 구매자가 판매자인 경우, 판매자 탈퇴 처리
+			if("Y".equals(buyerLogin.getsChk())) {
+				
+				buyerService.deleteSeller(buyerLogin.getsCode());
+				
+			}
+			
+			SecurityContextHolder.clearContext();
 			
 			session.invalidate();
 			

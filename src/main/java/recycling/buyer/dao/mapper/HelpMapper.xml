@@ -45,6 +45,13 @@
 	    </where>
 	</select>
 	
+	<select id="chkSeller" resultType="int" parameterType="string">
+		SELECT COUNT(*) FROM seller
+		<where>
+			AND b_code = #{bCode}
+		</where>
+	</select>
+	
 	<select id="selectByNotice" resultType="Notice" parameterType="string">
 		SELECT * FROM Notice
 		<where>
@@ -52,13 +59,83 @@
 		</where>
 	</select>
 	
-	<update id="ntcHit" parameterType="string">
+	<update id="updateNtcHit" parameterType="string">
 		UPDATE Notice
 			SET ntc_hit = ntc_hit + 1
 		<where>
 			AND ntc_code = #{ntcCode }
 		</where>
 	</update>
+	
+	<insert id="insertOto" parameterType="Oto" useGeneratedKeys="true" keyProperty="otoCode" keyColumn="oto_code">
+		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
+		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})
+	
+	</insert>
+	
+	<select id="selectAllOto" resultType="Oto" parameterType="recycling.util.Paging">
+		SELECT * FROM Oto
+		
+	</select>
+	
+	<select id="selectAllOtoCt" resultType="OtoCt">
+		select * from oto_ct
+	</select>
+	
+	<select id="selectByCtOto" resultType="Oto" parameterType="string">
+		SELECT * FROM oto
+		<where>
+			AND ct_otono = #{ctOtoNo}
+		</where>
+	</select>
+	
+	<select id="getAllOct" resultType="OtoCt">
+		SELECT * FROM Oto_Ct
+		
+	</select>
+	
+	<select id="selectByOtoCode" resultType="Oto" parameterType="string">
+		SELECT * FROM Oto
+		<where>
+			AND oto_code = #{otoCode}
+		</where>
+	</select>
+	
+	<update id="updateOtoHit" parameterType="string">
+		UPDATE Oto
+			SET oto_hit = oto_hit + 1
+		<where>
+			AND oto_code = #{otoCode}
+		</where>
+	</update>
+	
+	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT B_Code AS bCode,
+		       B_Ct_Code AS bCtCode,
+		       B_Id AS bId,
+		       B_Pw AS bPw,
+		       B_Name AS bName,
+		       B_Phone AS bPhone,
+		       B_Email AS bEmail,
+		       Ad_Sms AS adSms,
+		       Ad_Email AS adEmail
+		FROM Buyer
+		<where>
+			AND B_Id = #{bId }
+		</where>
+	</select>
+	
+	<insert id="insertOtoFiles" parameterType="OtoFile">
+		INSERT INTO oto_file (oto_flno, oto_code, origin_name, stored_name)
+		VALUES (oto_file_seq.nextval, #{otoCode}, #{originName}, #{storedName })
+	</insert>
+	
+	<select id="getOtoFiles" resultType="OtoFile" parameterType="string">
+		SELECT * FROM oto_file
+		<where>
+			AND oto_code = #{otoCode}
+		</where>
+	</select>
 	
 	
 </mapper>

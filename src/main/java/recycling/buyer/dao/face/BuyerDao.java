@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
@@ -12,6 +13,7 @@ import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 
 // 마이페이지 - 회원 정보 관련 DB 처리
 public interface BuyerDao {	
@@ -137,6 +139,22 @@ public interface BuyerDao {
 	public Cmp getCmpDetail(String bCode);
 
 	/**
+	 * 구매자 프로필 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 조회된 프로필 조회
+	 */
+	public BuyerProf getBuyerProf(String bCode);
+	
+	/**
+	 * 
+	 * 
+	 * @param cmpNo
+	 * @return
+	 */
+	public CmpFile getCmpFile(int cmpNo);
+	
+	/**
 	 * 비밀번호 변경
 	 * 
 	 * @param bId - 구매자 아이디
@@ -160,7 +178,23 @@ public interface BuyerDao {
 	 * @return 업데이트 결과
 	 */
 	public int updateCmpDetail(Cmp cmp);
+	
+	/**
+	 * 구매자 프로필 업데이트
+	 * 
+	 * @param prof - 업데이트 할 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProf(BuyerProf prof);
 
+	/**
+	 * 
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public int updateCmpFile(CmpFile file);
+	
 	/**
 	 * 모든 배송지 정보 조회
 	 * 
@@ -223,5 +257,13 @@ public interface BuyerDao {
 	 * @return 탈퇴 결과
 	 */
 	public int deleteBuyer(String bCode);
+
+	/**
+	 * 판매자 탈퇴
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return 탈퇴 결과
+	 */
+	public int deleteSeller(String sCode);
 
 }
