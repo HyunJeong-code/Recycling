@@ -55,12 +55,16 @@ th {
 <div class="container">
 <div class="searching">
 	<form action="./explist" method="get">
-		<select class="detailSearch" name="detailSearch">
-		    <option value="expname">제목</option>
-		    <option value="expcode">상품 번호</option>
-		</select>
-		<input type="text" id="search" name="search"> 	
-		<button id="btnSearch">검색</button>
+		<div class="detailSearch">
+			<select id="detailSearch" name="detailSearch">
+			    <option value="expName">제목</option>
+			    <option value="expCode">상품 번호</option>
+			</select>
+			<div class="search">
+	            <input type="text" name="search" placeholder="검색어를 입력해 주세요" value="${search}">
+	            <button onclick="this.form.submit()" class="btn btn-primary">검색</button>
+	        </div>
+		</div>
 	</form>
 </div>
 

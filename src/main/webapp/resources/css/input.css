@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+button {
+    border: none;
+    width: 100px;
+}
+
+input[type="button"] {
+    border: none;
+    width: 100px;
+}
+
+input[type="text"] {
+	border: none;
+	border-bottom: 1px solid black;
+}
+
+.s {
+	width: 100px;
+}
+
+.m {
+	width: 200px;
+}
+
+.l {
+	width: 300px;
+}
+
+.btn {
+	background-color: #ccc;
+    color: black;
+}
+
+.buyBtn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.selBtn {
+    background-color: #2D9BF0;
+    color: white;
+}
+
+.mgrBtn {
+    background-color: #652CB3;
+    color: white;
+}

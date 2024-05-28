@@ -9,17 +9,16 @@ import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
-
-import recycling.dto.buyer.Cart;
-import recycling.dto.buyer.CartOrder;
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
+import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.buyer.Orders;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
@@ -29,6 +28,9 @@ public class BuyerServiceImpl implements BuyerService {
 	@Autowired 
 	private BuyerDao buyerDao;
 	
+	// 장바구니
+	
+	// 회원 정보
 	@Override
 	public int insertOrder(Orders order) {
 		return buyerDao.insertOrder(order);
@@ -57,7 +59,7 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public BuyerAdr selectBybCode(String bCode) {
+	public List<BuyerAdr> selectBybCode(String bCode) {
 		return buyerDao.selectBybCode(bCode);
 	}
 	

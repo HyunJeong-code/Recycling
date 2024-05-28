@@ -54,18 +54,18 @@ $(document).ready(function() {
         <input type="text" id="otoTitle" name="otoTitle" required><br>
         
         <label for="otoContent">내용:</label><br>
-        <textarea id="otoContent" name="otoContent" rows="10" cols="100"></textarea><br>
+        <textarea id="otoContent" name="otoContent" rows="10" cols="100" required></textarea><br>
         
         <label for="detail">파일 첨부:</label>
         <input type="file" id="detail" name="detail" multiple><br>
         
-        <label><input type="radio" name="visibility" value="public" checked>공개</label>
-        <label><input type="radio" name="visibility" value="private">비공개</label>
+<!--         <label><input type="radio" name="visibility" value="public" checked>공개</label> -->
+<!--         <label><input type="radio" name="visibility" value="private">비공개</label> -->
         
-        <div id="password_field" style="display: none;">
-            <label for="bPw">비밀번호:</label>
-            <input type="password" id="bPw" name="bPw">
-        </div>
+<!--         <div id="password_field" style="display: none;"> -->
+<!--             <label for="bPw">비밀번호:</label> -->
+<!--             <input type="password" id="bPw" name="bPw"> -->
+<!--         </div> -->
         
         <input type="submit" value="작성하기">
         

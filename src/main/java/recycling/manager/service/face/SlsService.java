@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -59,10 +60,10 @@ public interface SlsService {
 	/**
 	 * 체험단 세부사항 조회
 	 * 
-	 * @param exp - Exp
+	 * @param expCode - Exp
 	 * @return Exp
 	 */
-	public Exp selectDetail(Exp exp);
+	public Exp selectDetail(String expCode);
 
 	/**
 	 * 체험단 등록
@@ -86,6 +87,7 @@ public interface SlsService {
 	 * 체험정보 업데이트
 	 * 
 	 * @param manager
+	 * @return 
 	 */
 	public void expUpdateProc(Exp exp);
 
@@ -103,14 +105,38 @@ public interface SlsService {
 	 * @param expCode
 	 * @return
 	 */
-	public List<ExpRes> expResDetailRes(ExpRes expRes);
+	public List<ExpRes> expResDetailRes(int schNo);
 
 	/**
-	 * 체험단 예약정보 리스트 삭제
+	 * 체험단 리스트 리뷰삭제
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public int expReviewListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 파일삭제
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public int expFileListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 스케줄삭제
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public int expSchListDel(String expCode);
+	
+	/**
+	 * 체험단 리스트 삭제
 	 * 
 	 * @param chBox
 	 */
-	public int expListDel(List<String> chBox);
+	public int expListDel(String expCode);
 
 	/**
 	 * 이미지 업로드 번호조회
@@ -127,8 +153,77 @@ public interface SlsService {
 	 */
 	public int expResUpdate(List<String> chBox, String actionType);
 
-	public void insert(Exp exp, ExpSch expSch, MultipartFile file);
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+
+	/**
+	 * 체험 예약, 인원 조인
+	 * @param schNo 
+	 * @param schNo 
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ResSchCnt> selectByResCnt(String expCode);
+
+	/**
+	 * 체험단 예약인원 예약변경창 조회하기
+	 * @param resSchCnt 
+	 * 
+	 * @return
+	 */
+	public ResSchCnt changeExpRes(ResSchCnt resSchCnt);
 	
+	/**
+	 * 체험단 예약인원 예약변경창 조회[ExpSchList]
+	 * 
+	 * @return
+	 */
+	public List<ExpSch> changeExpSch();
+	
+	/**
+	 * 체험단 예약인원 예약변경하기
+	 * @param resSchCnt 
+	 * 
+	 * @return
+	 */
+	public void changeExpResProc(ResSchCnt resSchCnt);
+
+	/**
+	 * 인원 변경 
+	 * 
+	 * @param expSch
+	 * @return
+	 */
+	public int cntChangeUpdate(ExpSch expSch);
+
+	/**
+	 * 예약인원 총합
+	 * 
+	 * @param expSch
+	 * @return
+	 */
+	public int getTotalResCnt(ExpSch expSch);
+	
+	/**
+	 * 예약자 체크삭제
+	 * 
+	 * @param chBox
+	 */
+	public int expResDetailListDel(List<String> chBox);
+
+	/**
+	 * expdetail 체크삭제[클래스]
+	 * 
+	 * @param chBox
+	 */
+	public int expDetailListDel(List<String> chBox);
+
 	/**
 	 * 판매자 코드로 구매자 코드 조회
 	 * 
@@ -168,5 +263,22 @@ public interface SlsService {
 	 * @return 총 거래 건수
 	 */
 	public int selectCntOrd(String sCode);
+
+	/**
+	 * 판매자 조회
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> sellerSelect(String getbCode);
+
+
+
+
+
+	
+
+
+
+	
 	
 }

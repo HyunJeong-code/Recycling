@@ -114,18 +114,12 @@ body {
 				</div>
 
 				<div>
-					<label>모집 인원</label> <select>
-						<option value="${schCnt}">${schCnt}명</option>
-					</select>
-				</div>
-
-				<div>
 					<label>체험설명</label>
 					<textarea name="expDetail">${update.expDetail}</textarea>
 				</div>
 
 				<div>
-					<a href="./explist"><button type="submit">수정완료</button></a>
+					<button type="submit">수정완료</button>
 				</div>
 				</form>
 

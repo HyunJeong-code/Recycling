@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/sls/expform.css">
+
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- bootstrap -->
@@ -15,20 +18,21 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 <script type="text/javascript">
-$(document).ready(function() {
-	//파일 미리보기
-	function setThumbnail(event) {
-		var reader = new FileReader();
+//파일 미리보기
+function setThumbnail(event) {
+	var reader = new FileReader()
 
-		reader.onload = function(event) {
-			var img = document.createElement("img");
-			img.setAttribute("src", event.target.result);
-			img.setAttribute("class", "col-lg-6");
-			document.querySelector("div#image_container").appendChild(img);
-		};
-
-		reader.readAsDataURL(event.target.files[0]);
+	reader.onload = function(event) {
+		var img = document.createElement("img")
+		img.setAttribute("src", event.target.result)
+		img.setAttribute("class", "col-lg-6")
+		document.querySelector("div#image_container").appendChild(img)
 	}
+
+	reader.readAsDataURL(event.target.files[0]);
+}
+
+$(document).ready(function() {
 	
 				// applyBtn 함수 정의
 				function applyBtn() {
@@ -84,123 +88,205 @@ $(document).ready(function() {
 				        selectedTimes.push(time);
 				        console.log(time)
 				    }
-				});
+				});//hourBtnClick
 				
 	
 	$("form").on("submit", function(e) {
+		e.preventDefault();
+		
 		//선택한 시간 숨겨서 저장하고 넘길준비
 		$("#selectedTimes").val(selectedTimes.join(","));
 		console.log(selectedTimes)
+		
+		
+		  /* 등록 여부 확인 */
+		
+	    // 기업명 입력 확인
+	    var cmpName = document.getElementsByName("cmpName")[0].value;
+	    if (cmpName === "") {
+	        alert("기업명을 입력하세요.");
+	        return false; // 기업명이 비어 있으면 false를 반환하여 제출을 막습니다.
+	    }
+	
+	    // 체험 이름 입력 확인
+	    var expName = document.getElementsByName("expName")[0].value;
+	    if (expName === "") {
+	        alert("체험 이름을 입력하세요.");
+	        return false;
+	    }
+	
+	    // 체험 비용 확인
+	    var expPrice = document.getElementsByName("expPrice")[0].value;
+	    if (expPrice === "") {
+	        alert("체험 비용을 입력하세요.");
+	        return false;
+	    }
+	
+	    // 체험 설명 확인
+	    var expDetail = document.getElementsByName("expDetail")[0].value;
+	    if (expDetail === "") {
+	        alert("체험 설명을 입력하세요.");
+	        return false;
+	    }
+	
+	    // 체험 파일 확인
+	    var file = document.getElementsByName("file")[0].value;
+	    if (file === "") {
+	        alert("파일이 존재하지 않습니다.");
+	        return false;
+	    }
+	    
+	    // 체험일 확인
+	    var schDate = document.getElementsByName("schDate")[0].value;
+	    if (schDate === "") {
+	        alert("체험일을 입력하세요.");
+	        return false;
+	    }
+	    
+	 // 체험일 확인
+	    var schTime = document.getElementsByName("schTime")[0].value;
+	    if (schDate === "") {
+	        alert("체험시간을 입력하세요.");
+	        return false;
+	    }
+	
+	    // 체험인원 확인
+	    var schCnt = document.getElementsByName("schCnt")[0].value;
+	    if (schCnt === "") {
+	        alert("체험인원을 입력하세요.");
+	        return false;
+	    }
+	
+	    // 모든 입력 확인이 통과되면 true를 반환하여 폼을 제출합니다.
+	    this.submit();
 	})
+	
+	//기업정보 모달창으로 보여주기
+	$("#btnSearchCmp").click(function() {
+        $.ajax({
+            type: "GET",
+            url: "./sellerselect",
+            data: {
+            	CMP_NO : $(this).attr("id") 
+				, CMP_NAME : $(this).closest('tr').find('td:eq(1)').text()
+				, CMP_CEO : $(this).closest('tr').find('td:eq(2)').text()
+				, CMP_ADDR : $(this).closest('tr').find('td:eq(3)').text()
+            },
+            dataType: "html",
+            success: function(res) {
+                console.log("AJAX 성공");
+                console.log(res);
+                
+                $("#serachCmpinfo").html(res)
+            },
+            error: function() {
+                console.log("AJAX 실패");
+            }
+        });
+    });//btnSearchCmp
    
+    
+    // 오늘 날짜를 가져오는 함수
+    function getToday() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        return today;
+    }
+
+    // 페이지 로드 시 실행
+    window.onload = function() {
+        var today = getToday();
+        document.getElementById("schDate").min = today;
+    };
+    
+    
+    
+    
+    
+    
 });
 	    
 </script>
-
-
-<style type="text/css">
-.full {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.wrap {
-	width: 60%;
-}
-
-.page {
-	text-align: center;
-}
-
-.section {
-	margin-top: 20px;
-}
-
-input[type="text"], input[type="date"], input[type="time"], textarea {
-	width: 100%;
-	padding: 8px;
-	margin-bottom: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
-}
-
-input[type="file"] {
-	margin-bottom: 10px;
-}
-
-button {
-	padding: 10px 20px;
-	background-color: #007bff;
-	color: #fff;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-}
-
-button:hover {
-	background-color: #0056b3;
-}
-
-button:focus {
-	outline: none;
-}
-
-#image_container {
-	margin-top: 10px;
-}
-
-img {
-	max-width: 100%;
-	height: auto;
-	margin-top: 10px;
-}
-
-@media ( max-width : 768px) {
-	.wrap {
-		width: 80%;
-	}
-}
-
-
-</style>
 
 </head>
 <body>
 
 	<div class="full">
+			<aside>
+				왼쪽
+			</aside>
 		<div class="wrap">
 			<div class="page">
 				<h1>체험단 등록</h1>
-
 			</div>
 			<div class="section">
 				<form action="./expform" method="post" enctype="multipart/form-data">
+					
+							<label>업체 명</label> 
+						<div class="btn_modal_wrap">
+							<input type="text" name="cmpName" readonly="readonly">
+						
+							<!-- 모달 버튼 -->
+							<button type="button" id="btnSearchCmp" data-bs-toggle="modal" data-bs-target="#SearchCmpModal">
+								검색
+							</button>
+						</div>	
+							<!-- 모달창 업체 검색-->
+							<div class="modal fade" id="SearchCmpModal" tabindex="-1" aria-labelledby="#SearchCmpModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+								<div class="modal-content" style="display: table;">
+		
+								<!-- 모달 헤드 -->
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="SearchCmpModalLabel">기업 정보</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+												
+								<!-- 모달 바디 -->
+								<div class="modal-body">
+									<div id="postcodeWrap">
+										<div id = "serachCmpinfo"></div>							
+									</div>
+								</div>
+								</div>
+							</div><!-- modal end -->
+						</div><!-- btn_modal_wrap -->
+						
+					<label for ="sCode">판매자 코드</label> 
 					<div>
-						체험 이름 <input type="text" name="expName">
+						<input type="text" id="sCode" name="sCode" readonly="readonly">
 					</div>
+					
+					<label for ="expName">체험 이름</label>
 					<div>
-						1인 체험비 <input type="text" name="expPrice" placeholder="제품가격을 입력하세요">
+						 <input type="text" id="expName" name="expName">
 					</div>
+					
+					<label for ="expPrice">1인 체험비</label>
 					<div>
-						설명
-						<textarea rows="5" cols="22" name="expDetail" placeholder="업체에서 제공한 설명을 적어주세요"></textarea>
+						<input type="text" id="expPrice" name="expPrice" placeholder="제품가격을 입력하세요">
 					</div>
+					
+					<label for="expDetail">설명</label>
+					<div>
+						<textarea rows="5" cols="22" id ="expDetail" name="expDetail" placeholder="업체에서 제공한 설명을 적어주세요"></textarea>
+					</div>
+					
 					<div>
 						이미지 첨부 <input type="file" name="file" onchange="setThumbnail(event);">
 						<div id="image_container"></div>
 					</div>
-					<br>
-					<hr>
-					<br>
 
 					<!-- 모달 버튼 -->
-					<button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#expformModal">
-						체험 가능 날짜/시간등록
-					</button>
+					<div class="btnPostcode_wrap">
+						<button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#expformModal">
+							체험 가능 날짜/시간등록
+						</button>
+					</div>
 					
 					<!-- 모달창-->
 					<div class="modal fade" id="expformModal" tabindex="-1" aria-labelledby="expformModalLabel" aria-hidden="true">
@@ -216,31 +302,62 @@ img {
 								
 								<!-- 모달 바디 -->
 								<div class="modal-body">
-									<h3>체험 마감일</h3>
-									<input type="date" name="schDate" placeholder="종료일">
-
-									<h3>시간</h3>
-									<!-- 시작시간 -->
-									<c:set var="startTimeHour" value="7" />
-									<!-- 종료시간 -->
-									<c:set var="endTimeHour" value="18"/>
-									<c:set var="interval" value="30" />
-									<c:forEach var="hour" begin="${startTimeHour}" end="${endTimeHour}">
-										<c:forEach var="minute" begin="0" end="59" step="${interval}">
-											<input type="button" name="schTime" class="hourBtnClick" value="${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}" readonly="readonly">
-										</c:forEach>
-									</c:forEach>
+								<!-- 오늘 이전 날은 선택 불가능 -->
+									<div class="modal_body_title">체험일 선택</div>
+									<div>
+										<input type="date" name="schDate" id="schDate" placeholder="종료일">
+									</div>
+										
+									<div class="modal_body_title">시간</div>
 									
-									<h3>인원</h3>
+								    <div class="modal_time_con">
+								        <div class="modal_time_morning">
+								            <h2>오전</h2>
+								            <div class="modal_time-buttons">
+								                <input type="button" name="schTime" class="hourBtnClick" value="07:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="07:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="08:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="08:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="09:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="09:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="10:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="10:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="11:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="11:30" readonly="readonly">
+								            </div>
+								        </div>
+								        <hr>
+								        <div class="modal_time_afternoon">
+								            <h2>오후</h2>
+								            <div class="modal_time-buttons">
+								                <input type="button" name="schTime" class="hourBtnClick" value="12:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="12:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="13:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="13:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="14:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="14:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="15:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="15:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="16:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="16:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="17:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="17:30" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="18:00" readonly="readonly">
+								                <input type="button" name="schTime" class="hourBtnClick" value="18:30" readonly="readonly">
+								            </div>
+								        </div>
+								    </div>
+									
+									<div class="modal_body_title">인원</div>
 									<input type="text" name="schCnt" placeholder="인원">
 								</div>
 								
 								<!-- 모달 푸터 -->
 								<div class="modal-footer">
-									<button type="button" id="applyBtn" data-bs-dismiss="modal">
+									<button type="button" id ="applyBtn" data-bs-dismiss="modal">
 										추가
 									</button>
-									<button type="button" class="btn btn-footer" data-bs-dismiss="modal">
+									<button type="button" id ="time_modal_cencle" class="btn btn-footer" data-bs-dismiss="modal">
 										닫기																			
 									</button>
 								</div>
@@ -256,11 +373,10 @@ img {
 						<div id="schCntDisplay"></div>
 					</div>
 					
-					<div>
-						<button type="submit">등록하기</button>
+					<div class="btn_inform">
+						<button type="submit" class="btn_bot_join">등록하기</button>
 					</div>
 				</form>
-				<a href="./explist"><button>돌아가기</button></a>
 
 			</div>
 		</div>

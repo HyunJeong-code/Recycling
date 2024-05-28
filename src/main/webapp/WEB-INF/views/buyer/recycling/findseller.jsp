@@ -71,7 +71,7 @@
                     sChk: '<%=gpsList.get(i).get("sChk")%>',
                     sOut: '<%=gpsList.get(i).get("sOut")%>',
                     sOutDate: '<%=gpsList.get(i).get("sOutDate")%>',
-                    rcyCode: '<%=gpsList.get(i).get("rcyCode")%>'
+                    prdCode: '<%=gpsList.get(i).get("prdCode")%>'
                 }<%= i == gpsList.size() - 1 ? "" : "," %>
             <% } %>
         ];
@@ -81,7 +81,7 @@
         for (let i = 0; i < gpsList.length; i++) {
             let gps = gpsList[i];
             let sCode = gps.sCode; // sCode 값을 가져옴
-            let rcyCode = gps.rcyCode; // rcyCode 값을 가져옴
+            let prdCode = gps.prdCode; // prdCode 값을 가져옴
             
             // 주소-좌표 변환 객체를 생성합니다
             var geocoder = new kakao.maps.services.Geocoder();
@@ -101,7 +101,7 @@
                     });
                     
                     // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-                    var iwContent = '<div style="padding:5px;"><a href="/buyer/recycling/rcydetail?rcyCode=' + rcyCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                    var iwContent = '<div style="padding:5px;"><a href="/buyer/recycling/rcydetail?prdcode=' + prdCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
                         iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
                     // 인포윈도우를 생성합니다

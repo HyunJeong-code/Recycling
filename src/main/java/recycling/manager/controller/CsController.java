@@ -139,7 +139,6 @@ public class CsController {
 		return "redirect:/manager/cs/buyerlist";
 	}
 	
-	// 수정, 삭제 기능 수정 중...
 	// 문의글 상세
 	@GetMapping("/ansform")
 	public void ansForm(String otoCode, String ansCode, Model model, HttpSession session) {
