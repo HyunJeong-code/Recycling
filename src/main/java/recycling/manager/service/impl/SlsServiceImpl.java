@@ -1,7 +1,5 @@
 package recycling.manager.service.impl;
 
-import java.io.Console;
-import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -14,19 +12,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.seller.Seller;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Seller;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
 import recycling.util.Paging;
 
 @Service
+@Transactional
 public class SlsServiceImpl implements SlsService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

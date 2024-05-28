@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.HelpDao;
@@ -25,6 +26,7 @@ import recycling.dto.manager.Notice;
 import recycling.util.Paging;
 
 @Service
+@Transactional
 public class HelpServiceImpl implements HelpService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

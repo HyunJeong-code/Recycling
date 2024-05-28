@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
@@ -16,6 +17,7 @@ import recycling.manager.service.face.CsService;
 import recycling.util.Paging;
 
 @Service
+@Transactional
 public class CsServiceImpl implements CsService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

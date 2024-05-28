@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
@@ -23,6 +24,7 @@ import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
 
 @Service
+@Transactional
 public class MgrServiceImpl implements MgrService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

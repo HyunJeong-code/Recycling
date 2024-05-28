@@ -9,7 +9,20 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
-	
+	// 비밀번호
+	$("#mgrPw").blur(function() {
+		if($("#mgrPw").val() == '') {
+			$("#pw").css("display", "block");
+		} else {
+			$("#pw").css("display", "none");
+			
+			if(rexPw.test($("#mgrPw"))) {
+				$("#chkPw").css("display", "block");				
+			} else {
+				$("#chkPw").css("display", "none");								
+			}
+		}
+	})
 })
 </script>
 </head>
@@ -23,7 +36,8 @@ $(function() {
 		<div class="section">
 			<form action="./main" method="post">
 				<label for="mgrPw">비밀번호 입력</label>
-				<input type="text" id="mgrPw" name="mgrPw"><br><br>
+				<input type="text" id="mgrPw" name="mgrPw"><br>
+				<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
 				
 				<button>확인</button>
 			</form>
