@@ -144,7 +144,28 @@
 	
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5141af38fa883955ccca452855c2266&libraries=services"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
+
+	$(function() {
+		
+		//수량 부족알림
+		$("#prdCnt").change(function() {
+			if ($("#prdCnt").val() > ${prd.prdCnt}) {
+		      alert("수량이 부족합니다.");
+		      $("#prdCnt").val("${prd.prdCnt}");  
+		    }
+		})
+		
+		$("#buyBtn").click(function() {
+			var prdCode = "${prd.prdCode }";
+			var prdCnt = $("#prdCnt").val();
+			location.href="./pay?prdCode=" + prdCode + "&cCnt=" + prdCnt;
+		})
+		
+		
+	}) 	//$ end
+
 	function scrollToSection(sectionId) {
 		document.querySelectorAll('.navBtn').forEach(btn => btn.classList.remove('active'));
 		document.getElementById('btn-' + sectionId).classList.add('active');
@@ -209,7 +230,9 @@
 				<hr>
 				<p class="prdSum">${prd.prdDetail}</p>
 				<hr>
-				<a href="#" class="buyBtn">바로구매</a>
+				<p>수량 : <input type="number" id="prdCnt" value="1" min="1" max="${prd.prdCnt}"></p>
+				<hr>
+				<button id="buyBtn" class="buyBtn">바로구매</button>
 				<a href="#" class="reportBtn">신고하기</a>
 			</div>
 		</div>

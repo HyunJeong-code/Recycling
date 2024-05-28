@@ -112,17 +112,13 @@
         //가맹점 식별코드 초기화
         IMP.init('imp40731343')
 
-	    $(function(){
-	    	$("#prdAmount").html(prdAmount);	    	
-	    });
-
         function requestPay(){
         	var payOption = $("input:radio[name=payOption]:checked").attr("id");
             IMP.request_pay({
             pg: payOption, // PG사
             pay_method: "card", //결제 수단 (필수)
             merchant_uid: 'ORD' + new Date().getTime(),   // 주문번호
-            name: ${cart.prdName},             // 주문 상품 이름
+            name: "${cart.prdName}",             // 주문 상품 이름
             amount: ${cart.cCnt * cart.price + cart.prdFee },                        // 결제 금액 (필수)
 
             buyer_name: $("#ordName").val(), 		// 주문자 정보들                   
@@ -151,7 +147,8 @@
             				ordDetail: $("#ordDetail").val(),
             				ordMemo: $("#ordMemo").val(),
             				ordSum: ${cart.cCnt * cart.price + cart.prdFee },
-            				ordFee: ${cart.prdFee }
+            				ordFee: ${cart.prdFee },
+            				prdCode: "${cart.prdCode}"
             			}
             			, dataType : "Json"
             			, success: function(res) {
