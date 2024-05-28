@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import recycling.buyer.dao.face.MypageDao;
 import recycling.buyer.service.face.MypageService;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -21,12 +22,17 @@ public class MypageServiceImpl implements MypageService {
 	@Autowired private MypageDao mypageDao;
 	
 	@Override
-	public List<Map<String, Object>> selectQnaBybCode(BuyerLogin buyerLogin) {
-		return mypageDao.selectQnaBybCode(buyerLogin);
+	public List<Map<String, Object>> selectQnaBybCode(PagingAndCtg paging) {
+		return mypageDao.selectQnaBybCode(paging);
 	}
 	
 	@Override
-	public List<Map<String, Object>> selectRvwBybCode(BuyerLogin buyerLogin) {
-		return mypageDao.selectRvwBybCode(buyerLogin);
+	public List<Map<String, Object>> selectRvwBybCode(PagingAndCtg paging) {
+		return mypageDao.selectRvwBybCode(paging);
+	}
+	
+	@Override
+	public int selectCntPage(PagingAndCtg paging) {
+		return mypageDao.selectCntPage(paging);
 	}
 }
