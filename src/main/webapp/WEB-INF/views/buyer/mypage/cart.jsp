@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,24 +27,6 @@
 			}else{
 				$("#ord_form").submit();
 			}
-		    
-			/* $.ajax({
-				type: "get"
-				, url: "./pay"
-				, data: {
-					arr: arr 
-				}
-				, dataType : "Json"
-				, success: function(res) {
-					console.log("AJAX 성공");
-					
-					location.href="./pay";
-					
-				}
-				, error: function() {
-					console.log("AJAX 실패");
-				}
-			}) */
 		    
 		    console.log(arr);
 		}); // #ord_btn click end
@@ -123,47 +103,53 @@
 </script>
 </head>
 <body>
-
-	<form action="./pay" method="get" id="ord_form">
-	<table id="cartTable">
 	
-		<thead>
-			<tr>
-				<th></th>
-				<th>카트 코드</th>
-				<th>상품 이미지</th>
-				<th>상품 이름</th>
-				<th>상품 가격</th>
-				<th>배송비</th>
-				<th>수량</th>
-				<th>총 금액</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="cart" items="${list }">
-				<tr id="${cart.cCode }">
-					<td>
-						<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
-					</td>
-			 		<td>${cart.cCode }</td>
-			 		<td>${cart.storedName }</td>
-			 		<td>${cart.prdName }</td>
-			 		<td>${cart.price }</td>
-			 		<td>${cart.prdFee }</td>
-			 		<td><input type="number" min="1" class="cartCnt" value="${cart.cCnt }"></td>
-			 		<td>
-			 			${cart.cCnt * cart.price + cart.prdFee }
-			 		</td>
-			 	</tr>
-			</c:forEach>
-		 	
-	 	</tbody>
-	</table>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
-	<button type="button" id="ord_btn">주문하기</button>
-	<button type="button" id="del_btn">삭제</button>
+	<div class="full">
+		<form action="./pay" method="get" id="ord_form">
+		<table id="cartTable">
+		
+			<thead>
+				<tr>
+					<th></th>
+					<th>카트 코드</th>
+					<th>상품 이미지</th>
+					<th>상품 이름</th>
+					<th>상품 가격</th>
+					<th>배송비</th>
+					<th>수량</th>
+					<th>총 금액</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="cart" items="${list }">
+					<tr id="${cart.cCode }">
+						<td>
+							<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
+						</td>
+				 		<td>${cart.cCode }</td>
+				 		<td>${cart.storedName }</td>
+				 		<td>${cart.prdName }</td>
+				 		<td>${cart.price }</td>
+				 		<td>${cart.prdFee }</td>
+				 		<td><input type="number" min="1" class="cartCnt" value="${cart.cCnt }"></td>
+				 		<td>
+				 			${cart.cCnt * cart.price + cart.prdFee }
+				 		</td>
+				 	</tr>
+				</c:forEach>
+			 	
+		 	</tbody>
+		</table>
 	
-	</form>
+		<button type="button" id="ord_btn">주문하기</button>
+		<button type="button" id="del_btn">삭제</button>
+		
+		</form>
+		
+	</div>
 
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

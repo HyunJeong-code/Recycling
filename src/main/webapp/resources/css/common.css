@@ -1,6 +1,38 @@
 @charset "UTF-8";
 
+@font-face {
+    font-family: 'TTHakgyoansimMonggeulmonggeulR';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMonggeulmonggeulR.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
 .full {
 	width: 1200px;
 	margin: 0 auto;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000; /* 텍스트 색상 */
+}
+
+a:hover {
+	color: #4CAF50;
+}
+
+a:visitied {
+	text-decoration: none;
+    color: #000;	
 }

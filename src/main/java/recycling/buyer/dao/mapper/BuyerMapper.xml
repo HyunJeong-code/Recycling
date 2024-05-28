@@ -54,9 +54,8 @@
 		FROM buyer_adr
 		<where>
 			AND b_code = #{bCode}
-			AND adr_chk = 'Y'
 		</where>
-		ORDER BY ADR_CODE
+		ORDER BY ADR_CHK DESC
 	</select>
 	
 	<select id="selectByordCode" parameterType="String" resultType="Orders">
@@ -105,6 +104,7 @@
 			AND o.ord_code = od.ord_code
 			AND o.b_code = #{bCode}
 		</where>
+		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
 	<update id="updatecCnt" parameterType="Cart">

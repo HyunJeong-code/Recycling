@@ -13,7 +13,7 @@
 		</where>
 	</select>
 	
-	<update id="updatePw">
+	<update id="updatePw" parameterType="ManagerLogin">
 		UPDATE manager
 		SET mgr_pw = #{mgrPw }
 		<where>
@@ -21,4 +21,46 @@
 			AND mgr_id = #{mgrId } 
 		</where>
 	</update>
+	
+	<update id="updateMgr" parameterType="Manager">
+		UPDATE manager
+		SET mgr_name = #{mgrName },
+			mgr_phone = #{mgrPhone },
+			mgr_email = #{mgrEmail }
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND mgr_id = #{mgrId }
+		</where>
+	</update>
+	
+	<update id="updateMgrProf" parameterType="MgrFile">
+		UPDATE mgr_file
+		SET origin_name = #{originName }, 
+			stored_name = #{storedName }
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND mgr_flno = #{mgrFlNo }
+		</where>
+	</update>
+	
+	<select id="selectByMgr" parameterType="ManagerLogin" resultType="Manager">
+		SELECT 
+			mgr_code, deptno, mgr_id, mgr_pw, mgr_name, mgr_phone, mgr_email, 
+			TO_CHAR(mgr_birth, 'YYYY-MM-DD') mgr_birth, mgr_gender, 
+			TO_CHAR(mgr_entdate, 'YYYY-MM-DD') mgr_entdate, 
+			mgr_out, 
+			TO_CHAR(mgr_out_date, 'YYYY-MM-DD') mgr_out_date
+		FROM manager
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND mgr_id = #{mgrId }
+		</where>
+	</select>
+	
+	<select id="selectByMgrProf" parameterType="ManagerLogin" resultType="MgrFile">
+		SELECT * FROM mgr_file
+		<where>
+			AND mgr_code = #{mgrCode }
+		</where>
+	</select>
 </mapper>

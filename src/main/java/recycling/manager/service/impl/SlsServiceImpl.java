@@ -1,5 +1,7 @@
 package recycling.manager.service.impl;
 
+import java.io.Console;
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -14,20 +16,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import recycling.dto.seller.Seller;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
+import recycling.util.Paging;
 
 @Service
 public class SlsServiceImpl implements SlsService {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired private ServletContext servletContext;
-	@Autowired private SlsDao slsDao;
+	@Autowired
+	private SlsDao slsDao;
+	
+	@Autowired
+	private ServletContext servletContext;
+
+	@Override
+	public List<Seller> main(Paging paging) {
+		return slsDao.main(paging);
+	}
+
+	@Override
+	public Paging getPaging(Paging pagingParam) {
+		
+		// 총 게시글 수 조회
+		int totalCount = slsDao.getPaging();
+
+		// 페이징 계산
+		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
+
+		return paging;
+	}
 	
 	@Override
 	public  List<Map<String, Object>> selectBysChk() {
@@ -75,14 +100,14 @@ public class SlsServiceImpl implements SlsService {
 	
 	//세부사항 조회
 	@Override
-	public Exp selectDetail(Exp exp) {
+	public Exp selectDetail(String expCode) {
 		logger.info("SlsService: selectDetail");
 
 //		조회수 증감
 //		slsDao.hit(exp); //관리자 미구현
 		
 		//세부사항 조회
-		return slsDao.selectDetail(exp);
+		return slsDao.selectDetail(expCode);
 	}
 
 	//글쓰기
@@ -172,8 +197,8 @@ public class SlsServiceImpl implements SlsService {
 	//체험 수정하기
 	@Override
 	public void expUpdateProc(Exp exp) {
-		logger.info("service slsUpdate[Get]");
-		slsDao.expUpdateProc(exp);
+	    logger.info("service: expUpdateProc");
+	    slsDao.expUpdateProc(exp);
 	}
 
 	//체험예약페이지 체험정보 조회
@@ -184,23 +209,34 @@ public class SlsServiceImpl implements SlsService {
 
 	//체험예약 페이지 예약정보 조회
 	@Override
-	public List<ExpRes> expResDetailRes(ExpRes expRes) {
-		return slsDao.expResDetailRes(expRes);
+	public List<ExpRes> expResDetailRes(int schNo) {
+		return slsDao.expResDetailRes(schNo);
 	}
 
-	//체험예약 리스트 전체삭제
+	//체험단 리뷰 파일삭제
 	@Override
-	public int expListDel(List<String> chBox) {
-		int result = 0;
-		
-		for(int i = 0; i < chBox.size(); i++) {
-			String expCode = chBox.get(i);
-			logger.info("{}", expCode);
-			
-			result += slsDao.expListDel(expCode);
-		}
-		return result;
+	public int expReviewListDel(String expCode) {
+		return slsDao.expReviewListDel(expCode);
 	}
+	
+	//체험 리스트 파일삭제
+	@Override
+	public int expFileListDel(String expCode) {
+		return slsDao.expFileListDel(expCode);
+	}
+
+	//체험 리스트 스케줄삭제
+	@Override
+	public int expSchListDel(String expCode) {
+
+		return slsDao.expSchListDel(expCode);
+	}
+	//체험 리스트 전체삭제
+	@Override
+	public int expListDel(String expCode) {
+	    return slsDao.expListDel(expCode);
+	}
+	
 	
 	//디테일부분 파일 조회
 	@Override
@@ -209,29 +245,115 @@ public class SlsServiceImpl implements SlsService {
 	}
 
 	//예약 버튼에 따른 상태변경
-	@Override
-	public int expResUpdate(List<String> chBox, String actionType) {
+		@Override
+		public int expResUpdate(List<String> chBox, String actionType) {
 
+			int result = 0;
+			
+			for(int i = 0; i < chBox.size(); i++) {
+				String resCode = chBox.get(i);
+				
+		        if ("complete".equals(actionType)) {
+		        	 // 예약완료 메서드 호출
+		            result += slsDao.expResCnf(resCode);
+		   
+		        } else if ("cancel".equals(actionType)) {
+		        
+		        	// 예약취소 메서드 호출
+		            result += slsDao.expResCnl(resCode); 
+		        }
+			}
+			
+			return result;
+			
+		}
+
+	//체험 예약조회
+	@Override
+	public ExpSch selectExpSchbySchNo(int schNo) {
+		return slsDao.selectExpSchbySchNo(schNo);
+	}
+
+	//체험 예약,인원 조인
+	@Override
+	public List<ResSchCnt> selectByResCnt(String expCode) {
+		logger.info("ResSchCnt : service[Get]");
+		
+		
+		return slsDao.selectByResCnt(expCode);
+		
+	}
+
+	//체험단 예약인원 예약변경창
+	@Override
+	public ResSchCnt changeExpRes(ResSchCnt resSchCnt) {
+		return slsDao.changeExpRes(resSchCnt);
+	}
+
+	//체험단 예약인원
+	@Override
+	public List<ExpSch> changeExpSch() {
+		
+		return slsDao.changeExpSch();
+	}
+	
+	@Override
+	public void changeExpResProc(ResSchCnt resSchCnt) {
+
+		
+		slsDao.changeExpResProc(resSchCnt);
+	}
+
+	//인원변경
+	@Override
+	public int cntChangeUpdate(ExpSch expSch) {
+		
+		return slsDao.cntChangeUpdate(expSch);
+	}
+
+	@Override
+	public int getTotalResCnt(ExpSch expSch) {
+		return slsDao.getTotalResCnt(expSch);
+	}
+
+	@Override
+	public int expResDetailListDel(List<String> chBox) {
 		int result = 0;
 		
 		for(int i = 0; i < chBox.size(); i++) {
 			String resCode = chBox.get(i);
+			logger.info("{}", resCode);
 			
-	        if ("complete".equals(actionType)) {
-	        	 // 예약완료 메서드 호출
-	            result += slsDao.expResCnf(resCode);
-	   
-	        } else if ("cancel".equals(actionType)) {
-	        
-	        	// 예약취소 메서드 호출
-	            result += slsDao.expResCnl(resCode); 
-	        }
+			result += slsDao.expResDetailListDel(resCode);
 		}
-		
 		return result;
 	}
-	
+
+	//expdetail페이지 삭제기능
 	@Override
-	public void insert(Exp exp, ExpSch expSch, MultipartFile file) {}
+	public int expDetailListDel(List<String> chBox) {
+
+		int res = 0;
+			
+			for(int i = 0; i < chBox.size(); i++) {
+				String schNo = chBox.get(i);
+				
+				int resCnt = slsDao.getResCntBySchNo(schNo);
+				
+				if (resCnt != 0) {
+					//내부에 인원이 존재하는 경우 삭제 불가능	        		
+					return -1;
+				}
+		        //예약 내부에 인원이 존재할경우 삭제수행
+		        res += slsDao.expDetailListDel(schNo);
+		        
+			}//for
+			return res;
+	}	
+	//판매자 기업조회기능
+	@Override
+	public List<Map<String, Object>> sellerSelect(String getbCode) {
+		return slsDao.sellerSelect(getbCode);
+	}
 
 }//main
