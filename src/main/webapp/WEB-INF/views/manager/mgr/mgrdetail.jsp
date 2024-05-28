@@ -6,11 +6,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../../../resources/css/common.css">
-<link rel="stylesheet" href="../../../resources/css/input.css">
+<link rel="stylesheet" href="/webapp/resources/css/common.css">
+<link rel="stylesheet" href="/webapp/resources/css/input.css">
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
+	
+	$("#update").click(function() {
+		console.log("deptno : " + $("#detpno").val());
+		
+		if($("#detpno").val() === 'CEO') {
+			$("#detpno").val(10);
+		} else if ($("#detpno").val() === '인사팀') {
+			$("#detpno").val(20);
+		} else if($("#detpno").val() === '판매제휴팀') {
+			$("#detpno").val(30);			
+		} else {
+			$("#detpno").val(40);						
+		}
+	})
 	
 	// 핸드폰 번호 처리
 	var mgrPhone = "${manager.mgrPhone}".split("-");
@@ -59,17 +74,96 @@ $(function() {
 		}
 	})
 	
-	$("#update").click(function() {
-		console.log("deptno : " + $("#detpno").val());
-		
-		if($("#detpno").val() === 'CEO') {
-			$("#detpno").val(10);
-		} else if ($("#detpno").val() === '인사팀') {
-			$("#detpno").val(20);
-		} else if($("#detpno").val() === '판매제휴팀') {
-			$("#detpno").val(30);			
+	// 핸드폰 번호
+	$("#sPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
 		} else {
-			$("#detpno").val(40);						
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	// 핸드폰 번호 직접 입력
+	$("#inPhone").hide();
+	
+	$("#sPhone").change(function() {
+		if($("#sPhone").val() === "in") {
+			$("#inPhone").show();		
+			$("#sPhone").hide();		
+		} else {
+			$("#inPhone").hide();				
+			$("#sPhone").show();		
+		}		
+	})
+	
+	$("#sPhone").blur(function() {
+		if($("#sPhone").val() === 'in' && $("#inPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	$("#mPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	$("#lPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	// 이름
+	$("#mgrName").blur(function() {
+		if($("#mgrName").val() == '') {
+			$("#name").css("display", "block");
+		} else {
+			$("#name").css("display", "none");			
+		}
+	})
+	
+	// 이메일
+	$("#bEmail").blur(function() {
+		if($("#bEmail").val() == '') {
+			$("#email").css("display", "block");	
+		} else {
+			$("#email").css("display", "none");
+		}
+	})
+	
+	// 이메일 직접 입력
+	$("#inEmail").hide();
+	
+	$("#bEmail2").change(function() {
+		if($("#bEmail2").val() === "in") {
+			$("#inEmail").show();
+			$("#bEmail2").hide();
+		} else {
+			$("#inEmail").hide();
+			$("#bEmail2").show();
+		}
+	})
+	
+	$("#bEmail2").blur(function() {
+		if($("#bEmail2").val() == '') {
+			$("#email").css("display", "block");				
+		} else {
+			$("#email").css("display", "none");			
+		}
+	})
+	
+	$("#bEmail2").blur(function() {
+		if($("#bEmail2").val() === 'in' || $("#inEmail").val() == '') {
+			$("#email").css("display", "block");				
+		} else {
+			$("#email").css("display", "none");			
 		}
 	})
 })
@@ -123,6 +217,7 @@ $(function() {
 				
 				<label for="mgrName">이름</label>	
 				<input type="text" class="m" id="mgrName" name="mgrName" value="${manager.mgrName }"><br>
+				<div id="name" style="display:none; color:red;">이름은 필수입니다.</div>	
 				
 				<label for="sPhone">핸드폰 번호</label>
 				<select class="sPhone" id="sPhone" name="sPhone">
@@ -133,6 +228,7 @@ $(function() {
 					<option value="in">직접 입력</option>
 				</select>
 				<input type="text" class="s" id="inPhone" name="inPhone">-<input type="text" class="s" id="mPhone" name="mPhone">-<input type="text" class="s" id="lPhone" name="lPhone"><br>
+				<div id="phone" style="display:none; color:red;">핸드폰 번호는 필수입니다.</div>
 				
 				<label for="mgrBirth">생년월일</label>
 				<input type="date" id="mgrBirth" name="mgrBirth" value="${manager.mgrBirth }" readonly="readonly"><br>
@@ -157,6 +253,7 @@ $(function() {
 					<option value="in">직접 입력</option>
 				</select>
 				<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">		
+				<div id="email" style="display:none; color:red;">이메일은 필수입니다.</div>		
 			</div>
 				
 				

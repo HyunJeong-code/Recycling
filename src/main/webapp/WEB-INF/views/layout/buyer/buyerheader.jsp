@@ -13,19 +13,18 @@
 
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+$(function(){
 
-    <script type="text/javascript">
-        $(function(){
-        
-            $('.menu, .sub-wrap').on('mouseover', function(){
-                $(".sub-wrap").stop().slideDown(200);
-            });
+    $('.menu, .sub-wrap').on('mouseover', function(){
+        $(".sub-wrap").stop().slideDown(200);
+    });
 
-            $('.menu, .sub-wrap').on('mouseleave', function(){
-                $(".sub-wrap").stop().slideUp(200);
-            });
+    $('.menu, .sub-wrap').on('mouseleave', function(){
+        $(".sub-wrap").stop().slideUp(200);
+    });
 
-        });
+});
  </script>
     
     
@@ -82,13 +81,12 @@
         <div class="container">
             <div class="nav-ul menu">
                 <ul class="menu-ul">
-                    <li class="selected"><a href="">홈</a></li>
-                    <li><a href="">재활용품</a></li>
-                    <li><a href="">업사이클링</a></li>
-                    <li><a href="">세척업체 소개</a></li>
-                    <li><a href="">체험단</a></li>
-                    <li><a href="">고객센터</a></li>
-                    <li><a href="">회사소개</a></li>
+                    <li class="selected"><a href="/buyer/main">홈</a></li>
+                    <li><a href="/buyer/upcycling/main">재활용품</a></li>
+                    <li><a href="/buyer/recycling/main">업사이클링</a></li>
+                    <li><a href="/buyer/exp/main">체험단</a></li>
+                    <li><a href="/buyer/help/main">고객센터</a></li>
+                    <li><a href="/buyer/about/info">회사소개</a></li>
                 </ul>
             </div>
         </div>

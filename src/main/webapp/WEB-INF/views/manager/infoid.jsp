@@ -18,12 +18,13 @@
 		<c:set var="bId" value="${bId }"/>
 			<c:if test="${bId eq null }">
 				<p>회원 정보와 일치하는 아이디가 없습니다.</p>
-				<button><a href="./findid">돌아가기</a></button>
+				<button><a href="/buyer/findid">아이디 찾기</a></button>
 			</c:if>
 			
 			<c:if test="${bId ne null }">
 				<p>회원님의 아이디는 [ ${bId } ] 입니다.</p>
-				<button><a href="./findpw">비밀번호 찾기</a></button>
+				<button><a href="/buyer/login">로그인</a></button>
+				<button><a href="/buyer/findpw">비밀번호 찾기</a></button>
 			</c:if>
 		</div>
 	</div>
