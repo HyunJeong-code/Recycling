@@ -190,22 +190,13 @@ public interface BuyerDao {
 	public BuyerRank selectBuyerRank(int rankNo);
 
 	public int changePw(BuyerLogin buyerLogin);
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	/**
 	 * 판매자 찾기
 	 * 
 	 * @param sCode
 	 * @return
 	 */
-<<<<<<< HEAD
 	public List<Seller> findSeller(String sCode);
 
 }
-=======
-	List<Seller> findSeller(String sCode);
-}
->>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231

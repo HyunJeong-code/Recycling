@@ -20,16 +20,12 @@ public interface RecyclingDao {
 	 * @param sCode
 	 * @return
 	 */
-<<<<<<< HEAD
 	public List<Seller> findSeller();
-=======
-	List<Seller> findSeller();
-	
->>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	public List<Prd> selectPrdList();
 
 	public Prd selectPrd(String prdCode);
 
+	public Seller selectSeller(String getsCode);
 	public SellerProf selectSellerProfByCode(String sCode);
 
 	public SellerQST selectSellerQST(String qstCode);

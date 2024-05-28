@@ -72,7 +72,7 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	        logger.info("selectRvwList() - UpcyReview: {}", upcyReview);
 	    }
 		
-		return upcyclingDao.selectRvwList(prdCode);
+		return upcyReviewList;
 	}
 
 	@Override
@@ -98,17 +98,20 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		upcyReview.setUpcyContent(upcyContent);
 		
 		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
+		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
 	}
 
 	@Override
 	public void updateReview(String upcyCode, String upcyContent) {
 		upcyclingDao.updateReview(upcyCode, upcyContent);
+		logger.info("updateReview() - UpcyReview updated: upcyCode={}, upcyContent={}", upcyCode, upcyContent);
 	}
 
 	
 	@Override
 	public void deleteReview(String upcyCode) {
 		upcyclingDao.deleteReview(upcyCode);
+		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
 	}
 
 

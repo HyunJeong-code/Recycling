@@ -16,7 +16,6 @@
 		<spring.security.version>5.8.11</spring.security.version>
 	</properties>
 	
-<<<<<<< HEAD
 <!-- 	<dependencyManagement> -->
 <!-- 	  <dependencies> -->
 <!-- 	    <dependency> -->
@@ -30,8 +29,6 @@
 <!-- 	  </dependencies> -->
 <!-- 	</dependencyManagement> -->
 	
-=======
->>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 	<dependencies>
 		<!-- json -->
 	    <dependency>
@@ -186,7 +183,6 @@
         </dependency>
 				
 		<!-- 오라클 클라우드 버킷 -->
-<<<<<<< HEAD
 <!-- 		<dependency> -->
 <!-- 			Since this is the "application" pom.xml, choose the httpclient to use. -->
 <!-- 			<groupId>com.oracle.oci.sdk</groupId> -->
@@ -281,69 +277,6 @@
 <!-- 	  		<artifactId>jersey-media-json-jackson</artifactId> -->
 <!-- 	  		<version>2.34</version> -->
 <!-- 	  	</dependency> -->
-=======
-		<dependency>
-		  	<groupId>com.oracle.oci.sdk</groupId>
-		  	<artifactId>oci-java-sdk-workrequests</artifactId>
-		  	<version>2.8.1</version>
-		</dependency>
-        <dependency>
-		  	<groupId>com.oracle.oci.sdk</groupId>
-		  	<artifactId>oci-java-sdk-filestorage</artifactId>
-		  	<version>2.8.1</version>
-		</dependency>
-		<dependency>
-		  	<groupId>com.oracle.oci.sdk</groupId>
-		  	<artifactId>oci-java-sdk-audit</artifactId>
-		  	<version>2.8.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle.oci.sdk</groupId>
-			<artifactId>oci-java-sdk-core</artifactId>
-			<version>2.8.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle.oci.sdk</groupId>
-			<artifactId>oci-java-sdk-database</artifactId>
-			<version>2.8.1</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.oracle.oci.sdk</groupId>
-		    <artifactId>oci-java-sdk-common</artifactId>
-		    <version>2.8.1</version>
-	  	</dependency>
-		<dependency>
-		    <groupId>com.oracle.oci.sdk</groupId>
-		    <artifactId>oci-java-sdk-objectstorage-generated</artifactId>
-		    <version>2.8.1</version>
-	  	</dependency>
-	  	
-	  	<dependency>
-	  		<groupId>org.glassfish.jersey.core</groupId>
-	  		<artifactId>jersey-client</artifactId>
-	  		<version>2.34</version>
-	  	</dependency>
-	  	<dependency>
-	  		<groupId>org.glassfish.jersey.core</groupId>
-	  		<artifactId>jersey-common</artifactId>
-	  		<version>2.34</version>
-	  	</dependency>
-	  	<dependency>
-	  		<groupId>org.glassfish.jersey.ext</groupId>
-	  		<artifactId>jersey-entity-filtering</artifactId>
-	  		<version>2.34</version>
-	  	</dependency>
-	  	<dependency>
-	  		<groupId>org.glassfish.jersey.inject</groupId>
-	  		<artifactId>jersey-hk2</artifactId>
-	  		<version>2.34</version>
-	  	</dependency>
-	  	<dependency>
-	  		<groupId>org.glassfish.jersey.media</groupId>
-	  		<artifactId>jersey-media-json-jackson</artifactId>
-	  		<version>2.34</version>
-	  	</dependency>
->>>>>>> 6658305de9ba193b447276c42d2b25f3b0299231
 		
 		<!-- AspectJ -->
 		<dependency>
@@ -467,6 +400,17 @@
                 <version>1.2.1</version>
                 <configuration>
                     <mainClass>org.test.int1.Main</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <warName>sample</warName>
+ 
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>

@@ -203,7 +203,7 @@
 			</div>
 			
 			<div class="prdInfo">
-				<p class="prdName">${prd.prdName}</p>]
+				<p class="prdName">${prd.prdName}</p>
 				<hr>
 				<p class="prdPrice">${prd.price}<p>
 				<hr>
@@ -219,7 +219,7 @@
 			<div id="btn-section2" class="navBtn" onclick="scrollToSection('section2')">판매자 정보</div>
 			<div id="btn-section3" class="navBtn" onclick="scrollToSection('section3')">거래위치 정보</div>
 			<div id="btn-section4" class="navBtn" onclick="scrollToSection('section4')">상품평</div>
-			<div id="btn-section5" class="navBtn" onclick="scrollToSection('section5')">상품문의</div>
+			<!-- <div id="btn-section5" class="navBtn" onclick="scrollToSection('section5')">상품문의</div> -->
 		</div>
 		
 		<div id="section1" class="section">
@@ -268,10 +268,10 @@
 			</div>
 		</div>
 		
-		<div id="section5" class="section">
+<!-- 		<div id="section5" class="section">
 			<h3>상품문의</h3>
 			<p>상품문의 내용</p>
-		</div>
+		</div> -->
 		
 	</div>
 
