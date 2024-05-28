@@ -1,13 +1,10 @@
 package recycling.buyer.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,6 +121,10 @@ public class ExpController {
 			selType = "기업";
 		}
 		
+		//체험단 후기
+		
+		
+		
 		model.addAttribute("exp", exp);
 		model.addAttribute("expFiles", expFiles);
 		model.addAttribute("seller", seller);
@@ -134,74 +135,104 @@ public class ExpController {
 		
 	}
 	
-	@GetMapping("/exprvwlist")
-	public void expRvwList() {
-		
-	}
 	
-	@GetMapping("/exprvwdetail")
-	public void expRvwDetail() {
-		
-	}
-	
-	//여기부터 시작
+	//체험단 작성폼
 	@GetMapping("/expresform")
 	public void expResForm(
 			String expCode,
+			Authentication authentication,
 			Model model
 			) {
-//        List<ExpSch> expSchedules = expService.getExpSchedules(expCode);
+		//구매자 로그인 세션 정보
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		Buyer buyer = expService.getBuyerDetail(buyerLogin.getbId());
+		
+		//체험 일정 리스트
+        List<ExpSch> expSchList = expService.getExpSchList(expCode);
+        logger.info("expSchList: {}", expSchList);
         
-//        model.addAttribute("expSchedules", expSchedules);
+        //체험단 체험비
+        Exp exp = expService.selectByExpCode(expCode);
+        int resPrice = exp.getExpPrice();
+        
+		model.addAttribute("buyer", buyer);
+        model.addAttribute("expSchList", expSchList);
+        model.addAttribute("resPrice", resPrice);
 	}
 	
+	//체험단 작성폼
 	@PostMapping("/expresform")
 	public String expResFormProc(
-			Authentication authentication,
-			@RequestParam("schTime") List<String> schTime,
-			Buyer buyer,
-			int schNo,
-			Exp exp,
-			String resName,
-			String resPhone,
-			int resCnt,
-			Model model
-			) {
+	        Authentication authentication,
+	        Buyer buyer,
+	        int schNo,
+	        int resCnt,
+	        String resDate,
+	        String resTime,
+	        Model model
+	        ) {
 		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		logger.info("buyerLogin : {}", buyerLogin);
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
-		}
-		
-		buyer = expService.getBuyerDetail(buyerLogin.getbId());
-		
-//		ExpSch expSch = expService.getExpScheduleById(schNo);
-//        if (expSch.getSchCnt() < resCnt) {
-//            model.addAttribute("error", "예약 가능한 인원수를 초과했습니다.");
-//            return "buyer/exp/expresform";
-//        }
-		
-        ExpRes expRes = new ExpRes();
-        expRes.setResCode(UUID.randomUUID().toString());
-        expRes.setbCode(buyer.getbCode());
-        expRes.setSchNo(schNo);
-        expRes.setResName(resName);
-        expRes.setResPhone(resPhone);
-        expRes.setResCnt(resCnt);
-//        expRes.setResDate(new Date());
-        
-//        expService.saveExpRes(expRes);
-//        expService.updateExpSchCnt(schNo, expSch.getSchCnt() - resCnt);
-		
-		model.addAttribute("buyer", buyer);
-		
-		
-		return "redirect:/buyer/exp/expdetail";
+	    //구매자 로그인 세션 정보
+	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	    logger.info("buyerLogin : {}", buyerLogin);
+	    
+	    if (buyerLogin == null) {
+	        model.addAttribute("error", "로그인 해주세요.");
+	        return "redirect:/buyer/login";
+	    }
+	    
+	    buyer = expService.getBuyerDetail(buyerLogin.getbId());
+	    
+	    //체험 일정번호 일치하는 인원수
+	    ExpSch expSch = expService.getExpSch(schNo);
+	    
+	    if (expSch.getSchCnt() < resCnt) {
+	        model.addAttribute("error", "예약 가능한 인원수를 초과했습니다.");
+	        return "buyer/exp/expresform";
+	    }
+	    
+	    //체험 예약 시 총 가격
+	    Exp exp = expService.selectByExpCode(expSch.getExpCode());
+	    int resPrice = exp.getExpPrice();
+	    int resSum = resCnt * resPrice;
+	    
+	    //체험예약
+	    ExpRes expRes = new ExpRes();
+	    expRes.setbCode(buyer.getbCode());
+	    expRes.setSchNo(expSch.getSchNo());
+	    expRes.setResName(buyer.getbName());
+	    expRes.setResPhone(buyer.getbPhone());
+	    expRes.setResEmail(buyer.getbEmail());
+	    expRes.setResExpName(exp.getExpName());
+	    expRes.setResCnt(resCnt);
+	    expRes.setResPrice(resPrice);
+	    expRes.setResSum(resSum);
+	    expRes.setResDate(expSch.getSchDate());
+	    expRes.setResTime(expSch.getSchTime());
+	    
+	    String res_pay = "Card";
+	    String res_cnf = "N";
+	    String res_cnl = "N";
+	    String res_dt = "Test data for reservation 1";
+	    
+	    expRes.setResPay(res_pay);
+	    expRes.setResCnf(res_cnf);
+	    expRes.setResCnl(res_cnl);
+	    expRes.setResDt(res_dt);
+	    
+	    logger.info("expRes : {}", expRes);
+	    
+	    //db삽입, 인원수 update
+	    expService.insertExpRes(expRes);
+	    expService.updateExpSchCnt(schNo, resCnt);
+	    
+	    model.addAttribute("expRes", expRes);
+	    model.addAttribute("buyer", buyer);
+	    model.addAttribute("exp", exp);
+	    model.addAttribute("resSum", resSum);
+	    model.addAttribute("resPrice", resPrice); // resPrice를 모델에 추가
+
+	    return "redirect:/buyer/exp/main";
 	}
+
 }
