@@ -8,8 +8,101 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
+	// 이름
+	$("#mgrName").blur(function() {
+		if($("#mgrName").val() == '') {
+			$("#name").css("display", "block");
+		} else {
+			$("#name").css("display", "none");			
+		}
+	})
+	
+	// 핸드폰 번호
+	$("#sPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	// 핸드폰 번호 직접 입력
+	$("#inPhone").hide();
+	
+	$("#sPhone").change(function() {
+		if($("#sPhone").val() === "in") {
+			$("#inPhone").show();		
+			$("#sPhone").hide();		
+		} else {
+			$("#inPhone").hide();				
+			$("#sPhone").show();		
+		}		
+	})
+	
+	$("#sPhone").blur(function() {
+		if($("#sPhone").val() === 'in' && $("#inPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	$("#mPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	$("#lPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	// 이메일
+	$("#mgrEmail").blur(function() {
+		if($("#mgrEmail").val() == '') {
+			$("#email").css("display", "block");	
+		} else {
+			$("#email").css("display", "none");
+		}
+	})
+	
+	// 이메일 직접 입력
+	$("#inEmail").hide();
+	
+	$("#mgrEmail2").change(function() {
+		if($("#mgrEmail2").val() === "in") {
+			$("#inEmail").show();
+			$("#mgrEmail2").hide();
+		} else {
+			$("#inEmail").hide();
+			$("#mgrEmail2").show();
+		}
+	})
+	
+	$("#mgrEmail2").blur(function() {
+		if($("#mgrEmail2").val() == '') {
+			$("#email").css("display", "block");				
+		} else {
+			$("#email").css("display", "none");			
+		}
+	})
+	
+	$("#mgrEmail2").blur(function() {
+		if($("#mgrEmail2").val() === 'in' || $("#inEmail").val() == '') {
+			$("#email").css("display", "block");				
+		} else {
+			$("#email").css("display", "none");			
+		}
+	})
+	
 	$("#btnEmail").click(function() {
-		var email = $('#bEmail').val() + $('#bEmail2').val();
+		var email = $('#mgrEmail').val() + $('#mgrEmail2').val();
 		console.log("이메일 : " + email);
 		var emailNum = $("#emailNum")
 		
@@ -61,6 +154,7 @@ $(function() {
 				<div>
 					<label for="mgrName">이름</label>
 					<input type="text" id="mgrName" name="mgrName"><br>
+					<div id="name" >이름을 입력해주세요.</div>
 					
 					<label for="mgrPhone">핸드폰 번호</label>
 					<input type="text" id="mgrPhone" name="mgrPhone">-<input type="text" id="mPhone" name="mPhone">-<input type="text" id="lPhone" name="lPhone">

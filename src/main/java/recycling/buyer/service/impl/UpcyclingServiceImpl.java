@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.UpcyclingDao;
 import recycling.buyer.service.face.UpcyclingService;
@@ -17,6 +18,7 @@ import recycling.dto.seller.Seller;
 import recycling.dto.seller.SellerProf;
 
 @Service
+@Transactional
 public class UpcyclingServiceImpl implements UpcyclingService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

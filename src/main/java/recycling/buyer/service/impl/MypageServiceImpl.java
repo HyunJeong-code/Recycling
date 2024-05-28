@@ -7,12 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.MypageDao;
 import recycling.buyer.service.face.MypageService;
 import recycling.dto.buyer.BuyerLogin;
 
 @Service
+@Transactional
 public class MypageServiceImpl implements MypageService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

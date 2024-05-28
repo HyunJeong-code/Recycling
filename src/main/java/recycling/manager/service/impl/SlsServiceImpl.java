@@ -1,7 +1,5 @@
 package recycling.manager.service.impl;
 
-import java.io.Console;
-import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -14,29 +12,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.seller.Seller;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Seller;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
 import recycling.util.Paging;
 
 @Service
+@Transactional
 public class SlsServiceImpl implements SlsService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	private SlsDao slsDao;
+	@Autowired private ServletContext servletContext;
+	@Autowired private SlsDao slsDao;
 	
-	@Autowired
-	private ServletContext servletContext;
-
 	@Override
 	public List<Seller> main(Paging paging) {
 		return slsDao.main(paging);
@@ -54,6 +51,37 @@ public class SlsServiceImpl implements SlsService {
 		return paging;
 	}
 	
+	@Override
+	public  List<Map<String, Object>> selectBysChk() {
+		return slsDao.selectBysChk();
+	}
+	
+	@Override
+	public String selectBysCode(String sCode) {
+		return slsDao.selectBysCode(sCode);
+	}
+	
+	@Override
+	public Map<String, Object> selectPriSeller(String bCode) {
+		return slsDao.selectPriSeller(bCode);
+	}
+	
+	@Override
+	public Map<String, Object> selectCmpSeller(String bCode) {
+		return slsDao.selectCmpSeller(bCode);
+	}
+	
+	@Override
+	public int selectCntRpt(String sCode) {
+		return slsDao.selectCntRpt(sCode);
+	}
+	
+	@Override
+	public int selectCntOrd(String sCode) {
+		return slsDao.selectCntOrd(sCode);
+	}
+	
+	//전체조회
 	@Override
 	public  List<Map<String, Object>> selectBysChk() {
 		return slsDao.selectBysChk();
@@ -355,5 +383,11 @@ public class SlsServiceImpl implements SlsService {
 	public List<Map<String, Object>> sellerSelect(String getbCode) {
 		return slsDao.sellerSelect(getbCode);
 	}
+
+
+
+
+
+
 
 }//main
