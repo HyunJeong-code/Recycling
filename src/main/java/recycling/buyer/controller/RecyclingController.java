@@ -24,7 +24,6 @@ import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
 import recycling.dto.seller.SellerQST;
 
 // 메뉴 - 재활용품
@@ -94,11 +93,9 @@ public class RecyclingController {
 		}
 		
 		Seller seller = recyclingService.selectSeller(prd.getsCode());
-		SellerProf sellerProf = recyclingService.getSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
-		model.addAttribute("sellerProf", sellerProf);
 		
 		return "buyer/recycling/rcydetail";
 	}
@@ -121,6 +118,7 @@ public class RecyclingController {
 	@PostMapping("/write")
 	public String insertSellerQST(SellerQST sellerQST, RedirectAttributes redirectAttributes) {
 		logger.info("/buyer/recycling/write [POST]");
+		
 		
 		int result = recyclingService.insertSellerQST(sellerQST);
 		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());

@@ -10,9 +10,9 @@ public class SellerQST {
     private String bCode;	// 구매자 코드
     private String qstTitle;	// 제목
     private String qstContent;	// 내용
-    private String qstName;		// 이름 (구매자 정보 연동, 수정 가능)
-    private String qstEmail;	// 이메일 (구매자 정보 연동, 수정 가능)
-    private Date qstDate;		// 작성일 (수정시 최신화)
+    private String qstName;		// 이름
+    private String qstEmail;	// 이메일
+    private Date qstDate;		// 작성일
     private int qstHit;			// 조회수
     
     public SellerQST() {

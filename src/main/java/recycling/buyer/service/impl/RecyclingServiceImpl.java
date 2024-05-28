@@ -12,7 +12,6 @@ import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Seller;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
 import recycling.dto.seller.SellerQST;
 
 @Service
@@ -60,10 +59,6 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.selectSeller(getsCode);
 	}
 	
-	@Override
-	public SellerProf getSellerProf(String sCode) {
-		return recyclingDao.selectSellerProfByCode(sCode);
-	}
 
 
 	@Override

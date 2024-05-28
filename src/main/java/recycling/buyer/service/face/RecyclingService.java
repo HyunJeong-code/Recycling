@@ -39,14 +39,7 @@ public interface RecyclingService {
 	 */
 	public Seller selectSeller(String getsCode);
 
-	/**
-	 * 판매자 상세 프로필을 가져오는 코드
-	 * 
-	 * @param	getsCode 프라이머리키인 sCode
-	 * @return	판매자 상세 정보
-	 */
-	public SellerProf getSellerProf(String sCode);
-
+	
 	/**
 	 * 판매자 문의 코드를 통해서 판매자 문의 불러오기
 	 * 

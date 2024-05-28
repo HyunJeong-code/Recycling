@@ -233,10 +233,10 @@
 				<div class="seller-section">
 					
 					<%-- <img src="${sellerProf.storedName}" alt="${sellerProf.originName}" class="seller-photo"> --%>
-					<p>아이디: ${sellerProf.sCode}</p>
-					<p>등급: ${sellerProf.tierName}</p>
-					<p>평점: ${sellerProf.sRating}/10</p>
-					<p>총 거래 횟수: ${sellerProf.totalTransaction}</p>
+					<p>아이디: ${seller.sCode}</p>
+					<p>등급: ${seller.sTier}</p>
+					<p>평점: ${seller.sRating}/10</p>
+					<p>총 거래 횟수: ${seller.totalTransaction}</p>
 				</div>
 			</div>
 		</div>

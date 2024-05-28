@@ -4,7 +4,6 @@ import java.util.List;
 
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
 import recycling.dto.seller.SellerQST;
 
 // 재활용품 관련 DB 처리
@@ -26,7 +25,6 @@ public interface RecyclingDao {
 	public Prd selectPrd(String prdCode);
 
 	public Seller selectSeller(String getsCode);
-	public SellerProf selectSellerProfByCode(String sCode);
 
 	public SellerQST selectSellerQST(String qstCode);
 
