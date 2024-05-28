@@ -142,7 +142,6 @@ public class BuyerController {
 			Authentication authentication
 			, @RequestParam List<String> checkList
 			, Model model
-			, HttpSession session
 			) {
 		//logger.info("checkList : {}", checkList);
 		
