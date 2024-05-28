@@ -190,6 +190,7 @@ public interface BuyerDao {
 	public BuyerRank selectBuyerRank(int rankNo);
 
 	public int changePw(BuyerLogin buyerLogin);
+	
 	/**
 	 * 판매자 찾기
 	 * 
@@ -198,4 +199,3 @@ public interface BuyerDao {
 	 */
 	public List<Seller> findSeller(String sCode);
 }
-
