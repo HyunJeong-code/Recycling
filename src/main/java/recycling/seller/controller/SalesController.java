@@ -12,4 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SalesController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	
+	
 }
