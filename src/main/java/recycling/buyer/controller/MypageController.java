@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.MypageService;
 import recycling.buyer.service.face.PageService;
+import recycling.buyer.service.impl.PageServiceImpl;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.util.PagingAndCtg;
 
@@ -26,7 +27,7 @@ public class MypageController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private MypageService mypageService;
-	@Autowired private PageService pageService;
+	@Autowired private recycling.page.face.PageService pageService;
 	
 	@GetMapping("/myboard")
 	public void myMain(
