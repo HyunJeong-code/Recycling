@@ -31,6 +31,7 @@ public class MypageController {
 				Authentication authentication,
 				@RequestParam(defaultValue = "0") int curPage,
 				@RequestParam(defaultValue = "") String search,
+				@RequestParam(defaultValue = "") String sCtg,
 				Model model
 			) {
 		logger.info("/buyer/mypage/myboard [GET]");
@@ -39,33 +40,67 @@ public class MypageController {
 		logger.info("buyerLogin : {}", buyerLogin);
 		
 		// 문의글 페이지 수 계산
-		PagingAndCtg paging = new PagingAndCtg();
-		paging.setCurPage(curPage);
-		paging.setSearch(search);
-		paging.setUser(buyerLogin.getbCode());
+		PagingAndCtg upPaging = new PagingAndCtg();
+		PagingAndCtg unPaging = new PagingAndCtg();
 		
-		int page = mypageService.selectCntPage(paging);
-		paging = new PagingAndCtg(page, paging.getCurPage(), paging.getSearch());
+		logger.info("sCtg : {}", sCtg);
+		if(sCtg.equals("Q")) {
+			upPaging.setCurPage(curPage);
+			upPaging.setSearch(search);
+			upPaging.setUser(buyerLogin.getbCode());
+			
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
+			unPaging.setUser(buyerLogin.getbCode());								
+		} else if(sCtg.equals("R")){
+			unPaging.setCurPage(curPage);
+			unPaging.setSearch(search);
+			unPaging.setUser(buyerLogin.getbCode());					
+			
+			upPaging.setCurPage(0);
+			upPaging.setSearch("");
+			upPaging.setUser(buyerLogin.getbCode());
+		} else {
+			upPaging.setCurPage(0);
+			upPaging.setSearch("");
+			upPaging.setUser(buyerLogin.getbCode());
+			
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
+			unPaging.setUser(buyerLogin.getbCode());								
+		}
 		
-		logger.info("paging : {}", paging);
-		paging.setUser(buyerLogin.getbCode());
 		
-		List<Map<String, Object>> qna = mypageService.selectQnaBybCode(paging);
+		int upPage = mypageService.selectCntQna(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+		upPaging.setUser(buyerLogin.getbCode());
+		
+		List<Map<String, Object>> qna = mypageService.selectQnaBybCode(upPaging);
 		logger.info("QNA : {}", qna);
 		logger.info("QNA : {}", qna.size());
-		logger.info("page : {}", paging);
+		logger.info("uppage : {}", upPaging);
 		
-		model.addAttribute("paging", paging);
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("qna", qna);
 		model.addAttribute("qnaSize", qna.size());
-		model.addAttribute("search", search);
-		model.addAttribute("url", "/buyer/mypage/myboard");
+		model.addAttribute("upUrl", "/buyer/mypage/myboard");
 		
-		List<Map<String, Object>> rvw = mypageService.selectRvwBybCode(paging);
+		int unPage = mypageService.selectCntRvw(unPaging);
+		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
+		
+		logger.info("unPaging : {}", unPaging);
+		unPaging.setUser(buyerLogin.getbCode());
+		
+		List<Map<String, Object>> rvw = mypageService.selectRvwBybCode(unPaging);
 		logger.info("RVW : {}", rvw);
 		logger.info("RVW : {}", rvw.size());
+		logger.info("unpage : {}", unPaging);
 		
 		model.addAttribute("rvw", rvw);
 		model.addAttribute("rvwSize", rvw.size());
+		model.addAttribute("unPaging", unPaging);
+		model.addAttribute("unUrl", "/buyer/mypage/myboard");
 	}
 }

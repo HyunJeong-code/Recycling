@@ -42,17 +42,25 @@
 	
 	<select id="selectRvwBybCode" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
 		SELECT * FROM (
-		    SELECT '체험단' ctg, rvw_code code, b_code bcode, exp_code rvw, rvw_grade grade, rvw_content content, rvw_date entdate FROM exp_review
-		    UNION ALL
-		    SELECT '새활용' ctg, upcy_code code, b_code bcode, prd_code rvw, upcy_grade grade, upcy_content content, upcy_date entdate FROM upcy_review
+			SELECT rownum no, RVW.*  FROM (
+				SELECT * FROM (
+				    SELECT '체험단' ctg, rvw_code code, b_code bcode, exp_code rvw, rvw_grade grade, rvw_content content, rvw_date entdate FROM exp_review
+				    UNION ALL
+				    SELECT '새활용' ctg, upcy_code code, b_code bcode, prd_code rvw, upcy_grade grade, upcy_content content, upcy_date entdate FROM upcy_review
+				)
+				<where>
+					AND bcode = #{user }
+					AND content LIKE '%' || #{search } || '%'
+				</where>
+				ORDER BY entdate
+			) RVW
 		)
 		<where>
-			AND bcode = #{user }
+			AND no BETWEEN #{startNo } AND #{endNo } 
 		</where>
-		ORDER BY entdate
 	</select>
 	
-	<select id="selectCntPage" parameterType="recycling.util.PagingAndCtg" resultType="int">
+	<select id="selectCntQna" parameterType="recycling.util.PagingAndCtg" resultType="int">
 		SELECT count(*) FROM (
 		    SELECT * FROM (
 		        SELECT 
@@ -80,6 +88,21 @@
 				title LIKE '%' || #{search } || '%'
 				OR content LIKE '%' || #{search } || '%'
 			)
+		</where>
+		ORDER BY entdate
+	</select>
+	
+	<select id="selectCntRvw" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+			SELECT * FROM (
+			    SELECT '체험단' ctg, rvw_code code, b_code bcode, exp_code rvw, rvw_grade grade, rvw_content content, rvw_date entdate FROM exp_review
+			    UNION ALL
+			    SELECT '새활용' ctg, upcy_code code, b_code bcode, prd_code rvw, upcy_grade grade, upcy_content content, upcy_date entdate FROM upcy_review
+			)
+		)
+		<where>
+			AND bcode = #{user }
+			AND content LIKE '%' || #{search } || '%'
 		</where>
 		ORDER BY entdate
 	</select>

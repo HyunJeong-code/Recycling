@@ -44,7 +44,6 @@ $(function() {
 		</div>
 		
 		<div class="section">
-			<form action="./myboard" method="get">
 <!-- 			<div class="dropctg"> -->
 <!-- 				<select id="ctgdrop" name="ctg"> -->
 <!-- 					<option value="" selected="selected">전체</option> -->
@@ -54,11 +53,12 @@ $(function() {
 <!-- 			</div> -->
 
 			<div class="search">
-				<input type="text" id="search" name="search" value="${search }" placeholder="검색어를 입력해주세요." class="search">
-				<button>검색</button>
-<!-- 				<input type="button" id="btnSearch" value="검색"> -->
+				<form action="./myboard" method="get">
+					<input type="hidden" name="sCtg" value="Q">
+					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+					<button>검색</button>
+				</form>
 			</div>
-			</form>
 
 			<table>
 				<tr>
@@ -150,7 +150,7 @@ $(function() {
 					</tr>
 				</c:if>
 			</table>
-			<c:import url="/WEB-INF/views/layout/pagingandctg.jsp"/>
+			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 			<c:if test="${qnaSize ne 0 }">
 				<button type="button" id="delQst" class="btnLeft">삭제하기</button>
 			</c:if>
@@ -163,6 +163,13 @@ $(function() {
 		</div>
 		
 		<div class="section">
+			<div class="search">
+				<form action="./myboard" method="get">
+					<input type="hidden" name="sCtg" value="R">
+					<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+					<button>검색</button>
+				</form>
+			</div>
 			<table>
 				<tr>
 					<th class="chk"><input type="checkbox" id="allRvw" name="allRvw"></th>
@@ -209,6 +216,7 @@ $(function() {
 					</tr>
 				</c:if>
 			</table>
+			<c:import url="/WEB-INF/views/layout/underpaging.jsp"/>
 			<c:if test="${rvwSize ne 0 }">
 				<button type="button" id="delrvw" class="btnLeft">삭제하기</button>
 			</c:if>
