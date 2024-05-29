@@ -44,7 +44,7 @@ public class MypageController {
 		PagingAndCtg unPaging = new PagingAndCtg();
 		
 		logger.info("sCtg : {}", sCtg);
-		if(sCtg.equals("Q")) {
+		if(sCtg.equals("UP")) {
 			upPaging.setCurPage(curPage);
 			upPaging.setSearch(search);
 			upPaging.setUser(buyerLogin.getbCode());
@@ -52,7 +52,7 @@ public class MypageController {
 			unPaging.setCurPage(0);
 			unPaging.setSearch("");
 			unPaging.setUser(buyerLogin.getbCode());								
-		} else if(sCtg.equals("R")){
+		} else if(sCtg.equals("UN")){
 			unPaging.setCurPage(curPage);
 			unPaging.setSearch(search);
 			unPaging.setUser(buyerLogin.getbCode());					
@@ -102,5 +102,7 @@ public class MypageController {
 		model.addAttribute("rvwSize", rvw.size());
 		model.addAttribute("unPaging", unPaging);
 		model.addAttribute("unUrl", "/buyer/mypage/myboard");
+		
+		model.addAttribute("sCtg", sCtg);
 	}
 }
