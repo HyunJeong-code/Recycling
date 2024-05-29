@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.MypageService;
-import recycling.buyer.service.face.PageService;
-import recycling.buyer.service.impl.PageServiceImpl;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.util.PagingAndCtg;
 
