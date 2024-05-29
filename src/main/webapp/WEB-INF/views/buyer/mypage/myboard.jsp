@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>내 게시물</title>
-<link rel="stylesheet" href="../../../resources/css/common.css">
+<link rel="stylesheet" href="/webapp/re/resources/css/common.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 	
@@ -121,9 +121,10 @@ button {
 		</div>
 		
 		<div class="section">
+			<form action="./myboard" method="get">
 			<div class="dropctg">
 				<select id="ctg" name="ctg">
-					<option value="">전체</option>
+					<option value="" selected="selected">전체</option>
 					<option value="OTO">일대일 문의</option>
 					<option value="QST">판매자 문의</option>
 				</select>
@@ -131,8 +132,10 @@ button {
 
 			<div class="search">
 				<input type="text" id="search" name="search" placeholder="검색어를 입력해주세요." class="search">
-				<input type="button" id="btnSearch" value="검색">
+				<button>검색</button>
+<!-- 				<input type="button" id="btnSearch" value="검색"> -->
 			</div>
+			</form>
 
 			<table>
 				<tr>
@@ -190,10 +193,10 @@ button {
 
 							<td class="title">
 								<c:if test="${qna.CTG eq 'OTO' }">
-									<a href="../../buyer/help/otodetail?otoCode=${qna.CODE }">${qna.TITLE }</a>
+									<a href="/buyer/help/otodetail?otoCode=${qna.CODE }">${qna.TITLE }</a>
 								</c:if>
 								<c:if test="${qna.CTG eq 'QST' }">
-									<a href="../../buyer//detail?qstCode=${qna.CODE }">${qna.TITLE }</a>
+									<a href="/buyer/help/detail?qstCode=${qna.CODE }">${qna.TITLE }</a>
 								</c:if>
 							</td>
 							
@@ -222,6 +225,7 @@ button {
 					</tr>
 				</c:if>
 			</table>
+			<c:import url="/WEB-INF/views/layout/pagingandctg.jsp"/>
 		</div>
 		
 		<div class="page">

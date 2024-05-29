@@ -269,11 +269,10 @@
                             <label for="ordPhone">연락처</label>
                             <input type="text" name="ordPhone" id="ordPhone" value="${buyeradr[0].adrPhone }">
                         </div>
-                        <!-- 클릭시 주소 모달창 활성화 -->
-                        
                         <div class="form-group">
                             <label for="ordPostcode">우편 번호</label>
                             <input type="text" name="ordPostcode" id="ordPostcode" value="${buyeradr[0].adrPostcode }">
+                            <!-- 클릭시 주소 모달창 활성화 -->
                             <button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#exampleModal">주소 찾기</button>
                         </div>
                         <div class="form-group">
@@ -325,7 +324,7 @@
         <div class="modal-dialog">
             <div class="modal-content" style="display: table;">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">주소 찾기</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

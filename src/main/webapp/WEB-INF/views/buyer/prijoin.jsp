@@ -190,16 +190,8 @@ $(function() {
 		}		
 	})
 	
-	$("#sPhone").blur(function() {
-		if($("#sPhone").val() === 'in' && $("#inPhone").val() == '') {
-			$("#phone").css("display", "block");
-		} else {
-			$("#phone").css("display", "none");			
-		}
-	})
-	
 	$("#mPhone").blur(function() {
-		if($("#sPhone").val() == '') {
+		if($("#mPhone").val() == '') {
 			$("#phone").css("display", "block");
 		} else {
 			$("#phone").css("display", "none");			
@@ -207,7 +199,7 @@ $(function() {
 	})
 	
 	$("#lPhone").blur(function() {
-		if($("#sPhone").val() == '') {
+		if($("#lPhone").val() == '') {
 			$("#phone").css("display", "block");
 		} else {
 			$("#phone").css("display", "none");			
@@ -215,7 +207,7 @@ $(function() {
 	})
 	
 	// 동의
-	$("#btnJoin").click(function() {
+	$("#btnJoin").hover(function() {
 		if($("#agree1").val() === 'N' || $("#agree2").val() === 'N') {
 			alert("필수 이용약관에 동의해야 가입이 가능합니다.")
 		}
@@ -285,7 +277,7 @@ function execDaumPostcode() {
 				
 				<label for="bId">아이디</label>
 				<input type="text" id="bId" name="bId"><br>
-				<button id="chkBid">중복 확인</button><br>
+				<button type="button" id="chkBid">중복 확인</button><br>
 				<div id="id" style="display:none; color:red;">아이디는 필수입니다.</div>
 				<div id="chkId" style="display:none; color:red;">아이디는 영어소문자와 숫자로 8자리 ~ 15자리로 입력 필요</div>
 				
@@ -318,7 +310,7 @@ function execDaumPostcode() {
 				<div id="emailChk" style="display: none;">
 					<label for="emailNum">이메일 인증 번호</label>
 					<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요.">
-					<button id="chkEmail">인증번호 확인</button><br>
+					<button type="button" id="chkEmail">인증번호 확인</button><br>
 					<div id="emailChk2" style="display:none; color:red;">이메일 인증은 필수입니다.</div>				
 					<div id="emailOk" style="color: green; display: none;">
 						인증번호가 일치합니다.
@@ -342,12 +334,12 @@ function execDaumPostcode() {
 					<option value="in">직접 입력</option>
 				</select>
 				<input type="text" id="inPhone" name="inPhone">-<input type="text" id="mPhone" name="mPhone">-<input type="text" id="lPhone" name="lPhone"><br>
-				<br>
 				<div id="phone" style="display:none; color:red;">핸드폰 번호는 필수입니다.</div>				
 			</div>
 			
 			<div id="infoPlus">
 				<div id="infoAd">
+					<div class="ad">광고 수신 동의</div>
 					<label for="adEmail">이메일</label>
 					<input type="checkbox" id="adEmail" name="adEmail" value="Y">
 					  

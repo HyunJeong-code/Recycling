@@ -168,7 +168,7 @@ public class SellingController {
 		logger.info("list: {}",list);
 		logger.info("sttNo: {}",sttNo);
 		
-		if(sttNo >= 970) {
+		if(sttNo == 980 || sttNo == 960) {
 			//토큰 발급
 			String token = sellingService.getToken();
 			
@@ -248,6 +248,22 @@ public class SellingController {
 		
 	    return "jsonView"; 
 	}
+	
+	@GetMapping("/upcyorderdetail")
+	public void upcyOrderDetail(String orddtCode, Model model) {
+		
+		MyOrder myOrder = sellingService.selectMyOrderByOrddtCode(orddtCode);
+		
+		model.addAttribute("order", myOrder);
+	}
+	
+	@PostMapping("/upcyorderupdate")
+	public String upcyOrderUpdate(MyOrder myOrder) {
+		logger.info("{}", myOrder);
+		
+		return "redirect:seller/selling/upcylist";
+	}
+	
 
 	@GetMapping("/main")
 	public void main(HttpSession session, Model model) {

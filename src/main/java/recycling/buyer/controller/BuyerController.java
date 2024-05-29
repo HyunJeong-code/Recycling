@@ -1,14 +1,11 @@
 package recycling.buyer.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,16 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,19 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.BuyerService;
-
-import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.BuyerProf;
-import recycling.dto.buyer.Cart;
-import recycling.dto.buyer.CartOrder;
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
-
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
@@ -57,11 +38,8 @@ import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
-
-
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.seller.service.face.SellingService;
 
 
 // 마이페이지 - 회원 정보 관련
@@ -72,6 +50,7 @@ public class BuyerController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerService buyerService;
+	@Autowired private SellingService sellingService;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 	@Autowired HttpSession session;
 	@Autowired private JavaMailSenderImpl mailSender;
@@ -264,6 +243,92 @@ public class BuyerController {
 		model.addAttribute("list", list);
 	}
 	
+	@GetMapping("/myorderdetail")
+	public void myOrderDetail(String orddtCode, Model model) {
+		OrderDetail orderDetail = buyerService.selectByorddtCode(orddtCode);
+		Orders order = buyerService.selectByordCode(orderDetail.getOrdCode());
+		
+		logger.info("orderDetail: {}",orderDetail);
+		logger.info("order: {}",order);
+		
+		model.addAttribute("orderDetail", orderDetail);
+		model.addAttribute("order", order);
+	}
+	
+	@PostMapping("/chageorder")
+	public String chageOrder(OrderDetail orderDetail, Model model) {
+		logger.info("orerDetail: {}",orderDetail);
+		
+		int sttNo = orderDetail.getSttNo();
+		
+		if(sttNo == 980) {
+			//토큰 발급
+			String token = sellingService.getToken();
+			
+			String orddtCode = orderDetail.getOrddtCode();
+			
+			String successRes = "";
+			String failRes = "";
+				
+			//OrderDetail 조회
+			OrderDetail order = sellingService.selectByorddtCode(orddtCode); 
+			logger.info("order: {}",order);
+			
+			//주문 취소(환불)
+			int res = sellingService.cencelpay(order, token);
+			
+			if(res == 1) {
+				OrderDetail ordd = new OrderDetail();
+				ordd.setOrddtCode(orddtCode);
+				ordd.setSttNo(sttNo);
+				int updateRes = sellingService.updateOrderDetail(ordd);
+				if(successRes != "") {
+					successRes += ", ";					
+				}
+				successRes += orddtCode;
+	        	
+			} else {
+				if(failRes != "") {
+					failRes += ", ";					
+				}
+				failRes += orddtCode;
+			}
+			
+			
+			if(successRes != "") {
+				successRes += "환불 완료";
+			}
+			
+			if(failRes != "") {
+				failRes += "환불 실패";					
+			}
+			
+			model.addAttribute("Msg", successRes + failRes);
+		
+		} else {
+			int updateRes = sellingService.updateOrderDetail(orderDetail);
+			
+			model.addAttribute("Msg", "변경");
+		}
+		
+		return "jsonView";
+	}
+	
+	@PostMapping("/changeOrderCt")
+	public String changeOrderCt(OrderDetail orderDetail, Change change) {
+		logger.info("orderDetail : {}", orderDetail);
+		logger.info("change: {}", change);
+		
+		int updateRes = sellingService.updateOrderDetail(orderDetail);
+		
+		//orddtCode 추가
+		change.setOrddtCode(orderDetail.getOrddtCode());
+		
+		int insertRes = buyerService.insertChange(change);
+		
+		return "redirect:/buyer/mypage/myorder";
+	}
+	
 	@PostMapping("/EmailAuth")
 	@ResponseBody
 	public int emailAuth(String email) {
@@ -300,30 +365,6 @@ public class BuyerController {
 		return chkNum;
 	}
 	
-	@GetMapping("/myorderdetail")
-	public void myOrderDetail() {
-		
-		
-		
-	}
-	
-	@GetMapping("/myorderchk")
-	public void myOrderChk() {
-		
-		
-		
-	}
-	
-	@GetMapping("/changeorder")
-	public void changeOrder() {
-		
-		
-		
-	}
-	
-	
-	
-
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
 	public String myMain(

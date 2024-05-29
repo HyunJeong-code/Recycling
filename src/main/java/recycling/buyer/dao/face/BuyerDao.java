@@ -13,6 +13,7 @@ import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
 import recycling.dto.seller.Seller;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
@@ -87,7 +88,7 @@ public interface BuyerDao {
 	public int updatePrdCnt(CartOrder cart);
 
 	/**
-	 * 주문 상세 추가
+	 * 주문 상세 리스트 추가
 	 * 
 	 * @param orderDetail - 추가할 주문 상세 DTO
 	 * @return - INSERT 결과
@@ -101,7 +102,23 @@ public interface BuyerDao {
 	 * @return - 조회 List 결과
 	 */
 	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문상세코드
+	 * @return - 주문 상세 내역
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
 
+	/**
+	 * 거래 변경 사유
+	 * 
+	 * @param change - 거래 변경 DTO
+	 * @return INSERT 결과
+	 */
+	public int insertChange(Change change);
+	
 	/**
 	 * 장바구니 수량 변경
 	 * 
@@ -281,5 +298,7 @@ public interface BuyerDao {
 	public int deleteSeller(String sCode);
 
 	public BuyerRank selectBuyerRank(int rankNo);
+
+
 
 }

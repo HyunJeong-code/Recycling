@@ -29,7 +29,9 @@
 	
 	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
 		SELECT 
-			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
+			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, o.SEND_NAME
+			, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
+			, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
 		FROM 
 			order_detail od, orders o, ship s
 		<where>
@@ -94,6 +96,21 @@
 			AND orddt_code = #{orddtCode}
 		</where>
 	</delete>
+	
+	<select id="selectMyOrderByOrddtCode" parameterType="String" resultType="MyOrder">
+		SELECT 
+			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, o.SEND_NAME
+			, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
+			, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
+		FROM 
+			order_detail od, orders o, ship s
+		<where>
+			AND od.ord_code = o.ord_code
+			AND od.orddt_code = s.orddt_code(+)
+			AND od.orddt_code = #{orddtCode}
+		</where>
+		ORDER BY od.ORDDT_CODE DESC
+	</select>
 
 <!-- 	<select id="selectAllPrd" parameterType="BuyerLogin" resultType="AllPrd"> -->
 		

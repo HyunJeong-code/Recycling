@@ -70,15 +70,15 @@ $(function(){
             <div class="nav-ul">
             	<sec:authorize access="isAnonymous()">
 	                <ul>
-	                    <li><a href="../../buyer/login">로그인</a></li>
-	                    <li><a href="../../buyer/join">회원가입</a></li>
+	                    <li><a href="/buyer/login">로그인</a></li>
+	                    <li><a href="/buyer/join">회원가입</a></li>
 	                </ul>
             	</sec:authorize>
             	<sec:authorize access="hasRole('ROLE_BUYER')">
             	 	<ul>
 	                    <li><a href="/buyer/logout">로그아웃</a></li>
-	                    <li><a href="../../buyer/mypage/myboard">마이페이지</a></li>
-	                    <li><a href="../../buyer/mypage/cart">장바구니</a>
+	                    <li><a href="/buyer/mypage/myboard">마이페이지</a></li>
+	                    <li><a href="/buyer/mypage/cart">장바구니</a>
 	                    </li>
 	                </ul>
             	</sec:authorize>
@@ -130,10 +130,6 @@ $(function(){
 	                <li><a href="">분류3</a></li>
 	                <li><a href="">분류4</a></li>
 	                <li><a href="">분류5</a></li>
-	            </ul>
-	            <ul>
-	                <li><a href="">업체 소개</a></li>
-	                <li><a href="">세척</a></li>
 	            </ul>
 	            <ul>
 	                <li><a href="">체험단 예약</a></li>

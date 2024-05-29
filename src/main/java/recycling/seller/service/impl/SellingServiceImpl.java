@@ -177,6 +177,11 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+	public MyOrder selectMyOrderByOrddtCode(String orddtCode) {
+		return sellingDao.selectMyOrderByOrddtCode(orddtCode);
+	}
+	
+	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		
