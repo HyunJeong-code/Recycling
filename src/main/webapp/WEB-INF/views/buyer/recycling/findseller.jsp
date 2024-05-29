@@ -5,6 +5,7 @@
 <%
     ArrayList<Map<String, Object>> gpsList = (ArrayList<Map<String, Object>>) request.getAttribute("gpsList");
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
     <h1>판매자 찾기</h1>
     <hr>
@@ -153,5 +155,7 @@
         }
         
     </script>
+    
+    <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

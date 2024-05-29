@@ -169,13 +169,16 @@ public class CsController {
 	@ResponseBody
 	public String insert(String ansCode, String ansContent, String otoCode, HttpSession session) {
 		
-		// 일단 로그인 없어서 mgrCode코드 고정값으로 넣음 xml도 마찬가지
-	    String mgrCode = "MGR0000001";
+		// 일단 로그인 없어서 mgrCode코드 고정값으로 넣음
+//	    String mgrCode = "MGR0000001";
 
-//	    String mgrCode = (String) session.getAttribute("mgrCode");
-//	    if (mgrCode == null) {
-//	        return "Manager code not found in session.";
-//	    }
+	    String mgrCode = (String) session.getAttribute("mgrCode");
+	    
+	    logger.info("11111111111111{}", mgrCode);
+	    
+	    if (mgrCode == null) {
+	        return "Manager code not found in session.";
+	    }
 
 	    try {
 	        csService.ansFormInsert(mgrCode, ansCode, ansContent, otoCode);
@@ -184,6 +187,7 @@ public class CsController {
 	        e.printStackTrace();
 	        return "Error";
 	    }
+	    
 	}
 	
 	// 문의글 삭제

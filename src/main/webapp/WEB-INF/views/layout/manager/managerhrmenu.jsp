@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="../../../resources/css/manager/cs/csdetail.css">
 <style type="text/css">
 .width-menu {
 	width: 300px;

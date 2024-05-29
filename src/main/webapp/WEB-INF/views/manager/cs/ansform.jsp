@@ -56,10 +56,10 @@
         <c:if test="${chkNull }">
             <table class="table">
                 <c:forEach var="list" items="${comments }">
-                    <%-- <tr>
+                    <tr>
                         <th>답글 번호</th>
                         <td>${list.ansCode }</td>
-                    </tr> --%>
+                    </tr>
                     
                     <tr>
                         <th>답글 내용</th>

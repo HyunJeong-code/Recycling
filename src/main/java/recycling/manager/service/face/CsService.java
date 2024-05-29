@@ -5,6 +5,7 @@ import java.util.List;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.manager.Ans;
+import recycling.dto.manager.Manager;
 import recycling.util.Paging;
 
 // 구매 CS팀 관련 처리
