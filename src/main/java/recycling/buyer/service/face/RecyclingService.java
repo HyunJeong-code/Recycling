@@ -17,8 +17,8 @@ public interface RecyclingService {
 	 */
 	public List<Seller> findSeller();
 	
-	 /** 제품 DTO에서 리스트를 불러온다
-	List<Seller> findSeller();
+	// 제품 DTO에서 리스트를 불러온다
+	// List<Seller> findSeller();
 	
 	/**
 	 * 제품 DTO에서 리스트를 불러온다
@@ -34,6 +34,14 @@ public interface RecyclingService {
 	 * @return 제품번호의 상세페이지
 	 */
 	public Prd view(String prdCode);
+	
+	/**
+	 * 판매자 기본 정보 로드
+	 * 
+	 * @param getsCode 판매자 코드
+	 * @return 판매자 정보
+	 */
+	public Seller selectSeller(String getsCode);
 
 	/**
 	 * 판매자 상세 프로필을 가져오는 코드
@@ -106,7 +114,4 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int deleteSellerAnswer(String qnaCode);
-
-	
-
 }

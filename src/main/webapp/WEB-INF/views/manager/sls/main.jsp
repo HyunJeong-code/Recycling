@@ -81,7 +81,6 @@
 			</div>
 		</div>
 	</div>
-=======
 <div class="full">
 	<div class="wrap">
 		<div class="page">
@@ -122,6 +121,5 @@
 		</div>
 	</div>
 </div>
->>>>>>> 071de69dbf53445c2695e0ff7eca0ee8c8a25173
 </body>
 </html>

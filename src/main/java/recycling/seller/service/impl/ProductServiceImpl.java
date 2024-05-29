@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.seller.Prd;
@@ -18,6 +19,7 @@ import recycling.seller.dao.face.ProductDao;
 import recycling.seller.service.face.ProductService;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

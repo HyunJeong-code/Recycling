@@ -149,8 +149,5 @@ public class HrController {
 		
 		return "redirect:./main";
 	}
-	
-	
-
 
 }//main

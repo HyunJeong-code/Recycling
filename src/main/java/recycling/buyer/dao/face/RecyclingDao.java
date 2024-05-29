@@ -26,6 +26,7 @@ public interface RecyclingDao {
 
 	public Prd selectPrd(String prdCode);
 
+	public Seller selectSeller(String getsCode);
 	public SellerProf selectSellerProfByCode(String sCode);
 
 	public SellerQST selectSellerQST(String qstCode);

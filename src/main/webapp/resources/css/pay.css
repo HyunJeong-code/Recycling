@@ -1,0 +1,117 @@
+@charset "UTF-8";
+
+.full {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.order-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-info .sum-price {
+    margin-top: auto;
+}
+
+.top-hr {
+    margin-top: 0;
+    height: 4px;
+    background-color: #000;
+    border-top: none;
+    opacity: 1;
+}
+
+.page-header {
+    margin: 10px 0 20px 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.page-header h5 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.title h1 {
+    font-family: 'Oxygen', sans-serif;
+    color: #252525;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+.order-table {
+    width: 100%;
+    height: auto;
+    margin: 20px 0 40px 0;
+    text-align: center;
+}
+
+.order-table thead {
+    border-bottom: 1px solid rgb(172, 172, 172);
+    height: 45px;
+    color: #a0a0a0;
+}
+
+.order-table tbody tr {
+    height: 140px;
+    border-bottom: 1px solid #b7b7b7;
+}
+
+.buyer-info, .adr-info {
+    padding: 30px 0 50px 40px;
+}
+
+.form-group {
+    min-height: 50px;
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: inline-block;
+    font-size: 14px;
+    width: 120px;
+    font-weight: 700;
+}
+
+.form-group input {
+    display: inline-block;
+    border: none;
+    border-bottom: 1px solid #bebebe;
+    background-color: #fff;
+    height: 44px;
+    width: 400px;
+    line-height: 44px;
+    padding: 13px 10px;
+    margin-bottom: 20px;
+    font-weight: 300;
+    color: #797979;
+}
+
+.form-group h6 {
+    display: inline-block;
+    width: 120px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.form-group #ordPostcode {
+    width: 300px;
+}
+
+#btnPostcode {
+    width: auto;
+    height: auto;
+    padding: 2px 13px;
+    line-height: 30px;
+    border-radius: 3px;
+    border: 1px solid #646464;
+    background-color: #646464;
+    display: inline-block;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    margin-left: 20px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 1px 1px rgb(255 255 255 / 37%) inset, 1px 0 1px rgb(255 255 255 / 7%) inset, 0 1px 0 rgb(0 0 0 / 10%), 0 -2px 5px rgb(0 0 0 / 3%) inset;
+}

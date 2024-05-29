@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
@@ -16,6 +17,7 @@ import recycling.dto.seller.SellerProf;
 import recycling.dto.seller.SellerQST;
 
 @Service
+@Transactional
 public class RecyclingServiceImpl implements RecyclingService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -55,6 +57,11 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return prd;
 	}
 
+	@Override
+	public Seller selectSeller(String getsCode) {
+		return recyclingDao.selectSeller(getsCode);
+	}
+	
 	@Override
 	public SellerProf getSellerProf(String sCode) {
 		return recyclingDao.selectSellerProfByCode(sCode);
@@ -105,6 +112,8 @@ public class RecyclingServiceImpl implements RecyclingService {
 	public int deleteSellerAnswer(String qnaCode) {
 		return recyclingDao.deleteSellerAnswer(qnaCode);
 	}
+
+
 
 
 
