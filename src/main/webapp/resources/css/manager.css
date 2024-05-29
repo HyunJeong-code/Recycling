@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
 .full {
-	width: 1200px;
-	margin: 0 auto;
 }
 
 button {
@@ -38,6 +36,6 @@ input[type="text"] {
 }
 
 .btnLeft {
-    background-color: #4CAF50;
+    background-color: #652CB3;
     color: white;
 }

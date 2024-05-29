@@ -27,11 +27,19 @@ public interface MypageService {
 	public List<Map<String, Object>> selectRvwBybCode(PagingAndCtg paging);
 	
 	/**
-	 * 페이징 처리
+	 * 문의글 페이징 처리
 	 * 
 	 * @param paging - 페이지 및 검색어/카테고리/사용자 정보
 	 * @return 총 페이지 개수
 	 */
-	public int selectCntPage(PagingAndCtg paging);
+	public int selectCntQna(PagingAndCtg upPaging);
+	
+	/**
+	 * 후기 페이징 처리
+	 * 
+	 * @param paging - 페이지 및 검색어/카테고리/사용자 정보
+	 * @return 총 페이지 개수
+	 */
+	public int selectCntRvw(PagingAndCtg unPaging);
 
 }
