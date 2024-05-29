@@ -16,6 +16,7 @@ import recycling.buyer.dao.face.ExpDao;
 import recycling.buyer.service.face.ExpService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -125,6 +126,34 @@ public class ExpServiceImpl implements ExpService {
         params.put("schNo", schNo);
         params.put("resCnt", resCnt);
 		expDao.updateExpSchCnt(params);
+	}
+
+	@Override
+	public ExpRes selectByResCode(String resCode) {
+		
+		
+		return expDao.selectByResCode(resCode);
+	}
+
+	@Override
+	public List<ExpReview> selectRvwByExp(String expCode) {
+		return expDao.selectRvwByExp(expCode);
+	}
+
+//	@Override
+//	public List<ExpRes> selectByBuyerChk(String bCode, String expCode) {
+//		return expDao.selectByBuyerChk(bCode, expCode);
+//	}
+
+	@Override
+	public void insertExpReview(ExpReview expReview) {
+		expDao.insertExpReview(expReview);
+		
+	}
+
+	@Override
+	public List<ExpRes> selectByBuyerChk(Map<String, Object> params) {
+		return expDao.selectByBuyerChk(params);
 	}
 	
 }
