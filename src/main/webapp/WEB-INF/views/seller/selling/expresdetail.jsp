@@ -8,8 +8,6 @@
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <title>체험단 예약 관리</title>
 <style type="text/css">
 
@@ -37,6 +35,7 @@ thead {
 
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 
 <h1>체험단 예약 관리</h1>
 <hr>
@@ -75,8 +74,8 @@ thead {
 <table>
 	<tbody>
 		<td>예약 관리</td>
-		<td><button>예약완료</button></td>
-		<td><button>예약취소</button></td>
+		<td><button class="btn">예약완료</button></td>
+		<td><button class="btn">예약취소</button></td>
 	</tbody>
 </table>
 
@@ -124,6 +123,10 @@ thead {
     </tbody>
 </table>
 
+		<button class="btn" type="button"><a href="./explist">목록으로</a></button>
+
 <c:import url="/WEB-INF/views/layout/paging.jsp"/>
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
+
 </body>
 </html>

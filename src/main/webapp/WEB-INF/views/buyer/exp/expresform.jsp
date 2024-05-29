@@ -7,18 +7,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>체험단 예약하기</title>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <!-- 결제 API -->
-    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- 결제 API -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 <script type="text/javascript">
 function setResDateTime() {
@@ -57,70 +50,62 @@ window.onload = function() {
 }
 
 var resExpName = "${exp.expName}"
-var resSum = ${expRes.resSum}
 
-//가맹점 식별코드 초기화
+// 가맹점 식별코드 초기화
 IMP.init('imp40731343')
 
-function requestPay(){
-    var payOption = $("input:radio[name=payOption]:checked").attr("id");    //결제 PG사
-    var payMethod = $("input:radio[name=payOption]:checked").val();         //결제수단
+function requestPay() {
+    var resSum = document.getElementById('resSum').value; // 총 금액 가져오기
+    var payOption = $("input:radio[name=payOption]:checked").attr("id");    // 결제 PG사
+    var payMethod = $("input:radio[name=payOption]:checked").val();         // 결제수단
     IMP.request_pay({
-    pg: payOption, // PG사
-    pay_method: payMethod, //결제 수단 (필수)
-    merchant_uid: 'RES' + new Date().getTime(),   // 주문번호
-    name: resExpName,             // 주문 상품 이름 (입력)
-    amount: resSum,                        // 결제 금액 (입력)
+        pg: payOption, // PG사
+        pay_method: payMethod, // 결제 수단 (필수)
+        merchant_uid: 'RES' + new Date().getTime(),   // 주문번호
+        name: resExpName,             // 주문 상품 이름 (입력)
+        amount: resSum,                        // 결제 금액 (입력)
 
-    buyer_name: $("#ordName").val(),       // 주문자 정보들                   
-    buyer_tel: $("#ordPhone").val()
+        buyer_name: $("#ordName").val(),       // 주문자 정보들                   
+        buyer_tel: $("#ordPhone").val()
     }, function (rsp) { // callback
         
         console.log(rsp)
         
-        //결제 성공시
-        if(rsp.success){
+        // 결제 성공시
+        if (rsp.success) {
             $.ajax({
-                type: "post"
-                , url: "./pay"
-                , data: {
+                type: "post",
+                url: "./pay",
+                data: {
                     resCode: rsp.merchant_uid,
                     resPay: rsp.pay_method,
-                    resName: $("#resName").val(), //(입력)
-                    resPhone: $("#resPhone").val(), //(입력)
+                    resName: $("#resName").val(),
+                    resPhone: $("#resPhone").val(),
                     resEmail: $("#resEmail").val(),
                     resCnt: $("#resCnt").val(),
-                    resPrice: $("#resPrice").val()
-                    //$("#resPrice").attr("data-date")
-//                     resSum: rsp.amount
-//                     resTime: ${expSch.schNo}.attr("data-date"),
-//                     resDate: ${expSch.schDate},
-                    
-                    
-                }
-                , dataType : "Json"
-                , success: function(res) {
+                    resPrice: $("#resPrice").val(),
+                    resSum: $("#resSum").val(),
+                    schNo: $("#expSchList").val()
+                },
+                dataType: "json",
+                success: function(res) {
                     console.log("AJAX 성공");
-                    
-                    
-                    
-                }
-                , error: function() {
+                    window.location.href = "./payinfo?resCode=" + res.expRes.resCode;
+                },
+                error: function() {
                     console.log("AJAX 실패");
                 }
-        })
-        //결제 실패시
+            });
         } else {
-            alert("결제실패");
-            console.log("결제실패"+rsp)
+            alert("결제 실패");
+            console.log("결제 실패: " + rsp.error_msg);
         }
-
     });
 }
-
 </script>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="container">
     <h1>체험단 예약하기</h1>
     <form action="./expresform" method="post">
@@ -168,14 +153,16 @@ function requestPay(){
             </div>
 
             <div id="payOption">
-                <label>신용카드<input type="radio" id="html5_inicis" name="payOption" checked="checked"></label>
-                <label>토스페이<input type="radio" id="tosspay" name="payOption"></label>
-                <label>카카오페이<input type="radio" id="kakaopay" name="payOption"></label>
+                <label>신용카드<input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
+                <label>토스페이<input type="radio" id="tosspay" name="payOption" value="trans"></label>
+                <label>카카오페이<input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
             </div>
 
-            <button type="button" id="btnPay" onclick="requestPay();">결제하기</button>
+            <button class="btn" type="button" id="btnPay" onclick="requestPay();">신청하기</button>
+            
         </div>
     </form>
 </div>
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

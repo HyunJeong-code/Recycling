@@ -8,8 +8,6 @@
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <title>내 체험단 판매상품 조회</title>
 
 <style type="text/css">
@@ -47,6 +45,8 @@ th {
 
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
+
 <div class="page_box">
 <h1>체험단 조회</h1>
 <hr>
@@ -62,7 +62,7 @@ th {
 			</select>
 			<div class="search">
 	            <input type="text" name="search" placeholder="검색어를 입력해 주세요" value="${search}">
-	            <button onclick="this.form.submit()" class="btn btn-primary">검색</button>
+	            <button onclick="this.form.submit()" class="btnSrch">검색</button>
 	        </div>
 		</div>
 	</form>
@@ -107,13 +107,15 @@ th {
                 	<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
                		<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                 </td>
-                <td class="resdetail"><a href="./expresdetail?expCode=${exp.expCode }"><button>예약관리</button></a></td>
-                <td class="expdetail"><a href="./expdetail?expCode=${exp.expCode }"><button>상세 보기</button></a></td>
+                <td class="resdetail"><a href="./expresdetail?expCode=${exp.expCode }"><button class="btn">예약관리</button></a></td>
+                <td class="expdetail"><a href="./expdetail?expCode=${exp.expCode }"><button class="btn">상세 보기</button></a></td>
             </tr>
         </c:forEach>
     </tbody>
 </table>
 </div>
 <c:import url="/WEB-INF/views/layout/paging.jsp"/>
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
+
 </body>
 </html>
