@@ -132,10 +132,6 @@ $(function(){
 	                <li><a href="">분류5</a></li>
 	            </ul>
 	            <ul>
-	                <li><a href="">업체 소개</a></li>
-	                <li><a href="">세척</a></li>
-	            </ul>
-	            <ul>
 	                <li><a href="">체험단 예약</a></li>
 	                <li><a href="">체험단 후기</a></li>
 	            </ul>

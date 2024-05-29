@@ -12,43 +12,53 @@
 <script type="text/javascript">
 
 let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
-		, 940: "구매 확정", 950: "거래 완료", 960: "환불", 970: "반품", 980: "취소"}
+	, 940: "구매 확정", 950: "거래 완료", 960: "반품", 970: "교환", 980: "취소"}
 		
 </script>
 </head>
 <body>
 
-<h1>주문목록</h1>
-<hr>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
-<table border="1">
-	<thead>
-		<tr>
-			<th>주문번호</th>
-			<th>상품 이름</th>
-			<th>가격</th>
-			<th>개수</th>
-			<th>총금액</th>
-			<th>배송 상태</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach var="list" items="${list }">
-			<tr>
-		 		<td>${list.orddtCode }</td>
-		 		<td>${list.ordName }</td>
-		 		<td>${list.ordPrice }</td>
-		 		<td>${list.ordCnt }</td>
-		 		<td>${list.ordSum }</td>
-		 		<td>
-		 			<script>document.write(sttList[${list.sttNo}])</script>
-		 		</td>
-		 	</tr>
-		</c:forEach>
-	</tbody>
-</table>
+	<div class="full">
 
+		<h1>주문목록</h1>
+		<hr>
+		
+		<table border="1">
+			<thead>
+				<tr>
+					<th>주문번호</th>
+					<th>상품 이름</th>
+					<th>가격</th>
+					<th>개수</th>
+					<th>총금액</th>
+					<th>배송 상태</th>
+					<th>주문확인</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="list" items="${list }">
+					<tr>
+				 		<td>${list.orddtCode }</td>
+				 		<td>${list.ordName }</td>
+				 		<td>${list.ordPrice }</td>
+				 		<td>${list.ordCnt }</td>
+				 		<td>${list.ordSum }</td>
+				 		<td>
+				 			<script>document.write(sttList[${list.sttNo}])</script>
+				 		</td>
+				 		<td>
+				 			<button><a href="./myorderdetail?orddtCode=${list.orddtCode }">주문확인</a></button>
+				 		</td>
+				 	</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	
+	</div>
 
-
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	
 </body>
 </html>

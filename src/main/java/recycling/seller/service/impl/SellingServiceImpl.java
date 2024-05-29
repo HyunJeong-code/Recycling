@@ -30,6 +30,7 @@ import recycling.dto.seller.Exp;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -60,8 +61,8 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
-	public List<Prd> selectAllupcyPrd(String sCode) {
-		return sellingDao.selectAllupcyPrd(sCode);
+	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllupcyPrd(upPaging);
 	}
 	
 	@Override
@@ -177,6 +178,20 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+	public MyOrder selectMyOrderByOrddtCode(String orddtCode) {
+		return sellingDao.selectMyOrderByOrddtCode(orddtCode);
+	}
+	
+	@Override
+	public int updateMyOrder(MyOrder myOrder) {
+		int res = sellingDao.updateMyOrder(myOrder);
+		if(myOrder.getShipNo() != 0 && myOrder.getShipName() != null) {
+			res *= sellingDao.insertShip(myOrder);
+		}
+		return res;
+	}
+	
+	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		
@@ -225,4 +240,9 @@ public class SellingServiceImpl implements SellingService {
 //		return sellingDao.selectResList(expCode, paging);
 //	}
 
+	
+	@Override
+	public int selectCntAllupcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectCntAllupcyPrd(upPaging);
+	}
 }

@@ -27,6 +27,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.Prd;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 import recycling.util.Range;
 
 // 상품-판매 관리
@@ -82,14 +83,57 @@ public class SellingController {
 	}
 	
 	@GetMapping("/upcylist")
-	public void upcyList(Authentication authentication, Model model) {
+	public void upcyList(Authentication authentication, Model model,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg) {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
 		
-		String sCode = buyerLogin.getsCode();
+     // 문의글 페이지 수 계산
+     		PagingAndCtg upPaging = new PagingAndCtg();
+     		PagingAndCtg unPaging = new PagingAndCtg();
+     		
+     		logger.info("sCtg : {}", sCtg);
+     		if(sCtg.equals("UP")) {
+     			upPaging.setCurPage(curPage);
+     			upPaging.setSearch(search);
+     			upPaging.setUser(buyerLogin.getsCode());
+     			
+     			unPaging.setCurPage(0);
+     			unPaging.setSearch("");
+     			unPaging.setUser(buyerLogin.getsCode());								
+     		} else if(sCtg.equals("UN")){
+     			unPaging.setCurPage(curPage);
+     			unPaging.setSearch(search);
+     			unPaging.setUser(buyerLogin.getsCode());					
+     			
+     			upPaging.setCurPage(0);
+     			upPaging.setSearch("");
+     			upPaging.setUser(buyerLogin.getsCode());
+     		} else {
+     			upPaging.setCurPage(0);
+     			upPaging.setSearch("");
+     			upPaging.setUser(buyerLogin.getsCode());
+     			
+     			unPaging.setCurPage(0);
+     			unPaging.setSearch("");
+     			unPaging.setUser(buyerLogin.getsCode());								
+     		}
+     		
+     		
+     		int upPage = sellingService.selectCntAllupcyPrd(upPaging);
+     		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+     		
+     		logger.info("upPaging : {}", upPaging);
+     		upPaging.setUser(buyerLogin.getsCode());
+        
+     		String sCode = buyerLogin.getsCode();
 		
 		//로그인 되어있는 아이디의 재활용 판매 상품 조회
-		List<Prd> plist = sellingService.selectAllupcyPrd(sCode);
+		List<Prd> plist = sellingService.selectAllupcyPrd(upPaging);
+		
+		logger.info("{}",upPaging);
 		
 		//주문 리스트
 		List<MyOrder> olist = new ArrayList<MyOrder>();
@@ -126,6 +170,9 @@ public class SellingController {
 		
 		model.addAttribute("plist", nplist);
 		model.addAttribute("olist", olist);
+		
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/seller/selling/upcylist");
 	}
 	
 	@GetMapping("/upcydetail")
@@ -168,7 +215,7 @@ public class SellingController {
 		logger.info("list: {}",list);
 		logger.info("sttNo: {}",sttNo);
 		
-		if(sttNo >= 970) {
+		if(sttNo == 980 || sttNo == 960) {
 			//토큰 발급
 			String token = sellingService.getToken();
 			
@@ -248,6 +295,36 @@ public class SellingController {
 		
 	    return "jsonView"; 
 	}
+	
+	@GetMapping("/upcyorderdetail")
+	public void upcyOrderDetail(String orddtCode, Model model) {
+		
+		MyOrder myOrder = sellingService.selectMyOrderByOrddtCode(orddtCode);
+		
+		model.addAttribute("order", myOrder);
+	}
+	
+	@PostMapping("/upcyorderupdate")
+	public String upcyOrderUpdate(MyOrder myOrder, Model model) {
+		logger.info("{}", myOrder);
+		
+		int res = sellingService.updateMyOrder(myOrder);
+		
+		model.addAttribute("msg", "주문정보가 수정되었습니다.");
+		model.addAttribute("url", "/seller/selling/upcylist");
+		return "/layout/alert";
+	}
+	
+	@GetMapping("/delship")
+	public String delShip(String orddtCode, Model model) {
+		int res = sellingService.deleteShip(orddtCode);
+		
+		
+		model.addAttribute("msg", "송장이 삭제되었습니다.");
+		model.addAttribute("url", "/seller/selling/upcylist");
+		return "/layout/alert";
+	}
+	
 
 	@GetMapping("/main")
 	public void main(HttpSession session, Model model) {
