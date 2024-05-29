@@ -258,19 +258,24 @@ public class SellingController {
 	}
 	
 	@PostMapping("/upcyorderupdate")
-	public String upcyOrderUpdate(MyOrder myOrder) {
+	public String upcyOrderUpdate(MyOrder myOrder, Model model) {
 		logger.info("{}", myOrder);
 		
 		int res = sellingService.updateMyOrder(myOrder);
 		
-		return "redirect:upcylist";
+		model.addAttribute("msg", "주문정보가 수정되었습니다.");
+		model.addAttribute("url", "/seller/selling/upcylist");
+		return "/layout/alert";
 	}
 	
 	@GetMapping("/delship")
-	public String delShip(String orddtCode) {
+	public String delShip(String orddtCode, Model model) {
 		int res = sellingService.deleteShip(orddtCode);
 		
-		return "redirect:upcylist";
+		
+		model.addAttribute("msg", "송장이 삭제되었습니다.");
+		model.addAttribute("url", "/seller/selling/upcylist");
+		return "/layout/alert";
 	}
 	
 

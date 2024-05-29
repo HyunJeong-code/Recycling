@@ -257,6 +257,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			<button class="updateSttBtn" id="900">결제 완료</button>
 			<button class="updateSttBtn" id="910">배송 준비 중</button>
 			<button class="updateSttBtn" id="920">배송중</button>
+			<button class="updateSttBtn" id="930">배송완료</button>
 			<button class="updateSttBtn" id="940">구매 확정</button>
 			<button class="updateSttBtn" id="960">반품</button>
 			<button class="updateSttBtn" id="980">취소</button>
