@@ -7,6 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<div class="width-menu">
+    <nav class="menu cs">
+    	<ul>
+    		<li><a href=""></a>
+    			<ul>
+    				<li><a href=""></a></li>
+    			</ul>
+    		</li>
+    		
+    	</ul>
+    </nav>
+</div>
 </body>
 </html>

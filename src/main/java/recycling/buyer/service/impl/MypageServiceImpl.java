@@ -32,7 +32,13 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public int selectCntPage(PagingAndCtg paging) {
-		return mypageDao.selectCntPage(paging);
+	public int selectCntQna(PagingAndCtg upPaging) {
+		return mypageDao.selectCntQna(upPaging);
+
+	}
+	
+	@Override
+	public int selectCntRvw(PagingAndCtg unPaging) {
+		return mypageDao.selectCntRvw(unPaging);
 	}
 }

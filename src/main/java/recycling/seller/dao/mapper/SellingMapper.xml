@@ -18,13 +18,25 @@
 		ORDER BY prd_code DESC
 	</select>
 	
-	<select id="selectAllupcyPrd" parameterType="String" resultType="Prd">
-		SELECT * FROM prd
+	<select id="selectAllupcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="Prd">
+		SELECT *
+		FROM (
+			SELECT rownum no, PRD.* FROM (
+				SELECT * FROM prd
+				<where>
+					AND s_code = #{user }
+					AND ct_pno = 1
+					AND (
+					prd_name LIKE '%' || #{search } || '%'
+					OR prd_detail LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY prd_code DESC
+			) PRD
+		)
 		<where>
-			AND s_code = #{sCode}
-			AND ct_pno = 1
+			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
-		ORDER BY prd_code DESC
 	</select>
 	
 	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
@@ -197,4 +209,16 @@
 		</where>
 	</select>
 
+	<select id="selectCntAllupcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM prd
+		<where>
+			AND s_code = #{user }
+			AND ct_pno = 1
+			AND (
+				prd_name LIKE '%' || #{search } || '%'
+				OR prd_detail LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY prd_code DESC
+	</select>
 </mapper>

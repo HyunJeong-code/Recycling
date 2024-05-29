@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.MypageService;
 import recycling.dto.buyer.BuyerLogin;
@@ -28,7 +29,9 @@ public class MypageController {
 	@GetMapping("/myboard")
 	public void myMain(
 				Authentication authentication,
-				PagingAndCtg paging,
+				@RequestParam(defaultValue = "0") int curPage,
+				@RequestParam(defaultValue = "") String search,
+				@RequestParam(defaultValue = "") String sCtg,
 				Model model
 			) {
 		logger.info("/buyer/mypage/myboard [GET]");
@@ -36,25 +39,70 @@ public class MypageController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("buyerLogin : {}", buyerLogin);
 		
-		logger.info("paging : {}", paging);
 		// 문의글 페이지 수 계산
-		paging = new PagingAndCtg(mypageService.selectCntPage(paging), paging.getCurPage(), paging.getSearch(), paging.getCtg());
-		paging.setUser(buyerLogin.getbCode());
-		logger.info("AFTER - paging : {}", paging);
+		PagingAndCtg upPaging = new PagingAndCtg();
+		PagingAndCtg unPaging = new PagingAndCtg();
 		
-		List<Map<String, Object>> qna = mypageService.selectQnaBybCode(paging);
+		logger.info("sCtg : {}", sCtg);
+		if(sCtg.equals("UP")) {
+			upPaging.setCurPage(curPage);
+			upPaging.setSearch(search);
+			upPaging.setUser(buyerLogin.getbCode());
+			
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
+			unPaging.setUser(buyerLogin.getbCode());								
+		} else if(sCtg.equals("UN")){
+			unPaging.setCurPage(curPage);
+			unPaging.setSearch(search);
+			unPaging.setUser(buyerLogin.getbCode());					
+			
+			upPaging.setCurPage(0);
+			upPaging.setSearch("");
+			upPaging.setUser(buyerLogin.getbCode());
+		} else {
+			upPaging.setCurPage(0);
+			upPaging.setSearch("");
+			upPaging.setUser(buyerLogin.getbCode());
+			
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
+			unPaging.setUser(buyerLogin.getbCode());								
+		}
+		
+		
+		int upPage = mypageService.selectCntQna(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+		upPaging.setUser(buyerLogin.getbCode());
+		
+		List<Map<String, Object>> qna = mypageService.selectQnaBybCode(upPaging);
 		logger.info("QNA : {}", qna);
 		logger.info("QNA : {}", qna.size());
+		logger.info("uppage : {}", upPaging);
 		
-		model.addAttribute("paging", paging);
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("qna", qna);
 		model.addAttribute("qnaSize", qna.size());
+		model.addAttribute("upUrl", "/buyer/mypage/myboard");
 		
-		List<Map<String, Object>> rvw = mypageService.selectRvwBybCode(paging);
+		int unPage = mypageService.selectCntRvw(unPaging);
+		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
+		
+		logger.info("unPaging : {}", unPaging);
+		unPaging.setUser(buyerLogin.getbCode());
+		
+		List<Map<String, Object>> rvw = mypageService.selectRvwBybCode(unPaging);
 		logger.info("RVW : {}", rvw);
 		logger.info("RVW : {}", rvw.size());
+		logger.info("unpage : {}", unPaging);
 		
 		model.addAttribute("rvw", rvw);
 		model.addAttribute("rvwSize", rvw.size());
+		model.addAttribute("unPaging", unPaging);
+		model.addAttribute("unUrl", "/buyer/mypage/myboard");
+		
+		model.addAttribute("sCtg", sCtg);
 	}
 }
