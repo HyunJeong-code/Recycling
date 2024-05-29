@@ -138,6 +138,8 @@ public interface BuyerService {
 	 * @return 기업 구매자 정보
 	 */
 	public Cmp getCmpDetail(String bCode);
+
+	
 	
 	/**
 	 * 구매자 프로필 조회

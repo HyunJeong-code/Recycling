@@ -103,3 +103,4 @@ public interface BuyDao {
 	public List<Map<String, Object>> selectNtc();
 
 }
+
