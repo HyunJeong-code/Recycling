@@ -62,30 +62,6 @@ public class RecyclingController {
         
         List<Map<String, Object>> gpsList = new ArrayList<>();
         
-//        try {
-//        	location.forEach(seller -> {
-//        	    gpsList.add(objectMapper.convertValue(seller, Map.class));
-////        		gpsList.add((Map<String, Object>) objectMapper.convertValue(seller, JSONObject.class));
-//        	});
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        
-//        try {
-//            for (Seller seller : location) {
-//                Map<String, Object> sellerMap = objectMapper.convertValue(seller, Map.class);
-//                List<Rcy> rcyList = recyclingService.findRcyBySellerCode(seller.getbCode());
-//                if (!rcyList.isEmpty()) {
-//                    sellerMap.put("rcyCode", rcyList.get(0).getRcyCode());
-//                } else {
-//                    sellerMap.put("rcyCode", "");  // 혹시 관련된 재활용품 코드가 없을 경우 빈 문자열로 설정
-//                }
-//                gpsList.add(sellerMap);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        
         try {
         	for (Seller seller : location) {
         		Map<String, Object> sellerMap = objectMapper.convertValue(seller, Map.class);
@@ -123,7 +99,7 @@ public class RecyclingController {
 		Prd prd = recyclingService.view(prdCode);
 		
 		if (prd == null) {
-			return "not-found-page";
+			return "buyer/recycling/noneprd";
 		}
 		
 		Seller sellerProf = recyclingService.getSeller(prd.getsCode());

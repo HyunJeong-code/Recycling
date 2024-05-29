@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="../../../resources/css/common.css">
 </head>
 <body>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
 	<h1>사업장 위치</h1>
 	<hr>
@@ -39,6 +43,7 @@
 		// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 		// marker.setMap(null);    
 	</script>
-
+	
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>
