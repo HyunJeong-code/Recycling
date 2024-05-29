@@ -6,31 +6,38 @@
 <mapper namespace="recycling.buyer.dao.face.MypageDao">
 
 	<select id="selectQnaBybCode" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
-		SELECT rownum no, QST.* FROM (
-			SELECT * FROM (
-		        SELECT 
-		       		'OTO' ctg, O.b_code bcode, O.oto_code code, O.ct_otono ctno, O.oto_title title, O.oto_content content, O.oto_name name, O.oto_date entdate, O.oto_hit hit, 
-		            NVL(A.ans_code, '-') ans
-		        FROM oto O, ans A
-		        <where>
-			        AND O.oto_code = A.oto_code(+)
-		        </where>
-			    UNION ALL
-		        SELECT 
-		            'QST' ctg, Q.b_code bcode, Q.qst_code code, Q.ct_qstno ctno, Q.qst_title title, Q.qst_content content, Q.qst_name name, Q.qst_date entdate, Q.qst_hit hit, 
-		            NVL(A.qna_code, '-') ans
-		        FROM qst Q, qna A
-		        <where>
-			        AND Q.qst_code = A.qst_code(+)
-		        </where>
-			)
-			<where>
-				AND bcode = #{user }
-				OR title LIKE '%' || #{search } || '%'
-				OR content LIKE '%' || #{search } || '%'
-			</where>
-			ORDER BY entdate
-			) QST
+		SELECT * FROM (
+			SELECT rownum no, QST.* FROM (
+				SELECT * FROM (
+			        SELECT 
+			       		'OTO' ctg, O.b_code bcode, O.oto_code code, O.ct_otono ctno, O.oto_title title, O.oto_content content, O.oto_name name, O.oto_date entdate, O.oto_hit hit, 
+			            NVL(A.ans_code, '-') ans
+			        FROM oto O, ans A
+			        <where>
+				        AND O.oto_code = A.oto_code(+)
+			        </where>
+				    UNION ALL
+			        SELECT 
+			            'QST' ctg, Q.b_code bcode, Q.qst_code code, Q.ct_qstno ctno, Q.qst_title title, Q.qst_content content, Q.qst_name name, Q.qst_date entdate, Q.qst_hit hit, 
+			            NVL(A.qna_code, '-') ans
+			        FROM qst Q, qna A
+			        <where>
+				        AND Q.qst_code = A.qst_code(+)
+			        </where>
+				)
+				<where>
+					AND bcode = #{user }
+					AND (
+						title LIKE '%' || #{search } || '%'
+						OR content LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY entdate
+				) QST
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
 	<select id="selectRvwBybCode" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
@@ -69,8 +76,10 @@
 		)
 		<where>
 			AND bcode = #{user }
-			OR title LIKE '%' || #{search } || '%'
-			OR content LIKE '%' || #{search } || '%'
+			AND (
+				title LIKE '%' || #{search } || '%'
+				OR content LIKE '%' || #{search } || '%'
+			)
 		</where>
 		ORDER BY entdate
 	</select>

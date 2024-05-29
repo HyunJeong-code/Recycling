@@ -118,7 +118,7 @@ $(function() {
 
 							<td class="title">
 								<c:if test="${qna.CTG eq 'OTO' }">
-									<a href="/buyer/mypage/otodetail?otoCode=${qna.CODE }&curPage=${paging.curPage}&search=${paging.search }">${qna.TITLE }</a>
+									<a href="/buyer/mypage/otodetail?otoCode=${qna.CODE }">${qna.TITLE }</a>
 								</c:if>
 								<c:if test="${qna.CTG eq 'QST' }">
 									<a href="/buyer/help/detail?qstCode=${qna.CODE }">${qna.TITLE }</a>

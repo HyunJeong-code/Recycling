@@ -40,6 +40,7 @@ public class MypageController {
 		
 		// 문의글 페이지 수 계산
 		PagingAndCtg paging = new PagingAndCtg();
+		paging.setCurPage(curPage);
 		paging.setSearch(search);
 		paging.setUser(buyerLogin.getbCode());
 		
