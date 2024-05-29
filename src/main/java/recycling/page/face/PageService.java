@@ -1,4 +1,4 @@
-package recycling.seller.service.face;
+package recycling.page.face;
 
 import recycling.util.PagingAndCtg;
 

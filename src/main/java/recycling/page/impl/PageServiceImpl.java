@@ -1,12 +1,11 @@
-package recycling.buyer.service.impl;
+package recycling.page.impl;
 
 import org.springframework.stereotype.Service;
 
-import recycling.buyer.service.face.PageService;
 import recycling.util.PagingAndCtg;
 
 @Service
-public class PageServiceImpl implements PageService {
+public class PageServiceImpl implements recycling.page.face.PageService {
 	
 	@Override
 	public PagingAndCtg upPageBuyer(int curPage, String sCtg, String search, String getbCode) {
