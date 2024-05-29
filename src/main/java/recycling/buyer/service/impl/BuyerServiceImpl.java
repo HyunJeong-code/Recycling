@@ -320,4 +320,9 @@ public class BuyerServiceImpl implements BuyerService {
 	
 	}
 
+	@Override
+	public int changePw(BuyerLogin buyerLogin) {
+		return 0;
+	}
+
 }

@@ -19,6 +19,7 @@
     height: 4px;
     background-color: #000;
     border-top: none;
+    opacity: 1;
 }
 
 .page-header {

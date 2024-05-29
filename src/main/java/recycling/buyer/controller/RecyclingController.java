@@ -80,7 +80,7 @@ public class RecyclingController {
         
         // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
 //        return "buyer/recycling/findseller_origin";
-        }
+        
 
 	}
 //	@GetMapping("/main")
