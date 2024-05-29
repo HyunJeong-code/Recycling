@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.MypageService;
 import recycling.dto.buyer.BuyerLogin;
@@ -28,7 +29,8 @@ public class MypageController {
 	@GetMapping("/myboard")
 	public void myMain(
 				Authentication authentication,
-				PagingAndCtg paging,
+				@RequestParam(defaultValue = "0") int curPage,
+				@RequestParam(defaultValue = "") String search,
 				Model model
 			) {
 		logger.info("/buyer/mypage/myboard [GET]");
@@ -36,19 +38,27 @@ public class MypageController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("buyerLogin : {}", buyerLogin);
 		
-		logger.info("paging : {}", paging);
 		// 문의글 페이지 수 계산
-		paging = new PagingAndCtg(mypageService.selectCntPage(paging), paging.getCurPage(), paging.getSearch(), paging.getCtg());
+		PagingAndCtg paging = new PagingAndCtg();
+		paging.setSearch(search);
 		paging.setUser(buyerLogin.getbCode());
-		logger.info("AFTER - paging : {}", paging);
+		
+		int page = mypageService.selectCntPage(paging);
+		paging = new PagingAndCtg(page, paging.getCurPage(), paging.getSearch());
+		
+		logger.info("paging : {}", paging);
+		paging.setUser(buyerLogin.getbCode());
 		
 		List<Map<String, Object>> qna = mypageService.selectQnaBybCode(paging);
 		logger.info("QNA : {}", qna);
 		logger.info("QNA : {}", qna.size());
+		logger.info("page : {}", paging);
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("qna", qna);
 		model.addAttribute("qnaSize", qna.size());
+		model.addAttribute("search", search);
+		model.addAttribute("url", "/buyer/mypage/myboard");
 		
 		List<Map<String, Object>> rvw = mypageService.selectRvwBybCode(paging);
 		logger.info("RVW : {}", rvw);

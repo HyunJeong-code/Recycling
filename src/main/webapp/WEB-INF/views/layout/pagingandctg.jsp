@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div>
-<ul class="pagination pagination-sm justify-content-center">
+<div class="paging">
+<ul class="page-ul">
 
 	<!-- 첫 페이지로 이동 -->
 	<c:if test="${paging.curPage ne 1 }">
@@ -14,7 +14,7 @@
 	<!-- 이전 페이지로 이동 -->
 	<c:if test="${paging.curPage > 1 }">
 	<li class="page-item">
-		<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }&ctg=${pageing.ctg }">&lt;</a>
+		<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }">&lt;</a>
 	</li>
 	</c:if>
 	
@@ -22,7 +22,7 @@
 	<c:choose>
 		<c:when test="${paging.startPage ne 1 }">
 			<li class="page-item">
-				<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }&ctg=${pageing.ctg }">&laquo;</a>
+				<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }">&laquo;</a>
 			</li>
 		</c:when>
 		
@@ -37,13 +37,13 @@
 	<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
 		<c:if test="${paging.curPage eq i }">
 			<li class="page-item">
-				<a class="page-link active" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }&ctg=${pageing.ctg }">${i }</a>
+				<a class="page-link active" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }">${i }</a>
 			</li>
 		</c:if>
 		
 		<c:if test="${paging.curPage ne i }">
 			<li class="page-item">
-				<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }&ctg=${pageing.ctg }">${i }</a>
+				<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }">${i }</a>
 			</li>
 		</c:if>
 	</c:forEach>
@@ -57,7 +57,7 @@
 	<!-- 다음 페이지로 이동 -->
 	<c:if test="${paging.curPage < paging.totalPage }">
 	<li class="page-item">
-		<a class="page-link" href="/<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }&ctg=${pageing.ctg }">&gt;</a>
+		<a class="page-link" href="/<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }">&gt;</a>
 	</li>
 	</c:if>
 	
@@ -65,13 +65,13 @@
 	<c:choose>
 		<c:when test="${paging.startPage ne paging.totalPage }">
 			<li class="page-item">
-				<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }&ctg=${pageing.ctg }">&raquo;</a>
+				<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }">&raquo;</a>
 			</li>
 		</c:when>
 		
 		<c:when test="${paging.startPage eq paging.totalPage }">
 			<li class="page-item">
-				<a class="page-link disabled">&laquo;</a>
+				<a class="page-link disabled">&raquo;</a>
 			</li>
 		</c:when>
 	</c:choose>
@@ -79,7 +79,7 @@
 	<!-- 마지막 페이지로 이동 -->
 	<c:if test="${paging.curPage ne paging.totalPage }">
 	<li class="page-item">
-		<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }&ctg=${pageing.ctg }">끝 &rarr;</a>
+		<a class="page-link" href="<c:out value="${pageContext.request.contextPath}"/>${url}?curPage=${paging.curPage - 1}&search=${paging.search }">끝 &rarr;</a>
 	</li>
 	</c:if>
 </ul>
