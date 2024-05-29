@@ -14,7 +14,7 @@
 		<!-- 이전 페이지로 이동 -->
 		<c:if test="${unPaging.curPage > 1 }">
 		<li class="page-item">
-			<a class="page-link" href="${unUrl}?curPage=${unPaging.curPage - 1}&search=${unPaging.search }">&lt;</a>
+			<a class="page-link" href="${unUrl}?curPage=${unPaging.curPage - 1}&search=${unPaging.search }&sCtg=UN">&lt;</a>
 		</li>
 		</c:if>
 		
@@ -22,7 +22,7 @@
 		<c:choose>
 			<c:when test="${unPaging.startPage ne 1 }">
 				<li class="page-item">
-					<a class="page-link" href="${unUrl}?curPage=${unPaging.curPage - 1}&search=${unPaging.search }">&laquo;</a>
+					<a class="page-link" href="${unUrl}?curPage=${unPaging.curPage - 1}&search=${unPaging.search }&sCtg=UN">&laquo;</a>
 				</li>
 			</c:when>
 			
@@ -37,13 +37,13 @@
 		<c:forEach var="i" begin="${unPaging.startPage }" end="${unPaging.endPage }">
 			<c:if test="${unPaging.curPage eq i }">
 				<li class="page-item">
-					<a class="page-link active" href="${unUrl}?curPage=${i }&search=${unPaging.search }">${i }</a>
+					<a class="page-link active" href="${unUrl}?curPage=${i }&search=${unPaging.search }&sCtg=UN">${i }</a>
 				</li>
 			</c:if>
 			
 			<c:if test="${unPaging.curPage ne i }">
 				<li class="page-item">
-					<a class="page-link" href="${unUrl}?curPage=${i }&search=${unPaging.search }">${i }</a>
+					<a class="page-link" href="${unUrl}?curPage=${i }&search=${unPaging.search }&sCtg=UN">${i }</a>
 				</li>
 			</c:if>
 		</c:forEach>
@@ -57,7 +57,7 @@
 		<!-- 다음 페이지로 이동 -->
 		<c:if test="${unPaging.curPage < unPaging.totalPage }">
 		<li class="page-item">
-			<a class="page-link" href="${unUrl}?curPage=${unPaging.curPage + 1}&search=${unPaging.search }">&gt;</a>
+			<a class="page-link" href="${unUrl}?curPage=${unPaging.curPage + 1}&search=${unPaging.search }&sCtg=UN">&gt;</a>
 		</li>
 		</c:if>
 		
@@ -65,7 +65,7 @@
 		<c:choose>
 			<c:when test="${unPaging.startPage ne unPaging.totalPage }">
 				<li class="page-item">
-					<a class="page-link" href="${unUrl}?curPage=${unPaging.startPage + unPaging.pageCount}&search=${unPaging.search }">&raquo;</a>
+					<a class="page-link" href="${unUrl}?curPage=${unPaging.startPage + unPaging.pageCount}&search=${unPaging.search }&sCtg=UN">&raquo;</a>
 				</li>
 			</c:when>
 			
@@ -79,7 +79,7 @@
 		<!-- 마지막 페이지로 이동 -->
 		<c:if test="${unPaging.curPage ne unPaging.totalPage }">
 			<li class="page-item">
-				<a class="page-link" href="${unUrl}?curPage=${unPaging.totalPage }&search=${unPaging.search }">끝 &rarr;</a>
+				<a class="page-link" href="${unUrl}?curPage=${unPaging.totalPage }&search=${unPaging.search }&sCtg=UN">끝 &rarr;</a>
 			</li>
 		</c:if>
 	</ul>

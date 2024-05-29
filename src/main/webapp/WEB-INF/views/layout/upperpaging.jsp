@@ -14,7 +14,7 @@
 		<!-- 이전 페이지로 이동 -->
 		<c:if test="${upPaging.curPage > 1 }">
 		<li class="page-item">
-			<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage - 1}&search=${upPaging.search }">&lt;</a>
+			<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage - 1}&search=${upPaging.search }&sCtg=UP">&lt;</a>
 		</li>
 		</c:if>
 		
@@ -22,7 +22,7 @@
 		<c:choose>
 			<c:when test="${upPaging.startPage ne 1 }">
 				<li class="page-item">
-					<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage - 1}&search=${upPaging.search }">&laquo;</a>
+					<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage - 1}&search=${upPaging.search }&sCtg=UP">&laquo;</a>
 				</li>
 			</c:when>
 			
@@ -37,13 +37,13 @@
 		<c:forEach var="i" begin="${upPaging.startPage }" end="${upPaging.endPage }">
 			<c:if test="${upPaging.curPage eq i }">
 				<li class="page-item">
-					<a class="page-link active" href="${upUrl}?curPage=${i }&search=${upPaging.search }">${i }</a>
+					<a class="page-link active" href="${upUrl}?curPage=${i }&search=${upPaging.search }&sCtg=UP">${i }</a>
 				</li>
 			</c:if>
 			
 			<c:if test="${upPaging.curPage ne i }">
 				<li class="page-item">
-					<a class="page-link" href="${upUrl}?curPage=${i }&search=${upPaging.search }">${i }</a>
+					<a class="page-link" href="${upUrl}?curPage=${i }&search=${upPaging.search }&sCtg=UP">${i }</a>
 				</li>
 			</c:if>
 		</c:forEach>
@@ -57,7 +57,7 @@
 		<!-- 다음 페이지로 이동 -->
 		<c:if test="${upPaging.curPage < upPaging.totalPage }">
 		<li class="page-item">
-			<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage + 1}&search=${upPaging.search }">&gt;</a>
+			<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage + 1}&search=${upPaging.search }&sCtg=UP">&gt;</a>
 		</li>
 		</c:if>
 		
@@ -65,7 +65,7 @@
 		<c:choose>
 			<c:when test="${upPaging.startPage ne upPaging.totalPage }">
 				<li class="page-item">
-					<a class="page-link" href="${upUrl}?curPage=${upPaging.startPage + upPaging.pageCount}&search=${upPaging.search }">&raquo;</a>
+					<a class="page-link" href="${upUrl}?curPage=${upPaging.startPage + upPaging.pageCount}&search=${upPaging.search }&sCtg=UP">&raquo;</a>
 				</li>
 			</c:when>
 			
@@ -79,7 +79,7 @@
 		<!-- 마지막 페이지로 이동 -->
 		<c:if test="${upPaging.curPage ne upPaging.totalPage }">
 			<li class="page-item">
-				<a class="page-link" href="${upUrl}?curPage=${upPaging.totalPage }&search=${upPaging.search }">끝 &rarr;</a>
+				<a class="page-link" href="${upUrl}?curPage=${upPaging.totalPage }&search=${upPaging.search }&sCtg=UP">끝 &rarr;</a>
 			</li>
 		</c:if>
 	</ul>

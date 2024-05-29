@@ -54,7 +54,7 @@ $(function() {
 
 			<div class="search">
 				<form action="./myboard" method="get">
-					<input type="hidden" name="sCtg" value="Q">
+					<input type="hidden" name="sCtg" value="UP">
 					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
 					<button>검색</button>
 				</form>
@@ -165,7 +165,7 @@ $(function() {
 		<div class="section">
 			<div class="search">
 				<form action="./myboard" method="get">
-					<input type="hidden" name="sCtg" value="R">
+					<input type="hidden" name="sCtg" value="UN">
 					<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
 					<button>검색</button>
 				</form>
