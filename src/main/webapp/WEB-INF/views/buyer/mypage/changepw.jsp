@@ -12,7 +12,17 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
-
+$(document).ready(function() {
+	$('form').on('submit', function(event) {
+		var newPw = $('#newPw').val();
+		var confirmPw = $('#confirmPw').val();
+		
+		if(newPw !== confirmPw) {
+			alert('새 비밀번호가 일치하지 않습니다.');
+			event.preventDefault();
+		}
+	})
+})
 </script>
 
 <style type="text/css">
@@ -60,16 +70,12 @@ label {
 					<div class="changepw">
 						<h3>비밀번호 변경</h3>
 						<div class="form-group">
-							<label for="currentPw">현재 비밀번호</label>
-							<input type="text" id="currentPw" name="currentPw" required>
-						</div>
-						<div class="form-group">
 							<label for="newPw">새 비밀번호 </label>
 							<input type="text" id="newPw" name="newPw" required>
 						</div>
 						<div class="form-group">
 							<label for="confirmPw">새 비밀번호 확인 </label>
-							<input type="text" id="conformPw" name="confirmPw" required><br>
+							<input type="text" id="confirmPw" name="confirmPw" required><br>
 						</div>
 						<input type="submit" value="비밀번호 변경">
 					</div>
