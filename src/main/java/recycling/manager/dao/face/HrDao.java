@@ -33,6 +33,13 @@ public interface HrDao {
 	public Manager selectDetail(Manager manager);
 
 	/**
+	 * 세부사항 프로필 조회
+	 * @param mgrFile
+	 * @return
+	 */
+	public MgrFile mgrProFileList(MgrFile mgrFile);
+	
+	/**
 	 * 세부사항 파일조회
 	 * @param manager 
 	 * 
@@ -84,6 +91,8 @@ public interface HrDao {
 	 * @return
 	 */
 	public int listDel(String mgrCode);
+
+	
 
 
 

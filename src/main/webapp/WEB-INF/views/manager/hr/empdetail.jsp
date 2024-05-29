@@ -44,7 +44,7 @@ $(document).ready(function() {
 
 			<div class="section">
 				<div class ="section_top">
-					<img alt="" src="">
+					<img alt="${pageContext.request.contextPath}/resources/image/basicProf.png" src="${pageContext.request.contextPath}/upload/${profileList.storedName}">
 					
 				<div class="section_top_privacy">
 					<div class="mgrCode_box">

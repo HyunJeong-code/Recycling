@@ -170,18 +170,14 @@ $(function() {
 		})//btn_reserve_cancel
 		
 		
-		
-		
-		
-		
-		
 })
 </script>
 </head>
 <body>
     <div class="full">
     	<aside>
-    	
+    		<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+			<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
     	</aside>
         <div class="wrap">
             <div class="page">

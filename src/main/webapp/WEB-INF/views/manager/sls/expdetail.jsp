@@ -65,8 +65,11 @@ $(function() {
 </head>
 
 <body>
+<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
 	<div class="full">
 		<aside>
+			<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+			<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
 		</aside>
 		<div class="wrap">
 			<div class="page">
@@ -75,8 +78,11 @@ $(function() {
 			</div>
 
 			<div class="section">
-			    
-	    		<img alt="없음" src="/upload/${fileimage.storedName }">
+				
+				<label>프로필 이미지</label>
+				<div>
+					<img alt="없음" src="/upload/${profileimage.storedName }">
+				</div>
 		
 				<div class="top_section_con">
 						<div class="expName">
@@ -98,6 +104,13 @@ $(function() {
 							<a href="./expupdate?expCode=${view.expCode }" ><button type="button">수정하기</button></a>
 						</div>				
 					</div>
+				<label>체험상세 이미지</label>
+				<div>
+				<c:forEach var="fileImage" items="${fileImage }">
+		    		<img alt="없음" src="/upload/${fileImage.storedName }">
+				</c:forEach>
+				</div>
+
 				<div class="section">
 	<table>
 		<thead>
