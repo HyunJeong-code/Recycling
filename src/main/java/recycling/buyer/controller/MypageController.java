@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.buyer.service.face.MypageService;
+import recycling.buyer.service.face.PageService;
+import recycling.buyer.service.impl.PageServiceImpl;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.util.PagingAndCtg;
 
@@ -25,6 +27,7 @@ public class MypageController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private MypageService mypageService;
+	@Autowired private recycling.page.face.PageService pageService;
 	
 	@GetMapping("/myboard")
 	public void myMain(
@@ -44,32 +47,8 @@ public class MypageController {
 		PagingAndCtg unPaging = new PagingAndCtg();
 		
 		logger.info("sCtg : {}", sCtg);
-		if(sCtg.equals("UP")) {
-			upPaging.setCurPage(curPage);
-			upPaging.setSearch(search);
-			upPaging.setUser(buyerLogin.getbCode());
-			
-			unPaging.setCurPage(0);
-			unPaging.setSearch("");
-			unPaging.setUser(buyerLogin.getbCode());								
-		} else if(sCtg.equals("UN")){
-			unPaging.setCurPage(curPage);
-			unPaging.setSearch(search);
-			unPaging.setUser(buyerLogin.getbCode());					
-			
-			upPaging.setCurPage(0);
-			upPaging.setSearch("");
-			upPaging.setUser(buyerLogin.getbCode());
-		} else {
-			upPaging.setCurPage(0);
-			upPaging.setSearch("");
-			upPaging.setUser(buyerLogin.getbCode());
-			
-			unPaging.setCurPage(0);
-			unPaging.setSearch("");
-			unPaging.setUser(buyerLogin.getbCode());								
-		}
-		
+		upPaging = pageService.upPageBuyer(curPage, sCtg, search, buyerLogin.getbCode());
+		unPaging = pageService.unPageBuyer(curPage, sCtg, search, buyerLogin.getbCode());		
 		
 		int upPage = mypageService.selectCntQna(upPaging);
 		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
