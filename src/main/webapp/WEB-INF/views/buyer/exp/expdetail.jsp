@@ -8,8 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>체험단 상세페이지</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
@@ -19,29 +17,40 @@ function scrollToSection(sectionId) {
         section.scrollIntoView({ behavior: 'smooth' });
     }
 }
+
+function checkLoginAndRedirect(url) {
+    var isLoggedIn = '${isLoggedIn}';
+    if (isLoggedIn) {
+        window.location.href = url;
+    } else {
+        alert("로그인 후 이용해주세요.");
+        window.location.href = "/buyer/login";
+    }
+}
 </script>
 
 <style type="text/css">
-body { font-family: Arial, sans-serif; }
-.container { width: 80%; margin: 0 auto; }
-.product-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+
 .exp_file_main { width: 350px; height: 250px; background-color: #e9e9e9; display: flex; justify-content: center; align-items: center; }
 .exp_file_detail {
 	width: 500px; 
 	height: 500px;
 }
-.product-info { flex-grow: 1; margin-left: 20px; }
 .tabs { display: flex; margin-top: 20px; }
 .tab { margin-right: 20px; cursor: pointer; }
 .tab-content { margin-top: 20px; }
 .seller-info { display: flex; align-items: center; margin-top: 20px; }
 .seller-photo { width: 50px; height: 50px; background-color: #e9e9e9; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 10px; }
+.star-rating { display: inline-block; }
+.star-rating .filled { color: gold; }
+.star-rating .empty { color: lightgray; }
 </style>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="wrap">
-<div class="top_section">
-	<div class="exp_header">
+
+	<div>
 		<div class="exp_file_main">
 			<c:if test="${not empty main}">
                     <img src="${pageContext.request.contextPath}/upload/${main.storedName}" alt="${main.originName}" style="max-width: 100%;">
@@ -51,11 +60,11 @@ body { font-family: Arial, sans-serif; }
 			<h2>${exp.expName }</h2>
 			<p>${exp.expPrice }원</p>
 			<a href="./expresform?expCode=${exp.expCode }">
-			<button>예약하기</button>
+			<button class="btn">예약하기</button>
 			</a>
 		</div>
 	</div>
-</div>
+
 
 <div class="tabs">
         <div class="tab" onclick="scrollToSection('detail-info')">상세정보</div>
@@ -94,15 +103,92 @@ body { font-family: Arial, sans-serif; }
             </div>
         </div>
         
+        <div class="review-form">
+        <h4>후기 작성</h4>
+	        <c:choose>
+	            <c:when test="${isLoggedIn}">
+	                <form action="/buyer/exp/expdetail" method="post">
+	                    <input type="hidden" name="expCode" value="${exp.expCode}">
+	                    <input type="hidden" name="bCode" value="${loggedInUser.bCode}">
+	                    <label for="rvwGrade">평점:</label>
+	                    <select id="rvwGrade" name="rvwGrade" required>
+	                        <option value="1">1점</option>
+	                        <option value="2">2점</option>
+	                        <option value="3">3점</option>
+	                        <option value="4">4점</option>
+	                        <option value="5">5점</option>
+	                    </select>
+	                    <br>
+	                    <label for="rvwContent">후기 내용:</label>
+	                    <textarea id="rvwContent" name="rvwContent" rows="4" cols="50" required></textarea>
+	                    <br>
+	                    <button type="submit" class="btn">작성하기</button>
+	                </form>
+	            </c:when>
+	            <c:otherwise>
+	                <p>로그인 후 작성해주세요</p>
+	                <button class="btn" onclick="window.location.href='/buyer/login'">로그인</button>
+	            </c:otherwise>
+	        </c:choose>
+    	</div>
+    	
         
-        <div class="tab-content" id="reviews">
-            <h2>후기평</h2>
-            <p>후기평 내용</p>
-        </div>
+        <div class="page">
+			<h4>후기</h4>
+		</div>
+		
+		<div class="reviews">
+			<table>
+				<tr>
+					<th>작성자</th>
+					<th>평점</th>
+					<th>후기</th>
+					<th>작성일</th>
+				</tr>
+				
+				<c:if test="${expReviewsSize ne 0 }">
+					<c:forEach var="expReviews" items="${expReviews }">
+						<tr>
+							<td></td>
+							
+							<td class="grade star-rating">
+	                            <c:forEach begin="1" end="5" var="i">
+	                                <c:choose>
+	                                    <c:when test="${i <= expReviews.rvwGrade}">
+	                                        <span class="filled">★</span>
+	                                    </c:when>
+	                                    <c:otherwise>
+	                                        <span class="empty">☆</span>
+	                                    </c:otherwise>
+	                                </c:choose>
+	                            </c:forEach>
+                        	</td>
+							<td>
+								${expReviews.rvwContent }
+							</td>
+							<td>
+								<fmt:parseDate value="${expReviews.rvwDate}"  var="rvwDate" pattern="yyyy-MM-dd" />
+								<fmt:formatDate value="${rvwDate}" pattern="yyyy-MM-dd"/>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:if>				
+					
+				<c:if test="${expReviewsSize eq 0 }">
+					<tr>
+						<td colspan="5" class="none">작성한 문의글이 없습니다.</td>
+					</tr>
+				</c:if>
+			</table>
+		</div>
+        
+        
+        
         
 	<div>
-		<button type="button"><a href="./main">메인으로</a></button>
+		<button class="btn" type="button"><a href="./main">메인으로</a></button>
 	</div>
 </div>
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

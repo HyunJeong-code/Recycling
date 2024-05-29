@@ -3,12 +3,13 @@ package recycling.manager.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-
 // 판매제휴팀 DB 처리
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
@@ -78,6 +79,32 @@ public interface SlsDao {
 	public void insert(Exp exp);
 
 	/**
+	 * 파일 저장
+	 * 
+	 * @param main
+	 * @param exp
+	 * @return
+	 */
+	public ExpFile expSaveFile(MultipartFile main, Exp exp);
+
+	/**
+	 * 썸네일 삽입
+	 * 
+	 * @param expMain
+	 * @return
+	 */
+	public int expInsertFileMain(ExpFile expMain);
+
+	/**
+	 * 상품 상세 삽입
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public int expInsertFileDetail(ExpFile expFile);
+	
+	
+	/**
 	 * 
 	 * 게시판 번호 가져오기
 	 * @param exp
@@ -91,8 +118,8 @@ public interface SlsDao {
 	 * 
 	 * @param expFile
 	 */
-	public void fileup(ExpFile expFile);
-
+	public void expFileUp(ExpFile expFile);
+	
 	/**
 	 * 
 	 * 체험 일정 업로드
@@ -167,12 +194,19 @@ public interface SlsDao {
 	public int expListDel(String expCode);
 
 	/**
+	 * 체험 프로필 이미지
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expProImage(ExpFile expFile);
+	
+	/**
 	 * 이미지 업로드 번호조회
 	 * 
 	 * @param expFile
 	 * @return
 	 */
-	public ExpFile image(ExpFile expFile);
+	public List<ExpFile> expImage(ExpFile expFile);
 
 	/**
 	 * 예약 확정버튼에 따른 예약변경
@@ -312,4 +346,39 @@ public interface SlsDao {
 	 * @return
 	 */
 	public int getResCntBySchNo(String schNo);
+
+		/**
+	 * 업데이트 프로필 조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expUpdateProfile(ExpFile expFile);
+
+	/**
+	 * 업데이트 파일 조회
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpFile> expUpdateFile(ExpFile expFile);
+
+	/**
+	 * 업데이트 프로필 수정하기
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public void expUpdatefileProc(ExpFile expfile);
+
+	/**
+	 * 업데이트 파일 수정하기
+	 * 
+	 * @param expFile
+	 */
+	public void expUpdateMultiFileProc(ExpFile expFile);
+
+
+	
+
 }
