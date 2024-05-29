@@ -182,6 +182,15 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+	public int updateMyOrder(MyOrder myOrder) {
+		int res = sellingDao.updateMyOrder(myOrder);
+		if(myOrder.getShipNo() != 0 && myOrder.getShipName() != null) {
+			res *= sellingDao.insertShip(myOrder);
+		}
+		return res;
+	}
+	
+	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		

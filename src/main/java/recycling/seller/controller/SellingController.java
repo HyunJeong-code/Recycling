@@ -261,7 +261,16 @@ public class SellingController {
 	public String upcyOrderUpdate(MyOrder myOrder) {
 		logger.info("{}", myOrder);
 		
-		return "redirect:seller/selling/upcylist";
+		int res = sellingService.updateMyOrder(myOrder);
+		
+		return "redirect:upcylist";
+	}
+	
+	@GetMapping("/delship")
+	public String delShip(String orddtCode) {
+		int res = sellingService.deleteShip(orddtCode);
+		
+		return "redirect:upcylist";
 	}
 	
 

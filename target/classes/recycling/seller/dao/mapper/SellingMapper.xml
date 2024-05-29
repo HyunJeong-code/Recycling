@@ -111,6 +111,20 @@
 		</where>
 		ORDER BY od.ORDDT_CODE DESC
 	</select>
+	
+	<update id="updateMyOrder" parameterType="MyOrder">
+		UPDATE
+			orders
+		SET
+			send_name = #{sendName}
+			, send_phone = #{sendPhone}
+			, ord_postcode = #{ordPostcode}
+			, ord_addr = #{ordAddr}
+			, ord_detail = #{ordDetail}
+		<where>
+			AND ord_code = #{ordCode}
+		</where>
+	</update>
 
 <!-- 	<select id="selectAllPrd" parameterType="BuyerLogin" resultType="AllPrd"> -->
 		

@@ -156,4 +156,12 @@ public interface SellingDao {
 	 */
 	public MyOrder selectMyOrderByOrddtCode(String orddtCode);
 
+	/**
+	 * 주문 상세 수정
+	 * 
+	 * @param myOrder - 수정 정보를 담은 DTO 객체
+	 * @return - UPDATE 결과
+	 */
+	public int updateMyOrder(MyOrder myOrder);
+
 }
