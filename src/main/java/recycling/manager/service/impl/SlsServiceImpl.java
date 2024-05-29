@@ -172,26 +172,7 @@ public class SlsServiceImpl implements SlsService {
 	    }
 	}
 	
-	private String saveFile(MultipartFile file, File storedFolder) {
-	    if (file.isEmpty()) {
-	        return null;
-	    }
-
-	    String storedName;
-	    File dest;
-	    do {
-	        storedName = UUID.randomUUID().toString().split("-")[4] + "_" + file.getOriginalFilename();
-	        dest = new File(storedFolder, storedName);
-	    } while (dest.exists());
-
-	    try {
-	        file.transferTo(dest);
-	        return storedName;
-	    } catch (IllegalStateException | IOException e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	}
+	
 
 
 	//체험 수정항목 조회
@@ -204,7 +185,6 @@ public class SlsServiceImpl implements SlsService {
 	//체험 수정하기
 	@Override
 	public void expUpdateProc(Exp exp) {
-	    logger.info("service: expUpdateProc");
 	    slsDao.expUpdateProc(exp);
 	}
 
@@ -370,28 +350,124 @@ public class SlsServiceImpl implements SlsService {
 
 	//업데이트 프로필 조회하기
 	@Override
-	public ExpFile expUpdateProfile(String expCode) {
-		logger.info("service expcode: {}",expCode);
-		return slsDao.expUpdateProfile(expCode);
+	public ExpFile expUpdateProfile(ExpFile expFile) {
+		logger.info("service expcode: {}",expFile);
+		return slsDao.expUpdateProfile(expFile);
 	}
 
 	//업데이트 파일 조회하기
 	@Override
-	public List<ExpFile> expUpdateFile(String expCode) {
-		return slsDao.expUpdateFile(expCode);
+	public List<ExpFile> expUpdateFile(ExpFile expFile) {
+		return slsDao.expUpdateFile(expFile);
 	}
 
-	//업데이트 프로필 수정하기
+	//업데이트 파일 인서트
 	@Override
-	public ExpFile expUpdateProfileProc(String expCode) {
-		return slsDao.expUpdateProfileProc(expCode);
+	public ExpFile updateFile(MultipartFile expfileUpdate, Exp exp) {
+		if(expfileUpdate.getSize() <= 0) {
+			logger.info("파일 없음");
+			
+			return null;
+		}
+		
+		String storedPath = servletContext.getRealPath("upload");
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		String storedName = null;
+		File dest = null;
+		do {
+			storedName = expfileUpdate.getOriginalFilename(); // 원본 파일명
+			storedName += UUID.randomUUID().toString().split("-")[4]; // UUID 추가
+			dest = new File(storedFolder, storedName);			
+		} while(dest.exists());
+		
+		try {
+			expfileUpdate.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		ExpFile expFile = new ExpFile();
+		expFile.setExpCode(expFile.getExpCode());
+		expFile.setOriginName(expfileUpdate.getOriginalFilename());
+		expFile.setStoredName(storedName);
+		
+		return expFile;
+	}
+	
+	//멀티 업데이트 파일 가져오기
+	@Override
+	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp) {
+		logger.info("{}",expMultiFileUpdate);
+		
+		
+	    String storedPath = servletContext.getRealPath("upload");
+	    File storedFolder = new File(storedPath);
+	    if (!storedFolder.exists()) {
+	        storedFolder.mkdir();
+	    }
+	    String expCode = exp.getExpCode();
+	    logger.info("expCode 22222{}",expCode);
+	    List<ExpFile> expFiles = new ArrayList<>();
+	    logger.info("1111111111service : {}", expFiles);
+	    
+
+	    // 메인 파일 저장
+	    for (MultipartFile mainFile : expMultiFileUpdate) {
+	        String storedName = saveFile(mainFile, storedFolder);
+	        if (storedName != null) {
+	        	logger.info("service : {}", mainFile);
+	            ExpFile expFile = new ExpFile();
+	            expFile.setOriginName(mainFile.getOriginalFilename());
+	            expFile.setStoredName(storedName);
+	            expFile.setExpCode(expCode);
+	            expFile.setCtPflNo(610);
+	            expFiles.add(expFile);
+	            logger.info("service : {}", expFile);
+	        }
+	    }
+	    
+	    for (ExpFile expFile : expFiles) {
+	        slsDao.expUpdateMultiFileProc(expFile);
+	        logger.info("exp fileup service : {}", expFile);
+	    }
+	    
 	}
 
-	//업데이트 파일 수정하기
+	
+	//업데이트 수정하기
 	@Override
-	public List<ExpFile> expUpdateFileProc(String expCode) {
-		return slsDao.expUpdateFileProc(expCode);
+	public void expUpdatefileProc(ExpFile expfile) {
+		slsDao.expUpdatefileProc(expfile);
 	}
+
+
+
+	//파일 저장소
+	private String saveFile(MultipartFile file, File storedFolder) {
+	    logger.info("SERVICE : SAVEFILE[GET]");
+		if (file.isEmpty()) {
+	        return null;
+	    }
+
+	    String storedName;
+	    File dest;
+	    do {
+	        storedName = UUID.randomUUID().toString().split("-")[4] + "_" + file.getOriginalFilename();
+	        dest = new File(storedFolder, storedName);
+	    } while (dest.exists());
+
+	    try {
+	        file.transferTo(dest);
+	        return storedName;
+	    } catch (IllegalStateException | IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+
 
 
 

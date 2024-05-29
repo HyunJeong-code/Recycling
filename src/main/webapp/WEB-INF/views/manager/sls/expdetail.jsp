@@ -79,6 +79,7 @@ $(function() {
 
 			<div class="section">
 				
+				<label>프로필 이미지</label>
 				<div>
 					<img alt="없음" src="/upload/${profileimage.storedName }">
 				</div>
@@ -103,6 +104,7 @@ $(function() {
 							<a href="./expupdate?expCode=${view.expCode }" ><button type="button">수정하기</button></a>
 						</div>				
 					</div>
+				<label>체험상세 이미지</label>
 				<div>
 				<c:forEach var="fileImage" items="${fileImage }">
 		    		<img alt="없음" src="/upload/${fileImage.storedName }">

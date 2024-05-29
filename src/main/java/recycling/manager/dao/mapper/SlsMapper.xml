@@ -326,7 +326,7 @@
 	    , exp_name = #{expName }
 	    , exp_price = #{expPrice }
 	    , exp_detail = #{expDetail }
-	    , exp_date = default
+	    , exp_date = sysdate
 	    <where>exp_code = #{expCode }</where>
 	</update>
 
@@ -489,7 +489,7 @@
 	</select>
 	
 	<!-- 업데이트 프로필 조회 -->
-	<select id="expUpdateProfile" resultType="ExpFile" parameterType="String">
+	<select id="expUpdateProfile" resultType="ExpFile" parameterType="ExpFile">
 		<include refid="expFileBoard"></include>
 		<where>
 			AND exp_code = #{expCode }
@@ -498,7 +498,7 @@
 	</select>
 	
 	<!-- 업데이트 파일 조회 -->
-	<select id="expUpdateFile" resultType="ExpFile" parameterType="String">
+	<select id="expUpdateFile" resultType="ExpFile" parameterType="ExpFile">
 		<include refid="expFileBoard"></include>
 		<where>
 			AND exp_code = #{expCode }
@@ -509,23 +509,36 @@
 	<!-- 업데이트 프로필 수정하기 -->
 	<update id="expUpdateProfileProc" parameterType="ExpFile">
 			UPDATE exp_file SET
-				origin_name = #{originName }, 
-				stored_name = #{storedName }
+				origin_name = #{originName } 
+				, stored_name = #{storedName }
 		<where>
 			AND exp_code = #{expCode }
 			AND exp_flno = #{expFlNo }
 		</where>
 	</update>
 	
-	<!-- 업데이트 파일 수정하기 -->
-	<update id="expUpdateFileProc" parameterType="ExpFile">
-			UPDATE exp_file SET
-				origin_name = #{originName }, 
-				stored_name = #{storedName }
-		<where>
-			AND exp_code = #{expCode }
-			AND exp_flno = #{expFlNo }
-		</where>
+	<!-- 업데이트 프로필 수정하기 -->
+	<update id="expUpdatefileProc" parameterType="ExpFile">
+	    UPDATE exp_file
+	    SET
+	        origin_name = #{originName}
+	        , stored_name = #{storedName}
+	    <where>
+	        AND exp_code = #{expCode}
+	        AND exp_flno = #{expFlNo}
+	    </where>
+	</update>
+	
+		<!-- 업데이트 파일 수정하기 -->
+	<update id="expUpdateMultiFileProc" parameterType="ExpFile">
+	    UPDATE exp_file
+	    SET
+	        origin_name = #{originName}
+	        , stored_name = #{storedName}
+	    <where>
+	        AND exp_code = #{expCode}
+	        AND exp_flno = #{expFlNo}
+	    </where>
 	</update>
 	
 </mapper>

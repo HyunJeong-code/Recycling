@@ -10,8 +10,6 @@ import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-
-
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 
@@ -286,40 +284,44 @@ public interface SlsService {
 	 * @param expCode
 	 * @return
 	 */
-	public ExpFile expUpdateProfile(String expCode);
+	public ExpFile expUpdateProfile(ExpFile expFile);
 
 	/**
 	 * 업데이트 파일 조회
 	 * 
-	 * @param expCode
+	 * @param expFile
 	 * @return
 	 */
-	public List<ExpFile> expUpdateFile(String expCode);
+	public List<ExpFile> expUpdateFile(ExpFile expFile);
 
 	/**
 	 * 업데이트 프로필 수정하기
 	 * 
-	 * @param expCode
+	 * @param expFile
 	 * @return
 	 */
-	public ExpFile expUpdateProfileProc(String expCode);
+	public void expUpdatefileProc(ExpFile expfile);
 
 	/**
-	 * 업데이트 파일 수정하기
-	 * 
-	 * @param expCode
+	 * 업데이트 파일 가져오기
+	 * @param expfileUpdate
+	 * @param expFileJoinCt
 	 * @return
 	 */
-	public List<ExpFile> expUpdateFileProc(String expCode);
+	public ExpFile updateFile(MultipartFile expfileUpdate, Exp exp);
+
+	/**
+	 * 멀티 업데이트 파일 가져오기
+	 *
+	 * @param expMultiFileUpdate
+	 * @param exp
+	 * @return
+	 */
+	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp);
 
 
-	
 
 
-
-
-
-	
 
 
 

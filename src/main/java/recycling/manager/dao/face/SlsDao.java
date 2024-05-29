@@ -10,7 +10,6 @@ import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-
 // 판매제휴팀 DB 처리
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
@@ -352,10 +351,10 @@ public interface SlsDao {
 		/**
 	 * 업데이트 프로필 조회
 	 * 
-	 * @param expCode
+	 * @param expFile
 	 * @return
 	 */
-	public ExpFile expUpdateProfile(String expCode);
+	public ExpFile expUpdateProfile(ExpFile expFile);
 
 	/**
 	 * 업데이트 파일 조회
@@ -363,7 +362,7 @@ public interface SlsDao {
 	 * @param expCode
 	 * @return
 	 */
-	public List<ExpFile> expUpdateFile(String expCode);
+	public List<ExpFile> expUpdateFile(ExpFile expFile);
 
 	/**
 	 * 업데이트 프로필 수정하기
@@ -371,15 +370,15 @@ public interface SlsDao {
 	 * @param expCode
 	 * @return
 	 */
-	public ExpFile expUpdateProfileProc(String expCode);
+	public void expUpdatefileProc(ExpFile expfile);
 
 	/**
 	 * 업데이트 파일 수정하기
 	 * 
-	 * @param expCode
-	 * @return
+	 * @param expFile
 	 */
-	public List<ExpFile> expUpdateFileProc(String expCode);
+	public void expUpdateMultiFileProc(ExpFile expFile);
+
 
 	
 
