@@ -212,11 +212,9 @@
     <select id="getBuyerAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
-    	<where>
-    		AND B_Code = #{bCode }
-    	</where>
+   		WHERE B_Code = #{bCode }
     	ORDER BY CASE 
-		WHEN ADR_CHK ='Y' then 0
+		WHEN Adr_Chk ='Y' THEN 0
 		ELSE 1
 		END
     </select>
@@ -273,7 +271,7 @@
     	</where>
     </update>
     
-    <!--  -->
+    <!-- 기본 배송지 조회 -->
     <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -283,7 +281,7 @@
     	</where>
     </select>
     
-    <!--  -->
+    <!-- Adr_Code로 배송지 정보 조회 -->
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -300,11 +298,11 @@
     </update>
     
 	<!-- 판매자 탈퇴 -->
-    <delete id="deleteSeller" parameterType="string">
+    <update id="deleteSeller" parameterType="string">
     	UPDATE Seller
     	SET
     		S_Out = 'Y',
     		S_Out_Date = SYSDATE
     	WHERE S_Code = #{sCode }
-    </delete>
+    </update>
 </mapper>

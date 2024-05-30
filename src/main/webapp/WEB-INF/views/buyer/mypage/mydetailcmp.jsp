@@ -171,8 +171,66 @@ function cancelUpdate() {
 }
 </script>
 
+<style type="text/css">
+.mydetailcmp {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	height: 100vh;
+	padding-top: 50px;
+	text-align: center;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+label {
+	margin-right: 10px;
+	width: 150px;
+	text-align: right;
+}
+
+input[type="text"], input[type="file"], select {
+    width: 200px;
+}
+
+input[type="file"] {
+	display: none;
+}
+
+.custom-file-upload {
+	display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.button-group input[type="submit"], .button-group input[type="button"] {
+    margin: 0 10px;
+}
+</style>
+
 </head>
 <body>
+
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+
 	<div class="full">
 		<div class="wrap">
 			<h2>기업 정보 수정</h2>
@@ -190,86 +248,102 @@ function cancelUpdate() {
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
 					<input type="hidden" id="fullEmail" name="fullEmail" value="${currentBuyer.bEmail}">
 					
-					<label for="cmpProf">프로필 이미지 </label><br>
-					<img src="${pageContext.request.contextPath}/resources/image/${buyerProf.storedName}" alt="프로필 이미지" style="width: 100px; height: 100px;"><br>
-                    <input type="file" id="cmpProf" name="cmpProf"><br>
-					
-					<label for="bName">담당자 이름 </label>
-					<input type="text" id="bName" name="bName" value="${currentBuyer.bName}"><br>
-					
-					<label for="bId">아이디 </label>
-					<input type="text" id="bId" name="bId" value="${currentBuyer.bId }" readonly><br>
-					
-					<label for="bPhone">전화번호 </label>
-					<select id="phoneSelect">
-						<option value="010">010</option>
-						<option value="011">011</option>
-						<option value="016">016</option>
-						<option value="017">017</option>
-						<option value="custom">직접입력</option>
-					</select>
-					<input type="text" id="bPhone1" name="bPhone1" maxlength="3" style="width: 50px;">
-                    - <input type="text" id="bPhone2" name="bPhone2" maxlength="4" style="width: 70px;">
-                    - <input type="text" id="bPhone3" name="bPhone3" maxlength="4" style="width: 70px;"><br>
-					
-					<label for="bEmail">담당자 이메일 </label>
-					<input type="text" id="bEmail" name="bEmail" value="${fn:substringBefore(currentBuyer.bEmail, '@')}">
-                    @ <input type="text" id="emailDomain" name="emailDomain" value="${fn:substringAfter(currentBuyer.bEmail, '@')}">
-                    <select id="emailSelect">
-						<option value="naver.com">naver.com</option>
-                        <option value="gmail.com">gmail.com</option>
-                        <option value="daum.net">daum.net</option>
-                        <option value="custom">직접입력</option>
-					</select>
-					<input type="button" id="btnEmail" value="이메일 인증">
-					
-					<div id="emailChk" style="display: none;">
-						<label for="emailNum">이메일 인증 번호</label>
-						<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요.">
-						<div id="emailOk" style="color: green; display: none;">
-							인증번호가 일치합니다.
+					<div class="mydetailcmp">
+						<div class="form-group">
+							<label for="buyerProf" class="custom-file-upload">프로필 선택</label><br>
+							<img src="${pageContext.request.contextPath}/resources/image/${buyerProf.storedName}" alt="프로필 이미지" style="width: 100px; height: 100px;"><br>
+                    		<input type="file" id="cmpProf" name="cmpProf"><br>
 						</div>
-						<div id="emailNo" style="color: red; display: none;">
-							인증번호가 불일치합니다. 다시 입력해주세요.
+						<div class="form-group">
+							<label for="bName">담당자 이름 </label>
+							<input type="text" id="bName" name="bName" value="${currentBuyer.bName}">
+						</div>
+						<div class="form-group">
+							<label for="bId">아이디 </label>
+							<input type="text" id="bId" name="bId" value="${currentBuyer.bId }" readonly>
+						</div>
+						<div class="form-group">
+							<label for="bPhone">전화번호 </label>
+							<select id="phoneSelect">
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								<option value="017">017</option>
+								<option value="custom">직접입력</option>
+							</select>
+							<input type="text" id="bPhone1" name="bPhone1" maxlength="3" style="width: 50px;">
+		                    - <input type="text" id="bPhone2" name="bPhone2" maxlength="4" style="width: 70px;">
+		                    - <input type="text" id="bPhone3" name="bPhone3" maxlength="4" style="width: 70px;">
+						</div>
+						<div class="form-group">
+							<label for="bEmail">담당자 이메일 </label>
+							<input type="text" id="bEmail" name="bEmail" value="${fn:substringBefore(currentBuyer.bEmail, '@')}">
+		                    @ <input type="text" id="emailDomain" name="emailDomain" value="${fn:substringAfter(currentBuyer.bEmail, '@')}">
+		                    <select id="emailSelect">
+								<option value="naver.com">naver.com</option>
+		                        <option value="gmail.com">gmail.com</option>
+		                        <option value="daum.net">daum.net</option>
+		                        <option value="custom">직접입력</option>
+							</select>
+							<input type="button" id="btnEmail" value="이메일 인증">
+							<div id="emailChk" style="display: none;">
+								<label for="emailNum">이메일 인증 번호</label>
+								<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요.">
+								<div id="emailOk" style="color: green; display: none;">
+									인증번호가 일치합니다.
+								</div>
+								<div id="emailNo" style="color: red; display: none;">
+									인증번호가 불일치합니다. 다시 입력해주세요.
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>광고성 정보 수신 여부 </label>
+							<label for="adSms">SMS</label>
+							<input type="radio" name="adSms" id="adSms" value="Y" 
+								<c:if test="${currentBuyer.adSms eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)">
+							
+							<label for="adEmail">Email</label>
+							<input type="radio" name="adEmail" id="adEmail" value="Y" 
+								<c:if test="${currentBuyer.adEmail eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)">
+						</div>
+						<div class="form-group">
+							<label for="cmpCeo">대표자명 </label>
+							<input type="text" id="cmpCeo" name="cmpCeo" value="${currentCmp.cmpCeo }">
+						</div>
+						<div class="form-group">
+							<label for="cmpName">상호명(법인명) </label>
+							<input type="text" id="cmpName" name="cmpName" value="${currentCmp.cmpName }">
+						</div>
+						<div class="form-group">
+							<label for="cmpNo">사업자 등록 번호 / 법인등록번호 </label>
+							<input type="text" id="cmpNo" name="cmpNo" value="${currentCmp.cmpNo }">
+						</div>
+						<div class="form-group">
+							<label for="cmpPostcode">우편번호 </label>
+							<input type="text" id="cmpPostcode" name="cmpPostcode" value="${currentCmp.cmpPostcode }">
+							<input type="button" value="우편번호 찾기">
+						</div>
+						<div class="form-group">
+							<label for="cmpAddr">사업자 등록증 주소 </label>
+							<input type="text" id="cmpAddr" name="cmpAddr" value="${currentCmp.cmpAddr }">
+						</div>
+						<div class="form-group">
+							<label for="cmpDetail">상세 주소 </label>
+							<input type="text" id="cmpDetail" name="cmpDetail" value="${currentCmp.cmpDetail }">
+						</div>
+						<div class="form-group">
+							<label for="cmpFile">사업자 등록증 첨부 </label><br>
+							<c:if test="${not empty cmpFile }">
+		    					<img src="${pageContext.request.contextPath }/resources/cmpfile/${cmpFile.storedName }" alt="사업자 등록증" style="width: 100px; height: 100px;">
+							</c:if>
+							<input type="file" id="cmpFile" name="cmpFile">
+						</div>
+						<div class="button-group">
+							<input type="submit" value="수정하기">
+							<input type="button" value="취소하기" onclick="cancelUpdate()">
 						</div>
 					</div>
-					
-					<h3>광고성 정보 수신 여부 </h3>
-					<label for="adSms">SMS</label>
-					<input type="radio" name="adSms" id="adSms" value="Y" 
-						<c:if test="${currentBuyer.adSms eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)">
-					
-					<label for="adEmail">Email</label>
-					<input type="radio" name="adEmail" id="adEmail" value="Y" 
-						<c:if test="${currentBuyer.adEmail eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)"><br>
-					
-					<label for="cmpCeo">대표자명 </label>
-					<input type="text" id="cmpCeo" name="cmpCeo" value="${currentCmp.cmpCeo }"><br>
-					
-					<label for="cmpName">상호명(법인명) </label>
-					<input type="text" id="cmpName" name="cmpName" value="${currentCmp.cmpName }"><br>
-					
-					<label for="cmpNo">사업자 등록 번호 / 법인등록번호 </label>
-					<input type="text" id="cmpNo" name="cmpNo" value="${currentCmp.cmpNo }"><br>
-					
-					<label for="cmpPostcode">우편번호 </label>
-					<input type="text" id="cmpPostcode" name="cmpPostcode" value="${currentCmp.cmpPostcode }">
-					<input type="button" value="우편번호 찾기"><br>
-					
-					<label for="cmpAddr">사업자 등록증 주소 </label>
-					<input type="text" id="cmpAddr" name="cmpAddr" value="${currentCmp.cmpAddr }"><br>
-					
-					<label for="cmpDetail">상세 주소 </label>
-					<input type="text" id="cmpDetail" name="cmpDetail" value="${currentCmp.cmpDetail }"><br>
-					
-					<label for="cmpFile">사업자 등록증 첨부 </label><br>
-					<c:if test="${not empty cmpFile }">
-    					<img src="${pageContext.request.contextPath }/resources/cmpfile/${cmpFile.storedName }" alt="사업자 등록증" style="width: 100px; height: 100px;">
-					</c:if>
-					<input type="file" id="cmpFile" name="cmpFile"><br>
-					
-					<input type="submit" value="수정하기">
-					<input type="button" value="취소하기" onclick="cancelUpdate()">
 				</form>
 				<c:if test="${not empty success }">
 					<p style="color: green;">${success }</p>
@@ -280,5 +354,8 @@ function cancelUpdate() {
 			</div>
 		</div>
 	</div>
+	
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	
 </body>
 </html>

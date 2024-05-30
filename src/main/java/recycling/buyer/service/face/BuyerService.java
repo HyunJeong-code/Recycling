@@ -249,11 +249,11 @@ public interface BuyerService {
 	public int unsetDefaultAdr(String bCode);	
 	
 	/**
+	 * 기본 배송지 설정
 	 * 
-	 * 
-	 * @param adrCode
-	 * @param bCode
-	 * @return
+	 * @param adrCode - 배송지 코드
+	 * @param bCode - 구매자 코드
+	 * @return 설정된 행 수
 	 */
 	public int setDefaultAdr(String adrCode, String bCode);	
 	

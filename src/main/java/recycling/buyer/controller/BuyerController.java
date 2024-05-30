@@ -735,72 +735,95 @@ public class BuyerController {
 	}
 
 	// 배송지 관리 페이지 (등록, 수정, 삭제) 처리
-	@PostMapping("/myaddr")
-	public String myAddrProc(Authentication authentication, @RequestParam("action") String action,
-			@RequestParam(value = "adrCode", required = false) String adrCode,
-			@RequestParam(value = "adrName", required = false) String adrName,
-			@RequestParam(value = "adrPhone", required = false) String adrPhone,
-			@RequestParam(value = "adrPostcode", required = false) String adrPostcode,
-			@RequestParam(value = "adrAddr", required = false) String adrAddr,
-			@RequestParam(value = "adrDetail", required = false) String adrDetail, Model model) {
+		@PostMapping("/myaddr")
+		public String myAddrProc(
+				Authentication authentication,
+				@RequestParam("action") String action, 
+				@RequestParam(value = "adrCode", required = false) String adrCode,
+				@RequestParam(value = "adrName", required = false) String adrName, 
+				@RequestParam(value = "adrPhone", required = false) String adrPhone, 
+				@RequestParam(value = "adrPostcode", required = false) String adrPostcode, 
+				@RequestParam(value = "adrAddr", required = false) String adrAddr, 
+				@RequestParam(value = "adrDetail", required = false) String adrDetail,
+				@RequestParam(value = "adrChk", required = false, defaultValue = "N") String adrChk,
+				Model model
+				) {
+			
+			BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+			
+	        if (buyerLogin == null) {
+	        
+	        	model.addAttribute("error", "로그인 해주세요.");
+	        	
+	        	return "redirect:/buyer/login";
+	        
+	        }
 
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	        String bCode = buyerLogin.getbCode();
+	        List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(bCode);
 
-		if (buyerLogin == null) {
+	        if (adrChk == null) {
+	        
+	        	adrChk = "N";
+	        
+	        }
+	        
+	        if("register".equals(action)) {
+	        	
+	        	BuyerAdr buyerAdr = new BuyerAdr();
+	        	
+	        	buyerAdr.setbCode(bCode);
+	        	buyerAdr.setAdrName(adrName);
+	        	buyerAdr.setAdrPhone(adrPhone);
+	        	buyerAdr.setAdrPostcode(adrPostcode);
+	        	buyerAdr.setAdrAddr(adrAddr);
+	        	buyerAdr.setAdrDetail(adrDetail);
 
-			model.addAttribute("error", "로그인 해주세요.");
-
-			return "redirect:/buyer/login";
+	        	// 첫 배송지 등록 시 기본 배송지로 설정
+	            if (buyerAdrList.isEmpty()) {
+	            
+	            	buyerAdr.setAdrChk("Y");
+	            
+	            } else {
+	            
+	            	buyerAdr.setAdrChk("N");
+	            
+	            }
+	        	
+	        	buyerService.registerBuyerAdr(buyerAdr);
+	        	
+	        } else if ("update".equals(action)) {
+	        	
+	        	BuyerAdr buyerAdr = new BuyerAdr();
+	        	
+	        	buyerAdr.setAdrCode(adrCode);
+	        	buyerAdr.setAdrName(adrName);
+	        	buyerAdr.setAdrPhone(adrPhone);
+	        	buyerAdr.setAdrPostcode(adrPostcode);
+	        	buyerAdr.setAdrAddr(adrAddr);
+	        	buyerAdr.setAdrDetail(adrDetail);
+	        	buyerAdr.setAdrChk(adrChk);
+	                
+	        	buyerService.updateBuyerAdr(buyerAdr);
+	        	
+	        } else if ("delete".equals(action)) {
+	        	
+	        	buyerService.deleteBuyerAdr(adrCode);
+	        	
+	        } else if ("setDefault".equals(action)) {
+	        	
+	        	buyerService.unsetDefaultAdr(bCode);
+	        	buyerService.setDefaultAdr(adrCode, bCode);
+	        	
+	        }
+	        
+	        buyerAdrList = buyerService.getBuyerAdr(bCode);
+	        
+	        model.addAttribute("buyerAdrList", buyerAdrList);
+	        
+	        return "redirect:/buyer/mypage/myaddr";
 
 		}
-
-		String bCode = buyerLogin.getbCode();
-
-		if ("register".equals(action)) {
-
-			BuyerAdr buyerAdr = new BuyerAdr();
-
-			buyerAdr.setbCode(bCode);
-			buyerAdr.setAdrName(adrName);
-			buyerAdr.setAdrPhone(adrPhone);
-			buyerAdr.setAdrPostcode(adrPostcode);
-			buyerAdr.setAdrAddr(adrAddr);
-			buyerAdr.setAdrDetail(adrDetail);
-			buyerAdr.setAdrChk("N");
-
-			buyerService.registerBuyerAdr(buyerAdr);
-
-		} else if ("update".equals(action)) {
-
-			BuyerAdr buyerAdr = new BuyerAdr();
-
-			buyerAdr.setAdrCode(adrCode);
-			buyerAdr.setAdrName(adrName);
-			buyerAdr.setAdrPhone(adrPhone);
-			buyerAdr.setAdrPostcode(adrPostcode);
-			buyerAdr.setAdrAddr(adrAddr);
-			buyerAdr.setAdrDetail(adrDetail);
-
-			buyerService.updateBuyerAdr(buyerAdr);
-
-		} else if ("delete".equals(action)) {
-
-			buyerService.deleteBuyerAdr(adrCode);
-
-		} else if ("setDefault".equals(action)) {
-
-			buyerService.unsetDefaultAdr(bCode);
-			buyerService.setDefaultAdr(adrCode, bCode);
-
-		}
-
-		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(bCode);
-
-		model.addAttribute("buyerAdrList", buyerAdrList);
-
-		return "redirect:/buyer/mypage/myaddr";
-
-	}
 
 	// 회원 탈퇴
 	@GetMapping("/outbuyer")
