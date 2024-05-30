@@ -378,9 +378,6 @@ public interface SlsDao {
 	 */
 	public void expUpdateMultiFileProc(ExpFile expFile);
 
-
-	
-	
 	/**
 	 * 판매자 전환 수락/거절
 	 * @param seller - 판매자 정보 및 수락/거절 여부

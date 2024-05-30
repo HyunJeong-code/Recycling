@@ -68,8 +68,6 @@ public class SlsController {
 	@GetMapping("/sellerdetail")
 	public void sellerDetail() {
 //		logger.info("/manager/sls/sellerdetail [GET]");
-		
-		
 	}
 	
 	@GetMapping("/sellerpridetail")
