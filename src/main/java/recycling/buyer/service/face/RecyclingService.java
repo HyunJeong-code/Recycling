@@ -1,6 +1,7 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.seller.Seller;
 import recycling.dto.seller.Prd;
@@ -21,7 +22,7 @@ public interface RecyclingService {
 	 * 
 	 * @return
 	 */
-	public List<Prd> getPrdList();
+	public List<Prd> selectPrdList();
 
 	/**
 	 * 제품번호를 기준으로 불러오면서 제품 정보를 불러온다
@@ -39,14 +40,14 @@ public interface RecyclingService {
 	 */
 	public Seller selectSeller(String getsCode);
 
-	
 	/**
-	 * 판매자 문의 코드를 통해서 판매자 문의 불러오기
+	 * QnA 코드 로드
 	 * 
-	 * @param qstCode	문의 코드
-	 * @return	판매자 문의
+	 * @param prdCode 로드에 필요한 제품 코드
+	 * @return QnA
 	 */
-	public SellerQST selectSellerQst(String qstCode);
+	public List<Map<String, Object>> selectQnaList(String prdCode);
+
 
 	/**
 	 * 판매자 문의 작성
@@ -103,6 +104,7 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int deleteSellerAnswer(String qnaCode);
+
 
 	
 	

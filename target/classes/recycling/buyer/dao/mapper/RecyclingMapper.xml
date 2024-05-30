@@ -35,6 +35,12 @@
 	        S.S_CODE = #{sCode}
 	</select>
 	
+	<select id="selectQnaList"	resultType="hashmap">
+	    SELECT * FROM qst
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	
 	<insert id="insertSellerQST" parameterType="SellerQST">
         INSERT INTO SELLER_QST (QST_CODE, CT_QSTNO, PRD_CODE, B_CODE, QST_TITLE, QST_CONTENT, QST_NAME, QST_EMAIL, QST_DATE, QST_HIT)
         VALUES (#{qstCode}, #{CTqstno}, #{PrdCode}, #{bCode}, #{qstTitle}, #{qstContent}, #{qstName}, #{qstEmail}, #{qstDate}, #{qstHit})
