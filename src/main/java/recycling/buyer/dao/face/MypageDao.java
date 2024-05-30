@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoFile;
 import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 내 게시물 관련 DB 처리
@@ -41,4 +43,52 @@ public interface MypageDao {
 	 * @return 총 페이지 개수
 	 */
 	public int selectCntRvw(PagingAndCtg unPaging);
+
+	/**
+	 * 1:1 문의 상세 조회
+	 * 
+	 * @param otoCode - 문의 코드
+	 * @return 조회된 1:1 문의 정보
+	 */
+	public Oto getOtoDetail(String otoCode);
+
+	/**
+	 * 1:1 문의 첨부 파일 리스트 조회
+	 * 
+	 * @param otoCode - 문의 코드
+	 * @return 조회된 첨부 파일 리스트
+	 */
+	public List<OtoFile> getOtoFile(String otoCode);
+
+	/**
+	 * 1:1 문의 작성
+	 * 
+	 * @param oto - 문의 정보
+	 * @return 작성 결과
+	 */
+	public int insertOto(Oto oto);
+
+	/**
+	 * 1:1 문의 첨부 파일 작성
+	 * 
+	 * @param otoFile - 첨부 파일
+	 * @return 작성 결과
+	 */
+	public int insertOtoFile(OtoFile otoFile);
+
+	/**
+	 * 1:1 문의 삭제
+	 * 
+	 * @param otoCode - 문의 코드
+	 * @return 삭제 결과
+	 */
+	public int deleteOto(String otoCode);
+	
+	/**
+	 * 1:1 문의 첨부 파일 삭제
+	 * 
+	 * @param otoCode - 문의 코드
+	 * @return 삭제 결과
+	 */
+	public int deleteOtoFile(String otoCode);
 }

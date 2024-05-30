@@ -10,11 +10,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.MypageService;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoFile;
 import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 내 게시물 관련
@@ -82,4 +86,204 @@ public class MypageController {
 		
 		model.addAttribute("sCtg", sCtg);
 	}
+	
+	// 1:1 문의 상세 조회
+	@GetMapping("/otodetail")
+	public String otoDetail(
+			String otoCode,
+			Model model
+			) {
+		
+		logger.info("/buyer/mypage/otodetail [GET]");
+		
+		Oto oto = mypageService.getOtoDetail(otoCode);
+		
+		List<OtoFile> otoFile = mypageService.getOtoFile(otoCode);
+		
+		model.addAttribute("oto", oto);
+		model.addAttribute("otoFile", otoFile);
+		
+		return "/buyer/mypage/otodetail";
+		
+		
+	}
+	
+	// 1:1 문의 작성 페이지
+	@GetMapping("/otoform")
+	public String otoForm() {
+		
+		logger.info("/buyer/mypage/otoform [GET]");
+		
+		return "/buyer/mypage/otoform";
+		
+	}
+	
+	// 1:1 문의 작성 처리
+	@PostMapping("/otoform")
+	public String otoFormProc(
+			Authentication authentication,
+			Oto oto,
+			MultipartFile file
+			) {
+		
+		logger.info("/buyer/mypage/otoform [POST]");
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+		oto.setbCode(buyerLogin.getbCode());
+		
+		int result = mypageService.insertOto(oto, file);
+
+		if(result > 0) {
+			
+			return "redirect:/buyer/mypage/myboard";
+			
+		} else {
+			
+			return "redirect:/buyer/mypage/otoform";
+			
+		}
+				
+	}
+	
+	// 1:1 문의 삭제
+	@PostMapping("/otodel")
+	public String otoDel(String otoCode) {
+		
+		logger.info("/buyer/mypage/otodel [POST]");
+		
+		int result = mypageService.deleteOto(otoCode);
+		
+		if(result > 0) {
+			
+			return "redirect:/buyer/mypage/myboard";
+			
+		} else {
+			
+			return "redirect:/buyer/mypage/otodetail?otoCode=" + otoCode;
+			
+		}
+		
+	}
+	
+	// 판매자 문의 상세 조회
+	@GetMapping("/qnadetail")
+	public void qnaDetail() {
+		
+		
+		
+	}
+	
+	// 판매자 문의 상세 조회
+	@PostMapping("/qnadetail")
+	public void qnaDetailProc() {
+		
+		
+		
+	}
+	
+	// 판매자 문의 작성
+	@GetMapping("/qnaform")
+	public void qnaForm() {
+		
+		
+		
+	}
+	
+	// 판매자 문의 작성
+	@PostMapping("/qnaform")
+	public void qnaFormProc() {
+		
+		
+		
+	}
+	
+	// 판매자 문의 삭제
+	@PostMapping("/qnadel")
+	public void qnaDel() {
+		
+		
+		
+	}
+	
+	// 업사이클링 후기 상세 조회
+	@GetMapping("/upcyrvwdetail")
+	public void upcyrvwDetail() {
+		
+		
+		
+	}
+	
+	// 업사이클링 후기 상세 조회
+	@PostMapping("/upcyrvwdetail")
+	public void upcyrvwDetailProc() {
+		
+		
+		
+	}
+	
+	// 업사이클링 후기 수정
+	@GetMapping("/upcyrvwupdate")
+	public void upcyrvwUpdate() {
+		
+		
+		
+	}
+	
+	// 업사이클링 후기 수정
+	@PostMapping("/upcyrvwupdate")
+	public void upcyrvwUpdateProc() {
+		
+		
+		
+	}
+	
+	// 업사이클링 후기 삭제
+	@PostMapping("/upcyrvwdel")
+	public void upcyrvwDel() {
+		
+		
+		
+	}
+	
+	// 체험단 후기 상세 조회
+	@GetMapping("/exprvwdetail")
+	public void exprvwDetail() {
+		
+		
+		
+	}
+	
+	// 체험단 후기 상세 조회
+	@PostMapping("/exprvwdetail")
+	public void exprvwDetailProc() {
+		
+		
+		
+	}
+	
+	// 체험단 후기 수정
+	@GetMapping("/exprvwupdate")
+	public void exprvwUpdate() {
+		
+		
+		
+	}
+	
+	// 체험단 후기 수정
+	@PostMapping("/exprvwupdate")
+	public void exprvwUpdateProc() {
+		
+		
+		
+	}
+	
+	// 체험단 후기 수정
+	@PostMapping("/exprvwdel")
+	public void exprvwDel() {
+		
+		
+		
+	}
+	
 }

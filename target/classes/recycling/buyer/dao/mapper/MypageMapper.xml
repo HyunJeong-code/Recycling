@@ -106,4 +106,46 @@
 		</where>
 		ORDER BY entdate
 	</select>
+	
+	<!-- 1:1 문의 상세 조회 -->
+	<select id="getOtoDetail" parameterType='string' resultType="recycling.dto.buyer.Oto">
+		SELECT * FROM Oto
+		WHERE Oto_Code = #{otoCode }
+	</select>
+	
+	<!-- 1:1 문의 첨부 파일 리스트 조회 -->
+	<select id="getOtoFile" parameterType="string" resultType="recycling.dto.buyer.OtoFile">
+		SELECT * FROM Oto_File
+		WHERE Oto_Code = #{otoCode }
+	</select>
+	
+	<!-- 1:1 문의 작성 -->
+	<insert id="insertOto" parameterType="recycling.dto.buyer.Oto">
+		INERT INTO Oto (
+			Oto_Code, Ct_OtoNo, B_Code, Oto_Title, Oto_Content, Oto_Name, Oto_Email, Oto_Date, Oto_Hit
+		) VALUES (
+			#{otoCode }, #{ctOtoNo }, #{bCode }, #{otoTitle }, #{otoContent }, #{otoName }, #{otoEmail }, SYSDATE, 0
+		)
+	</insert>
+	
+	<!-- 1:1 문의 첨부 파일 작성 -->
+	<insert id="insertOtoFile" parameterType="recycling.dto.buyer.OtoFile">
+		INSERT INTO Oto_File (
+			Oto_FlNo, Oto_Code, Origin_Name, Stored_Name
+		) VALUES (
+			Oto_File_seq.nextval, #{otoCode }, #{originName }, #{storedName }
+		)
+	</insert>
+	
+	<!-- 1:1 문의 삭제 -->
+	<delete id="deleteOto" parameterType="string">
+		DELETE FROM Oto
+		WHERE Oto_Code = #{otoCode }
+	</delete>
+	
+	<!-- 1:1 문의 첨부 파일 삭제 -->
+	<delete id="deleteOtoFile" parameterType="string">
+		DELETE FROM Oto_File
+		WHERE Oto_Code = #{otoCode }
+	</delete>
 </mapper>
