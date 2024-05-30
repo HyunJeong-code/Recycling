@@ -495,7 +495,6 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectAllPrdList();
 	}
 
-	//판매자 판매 조회
 	@Override
 	public List<SellerOrderJoin> selectAllSellList() {
 		return slsDao.selectAllSellList();
