@@ -54,4 +54,26 @@
         DELETE FROM Review
         WHERE RVW_CODE = #{rvwCode}
     </delete>
+    
+    <select id="selectcCnt" parameterType="Cart" resultType="Integer">
+	    SELECT c_cnt FROM cart
+	    <where>
+	        AND b_code = #{bCode}
+	        AND PRD_CODE = #{prdCode}
+        </where>
+    </select>
+    
+    <update id="updatecCnt" parameterType="Cart">
+    	UPDATE cart
+		SET c_cnt = #{cCnt}
+		<where>
+			AND prd_code = #{prdCode}
+		</where>
+    </update>
+    
+    <insert id="insertCart" parameterType="Cart">
+    	INSERT INTO cart
+    	VALUES ('CART' || lpad(cart_seq.nextval, '6', 0), #{prdCode}, #{bCode}, #{cCnt}, sysdate)
+    </insert>
+    
 </mapper>

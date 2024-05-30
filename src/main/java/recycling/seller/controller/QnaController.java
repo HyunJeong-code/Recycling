@@ -41,8 +41,6 @@ public class QnaController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
 		
-		String sCode = buyerLogin.getsCode();
-		
 		// 문의글 페이지 수 계산
  		PagingAndCtg upPaging = new PagingAndCtg();
  		PagingAndCtg unPaging = new PagingAndCtg();
