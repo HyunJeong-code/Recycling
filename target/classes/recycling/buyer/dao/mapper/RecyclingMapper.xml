@@ -26,19 +26,26 @@
 	</select>
 	
 	<select id="selectSeller" resultType="Seller">
-		SELECT * FROM SELLER
-		WHERE S_CODE = #{sCode}
+	    SELECT 
+	    S.S_CODE, S.B_CODE, S.ACC_NAME, S.ACC_BANK, S.ACC_NO, 
+	    S.S_POSTCODE, S.S_ADDR, S.S_DETAIL, S.S_ENTDATE, 
+	    S.S_CHK, S.S_OUT, S.S_OUT_DATE
+	    FROM 
+	        SELLER S
+	    WHERE 
+	        S.S_CODE = #{sCode}
 	</select>
 	
-<!-- 	<select id="selectSellerProfByCode" resultType="SellerProf"> -->
-<!-- 		SELECT * FROM SELLER_PROF -->
-<!-- 		WHERE S_CODE = #{sCode} -->
-<!-- 	</select> -->
+	<select id="selectQnaList"	resultType="hashmap">
+	    SELECT * FROM qst
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
 	
-<!-- 	<insert id="insertSellerQST" parameterType="SellerQST"> -->
-<!--         INSERT INTO SELLER_QST (QST_CODE, CT_QSTNO, PRD_CODE, B_CODE, QST_TITLE, QST_CONTENT, QST_NAME, QST_EMAIL, QST_DATE, QST_HIT) -->
-<!--         VALUES (#{qstCode}, #{CTqstno}, #{PrdCode}, #{bCode}, #{qstTitle}, #{qstContent}, #{qstName}, #{qstEmail}, #{qstDate}, #{qstHit}) -->
-<!--     </insert> -->
+	
+	<insert id="insertSellerQST" parameterType="SellerQST">
+        INSERT INTO SELLER_QST (QST_CODE, CT_QSTNO, PRD_CODE, B_CODE, QST_TITLE, QST_CONTENT, QST_NAME, QST_EMAIL, QST_DATE, QST_HIT)
+        VALUES (#{qstCode}, #{CTqstno}, #{PrdCode}, #{bCode}, #{qstTitle}, #{qstContent}, #{qstName}, #{qstEmail}, #{qstDate}, #{qstHit})
+    </insert>
     
 <!-- 	<update id="updateSellerQST" parameterType="SellerQST"> -->
 <!-- 		UPDATE SELLER_QST -->

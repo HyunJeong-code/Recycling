@@ -1,6 +1,8 @@
 package recycling.buyer.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -55,28 +57,28 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectSeller(getsCode);
 	}
 
-//	@Override
-//	public SellerProf selectSellerProf(String sCode) {
-//		return upcyclingDao.selectSellerProf(sCode);
-//	}
-	
 	@Override
 	public Buyer selectBuyerCode(int bCode) {
 		return upcyclingDao.selectBcode(bCode);
 	}
-
 	
 	@Override
-	public List<UpcyReview> selectRvwList(String prdCode) {
-		List<UpcyReview> upcyReviewList = upcyclingDao.selectRvwList(prdCode);
-		logger.info("selectRvwList() - upcyReviewList size: {}", upcyReviewList.size());
-		for(UpcyReview upcyReview : upcyReviewList) {
-	        logger.info("selectRvwList() - UpcyReview: {}", upcyReview);
+	public List<Map<String, Object>> selectRvwList(String prdCode) {
+		
+	    List<Map<String, Object>> reviewList = upcyclingDao.selectRvwList(prdCode);
+	    if (reviewList != null && !reviewList.isEmpty()) {
+	        logger.info("selectRvwList() - Review list found for product code: {}", prdCode);
+	        for (Map<String, Object> review : reviewList) {
+	            logger.info("selectRvwList() - Review: {}", review);
+	        }
+	    } else {
+	        logger.info("selectRvwList() - No review found for product code: {}", prdCode);
 	    }
 		
-		return upcyReviewList;
+		return upcyclingDao.selectRvwList(prdCode);
 	}
 
+	
 	@Override
 	public UpcyReview selectRvw(String upcyCode) {
 		UpcyReview upcyReview = upcyclingDao.selectRvw();
@@ -91,16 +93,13 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 
 	
 	@Override
-	public void insertReview(String upcyContent, String prdCode, Buyer buyer) {
-		UpcyReview upcyReview = new UpcyReview();
-		upcyReview.setUpcyCode(UUID.randomUUID().toString());
-		upcyReview.setbCode(buyer.getbCode());
-		upcyReview.setPrdCode(prdCode);
-		upcyReview.setUpcyGrade(0);
-		upcyReview.setUpcyContent(upcyContent);
-		
-		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
-		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
+	public void insertReview(String upcyContent, String prdCode, String bCode, int upcyGrade) {
+		Map<String, Object> reviewData = new HashMap<>();
+		reviewData.put("bCode", bCode);
+		reviewData.put("prdCode", prdCode);
+		reviewData.put("upcyContent", upcyContent);
+		reviewData.put("upcyGrade", upcyGrade);
+        upcyclingDao.insertReview(reviewData);
 	}
 
 	@Override
