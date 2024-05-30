@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import recycling.buyer.dao.face.UpcyclingDao;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -115,6 +116,19 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
 	}
 
-
+	@Override
+	public Integer selectcCnt(Cart cart) {
+		return upcyclingDao.selectcCnt(cart);
+	}
+	
+	@Override
+	public int updatecCnt(Cart cart) {
+		return upcyclingDao.updatecCnt(cart);
+	}
+	
+	@Override
+	public int insertCart(Cart cart) {
+		return upcyclingDao.insertCart(cart);
+	}
 	
 }

@@ -13,6 +13,7 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Change;
 import recycling.dto.seller.Seller;
+import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
@@ -32,10 +33,10 @@ public interface BuyerDao {
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 session
+	 * @param upPaging - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
-	public List<CartOrder> selectAllCart(String bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging);
 
 	/**
 	 * cCode로 Cart 조회하기
@@ -96,10 +97,10 @@ public interface BuyerDao {
 	/**
 	 * 주문 상세 조회
 	 * 
-	 * @param bCode - 조회할 회원의 bCode
+	 * @param upPaging - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
+	public List<MyOrder> buyerDaoselectOrderDetailBybCode(PagingAndCtg upPaging);
 	
 	/**
 	 * 주문 상세 조회
@@ -297,5 +298,21 @@ public interface BuyerDao {
 
 	public BuyerRank selectBuyerRank(int rankNo);
 
-	public int deleteSeller(String sCode);
+	
+	/**
+	 * Cart paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - upPaging 결과값
+	 */
+	public int selectCntAllCart(PagingAndCtg upPaging);
+	
+	/**
+	 * MyOrder paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - paging 결과
+	 */
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
+
 }

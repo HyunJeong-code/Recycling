@@ -62,18 +62,26 @@ public interface SellingDao {
 	/**
 	 * sCode와 일치하는 모든 rcyPrd 조회
 	 * 
-	 * @param sCode - 조회할 sCode
+	 * @param upPaging - 조회할 sCode
 	 * @return - 모든 rcyPrd 리스트
 	 */
-	public List<Prd> selectAllrcyPrd(String sCode);
+	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging);
 
 	/**
-	 * prdCode와 일치하는 모든 orders 조회
+	 * prdCode와 일치하는 upcy orders 조회
 	 * 
-	 * @param prdCode - 조회할 prdCode
+	 * @param unPaging - 조회할 prdCode
 	 * @return - 모든 orders 리스트
 	 */
-	public List<MyOrder> selectAllMyOrder(String prdCode);
+	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging);
+	
+	/**
+	 * prdCode와 일치하는 rcy orders 조회
+	 * 
+	 * @param unPaging - 조회할 prdCode
+	 * @return - 모든 orders 리스트
+	 */
+	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging);
 
 	/**
 	 * sCode와 일치하는 모든 upcyPrd 조회
@@ -166,11 +174,37 @@ public interface SellingDao {
 	public int updateMyOrder(MyOrder myOrder);
 
 	/**
-	 * paging 테스트
+	 * rcyprd paging
 	 * 
-	 * @param upPaging
+	 * @param upPaging - paging
+	 * @return
+	 */
+	public int selectCntAllrcyPrd(PagingAndCtg upPaging);
+
+	/**
+	 * rcyMyOrder paging
+	 * 
+	 * @param unPaging - paging
+	 * @return
+	 */
+	public int selectCntAllrcyMyOrder(PagingAndCtg unPaging);
+
+	/**
+	 * upcyprd paging
+	 * 
+	 * @param upPaging - paging
 	 * @return
 	 */
 	public int selectCntAllupcyPrd(PagingAndCtg upPaging);
+
+	/**
+	 * upcyMyOrder paging
+	 * 
+	 * @param unPaging - paging
+	 * @return
+	 */
+	public int selectCntAllMyOrder(PagingAndCtg unPaging);
+
+
 
 }

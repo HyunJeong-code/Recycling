@@ -31,13 +31,17 @@ import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
+import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Change;
+import recycling.page.face.PageService;
 import recycling.seller.service.face.SellingService;
+import recycling.util.PagingAndCtg;
 
 
 // 마이페이지 - 회원 정보 관련
@@ -52,17 +56,32 @@ public class BuyerController {
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 	@Autowired HttpSession session;
 	@Autowired private JavaMailSenderImpl mailSender;
+	@Autowired private PageService pageService;
 	
 	@GetMapping("/cart")
-	public void cart(Authentication authentication, Model model, HttpSession session) {
+	public void cart(Authentication authentication, Model model,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg) {
 
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("buyerLogin : {}", buyerLogin);
+		
+        // 문의글 페이지 수 계산
+  		PagingAndCtg upPaging = new PagingAndCtg();
+  		
+  		upPaging = pageService.upPageBuyer(curPage, sCtg, search, buyerLogin.getbCode());
 
-		String bCode = buyerLogin.getbCode();
-
+  		int upPage = buyerService.selectCntAllCart(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+        
+  		logger.info("upPaging : {}", upPaging);
+  		upPaging.setUser(buyerLogin.getbCode());
+  		
+  		
+        
 		// 해당 session의 Cart List 정보
-		List<CartOrder> bf_list = buyerService.selectAllCart(bCode);
+		List<CartOrder> bf_list = buyerService.selectAllCart(upPaging);
 
 		// 재고 부족 알림 메시지
 		String msg = "";
@@ -94,13 +113,17 @@ public class BuyerController {
 			msg += " 상품의 수량이 부족하여 장바구니에서 제외되었습니다.";
 		}
 
-		List<CartOrder> list = buyerService.selectAllCart(bCode);
+		List<CartOrder> list = buyerService.selectAllCart(upPaging);
 
 		// logger.info("{}",msg);
 		// logger.info("{}", list);
 
 		model.addAttribute("list", list);
 		model.addAttribute("msg", msg);
+		
+		//paging
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/buyer/mypage/cart");
 	}
 
 	@PostMapping("/cartupdate")
@@ -221,16 +244,33 @@ public class BuyerController {
 	}
 
 	@GetMapping("/myorder")
-	public void myOrder(Model model, Authentication authentication) {
+	public void myOrder(Authentication authentication, Model model,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg) {
 
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("buyerLogin : {}", buyerLogin);
-
+		
 		String bCode = buyerLogin.getbCode();
+		
+		// 문의글 페이지 수 계산
+  		PagingAndCtg upPaging = new PagingAndCtg();
+  		
+  		upPaging = pageService.upPageBuyer(curPage, sCtg, search, buyerLogin.getbCode());
 
-		List<MyOrder> list = buyerService.selectOrderDetailBybCode(bCode);
+  		int upPage = buyerService.selectCntOrderDetailBybCode(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+        
+  		logger.info("upPaging : {}", upPaging);
+  		upPaging.setUser(buyerLogin.getbCode());
+
+		List<MyOrder> list = buyerService.selectOrderDetailBybCode(upPaging);
 
 		model.addAttribute("list", list);
+		
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/buyer/mypage/myorder");
 	}
 	
 	@GetMapping("/myorderdetail")

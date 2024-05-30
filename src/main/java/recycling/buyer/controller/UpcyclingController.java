@@ -1,6 +1,5 @@
 package recycling.buyer.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,12 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import recycling.buyer.service.face.BuyerService;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.UpcyReview;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 
@@ -69,27 +69,6 @@ public class UpcyclingController {
 		return "buyer/upcycling/upcydetail";
 		
 	}
-	
-	
-	@PostMapping("/cart")
-	public String addCart(String prdCode, int bCode,
-			Model model, HttpSession session) {
-		logger.info("/cart [POST]");
-		
-		Prd prd = upcyclingService.selectPrd(prdCode);
-		Buyer buyer = upcyclingService.selectBuyerCode(bCode);
-		
-		List<Prd> cartList = (List<Prd>) session.getAttribute("cartList");
-		if (cartList == null) {
-	        cartList = new ArrayList<>();
-	    }
-	    cartList.add(prd); // 장바구니에 상품 추가
-	    session.setAttribute("cartList", cartList); // 세션에 장바구니 정보 저장
-		
-		
-		return "redirect:/buyer/upcycling/main";
-	}
-	
 	
 	@GetMapping("/upcyvwlist")
 	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
@@ -258,7 +237,47 @@ public class UpcyclingController {
 		
 		model.addAttribute("order", order);
 	}
-	 
 	
+	@GetMapping("/cartchk")
+	public String cartChk(Authentication authentication
+			 , Cart cart
+			 , Model model) {
+		 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	     logger.info("buyerLogin : {}", buyerLogin);
+	     
+	     //cart에 bcode 추가
+	     cart.setbCode(buyerLogin.getbCode());
+	     
+	     Integer cCnt = upcyclingService.selectcCnt(cart);
+	     
+	     logger.info("{}",cCnt);
+	     
+	     model.addAttribute("cCnt", cCnt);
+	     
+	     return "jsonView";
+	}
+	
+	@GetMapping("/cart")
+	public String cart(Authentication authentication
+			 , Cart cart
+			 , Model model
+			 , boolean isCart) {
+		 
+		 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	     logger.info("buyerLogin : {}", buyerLogin);
+		
+	     //cart에 bcode 추가
+	     cart.setbCode(buyerLogin.getbCode());
+		 
+		 if(isCart) {
+			 int res = upcyclingService.updatecCnt(cart);
+		 }	else {
+			 int res = upcyclingService.insertCart(cart);
+		 }
+		 
+		 model.addAttribute("msg", "장바구니에 추가되었습니다.");
+		 model.addAttribute("url", "/buyer/upcycling/main");
+		 return "/layout/alert";
+	}
 	
 }

@@ -162,6 +162,8 @@
 				<button type="button" id="ord_btn">주문하기</button>
 				<button type="button" id="del_btn">삭제</button>
 				
+				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+				
 				</form>
 			</div>
 		</div>
