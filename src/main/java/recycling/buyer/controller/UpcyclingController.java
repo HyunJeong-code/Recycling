@@ -27,7 +27,6 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerProf;
 
 @Controller
 @RequestMapping("/buyer/upcycling")
@@ -60,11 +59,11 @@ public class UpcyclingController {
 		}
 		
 		Seller seller = upcyclingService.selectSeller(prd.getsCode());
-		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
+//		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
-		model.addAttribute("sellerProf", sellerProf);
+//		model.addAttribute("sellerProf", sellerProf);
 		
 		
 		return "buyer/upcycling/upcydetail";

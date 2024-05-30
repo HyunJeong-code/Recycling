@@ -24,7 +24,6 @@ public interface SlsService {
 	 */
 	public List<Seller> main(Paging paging);
 	
-	
 	/**
 	 * 페이징
 	 * 
@@ -276,6 +275,20 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<Map<String, Object>> sellerSelect(String getbCode);
+	
+	/**
+	 * 판매자 전환 수락/거절
+	 * @param seller - 판매자 정보 및 수락/거절 여부
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int updateSelChk(Seller seller);
+	
+	/**
+	 * 판매자 전환 신청 리스트 페이징
+	 * 
+	 * @return 총 게시물 수
+	 */
+	public int selectCntSeller();
 
 
 	/**

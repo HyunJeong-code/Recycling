@@ -35,15 +35,15 @@ public class PageServiceImpl implements recycling.page.face.PageService {
 		PagingAndCtg unPaging = new PagingAndCtg();
 		
 		if(sCtg.equals("UP")) {
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
+			unPaging.setUser(getbCode);
+			
+		} else if(sCtg.equals("UN")){
 			unPaging.setCurPage(curPage);
 			unPaging.setSearch(search);
 			unPaging.setUser(getbCode);
 			
-		} else if(sCtg.equals("UN")){
-			
-			unPaging.setCurPage(0);
-			unPaging.setSearch("");
-			unPaging.setUser(getbCode);
 		} else {
 			unPaging.setCurPage(0);
 			unPaging.setSearch("");
@@ -80,13 +80,13 @@ public class PageServiceImpl implements recycling.page.face.PageService {
 		PagingAndCtg unPaging = new PagingAndCtg();
 		
 		if(sCtg.equals("UP")) {
-			unPaging.setCurPage(curPage);
-			unPaging.setSearch(search);
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
 			unPaging.setUser(getsCode);
 			
 		} else if(sCtg.equals("UN")){
-			unPaging.setCurPage(0);
-			unPaging.setSearch("");
+			unPaging.setCurPage(curPage);
+			unPaging.setSearch(search);
 			unPaging.setUser(getsCode);
 			
 		} else {
@@ -125,19 +125,59 @@ public class PageServiceImpl implements recycling.page.face.PageService {
 		PagingAndCtg unPaging = new PagingAndCtg();
 		
 		if(sCtg.equals("UP")) {
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
+			unPaging.setUser(getmgrCode);
+			
+		} else if(sCtg.equals("UN")){
 			unPaging.setCurPage(curPage);
 			unPaging.setSearch(search);
 			unPaging.setUser(getmgrCode);
 			
-		} else if(sCtg.equals("UN")){
-			
-			unPaging.setCurPage(0);
-			unPaging.setSearch("");
-			unPaging.setUser(getmgrCode);
 		} else {
 			unPaging.setCurPage(0);
 			unPaging.setSearch("");
 			unPaging.setUser(getmgrCode);
+		}
+		
+		return unPaging;
+	}
+	
+	@Override
+	public PagingAndCtg upPageAll(int curPage, String sCtg, String search) {
+		PagingAndCtg upPaging = new PagingAndCtg();
+		
+		if(sCtg.equals("UP")) {
+			upPaging.setCurPage(curPage);
+			upPaging.setSearch(search);
+			
+		} else if(sCtg.equals("UN")){
+			upPaging.setCurPage(0);
+			upPaging.setSearch("");
+			
+		} else {
+			upPaging.setCurPage(0);
+			upPaging.setSearch("");
+		}
+		
+		return upPaging;
+	}
+	
+	@Override
+	public PagingAndCtg unPageAll(int curPage, String sCtg, String search) {
+		PagingAndCtg unPaging = new PagingAndCtg();
+		
+		if(sCtg.equals("UP")) {
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
+			
+		} else if(sCtg.equals("UN")){
+			unPaging.setCurPage(curPage);
+			unPaging.setSearch(search);
+			
+		} else {
+			unPaging.setCurPage(0);
+			unPaging.setSearch("");
 		}
 		
 		return unPaging;

@@ -10,6 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import recycling.dto.seller.Seller;
+import recycling.manager.service.face.SlsService;
+import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +58,7 @@ public class SlsController {
 		// 판매자 목록 조회
 		List<Seller> main = slsService.main(paging);
 //		logger.info("controller list: {}", list);
-
+		
 		model.addAttribute("paging", paging);
 		model.addAttribute("main", main);
 
@@ -111,23 +119,56 @@ public class SlsController {
 	}
 	
 	@GetMapping("/sellerchklist")
-	public void sellerChkList(Model model) {
+	public void sellerChkList(
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
+			Model model
+			) {
 		logger.info("/manager/sls/sellerchklist [GET]");
 		
+		// 페이징 - 전체 조회 글 개수
+		PagingAndCtg paging = new PagingAndCtg();
+		int page = slsService.selectCntSeller();
+		
+		// 페이징 - 페이징 처리
+		paging = new PagingAndCtg(page, curPage, search)
+		
+		// 판매자 신청 전체 조회
 		List<Map<String, Object>> sellerList = slsService.selectBysChk();
 		logger.info("{}", sellerList);
 		
+		model.addAttribute("listSize", sellerList.size());
 		model.addAttribute("sellerList", sellerList);
 	}
 	
-	@GetMapping("/sellerchkdetail")
-	public void sellerChkDetail(Model model) {
-		logger.info("/manager/sls/sellerchkdetail [GET]");		
-	}
-	
 	@GetMapping("/sellerchk")
-	public void sellerChk() {
-		logger.info("/manager/sls/sellerchk [GET]");				
+	public String sellerChk(
+			String selChk,
+			String sCode,
+			Model model
+			) {
+		logger.info("/manager/sls/sellerchk [GET]");
+		
+		logger.info("sCode, selChk : {}, {}", sCode, selChk);
+		Seller seller = new Seller();
+		seller.setsCode(sCode);
+		seller.setsChk(selChk);
+		
+		int res = 0;
+		if(selChk.equals("Y")) {
+			res = slsService.updateSelChk(seller);
+			model.addAttribute("msg", sCode + "판매자 전환 수락에 성공했습니다.");
+			model.addAttribute("url", "/seller/sls/sellerchklist");
+			return "/layout/alert";
+		} else {
+			res = slsService.updateSelChk(seller);
+			model.addAttribute("msg", sCode + "판매자 전환 수락에 거절했습니다.");
+			model.addAttribute("url", "/seller/sls/sellerchklist");
+			
+			return "/layout/alert";
+		}
+		
 	}
 	
 	//체험단 전체조회

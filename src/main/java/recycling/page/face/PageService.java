@@ -69,5 +69,24 @@ public interface PageService {
 	 * @return
 	 */
 	public PagingAndCtg unPageMgr(int curPage, String sCtg, String search, String getmgrCode);
-
+	
+	/**
+	 * 사용자 정보 없이 상단 게시판 페이징
+	 * 
+	 * @param curPage - 현재 페이지
+	 * @param sCtg - 상/하단
+	 * @param search - 검색어
+	 * @return
+	 */
+	public PagingAndCtg upPageAll(int curPage, String sCtg, String search);
+	
+	/**
+	 * 사용자 정보 없이 하단 게시판 페이징
+	 * 
+	 * @param curPage - 현재 페이지
+	 * @param sCtg - 상/하단
+	 * @param search - 검색어
+	 * @return
+	 */
+	public PagingAndCtg unPageAll(int curPage, String sCtg, String search);
 }
