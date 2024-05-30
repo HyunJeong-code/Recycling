@@ -27,12 +27,11 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerProf;
 
 @Controller
 @RequestMapping("/buyer/upcycling")
 public class UpcyclingController {
-	
+
 	@Autowired private UpcyclingService upcyclingService;
 	@Autowired private BuyerService buyerService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -60,11 +59,11 @@ public class UpcyclingController {
 		}
 		
 		Seller seller = upcyclingService.selectSeller(prd.getsCode());
-		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
+//		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
-		model.addAttribute("sellerProf", sellerProf);
+//		model.addAttribute("sellerProf", sellerProf);
 		
 		
 		return "buyer/upcycling/upcydetail";
@@ -179,13 +178,18 @@ public class UpcyclingController {
 		 //아이디 상세 가져오기
 		 Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		 
-		 //배송지 주소 가져오기
-		 List<BuyerAdr> buyeradr = buyerService.selectBybCode(bCode); 
+		 String prdCode = cartOrder.getPrdCode();
 		 
-		 cartOrder.setcCnt(1);
-		 cartOrder.setPrdName("test");
-		 cartOrder.setPrdFee(0);
-		 cartOrder.setPrice(1);
+		 //상품 정보 가져오기
+		 Prd prd = upcyclingService.selectPrd(prdCode);
+		 
+		 cartOrder.setPrdName(prd.getPrdName());
+		 cartOrder.setPrice(prd.getPrice());
+		 cartOrder.setPrdFee(prd.getPrdFee());
+		 
+		 
+		 //배송지 주소 가져오기
+		 List<BuyerAdr> buyeradr = buyerService.selectBybCode(bCode);
 		 
 		 logger.info("buyer : {}", buyeradr);
 		
@@ -202,6 +206,8 @@ public class UpcyclingController {
 				 ,Orders order
 				 , Model model
 	 		 ) {
+		 logger.info("order: {}", order);
+		 logger.info("orderDetail: {}", orderDetail);
  		
 	 	 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
          logger.info("buyerLogin : {}", buyerLogin);
@@ -213,13 +219,46 @@ public class UpcyclingController {
 		 logger.info("order: {}", order);
 		
 		 int res = buyerService.insertOrder(order);
+		 
+		 //cartOrder 객체로 prd 수량 차감
+		 CartOrder cart = new CartOrder();
+		 
+		 cart.setcCnt(orderDetail.getOrdCnt());
+		 cart.setPrdCode(orderDetail.getPrdCode());
+		 
+		 //수량 차감
+		 int updateRes = buyerService.updatePrdCnt(cart);
 		
+		 //prdCode
+		 String prdCode = orderDetail.getPrdCode();
+		 
+		 //상품 정보 가져오기
+		 Prd prd = upcyclingService.selectPrd(prdCode);
+		 
+		 orderDetail.setOrdCode(order.getOrdCode());
+		 orderDetail.setPrdCode(prd.getPrdCode());
+		 orderDetail.setOrdName(prd.getPrdName());
+		 orderDetail.setOrdPrice(prd.getPrice());
+		 orderDetail.setOrdSum(orderDetail.getOrdCnt() * prd.getPrice());
+		 orderDetail.setSttNo(900);
+		 
+		 //상품 상세 INSERT
 		 int ordRes = buyerService.insertOrderDetail(orderDetail);
          
 		 model.addAttribute("order", order);
 		
 		 return "jsonView";
 	}
+	
+	@GetMapping("/payinfo")
+	public void payInfo(String ordCode, Model model) {
+		logger.info("{}",ordCode);
+		
+		Orders order = buyerService.selectByordCode(ordCode);
+		
+		model.addAttribute("order", order);
+	}
+	 
 	
 	
 }

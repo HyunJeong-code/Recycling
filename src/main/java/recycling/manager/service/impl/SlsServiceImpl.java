@@ -59,6 +59,11 @@ public class SlsServiceImpl implements SlsService {
 	}
 	
 	@Override
+	public int selectCntSeller() {
+		return slsDao.selectCntSeller();
+	}
+	
+	@Override
 	public String selectBysCode(String sCode) {
 		return slsDao.selectBysCode(sCode);
 	}
@@ -71,6 +76,11 @@ public class SlsServiceImpl implements SlsService {
 	@Override
 	public Map<String, Object> selectCmpSeller(String bCode) {
 		return slsDao.selectCmpSeller(bCode);
+	}
+	
+	@Override
+	public int updateSelChk(Seller seller) {
+		return slsDao.updateSelChk(seller);
 	}
 	
 	@Override
@@ -443,8 +453,6 @@ public class SlsServiceImpl implements SlsService {
 		slsDao.expUpdatefileProc(expfile);
 	}
 
-
-
 	//파일 저장소
 	private String saveFile(MultipartFile file, File storedFolder) {
 	    logger.info("SERVICE : SAVEFILE[GET]");
@@ -467,8 +475,5 @@ public class SlsServiceImpl implements SlsService {
 	        return null;
 	    }
 	}
-
-
-
 
 }//main

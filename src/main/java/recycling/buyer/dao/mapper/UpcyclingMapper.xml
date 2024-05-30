@@ -20,10 +20,10 @@
 		WHERE S_CODE = #{sCode}
 	</select>
 	
-	<select id="selectSellerProf" resultType="SellerProf">
-		SELECT * FROM SELLER_PROF
-		WHERE S_CODE = #{sCode}
-	</select>
+<!-- 	<select id="selectSellerProf" resultType="SellerProf"> -->
+<!-- 		SELECT * FROM SELLER_PROF -->
+<!-- 		WHERE S_CODE = #{sCode} -->
+<!-- 	</select> -->
 
 	<select id="selectListCntAll" resultType="Prd">
         SELECT COUNT(*) FROM Prd

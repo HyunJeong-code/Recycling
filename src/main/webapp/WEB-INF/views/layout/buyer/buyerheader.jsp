@@ -13,45 +13,42 @@
 
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+$(function(){
 
-    <script type="text/javascript">
-        $(function(){
-        	
-            var header = $('.header');
-            var headerOffset = header.offset().top;
+    var header = $('.header');
+    var headerOffset = header.offset().top;
 
-            $(window).scroll(function() {
-                if ($(window).scrollTop() >= headerOffset+600) {
-                    if (!header.hasClass('fixed')) {
-                        header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
-                        $("body").css("padding-top","210px");
-                    }
-                } else {
-                    if (header.hasClass('fixed')) {
-                        header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
-                            header.css('top', '');
-                            $("body").css("padding-top","0");
-                        });
-                    }
-                }
-            });
-            
-         	// 페이지 로딩 시 sub-wrap을 숨긴 상태로 설정
-            $(".sub-wrap").hide();
-            
-         	
-         	//메뉴 스크롤 업/다운
-            $('.menu, .sub-wrap').on('mouseleave', function(){
-                $(".sub-wrap").stop().slideUp(200);
-            });
-        
-            $('.menu, .sub-wrap').on('mouseover', function(){
-                $(".sub-wrap").stop().slideDown(200);
-            });
-        });
- </script>
+    $(window).scroll(function() {
+        if ($(window).scrollTop() >= headerOffset+600) {
+            if (!header.hasClass('fixed')) {
+                header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
+                $("body").css("padding-top","210px");
+            }
+        } else {
+            if (header.hasClass('fixed')) {
+                header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
+                    header.css('top', '');
+                    $("body").css("padding-top","0");
+                });
+            }
+        }
+    });
+    
+    // 페이지 로딩 시 sub-wrap을 숨긴 상태로 설정
+    $(".sub-wrap").hide();
     
     
+    //메뉴 스크롤 업/다운
+    $('.menu, .sub-wrap').on('mouseleave', function(){
+        $(".sub-wrap").stop().slideUp(200);
+    });
+
+    $('.menu, .sub-wrap').on('mouseover', function(){
+        $(".sub-wrap").stop().slideDown(200);
+    });
+});
+</script>
 </head>
 <body>
 	<header class="header">
@@ -73,15 +70,15 @@
             <div class="nav-ul">
             	<sec:authorize access="isAnonymous()">
 	                <ul>
-	                    <li><a href="../../buyer/login">로그인</a></li>
-	                    <li><a href="../../buyer/join">회원가입</a></li>
+	                    <li><a href="/buyer/login">로그인</a></li>
+	                    <li><a href="/buyer/join">회원가입</a></li>
 	                </ul>
             	</sec:authorize>
             	<sec:authorize access="hasRole('ROLE_BUYER')">
             	 	<ul>
 	                    <li><a href="/buyer/logout">로그아웃</a></li>
-	                    <li><a href="../../buyer/mypage/myboard">마이페이지</a></li>
-	                    <li><a href="../../buyer/mypage/cart">장바구니</a>
+	                    <li><a href="/buyer/mypage/myboard">마이페이지</a></li>
+	                    <li><a href="/buyer/mypage/cart">장바구니</a>
 	                    </li>
 	                </ul>
             	</sec:authorize>
@@ -105,13 +102,12 @@
         <div class="container">
             <div class="nav-ul menu">
                 <ul class="menu-ul">
-                    <li class="selected"><a href="">홈</a></li>
-                    <li><a href="">재활용품</a></li>
-                    <li><a href="">업사이클링</a></li>
-                    <li><a href="">세척업체 소개</a></li>
-                    <li><a href="">체험단</a></li>
-                    <li><a href="">고객센터</a></li>
-                    <li><a href="">회사소개</a></li>
+                    <li class="selected"><a href="/buyer/main">홈</a></li>
+                    <li><a href="/buyer/upcycling/main">재활용품</a></li>
+                    <li><a href="/buyer/recycling/main">업사이클링</a></li>
+                    <li><a href="/buyer/exp/main">체험단</a></li>
+                    <li><a href="/buyer/help/main">고객센터</a></li>
+                    <li><a href="/buyer/about/info">회사소개</a></li>
                 </ul>
             </div>
         </div>
@@ -134,10 +130,6 @@
 	                <li><a href="">분류3</a></li>
 	                <li><a href="">분류4</a></li>
 	                <li><a href="">분류5</a></li>
-	            </ul>
-	            <ul>
-	                <li><a href="">업체 소개</a></li>
-	                <li><a href="">세척</a></li>
 	            </ul>
 	            <ul>
 	                <li><a href="">체험단 예약</a></li>

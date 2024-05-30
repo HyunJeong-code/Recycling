@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.UpcyclingDao;
 import recycling.buyer.service.face.UpcyclingService;
@@ -14,9 +15,9 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerProf;
 
 @Service
+@Transactional
 public class UpcyclingServiceImpl implements UpcyclingService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -52,11 +53,11 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public Seller selectSeller(String getsCode) {
 		return upcyclingDao.selectSeller(getsCode);
 	}
-	
-	@Override
-	public SellerProf selectSellerProf(String sCode) {
-		return upcyclingDao.selectSellerProf(sCode);
-	}
+
+//	@Override
+//	public SellerProf selectSellerProf(String sCode) {
+//		return upcyclingDao.selectSellerProf(sCode);
+//	}
 	
 	@Override
 	public Buyer selectBuyerCode(int bCode) {
@@ -72,7 +73,7 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	        logger.info("selectRvwList() - UpcyReview: {}", upcyReview);
 	    }
 		
-		return upcyclingDao.selectRvwList(prdCode);
+		return upcyReviewList;
 	}
 
 	@Override
@@ -98,17 +99,20 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		upcyReview.setUpcyContent(upcyContent);
 		
 		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
+		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
 	}
 
 	@Override
 	public void updateReview(String upcyCode, String upcyContent) {
 		upcyclingDao.updateReview(upcyCode, upcyContent);
+		logger.info("updateReview() - UpcyReview updated: upcyCode={}, upcyContent={}", upcyCode, upcyContent);
 	}
 
 	
 	@Override
 	public void deleteReview(String upcyCode) {
 		upcyclingDao.deleteReview(upcyCode);
+		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
 	}
 
 

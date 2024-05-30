@@ -199,6 +199,14 @@
 			ORDER BY S.s_entdate
 	</select>
 	
+	<select id="selectCntSeller" resultType="int">
+		SELECT count(*) FROM seller
+		<where>
+			AND s_chk = 'N'
+		</where>
+		ORDER BY s_entdate
+	</select>
+	
 	<!-- 구매자 코드 조회 -->
 	<select id="selectBysCode" resultType="string" parameterType="string">
 		SELECT B.b_code b_code FROM buyer B, Seller S
@@ -207,6 +215,14 @@
 			AND S.s_code = #{sCode }
 		</where> 
 	</select>
+	
+	<update id="updateSelChk" parameterType="Seller">
+		UPDATE seller
+		SET s_chk = #{sChk }
+		<where>
+			AND s_code = #{sCode }
+		</where>
+	</update>
 	
 	<!-- exp Join expSch resultMap-->
 	<resultMap type="java.util.HashMap" id="expJoin">
@@ -276,7 +292,7 @@
 	</insert>
 
 	<!-- 파일 등록 -->
-	<insert id="fileup" parameterType="ExpFile">
+	<insert id="expFileUp" parameterType="ExpFile">
 	    <selectKey order="BEFORE" keyProperty="expFlNo" resultType="int">
 	        SELECT EXP_FILE_SEQ.nextval FROM dual
 	    </selectKey>
@@ -326,7 +342,7 @@
 	    , exp_name = #{expName }
 	    , exp_price = #{expPrice }
 	    , exp_detail = #{expDetail }
-	    , exp_date = default
+	    , exp_date = sysdate
 	    <where>exp_code = #{expCode }</where>
 	</update>
 
@@ -372,12 +388,23 @@
 		DELETE FROM exp
 		<where> exp_code = #{expCode }</where>
 	</delete>
-
+	
+	<!-- 체험단 프로필조회 -->
+	<select id="expProImage" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where> 
+				AND exp_code = #{expCode }
+				AND ct_pflno = '600'
+		</where>
+	</select>
 	
 	<!-- 체험단 파일조회 -->
-	<select id="image" resultType="ExpFile" parameterType="ExpFile">
+	<select id="expImage" resultType="ExpFile" parameterType="ExpFile">
 		<include refid="expFileBoard"/>
-		<where> exp_code = #{expCode }</where>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '610'
+		</where>
 	</select>
 
 	<!-- 예약 확정 버튼에 따른 상태변경 -->
@@ -476,4 +503,58 @@
 		)
 		<where> sch_no = #{schNo }</where>
 	</select>
+	
+	<!-- 업데이트 프로필 조회 -->
+	<select id="expUpdateProfile" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"></include>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '600'
+		</where>
+	</select>
+	
+	<!-- 업데이트 파일 조회 -->
+	<select id="expUpdateFile" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"></include>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '610'
+		</where>
+	</select>
+	
+	<!-- 업데이트 프로필 수정하기 -->
+	<update id="expUpdateProfileProc" parameterType="ExpFile">
+			UPDATE exp_file SET
+				origin_name = #{originName } 
+				, stored_name = #{storedName }
+		<where>
+			AND exp_code = #{expCode }
+			AND exp_flno = #{expFlNo }
+		</where>
+	</update>
+	
+	<!-- 업데이트 프로필 수정하기 -->
+	<update id="expUpdatefileProc" parameterType="ExpFile">
+	    UPDATE exp_file
+	    SET
+	        origin_name = #{originName}
+	        , stored_name = #{storedName}
+	    <where>
+	        AND exp_code = #{expCode}
+	        AND exp_flno = #{expFlNo}
+	    </where>
+	</update>
+	
+		<!-- 업데이트 파일 수정하기 -->
+	<update id="expUpdateMultiFileProc" parameterType="ExpFile">
+	    UPDATE exp_file
+	    SET
+	        origin_name = #{originName}
+	        , stored_name = #{storedName}
+	    <where>
+	        AND exp_code = #{expCode}
+	        AND exp_flno = #{expFlNo}
+	    </where>
+	</update>
+	
 </mapper>

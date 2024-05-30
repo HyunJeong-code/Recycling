@@ -14,10 +14,6 @@
 
 <div class="full">
 	<div class="wrap">
-	
-		<!-- 임시설정 -->
-		<a href="/buyer/login">로그인</a><br>
-		<a href="/buyer/mypage/mymain">마이페이지</a><br>
 		
 		<div class="page">
 		</div>

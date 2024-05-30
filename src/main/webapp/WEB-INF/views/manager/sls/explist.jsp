@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/sls/explist.css">
+<link rel="stylesheet" href="../../../resources/css/manager/sls/explist.css">
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
@@ -61,7 +61,8 @@ $(function() {
 <body>
 	<div class="full">
 			<aside>
-				왼쪽
+				<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+				<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
 			</aside>
 		<div class="wrap">
 
@@ -110,7 +111,7 @@ $(function() {
 				
 				    <div class="btn_bot_wrap">
 				        <a href="./expform"><button class="btn_bot_inform">체험단 등록</button></a>
-				        <button class ="btn_bot_del">삭제</button>
+				        <button id="expListDel" class ="btn_bot_del">삭제</button>
 				    </div>
 				    
 		</div><!-- wrap -->

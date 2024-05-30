@@ -8,7 +8,6 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerProf;
 
 // 업사이클 관련 DB 처리
 
@@ -19,8 +18,6 @@ public interface UpcyclingDao {
 	public Prd selectPrd(String prdCode);
 	
 	public Seller selectSeller(String getsCode);
-
-	public SellerProf selectSellerProf(String sCode);
 
 	public Buyer selectBcode(int bCode);
 

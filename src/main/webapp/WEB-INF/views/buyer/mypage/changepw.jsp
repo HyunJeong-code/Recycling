@@ -60,6 +60,7 @@ label {
 		<div class="wrap">
 			<h2>비밀번호 변경</h2>
 			<hr>
+			
 			<div class="page">
 				<c:choose>
 					<c:when test="${buyerLogin.bCtCode == 'P' }">

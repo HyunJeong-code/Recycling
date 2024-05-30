@@ -25,7 +25,6 @@ aside {
 	width: 300px;
 	background-color: #f1f1f1;
 	border-right: 1px solid #ddd;
-	padding: 20px;
 	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -121,7 +120,8 @@ label {
 	border: 0;
 }
 
-.filebox .upload_name {
+.filebox .upload_name
+, .filebox .profile_name {
 	display: inline-block;
 	height: 46px;
 	padding: 0 10px;
@@ -188,3 +188,8 @@ label {
 .btn_bot_cencle:hover {
 	background-color: #da190b;
 }
+
+#mgrEmail1{
+	border-right: 1px solid #ccc;
+}
+	

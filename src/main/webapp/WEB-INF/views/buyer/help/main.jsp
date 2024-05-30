@@ -11,8 +11,6 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <title>CS Center</title>
 
 <style type="text/css">
@@ -21,9 +19,6 @@
 	margin: auto;
 }
 
-.page_box {
-	border-bottom: 3px solid #000;
-}
 .FAQ_Content h2 {
 	text-align: center;
 	margin-top: 15px;
@@ -138,13 +133,11 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
 <div class="wrap">
-<div class="page_box">
 <h2>고객센터</h2>
-</div>
 
-<div class="menu">
 	<div class="cs_center">
 	
 		<div>
@@ -171,8 +164,6 @@ $(document).ready(function(){
 	</nav>
 	
 	
-</div>
-
 <div class="FAQ_Content">
 	<h2>FAQ 자주 묻는 질문</h2>
 	
@@ -232,6 +223,6 @@ $(document).ready(function(){
 <c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </div>
 
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

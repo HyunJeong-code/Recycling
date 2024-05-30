@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
@@ -14,6 +15,7 @@ import recycling.seller.dao.face.QnaDao;
 import recycling.seller.service.face.QnaService;
 
 @Service
+@Transactional
 public class QnaServiceImpl implements QnaService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -9,9 +9,10 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 import recycling.dto.seller.AllPrd;
 import recycling.dto.seller.Exp;
-import recycling.util.Paging;
 
 // 상품-판매 관련 DB
 
@@ -77,10 +78,10 @@ public interface SellingDao {
 	/**
 	 * sCode와 일치하는 모든 upcyPrd 조회
 	 * 
-	 * @param sCode - 조회할 sCode
+	 * @param upPaging - 조회할 sCode
 	 * @return - 모든 upcyPrd 리스트
 	 */
-	public List<Prd> selectAllupcyPrd(String sCode);
+	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging);
 
 	/**
 	 * prdCode와 일치하는 Prd 삭제
@@ -147,5 +148,29 @@ public interface SellingDao {
 	 * @return - DELETE 결과
 	 */
 	public int deleteShip(String orddtCode);
+
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문 상세
+	 * @return - 조회한 MyOrder DTO
+	 */
+	public MyOrder selectMyOrderByOrddtCode(String orddtCode);
+
+	/**
+	 * 주문 상세 수정
+	 * 
+	 * @param myOrder - 수정 정보를 담은 DTO 객체
+	 * @return - UPDATE 결과
+	 */
+	public int updateMyOrder(MyOrder myOrder);
+
+	/**
+	 * paging 테스트
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllupcyPrd(PagingAndCtg upPaging);
 
 }

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.BuyerDao;
@@ -23,6 +24,7 @@ import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
@@ -32,6 +34,7 @@ import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
 
 @Service
+@Transactional
 public class BuyerServiceImpl implements BuyerService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -99,6 +102,16 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
 		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
+	}
+
+	@Override
+	public OrderDetail selectByorddtCode(String orddtCode) {
+		return buyerDao.selectByorddtCode(orddtCode);
+	}
+	
+	@Override
+	public int insertChange(Change change) {
+		return buyerDao.insertChange(change);
 	}
 
 	@Override
@@ -317,5 +330,11 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.deleteSeller(sCode);
 	
 	}
+	
+	@Override
+	public int changePw(BuyerLogin buyerLogin) {
+		return buyerDao.changePw(buyerLogin);
+	}
+
 
 }

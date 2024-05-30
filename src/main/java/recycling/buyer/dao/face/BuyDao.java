@@ -102,5 +102,13 @@ public interface BuyDao {
 	 */
 	public List<Map<String, Object>> selectNtc();
 
+	/**
+	 * 중복된 아이디 찾기
+	 * 
+	 * @param bId - 아이디
+	 * @return 중복된 아이디 개수
+	 */
+	public int selectCntById(String bId);
+
 }
 

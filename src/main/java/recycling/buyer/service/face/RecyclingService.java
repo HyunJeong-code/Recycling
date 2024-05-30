@@ -4,9 +4,6 @@ import java.util.List;
 
 import recycling.dto.seller.Seller;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
-import recycling.dto.seller.SellerQST;
 
 public interface RecyclingService {
 	
@@ -34,6 +31,14 @@ public interface RecyclingService {
 	 * @return 제품번호의 상세페이지
 	 */
 	public Prd view(String prdCode);
+	
+	/**
+	 * 판매자 기본 정보 로드
+	 * 
+	 * @param getsCode 판매자 코드
+	 * @return 판매자 정보
+	 */
+	public Seller selectSeller(String getsCode);
 
 	/**
 	 * 판매자 상세 프로필을 가져오는 코드
@@ -41,7 +46,7 @@ public interface RecyclingService {
 	 * @param	getsCode 프라이머리키인 sCode
 	 * @return	판매자 상세 정보
 	 */
-	public SellerProf getSellerProf(String sCode);
+//	public SellerProf getSellerProf(String sCode);
 
 	/**
 	 * 판매자 문의 코드를 통해서 판매자 문의 불러오기
@@ -49,7 +54,7 @@ public interface RecyclingService {
 	 * @param qstCode	문의 코드
 	 * @return	판매자 문의
 	 */
-	public SellerQST selectSellerQst(String qstCode);
+//	public SellerQST selectSellerQst(String qstCode);
 
 	/**
 	 * 판매자 문의 작성
@@ -57,14 +62,14 @@ public interface RecyclingService {
 	 * @param sellerQST 판매자 문의
 	 * @return 
 	 */
-	public int insertSellerQST(SellerQST sellerQST);
+//	public int insertSellerQST(SellerQST sellerQST);
 
 	/**
 	 * 판매자 문의 리스트를 조회
 	 * @param qstCode 판매자 문의 코드
 	 * @return	핀메매지 문의 리스트
 	 */
-	public List<SellerAns> selectSellerAnswers(String qstCode);
+//	public List<SellerAns> selectSellerAnswers(String qstCode);
 	
 	/**
 	 * 판매자 문의 수정
@@ -72,7 +77,7 @@ public interface RecyclingService {
 	 * @param sellerQST 판매자 문의
 	 * @return 
 	 */
-	public int updateSellerQST(SellerQST sellerQST);
+//	public int updateSellerQST(SellerQST sellerQST);
 
 	/**
 	 * 판매자 문의 삭제
@@ -88,7 +93,7 @@ public interface RecyclingService {
 	 * @param sellerAns
 	 * @return
 	 */
-	public int insertSellerAnswer(SellerAns sellerAns);
+//	public int insertSellerAnswer(SellerAns sellerAns);
 
 	/**
 	 * 판매자 문의 답변 수정
@@ -96,7 +101,7 @@ public interface RecyclingService {
 	 * @param sellerAns
 	 * @return
 	 */
-	public int updateSellerAnswer(SellerAns sellerAns);
+//	public int updateSellerAnswer(SellerAns sellerAns);
 
 	
 	/**
@@ -106,7 +111,4 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int deleteSellerAnswer(String qnaCode);
-
-	
-
 }
