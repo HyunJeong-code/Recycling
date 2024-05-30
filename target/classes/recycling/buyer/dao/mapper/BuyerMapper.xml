@@ -22,17 +22,22 @@
 		, #{ordFee})
 	</insert>
 	
-	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
-		SELECT
-			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
-		FROM
-			cart c, prd p, prd_file pf
-		<where>
-			AND c.PRD_CODE =p.PRD_CODE
-			AND p.PRD_CODE = pf.PRD_CODE
-			AND B_CODE = #{bCode}
-		</where>
-		ORDER BY C_CODE
+	<select id="selectAllCart" parameterType="recycling.util.PagingAndCtg" resultType="CartOrder">
+		SELECT *
+		FROM (
+			SELECT rownum no, PRD.* FROM (
+				SELECT
+					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+				FROM
+					cart c, prd p, prd_file pf
+				<where>
+					AND c.PRD_CODE =p.PRD_CODE
+					AND p.PRD_CODE = pf.PRD_CODE
+					AND B_CODE = #{user}
+				</where>
+				ORDER BY C_CODE
+			) PRD
+		)
 	</select>
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
@@ -96,15 +101,24 @@
 	</insert>
 	
 	<select id="buyerDaoselectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
-		SELECT 
-			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
-		FROM 
-			order_detail od, orders o
-		<where>
-			AND o.ord_code = od.ord_code
-			AND o.b_code = #{bCode}
-		</where>
-		ORDER BY orddt_code DESC
+		SELECT *
+		FROM (
+			SELECT rownum no, ORD.* FROM (
+				SELECT 
+					ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+				FROM 
+					order_detail od, orders o
+				<where>
+					AND o.ord_code = od.ord_code
+					AND o.b_code = #{user}
+					AND (
+						od.orddt_code LIKE '%' || #{search } || '%'
+						OR od.ord_name LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY orddt_code DESC
+			) ORD
+		)
 	</select>
 	
 	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
@@ -290,7 +304,7 @@
     	</where>
     </update>
     
-    <!--  -->
+    <!-- 기본 배송지 조회 -->
     <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -300,7 +314,7 @@
     	</where>
     </select>
     
-    <!--  -->
+    <!-- Adr_Code로 배송지 정보 조회 -->
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -317,11 +331,38 @@
     </update>
     
 	<!-- 판매자 탈퇴 -->
-    <delete id="deleteSeller" parameterType="string">
+    <update id="deleteSeller" parameterType="string">
     	UPDATE Seller
     	SET
     		S_Out = 'Y',
     		S_Out_Date = SYSDATE
     	WHERE S_Code = #{sCode }
-    </delete>
+    </update>
+    
+    
+    <select id="selectCntAllCart" parameterType="recycling.util.PagingAndCtg" resultType="int">
+    	SELECT count(*) FROM
+			cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE =p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE
+			AND B_CODE = #{user}
+		</where>
+		ORDER BY C_CODE
+    </select>
+    
+    <select id="selectCntOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="int">
+ 		SELECT count(*) FROM 
+			order_detail od, orders o
+		<where>
+			AND o.ord_code = od.ord_code
+			AND o.b_code = #{user}
+			AND (
+					od.orddt_code LIKE '%' || #{search } || '%'
+					OR od.ord_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY orddt_code DESC
+    </select>
+    
 </mapper>

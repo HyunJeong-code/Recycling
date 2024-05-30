@@ -69,7 +69,6 @@ public class SellingController {
   		logger.info("unPaging : {}", unPaging);
   		unPaging.setUser(buyerLogin.getsCode());
 		
-		String sCode = buyerLogin.getsCode();
 		
 		//로그인 되어있는 아이디의 재활용 판매 상품 조회
 		List<Prd> plist = sellingService.selectAllrcyPrd(upPaging);

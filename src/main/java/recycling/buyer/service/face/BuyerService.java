@@ -17,6 +17,7 @@ import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 회원 정보 관련
 public interface BuyerService {
@@ -39,10 +40,10 @@ public interface BuyerService {
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 session
+	 * @param upPaging - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
-	public List<CartOrder> selectAllCart(String bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging);
 
 	/**
 	 * cCode로 Cart 조회하기
@@ -103,10 +104,10 @@ public interface BuyerService {
 	/**
 	 * 주문 상세 리스트 조회
 	 * 
-	 * @param bCode - 조회할 회원의 bCode
+	 * @param upPaging - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> selectOrderDetailBybCode(String bCode);
+	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging);
 	
 	/**
 	 * 주문 상세 조회
@@ -266,11 +267,11 @@ public interface BuyerService {
 	public int unsetDefaultAdr(String bCode);	
 	
 	/**
+	 * 기본 배송지 설정
 	 * 
-	 * 
-	 * @param adrCode
-	 * @param bCode
-	 * @return
+	 * @param adrCode - 배송지 코드
+	 * @param bCode - 구매자 코드
+	 * @return 설정된 행 수
 	 */
 	public int setDefaultAdr(String adrCode, String bCode);	
 	
@@ -297,6 +298,24 @@ public interface BuyerService {
 	 * @return 처리 결과
 	 */
 	public int deleteSeller(String sCode);
+
+	
+	/**
+	 * Cart paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - upPaging 결과값
+	 */
+	public int selectCntAllCart(PagingAndCtg upPaging);
+
+	
+	/**
+	 * MyOrder paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - paging 결과
+	 */
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
 
 
 

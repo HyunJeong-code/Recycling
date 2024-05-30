@@ -2,19 +2,18 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
-import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
-import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Change;
 import recycling.dto.seller.Seller;
+import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
@@ -34,10 +33,10 @@ public interface BuyerDao {
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 session
+	 * @param upPaging - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
-	public List<CartOrder> selectAllCart(String bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging);
 
 	/**
 	 * cCode로 Cart 조회하기
@@ -98,10 +97,10 @@ public interface BuyerDao {
 	/**
 	 * 주문 상세 조회
 	 * 
-	 * @param bCode - 조회할 회원의 bCode
+	 * @param upPaging - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
+	public List<MyOrder> buyerDaoselectOrderDetailBybCode(PagingAndCtg upPaging);
 	
 	/**
 	 * 주문 상세 조회
@@ -163,15 +162,15 @@ public interface BuyerDao {
 	 * 구매자 프로필 조회
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 조회된 프로필 조회
+	 * @return 조회된 프로필
 	 */
 	public BuyerProf getBuyerProf(String bCode);
 	
 	/**
+	 * 사업자 등록증 조회
 	 * 
-	 * 
-	 * @param cmpNo
-	 * @return
+	 * @param cmpNo - 기업 번호
+	 * @return 조회된 사업자 등록증
 	 */
 	public CmpFile getCmpFile(int cmpNo);
 	
@@ -209,10 +208,10 @@ public interface BuyerDao {
 	public int updateBuyerProf(BuyerProf prof);
 
 	/**
+	 * 사업자 등록증 업데이트
 	 * 
-	 * 
-	 * @param file
-	 * @return
+	 * @param file - 업데이트 할 사업자 등록증 파일
+	 * @return 업데이트 결과
 	 */
 	public int updateCmpFile(CmpFile file);
 	
@@ -299,6 +298,21 @@ public interface BuyerDao {
 
 	public BuyerRank selectBuyerRank(int rankNo);
 
-
+	
+	/**
+	 * Cart paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - upPaging 결과값
+	 */
+	public int selectCntAllCart(PagingAndCtg upPaging);
+	
+	/**
+	 * MyOrder paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - paging 결과
+	 */
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
 
 }

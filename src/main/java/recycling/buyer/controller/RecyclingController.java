@@ -23,9 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
-import recycling.dto.seller.SellerQST;
 
 // 메뉴 - 재활용품
 @Controller
@@ -80,20 +77,8 @@ public class RecyclingController {
         
         // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
 //        return "buyer/recycling/findseller_origin";
-	}
-
-//	@GetMapping("/main")
-//	public String rcyMain(Model model) {
-//		logger.info("/buyer/recycling/main [GET]");
-//		
-//		List<Prd> list = recyclingService.getPrdList();
-//		
-//		model.addAttribute("list", list);
-//		
-//		return "buyer/recycling/main";
-//	}
-	
-	
+        }
+        
 	@GetMapping("/rcydetail")
 	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, HttpSession session) {
 		logger.info("/rcydetail [GET] - prdCode: {}", prdCode );
@@ -105,11 +90,11 @@ public class RecyclingController {
 		}
 		
 		Seller seller = recyclingService.selectSeller(prd.getsCode());
-		SellerProf sellerProf = recyclingService.getSellerProf(prd.getsCode());
+//		SellerProf sellerProf = recyclingService.getSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
-		model.addAttribute("sellerProf", sellerProf);
+//		model.addAttribute("sellerProf", sellerProf);
 		
 		return "buyer/recycling/rcydetail";
 	}
@@ -119,33 +104,33 @@ public class RecyclingController {
 	public String sellerQST(@RequestParam("qstCode") String qstCode, Model model) {
 		logger.info("/buyer/recycling/rcycmt [GET]");
 		
-		SellerQST sellerQst = recyclingService.selectSellerQst(qstCode);
-		List<SellerAns> answers  = recyclingService.selectSellerAnswers(qstCode);
+//		SellerQST sellerQst = recyclingService.selectSellerQst(qstCode);
+//		List<SellerAns> answers  = recyclingService.selectSellerAnswers(qstCode);
 		
-		model.addAttribute("sellerQst", sellerQst);
-		model.addAttribute("answers", answers);
+//		model.addAttribute("sellerQst", sellerQst);
+//		model.addAttribute("answers", answers);
 
 		// 판매자 문의 조회 등의 기능 수행
 		return "buyer/recycling/rcycmt";
 	}
 	
 	@PostMapping("/write")
-	public String insertSellerQST(SellerQST sellerQST, RedirectAttributes redirectAttributes) {
+	public String insertSellerQST(RedirectAttributes redirectAttributes) {
 		logger.info("/buyer/recycling/write [POST]");
 		
-		int result = recyclingService.insertSellerQST(sellerQST);
-		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
+//		int result = recyclingService.insertSellerQST(sellerQST);
+//		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
 		
 		return "redirect:/buyer/recycling/rcycmt";
 	}
 	
 	
 	@PostMapping("/edit")
-	public String editSellerQST(SellerQST sellerQST, RedirectAttributes redirectAttributes) {
+	public String editSellerQST(RedirectAttributes redirectAttributes) {
 		logger.info("/buyer/recycling/edit [POST]");
 		
-		int result = recyclingService.updateSellerQST(sellerQST);
-		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
+//		int result = recyclingService.updateSellerQST(sellerQST);
+//		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
 		
 		return "redirect:/buyer/recycling/rcycmt";
 	}
@@ -163,22 +148,22 @@ public class RecyclingController {
 	
 	
 	@PostMapping("/rcycmt/writeAnswer")
-	public String writeSellerAnswer(SellerAns sellerAns, RedirectAttributes redirectAttributes) {
+	public String writeSellerAnswer(RedirectAttributes redirectAttributes) {
         logger.info("/buyer/recycling/rcycmt/writeAnswer [POST]");
         
-        int result = recyclingService.insertSellerAnswer(sellerAns);
-        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
-        
+//        int result = recyclingService.insertSellerAnswer(sellerAns);
+//        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
+//        
         return "redirect:/buyer/recycling/rcycmt";
     }
 	
 	
 	@PostMapping("/rcycmt/editAnswer")
-    public String editSellerAnswer(SellerAns sellerAns, RedirectAttributes redirectAttributes) {
+    public String editSellerAnswer(RedirectAttributes redirectAttributes) {
         logger.info("/buyer/recycling/rcycmt/editAnswer [POST]");
         
-        int result = recyclingService.updateSellerAnswer(sellerAns);
-        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
+//        int result = recyclingService.updateSellerAnswer(sellerAns);
+//        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
         
         return "redirect:/buyer/recycling/rcycmt";
     }
