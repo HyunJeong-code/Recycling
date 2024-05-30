@@ -145,17 +145,13 @@ td a:hover {
             <hr>
             </div>
      
-    <div id="noticeSearch">
-	<form action="./noticelist" method="get">
-		<select id="noticeList_category" name="category">
-			<option value="title">제목</option>
-			<option value="content">내용</option>
-		</select>
-		
-		<input type="text" id="search" name="search"  placeholder="검색어를 입력하세요">
-        <button type="submit">검색하기</button>
-	</form>
-    </div>
+			<div class="search">
+				<form action="./noticelist" method="get">
+					<input type="hidden" name="sCtg" value="UP">
+					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+					<button>검색</button>
+				</form>
+			</div>
 	
             <div class="section">
             <table border = "1">
@@ -183,6 +179,7 @@ td a:hover {
 					</c:forEach>
 				</tbody>
 			</table>
+<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
                 
             </div>
 
@@ -190,13 +187,5 @@ td a:hover {
     </div><!-- full -->
 </body>
 
-<c:choose>
-	<c:when test="${paging.search != null}">
-		<c:import url="/WEB-INF/views/layout/manager/noticePagingSearch.jsp" />
-	</c:when>
-	<c:otherwise>
-		<c:import url="/WEB-INF/views/layout/manager/noticePaging.jsp" />
-	</c:otherwise>
-</c:choose>
 
 </html>

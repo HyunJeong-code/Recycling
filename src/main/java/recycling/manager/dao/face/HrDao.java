@@ -3,7 +3,9 @@ package recycling.manager.dao.face;
 import java.util.List;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
+import recycling.util.PagingAndCtg;
 
 
 // 인사팀 DB 처리
@@ -11,19 +13,31 @@ import recycling.dto.manager.MgrFile;
 public interface HrDao {
 	
 	/**
-	 * 페이징 시스템
+	 * 전체조회[main]
 	 * 
 	 * @return
 	 */
-	public int getPaging();
-	
-	/**
-	 * Manager 전체 조회하기
-	 * 
-	 * @return
-	 */
-	public List<Manager> selectAll();
+	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging);
 
+	/**
+	 * 전체조회 페이징[main]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllHr(PagingAndCtg upPaging);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Manager mgrCode를 이용한 특정데이터 조회 
 	 * 
@@ -91,6 +105,8 @@ public interface HrDao {
 	 * @return
 	 */
 	public int listDel(String mgrCode);
+
+	
 
 	
 

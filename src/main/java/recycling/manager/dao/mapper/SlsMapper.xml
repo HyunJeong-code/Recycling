@@ -10,6 +10,24 @@
 		SELECT * FROM SELLER
 	</sql>
 	
+	<!-- 판매자정보 -->
+	<sql id="SellOrderJoin">
+			SELECT 
+		    p.prd_code, p.ct_pno, p.ct_pdtno, p.s_code, p.prd_name,
+		    p.price, p.prd_cnt, p.prd_fee, p.prd_detail, p.prd_date,
+		    p.prd_hit, p.prd_out, od.orddt_code, od.ord_code, od.ord_name AS ord_detail_name,
+		    od.ord_price, od.ord_cnt, od.ord_sum AS ord_detail_sum, od.stt_no,
+		    o.b_code, o.ord_name AS order_name,
+		    o.ord_phone, o.send_name, o.send_phone, o.ord_postcode,
+		    o.ord_addr, o.ord_detail AS order_detail_addr,
+		    o.ord_memo, o.ord_date, o.ord_pay, o.ord_sum AS order_sum,
+		    o.ord_fee, os.stt_name
+		FROM order_detail od
+		JOIN prd p ON od.prd_code = p.prd_code
+		JOIN orders o ON od.ord_code = o.ord_code
+		JOIN order_stt os ON od.stt_no = os.stt_no
+	</sql>
+	
 	<!-- 판매자 목록 -->
 	<select id="main" resultType="Seller" parameterType="recycling.util.Paging">
 		SELECT * FROM (
@@ -208,41 +226,128 @@
 		</where> 
 	</select>
 	
-	<!-- exp Join expSch resultMap-->
-	<resultMap type="java.util.HashMap" id="expJoin">
-	
-	<result property="expCode" column="exp_code"/>
-	<result property="sCode" column="s_code"/>
-	<result property="expName" column="exp_name"/>
-	<result property="expPrice" column="exp_price"/>
-	<result property="expDetail" column="exp_detail"/>
-	<result property="expHit" column="exp_hit"/>
-	<result property="expDate" column="exp_date"/>
-
-	<result property="schNo" column="sch_no"/>
-	<result property="schDate" column="sch_date"/>
-	<result property="schTime" column="sch_time"/>
-	<result property="schCnt" column="sch_cnt"/>
-	</resultMap>
-	
-	<!-- 체험단 조회 -->
-	<select id="selectAll" resultType="Exp">
-		<include refid="expBoard"/>
-		ORDER BY exp_date DESC
+	<!-- 판매자 상품관리 -->
+	<select id="selectAllPrdList" resultType="SellerOrderJoin">
+		<include refid="SellOrderJoin"/>
+		<where>p.s_code = #{sCode }</where>
 	</select>
 	
-	<!-- 체험단 체험일정 조회 -->
-	<select id="selectSchAll" resultType="ExpSch" parameterType="String">
+	<!-- 판매자 판매관리 -->
+	<select id="selectAllSellList" resultType="SellerOrderJoin">
+		<include refid="SellOrderJoin"/>
+		<where>p.s_code = #{sCode }</where>
+	</select>
+	
+	
+	
+	<!-- 체험단 전체 조회하기[expList] -->
+	<select id="selectAllExp" resultType="Exp">
+		SELECT *
+		FROM (
+			SELECT rownum no, exp.* FROM (
+				<include refid="expBoard"/>
+				<where>
+					AND (
+						exp_code LIKE '%' || #{search } || '%'
+						OR exp_name LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY exp_code DESC
+			) exp
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 체험단 전체 조회 페이징[expList] -->
+	<select id="selectCntAllExp" resultType="int" parameterType="recycling.util.PagingAndCtg">
+  		SELECT count(*) FROM exp
+		<where>
+			AND (
+				exp_code LIKE '%' || #{search } || '%'
+				OR exp_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY exp_code DESC
+	</select>
+	
+	<!-- 체험단 세부 조회[expdetail] -->
+	<select id="selectDetailExp" resultType="Exp" parameterType="String" >
+		<include refid="expBoard"/>
+		<where>
+			exp_code= #{expCode}
+		</where>
+	</select>
+
+	
+	<!-- 체험단 스케쥴 조회[expdetail] -->
+	<select id="selectAllSch" resultType="ExpSch" parameterType="String">
 		<include refid="expSchBoard"/>
 		<where>exp_code = #{expCode }</where>
 	</select>
 	
-	<!-- 체험단 세부 조회 -->
-	<select id="selectDetail" parameterType="String" resultType="Exp" >
-		<include refid="expBoard"/>
-		<where>exp_code = #{expCode }</where>
-		
+	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
+	<select id="selectCntAllExpSch" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM exp_Sch
+		<where>
+			AND (
+				exp_code LIKE '%' || #{search} || '%'
+				AND sch_no LIKE '%' || #{search } || '%'
+				)
+			AND exp_code = #{user }
+		</where>
+		ORDER BY sch_no DESC
 	</select>
+	
+	<!-- 체혐 스케쥴 예약된 인원 조회 -->
+	<select id="selectByResCnt" resultType="ResSchCnt" parameterType="String">
+		SELECT s.sch_no, s.exp_code, s.sch_date, s.sch_time, s.sch_cnt, r.res_cnt
+			FROM exp_sch s
+			JOIN exp_res r ON s.sch_no = r.sch_no
+	WHERE s.exp_code = #{expCode}
+	</select>
+	
+	<!-- 체험단 스케쥴 프로필조회 -->
+	<select id="expProImage" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where> 
+				AND exp_code = #{expCode }
+				AND ct_pflno = '600'
+		</where>
+	</select>
+	
+	<!-- 체험단 파일조회 -->
+	<select id="expImage" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '610'
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	<!-- 관리자쪽 구현 x -->
 	<!-- 세부조회에 따른 조회수 증가 -->
@@ -373,23 +478,6 @@
 		<where> exp_code = #{expCode }</where>
 	</delete>
 	
-	<!-- 체험단 프로필조회 -->
-	<select id="expProImage" resultType="ExpFile" parameterType="ExpFile">
-		<include refid="expFileBoard"/>
-		<where> 
-				AND exp_code = #{expCode }
-				AND ct_pflno = '600'
-		</where>
-	</select>
-	
-	<!-- 체험단 파일조회 -->
-	<select id="expImage" resultType="ExpFile" parameterType="ExpFile">
-		<include refid="expFileBoard"/>
-		<where>
-			AND exp_code = #{expCode }
-			AND ct_pflno = '610'
-		</where>
-	</select>
 
 	<!-- 예약 확정 버튼에 따른 상태변경 -->
 	<update id="expResCnf" parameterType="String">
@@ -435,14 +523,7 @@
 		  <where>res_code = #{resCode } </where>
 	 </update>
 	
-	<!-- expdetail페이지 예약인원조회 -->
-	<select id="selectByResCnt" resultType="ResSchCnt" parameterType="String">
-			SELECT s.sch_no, s.exp_code, s.sch_date, s.sch_time, s.sch_cnt, r.res_cnt
-				FROM exp_sch s
-				JOIN exp_res r ON s.sch_no = r.sch_no
-		WHERE s.exp_code = #{expCode}
-	</select>
-	
+
 	<!-- 인원 변경 -->
 	<update id="cntChangeUpdate" parameterType="ExpSch">
 		UPDATE exp_sch SET
@@ -529,7 +610,7 @@
 	    </where>
 	</update>
 	
-		<!-- 업데이트 파일 수정하기 -->
+	<!-- 업데이트 파일 수정하기 -->
 	<update id="expUpdateMultiFileProc" parameterType="ExpFile">
 	    UPDATE exp_file
 	    SET
@@ -540,5 +621,11 @@
 	        AND exp_flno = #{expFlNo}
 	    </where>
 	</update>
+	
+	<!-- 판매자 정보조회 -->
+	<select id="sellerAllSeller" parameterType="String" resultType="hashmap">
+		<include refid="buyerJoinSellerJoinCmp"/>
+		<where>S.s_code = #{sCode }</where>
+	</select>
 	
 </mapper>

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.ResSchCnt;
+import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
 import recycling.manager.service.face.SlsService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Controller
 @RequestMapping("/manager/sls")
@@ -31,15 +35,16 @@ public class SlsController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired
-	private SlsService slsService;
-	@Autowired 
-	HttpSession session;
+	@Autowired private SlsService slsService;
+	@Autowired HttpSession session;
+	@Autowired private recycling.page.face.PageService pageService;
 	
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
-	public void main(@RequestParam(defaultValue = "0") int curPage, @RequestParam(defaultValue = "") String search,
-			String category, Paging pagingParam, Model model) {
+	public void main(
+			@RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, String category, Paging pagingParam, Model model) {
 
 		Paging paging = new Paging();
 
@@ -130,14 +135,90 @@ public class SlsController {
 		logger.info("/manager/sls/sellerchk [GET]");				
 	}
 	
-	//체험단 전체조회
+	@GetMapping("sellinglist")
+	public void sellinglist(
+			Authentication authentication
+			, Model model
+			, Seller seller
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
+			) {
+		
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+	
+		//판매자 조회 조회
+		List<Map<String, Object>> selList = slsService.sellerAllSeller(seller.getsCode());
+		model.addAttribute("selList", selList);
+		
+		
+		//상품 조회
+		List<SellerOrderJoin> prdList = slsService.selectAllPrdList();
+		model.addAttribute("prdList", prdList);
+		
+		//판매 조회
+		List<SellerOrderJoin> sellList = slsService.selectAllSellList();
+		model.addAttribute("sellList", sellList);
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//체험단 전체조회[explist]
 	@GetMapping("/explist")
 	public String expList(
-			Model model
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
 			) {
+		
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+				
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = slsService.selectCntAllExp(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+	
 		//전체 Exp 조회기능
-		List<Exp> list = slsService.selectAll();
+		List<Exp> list = slsService.selectAllExp(upPaging);
+		
+		
+		//JSP로 보내기
 		model.addAttribute("explist", list);
+		
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/sls/explist"); //jsp 페이징
 		
 		return "/manager/sls/explist";
 	}
@@ -145,35 +226,44 @@ public class SlsController {
 	//세부조회
 	@GetMapping("/expdetail")
 	public void expDetail(
-				@RequestParam("expCode") String expCode
+				Authentication authentication
+				,@RequestParam("expCode") String expCode
 				, ExpFile expFile
 				, Model model
+				, @RequestParam(defaultValue = "0") int curPage
+				, @RequestParam(defaultValue = "") String search
+				, @RequestParam(defaultValue = "") String sCtg
 				) {
-		
+			ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+
+			//페이징
+			PagingAndCtg upPaging = new PagingAndCtg();
+			upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+			int upPage = slsService.selectCntAllExpSch(upPaging);
+	        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+	        
+			//상세조회
+			Exp view = slsService.selectDetailExp(expCode);
+			model.addAttribute("view", view);
+	
+			//예약 스케쥴 조회기능
+			List<ExpSch> schList = slsService.selectAllSch(expCode);
+			model.addAttribute("expSchList", schList);
+
+			//예약된인원 조회
+			List<ResSchCnt> resCnt = slsService.selectByResCnt(expCode);
+			model.addAttribute("resCnt", resCnt);
+
 			//프로필 조회
 			ExpFile profileimage = slsService.expProImage(expFile);
 			model.addAttribute("profileimage", profileimage);
-//			logger.info("expDetail profileimage:{}", profileimage );
 		
 			//파일 조회
 			List <ExpFile> fileimage = slsService.expImage(expFile);
 			model.addAttribute("fileImage", fileimage);
-//			logger.info("expDetail fileImage:{}", fileimage );
-			
-			//상세조회
-			Exp view = slsService.selectDetail(expCode);
-			model.addAttribute("view", view);
-//			logger.info("expDetail view:{}", view );
-	
-			//전체 예약 조회기능
-			List<ExpSch> schList = slsService.selectSchAll(expCode);
-			model.addAttribute("expSchList", schList);
-//			logger.info("expDetail expSchList:{}", schList );
-			
-			//예약 인원 조회
-			List<ResSchCnt> resCnt =slsService.selectByResCnt(expCode);
-			model.addAttribute("resCnt", resCnt);
-//			logger.info("expDetail resCnt:{}", resCnt );
+	        
+	        model.addAttribute("upPaging", upPaging);
+			model.addAttribute("upUrl", "/manager/sls/expdetail?expCode=" + expCode);
 			
 	}
 	
@@ -420,11 +510,11 @@ public class SlsController {
 	@PostMapping("/expdetaillistdel")	
 	public String expDetailListDel(@RequestParam("chBox[]") List<String> chBox, Model model) {
 	    
-	       int res = slsService.expDetailListDel(chBox);
-	       
-	       model.addAttribute("res", res);
-	       
-	        return "jsonView";
+		int res = slsService.expDetailListDel(chBox);
+       
+		model.addAttribute("res", res);
+       
+		return "jsonView";
 	
 	}
 }
