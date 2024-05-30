@@ -19,7 +19,7 @@ $(function(){
     var header = $('.header');
     var headerOffset = header.offset().top;
 
-    $(window).scroll(function() {
+    /* $(window).scroll(function() {
         if ($(window).scrollTop() >= headerOffset+600) {
             if (!header.hasClass('fixed')) {
                 header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
@@ -33,7 +33,7 @@ $(function(){
                 });
             }
         }
-    });
+    }); */
     
     // 페이지 로딩 시 sub-wrap을 숨긴 상태로 설정
     $(".sub-wrap").hide();

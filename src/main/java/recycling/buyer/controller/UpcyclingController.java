@@ -197,6 +197,7 @@ public class UpcyclingController {
 		
 		 logger.info("order: {}", order);
 		
+		 //주문 INSERT
 		 int res = buyerService.insertOrder(order);
 		 
 		 //cartOrder 객체로 prd 수량 차감

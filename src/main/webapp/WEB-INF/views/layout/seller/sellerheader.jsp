@@ -16,13 +16,21 @@ $(function(){
     var header = $('.header');
     var headerOffset = header.offset().top;
 
-    $(window).scroll(function() {
-        if ($(window).scrollTop() > headerOffset) {
-            header.addClass('fixed');
-        } else {
-            header.removeClass('fixed');
-        }
-    });
+    /* $(window).scroll(function() {
+	    if ($(window).scrollTop() >= headerOffset+600) {
+	        if (!header.hasClass('fixed')) {
+	            header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
+	            $("body").css("padding-top","210px");
+	        }
+	    } else {
+	        if (header.hasClass('fixed')) {
+	            header.removeClass('fixed').animate({ top: '-100px' }, 300, function() {
+	                header.css('top', '');
+	                $("body").css("padding-top","0");
+	            });
+	        }
+	    }
+	}); */
 
 });
 </script>

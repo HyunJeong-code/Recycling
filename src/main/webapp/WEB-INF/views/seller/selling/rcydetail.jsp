@@ -58,20 +58,40 @@
             <div class="section">
             	<h3>${prd.prdCode }</h3>
             	<form action="./cyupdate?prdCode=${prd.prdCode}" method="post">
-		            <select name="ctPdtNo" id="ctPdtNo">
-			           	<option value="0">플라스틱</option>
-			           	<option value="1">유리</option>
-			           	<option value="2">종이</option>
-			           	<option value="3">캔</option>
-			           	<option value="4">천</option>
-			           	<option value="5">기타</option>
-		            </select><br>
-		           	<input type="text" name="prdName" value="${prd.prdName }"><br>
-		           	<input type="text" name="price" value="${prd.price }"><br>
-		           	<input type="text" name="prdDetail" value="${prd.prdDetail }"><br>
-		           	<button>수정하기</button>
-		           	<button type="button" id="del_btn">삭제하기</button>
+            		<table>
+	            		<tr>
+	            			<td>상품코드</td>
+	            			<td>${prd.prdCode }</td>
+	            		</tr>
+	            		<tr>
+	            			<td>상품 분류</td>
+	            			<td>
+	            				<select name="ctPdtNo" id="ctPdtNo">
+						           	<option value="0">플라스틱</option>
+						           	<option value="1">유리</option>
+						           	<option value="2">종이</option>
+						           	<option value="3">캔</option>
+						           	<option value="4">천</option>
+						           	<option value="5">기타</option>
+					            </select>
+	            			</td>
+	            		</tr>
+	            		<tr>
+	            			<td>상품명</td>
+	            			<td><input type="text" name="prdName" value="${prd.prdName }"></td>
+	            		</tr>
+	            		<tr>
+	            			<td>가격</td>
+	            			<td><input type="text" name="price" value="${prd.price }"></td>
+	            		</tr>
+	            		<tr>
+	            			<td>상품 상세</td>
+	            			<td><input type="text" name="prdDetail" value="${prd.prdDetail }"></td>
+	            		</tr>
+		           	</table>
 		           	<button type="button"><a href="./rcylist">목록</a></button>
+		           	<button>수정하기</button>
+		           	<button type="button"><a href="./rcydel?prdCode=${prd.prdCode}">삭제하기</a></button>
 	           	</form>
             </div>
         </div>
