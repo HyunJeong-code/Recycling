@@ -144,7 +144,28 @@
 	
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5141af38fa883955ccca452855c2266&libraries=services"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
+
+	$(function() {
+		
+		//수량 부족알림
+		$("#prdCnt").change(function() {
+			if ($("#prdCnt").val() > ${prd.prdCnt}) {
+		      alert("수량이 부족합니다.");
+		      $("#prdCnt").val("${prd.prdCnt}");  
+		    }
+		})
+		
+		$("#buyBtn").click(function() {
+			var prdCode = "${prd.prdCode }";
+			var prdCnt = $("#prdCnt").val();
+			location.href="./pay?prdCode=" + prdCode + "&cCnt=" + prdCnt;
+		})
+		
+		
+	}) 	//$ end
+
 	function scrollToSection(sectionId) {
 		document.querySelectorAll('.navBtn').forEach(btn => btn.classList.remove('active'));
 		document.getElementById('btn-' + sectionId).classList.add('active');
@@ -203,13 +224,15 @@
 			</div>
 			
 			<div class="prdInfo">
-				<p class="prdName">${prd.prdName}</p>]
+				<p class="prdName">${prd.prdName}</p>
 				<hr>
 				<p class="prdPrice">${prd.price}<p>
 				<hr>
 				<p class="prdSum">${prd.prdDetail}</p>
 				<hr>
-				<a href="#" class="buyBtn">바로구매</a>
+				<p>수량 : <input type="number" id="prdCnt" value="1" min="1" max="${prd.prdCnt}"></p>
+				<hr>
+				<button id="buyBtn" class="buyBtn">바로구매</button>
 				<a href="#" class="reportBtn">신고하기</a>
 			</div>
 		</div>
@@ -219,7 +242,7 @@
 			<div id="btn-section2" class="navBtn" onclick="scrollToSection('section2')">판매자 정보</div>
 			<div id="btn-section3" class="navBtn" onclick="scrollToSection('section3')">거래위치 정보</div>
 			<div id="btn-section4" class="navBtn" onclick="scrollToSection('section4')">상품평</div>
-			<div id="btn-section5" class="navBtn" onclick="scrollToSection('section5')">상품문의</div>
+			<!-- <div id="btn-section5" class="navBtn" onclick="scrollToSection('section5')">상품문의</div> -->
 		</div>
 		
 		<div id="section1" class="section">
@@ -268,10 +291,10 @@
 			</div>
 		</div>
 		
-		<div id="section5" class="section">
+<!-- 		<div id="section5" class="section">
 			<h3>상품문의</h3>
 			<p>상품문의 내용</p>
-		</div>
+		</div> -->
 		
 	</div>
 

@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
 <c:set var="seller" value="${seller }" />
 
 <div class="page">

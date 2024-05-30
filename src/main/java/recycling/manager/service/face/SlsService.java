@@ -10,8 +10,6 @@ import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-
-
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 
@@ -25,7 +23,6 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<Seller> main(Paging paging);
-	
 	
 	/**
 	 * 페이징
@@ -72,8 +69,9 @@ public interface SlsService {
 	 * @param selectedTimes 
 	 * @param expSch 
 	 * @param file 
+	 * @param file2 
 	 */
-	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile file);
+	public void insert(Exp exp, List<String> schTime, ExpSch expSch,MultipartFile profile, List<MultipartFile> file);
 	
 	/**
 	 * 체험정보 업데이트항목 조회
@@ -139,12 +137,19 @@ public interface SlsService {
 	public int expListDel(String expCode);
 
 	/**
+	 * 체험 프로필 이미지
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expProImage(ExpFile expFile);
+	
+	/**
 	 * 이미지 업로드 번호조회
 	 * 
 	 * @param expFile
 	 * @return
 	 */
-	public ExpFile image(ExpFile expFile);
+	public List<ExpFile> expImage(ExpFile expFile);
 
 	/**
 	 * 예약 확정, 취소버튼에 따른 예약변경
@@ -270,12 +275,66 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<Map<String, Object>> sellerSelect(String getbCode);
-
-
-
-
-
 	
+	/**
+	 * 판매자 전환 수락/거절
+	 * @param seller - 판매자 정보 및 수락/거절 여부
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int updateSelChk(Seller seller);
+	
+	/**
+	 * 판매자 전환 신청 리스트 페이징
+	 * 
+	 * @return 총 게시물 수
+	 */
+	public int selectCntSeller();
+
+
+	/**
+	 * 업데이트 프로필 조회
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public ExpFile expUpdateProfile(ExpFile expFile);
+
+	/**
+	 * 업데이트 파일 조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public List<ExpFile> expUpdateFile(ExpFile expFile);
+
+	/**
+	 * 업데이트 프로필 수정하기
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public void expUpdatefileProc(ExpFile expfile);
+
+	/**
+	 * 업데이트 파일 가져오기
+	 * @param expfileUpdate
+	 * @param expFileJoinCt
+	 * @return
+	 */
+	public ExpFile updateFile(MultipartFile expfileUpdate, Exp exp);
+
+	/**
+	 * 멀티 업데이트 파일 가져오기
+	 *
+	 * @param expMultiFileUpdate
+	 * @param exp
+	 * @return
+	 */
+	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp);
+
+
+
+
 
 
 

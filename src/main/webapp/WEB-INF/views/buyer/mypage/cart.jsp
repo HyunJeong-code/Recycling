@@ -107,47 +107,64 @@
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
 	<div class="full">
-		<form action="./pay" method="get" id="ord_form">
-		<table id="cartTable">
-		
-			<thead>
-				<tr>
-					<th></th>
-					<th>카트 코드</th>
-					<th>상품 이미지</th>
-					<th>상품 이름</th>
-					<th>상품 가격</th>
-					<th>배송비</th>
-					<th>수량</th>
-					<th>총 금액</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="cart" items="${list }">
-					<tr id="${cart.cCode }">
-						<td>
-							<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
-						</td>
-				 		<td>${cart.cCode }</td>
-				 		<td>${cart.storedName }</td>
-				 		<td>${cart.prdName }</td>
-				 		<td>${cart.price }</td>
-				 		<td>${cart.prdFee }</td>
-				 		<td><input type="number" min="1" class="cartCnt" value="${cart.cCnt }"></td>
-				 		<td>
-				 			${cart.cCnt * cart.price + cart.prdFee }
-				 		</td>
-				 	</tr>
-				</c:forEach>
-			 	
-		 	</tbody>
-		</table>
-	
-		<button type="button" id="ord_btn">주문하기</button>
-		<button type="button" id="del_btn">삭제</button>
-		
-		</form>
-		
+		<div class="wrap">
+			
+			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
+			
+			<div class="main-section">
+			
+				<div class="page-header">
+		            <h3>장바구니</h3>
+		        </div>
+				<form action="./pay" method="get" id="ord_form">
+				<table id="cartTable">
+					<thead>
+						<tr>
+							<th></th>
+							<th>카트 코드</th>
+							<th>상품 이미지</th>
+							<th>상품 이름</th>
+							<th>상품 가격</th>
+							<th>배송비</th>
+							<th>수량</th>
+							<th>총 금액</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${list.size() == 0}">
+								<tr>
+									<td colspan="8">상품이 없습니다.</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="cart" items="${list }">
+									<tr id="${cart.cCode }">
+										<td>
+											<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
+										</td>
+								 		<td>${cart.cCode }</td>
+								 		<td>${cart.storedName }</td>
+								 		<td>${cart.prdName }</td>
+								 		<td>${cart.price }</td>
+								 		<td>${cart.prdFee }</td>
+								 		<td><input type="number" min="1" class="cartCnt" value="${cart.cCnt }"></td>
+								 		<td>
+								 			${cart.cCnt * cart.price + cart.prdFee }
+								 		</td>
+								 	</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+				 	</tbody>
+				</table>
+			
+				<button type="button" id="ord_btn">주문하기</button>
+				<button type="button" id="del_btn">삭제</button>
+				
+				</form>
+			</div>
+		</div>
 	</div>
 
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>

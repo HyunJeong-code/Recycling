@@ -6,27 +6,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Seller;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
-import recycling.dto.seller.SellerQST;
 
 @Service
+@Transactional
 public class RecyclingServiceImpl implements RecyclingService {
-
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired
-	private RecyclingDao recyclingDao;
-
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Autowired private RecyclingDao recyclingDao;
+	
 	@Override
-	public List<Seller> findSeller() {
-		return recyclingDao.findSeller();
-	}
+		public java.util.List<Seller> findSeller() {
+			return recyclingDao.findSeller();
+		}
 	
 	@Override
 	public List<Prd> getPrdList() {
@@ -40,7 +37,6 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return prdList;
 	}
 
-	
 	@Override
 	public Prd view(String prdCode) {
 		
@@ -56,31 +52,36 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 
 	@Override
-	public SellerProf getSellerProf(String sCode) {
-		return recyclingDao.selectSellerProfByCode(sCode);
+	public Seller selectSeller(String getsCode) {
+		return recyclingDao.selectSeller(getsCode);
 	}
+	
+//	@Override
+//	public SellerProf getSellerProf(String sCode) {
+//		return recyclingDao.selectSellerProfByCode(sCode);
+//	}
+//
+//
+//	@Override
+//	public SellerQST selectSellerQst(String qstCode) {
+//		return recyclingDao.selectSellerQST(qstCode);
+//	}
+//
+//	@Override
+//	public List<SellerAns> selectSellerAnswers(String qstCode) {
+//		return recyclingDao.selectSellerAnswers(qstCode);
+//	}
+//
+//	@Override
+//	public int insertSellerQST(SellerQST sellerQST) {
+//		return recyclingDao.insertSellerQST(sellerQST);
+//	}
 
 
-	@Override
-	public SellerQST selectSellerQst(String qstCode) {
-		return recyclingDao.selectSellerQST(qstCode);
-	}
-
-	@Override
-	public List<SellerAns> selectSellerAnswers(String qstCode) {
-		return recyclingDao.selectSellerAnswers(qstCode);
-	}
-
-	@Override
-	public int insertSellerQST(SellerQST sellerQST) {
-		return recyclingDao.insertSellerQST(sellerQST);
-	}
-
-
-	@Override
-	public int updateSellerQST(SellerQST sellerQST) {
-		return recyclingDao.updateSellerQST(sellerQST);
-	}
+//	@Override
+//	public int updateSellerQST(SellerQST sellerQST) {
+//		return recyclingDao.updateSellerQST(sellerQST);
+//	}
 
 
 	@Override
@@ -89,22 +90,24 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 
 
-	@Override
-	public int insertSellerAnswer(SellerAns sellerAns) {
-		return recyclingDao.insertSellerAnswer(sellerAns);
-	}
-
-
-	@Override
-	public int updateSellerAnswer(SellerAns sellerAns) {
-		return recyclingDao.updateSellerAnswer(sellerAns);
-	}
+//	@Override
+//	public int insertSellerAnswer(SellerAns sellerAns) {
+//		return recyclingDao.insertSellerAnswer(sellerAns);
+//	}
+//
+//
+//	@Override
+//	public int updateSellerAnswer(SellerAns sellerAns) {
+//		return recyclingDao.updateSellerAnswer(sellerAns);
+//	}
 
 
 	@Override
 	public int deleteSellerAnswer(String qnaCode) {
 		return recyclingDao.deleteSellerAnswer(qnaCode);
 	}
+
+
 
 
 

@@ -8,8 +8,6 @@
 </head>
 <body>
 
-
-<body>
     <div class="full">
         <div class="wrap">
             <div class="page">
@@ -21,8 +19,5 @@
             </div>
         </div>
     </div>
-</body>
-
-
 </body>
 </html>

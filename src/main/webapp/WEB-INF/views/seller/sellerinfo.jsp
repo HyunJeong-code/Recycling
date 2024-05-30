@@ -8,7 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 <c:if test="${sCode eq null }">
 	<div class="full">
 		<div class="wrap">
@@ -17,7 +16,7 @@
 			</div>
 			
 			<div class="section">
-				<!-- js처리 추가, 라디오 버튼 연결 확인 -->
+				<!-- 라디오 버튼 연결 확인 -->
 					<div>
 						<h3>개인정보 이용 약관(필수)</h3>
 						<p>
@@ -27,11 +26,11 @@
 					</div>
 					<div>
 						<label>동의
-							<input type="radio" id="priYes" name="priYes" value="Y">
+							<input type="radio" id="ok1" name="ok1" value="Y">
 						</label>
 						
 						<label>비동의
-							<input type="radio" id="priNo" name="priNo" value="N">
+							<input type="radio" id="no1" name="no1" value="N">
 						</label>
 					</div>
 					
@@ -46,11 +45,11 @@
 					
 					<div>
 						<label>동의
-						<input type="radio" id="selYes" name="priYes" value="Y">
+						<input type="radio" id="ok2" name="ok2" value="Y">
 						</label>
 						
 						<label>비동의
-						<input type="radio" id="selNo" name="priNo" value="N">
+						<input type="radio" id="no2" name="no2" value="N">
 						</label>
 					</div>
 					

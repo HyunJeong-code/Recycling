@@ -53,7 +53,8 @@ public class ManagerController {
 				
 		if(pwEncoder.matches(mgrPw, mgr.getMgrPw())) {
 			session.setAttribute("mgrChk", true);
-			return "redirect:/manager/mgr/mgrdetail";
+			model.addAttribute("url", "/manager/mgr/mgrdetail");
+			return "/layout/alert";
 		} else {
 			model.addAttribute("msg", "비밀번호가 올바르지 못합니다.");
 			model.addAttribute("url", "/manager/mgr/main");
