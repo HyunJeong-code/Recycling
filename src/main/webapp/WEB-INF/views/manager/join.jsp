@@ -181,7 +181,7 @@ $(function() {
 			</div>
 			
 			<button>가입하기</button>
-			<button><a href="./main">취소하기</a></button>
+			<button><a href="/manager/main">취소하기</a></button>
 		</form>
 		</div>
 	</div>

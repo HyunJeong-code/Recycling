@@ -24,6 +24,7 @@ import recycling.dto.seller.Seller;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -53,8 +54,8 @@ public class SlsServiceImpl implements SlsService {
 	
 	//전체조회
 	@Override
-	public  List<Map<String, Object>> selectBysChk() {
-		return slsDao.selectBysChk();
+	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging) {
+		return slsDao.selectBysChk(paging);
 	}
 	
 	@Override
@@ -75,6 +76,11 @@ public class SlsServiceImpl implements SlsService {
 	@Override
 	public Map<String, Object> selectCmpSeller(String bCode) {
 		return slsDao.selectCmpSeller(bCode);
+	}
+	
+	@Override
+	public int updateSelOut(String sCode) {
+		return slsDao.updateSelOut(sCode);
 	}
 	
 	@Override
@@ -121,8 +127,6 @@ public class SlsServiceImpl implements SlsService {
 	//글쓰기
 	@Override
 	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile file) {
-	
-		
 		//게시판 글쓰기
 		slsDao.insert(exp);
 		
