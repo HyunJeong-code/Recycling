@@ -12,6 +12,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 판매제휴팀 관련 처리
 public interface SlsService {
@@ -34,10 +35,11 @@ public interface SlsService {
 
 	/**
 	 * 판매자 전환 요청 전체 목록
+	 * @param paging 
 	 * 
 	 * @return 판매자 리스트
 	 */
-	public List<Map<String, Object>> selectBysChk();
+	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging);
 	
 	/**
 	 * 체험단 전체 조회하기
@@ -289,6 +291,14 @@ public interface SlsService {
 	 * @return 총 게시물 수
 	 */
 	public int selectCntSeller();
+	
+	/**
+	 * 판매자 탈퇴 처리
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int updateSelOut(String sCode);
 
 
 	/**

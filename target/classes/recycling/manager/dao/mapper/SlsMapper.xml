@@ -106,19 +106,9 @@
 	<!-- 판매자 정보 상세 조회(개인) -->
 	<select id="selectPriSeller" parameterType="string" resultType="hashmap">
 		SELECT 
-		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.s_entdate s_entdate, S.s_chk s_chk,
-		    B.b_code b_code, B.b_id b_id, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, B.b_entdate b_entdate,
-		    B.adr_postcode adr_postcode, B.adr_addr adr_addr, B.adr_detail adr_detail
-		FROM seller S, (
-		    SELECT 
-		        B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
-		        ADR.adr_postcode, ADR.adr_addr, ADR.adr_detail 
-		    FROM buyer B, buyer_adr ADR
-		    <where>
-		    	AND B.b_code = ADR.b_code(+)
-		        AND ADR.adr_chk = 'Y'
-		    </where> 
-		) B
+		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.acc_no acc_no, S.s_entdate s_entdate, S.s_chk s_chk, S.s_postcode s_postcode, S.s_addr s_addr, S.s_detail s_detail, S.s_out s_out, TO_CHAR(S.s_out_date, 'YYYY-MM-DD') s_out_date,
+		    B.b_code b_code, B.b_id b_id, B.b_pw b_pw, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, TO_CHAR(B.b_entdate, 'YYYY-MM-DD') b_entdate, B.b_out b_out
+		FROM seller S, buyer B
 		<where>
 			AND S.b_code = B.b_code(+)
 		    AND B.b_out = 'N'
@@ -129,25 +119,14 @@
 	<!-- 판매자 정보 상세 조회(기업) -->
 	<select id="selectCmpSeller" parameterType="string" resultType="hashmap">
 		SELECT 
-		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.s_entdate s_entdate, S.s_chk s_chk,
-		    B.b_code b_code, B.b_id b_id, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, B.b_entdate b_entdate,
-		    B.adr_postcode adr_postcode, B.adr_addr adr_addr, B.adr_detail adr_detail,
+		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.acc_no acc_no,  S.s_entdate s_entdate, S.s_chk s_chk, S.s_postcode s_postcode, S.s_addr s_addr, S.s_detail s_detail, S.s_out s_out, TO_CHAR(S.s_out_date, 'YYYY-MM-DD') s_out_date,
+		    B.b_code b_code, B.b_id b_id, B.b_pw b_pw, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, TO_CHAR(B.b_entdate, 'YYYY-MM-DD') b_entdate,
 		    B.cmp_ceo cmp_ceo, B.cmp_name cmp_name, B.cmp_num cmp_num, B.cmp_postcode cmp_postcode, B.cmp_addr cmp_addr, B.cmp_detail cmp_detail
 		FROM seller S, (
 		    SELECT 
-		        B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
-		        B.adr_postcode, B.adr_addr, B.adr_detail,
+		        B.b_code, B.b_ct_code, B.b_id, B.b_pw, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
 		        C.cmp_ceo, C.cmp_name, C.cmp_num, C.cmp_postcode, C.cmp_addr, C.cmp_detail
-		    FROM cmp C, (
-		        SELECT 
-		            B.b_code, B.b_ct_code, B.b_id, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
-		            ADR.adr_postcode, ADR.adr_addr, ADR.adr_detail 
-		        FROM buyer B, buyer_adr ADR
-		        <where>
-			        AND B.b_code = ADR.b_code(+)
-		            AND ADR.adr_chk = 'Y'
-		        </where> 
-		        ) B
+		    FROM cmp C, buyer B
 		        <where>
 		        	AND B.b_code = C.b_code(+)
 		        </where>
@@ -158,6 +137,16 @@
 		    AND B.b_code = #{bcode }
 		</where> 
 	</select>
+	
+	<!-- 판매자 탈퇴 처리 -->
+	<update id="updateSelOut" parameterType="string">
+		UPDATE seller
+		SET s_out = 'Y',
+			s_out_date = sysdate
+		<where>
+			s_code = #{sCode }
+		</where>
+	</update>
 	
 	<!-- 총 신고 횟수 -->
 	<select id="selectCntRpt" parameterType="string" resultType="int">
@@ -185,24 +174,44 @@
 	</select>
 	
 	<!-- 판매자 요청 관리 -->
-	<select id="selectBysChk" resultType="Map">
-		SELECT S.s_code s_code, B.b_ct_code ct_code, NVL(B.cmp_name, '-') cmp_name, B.b_name b_name, B.b_phone b_phone, B.b_email b_email
-			FROM seller S, (
-			    SELECT B.b_code, B.b_ct_code, B.b_name, B.b_phone, B.b_email, C.cmp_name, B.b_out FROM buyer B, cmp C
-			    WHERE B.b_code = C.b_code(+)
-			) B
-			<where>
-				AND S.b_code = B.b_code(+)
-			    AND S.s_chk = 'N'
-			    AND B.b_out = 'N'
-			</where>
-			ORDER BY S.s_entdate
+	<select id="selectBysChk" resultType="Map" parameterType="recycling.util.PagingAndCtg">
+		SELECT * FROM (
+			SELECT rownum no, SEL.* FROM (
+				SELECT S.s_code s_code, B.b_ct_code ct_code, NVL(B.cmp_name, '-') cmp_name, B.b_name b_name, B.b_phone b_phone, B.b_email b_email
+					FROM seller S, (
+					    SELECT B.b_code, B.b_ct_code, B.b_name, B.b_phone, B.b_email, C.cmp_name, B.b_out FROM buyer B, cmp C
+					    WHERE B.b_code = C.b_code(+)
+					) B
+				<where>
+					AND S.b_code = B.b_code(+)
+				    AND (
+				    	S.s_chk = 'N'
+				    	OR S.s_chk IS NULL
+				    	)
+				    AND B.b_out = 'N'
+				    AND (
+				    	B.b_name LIKE '%' || #{search } || '%'
+				    	OR B.b_phone LIKE '%' || #{search } || '%'
+				    	OR B.b_email LIKE '%' || #{search } || '%'
+				    	OR B.cmp_name LIKE '%' || #{search } || '%'
+				    )
+				</where>
+				ORDER BY S.s_entdate
+			) SEL
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
+	<!-- 판매자 요청수 -->
 	<select id="selectCntSeller" resultType="int">
 		SELECT count(*) FROM seller
 		<where>
-			AND s_chk = 'N'
+			AND (
+				s_chk = 'N'
+				OR s_chk IS NULL
+				)
 		</where>
 		ORDER BY s_entdate
 	</select>
@@ -216,9 +225,13 @@
 		</where> 
 	</select>
 	
+	<!-- 판매자 요청 수락/거절 처리 -->
 	<update id="updateSelChk" parameterType="Seller">
 		UPDATE seller
-		SET s_chk = #{sChk }
+		SET s_chk = #{sChk },
+			s_entdate = CASE WHEN #{sChk } = 'Y' THEN sysdate
+				ELSE s_entdate
+    			END
 		<where>
 			AND s_code = #{sCode }
 		</where>
