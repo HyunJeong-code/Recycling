@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import recycling.buyer.dao.face.ExpDao;
 import recycling.buyer.service.face.ExpService;
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
@@ -136,15 +137,11 @@ public class ExpServiceImpl implements ExpService {
 	}
 
 	@Override
-	public List<ExpReview> selectRvwByExp(String expCode) {
+	public List<Map<String, Object>> selectRvwByExp(String expCode) {
+		// TODO Auto-generated method stub
 		return expDao.selectRvwByExp(expCode);
 	}
-
-//	@Override
-//	public List<ExpRes> selectByBuyerChk(String bCode, String expCode) {
-//		return expDao.selectByBuyerChk(bCode, expCode);
-//	}
-
+	
 	@Override
 	public void insertExpReview(ExpReview expReview) {
 		expDao.insertExpReview(expReview);
@@ -155,5 +152,13 @@ public class ExpServiceImpl implements ExpService {
 	public List<ExpRes> selectByBuyerChk(Map<String, Object> params) {
 		return expDao.selectByBuyerChk(params);
 	}
+
+	@Override
+	public BuyerProf getBuyerProf(String bCode) {
+		
+		return expDao.getBuyerProf(bCode);
+	}
+
+	
 	
 }

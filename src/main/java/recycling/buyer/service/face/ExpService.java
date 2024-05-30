@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
@@ -152,7 +153,7 @@ public interface ExpService {
 	 * @param expCode - 체험코드
 	 * @return expReview
 	 */
-	public List<ExpReview> selectRvwByExp(String expCode);
+	public List<Map<String, Object>> selectRvwByExp(String expCode);
 
 	/**
 	 * 체험 후기 DB 삽입
@@ -168,5 +169,15 @@ public interface ExpService {
 	 * @return 존재 여부
 	 */
 	public List<ExpRes> selectByBuyerChk(Map<String, Object> params);
+
+	/**
+	 * bCode가 일치하는 프로필 판매자 상세정보에 띄워줄 프로필
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return buyerProf
+	 */
+	public BuyerProf getBuyerProf(String bCode);
+
+	
 
 }
