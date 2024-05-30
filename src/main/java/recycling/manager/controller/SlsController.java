@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.POST;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,18 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import recycling.dto.seller.Seller;
-import recycling.manager.service.face.SlsService;
-import recycling.util.Paging;
-import recycling.util.PagingAndCtg;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,7 +55,7 @@ public class SlsController {
 		// 판매자 목록 조회
 		List<Seller> main = slsService.main(paging);
 //		logger.info("controller list: {}", list);
-		
+
 		model.addAttribute("paging", paging);
 		model.addAttribute("main", main);
 
@@ -76,6 +65,8 @@ public class SlsController {
 	@GetMapping("/sellerdetail")
 	public void sellerDetail() {
 //		logger.info("/manager/sls/sellerdetail [GET]");
+		
+		
 	}
 	
 	@GetMapping("/sellerpridetail")
@@ -91,7 +82,9 @@ public class SlsController {
 		int ordCnt = slsService.selectCntOrd(sCode);
 		logger.info("rpt : {}, ord : {}", rptCnt, ordCnt);
 		
-		Map<String, Object> seller = slsService.selectPriSeller(bCode);
+		Map<String, Object> seller = null;
+		
+		seller = slsService.selectPriSeller(bCode);
 		model.addAttribute("seller", seller);
 		model.addAttribute("rptCnt", rptCnt);
 		model.addAttribute("ordCnt", ordCnt);
@@ -122,78 +115,24 @@ public class SlsController {
 		logger.info("C : {}", seller);
 	}
 	
-	@PostMapping("/sellerout")
-	@ResponseBody
-	public int sellerOut(
-			String sCode
-			) {
-		logger.info("/manager/sls/sellerout [GET]");
-		
-		logger.info("sCode : {}", sCode);
-		
-		int res = slsService.updateSelOut(sCode);
-		
-		return res;
-	}	
-	
-	@GetMapping("/rptseller")
-	public void rptSeller() {
-		logger.info("/manager/sls/rptseller [GET]");
-	}
-	
 	@GetMapping("/sellerchklist")
-	public void sellerChkList(
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg,
-			Model model
-			) {
+	public void sellerChkList(Model model) {
 		logger.info("/manager/sls/sellerchklist [GET]");
 		
-		// 페이징 - 전체 조회 글 개수
-		PagingAndCtg paging = new PagingAndCtg();
-		int page = slsService.selectCntSeller();
-		
-		// 페이징 - 페이징 처리
-		paging = new PagingAndCtg(page, curPage, search);
-		
-		// 판매자 신청 전체 조회
-		List<Map<String, Object>> sellerList = slsService.selectBysChk(paging);
+		List<Map<String, Object>> sellerList = slsService.selectBysChk();
 		logger.info("{}", sellerList);
 		
-		model.addAttribute("listSize", sellerList.size());
 		model.addAttribute("sellerList", sellerList);
-		model.addAttribute("upPaging", paging);
-		model.addAttribute("upUrl", "/manager/sls/sellerchklist");
+	}
+	
+	@GetMapping("/sellerchkdetail")
+	public void sellerChkDetail(Model model) {
+		logger.info("/manager/sls/sellerchkdetail [GET]");		
 	}
 	
 	@GetMapping("/sellerchk")
-	public String sellerChk(
-			String selChk,
-			String sCode,
-			Model model
-			) {
-		logger.info("/manager/sls/sellerchk [GET]");
-		
-		logger.info("sCode, selChk : {}, {}", sCode, selChk);
-		Seller seller = new Seller();
-		seller.setsCode(sCode);
-		seller.setsChk(selChk);
-		
-		int res = 0;
-		if(selChk.equals("Y")) {
-			res = slsService.updateSelChk(seller);
-			model.addAttribute("msg", sCode + "판매자 전환 수락에 성공했습니다.");
-			model.addAttribute("url", "/seller/sls/sellerchklist");
-			return "/layout/alert";
-		} else {
-			res = slsService.updateSelChk(seller);
-			model.addAttribute("msg", sCode + "판매자 전환 수락에 거절했습니다.");
-			model.addAttribute("url", "/seller/sls/sellerchklist");
-			
-			return "/layout/alert";
-		}
-		
+	public void sellerChk() {
+		logger.info("/manager/sls/sellerchk [GET]");				
 	}
 	
 	@GetMapping("sellinglist")

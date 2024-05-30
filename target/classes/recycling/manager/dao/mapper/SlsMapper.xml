@@ -276,6 +276,8 @@
 	<select id="selectAll" resultType="Exp">
 		<include refid="expBoard"/>
 		ORDER BY exp_date DESC
+	</select>
+
 	<!-- 판매자 상품관리 -->
 	<select id="selectAllPrdList" resultType="SellerOrderJoin">
 		<include refid="SellOrderJoin"/>
@@ -287,8 +289,6 @@
 		<include refid="SellOrderJoin"/>
 		<where>p.s_code = #{sCode }</where>
 	</select>
-	
-	
 	
 	<!-- 체험단 전체 조회하기[expList] -->
 	<select id="selectAllExp" resultType="Exp">
