@@ -297,5 +297,4 @@ public interface BuyerDao {
 
 	public BuyerRank selectBuyerRank(int rankNo);
 
-	public int deleteSeller(String sCode);
 }

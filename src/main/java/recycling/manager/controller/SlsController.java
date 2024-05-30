@@ -130,7 +130,7 @@ public class SlsController {
 		int page = slsService.selectCntSeller();
 		
 		// 페이징 - 페이징 처리
-		paging = new PagingAndCtg(page, curPage, search)
+		paging = new PagingAndCtg(page, curPage, search);
 		
 		// 판매자 신청 전체 조회
 		List<Map<String, Object>> sellerList = slsService.selectBysChk();

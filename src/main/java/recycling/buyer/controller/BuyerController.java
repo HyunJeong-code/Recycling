@@ -31,6 +31,8 @@ import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
+import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.MyOrder;
