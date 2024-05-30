@@ -5,6 +5,28 @@
   
 <mapper namespace="recycling.manager.dao.face.MgrDao">
 
+	<!--  manager join department -->
+	<sql id="mgrJoinDep">
+		SELECT
+		    m.mgr_code, m.deptno, m.mgr_id, m.mgr_pw, m.mgr_name
+		    , m.mgr_phone, m.mgr_email, m.mgr_birth, m.mgr_gender, m.mgr_entDate
+		    , m.mgr_out, m.mgr_out_date, d.dName
+		FROM Manager m
+		JOIN Department d ON m.deptno = d.deptno
+	</sql>
+	
+	<!-- 공지사항 기본 조회구조  -->
+	<sql id="noticeBoard">
+	SELECT 
+    	ntc_code
+	    , CT_ntcno
+	    , ntc_title
+	    , ntc_content
+	    , ntc_hit
+	    , ntc_date
+	FROM notice
+	</sql>
+
 	<select id="selectById" parameterType="string" resultType="ManagerLogin">
 		SELECT mgr_code, deptno, mgr_id, mgr_pw, mgr_out 
 		FROM manager
@@ -47,45 +69,73 @@
 		)
 	</insert>
 	
-	<!-- 공지사항 기본 조회구조  -->
-	<sql id="noticeBoard">
-	SELECT 
-    	ntc_code
-	    , CT_ntcno
-	    , ntc_title
-	    , ntc_content
-	    , ntc_hit
-	    , ntc_date
-	FROM notice
-	</sql>
+	<!-- 전체조회[empList] -->
+	<select id="selectAllempList" resultType="ManagerJoinDe" parameterType="recycling.util.PagingAndCtg">	
+		SELECT *
+		FROM (
+			SELECT rownum no, mgr.* FROM (
+				<include refid="mgrJoinDep"/>
+				<where>
+					AND (
+						mgr_code LIKE '%' || #{search } || '%'
+					OR mgr_name LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY mgr_code DESC
+			) mgr
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>	
 	
-	<!-- 카테고리 + 검색기능 구조  -->
-	<sql id="noitceSearch">
-    <if test="search != null and search != ''">
-		<choose>
-			<when test="category == 'title'">
-				<where>ntc_title LIKE '%${search }%'</where>
-			</when>
-			<when test="category == 'content'">
-				<where>ntc_content LIKE '%${search }%'</where>
-			</when>
-		</choose>
-	</if>
-	</sql>
-	
-	<!-- 공지사항 조회 -->	
-	<select id="selectAll" resultType="Notice" parameterType="int">
-		<include refid="noticeBoard"/>
-	    <where>ct_ntcno = #{ctNtcNo}</where>
-	    ORDER BY ntc_code DESC
+	<!-- 전체조회 페이징[empList] -->
+	<select id="selectCntAllempList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="mgrJoinDep"/>
+   			)
+		<where>
+			AND (
+				mgr_code LIKE '%' || #{search } || '%'
+				OR mgr_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY mgr_code DESC
 	</select>
 	
-	<!-- 검색 한번에 진행예정-->
-	<select id="selectCntAll" resultType="int" parameterType="recycling.util.Paging">
-		SELECT count(*) FROM (
-		<include refid="noticeBoard" />
-		<include refid="noitceSearch"/>
+	<!-- 공지사항 조회 -->	
+	<select id="selectAllNotice" resultType="Notice" parameterType="recycling.util.PagingAndCtg">	
+		SELECT *
+		FROM (
+			SELECT rownum no, nt.* FROM (
+				SELECT * FROM notice
+				<where>
+					AND ct_ntcno = 2
+					AND (
+						ntc_title LIKE '%' || #{search } || '%'
+					OR ntc_content LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY ntc_code DESC
+			) nt
 		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 공지사항 페이징 -->	
+	<select id="selectCntAllNotice" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM notice
+		<where>
+			AND ct_ntcno = 2
+			AND (
+				ntc_title LIKE '%' || #{search } || '%'
+				OR ntc_content LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY ntc_code DESC
 	</select>
 	
 	<!-- 공지사항 세부 조회 -->

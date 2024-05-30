@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.manager.ResSchCnt;
+import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -99,31 +100,46 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectCntOrd(sCode);
 	}
 	
-	//전체조회
+	//체험단 전체 조회하기[explist]
 	@Override
-	public List<Exp> selectAll() {
-		logger.info("SlsService: selectAll");
-		
-		return slsDao.selectAll();
-	}
-
-	//체험일정 선택조회
-	@Override
-	public List<ExpSch> selectSchAll(String expCode) {
-		return slsDao.selectSchAll(expCode);
+	public List<Exp> selectAllExp(PagingAndCtg upPaging) {
+		return slsDao.selectAllExp(upPaging);
 	}
 	
-	//세부사항 조회
+	//체험단 전체 조회 페이징[explist]
 	@Override
-	public Exp selectDetail(String expCode) {
-		logger.info("SlsService: selectDetail");
-
-//		조회수 증감
-//		slsDao.hit(exp); //관리자 미구현
-		
-		//세부사항 조회
-		return slsDao.selectDetail(expCode);
+	public int selectCntAllExp(PagingAndCtg upPaging) {
+		return slsDao.selectCntAllExp(upPaging);
 	}
+
+	//세부사항 조회[expdetail]
+	@Override
+	public Exp selectDetailExp(String expCode) {
+		return slsDao.selectDetailExp(expCode);
+	}
+	
+	//체험단 체험일정 조회[expdetail]
+	@Override
+	public List<ExpSch> selectAllSch(String expCode) {
+		return slsDao.selectAllSch(expCode);
+	}
+	
+	//체험단 체험일정 조회페이징[expdetail]
+	@Override
+	public int selectCntAllExpSch(PagingAndCtg upPaging) {
+		return slsDao.selectCntAllExpSch(upPaging);
+	}
+		
+	//체혐 스케쥴 예약된 인원 조회[expdetail]
+	@Override
+	public List<ResSchCnt> selectByResCnt(String expCode) {
+		return slsDao.selectByResCnt(expCode);
+	}
+	
+	
+	
+	
+	
 
 	//글쓰기
 	@Override
@@ -253,43 +269,33 @@ public class SlsServiceImpl implements SlsService {
 	}
 
 	//예약 버튼에 따른 상태변경
-		@Override
-		public int expResUpdate(List<String> chBox, String actionType) {
+	@Override
+	public int expResUpdate(List<String> chBox, String actionType) {
 
-			int result = 0;
+		int result = 0;
+		
+		for(int i = 0; i < chBox.size(); i++) {
+			String resCode = chBox.get(i);
 			
-			for(int i = 0; i < chBox.size(); i++) {
-				String resCode = chBox.get(i);
-				
-		        if ("complete".equals(actionType)) {
-		        	 // 예약완료 메서드 호출
-		            result += slsDao.expResCnf(resCode);
-		   
-		        } else if ("cancel".equals(actionType)) {
-		        
-		        	// 예약취소 메서드 호출
-		            result += slsDao.expResCnl(resCode); 
-		        }
-			}
-			
-			return result;
-			
+	        if ("complete".equals(actionType)) {
+	        	 // 예약완료 메서드 호출
+	            result += slsDao.expResCnf(resCode);
+	   
+	        } else if ("cancel".equals(actionType)) {
+	        
+	        	// 예약취소 메서드 호출
+	            result += slsDao.expResCnl(resCode); 
+	        }
 		}
+		
+		return result;
+		
+	}
 
 	//체험 예약조회
 	@Override
 	public ExpSch selectExpSchbySchNo(int schNo) {
 		return slsDao.selectExpSchbySchNo(schNo);
-	}
-
-	//체험 예약,인원 조인
-	@Override
-	public List<ResSchCnt> selectByResCnt(String expCode) {
-		logger.info("ResSchCnt : service[Get]");
-		
-		
-		return slsDao.selectByResCnt(expCode);
-		
 	}
 
 	//체험단 예약인원 예약변경창
@@ -459,6 +465,45 @@ public class SlsServiceImpl implements SlsService {
 		slsDao.expUpdatefileProc(expfile);
 	}
 
+}//main
+	//파일 저장소
+	private String saveFile(MultipartFile file, File storedFolder) {
+	    logger.info("SERVICE : SAVEFILE[GET]");
+		if (file.isEmpty()) {
+	        return null;
+	    }
 
+	    String storedName;
+	    File dest;
+	    do {
+	        storedName = UUID.randomUUID().toString().split("-")[4] + "_" + file.getOriginalFilename();
+	        dest = new File(storedFolder, storedName);
+	    } while (dest.exists());
+
+	    try {
+	        file.transferTo(dest);
+	        return storedName;
+	    } catch (IllegalStateException | IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+
+	//판매자 상품 조회
+	@Override
+	public List<SellerOrderJoin> selectAllPrdList() {
+		return slsDao.selectAllPrdList();
+	}
+
+	//판매자 판매 조회
+	@Override
+	public List<SellerOrderJoin> selectAllSellList() {
+		return slsDao.selectAllSellList();
+	}
+
+	@Override
+	public List<Map<String, Object>> sellerAllSeller(String getsCode) {
+		return slsDao.sellerAllSeller(getsCode);
+	}
 
 }//main
