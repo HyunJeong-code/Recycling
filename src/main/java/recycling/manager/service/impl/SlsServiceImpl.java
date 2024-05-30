@@ -1,9 +1,8 @@
 package recycling.manager.service.impl;
 
-import java.io.Console;
-import java.util.List;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -14,19 +13,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.seller.Seller;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Seller;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
 import recycling.util.Paging;
 
 @Service
+@Transactional
 public class SlsServiceImpl implements SlsService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -49,36 +50,6 @@ public class SlsServiceImpl implements SlsService {
 		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
 
 		return paging;
-	}
-	
-	@Override
-	public  List<Map<String, Object>> selectBysChk() {
-		return slsDao.selectBysChk();
-	}
-	
-	@Override
-	public String selectBysCode(String sCode) {
-		return slsDao.selectBysCode(sCode);
-	}
-	
-	@Override
-	public Map<String, Object> selectPriSeller(String bCode) {
-		return slsDao.selectPriSeller(bCode);
-	}
-	
-	@Override
-	public Map<String, Object> selectCmpSeller(String bCode) {
-		return slsDao.selectCmpSeller(bCode);
-	}
-	
-	@Override
-	public int selectCntRpt(String sCode) {
-		return slsDao.selectCntRpt(sCode);
-	}
-	
-	@Override
-	public int selectCntOrd(String sCode) {
-		return slsDao.selectCntOrd(sCode);
 	}
 	
 	//전체조회
@@ -140,13 +111,15 @@ public class SlsServiceImpl implements SlsService {
 
 	//글쓰기
 	@Override
-	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile file) {
+	public void insert(Exp exp
+			, List<String> schTime
+			, ExpSch expSch
+			, MultipartFile profile
+			, List<MultipartFile> files
+			) {
 	
-		
 		//게시판 글쓰기
 		slsDao.insert(exp);
-		
-		//expCode에 exp_code만 가져오기
 		String expCode = exp.getExpCode();
 		
 		//체험 일정등록 체험코드 가져오기[반복]
@@ -156,64 +129,51 @@ public class SlsServiceImpl implements SlsService {
 			slsDao.expschUp(expSch);
 		}
 		
-	//		if( file.getSize() <= 0 ) {
-	//			logger.info("파일의 크기가 0, 처리 중단!");
-	//			
-	//			//파일 처리 메소드 filesave() 중단
-	//			return;
-	//		}
-			
-			//파일이 저장될 경로 - RealPath
-			String storedPath = servletContext.getRealPath("upload");
-			logger.info("storedPath:{}", storedPath);
-			
-			//upload폴더가 존재하지 않으면 생성하기
-			File storedFolder = new File(storedPath);
-			storedFolder.mkdir();
-					
-			//업로드된 파일이 저장될 이름
-			String storedName = null;
-			
-			//저장될 파일 객체
-			File dest = null;
-			
-			//저장될 파일명이 중복되지 않도록 반복
-			do {
-				storedName = file.getOriginalFilename(); //원본 파일명
-				storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
-				logger.info("storedName : {}", storedName);
-				
-				dest = new File( storedFolder, storedName );
-			} while( dest.exists() );
-			//----------------------------------------------------------------
-				
-			try {
-				//업로드된 임시 파일을 upload 폴더로 옮기기
-				file.transferTo(dest);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-				
-			//----------------------------------------------------------------
-			
-			//DB에 기록하기
-			ExpFile expFile = new ExpFile();
-			
-			expFile.setOriginName( file.getOriginalFilename() );
-			expFile.setStoredName( storedName );
-			
+		 // 파일이 저장될 경로 - RealPath
+	    String storedPath = servletContext.getRealPath("upload");
+	    logger.info("storedPath:{}", storedPath);
 
-			// 파일업로드 체험코드 가져오기
-			expFile.setExpCode(expCode);
-			
-			//test 데이터
-			expFile.setCtPflNo(610);
-			
-			//파일 업로드
-			slsDao.fileup(expFile);
+	    File storedFolder = new File(storedPath);
+	    if (!storedFolder.exists()) {
+	        storedFolder.mkdir();
+	    }
+
+	    List<ExpFile> expFiles = new ArrayList<>();
+
+	    // 프로필 저장
+	    String profileStoredName = saveFile(profile, storedFolder);
+	    if (profileStoredName != null) {
+	        ExpFile profileFile = new ExpFile();
+	        profileFile.setOriginName(profile.getOriginalFilename());
+	        profileFile.setStoredName(profileStoredName);
+	        profileFile.setExpCode(expCode);
+	        profileFile.setCtPflNo(600);
+	        expFiles.add(profileFile);
+	    }
+
+	    // 메인 파일 저장
+	    for (MultipartFile mainFile : files) {
+	        String storedName = saveFile(mainFile, storedFolder);
+	        if (storedName != null) {
+	        	logger.info("service : {}", mainFile);
+	            ExpFile expFile = new ExpFile();
+	            expFile.setOriginName(mainFile.getOriginalFilename());
+	            expFile.setStoredName(storedName);
+	            expFile.setExpCode(expCode);
+	            expFile.setCtPflNo(610);
+	            expFiles.add(expFile);
+	            logger.info("service : {}", expFile);
+	        }
+	    }
+
+	    for (ExpFile expFile : expFiles) {
+	        slsDao.expFileUp(expFile);
+	        logger.info("exp fileup service : {}", expFile);
+	    }
 	}
+	
+	
+
 
 	//체험 수정항목 조회
 	@Override
@@ -225,7 +185,6 @@ public class SlsServiceImpl implements SlsService {
 	//체험 수정하기
 	@Override
 	public void expUpdateProc(Exp exp) {
-	    logger.info("service: expUpdateProc");
 	    slsDao.expUpdateProc(exp);
 	}
 
@@ -265,11 +224,16 @@ public class SlsServiceImpl implements SlsService {
 	    return slsDao.expListDel(expCode);
 	}
 	
+	//디테일 프로필 조회
+	@Override
+	public ExpFile expProImage(ExpFile expFile) {
+		return slsDao.expProImage(expFile);
+	}
 	
 	//디테일부분 파일 조회
 	@Override
-	public ExpFile image(ExpFile expFile) {
-		return slsDao.image(expFile);
+	public List<ExpFile> expImage(ExpFile expFile) {
+		return slsDao.expImage(expFile);
 	}
 
 	//예약 버튼에 따른 상태변경
@@ -384,8 +348,125 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.sellerSelect(getbCode);
 	}
 
+	//업데이트 프로필 조회하기
+	@Override
+	public ExpFile expUpdateProfile(ExpFile expFile) {
+		logger.info("service expcode: {}",expFile);
+		return slsDao.expUpdateProfile(expFile);
+	}
+
+	//업데이트 파일 조회하기
+	@Override
+	public List<ExpFile> expUpdateFile(ExpFile expFile) {
+		return slsDao.expUpdateFile(expFile);
+	}
+
+	//업데이트 파일 인서트
+	@Override
+	public ExpFile updateFile(MultipartFile expfileUpdate, Exp exp) {
+		if(expfileUpdate.getSize() <= 0) {
+			logger.info("파일 없음");
+			
+			return null;
+		}
+		
+		String storedPath = servletContext.getRealPath("upload");
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		String storedName = null;
+		File dest = null;
+		do {
+			storedName = expfileUpdate.getOriginalFilename(); // 원본 파일명
+			storedName += UUID.randomUUID().toString().split("-")[4]; // UUID 추가
+			dest = new File(storedFolder, storedName);			
+		} while(dest.exists());
+		
+		try {
+			expfileUpdate.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		ExpFile expFile = new ExpFile();
+		expFile.setExpCode(expFile.getExpCode());
+		expFile.setOriginName(expfileUpdate.getOriginalFilename());
+		expFile.setStoredName(storedName);
+		
+		return expFile;
+	}
+	
+	//멀티 업데이트 파일 가져오기
+	@Override
+	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp) {
+		logger.info("{}",expMultiFileUpdate);
+		
+		
+	    String storedPath = servletContext.getRealPath("upload");
+	    File storedFolder = new File(storedPath);
+	    if (!storedFolder.exists()) {
+	        storedFolder.mkdir();
+	    }
+	    String expCode = exp.getExpCode();
+	    logger.info("expCode 22222{}",expCode);
+	    List<ExpFile> expFiles = new ArrayList<>();
+	    logger.info("1111111111service : {}", expFiles);
+	    
+
+	    // 메인 파일 저장
+	    for (MultipartFile mainFile : expMultiFileUpdate) {
+	        String storedName = saveFile(mainFile, storedFolder);
+	        if (storedName != null) {
+	        	logger.info("service : {}", mainFile);
+	            ExpFile expFile = new ExpFile();
+	            expFile.setOriginName(mainFile.getOriginalFilename());
+	            expFile.setStoredName(storedName);
+	            expFile.setExpCode(expCode);
+	            expFile.setCtPflNo(610);
+	            expFiles.add(expFile);
+	            logger.info("service : {}", expFile);
+	        }
+	    }
+	    
+	    for (ExpFile expFile : expFiles) {
+	        slsDao.expUpdateMultiFileProc(expFile);
+	        logger.info("exp fileup service : {}", expFile);
+	    }
+	    
+	}
+
+	
+	//업데이트 수정하기
+	@Override
+	public void expUpdatefileProc(ExpFile expfile) {
+		slsDao.expUpdatefileProc(expfile);
+	}
 
 
+
+	//파일 저장소
+	private String saveFile(MultipartFile file, File storedFolder) {
+	    logger.info("SERVICE : SAVEFILE[GET]");
+		if (file.isEmpty()) {
+	        return null;
+	    }
+
+	    String storedName;
+	    File dest;
+	    do {
+	        storedName = UUID.randomUUID().toString().split("-")[4] + "_" + file.getOriginalFilename();
+	        dest = new File(storedFolder, storedName);
+	    } while (dest.exists());
+
+	    try {
+	        file.transferTo(dest);
+	        return storedName;
+	    } catch (IllegalStateException | IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 
 
 

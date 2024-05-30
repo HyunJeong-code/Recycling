@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
@@ -23,6 +24,7 @@ import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
 
 @Service
+@Transactional
 public class MgrServiceImpl implements MgrService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -153,63 +155,17 @@ public class MgrServiceImpl implements MgrService {
 	public int insertMgrProf(MgrFile mgrFile) {
 		return mgrDao.insertMgrProf(mgrFile);
 	}
-	
+
 	@Override
-	public int selectByManager(Manager manager) {
-		return mgrDao.selectByManager(manager);
+	public List<Notice> selectAll(Paging paging) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ManagerLogin selectByIdPw(Manager manager) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
-	@Override
-	public int updateManager(Manager manager) {
-		return mgrDao.updateManager(manager);
-	}
-	
-	@Override
-	public MgrFile saveFile(MultipartFile mgrProf, Manager manager) {
-		
-		if(mgrProf.getSize() <= 0) {
-			logger.info("파일 없음");
-			
-			return null;
-		}
-		
-		String storedPath = servletContext.getRealPath("upload");
-		
-		File storedFolder = new File(storedPath);
-		storedFolder.mkdir();
-		
-		String storedName = null;
-		
-		File dest = null;
-		
-		do {
-			storedName = mgrProf.getOriginalFilename(); // 원본 파일명
-			
-			storedName += UUID.randomUUID().toString().split("-")[4]; // UUID 추가
-			logger.info("storedName : {}", storedName);
-			
-			dest = new File(storedFolder, storedName);			
-		} while(dest.exists());
-		
-		try {
-			mgrProf.transferTo(dest);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		MgrFile mgrFile = new MgrFile();
-		mgrFile.setctMflNo(1000);
-		mgrFile.setMgrCode(manager.getMgrCode());
-		mgrFile.setOriginName(mgrProf.getOriginalFilename());
-		mgrFile.setStoredName(storedName);
-		
-		return mgrFile;
-	}
-	
-	@Override
-	public int insertMgrProf(MgrFile mgrFile) {
-		return mgrDao.insertMgrProf(mgrFile);
-	}
 }

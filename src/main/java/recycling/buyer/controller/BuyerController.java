@@ -1,14 +1,11 @@
 package recycling.buyer.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,10 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,26 +37,10 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerRank;
-import recycling.dto.buyer.Cart;
-import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
 
-<<<<<<< HEAD
-=======
-
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
-
-
->>>>>>> a869752085774af067f15f048a8d59a6894f05c3
 // 마이페이지 - 회원 정보 관련
 
 @Controller
@@ -327,10 +304,7 @@ public class BuyerController {
 	public String myMainProc(Authentication authentication, String password, Model model) {
 
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-<<<<<<< HEAD
-
-=======
->>>>>>> a869752085774af067f15f048a8d59a6894f05c3
+		
 		logger.info("/buyer/mypage/mymain [POST]");
 
 		if (buyerLogin == null) {
@@ -439,13 +413,9 @@ public class BuyerController {
 		}
 
 		logger.info("/buyer/mypage/changepw [GET]");
-<<<<<<< HEAD
 
 		model.addAttribute("buyerLogin", buyerLogin);
 
-=======
-		
->>>>>>> a869752085774af067f15f048a8d59a6894f05c3
 		return "buyer/mypage/changepw";
 
 	}
@@ -467,20 +437,7 @@ public class BuyerController {
 			return "redirect:/buyer/login";
 
 		}
-<<<<<<< HEAD
-
-=======
 		
-		// 프론트로..!
-		if(!newPw.equals(confirmPw)) {
-			
-			model.addAttribute("error", "새 비밀번호가 일치하지 않습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
-		
->>>>>>> a869752085774af067f15f048a8d59a6894f05c3
 		buyerService.changePw(buyerLogin, pwEncoder.encode(newPw));
 
 		model.addAttribute("success", "비밀번호가 변경되었습니다.");
@@ -612,15 +569,10 @@ public class BuyerController {
 
 	// 회원 정보 변경 (기업)
 	@GetMapping("/mydetailcmp")
-<<<<<<< HEAD
-	public String myDetailCmp(Authentication authentication, Model model) {
-
-=======
 	public String myDetailCmp(
 			Authentication authentication,
 			Model model) {
 		
->>>>>>> a869752085774af067f15f048a8d59a6894f05c3
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
 		logger.info("/buyer/mypage/mydetailcmp [GET]");
@@ -796,7 +748,6 @@ public class BuyerController {
 
 		if (buyerLogin == null) {
 
-<<<<<<< HEAD
 			model.addAttribute("error", "로그인 해주세요.");
 
 			return "redirect:/buyer/login";
@@ -848,51 +799,6 @@ public class BuyerController {
 		model.addAttribute("buyerAdrList", buyerAdrList);
 
 		return "redirect:/buyer/mypage/myaddr";
-=======
-        if("register".equals(action)) {
-        	
-        	BuyerAdr buyerAdr = new BuyerAdr();
-        	
-        	buyerAdr.setbCode(bCode);
-        	buyerAdr.setAdrName(adrName);
-        	buyerAdr.setAdrPhone(adrPhone);
-        	buyerAdr.setAdrPostcode(adrPostcode);
-        	buyerAdr.setAdrAddr(adrAddr);
-        	buyerAdr.setAdrDetail(adrDetail);
-        	buyerAdr.setAdrChk("N");
-        	
-        	buyerService.registerBuyerAdr(buyerAdr);
-        	
-        } else if ("update".equals(action)) {
-        	
-        	BuyerAdr buyerAdr = new BuyerAdr();
-        	
-        	buyerAdr.setAdrCode(adrCode);
-        	buyerAdr.setAdrName(adrName);
-        	buyerAdr.setAdrPhone(adrPhone);
-        	buyerAdr.setAdrPostcode(adrPostcode);
-        	buyerAdr.setAdrAddr(adrAddr);
-        	buyerAdr.setAdrDetail(adrDetail);
-                
-        	buyerService.updateBuyerAdr(buyerAdr);
-        	
-        } else if ("delete".equals(action)) {
-        	
-        	buyerService.deleteBuyerAdr(adrCode);
-        	
-        } else if ("setDefault".equals(action)) {
-        	
-        	buyerService.unsetDefaultAdr(bCode);
-        	buyerService.setDefaultAdr(adrCode, bCode);
-        	
-        }
-        
-        List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(bCode);
-        
-        model.addAttribute("buyerAdrList", buyerAdrList);
-        
-        return "redirect:/buyer/mypage/myaddr";
->>>>>>> a869752085774af067f15f048a8d59a6894f05c3
 
 	}
 

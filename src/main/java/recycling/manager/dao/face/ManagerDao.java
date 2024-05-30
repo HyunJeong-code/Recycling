@@ -25,7 +25,6 @@ public interface ManagerDao {
 	 * @param mgr - 비밀번호 정보
 	 * @return 0 : 실패, 1 : 성공
 	 */
-<<<<<<< HEAD
 	public int updatePw(ManagerLogin mgr);
 	
 	/**
@@ -59,9 +58,7 @@ public interface ManagerDao {
 	 * @return 관리자 프로필 정보
 	 */
 	public MgrFile selectByMgrProf(ManagerLogin mgr);
-}
-=======
+
 	public int updatePw(String mgrCode, String mgrId, String mgrPw);
 
 }
->>>>>>> a869752085774af067f15f048a8d59a6894f05c3
