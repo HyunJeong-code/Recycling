@@ -11,10 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
-import recycling.dto.seller.Seller;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerQST;
+import recycling.dto.seller.Seller;
 
 @Service
 @Transactional
@@ -75,21 +73,21 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.selectQnaList(prdCode);
 	}
 	
-	@Override
-	public List<SellerAns> selectSellerAnswers(String qstCode) {
-		return recyclingDao.selectSellerAnswers(qstCode);
-	}
+//	@Override
+//	public List<SellerAns> selectSellerAnswers(String qstCode) {
+//		return recyclingDao.selectSellerAnswers(qstCode);
+//	}
 
-	@Override
-	public int insertSellerQST(SellerQST sellerQST) {
-		return recyclingDao.insertSellerQST(sellerQST);
-	}
+//	@Override
+//	public int insertSellerQST(SellerQST sellerQST) {
+//		return recyclingDao.insertSellerQST(sellerQST);
+//	}
 
 
-	@Override
-	public int updateSellerQST(SellerQST sellerQST) {
-		return recyclingDao.updateSellerQST(sellerQST);
-	}
+//	@Override
+//	public int updateSellerQST(SellerQST sellerQST) {
+//		return recyclingDao.updateSellerQST(sellerQST);
+//	}
 
 
 	@Override

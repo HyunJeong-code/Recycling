@@ -303,7 +303,7 @@
                     </c:choose>
                     <br>
                 </c:forEach>
-                <label for>직접입력</label>
+                <label>직접입력</label>
                 <input type="radio" name="adr" value="-1">
 
             </div>

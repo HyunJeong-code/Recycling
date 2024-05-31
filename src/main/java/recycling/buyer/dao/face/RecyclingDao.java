@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerQST;
 
 // 재활용품 관련 DB 처리
 
@@ -32,7 +30,7 @@ public interface RecyclingDao {
 
 	public List<Map<String, Object>> selectQnaList(String prdCode);
 
-	public int insertSellerQST(SellerQST sellerQST);
+//	public int insertSellerQST(SellerQST sellerQST);
 
 //	public int updateSellerQST(SellerQST sellerQST);
 
