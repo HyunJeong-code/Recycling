@@ -25,6 +25,14 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		<h1>주문목록</h1>
 		<hr>
 		
+		<div class="search">
+			<form action="./myorder" method="get">
+				<input type="hidden" name="sCtg" value="UP">
+				<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+				<button>검색</button>
+			</form>
+		</div>
+		
 		<table border="1">
 			<thead>
 				<tr>
@@ -55,7 +63,8 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				</c:forEach>
 			</tbody>
 		</table>
-	
+		
+		<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 	</div>
 
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>

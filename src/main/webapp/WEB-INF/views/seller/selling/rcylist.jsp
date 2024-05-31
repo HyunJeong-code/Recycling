@@ -118,6 +118,14 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	
 		<h1>재활용품 상품 관리</h1>
 		
+		<div class="search">
+			<form action="./rcylist" method="get">
+				<input type="hidden" name="sCtg" value="UP">
+				<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+				<button>검색</button>
+			</form>
+		</div>
+		
 		<table border="1">
 		    <thead>
 		        <tr>
@@ -154,8 +162,18 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		
 		<button id="del_btn">삭제하기</button>
 		
+		<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+		
 		
 		<h1>재활용 판매 관리</h1>
+		
+		<div class="search">
+			<form action="./rcylist" method="get">
+				<input type="hidden" name="sCtg" value="UN">
+				<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+				<button>검색</button>
+			</form>
+		</div>
 		
 		<div>
 			<button class="updateSttBtn" id="900">대기중</button>
@@ -193,6 +211,9 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			</c:forEach>
 			</tbody>
 		</table>
+		
+		<c:import url="/WEB-INF/views/layout/underpaging.jsp"/>
+		
 	</div>
 	
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>

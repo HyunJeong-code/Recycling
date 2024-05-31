@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import recycling.buyer.service.face.ExpService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
@@ -127,8 +128,11 @@ public class ExpController {
 			selType = "기업";
 		}
 		
+		BuyerProf buyerProf = expService.getBuyerProf(bCode);
+		
 		//체험단 후기
-		List<ExpReview> expReviews = expService.selectRvwByExp(expCode);
+//		List<ExpReview> expReviews = expService.selectRvwByExp(expCode);
+		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode);
 		logger.info("RVW : {}", expReviews);
 		logger.info("RVW : {}", expReviews.size());
 		
@@ -150,6 +154,7 @@ public class ExpController {
 		model.addAttribute("expReviewsSize", expReviews.size());
 		model.addAttribute("isLoggedIn", isLoggedIn);
 	    model.addAttribute("loggedInUser", loggedInUser);
+	    model.addAttribute("buyerProf", buyerProf);
 	}
 	
 	@PostMapping("/expdetail")

@@ -125,7 +125,6 @@ thead {
 
 		<button class="btn" type="button"><a href="./explist">목록으로</a></button>
 
-<c:import url="/WEB-INF/views/layout/paging.jsp"/>
 <c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 
 </body>
