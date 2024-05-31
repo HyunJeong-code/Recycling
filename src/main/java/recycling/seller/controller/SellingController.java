@@ -22,8 +22,10 @@ import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
+import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.page.face.PageService;
 import recycling.seller.service.face.SellingService;
@@ -334,49 +336,94 @@ public class SellingController {
 //		List<AllPrd> allPrd = sellingService.selectAllPrd(seller);
 	}
 	
+	//판매자 체험 조회
 	@GetMapping("/explist")
 	public void expList(
 			Model model,
-			@RequestParam(defaultValue = "0")int curPage, 
+			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
 			HttpSession session,
+			Authentication authentication,
 			Exp exp
 			) {
 		logger.info("/explist [GET]");
 		
-//		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers"); 
-//		exp.setsCode(seller.getsCode());
-//		if(seller == null) { //로그인 상태가 아니라면 로그인화면으로
-			
-//			return "redirect:/buyer/login";
-			
-//		} else { //로그인한 회원의 list만 띄우기
-			
-//			paging = sellingService.getSearchPaging(curPage, search);
-//			List<Exp> list = sellingService.selectMyExpList(paging, seller);
-//			model.addAttribute("paging", paging);
-//			model.addAttribute("list", list);
-//		}
-		Paging paging = sellingService.getSearchPaging(curPage, search);
-		List<Exp> list = sellingService.selectMyExpList(paging);
 		
-		model.addAttribute("paging", paging);
-		model.addAttribute("search", search);
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+		
+		int upPage = sellingService.selectCntAllexpList(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+ 		upPaging.setUser(buyerLogin.getsCode());
+		
+		List<Exp> list = sellingService.selectMyExpList(upPaging);
+		
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
-		
-//		return "/seller/selling/explist";
+		model.addAttribute("upUrl", "/seller/selling/explist");
 		
 	}
 	
+	//체험단 상세조회
 	@GetMapping("/expdetail")
 	public void expDetail(
+			Authentication authentication,
 			Model model,
 			String expCode,
-			ExpFile expFile
+			ExpFile expFile, 
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg
 			) {
 		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
+		
+		//페이징
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+		int upPage = sellingService.selectCntAllExpSch(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+
+		//상세 보기
 		Exp exp = sellingService.selectByExp(expCode);
 		model.addAttribute("exp", exp);
+		
+		//예약 스케쥴 조회기능
+		List<ExpSch> schList = sellingService.selectAllSch(expCode);
+		model.addAttribute("expSchList", schList);
+		logger.info("schList: {}", schList);
+		
+		//예약된 인원 조회
+		List<ResSchCnt> resCnt = sellingService.selectByResCnt(expCode);
+		model.addAttribute("resCnt", resCnt);
+		
+		//첨부파일 main=썸네일, detail=상세이미지
+		List<ExpFile> expFiles = sellingService.selectByExpFile(expCode);
+		
+		ExpFile main = null;
+		List<ExpFile> detail = new ArrayList<>();
+		
+		for (ExpFile file : expFiles) {
+	        if (file.getCtPflNo() == 600) {
+	        	main = file;
+	        } else if (file.getCtPflNo() == 610) {
+	        	detail.add(file);
+	        }
+	    }
+		
+		model.addAttribute("expFiles", expFiles);
+		model.addAttribute("main", main);
+		model.addAttribute("detail", detail);
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/seller/selling/expdetail?expCode=" + expCode);
 	}
 	
 	
@@ -389,13 +436,8 @@ public class SellingController {
 			) {
 		
 		Exp exp = sellingService.selectByExp(expCode);
-//		Paging paging = sellingService.getPaging(curPage);
-//		List<ExpRes> resList = sellingService.selectResList(expCode, paging);
-		List<ExpRes> resList = sellingService.selectResList(expCode);
 		
-//		model.addAttribute("paging", paging);
 		model.addAttribute("exp", exp);
-		model.addAttribute("resList", resList);
 
 		
 	}
