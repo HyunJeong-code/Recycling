@@ -134,7 +134,7 @@ public class RecyclingController {
 	}
 	
 	@PostMapping("/write")
-	public String insertSellerQST(SellerQST sellerQST, RedirectAttributes redirectAttributes) {
+	public String insertSellerQST(RedirectAttributes redirectAttributes) {
 		logger.info("/buyer/recycling/write [POST]");
 		
 		
