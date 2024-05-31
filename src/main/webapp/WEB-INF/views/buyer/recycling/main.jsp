@@ -279,15 +279,6 @@
 		
 		<div class="prdContainer">
 			<div class="prdList">
-				<!-- 테스트용 상품 리스트 -->
-<%-- 				<c:forEach var="index" begin="1" end="32">
-					<div class="prd" style="display: ${index <= 16 ? 'flex' : 'none'};">
-						<img src="${pageContext.request.contextPath}/resources/img/product_${index}.jpg">
-						<p class="prdTitle">Proddddddddddddddddduct ${index}</p>
-						<p class="prdPrice">30,000원</p>
-					</div>
-                </c:forEach> --%>
-                
 				<c:forEach var="prd" items="${list}">
 				    <div class="prd">
 				        <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdcode=${prd.prdCode}"">
@@ -297,7 +288,6 @@
 				        </a>
 				    </div>
 				</c:forEach>
-                
 			</div>
 		</div>
 		

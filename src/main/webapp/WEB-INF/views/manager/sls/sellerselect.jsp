@@ -25,7 +25,6 @@ $(document).ready(function() {
         // 폼 필드에 데이터 삽입
         document.getElementsByName("sCode")[0].value = sCode;
         document.getElementsByName("cmpName")[0].value = cmpName;
-        // 나머지 필드도 동일한 방식으로 삽입
 
         alert("입력되었습니다.");
     });
