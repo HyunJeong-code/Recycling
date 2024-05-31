@@ -134,21 +134,57 @@ public class HrController {
 	public void empUpdate(
 			Manager manager
 			, Model model
+			, MgrFile mgrFile
 			) {
 		logger.info("controller: empupdate[Get]");
 		
+		
+		//파일 조회
+		MgrFile profileList = hrService.mgrFileUpdateList(mgrFile);
+		model.addAttribute("profileList", profileList);
+		logger.info("controller: empupdate[Get]{}",profileList);
+	
+		//정보 조회
 		Manager update = hrService.hrUpdateView(manager);
 		model.addAttribute("view", update);
+		
+
 	}
 	
 	//사원정보 업데이트
 	@PostMapping("/empupdate")
-	public void updateProc(
+	public String updateProc(
 			Manager manager
+			, Model model
+			, int mgrFlNo
+			, String mgrCode
+			, MultipartFile empFileUpdate
 			) {
 		logger.info("controller: empupdate[Post]");
 		
 		hrService.hrUpdate(manager);
+		
+		//expfile 프로필 업데이트
+		if(empFileUpdate != null && !empFileUpdate.isEmpty()) {
+		
+			MgrFile mgrfile = new MgrFile();
+			mgrfile = hrService.updateProFileGet(empFileUpdate, manager);
+			mgrfile.setMgrFlNo(mgrFlNo);
+			mgrfile.setMgrCode(mgrCode);
+			logger.info("MgrFile : {}",mgrfile);
+			
+			//파일 업데이트
+			hrService.updateProfileProc(mgrfile);
+			logger.info("파일이 없음 : {}",mgrfile);
+		}else {
+			logger.info("프로필이 존재합니다.");
+		}
+		
+		model.addAttribute("msg", "사원정보가 변경되었습니다.");
+		model.addAttribute("url", "redirect: /manager/hr/empupdate?mgrCode=" + mgrCode);
+		
+		return "/layout/alert";
+
 	}
 	
 	//사원정보 삭제[리스트 삭제]

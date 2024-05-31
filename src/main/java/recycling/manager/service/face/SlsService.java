@@ -390,18 +390,36 @@ public interface SlsService {
 
 	/**
 	 * 판매자 상품 조회
+	 * @param upPaging 
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllPrdList();
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 	
 	/**
-	 * 판매자 판매 조회
+	 * 판매자 상품 조회[페이징]
+	 * @param upPaging 
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllSellList();
+	public int selectCntAllPrdList(PagingAndCtg upPaging);
 
+	/**
+	 * 판매자 판매 조회
+	 * @param unPaging 
+	 * 
+	 * @return
+	 */
+	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging);
+
+	/**
+	 * 판매자 판매 조회[페이징]
+	 * 
+	 * @param getsCode
+	 * @return
+	 */
+	public int selectCntAllSellList(PagingAndCtg unPaging);
+	
 	/**
 	 * 판매자 정보 조회
 	 * 
@@ -441,6 +459,8 @@ public interface SlsService {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
+
+
 
 
 
