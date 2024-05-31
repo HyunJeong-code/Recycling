@@ -108,43 +108,43 @@ public class MypageController {
 		
 	}
 	
-	// 1:1 문의 작성 페이지
-	@GetMapping("/otoform")
-	public String otoForm() {
-		
-		logger.info("/buyer/mypage/otoform [GET]");
-		
-		return "/buyer/mypage/otoform";
-		
-	}
-	
-	// 1:1 문의 작성 처리
-	@PostMapping("/otoform")
-	public String otoFormProc(
-			Authentication authentication,
-			Oto oto,
-			MultipartFile file
-			) {
-		
-		logger.info("/buyer/mypage/otoform [POST]");
-		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		oto.setbCode(buyerLogin.getbCode());
-		
-		int result = mypageService.insertOto(oto, file);
-
-		if(result > 0) {
-			
-			return "redirect:/buyer/mypage/myboard";
-			
-		} else {
-			
-			return "redirect:/buyer/mypage/otoform";
-			
-		}
-				
-	}
+//	// 1:1 문의 작성 페이지
+//	@GetMapping("/otoform")
+//	public String otoForm() {
+//		
+//		logger.info("/buyer/mypage/otoform [GET]");
+//		
+//		return "/buyer/mypage/otoform";
+//		
+//	}
+//	
+//	// 1:1 문의 작성 처리
+//	@PostMapping("/otoform")
+//	public String otoFormProc(
+//			Authentication authentication,
+//			Oto oto,
+//			MultipartFile file
+//			) {
+//		
+//		logger.info("/buyer/mypage/otoform [POST]");
+//		
+//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+//		
+//		oto.setbCode(buyerLogin.getbCode());
+//		
+//		int result = mypageService.insertOto(oto, file);
+//
+//		if(result > 0) {
+//			
+//			return "redirect:/buyer/mypage/myboard";
+//			
+//		} else {
+//			
+//			return "redirect:/buyer/mypage/otoform";
+//			
+//		}
+//				
+//	}
 	
 	// 1:1 문의 삭제
 	@PostMapping("/otodel")
@@ -201,86 +201,6 @@ public class MypageController {
 	// 판매자 문의 삭제
 	@PostMapping("/qnadel")
 	public void qnaDel() {
-		
-		
-		
-	}
-	
-	// 업사이클링 후기 상세 조회
-	@GetMapping("/upcyrvwdetail")
-	public void upcyrvwDetail() {
-		
-		
-		
-	}
-	
-	// 업사이클링 후기 상세 조회
-	@PostMapping("/upcyrvwdetail")
-	public void upcyrvwDetailProc() {
-		
-		
-		
-	}
-	
-	// 업사이클링 후기 수정
-	@GetMapping("/upcyrvwupdate")
-	public void upcyrvwUpdate() {
-		
-		
-		
-	}
-	
-	// 업사이클링 후기 수정
-	@PostMapping("/upcyrvwupdate")
-	public void upcyrvwUpdateProc() {
-		
-		
-		
-	}
-	
-	// 업사이클링 후기 삭제
-	@PostMapping("/upcyrvwdel")
-	public void upcyrvwDel() {
-		
-		
-		
-	}
-	
-	// 체험단 후기 상세 조회
-	@GetMapping("/exprvwdetail")
-	public void exprvwDetail() {
-		
-		
-		
-	}
-	
-	// 체험단 후기 상세 조회
-	@PostMapping("/exprvwdetail")
-	public void exprvwDetailProc() {
-		
-		
-		
-	}
-	
-	// 체험단 후기 수정
-	@GetMapping("/exprvwupdate")
-	public void exprvwUpdate() {
-		
-		
-		
-	}
-	
-	// 체험단 후기 수정
-	@PostMapping("/exprvwupdate")
-	public void exprvwUpdateProc() {
-		
-		
-		
-	}
-	
-	// 체험단 후기 수정
-	@PostMapping("/exprvwdel")
-	public void exprvwDel() {
 		
 		
 		
