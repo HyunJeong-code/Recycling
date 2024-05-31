@@ -17,11 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
@@ -136,11 +138,6 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectByResCnt(expCode);
 	}
 	
-	
-	
-	
-	
-
 	//글쓰기
 	@Override
 	public void insert(Exp exp
@@ -465,7 +462,6 @@ public class SlsServiceImpl implements SlsService {
 		slsDao.expUpdatefileProc(expfile);
 	}
 
-}//main
 	//파일 저장소
 	private String saveFile(MultipartFile file, File storedFolder) {
 	    logger.info("SERVICE : SAVEFILE[GET]");
@@ -501,9 +497,33 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectAllSellList();
 	}
 
+	//판매자 정보 조회
 	@Override
 	public List<Map<String, Object>> sellerAllSeller(String getsCode) {
 		return slsDao.sellerAllSeller(getsCode);
+	}
+
+	//판매자 상품세부조회
+	@Override
+	public Prd selectDetailPrd(String prdCode) {
+		return slsDao.selectDetailPrd(prdCode);
+	}
+
+	//판매자 상품업데이트
+	@Override
+	public int slsPrdUpdate(Prd prd) {
+		return slsDao.slsPrdUpdate(prd);
+	}
+
+	//판매자 상품삭제
+	@Override
+	public int slsDeletePrd(String prdCode) {
+		return slsDao.slsDeletePrd(prdCode);
+	}
+
+	@Override
+	public MyOrder orderdetailPrd(String orddtCode) {
+		return slsDao.orderdetailPrd(orddtCode);
 	}
 
 }//main

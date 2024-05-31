@@ -6,11 +6,13 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Prd;
 // 판매제휴팀 DB 처리
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
@@ -434,4 +436,35 @@ public interface SlsDao {
 	 */
 	public int updateSelOut(String sCode);
 
+	/**
+	 * 판매자 상품 세부조회
+	 * 
+	 * @param prdCode
+	 * @return
+	 */
+	public Prd selectDetailPrd(String prdCode);
+
+	/**
+	 * 판매자 상품 업데이트
+	 * 
+	 * @param prd
+	 * @return
+	 */
+	public int slsPrdUpdate(Prd prd);
+
+	/**
+	 * 판매자 상품 삭제
+	 * 
+	 * @param prdCode
+	 * @return
+	 */
+	public int slsDeletePrd(String prdCode);
+
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode
+	 * @return
+	 */
+	public MyOrder orderdetailPrd(String orddtCode);
 }

@@ -281,13 +281,13 @@
 	<!-- 판매자 상품관리 -->
 	<select id="selectAllPrdList" resultType="SellerOrderJoin">
 		<include refid="SellOrderJoin"/>
-		<where>p.s_code = #{sCode }</where>
+<!-- 		<where>p.s_code = #{sCode }</where> -->
 	</select>
 	
 	<!-- 판매자 판매관리 -->
 	<select id="selectAllSellList" resultType="SellerOrderJoin">
 		<include refid="SellOrderJoin"/>
-		<where>p.s_code = #{sCode }</where>
+<!-- 		<where>p.s_code = #{sCode }</where> -->
 	</select>
 	
 	<!-- 체험단 전체 조회하기[expList] -->
@@ -675,7 +675,58 @@
 	<!-- 판매자 정보조회 -->
 	<select id="sellerAllSeller" parameterType="String" resultType="hashmap">
 		<include refid="buyerJoinSellerJoinCmp"/>
-		<where>S.s_code = #{sCode }</where>
+		<where>
+			AND S.s_code = #{sCode }
+			AND S.s_chk = 'Y'
+		</where>
 	</select>
+	
+	<!-- 판매자 상품세부조회 -->
+	<select id="selectDetailPrd" parameterType="String" resultType="Prd">
+		SELECT * FROM prd
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</select>
+	
+	<!-- 판매자 상품업데이트 -->
+	<update id="slsPrdUpdate" parameterType="Prd">
+		UPDATE prd
+		SET ct_pdtno = #{ctPdtNo},
+			prd_name = #{prdName},
+			price = #{price},
+			prd_cnt = #{prdCnt},
+			prd_detail = #{prdDetail}
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</update>
+	
+	<!-- 판매자 상품삭제 -->
+	<update id="deletePrd" parameterType="String">
+		UPDATE prd
+		SET prd_out = 'Y',
+			prd_cnt = 0
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</update>
+	
+	<!-- 주문 상세 조회 -->
+	<select id="orderdetailPrd" parameterType="String" resultType="MyOrder">
+		SELECT 
+			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, o.SEND_NAME
+			, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
+			, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
+		FROM 
+			order_detail od, orders o, ship s
+		<where>
+			AND od.ord_code = o.ord_code
+			AND od.orddt_code = s.orddt_code(+)
+			AND od.orddt_code = #{orddtCode}
+		</where>
+		ORDER BY od.ORDDT_CODE DESC
+	</select>
+	
 	
 </mapper>

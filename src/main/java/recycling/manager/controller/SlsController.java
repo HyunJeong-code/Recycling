@@ -18,14 +18,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.manager.service.face.SlsService;
+import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
@@ -38,6 +42,7 @@ public class SlsController {
 	@Autowired private SlsService slsService;
 	@Autowired HttpSession session;
 	@Autowired private recycling.page.face.PageService pageService;
+	@Autowired private SellingService sellingService;
 	
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
@@ -116,13 +121,29 @@ public class SlsController {
 	}
 	
 	@GetMapping("/sellerchklist")
-	public void sellerChkList(Model model) {
+	public void sellerChkList(
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
+			Model model
+			) {
 		logger.info("/manager/sls/sellerchklist [GET]");
 		
-		List<Map<String, Object>> sellerList = slsService.selectBysChk();
+		// 페이징 - 전체 조회 글 개수
+		PagingAndCtg paging = new PagingAndCtg();
+		int page = slsService.selectCntSeller();
+		
+		// 페이징 - 페이징 처리
+		paging = new PagingAndCtg(page, curPage, search);
+		
+		// 판매자 신청 전체 조회
+		List<Map<String, Object>> sellerList = slsService.selectBysChk(paging);
 		logger.info("{}", sellerList);
 		
+		model.addAttribute("listSize", sellerList.size());
 		model.addAttribute("sellerList", sellerList);
+		model.addAttribute("upPaging", paging);
+		model.addAttribute("upUrl", "/manager/sls/sellerchklist");
 	}
 	
 	@GetMapping("/sellerchkdetail")
@@ -151,7 +172,6 @@ public class SlsController {
 		List<Map<String, Object>> selList = slsService.sellerAllSeller(seller.getsCode());
 		model.addAttribute("selList", selList);
 		
-		
 		//상품 조회
 		List<SellerOrderJoin> prdList = slsService.selectAllPrdList();
 		model.addAttribute("prdList", prdList);
@@ -160,35 +180,120 @@ public class SlsController {
 		List<SellerOrderJoin> sellList = slsService.selectAllSellList();
 		model.addAttribute("sellList", sellList);
 		
-		
 	}
 	
+	//상품 세부사항
+	@GetMapping("/prddetail")
+	public void prdDetail(
+			String prdCode
+			, Model model) {
+		
+		Prd prd = slsService.selectDetailPrd(prdCode);
+		model.addAttribute("prd", prd);
+	}
 	
+	//상품수정
+	@RequestMapping("/prdupdate")
+	public String upcyUpdate(Prd prd) {
+		
+		int res = slsService.slsPrdUpdate(prd);
+		
+		return "redirect:/manager/sls/sellinglist";
+	}
 	
+	//상품삭제
+	@RequestMapping("/prddel")
+	public String prdDel(@RequestParam(value = "arr[]") List<String> list) {
+		logger.info("{}",list);
+		
+		
+		for(String prdCode : list) {
+			int deleteRes = slsService.slsDeletePrd(prdCode);  
+		}
+		
+		return "jsonView";
+	}
 	
+	//주문 상세정보
+	@GetMapping("/orderdetail")
+	public void orderDetail(String orddtCode, Model model) {
+		
+		MyOrder myOrder = slsService.orderdetailPrd(orddtCode);
+		
+		model.addAttribute("order", myOrder);
+	}
 	
+	//구매자 정보변경
+	@GetMapping("/orderupdate")
+	public void orderupdate(String orddtCode, Model model) {
+		
+		MyOrder myOrder = sellingService.selectMyOrderByOrddtCode(orddtCode);
+		
+		model.addAttribute("order", myOrder);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+//	주문 상태 변경
+	@GetMapping("/changeorder")
+    public String changeOrder(@RequestParam(value = "arr[]") List<String> list, int sttNo, Model model) {
+		logger.info("list: {}",list);
+		logger.info("sttNo: {}",sttNo);
+		
+		if(sttNo == 980 || sttNo == 960) {
+			//토큰 발급
+			String token = sellingService.getToken();
+			
+			
+			String successRes = "";
+			String failRes = "";
+			//반복 취소
+			for(String orddtCode : list) {
+				
+				//OrderDetail 조회
+				OrderDetail order = sellingService.selectByorddtCode(orddtCode); 
+				logger.info("order: {}",order);
+				
+				//주문 취소(환불)
+				int res = sellingService.cencelpay(order, token);
+				
+				if(res == 1) {
+					OrderDetail ordd = new OrderDetail();
+					ordd.setOrddtCode(orddtCode);
+					ordd.setSttNo(sttNo);
+					int updateRes = sellingService.updateOrderDetail(ordd);
+					if(successRes != "") {
+						successRes += ", ";					
+					}
+					successRes += orddtCode;
+		        	
+				} else {
+					if(failRes != "") {
+						failRes += ", ";					
+					}
+					failRes += orddtCode;
+				}
+			}
+			
+			if(successRes != "") {
+				successRes += "환불 완료";
+			}
+			
+			if(failRes != "") {
+				failRes += "환불 실패";					
+			}
+			
+			model.addAttribute("Msg", successRes + failRes);
+		
+		} else {
+			for(String orddtCode : list) {
+				OrderDetail ordd = new OrderDetail();
+				ordd.setOrddtCode(orddtCode);
+				ordd.setSttNo(sttNo);
+				int updateRes = sellingService.updateOrderDetail(ordd);
+			}
+			model.addAttribute("Msg", "변경");
+		}
+        return "jsonView";
+    }
 	
 	//체험단 전체조회[explist]
 	@GetMapping("/explist")
@@ -517,4 +622,6 @@ public class SlsController {
 		return "jsonView";
 	
 	}
+	
+	
 }
