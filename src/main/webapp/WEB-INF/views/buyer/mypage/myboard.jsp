@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="/resources/css/buyer.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-	
 $(function() {
 	
 	$("#allQna").click(function() {
@@ -25,6 +24,11 @@ $(function() {
 		}
 	})
 	
+	function popUp() {
+		var openPop = window.open('/buyer/mypage/rvwform', '후기 등록', 'width=700px,height=800px,scrollbars=yes');
+		
+		
+	})
 	
 })
 </script>
@@ -212,7 +216,7 @@ $(function() {
 					
 				<c:if test="${rvwSize eq 0 }">
 					<tr>
-						<td colspan="5" class="none">작성한 문의글이 없습니다.</td>
+						<td colspan="5" class="none">작성한 후기가 없습니다.</td>
 					</tr>
 				</c:if>
 			</table>
@@ -220,6 +224,7 @@ $(function() {
 			<c:if test="${rvwSize ne 0 }">
 				<button type="button" id="delrvw" class="btnLeft">삭제하기</button>
 			</c:if>
+			<button type="button" class="btn" id="btnRvw"><a href="#none" target="_blank" onclick="openPop()">작성하기</a></button>
 		</div> <!-- section End -->
 	</div>
 </div>

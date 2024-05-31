@@ -153,7 +153,6 @@ public class MgrController {
 		model.addAttribute("notice", mgrNoticeList);
 		logger.info("controller: noticeList[GET]");
 		
-		
 		Paging pagingParam = null;
 		//페이징 계산, 검색기능
 //		Paging paging = mgrService.selectCntAll(pagingParam);
