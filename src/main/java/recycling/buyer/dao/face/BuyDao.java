@@ -111,4 +111,3 @@ public interface BuyDao {
 	public int selectCntById(String bId);
 
 }
-

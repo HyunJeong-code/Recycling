@@ -109,44 +109,6 @@ public class MypageController {
 		
 	}
 	
-//	// 1:1 문의 작성 페이지
-//	@GetMapping("/otoform")
-//	public String otoForm() {
-//		
-//		logger.info("/buyer/mypage/otoform [GET]");
-//		
-//		return "/buyer/mypage/otoform";
-//		
-//	}
-//	
-//	// 1:1 문의 작성 처리
-//	@PostMapping("/otoform")
-//	public String otoFormProc(
-//			Authentication authentication,
-//			Oto oto,
-//			MultipartFile file
-//			) {
-//		
-//		logger.info("/buyer/mypage/otoform [POST]");
-//		
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		
-//		oto.setbCode(buyerLogin.getbCode());
-//		
-//		int result = mypageService.insertOto(oto, file);
-//
-//		if(result > 0) {
-//			
-//			return "redirect:/buyer/mypage/myboard";
-//			
-//		} else {
-//			
-//			return "redirect:/buyer/mypage/otoform";
-//			
-//		}
-//				
-//	}
-	
 	// 1:1 문의 삭제
 	@PostMapping("/otodel")
 	public String otoDel(String otoCode) {
