@@ -279,15 +279,6 @@ public interface BuyerDao {
 	public int deleteBuyer(String bCode);
 
 	/**
-	 * 판매자 탈퇴
-	 * 
-	 * @param sCode - 판매자 코드
-	 * @return 탈퇴 결과
-	 */
-
-	//public int changePw(BuyerLogin buyerLogin);
-	
-	/**
 	 * 판매자 찾기
 	 * 
 	 * @param sCode
