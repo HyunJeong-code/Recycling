@@ -6,12 +6,13 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.manager.ResSchCnt;
+import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-
-
+import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
@@ -43,29 +44,79 @@ public interface SlsService {
 	 */
 	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging);
 	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
-	 * 체험단 전체 조회하기
+	 * 체험단 전체 조회하기[expList]
 	 * 
 	 * @return - List<Exp>
 	 */
-	public List<Exp> selectAll();
+	public List<Exp> selectAllExp(PagingAndCtg upPaging);
 	
 	/**
-	 * 체험단 체험일정 조회하기
+	 * 체험단 전체 조회 페이징[expList]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllExp(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험단 세부 조회하기
+	 * 
+	 * @param upPaging - DTO 객체
+	 * @return
+	 */
+	public Exp selectDetailExp(String expCode);
+	
+	/**
+	 * 체험단 체험일정 조회[expdetail]
 	 * @param expCode 
 	 * 
 	 * @return
 	 */
-	public List<ExpSch> selectSchAll(String expCode);
-
+	public List<ExpSch> selectAllSch(String expCode);
+	
 	/**
-	 * 체험단 세부사항 조회
+	 * 체험단 체험일정 조회페이징[expdetail]
 	 * 
-	 * @param expCode - Exp
-	 * @return Exp
+	 * @param upPaging
+	 * @return
 	 */
-	public Exp selectDetail(String expCode);
+	public int selectCntAllExpSch(PagingAndCtg upPaging);
+	
+	/**
+	 * 체혐 스케쥴 예약된 인원 조회
+	 * @param schNo 
+	 * @param schNo 
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ResSchCnt> selectByResCnt(String expCode);
+	
 
+	
+	
+	
+	
+	
 	/**
 	 * 체험단 등록
 	 * 
@@ -73,8 +124,9 @@ public interface SlsService {
 	 * @param selectedTimes 
 	 * @param expSch 
 	 * @param file 
+	 * @param file2 
 	 */
-	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile file);
+	public void insert(Exp exp, List<String> schTime, ExpSch expSch,MultipartFile profile, List<MultipartFile> file);
 	
 	/**
 	 * 체험정보 업데이트항목 조회
@@ -140,12 +192,19 @@ public interface SlsService {
 	public int expListDel(String expCode);
 
 	/**
+	 * 체험 프로필 이미지
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expProImage(ExpFile expFile);
+	
+	/**
 	 * 이미지 업로드 번호조회
 	 * 
 	 * @param expFile
 	 * @return
 	 */
-	public ExpFile image(ExpFile expFile);
+	public List<ExpFile> expImage(ExpFile expFile);
 
 	/**
 	 * 예약 확정, 취소버튼에 따른 예약변경
@@ -162,15 +221,7 @@ public interface SlsService {
 	 */
 	public ExpSch selectExpSchbySchNo(int schNo);
 
-	/**
-	 * 체험 예약, 인원 조인
-	 * @param schNo 
-	 * @param schNo 
-	 * @param expCode 
-	 * 
-	 * @return
-	 */
-	public List<ResSchCnt> selectByResCnt(String expCode);
+
 
 	/**
 	 * 체험단 예약인원 예약변경창 조회하기
@@ -295,10 +346,121 @@ public interface SlsService {
 	public int updateSelOut(String sCode);
 
 
+	/**
+	 * 업데이트 프로필 조회
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public ExpFile expUpdateProfile(ExpFile expFile);
+
+	/**
+	 * 업데이트 파일 조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public List<ExpFile> expUpdateFile(ExpFile expFile);
+
+	/**
+	 * 업데이트 프로필 수정하기
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public void expUpdatefileProc(ExpFile expfile);
+
+	/**
+	 * 업데이트 파일 가져오기
+	 * @param expfileUpdate
+	 * @param expFileJoinCt
+	 * @return
+	 */
+	public ExpFile updateFile(MultipartFile expfileUpdate, Exp exp);
+
+	/**
+	 * 멀티 업데이트 파일 가져오기
+	 *
+	 * @param expMultiFileUpdate
+	 * @param exp
+	 * @return
+	 */
+	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp);
+
+
+	/**
+	 * 판매자 상품 조회
+	 * 
+	 * @return
+	 */
+	public List<SellerOrderJoin> selectAllPrdList();
+	
+	/**
+	 * 판매자 판매 조회
+	 * 
+	 * @return
+	 */
+	public List<SellerOrderJoin> selectAllSellList();
+
+	/**
+	 * 판매자 정보 조회
+	 * 
+	 * @param getsCode
+	 * @return
+	 */
+	public List<Map<String, Object>> sellerAllSeller(String getsCode);
+
+	/**
+	 * 판매자 상품 세부조회
+	 * 
+	 * @param prdCode
+	 * @return
+	 */
+	public Prd selectDetailPrd(String prdCode);
+
+	/**
+	 * 판매자 상품 업데이트
+	 * 
+	 * @param prd
+	 * @return
+	 */
+	public int slsPrdUpdate(Prd prd);
+
+	/**
+	 * 판매자 상품 삭제
+	 * 
+	 * @param prdCode
+	 * @return
+	 */
+	public int slsDeletePrd(String prdCode);
+
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode
+	 * @return
+	 */
+	public MyOrder orderdetailPrd(String orddtCode);
+
+
+
+
+
+
+
+
 
 
 
 	
+
+
+
+
+
+
+
+
 
 
 

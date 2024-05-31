@@ -10,6 +10,7 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 import recycling.dto.seller.AllPrd;
 import recycling.dto.seller.Exp;
 
@@ -74,26 +75,34 @@ public interface SellingService {
 	/**
 	 * sCode와 일치하는 모든 rcyPrd 조회
 	 * 
-	 * @param sCode - 조회할 sCode
+	 * @param upPaging - 조회할 sCode
 	 * @return - 모든 rcyPrd 리스트
 	 */
-	public List<Prd> selectAllrcyPrd(String sCode);
+	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging);
 
 	/**
-	 * prdCode와 일치하는 모든 orders 조회
+	 * prdCode와 일치하는 upcy orders 조회
 	 * 
-	 * @param prdCode - 조회할 prdCode
+	 * @param unPaging - 조회할 prdCode
 	 * @return - 모든 orders 리스트
 	 */
-	public List<MyOrder> selectAllMyOrder(String prdCode);
+	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging);
+	
+	/**
+	 * prdCode와 일치하는 rcy orders 조회
+	 * 
+	 * @param unPaging - 조회할 prdCode
+	 * @return - 모든 orders 리스트
+	 */
+	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging);
 
 	/**
 	 * sCode와 일치하는 모든 upcyPrd 조회
 	 * 
-	 * @param sCode - 조회할 sCode
+	 * @param upPaging - 조회할 sCode
 	 * @return - 모든 upcyPrd 리스트
 	 */
-	public List<Prd> selectAllupcyPrd(String sCode);
+	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging);
 
 	/**
 	 * prdCode와 일치하는 Prd 삭제
@@ -173,6 +182,59 @@ public interface SellingService {
 	 * @return - DELETE 결과
 	 */
 	public int deleteShip(String orddtCode);
+	
+
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문 상세
+	 * @return - 조회한 MyOrder DTO
+	 */
+	public MyOrder selectMyOrderByOrddtCode(String orddtCode);
+
+
+	/**
+	 * rcyprd paging
+	 * 
+	 * @param upPaging - paging
+	 * @return
+	 */
+	public int selectCntAllrcyPrd(PagingAndCtg upPaging);
+
+	/**
+	 * rcyMyOrder paging
+	 * 
+	 * @param unPaging - paging
+	 * @return
+	 */
+	public int selectCntAllrcyMyOrder(PagingAndCtg unPaging);
+	
+	/**
+	 * 주문 상세 수정, 송장 추가
+	 * 
+	 * @param myOrder - 수정 정보를 담은 DTO 객체
+	 * @return - UPDATE 결과
+	 */
+	public int updateMyOrder(MyOrder myOrder);
+
+	/**
+	 * upcyprd paging
+	 * 
+	 * @param upPaging - paging
+	 * @return
+	 */
+	public int selectCntAllupcyPrd(PagingAndCtg upPaging);
+
+	/**
+	 * upcyMyOrder paging
+	 * 
+	 * @param unPaging - paging
+	 * @return
+	 */
+	public int selectCntAllMyOrder(PagingAndCtg unPaging);
+
+
+
 
 
 }

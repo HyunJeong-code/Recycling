@@ -1,6 +1,7 @@
 package recycling.buyer.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.seller.Prd;
 
@@ -24,10 +25,10 @@ public interface RecyclingDao {
 	public Prd selectPrd(String prdCode);
 
 	public Seller selectSeller(String getsCode);
-	
-//	public SellerProf selectSellerProfByCode(String sCode);
 
 //	public SellerQST selectSellerQST(String qstCode);
+
+	public List<Map<String, Object>> selectQnaList(String prdCode);
 
 //	public int insertSellerQST(SellerQST sellerQST);
 
