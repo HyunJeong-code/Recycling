@@ -9,12 +9,8 @@ import org.springframework.stereotype.Service;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
-import recycling.dto.buyer.Rcy;
-import recycling.dto.seller.Seller;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
-import recycling.dto.seller.SellerQST;
+import recycling.dto.seller.Seller;
 
 @Service
 public class RecyclingServiceImpl implements RecyclingService {
@@ -63,52 +59,6 @@ public class RecyclingServiceImpl implements RecyclingService {
 	@Override
 	public Seller getSeller(String sCode) {
 		return recyclingDao.selectSellerProfByCode(sCode);
-	}
-
-
-	@Override
-	public SellerQST selectSellerQst(String qstCode) {
-		return recyclingDao.selectSellerQST(qstCode);
-	}
-
-	@Override
-	public List<SellerAns> selectSellerAnswers(String qstCode) {
-		return recyclingDao.selectSellerAnswers(qstCode);
-	}
-
-	@Override
-	public int insertSellerQST(SellerQST sellerQST) {
-		return recyclingDao.insertSellerQST(sellerQST);
-	}
-
-
-	@Override
-	public int updateSellerQST(SellerQST sellerQST) {
-		return recyclingDao.updateSellerQST(sellerQST);
-	}
-
-
-	@Override
-	public int deleteSellerQST(String qstCode) {
-		return recyclingDao.deleteSellerQST(qstCode);
-	}
-
-
-	@Override
-	public int insertSellerAnswer(SellerAns sellerAns) {
-		return recyclingDao.insertSellerAnswer(sellerAns);
-	}
-
-
-	@Override
-	public int updateSellerAnswer(SellerAns sellerAns) {
-		return recyclingDao.updateSellerAnswer(sellerAns);
-	}
-
-
-	@Override
-	public int deleteSellerAnswer(String qnaCode) {
-		return recyclingDao.deleteSellerAnswer(qnaCode);
 	}
 
 }

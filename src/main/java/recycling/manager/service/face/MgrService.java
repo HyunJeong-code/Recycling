@@ -85,5 +85,5 @@ public interface MgrService {
 	 * @return 0 : 실패, 1 : 성공
 	 */
 	public int insertMgrProf(MgrFile mgrFile);
-	
+
 }

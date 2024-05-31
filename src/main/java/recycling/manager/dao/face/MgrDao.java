@@ -73,5 +73,4 @@ public interface MgrDao {
 	 */
 	public int insertMgrProf(MgrFile mgrFile);
 
-	
 }

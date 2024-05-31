@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -151,7 +153,6 @@ public class MgrController {
 		List<Notice> mgrNoticeList = mgrService.selectAll();
 		model.addAttribute("notice", mgrNoticeList);
 		logger.info("controller: noticeList[GET]");
-		
 		
 		//페이징 계산, 검색기능
 //		Paging paging = mgrService.selectCntAll(pagingParam);

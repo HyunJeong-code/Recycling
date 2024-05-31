@@ -19,15 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import recycling.buyer.service.face.BuyerService;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.UpcyReview;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerProf;
 
 @Controller
 @RequestMapping("/buyer/upcycling")
@@ -60,11 +59,9 @@ public class UpcyclingController {
 		}
 		
 		Seller seller = upcyclingService.selectSeller(prd.getsCode());
-		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
-		model.addAttribute("sellerProf", sellerProf);
 		
 		
 		return "buyer/upcycling/upcydetail";

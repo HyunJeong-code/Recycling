@@ -14,7 +14,6 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerProf;
 
 @Service
 public class UpcyclingServiceImpl implements UpcyclingService {
@@ -51,11 +50,6 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	@Override
 	public Seller selectSeller(String getsCode) {
 		return upcyclingDao.selectSeller(getsCode);
-	}
-	
-	@Override
-	public SellerProf selectSellerProf(String sCode) {
-		return upcyclingDao.selectSellerProf(sCode);
 	}
 	
 	@Override
@@ -110,7 +104,5 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public void deleteReview(String upcyCode) {
 		upcyclingDao.deleteReview(upcyCode);
 	}
-
-
 	
 }

@@ -5,13 +5,15 @@
 <%
     ArrayList<Map<String, Object>> gpsList = (ArrayList<Map<String, Object>>) request.getAttribute("gpsList");
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>판매자 찾기</title>
 </head>
 <body>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
     <h1>판매자 찾기</h1>
     <hr>
@@ -82,6 +84,11 @@
             let gps = gpsList[i];
             let sCode = gps.sCode; // sCode 값을 가져옴
             let prdCode = gps.prdCode; // prdCode 값을 가져옴
+            let sOut = gps.sOut; // sOut 값을 가져옴
+
+            if (sOut === "Y") {
+                continue; // sOut이 "Y"일 경우 마커를 생성하지 않음
+            }
             
             // 주소-좌표 변환 객체를 생성합니다
             var geocoder = new kakao.maps.services.Geocoder();
@@ -153,5 +160,7 @@
         }
         
     </script>
+    
+    <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

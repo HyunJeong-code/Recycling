@@ -2,12 +2,7 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
-import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
-import recycling.dto.seller.SellerQST;
-
 import recycling.dto.seller.Seller;
 
 // 재활용품 관련 DB 처리
@@ -34,21 +29,5 @@ public interface RecyclingDao {
 	public Prd selectPrd(String prdCode);
 
 	public Seller selectSellerProfByCode(String sCode);
-
-	public SellerQST selectSellerQST(String qstCode);
-
-	public int insertSellerQST(SellerQST sellerQST);
-
-	public int updateSellerQST(SellerQST sellerQST);
-
-	public int deleteSellerQST(String qstCode);
-
-	public List<SellerAns> selectSellerAnswers(String qstCode);
-
-	public int insertSellerAnswer(SellerAns sellerAns);
-
-	public int updateSellerAnswer(SellerAns sellerAns);
-
-	public int deleteSellerAnswer(String qnaCode);
 
 }

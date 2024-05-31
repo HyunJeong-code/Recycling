@@ -6,7 +6,6 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerProf;
 
 public interface UpcyclingService {
 
@@ -33,15 +32,6 @@ public interface UpcyclingService {
 	 */
 	public Seller selectSeller(String getsCode);
 
-
-	/**
-	 * 판매자 상세 프로필을 가져오는 코드
-	 * 
-	 * @param	getsCode 프라이머리키인 sCode
-	 * @return	판매자 상세 정보
-	 */
-	public SellerProf selectSellerProf(String sCode);
-	
 	/**
 	 * 구매자 정보 로드
 	 * 

@@ -153,4 +153,5 @@ public class MgrServiceImpl implements MgrService {
 	public int insertMgrProf(MgrFile mgrFile) {
 		return mgrDao.insertMgrProf(mgrFile);
 	}
+
 }
