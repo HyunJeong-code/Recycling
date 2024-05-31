@@ -251,13 +251,15 @@ public class BuyerController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("buyerLogin : {}", buyerLogin);
 		
-		String bCode = buyerLogin.getbCode();
+		
 		
 		// 문의글 페이지 수 계산
   		PagingAndCtg upPaging = new PagingAndCtg();
   		
+  		//
   		upPaging = pageService.upPageBuyer(curPage, sCtg, search, buyerLogin.getbCode());
 
+  		
   		int upPage = buyerService.selectCntOrderDetailBybCode(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
         

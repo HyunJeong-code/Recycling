@@ -117,7 +117,7 @@
 		            <h3>장바구니</h3>
 		        </div>
 				<form action="./pay" method="get" id="ord_form">
-				<table id="cartTable">
+				<table id="myTable">
 					<thead>
 						<tr>
 							<th></th>

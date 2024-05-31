@@ -32,12 +32,15 @@
 					cart c, prd p, prd_file pf
 				<where>
 					AND c.PRD_CODE =p.PRD_CODE
-					AND p.PRD_CODE = pf.PRD_CODE
+					AND p.PRD_CODE = pf.PRD_CODE(+)
 					AND B_CODE = #{user}
 				</where>
 				ORDER BY C_CODE
 			) PRD
 		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
@@ -100,7 +103,7 @@
 		)
 	</insert>
 	
-	<select id="buyerDaoselectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
+	<select id="buyerDaoselectOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
 		SELECT *
 		FROM (
 			SELECT rownum no, ORD.* FROM (
@@ -119,6 +122,9 @@
 				ORDER BY orddt_code DESC
 			) ORD
 		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
 	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
@@ -345,10 +351,10 @@
 			cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE =p.PRD_CODE
-			AND p.PRD_CODE = pf.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE(+)
 			AND B_CODE = #{user}
 		</where>
-		ORDER BY C_CODE
+		ORDER BY C_CODE DESC
     </select>
     
     <select id="selectCntOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="int">

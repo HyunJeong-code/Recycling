@@ -66,7 +66,6 @@
 					AND od.ord_code = o.ord_code
 					AND od.orddt_code = s.orddt_code(+)
 					AND od.prd_code = p.prd_code
-				    AND p.prd_OUT = 'N'
 				    AND p.ct_pno = 1
 				    AND p.s_code = #{user }
 				</where>
@@ -290,7 +289,6 @@
 			AND od.ord_code = o.ord_code
 			AND od.orddt_code = s.orddt_code(+)
 			AND od.prd_code = p.prd_code
-		    AND p.prd_OUT = 'N'
 		    AND p.ct_pno = 0
 		    AND p.s_code = #{user }
 		    AND (
@@ -327,7 +325,6 @@
 			AND od.ord_code = o.ord_code
 			AND od.orddt_code = s.orddt_code(+)
 			AND od.prd_code = p.prd_code
-		    AND p.prd_OUT = 'N'
 		    AND p.ct_pno = 1
 		    AND p.s_code = #{user }
 		    AND (

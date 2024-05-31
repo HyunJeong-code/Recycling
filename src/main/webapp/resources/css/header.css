@@ -89,9 +89,26 @@ li {
     border-radius: 0;
 }
 
+.select-page a {
+   cursor: pointer;	
+}
+ 
+
 .select-page .selected {
     background-color: #4CAF50;
     color: #fff;
+}
+
+.select-page a .selected {
+	color: #fff !important;
+}
+
+.select-page a:hover button {
+	background-color: #ccc;
+}
+
+.select-page a:hover .selected {
+	background-color: #4CAF50;
 }
 
 .search-bar {

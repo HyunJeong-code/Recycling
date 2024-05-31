@@ -112,7 +112,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 
 </head>
 <body>
-	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 	
 	<div class="full">
 	
@@ -216,7 +216,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		
 	</div>
 	
-	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 
 </body>
 </html>

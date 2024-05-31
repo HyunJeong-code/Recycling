@@ -19,7 +19,7 @@ $(function(){
     var header = $('.header');
     var headerOffset = header.offset().top;
 
-    $(window).scroll(function() {
+    /* $(window).scroll(function() {
         if ($(window).scrollTop() >= headerOffset+600) {
             if (!header.hasClass('fixed')) {
                 header.addClass('fixed').css('top', '-100px').animate({ top: 0 }, 300);
@@ -33,7 +33,7 @@ $(function(){
                 });
             }
         }
-    });
+    }); */
     
     // 페이지 로딩 시 sub-wrap을 숨긴 상태로 설정
     $(".sub-wrap").hide();
@@ -63,7 +63,7 @@ $(function(){
                 </ul>
             </div>
             <div class="logo">
-                <a href="#">
+                <a href="/buyer/main">
                     <img src="/resources/img/logo.png" alt="Logo">
                 </a>
             </div>
@@ -87,7 +87,7 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
-                    <button class="selected">Buyer</button><button>Seller</button>
+                    <a href="/buyer/main"><button class="selected">buyer</button></a><a href="/seller/main"><button>seller</button></a>
                 </div>
             </div>
             <div class="search-bar">
@@ -132,7 +132,7 @@ $(function(){
 	                <li><a href="">분류5</a></li>
 	            </ul>
 	            <ul>
-	                <li><a href="">체험단 예약</a></li>
+	                <li><a href="/buyer/exp/main">체험단 예약</a></li>
 	                <li><a href="">체험단 후기</a></li>
 	            </ul>
 	            <ul>

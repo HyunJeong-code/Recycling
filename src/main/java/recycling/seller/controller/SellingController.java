@@ -188,15 +188,36 @@ public class SellingController {
 	}
 	
 	@RequestMapping("/cydel")
-	public String upcyDel(@RequestParam(value = "arr[]") List<String> list) {
-		logger.info("{}",list);
-		
+	public String cyDel(@RequestParam(value = "arr[]") List<String> list) {
+
 		
 		for(String prdCode : list) {
 			int deleteRes = sellingService.deletePrd(prdCode);  
 		}
 		
 		return "jsonView";
+	}
+	
+	@RequestMapping("/upcydel")
+	public String upcyDel(String prdCode, Model model) {
+
+		int deleteRes = sellingService.deletePrd(prdCode);
+		
+		model.addAttribute("msg", "상품이 삭제되었습니다.");
+		model.addAttribute("url", "/seller/selling/upcylist");
+		return "/layout/alert";
+		
+	}
+	
+	@RequestMapping("/rcydel")
+	public String rcyDel(String prdCode, Model model) {
+
+		int deleteRes = sellingService.deletePrd(prdCode);
+		
+		model.addAttribute("msg", "상품이 삭제되었습니다.");
+		model.addAttribute("url", "/seller/selling/rcylist");
+		return "/layout/alert";
+		
 	}
 	
 	@RequestMapping("/cyupdate")
@@ -213,7 +234,7 @@ public class SellingController {
 		logger.info("list: {}",list);
 		logger.info("sttNo: {}",sttNo);
 		
-		if(sttNo == 980 || sttNo == 960) {
+		if(sttNo == 980) {
 			//토큰 발급
 			String token = sellingService.getToken();
 			
