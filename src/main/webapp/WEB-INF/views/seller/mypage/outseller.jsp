@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
     <div class="full">
         <div class="wrap">
             <div class="page">
