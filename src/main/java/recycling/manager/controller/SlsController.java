@@ -471,7 +471,8 @@ public class SlsController {
 			){
 		//수정창 exp 내용 바꾸기
 		slsService.expUpdateProc(exp);
-
+		logger.info("controller: expfileUpdate{}",expfileUpdate);
+		logger.info("controller: expMultiFileUpdate{}",expMultiFileUpdate);
 		
 		//expfile 프로필 업데이트
 		if(expfileUpdate != null && !expfileUpdate.isEmpty()) {
@@ -497,8 +498,9 @@ public class SlsController {
 		}else {
 			logger.info("파일이 존재합니다.");
 		}
-		model.addAttribute("msg", "사원정보가 변경되었습니다.");
-		model.addAttribute("url", "redirect:manager/sls/expdetail?expCode=" + exp.getExpCode());
+		
+		model.addAttribute("msg", "체험정보가 변경되었습니다.");
+		model.addAttribute("url", "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode());
 		
 		return "/layout/alert";
 	}

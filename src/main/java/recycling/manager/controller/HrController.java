@@ -131,7 +131,7 @@ public class HrController {
 
 	//사원정보 업데이트창
 	@GetMapping("/empupdate")
-	public void empUpdate(
+	public String empUpdate(
 			Manager manager
 			, Model model
 			, MgrFile mgrFile
@@ -148,6 +148,7 @@ public class HrController {
 		Manager update = hrService.hrUpdateView(manager);
 		model.addAttribute("view", update);
 		
+		return "/manager/hr/empupdate";
 
 	}
 	
@@ -161,6 +162,8 @@ public class HrController {
 			, MultipartFile empFileUpdate
 			) {
 		logger.info("controller: empupdate[Post]");
+
+		logger.info("controller: {}",empFileUpdate);
 		
 		hrService.hrUpdate(manager);
 		
@@ -171,17 +174,17 @@ public class HrController {
 			mgrfile = hrService.updateProFileGet(empFileUpdate, manager);
 			mgrfile.setMgrFlNo(mgrFlNo);
 			mgrfile.setMgrCode(mgrCode);
-			logger.info("MgrFile : {}",mgrfile);
+			logger.info("MgrFile : {}", mgrfile);
 			
 			//파일 업데이트
 			hrService.updateProfileProc(mgrfile);
-			logger.info("파일이 없음 : {}",mgrfile);
+			logger.info("파일이 업데이트되었다 : {}",mgrfile);
 		}else {
 			logger.info("프로필이 존재합니다.");
 		}
 		
 		model.addAttribute("msg", "사원정보가 변경되었습니다.");
-		model.addAttribute("url", "redirect: /manager/hr/empupdate?mgrCode=" + mgrCode);
+		model.addAttribute("url", "/manager/hr/empdetail?mgrCode=" + mgrCode);
 		
 		return "/layout/alert";
 

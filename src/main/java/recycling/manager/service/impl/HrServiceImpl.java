@@ -199,21 +199,27 @@ public class HrServiceImpl implements HrService {
 	//업데이트창 파일가져오기
 	@Override
 	public MgrFile updateProFileGet(MultipartFile empFileUpdate, Manager manager) {
+		if(empFileUpdate.getSize() <= 0) {
+			logger.info("파일 없음");
+			
+			return null;
+		}
+		
 		
 		String mgrCode = manager.getMgrCode();
 
 		String storedPath = servletContext.getRealPath("upload");
 		File storedFolder = new File(storedPath);
 		storedFolder.mkdir();
-		String profileStoredName = null;
+		String storedName = null;
 		File destProfile = null;
 		
 		//저장될 파일명이 중복되지 않도록 반복
 		do {
-			profileStoredName = empFileUpdate.getOriginalFilename(); //원본 파일명
-			profileStoredName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+			storedName = empFileUpdate.getOriginalFilename(); //원본 파일명
+			storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
 			
-			destProfile = new File( storedFolder, profileStoredName );
+			destProfile = new File( storedFolder, storedName );
 		} while( destProfile.exists() );
 		try {
 			//업로드된 임시 파일을 upload 폴더로 옮기기
@@ -226,10 +232,10 @@ public class HrServiceImpl implements HrService {
 		
 	    //프로필 DB에 저장
         MgrFile profileFile = new MgrFile();
-        profileFile.setOriginName(empFileUpdate.getOriginalFilename());
-        profileFile.setStoredName(profileStoredName);
         profileFile.setMgrCode(mgrCode);
         profileFile.setctMflNo(1000); // document 데이터 1000
+        profileFile.setOriginName(empFileUpdate.getOriginalFilename());
+        profileFile.setStoredName(storedName);
 		
         return profileFile;
 
