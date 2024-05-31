@@ -32,7 +32,7 @@
 					cart c, prd p, prd_file pf
 				<where>
 					AND c.PRD_CODE =p.PRD_CODE
-					AND p.PRD_CODE = pf.PRD_CODE
+					AND p.PRD_CODE = pf.PRD_CODE(+)
 					AND B_CODE = #{user}
 				</where>
 				ORDER BY C_CODE
@@ -351,7 +351,7 @@
 			cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE =p.PRD_CODE
-			AND p.PRD_CODE = pf.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE(+)
 			AND B_CODE = #{user}
 		</where>
 		ORDER BY C_CODE DESC
