@@ -24,8 +24,6 @@ import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerQST;
 
 // 메뉴 - 재활용품
 @Controller
@@ -140,8 +138,8 @@ public class RecyclingController {
 		logger.info("/buyer/recycling/write [POST]");
 		
 		
-		int result = recyclingService.insertSellerQST(sellerQST);
-		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
+//		int result = recyclingService.insertSellerQST(sellerQST);
+//		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
 		
 		return "redirect:/buyer/recycling/rcycmt";
 	}

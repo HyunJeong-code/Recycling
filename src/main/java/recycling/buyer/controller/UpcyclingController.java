@@ -26,7 +26,6 @@ import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -90,16 +89,16 @@ public class UpcyclingController {
 		
 	}
 	
-	@GetMapping("/upcyvwlist")
-	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
-		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
-		
-		List<UpcyReview> upcyvwlist = upcyclingService.selectRvwList(prdCode);
-		
-		model.addAttribute("upcyvwlist", upcyvwlist);
-		
-		return "buyer/upcycling/upcyvwlist";
-	}
+//	@GetMapping("/upcyvwlist")
+//	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
+//		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
+//		
+//		List<UpcyReview> upcyvwlist = upcyclingService.selectRvwList(prdCode);
+//		
+//		model.addAttribute("upcyvwlist", upcyvwlist);
+//		
+//		return "buyer/upcycling/upcyvwlist";
+//	}
 	
 	@PostMapping("/cart")
 	public String addCart(String prdCode, int bCode,
