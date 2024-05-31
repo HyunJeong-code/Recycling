@@ -234,7 +234,7 @@ public class SellingController {
 		logger.info("list: {}",list);
 		logger.info("sttNo: {}",sttNo);
 		
-		if(sttNo == 980 || sttNo == 960) {
+		if(sttNo == 980) {
 			//토큰 발급
 			String token = sellingService.getToken();
 			

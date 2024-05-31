@@ -17,8 +17,10 @@
 
         //사이드바 하위메뉴 슬라이드
         $('#main_menu > li > a').mouseover(function(){
-            $('.snd_menu').slideUp('fast');
-            $(this).next($('.snd_menu')).slideToggle('fast');
+            $(this).next($('.snd_menu')).slideDown(500);
+        })
+        $('#main_menu > li > a').mouseleave(function(){
+            $(this).next($('.snd_menu')).slideUp(300);
         })
         
         // 마우스오버 색 변경
