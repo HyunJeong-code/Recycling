@@ -1,11 +1,12 @@
 package recycling.buyer.service.impl;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.MypageDao;
 import recycling.buyer.service.face.MypageService;
-import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
 import recycling.util.PagingAndCtg;
 
@@ -27,6 +29,7 @@ public class MypageServiceImpl implements MypageService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private MypageDao mypageDao;
+	@Autowired private ServletContext servletContext;
 	
 	@Override
 	public List<Map<String, Object>> selectQnaBybCode(PagingAndCtg paging) {
@@ -50,62 +53,105 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
-	public Oto getOtoDetail(String otoCode) {
+	public Oto getByOtoCode(String otoCode) {
 
-		return mypageDao.getOtoDetail(otoCode);
+		mypageDao.updateOtoHit(otoCode);
+		
+		return mypageDao.getByOtoCode(otoCode);
 	
 	}
 
 	@Override
-	public List<OtoFile> getOtoFile(String otoCode) {
+	public List<OtoCt> getAllOct() {
+
+		List<OtoCt> oct = mypageDao.getAllOct();
 		
-		return mypageDao.getOtoFile(otoCode);
-		
+		return oct;
+	
 	}
 	
 	@Override
-	public int insertOto(Oto oto, MultipartFile file) {
+	public List<OtoFile> getOtoFiles(String otoCode) {
 		
-		int result = mypageDao.insertOto(oto);
+		return mypageDao.getOtoFiles(otoCode);
 		
-		if(result > 0 && file != null && !file.isEmpty()) {
+	}
+
+	@Override
+	public Buyer getBuyerDetail(String bId) {
+		
+		return mypageDao.getBuyerDetail(bId);
+	
+	}
+
+	@Override
+	public int insertOto(Oto oto) {
+
+		return mypageDao.insertOto(oto);
+	
+	}
+
+	@Override
+	public OtoFile saveFile(MultipartFile mult, Oto oto) {
+
+		if(mult.getSize() <= 0) {
 			
-			OtoFile otoFile = new OtoFile();
-			String fileName = file.getOriginalFilename();
-			String storedName = System.currentTimeMillis() + "_" + fileName;
-			Path path = Paths.get("D:/uploads/", storedName);
+			logger.info("파일 없음");
 			
-			try {
-				
-				Files.createDirectories(path.getParent());
-				file.transferTo(path.toFile());
-				
-				otoFile.setOtoCode(oto.getOtoCode());
-				otoFile.setOriginName(fileName);
-				otoFile.setStoredName(storedName);
-				
-				mypageDao.insertOtoFile(otoFile);
-				
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-				
-				return 0;
-				
-			}
+			return null;
 			
 		}
 		
-		return result;
+		String storedPath = servletContext.getRealPath("upload");
+		
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		
+		String storedName = null;
+		
+		File dest = null;
+		
+		do {
+			
+			storedName = mult.getOriginalFilename();
+			
+			storedName += UUID.randomUUID().toString().split("-")[4];
+			logger.info("storedName : {}", storedName);
+			
+			dest = new File(storedFolder, storedName);
+			
+		} while(dest.exists());
+		
+		try {
+			mult.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		OtoFile otoFile = new OtoFile();
+		
+		otoFile.setOtoCode(oto.getOtoCode());
+		otoFile.setOriginName(mult.getOriginalFilename());
+		otoFile.setStoredName(storedName);
+		
+		return otoFile;
 	
 	}
 
 	@Override
+	public int insertOtoFiles(OtoFile otoFile) {
+
+		return mypageDao.insertOtoFiles(otoFile);
+	
+	}
+	
+	@Override
 	public int deleteOto(String otoCode) {
-		
-		mypageDao.deleteOtoFile(otoCode);
 
 		return mypageDao.deleteOto(otoCode);
 	
 	}
+
 }

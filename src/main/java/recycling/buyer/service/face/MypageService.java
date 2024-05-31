@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
 import recycling.util.PagingAndCtg;
 
@@ -52,7 +54,14 @@ public interface MypageService {
 	 * @param otoCode - 문의 코드
 	 * @return 조회된 문의 상세 정보
 	 */
-	public Oto getOtoDetail(String otoCode);
+	public Oto getByOtoCode(String otoCode);
+	
+	/**
+	 * 1:1 문의 상세 조회 분류
+	 * 
+	 * @return 1:1 문의 분류 리스트
+	 */
+	public List<OtoCt> getAllOct();
 	
 	/**
 	 * 1:1 문의 파일 조회
@@ -60,25 +69,47 @@ public interface MypageService {
 	 * @param otoCode - 문의 코드
 	 * @return 조회된 문의 파일 리스트
 	 */
-	public List<OtoFile> getOtoFile(String otoCode);
+	public List<OtoFile> getOtoFiles(String otoCode);
 
 	/**
-	 * 1:1 문의 작성
+	 * 개인 구매자 정보 조회
 	 * 
-	 * @param oto - 문의 정보
-	 * @param file - 첨부할 파일
-	 * @return 작성 결과
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
 	 */
-	public int insertOto(Oto oto, MultipartFile file);
+	public Buyer getBuyerDetail(String bId);
 
+	/**
+	 * 1:1 문의 게시글 작성을 위한 객체
+	 * 
+	 * @param oto - 1:1 문의글
+	 * @return
+	 */
+	public int insertOto(Oto oto);
+
+	/**
+	 * 파일 저장
+	 * 
+	 * @param mult - 저장할 파일
+	 * @param oto - 1:1 문의 정보
+	 * @return null: 실패, else: 성공
+	 */
+	public OtoFile saveFile(MultipartFile mult, Oto oto);
+
+	/**
+	 * 1:1 문의 업로드 한 파일 보여주기
+	 * 
+	 * @param otoFile - 파일 정보
+	 * @return 0: 실패, 1: 성공
+	 */
+	public int insertOtoFiles(OtoFile otoFile);
+	
 	/**
 	 * 1:1 문의 삭제
 	 * 
-	 * @param otoCode - 삭제할 문의 코드
-	 * @return 삭제 결과
+	 * @param otoCode - 1:1 문의 코드
+	 * @return 삭제된 행의 수
 	 */
 	public int deleteOto(String otoCode);
-
-	
 
 }

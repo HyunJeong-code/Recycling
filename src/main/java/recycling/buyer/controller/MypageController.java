@@ -1,5 +1,6 @@
 package recycling.buyer.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.MypageService;
+import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
 import recycling.util.PagingAndCtg;
 
@@ -90,30 +93,139 @@ public class MypageController {
 	
 	// 1:1 문의 상세 조회
 	@GetMapping("/otodetail")
-	public String otoDetail(
-			String otoCode,
+	public void otoDetail(
+			@RequestParam("otoCode") String otoCode,
 			Model model
 			) {
 		
-		logger.info("/buyer/mypage/otodetail [GET]");
+		Oto oto = mypageService.getByOtoCode(otoCode);
+		List<OtoCt> oct = mypageService.getAllOct();
+		List<OtoFile> otoFiles = mypageService.getOtoFiles(otoCode);
 		
-		Oto oto = mypageService.getOtoDetail(otoCode);
-		
-		List<OtoFile> otoFile = mypageService.getOtoFile(otoCode);
+		logger.info("Oto: {}", oto);
+	    logger.info("Oto Categories: {}", oct);
+	    logger.info("Oto Files: {}", otoFiles);
 		
 		model.addAttribute("oto", oto);
-		model.addAttribute("otoFile", otoFile);
+		model.addAttribute("oct",oct);
+		model.addAttribute("otoFiles",otoFiles);
 		
-		return "/buyer/mypage/otodetail";
+	}
+	
+	// 1:1 문의 작성 페이지
+	@GetMapping("/otoform")
+	public String otoform(
+			Authentication authentication,
+			Oto oto,
+			Model model
+			) {
+		
+		List<OtoCt> oct = mypageService.getAllOct();
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+		if(buyerLogin == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/mypage/myboard";
+			
+		}
+		
+		Buyer buyer = mypageService.getBuyerDetail(buyerLogin.getbId());
+		
+		oto.setbCode(buyer.getbCode());
+		oto.setOtoName(buyer.getbName());
+		oto.setOtoEmail(buyer.getbEmail());
+		
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("oto", oto);
+		model.addAttribute("oct", oct);
+		
+		return "/buyer/mypage/otoform";
+		
+	}
+	
+	// 1:1 문의 작성 처리
+	@PostMapping("/otoform")
+	public String otoFormProc(
+			Authentication authentication,
+			Oto oto,
+			@RequestParam("ct_otono") String ctOtoNo,
+			@RequestParam("detail") List<MultipartFile> detail,
+			Model model
+			) {
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+		if(buyerLogin == null) {
+			
+			model.addAttribute("error", "로그인 해주세요.");
+			
+			return "redirect:/buyer/login";
+			
+		}
+		
+		Buyer buyer = mypageService.getBuyerDetail(buyerLogin.getbId());
+		
+		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
+		oto.setbCode(buyer.getbCode());
+		oto.setOtoName(buyer.getbName());
+		oto.setOtoEmail(buyer.getbEmail());
+		
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("oto", oto);
+		
+		int res = mypageService.insertOto(oto);
+		
+		if(res > 0 && detail != null && !detail.isEmpty()) {
+			
+			List<OtoFile> otoFiles = new ArrayList<>();
+			
+			for(MultipartFile mult : detail) {
+				
+				OtoFile otoFile = mypageService.saveFile(mult, oto);
+				
+				if(otoFile != null) {
+					
+					otoFiles.add(otoFile);
+					
+				}
+				
+			}
+			
+			int resDetail = 0;
+			
+			for(OtoFile otoFile : otoFiles) {
+				
+				resDetail += mypageService.insertOtoFiles(otoFile);
+				
+			}
+			
+			if(resDetail == otoFiles.size()) {
+				
+				logger.info("파일 저장 성공");
+				
+			} else {
+				
+				logger.info("파일 저장 실패");
+				
+			}
+			
+		} else {
+			
+			logger.info("등록 실패");
+			
+		}
+		
+		return "redirect:/buyer/mypage/myboard";
 		
 		
 	}
 	
 	// 1:1 문의 삭제
 	@PostMapping("/otodel")
-	public String otoDel(String otoCode) {
-		
-		logger.info("/buyer/mypage/otodel [POST]");
+	public String otoDel(@RequestParam("otoCode") String otoCode) {
 		
 		int result = mypageService.deleteOto(otoCode);
 		
@@ -131,7 +243,10 @@ public class MypageController {
 	
 	// 판매자 문의 상세 조회
 	@GetMapping("/qnadetail")
-	public void qnaDetail() {
+	public void qnaDetail(
+			String qstCode,
+			Model model
+			) {
 		
 		
 		
@@ -145,21 +260,21 @@ public class MypageController {
 		
 	}
 	
-	// 판매자 문의 작성
-	@GetMapping("/qnaform")
-	public void qnaForm() {
-		
-		
-		
-	}
-	
-	// 판매자 문의 작성
-	@PostMapping("/qnaform")
-	public void qnaFormProc() {
-		
-		
-		
-	}
+//	// 판매자 문의 작성
+//	@GetMapping("/qnaform")
+//	public void qnaForm() {
+//		
+//		
+//		
+//	}
+//	
+//	// 판매자 문의 작성
+//	@PostMapping("/qnaform")
+//	public void qnaFormProc() {
+//		
+//		
+//		
+//	}
 	
 	// 판매자 문의 삭제
 	@PostMapping("/qnadel")
