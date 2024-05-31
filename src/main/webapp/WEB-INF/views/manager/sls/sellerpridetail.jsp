@@ -120,7 +120,7 @@ $(function() {
 </style>
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+<c:import url="../../../views/layout/manager/managerheader.jsp"/>
 <c:set var="seller" value="${seller }" />
 
 <div class="page">
@@ -186,7 +186,6 @@ $(function() {
 				</tr>
 			</table>	
 		</div> <!-- info End -->
-			
 	</div> <!-- main End -->
 </div> <!-- section End -->
 

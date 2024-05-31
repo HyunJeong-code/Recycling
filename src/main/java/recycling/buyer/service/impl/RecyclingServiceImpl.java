@@ -24,9 +24,14 @@ public class RecyclingServiceImpl implements RecyclingService {
 	@Autowired private RecyclingDao recyclingDao;
 	
 	@Override
-		public java.util.List<Seller> findSeller() {
-			return recyclingDao.findSeller();
-		}
+	public List<Seller> findSeller() {
+		return recyclingDao.findSeller();
+	}
+	
+	@Override
+    public List<Prd> findRcyBySellerCode(String sCode) {
+        return recyclingDao.findRcyBySellerCode(sCode);
+    }
 	
 	@Override
 	public List<Prd> selectPrdList() {
@@ -55,6 +60,10 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 
 	@Override
+	public Seller getSeller(String sCode) {
+		return recyclingDao.selectSellerProfByCode(sCode);
+	}
+
 	public Seller selectSeller(String getsCode) {
 		return recyclingDao.selectSeller(getsCode);
 	}
@@ -96,13 +105,4 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.insertOto(oto);
 	}
 	
-//	@Override
-//	public List<SellerAns> selectSellerAnswers(String qstCode) {
-//		return recyclingDao.selectSellerAnswers(qstCode);
-//	}
-
-//	@Override
-//	public int insertSellerQST(SellerQST sellerQST) {
-//		return recyclingDao.insertSellerQST(sellerQST);
-//	}
 }

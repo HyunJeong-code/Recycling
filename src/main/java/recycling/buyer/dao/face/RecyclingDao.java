@@ -22,9 +22,19 @@ public interface RecyclingDao {
 	 */
 	public List<Seller> findSeller();
 	
+	/**
+	 * 판매자 코드로 재활용품 조회
+	 * 
+	 * @param sCode
+	 * @return
+	 */
+	public List<Prd> findRcyBySellerCode(String sCode);
+	
 	public List<Prd> selectPrdList();
 
 	public Prd selectPrd(String prdCode);
+
+	public Seller selectSellerProfByCode(String sCode);
 
 	public Seller selectSeller(String getsCode);
 

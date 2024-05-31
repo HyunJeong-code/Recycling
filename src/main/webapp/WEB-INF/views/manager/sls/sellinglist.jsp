@@ -168,11 +168,6 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 							</tbody>
 						</table>
 					</div><!-- section -->
-					
-					
-					
-					
-					
 		</div><!-- wrap -->
 	</div><!-- full -->
 </html>

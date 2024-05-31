@@ -7,6 +7,7 @@ import recycling.dto.seller.Seller;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.Seller;
 
 public interface RecyclingService {
 	
@@ -16,6 +17,14 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public List<Seller> findSeller();
+	
+	/**
+	 * 판매자 코드로 재활용품 조회
+	 * 
+	 * @param sCode
+	 * @return
+	 */
+	public List<Prd> findRcyBySellerCode(String sCode);
 	
 	 /** 제품 DTO에서 리스트를 불러온다
 	List<Seller> findSeller();
@@ -49,6 +58,8 @@ public interface RecyclingService {
 	 * @param prdCode 로드에 필요한 제품 코드
 	 * @return QnA
 	 */
+	public Seller getSeller(String sCode);
+
 	public List<Map<String, Object>> selectQnaList(String prdCode);
 
 	/**
@@ -66,7 +77,4 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int insertOto(Oto oto);
-
-
-
 }
