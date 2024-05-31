@@ -15,7 +15,7 @@
 		
 		<div class="section">
 			<p>회원 가입이 완료되었습니다.</p>
-			<button><a href="./main">메인으로</a></button>
+			<button><a href="/buyer/main">메인으로</a></button>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->

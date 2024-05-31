@@ -12,13 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import recycling.buyer.service.face.RecyclingService;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 
@@ -36,13 +39,12 @@ public class RecyclingController {
 	public String rcyMain(Model model) {
 		logger.info("/buyer/recycling/main [GET]");
 		
-		List<Prd> list = recyclingService.getPrdList();
+		List<Prd> list = recyclingService.selectPrdList();
 		
 		model.addAttribute("list", list);
 		
 		return "buyer/recycling/main";
 	}
-	
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/findseller", method = RequestMethod.GET)
@@ -86,8 +88,19 @@ public class RecyclingController {
         }
         
 	@GetMapping("/rcydetail")
-	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, HttpSession session) {
+	public String rcyDetail(
+			@RequestParam("prdcode") String prdCode,
+			Model model, HttpSession session) {
 		logger.info("/rcydetail [GET] - prdCode: {}", prdCode );
+		
+	    if (session.getAttribute("buyerLogin") != null) {
+	        // 세션이 존재하면 로그인 정보를 출력
+	        BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyerLogin");
+	        logger.info("상세페이지 조회 - 로그인 되어 있음, BuyerLogin 정보: {}", buyerLogin);
+	    } else {
+	        // 세션이 존재하지 않으면 비로그인 상태임을 안내
+	        logger.info("상세페이지 조회 - 비로그인 상태입니다.");
+	    }
 		
 		Prd prd = recyclingService.view(prdCode);
 		
@@ -95,15 +108,101 @@ public class RecyclingController {
 			return "buyer/recycling/noneprd";
 		}
 		
-		Seller sellerProf = recyclingService.getSeller(prd.getsCode());
+		Seller seller = recyclingService.selectSeller(prd.getsCode());
+//		SellerProf sellerProf = recyclingService.getSellerProf(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
-		model.addAttribute("sellerProf", sellerProf);
+		model.addAttribute("seller", seller);
+//		model.addAttribute("sellerProf", sellerProf);
+
+		List<Map<String, Object>> qna = recyclingService.selectQnaList(prdCode);
+		
+		if (qna == null || qna.isEmpty()) {
+			model.addAttribute("qnaMessage", "QnA가 존재하지 않습니다.");
+		} else {
+			model.addAttribute("qna", qna);
+			model.addAttribute("qnaSize", qna.size());
+		}
+		
+		model.addAttribute("prd", prd);
+		model.addAttribute("seller", seller);
 		
 		return "buyer/recycling/rcydetail";
 	}
 	
 
-	
+	@GetMapping("/rcycmt")
+	public String sellerQST(@RequestParam("qstCode") String qstCode, Model model) {
+		logger.info("/buyer/recycling/rcycmt [GET]");
+		
 
+		// 판매자 문의 조회 등의 기능 수행
+		return "buyer/recycling/rcycmt";
+	}
+	
+	@PostMapping("/write")
+	public String insertSellerQST(RedirectAttributes redirectAttributes) {
+		logger.info("/buyer/recycling/write [POST]");
+		
+		
+//		int result = recyclingService.insertSellerQST(sellerQST);
+//		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
+		
+		return "redirect:/buyer/recycling/rcycmt";
+	}
+	
+	
+	@PostMapping("/edit")
+	public String editSellerQST(RedirectAttributes redirectAttributes) {
+		logger.info("/buyer/recycling/edit [POST]");
+		
+//		int result = recyclingService.updateSellerQST(sellerQST);
+//		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
+		
+		return "redirect:/buyer/recycling/rcycmt";
+	}
+	
+	
+//	@PostMapping("/delete")
+//	public String deleteSellerQST(@RequestParam("qstCode") String qstCode, RedirectAttributes redirectAttributes) {
+//		logger.info("/buyer/recycling/delete [POST] - qstCode: {}", qstCode);
+//		
+//		int result = recyclingService.deleteSellerQST(qstCode);
+//		redirectAttributes.addAttribute("qstCode", qstCode);
+//		
+//		return "redirect:/buyer/recycling/rcycmt";
+//	}
+	
+	
+	@PostMapping("/rcycmt/writeAnswer")
+	public String writeSellerAnswer(RedirectAttributes redirectAttributes) {
+        logger.info("/buyer/recycling/rcycmt/writeAnswer [POST]");
+        
+//        int result = recyclingService.insertSellerAnswer(sellerAns);
+//        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
+//        
+        return "redirect:/buyer/recycling/rcycmt";
+    }
+	
+	
+	@PostMapping("/rcycmt/editAnswer")
+    public String editSellerAnswer(RedirectAttributes redirectAttributes) {
+        logger.info("/buyer/recycling/rcycmt/editAnswer [POST]");
+        
+//        int result = recyclingService.updateSellerAnswer(sellerAns);
+//        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
+        
+        return "redirect:/buyer/recycling/rcycmt";
+    }
+	
+//	@PostMapping("/rcycmt/deleteAnswer")
+//    public String deleteSellerAnswer(@RequestParam("qnaCode") String qnaCode, @RequestParam("qstCode") String qstCode, RedirectAttributes redirectAttributes) {
+//        logger.info("/buyer/recycling/rcycmt/deleteAnswer [POST] - qnaCode: {}", qnaCode);
+//        
+//        int result = recyclingService.deleteSellerAnswer(qnaCode);
+//        redirectAttributes.addAttribute("qstCode", qstCode);
+//        
+//        return "redirect:/buyer/recycling/rcycmt";
+//    }
+	
 }

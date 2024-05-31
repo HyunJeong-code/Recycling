@@ -1,18 +1,23 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
-import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 회원 정보 관련
 public interface BuyerService {
@@ -35,10 +40,10 @@ public interface BuyerService {
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 session
+	 * @param upPaging - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
-	public List<CartOrder> selectAllCart(String bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging);
 
 	/**
 	 * cCode로 Cart 조회하기
@@ -97,12 +102,28 @@ public interface BuyerService {
 	public int insertOrderDetail(OrderDetail orderDetail);
 
 	/**
-	 * 주문 상세 조회
+	 * 주문 상세 리스트 조회
 	 * 
-	 * @param bCode - 조회할 회원의 bCode
+	 * @param upPaging - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> selectOrderDetailBybCode(String bCode);
+	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging);
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문상세코드
+	 * @return - 주문 상세 내역
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
+	
+	/**
+	 * 거래 변경 사유
+	 * 
+	 * @param change - 거래 변경 DTO
+	 * @return INSERT 결과
+	 */
+	public int insertChange(Change change);
 
 	/**
 	 * 장바구니 수량 변경
@@ -135,85 +156,167 @@ public interface BuyerService {
 	 * @return 기업 구매자 정보
 	 */
 	public Cmp getCmpDetail(String bCode);
+
+	
+	
+	/**
+	 * 구매자 프로필 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 조회된 프로필 정보
+	 */
+	public BuyerProf getBuyerProf(String bCode);
+	
+	/**
+	 * 사업자 등록증 조회
+	 * 
+	 * @param cmpNo - 기업 번호
+	 * @return 조회된 사업자 등록증 정보
+	 */
+	public CmpFile getCmpFile(int cmpNo);
 	
 	/**
 	 * 구매자 비밀번호 확인
 	 * 
-	 * @param getbId - 구매자 아이디
-	 * @param password - 입력된 비밀번호
-	 * @return 비밀번호 일치 확인
+	 * param bId - 구매자 아이디
+	 * @param currentPw - 입력된 비밀번호
+	 * @return 비밀번호 일치 확인 (1: 일치, 0: 불일치)
 	 */
-	public boolean verifyPw(String getbId, String password);
-
+	public int verifyPw(String bId, String currentPw);
+	
 	/**
 	 * 구매자 비밀번호 변경
 	 * 
-	 * @param bId - 구매자 아이디
+	 * @param buyerLogin - 구매자 아이디
 	 * @param newPw - 새 비밀번호
 	 */
-	public void changePw(String bId, String newPw);
+	public int changePw(BuyerLogin buyerLogin, String newPw);
 	
 	/**
 	 * 개인 구매자 상세 정보 업데이트
 	 * 
 	 * @param buyer - 업데이트 할 구매자 정보
-	 * @return 
+	 * @return 업데이트된 구매자 정보
 	 */
-	public Buyer updateBuyerDetail(Buyer buyer);
+	public int updateBuyerDetail(Buyer buyer);
 	
 	/**
 	 * 기업 구매자 상세 정보 업데이트
 	 * 
-	 * @param buyer - 업데이트 할 구매자 정보
 	 * @param cmp - 업데이트 할 기업 정보
-	 * @return 
+	 * @return 업데이트 된 기업 정보
 	 */
-	public Cmp updateCmpDetail(Cmp cmp);
+	public int updateCmpDetail(Cmp cmp);
 	
 	/**
-	 * 구매자 배송지 조회
+	 * 구매자 프로필 업데이트
+	 * 
+	 * @param buyerProf - 업데이트 할 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProf(MultipartFile buyerProf, String bCode);
+	
+	/**
+	 * 사업자 등록증 업데이트
+	 * 
+	 * @param cmpFile - 업데이트 할 사업자 등록증
+	 * @param bCode - 구매자 코드
+	 * @return 업데이트 결과
+	 */
+	public int updateCmpFile(MultipartFile cmpFile, String bCode);
+	
+	/**
+	 * 구매자의 모든 배송지 정보
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 구매자 배송지 목록
+	 * @return 구매자의 모든 배송지 목록
 	 */
-	public List<BuyerAdr> getBuyerAdrList(String bCode);
+	public List<BuyerAdr> getBuyerAdr(String bCode);
 	
 	/**
-	 * 배송지 등록
+	 * 새로운 배송지 등록
 	 * 
 	 * @param buyerAdr - 등록할 배송지 정보
+	 * @return 등록된 행 수
 	 */
-	public void registerAdr(BuyerAdr buyerAdr);
-	
+	public int registerBuyerAdr(BuyerAdr buyerAdr);
+
 	/**
-	 * 배송지 수정
+	 * 기존 배송지 정보 수정
 	 * 
 	 * @param buyerAdr - 수정할 배송지 정보
+	 * @return 수정된 행 수
 	 */
-	public void updateAdr(BuyerAdr buyerAdr);
+	public int updateBuyerAdr(BuyerAdr buyerAdr);
 
 	/**
 	 * 배송지 삭제
 	 * 
 	 * @param adrCode - 삭제할 배송지 코드
+	 * @return 삭제된 행 수
 	 */
-	public void deleteAdr(String adrCode);
+	public int deleteBuyerAdr(String adrCode);
+
+	/**
+	 * 선택한 배송지를 기본 배송지로 설정
+	 * 
+	 * @param adrCode - 기본 배송지로 설정할 배송지 코드
+	 * @param bCode - 구매자 코드
+	 * @return 설정된 행 수
+	 */
+	public int unsetDefaultAdr(String bCode);	
 	
 	/**
-	 * 구매자 배송지 정보
+	 * 기본 배송지 설정
 	 * 
+	 * @param adrCode - 배송지 코드
 	 * @param bCode - 구매자 코드
-	 * @return 구매자 배송지 정보
+	 * @return 설정된 행 수
 	 */
-	public BuyerAdr getBuyerAdr(String bCode);
+	public int setDefaultAdr(String adrCode, String bCode);	
 	
 	/**
 	 * 구매자 탈퇴
 	 * 
 	 * @param bCode - 구매자 코드
+	 * @return 처리 결과
 	 */
-	public void deleteBuyer(String bCode);
+	public int deleteBuyer(String bCode);
+
+	/**
+	 * 구매자 등급 조회
+	 * 
+	 * @param rankNo - 구매자 등급 번호
+	 * @return 구매자 등급 정보
+	 */
 
 	public int changePw(BuyerLogin buyerLogin);
+	/**
+	 * 판매자 탈퇴
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return 처리 결과
+	 */
+	public int deleteSeller(String sCode);
+
+	
+	/**
+	 * Cart paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - upPaging 결과값
+	 */
+	public int selectCntAllCart(PagingAndCtg upPaging);
+
+	
+	/**
+	 * MyOrder paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - paging 결과
+	 */
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
+
+
 
 }

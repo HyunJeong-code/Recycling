@@ -7,13 +7,10 @@
 <meta charset="UTF-8">
 <title>체험 상세조회</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <style type="text/css">
-body {
-             font-family: Arial, sans-serif; 
+wrap {
              width: 700px;
              margin:200px;
         }
@@ -71,6 +68,8 @@ body {
 </style>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
+<div class="wrap">
 <h1>체험 상세조회</h1>
 <hr>
 
@@ -99,8 +98,10 @@ body {
 
 
 <div>
-	<button type="button"><a href="./explist">목록</a></button>
+	<button class="btn" type="button"><a href="./explist">목록으로</a></button>
 </div>
 
+</div>
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 </body>
 </html>

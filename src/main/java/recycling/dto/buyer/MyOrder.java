@@ -6,6 +6,12 @@ public class MyOrder {
 	private String ordCode;
 	private String prdCode;
 	private String ordName;
+	private String sendName;
+	private String sendPhone;
+	private String ordPostcode;
+	private String ordAddr;
+	private String ordDetail;
+	private String ordMemo;
 	private int ordPrice;
 	private int ordCnt;
 	private int ordSum;
@@ -16,13 +22,20 @@ public class MyOrder {
 	
 	public MyOrder() {}
 
-	public MyOrder(String orddtCode, String ordCode, String prdCode, String ordName, int ordPrice, int ordCnt,
-			int ordSum, int sttNo, String ordDate, String shipName, int shipNo) {
+	public MyOrder(String orddtCode, String ordCode, String prdCode, String ordName, String sendName, String sendPhone,
+			String ordPostcode, String ordAddr, String ordDetail, String ordMemo, int ordPrice, int ordCnt, int ordSum,
+			int sttNo, String ordDate, String shipName, int shipNo) {
 		super();
 		this.orddtCode = orddtCode;
 		this.ordCode = ordCode;
 		this.prdCode = prdCode;
 		this.ordName = ordName;
+		this.sendName = sendName;
+		this.sendPhone = sendPhone;
+		this.ordPostcode = ordPostcode;
+		this.ordAddr = ordAddr;
+		this.ordDetail = ordDetail;
+		this.ordMemo = ordMemo;
 		this.ordPrice = ordPrice;
 		this.ordCnt = ordCnt;
 		this.ordSum = ordSum;
@@ -35,8 +48,10 @@ public class MyOrder {
 	@Override
 	public String toString() {
 		return "MyOrder [orddtCode=" + orddtCode + ", ordCode=" + ordCode + ", prdCode=" + prdCode + ", ordName="
-				+ ordName + ", ordPrice=" + ordPrice + ", ordCnt=" + ordCnt + ", ordSum=" + ordSum + ", sttNo=" + sttNo
-				+ ", ordDate=" + ordDate + ", shipName=" + shipName + ", shipNo=" + shipNo + "]";
+				+ ordName + ", sendName=" + sendName + ", sendPhone=" + sendPhone + ", ordPostcode=" + ordPostcode
+				+ ", ordAddr=" + ordAddr + ", ordDetail=" + ordDetail + ", ordMemo=" + ordMemo + ", ordPrice="
+				+ ordPrice + ", ordCnt=" + ordCnt + ", ordSum=" + ordSum + ", sttNo=" + sttNo + ", ordDate=" + ordDate
+				+ ", shipName=" + shipName + ", shipNo=" + shipNo + "]";
 	}
 
 	public String getOrddtCode() {
@@ -69,6 +84,54 @@ public class MyOrder {
 
 	public void setOrdName(String ordName) {
 		this.ordName = ordName;
+	}
+
+	public String getSendName() {
+		return sendName;
+	}
+
+	public void setSendName(String sendName) {
+		this.sendName = sendName;
+	}
+
+	public String getSendPhone() {
+		return sendPhone;
+	}
+
+	public void setSendPhone(String sendPhone) {
+		this.sendPhone = sendPhone;
+	}
+
+	public String getOrdPostcode() {
+		return ordPostcode;
+	}
+
+	public void setOrdPostcode(String ordPostcode) {
+		this.ordPostcode = ordPostcode;
+	}
+
+	public String getOrdAddr() {
+		return ordAddr;
+	}
+
+	public void setOrdAddr(String ordAddr) {
+		this.ordAddr = ordAddr;
+	}
+
+	public String getOrdDetail() {
+		return ordDetail;
+	}
+
+	public void setOrdDetail(String ordDetail) {
+		this.ordDetail = ordDetail;
+	}
+
+	public String getOrdMemo() {
+		return ordMemo;
+	}
+
+	public void setOrdMemo(String ordMemo) {
+		this.ordMemo = ordMemo;
 	}
 
 	public int getOrdPrice() {

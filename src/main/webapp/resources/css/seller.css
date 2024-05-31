@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+.full {
+	width: 1200px;
+	margin: 0 auto;
+}
+
 button {
     border: none;
     width: 100px;
@@ -32,17 +37,8 @@ input[type="text"] {
     color: black;
 }
 
-.buyBtn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.selBtn {
+.btnLeft {
     background-color: #2D9BF0;
     color: white;
 }
 
-.mgrBtn {
-    background-color: #652CB3;
-    color: white;
-}

@@ -1,11 +1,13 @@
 package recycling.buyer.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
@@ -13,13 +15,12 @@ import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 
 @Service
+@Transactional
 public class RecyclingServiceImpl implements RecyclingService {
-
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired
-	private RecyclingDao recyclingDao;
-
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Autowired private RecyclingDao recyclingDao;
+	
 	@Override
 	public List<Seller> findSeller() {
 		return recyclingDao.findSeller();
@@ -30,18 +31,18 @@ public class RecyclingServiceImpl implements RecyclingService {
         return recyclingDao.findRcyBySellerCode(sCode);
     }
 	
-	public List<Prd> getPrdList() {
+	@Override
+	public List<Prd> selectPrdList() {
 		
 		List<Prd> prdList = recyclingDao.selectPrdList();
-		logger.info("getPrdList() - prdList size: {}", prdList.size());
+		logger.info("selectPrdList() - prdList size: {}", prdList.size());
 		for(Prd prd : prdList) {
-	        logger.info("getPrdList() - Prd: {}", prd);
+	        logger.info("selectPrdList() - Prd: {}", prd);
 	    }
 		
 		return prdList;
 	}
 
-	
 	@Override
 	public Prd view(String prdCode) {
 		
@@ -61,4 +62,24 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.selectSellerProfByCode(sCode);
 	}
 
+	public Seller selectSeller(String getsCode) {
+		return recyclingDao.selectSeller(getsCode);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectQnaList(String prdCode) {
+		
+		List<Map<String, Object>> qnaList = recyclingDao.selectQnaList(prdCode);
+	    if (qnaList != null && !qnaList.isEmpty()) {
+	        logger.info("selectRvwList() - qna list found for product code: {}", prdCode);
+	        for (Map<String, Object> qna : qnaList) {
+	            logger.info("selectQnaList() - qna: {}", qna);
+	        }
+	    } else {
+	        logger.info("selectQnaList() - No QnA found for product code: {}", prdCode);
+	    }
+		
+		return recyclingDao.selectQnaList(prdCode);
+	}
+	
 }

@@ -5,17 +5,58 @@
   
 <mapper namespace="recycling.seller.dao.face.QnaDao">
 
-	<select id="selecBysCode" parameterType="String" resultType="QstA">
-		SELECT
-			qst_code, ct_qstno, q.prd_code, q.b_code, qst_title, qst_content, qst_name, qst_email, qst_date, qst_hit
-			,(SELECT count(*) FROM qna a
-				WHERE a.qst_code = q.qst_code) AS qstA
-		FROM
-			qst q, prd p, seller s
+	<select id="selectQstBysCode" parameterType="String" resultType="QstA">
+		SELECT 
+			*
+		FROM (
+			SELECT rownum no, QST.* FROM (
+				SELECT
+					q.qst_code, ct_qstno, q.prd_code, q.b_code, qst_title, qst_content, qst_name, qst_email, qst_date, qst_hit, a.qna_code
+				FROM
+					qst q, prd p, seller s, qna a
+				<where>
+					AND s.s_code = p.s_code
+					AND p.prd_code = q.prd_code
+					AND q.qst_code = a.qst_code(+)
+		    		AND a.qna_code IS NULL
+					AND p.s_code = #{user}
+					AND (
+						qst_title LIKE '%' || #{search } || '%'
+						OR qst_content LIKE '%' || #{search } || '%'
+						)
+				</where>
+				ORDER BY qst_code DESC
+			) QST
+		)
 		<where>
-			AND s.s_code = p.s_code
-			AND p.prd_code = q.prd_code
-			AND p.s_code = #{sCode}
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectQstAllBysCode" parameterType="String" resultType="QstA">
+		SELECT 
+			*
+		FROM (
+			SELECT rownum no, QST.* FROM (
+				SELECT
+					q.qst_code, ct_qstno, q.prd_code, q.b_code, qst_title, qst_content, qst_name, qst_email, qst_date, qst_hit, a.qna_code
+				FROM
+					qst q, prd p, seller s, qna a
+				<where>
+					AND s.s_code = p.s_code
+					AND p.prd_code = q.prd_code
+					AND q.qst_code = a.qst_code(+)
+					AND p.s_code = #{user}
+					AND (
+						qst_title LIKE '%' || #{search } || '%'
+						OR qst_content LIKE '%' || #{search } || '%'
+						)
+				</where>
+				ORDER BY qst_code DESC
+			) QST
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
 
@@ -52,5 +93,36 @@
 			qna_code = #{qnaCode}
 		</where>
 	</delete>
+	
+	<select id="selectCntQstBysCode" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM
+		    qst q, prd p, seller s, qna a
+		<where>
+			AND s.s_code = p.s_code
+		    AND p.prd_code = q.prd_code
+		    AND q.qst_code = a.qst_code(+)
+		    AND a.qna_code IS NULL
+		    AND p.s_code = #{user}
+		    AND (
+				qst_title LIKE '%' || #{search } || '%'
+				OR qst_content LIKE '%' || #{search } || '%'
+				)
+	    </where>
+	</select>
+	
+	<select id="selectCntQstAllBysCode" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM
+		    qst q, prd p, seller s, qna a
+		<where>
+			AND s.s_code = p.s_code
+		    AND p.prd_code = q.prd_code
+		    AND q.qst_code = a.qst_code(+)
+		    AND p.s_code = #{user}
+   		    AND (
+				qst_title LIKE '%' || #{search } || '%'
+				OR qst_content LIKE '%' || #{search } || '%'
+				)
+	    </where>
+	</select>
 
 </mapper>

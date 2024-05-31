@@ -174,7 +174,7 @@ public class CsController {
 
 	    String mgrCode = (String) session.getAttribute("mgrCode");
 	    
-	    logger.info("11111111111111{}", mgrCode);
+	    logger.info("mgrCode: {}", mgrCode);
 	    
 	    if (mgrCode == null) {
 	        return "Manager code not found in session.";

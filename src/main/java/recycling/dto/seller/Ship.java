@@ -5,12 +5,12 @@ public class Ship {
 	private String shipCode;
 	private String ordCode;
 	private String shipName;
-	private int shipNo;
+	private String shipNo;
 	private String shipDate;
 	
 	public Ship() {}
 
-	public Ship(String shipCode, String ordCode, String shipName, int shipNo, String shipDate) {
+	public Ship(String shipCode, String ordCode, String shipName, String shipNo, String shipDate) {
 		this.shipCode = shipCode;
 		this.ordCode = ordCode;
 		this.shipName = shipName;
@@ -48,11 +48,11 @@ public class Ship {
 		this.shipName = shipName;
 	}
 
-	public int getShipNo() {
+	public String getShipNo() {
 		return shipNo;
 	}
 
-	public void setShipNo(int shipNo) {
+	public void setShipNo(String shipNo) {
 		this.shipNo = shipNo;
 	}
 

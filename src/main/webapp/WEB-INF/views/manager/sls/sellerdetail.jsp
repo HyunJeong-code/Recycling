@@ -12,11 +12,11 @@
 <div class="full">
 	<div class="wrap">
 		<div class="page">
-		<h3>판매자 상세 조회</h3>
+			<h3>판매자 상세 조회</h3>
 		</div>
 		
 		<div class="section">
-			<c:import url="/manager/sls/sellerpridetail.jsp"/>
+			<c:import url="../../../views/manager/sls/sellerpridetail.jsp"/>
 			<div id="main">
 				<div id="profImg">
 					<!-- 프로필 사진 없으면 기본 이미지 대체 -->
@@ -119,6 +119,6 @@
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->
-
+</div>
 </body>
 </html>

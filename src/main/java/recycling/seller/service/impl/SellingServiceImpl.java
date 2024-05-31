@@ -13,24 +13,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.Prd;
-import recycling.seller.dao.face.SellerDao;
-import recycling.dto.seller.AllPrd;
-import recycling.dto.seller.Exp;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
+@Transactional
 public class SellingServiceImpl implements SellingService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -48,18 +47,23 @@ public class SellingServiceImpl implements SellingService {
 //	}
 	
 	@Override
-	public List<Prd> selectAllrcyPrd(String sCode) {
-		return sellingDao.selectAllrcyPrd(sCode);
+	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllrcyPrd(upPaging);
 	}
 	
 	@Override
-	public List<MyOrder> selectAllMyOrder(String prdCode) {
-		return sellingDao.selectAllMyOrder(prdCode);
+	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging) {
+		return sellingDao.selectAllupcyMyOrder(unPaging);
 	}
 	
 	@Override
-	public List<Prd> selectAllupcyPrd(String sCode) {
-		return sellingDao.selectAllupcyPrd(sCode);
+	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging) {
+		return sellingDao.selectAllrcyMyOrder(unPaging);
+	}
+	
+	@Override
+	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllupcyPrd(upPaging);
 	}
 	
 	@Override
@@ -175,6 +179,20 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+	public MyOrder selectMyOrderByOrddtCode(String orddtCode) {
+		return sellingDao.selectMyOrderByOrddtCode(orddtCode);
+	}
+	
+	@Override
+	public int updateMyOrder(MyOrder myOrder) {
+		int res = sellingDao.updateMyOrder(myOrder);
+		if(myOrder.getShipNo() != 0 && myOrder.getShipName() != null) {
+			res *= sellingDao.insertShip(myOrder);
+		}
+		return res;
+	}
+	
+	@Override
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		
@@ -223,4 +241,28 @@ public class SellingServiceImpl implements SellingService {
 //		return sellingDao.selectResList(expCode, paging);
 //	}
 
+	
+	//paging Cnt
+	
+	@Override
+	public int selectCntAllrcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectCntAllrcyPrd(upPaging);
+	}
+	
+	@Override
+	public int selectCntAllrcyMyOrder(PagingAndCtg unPaging) {
+		return sellingDao.selectCntAllrcyMyOrder(unPaging);
+	}
+	
+	@Override
+	public int selectCntAllupcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectCntAllupcyPrd(upPaging);
+	}
+	
+	@Override
+	public int selectCntAllMyOrder(PagingAndCtg unPaging) {
+		return sellingDao.selectCntAllMyOrder(unPaging);
+	}
+	
+	//paging Cnt end
 }

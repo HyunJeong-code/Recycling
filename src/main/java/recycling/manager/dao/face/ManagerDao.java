@@ -58,4 +58,7 @@ public interface ManagerDao {
 	 * @return 관리자 프로필 정보
 	 */
 	public MgrFile selectByMgrProf(ManagerLogin mgr);
+
+	public int updatePw(String mgrCode, String mgrId, String mgrPw);
+
 }

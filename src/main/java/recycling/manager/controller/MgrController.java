@@ -5,7 +5,6 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
+import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
+import recycling.util.PagingAndCtg;
 
 // 관리자 메인 페이지 + 로그인, 회원가입 + 사원 전체 조회, 공지사항
 
@@ -37,6 +39,7 @@ public class MgrController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private MgrService mgrService;
 	@Autowired private JavaMailSenderImpl mailSender;
+	@Autowired private recycling.page.face.PageService pageService;
 	
 	@GetMapping("/main")
 	public String main(
@@ -144,29 +147,6 @@ public class MgrController {
 		logger.info("/manager/login [GET]");		
 	}
 	
-	//공지사항 전체조회
-	@GetMapping("/noticelist")
-	public void noticeList(
-			Model model
-			) {
-		//관리자 공지사항 전체조회
-		List<Notice> mgrNoticeList = mgrService.selectAll();
-		model.addAttribute("notice", mgrNoticeList);
-		logger.info("controller: noticeList[GET]");
-		
-		//페이징 계산, 검색기능
-//		Paging paging = mgrService.selectCntAll(pagingParam);
-		
-		//전체 조회기능
-		List<Notice> list = mgrService.selectAll();
-		
-		//JSP로 보내기
-//		model.addAttribute("paging", paging);
-		model.addAttribute("notice", list);
-		
-		logger.info("controller: noticelist : {}", list);
-	}
-	
 	@GetMapping("findid")
 	public void findId() {
 		logger.info("/manager/findid [GET]");
@@ -213,14 +193,77 @@ public class MgrController {
 		}
 	}
 	
+	//전체 사원조회
+	@GetMapping("/emplist")
+	public String empList(
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
+			) {
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = mgrService.selectCntAllempList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		//사원 전체조회
+		List<ManagerJoinDe> select = mgrService.selectAllempList(upPaging);
+		
+		//JSP로 보내기
+		model.addAttribute("select", select);
+		
+		//페이징
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/emplist");
+		
+		return "/manager/emplist";
+	}
+	
+	//공지사항 전체조회
+	@GetMapping("/noticelist")
+	public void noticeList(
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
+			) {
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = mgrService.selectCntAllNotice(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		//관리자 공지사항 전체조회
+		List<Notice> mgrNoticeList = mgrService.selectAllNotice(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		//JSP로 보내기
+		model.addAttribute("notice", mgrNoticeList);
+
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/noticelist"); //jsp 페이징
+		
+	}
+	
 	//공지사항 상세 조회
 	@GetMapping("/noticedetail")
 	public void noticeDetail(
 			String ntcCode
 			, Model model
 			) {
-			//관리자 공지사항 세부조회
-			Notice mgrNoticeList = mgrService.selectDetail(ntcCode);
-			model.addAttribute("view", mgrNoticeList);
+		//관리자 공지사항 세부조회
+		Notice mgrNoticeList = mgrService.selectDetail(ntcCode);
+		model.addAttribute("view", mgrNoticeList);
 	}
 }

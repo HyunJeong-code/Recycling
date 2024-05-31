@@ -109,7 +109,8 @@ public class BuyController {
 			BuyerAdr buyerAdr, 
 			MultipartFile buyerProf,
 			String sPhone, String inPhone, String mPhone, String lPhone,
-			String bEmail2, String inEmail
+			String bEmail2, String inEmail,
+			Model model
 			) {
 		logger.info("/buyer/prijoin [POST]");		
 		
@@ -123,52 +124,60 @@ public class BuyController {
 		
 		int res = buyService.insertBuyer(buyer);
 		
-		if(res > 0) {
-			// 회원 가입 성공
-			
-			int resProf = 0;
-			int resAdr = 0;
-			
-			// 프로필, 주소 입력 X
-			if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
-				return "/buyer/joinsuccess";
-			}
-			
-			// 프로필 삽입
-			if(!buyerProf.getOriginalFilename().equals("")) {
-				BuyerProf prof = buyService.fileSave(buyer, buyerProf);
-				if(prof != null) {
-					resProf = buyService.insertProf(prof);
-				} else {
-					// 회원 가입 실패
-					return "/buyer/prijoin";
-				}
-			}
-			
-			// 주소 삽입
-			if(!buyerAdr.getAdrPostcode().equals("")) {
-				buyerAdr = buyService.AdrProc(buyer, buyerAdr);
-				resAdr = buyService.insertAdr(buyerAdr);
-			}
-			
-			if(buyerProf.getOriginalFilename().equals("") && resAdr > 0) {
-				// 프로필 X, 주소 O
-				return "/buyer/joinsuccess";
-			} else if(resProf > 0 && buyerAdr.getAdrPostcode().equals("")) {
-				// 프로필 O, 주소 X
-				return "/buyer/joinsuccess";
-			} else if(resProf > 0 && resAdr > 0) {
-				// 프로필 O, 주소 O
-				return "/buyer/joinsuccess";
-			} else {
-				// 실패
-				return "/buyer/prijoin";
-			}
-		} else {
-			// 회원가입 실패
-			return "/buyer/prijoin";
+		// 회원 가입 성공
+		
+		int resProf = 0;
+		int resAdr = 0;
+		
+		// 프로필, 주소 입력 X
+		if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
+			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
+			model.addAttribute("url", "/buyer/login");
+			return "/layout/alert";
 		}
 		
+		// 프로필 삽입
+		if(!buyerProf.getOriginalFilename().equals("")) {
+			BuyerProf prof = buyService.fileSave(buyer, buyerProf);
+			if(prof != null) {
+				resProf = buyService.insertProf(prof);
+			} else {
+				model.addAttribute("msg", "[회원가입 실패] 입력 정보 확인이 필요합니다.");
+				model.addAttribute("url", "/buyer/prijoin");
+				return "/layout/alert";
+			}
+		}
+		
+		// 주소 삽입
+		if(!buyerAdr.getAdrPostcode().equals("")) {
+			buyerAdr = buyService.AdrProc(buyer, buyerAdr);
+			resAdr = buyService.insertAdr(buyerAdr);
+		}
+		
+		
+		if(buyerProf.getOriginalFilename().equals("") || buyerAdr.getAdrPostcode().equals("")) {
+			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
+			model.addAttribute("url", "/buyer/login");
+			return "/layout/alert";
+		}
+		
+		model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 로그인 페이지로 이동합니다.");
+		model.addAttribute("url", "/buyer/login");
+		return "/layout/alert";
+		
+		
+	}
+	
+	@PostMapping("/chkbid")
+	@ResponseBody
+	public int chkBid(String bId) {
+		logger.info("/buyer/chkbid [POST]");
+		
+		logger.info("id : {}", bId);
+		
+		int res = buyService.selectCntById(bId);
+		
+		return res;
 	}
 	
 	@GetMapping("/cmpjoin")
@@ -184,7 +193,8 @@ public class BuyController {
 			String sPhone, String inPhone, String mPhone, String lPhone,
 			String bEmail2, String inEmail,
 			Cmp cmp,
-			MultipartFile cmpFile
+			MultipartFile cmpFile,
+			Model model
 			) {
 		logger.info("/buyer/cmpjoin [POST]");
 		
@@ -204,74 +214,63 @@ public class BuyController {
 		cmp = buyService.cmpProc(buyer, cmp);
 		
 		int resCmp = 0; 
-		if(res > 0) {
-			// 기업 정보 처리
-			resCmp = buyService.insertCmp(cmp);			
-		} else {
-			return "/buyer/cmpjoin";
-		}
+		
+		// 기업 정보 처리
+		resCmp = buyService.insertCmp(cmp);			
 		
 		CmpFile file = null;
+		
 		int resFile = 0;
-		if(resCmp > 0) {
-			// 기업 첨부 파일 처리
-			file = buyService.cmpFileSave(cmp, cmpFile);
-			
-			if(file != null) {
-				resFile = buyService.insertCmpFile(file);				
-			} else {
-				return "/buyer/cmpjoin";
-			}
+		// 기업 첨부 파일 처리
+		file = buyService.cmpFileSave(cmp, cmpFile);
+		
+		if(file != null) {
+			resFile = buyService.insertCmpFile(file);				
 		} else {
-			return "/buyer/cmpjoin";			
+			model.addAttribute("msg", "[회원가입 실패] 입력 정보 확인이 필요합니다.");
+			model.addAttribute("url", "/buyer/cmpjoin");
+			return "/layout/alert";
+		}
+
+		// 회원 가입 성공
+		
+		int resProf = 0;
+		int resAdr = 0;
+		
+		// 프로필, 주소 입력 X
+		if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
+			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
+			model.addAttribute("url", "/buyer/login");
+			return "/layout/alert";
 		}
 		
-		
-		if(resFile > 0) {
-			// 회원 가입 성공
-			
-			int resProf = 0;
-			int resAdr = 0;
-			
-			// 프로필, 주소 입력 X
-			if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
-				return "/buyer/joinsuccess";
-			}
-			
-			// 프로필 삽입
-			if(!buyerProf.getOriginalFilename().equals("")) {
-				BuyerProf prof = buyService.fileSave(buyer, buyerProf);
-				if(prof != null) {
-					resProf = buyService.insertProf(prof);
-				} else {
-					// 회원 가입 실패
-					return "/buyer/cmpjoin";
-				}
-			}
-			
-			// 주소 삽입
-			if(!buyerAdr.getAdrPostcode().equals("")) {
-				buyerAdr = buyService.AdrProc(buyer, buyerAdr);
-				resAdr = buyService.insertAdr(buyerAdr);
-			}
-			
-			if(buyerProf.getOriginalFilename().equals("") && resAdr > 0) {
-				// 프로필 X, 주소 O
-				return "/buyer/joinsuccess";
-			} else if(resProf > 0 && buyerAdr.getAdrPostcode().equals("")) {
-				// 프로필 O, 주소 X
-				return "/buyer/joinsuccess";
-			} else if(resProf > 0 && resAdr > 0) {
-				// 프로필 O, 주소 O
-				return "/buyer/joinsuccess";
+		// 프로필 삽입
+		if(!buyerProf.getOriginalFilename().equals("")) {
+			BuyerProf prof = buyService.fileSave(buyer, buyerProf);
+			if(prof != null) {
+				resProf = buyService.insertProf(prof);
 			} else {
-				// 실패
-				return "/buyer/cmpjoin";
+				model.addAttribute("msg", "[회원가입 실패] 입력 정보 확인이 필요합니다.");
+				model.addAttribute("url", "/buyer/cmpjoin");
+				return "/layout/alert";
 			}
-		} else {
-			// 회원가입 실패
-			return "/buyer/cmpjoin";
 		}
+		
+		// 주소 삽입
+		if(!buyerAdr.getAdrPostcode().equals("")) {
+			buyerAdr = buyService.AdrProc(buyer, buyerAdr);
+			resAdr = buyService.insertAdr(buyerAdr);
+		}
+		
+		if(buyerProf.getOriginalFilename().equals("") || buyerAdr.getAdrPostcode().equals("")) {
+			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
+			model.addAttribute("url", "/buyer/login");
+			return "/layout/alert";
+		}
+		
+		model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 로그인 페이지로 이동합니다.");
+		model.addAttribute("url", "/buyer/login");
+		return "/layout/alert";
 	}
 	
 	@GetMapping("/login")
@@ -279,22 +278,22 @@ public class BuyController {
 		logger.info("/buyer/login [GET]");
 	}
 	
-	@PostMapping("/login")
-	public String loginProc(Buyer buyer, HttpSession session) {
-		logger.info("/buyer/login [POST]");
-		
-		logger.info("login : {}", buyer);
-		
-		BuyerLogin buyers = buyService.selectBybIdbPw(buyer);
-		
-		if(buyers != null && buyers.getbOut().equals("N")) {
-			session.setAttribute("buyers", buyers);
-			return "redirect:./main";
-		} else {
-			session.invalidate();
-			return "redirect:./loginfail";
-		}
-	}
+//	@PostMapping("/login")
+//	public String loginProc(Buyer buyer, HttpSession session) {
+//		logger.info("/buyer/login [POST]");
+//		
+//		logger.info("login : {}", buyer);
+//		
+//		BuyerLogin buyers = buyService.selectBybIdbPw(buyer);
+//		
+//		if(buyers != null && buyers.getbOut().equals("N")) {
+//			session.setAttribute("buyers", buyers);
+//			return "redirect:./main";
+//		} else {
+//			session.invalidate();
+//			return "redirect:./loginfail";
+//		}
+//	}
 	
 	@GetMapping("/loginfail")
 	public void loginFail() {
@@ -321,7 +320,7 @@ public class BuyController {
 		String bId = buyService.selectByBuyerId(buyer);
 		model.addAttribute("bId", bId);
 		
-		return "/buyer/infoid";
+		return "redirect:/buyer/infoid";
 	}
 	
 	@GetMapping("/infoid")
@@ -339,7 +338,8 @@ public class BuyController {
 			Model model, 
 			Buyer buyer, 
 			String sPhone, String inPhone, String mPhone, String lPhone,
-			String bEmail2, String inEmail
+			String bEmail2, String inEmail,
+			HttpSession session
 			) {
 		logger.info("/buyer/findpw [POST]");
 		
@@ -349,20 +349,34 @@ public class BuyController {
 		
 		buyer = buyService.selectByBuyerPw(buyer);
 		model.addAttribute("buyer", buyer);
-		if(buyer != null) {
-			model.addAttribute("buyer", buyer);
+		
+		if(buyer == null) {
+			session.setAttribute("chkBuyer", "false");			
+		} else {
+			session.setAttribute("chkBuyer", "true");						
 		}
 		
-		return "/buyer/changepw";
+		return "redirect:/buyer/changepw";
 	}
 	
 	@GetMapping("/changepw")
-	public void changePw() {
+	public String changePw(
+			HttpSession session
+			) {
 		logger.info("/buyer/changePw [GET]");
+		
+		if((Boolean) session.getAttribute("chkBuyer")) {
+			return "redirect:/buyer/changepw";
+		} else {
+			return "redirect:/buyer/findpw";
+		}
 	}
 	
 	@PostMapping("/changepw")
-	public String changePwProc(Buyer buyer) {
+	public String changePwProc(
+			Buyer buyer,
+			Model model
+			) {
 		logger.info("/buyer/changePw [POST]");
 		
 		// 비밀번호 암호화 처리 필요
@@ -371,11 +385,16 @@ public class BuyController {
 		int res = buyService.updatePw(buyer);
 		
 		if(res > 0) {
-			return "/buyer/login";
+			model.addAttribute("msg", "비밀번호 변경이 완료되었습니다. \n 로그인 페이지로 이동합니다.");
+			model.addAttribute("url", "/buyer/login");
+			return "/buyer/alert";
 		} else {
-			return "/buyer/findpw";
+			model.addAttribute("msg", "비밀번호 변경 실패했습니다. 재시도가 필요합니다.");
+			model.addAttribute("url", "/buyer/findpw");
+			return "/buyer/alert";
 		}
 	}
+	
 	@GetMapping("/buyerheader")
 	public void buyerHeader(
 			Model model,

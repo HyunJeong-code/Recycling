@@ -9,15 +9,38 @@
 <script type="text/javascript">
 $(function() {
 	
+	var rexPw = /[a-zA-Z0-9!@#$%]{8, 15}/;
+	
+	// 비밀번호
 	$("#mgrPw").blur(function() {
-// 		var mgrPw = $("#mgrPw").val();
-		
-// 		console.log("pw : " + mgrPw);
-		
 		if($("#mgrPw").val() == '') {
-			$("#infoPw").css("display", "block");			
+			$("#pw").css("display", "block");
 		} else {
-			$("#infoPw").css("display", "none");						
+			$("#pw").css("display", "none");
+			
+			if(rexPw.test($("#mgrPw"))) {
+				$("#chkPw").css("display", "block");				
+			} else {
+				$("#chkPw").css("display", "none");								
+			}
+		}
+	})
+	
+	// 비밀번호 확인
+	$("#newPw").blur(function() {
+		if($("#newPw").val() == '') {
+			$("#cfmPw").css("display", "block");			
+		} else {
+			$("#cfmPw").css("display", "none");
+			
+			// 비밀번호 일치
+			if($("#newPw").val() === $("#mgrPw").val()) {
+				$("#okPw").css("display", "block");				
+				$("#noPw").css("display", "none");				
+			} else {
+				$("#okPw").css("display", "none");				
+				$("#noPw").css("display", "block");				
+			}
 		}
 	})
 	
@@ -57,7 +80,7 @@ $(function() {
 			<form action="./changepw" method="post">
 				<label for="mgrPw">새 비밀번호</label>
 				<input type="text" id="mgrPw" name="mgrPw"><br>
-				<div id="infoPw" style="display: none; color: red;">비밀번호를 입력해주세요.</div>
+				<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
 				
 				<label for="newPw">새 비밀번호 확인</label>
 				<input type="text" id="newPw" name="newPw"><br>

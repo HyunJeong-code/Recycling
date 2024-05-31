@@ -7,9 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
+<!-- <link rel="stylesheet" href="../../../resources/css/manager/sls/explist.css"> -->
 </head>
 <body>
-<header class="header">
+	<header class="header">
         <div class="notice-banner">
             <a href="">공지사항</a>
         </div>
@@ -32,6 +33,6 @@
                 </ul>
            	</sec:authorize>
 		</div>
-</header>
+	</header>
 </body>
 </html>
