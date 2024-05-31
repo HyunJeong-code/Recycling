@@ -64,11 +64,12 @@ $(function() {
 					<th><input type="checkbox" id="allChk" name="allChk"></th>
 					<th>분류</th>
 					<th>판매자 번호</th>
-					<th>(담당자) 이름 / 상호명</th>
+					<th>상호명</th>
+					<th>(담당자) 이름</th>
 					<th>(담당자) 번호</th>
 					<th>(담당자) 이메일</th>
 					<th>상세 조회</th>
-					<th>수락 여부</th>
+					<th>수락/거절</th>
 				</tr>
 				
 				<c:if test="${listSize eq 0 }">
@@ -86,20 +87,21 @@ $(function() {
 							</td>
 							<td>${list.CT_CODE }</td>
 							<td>${list.S_CODE }</td>
-							<td>${list.B_NAME } / ${list.CMP_NAME }</td>
+							<td>${list.CMP_NAME }</td>
+							<td>${list.B_NAME }</td>
 							<td>${list.B_PHONE }</td>
 							<td>${list.B_EMAIL }</td>
 							<td>
 								<c:if test="${list.CT_CODE eq 'P'}">
-									<button id="sellerDt"><a href="/seller/sls/sellerpridetail?sCode=${list.S_CODE }">상세조회</a></button>
+									<button id="sellerDt"><a href="/manager/sls/sellerpridetail?sCode=${list.S_CODE }">상세조회</a></button>
 								</c:if>
 								<c:if test="${list.CT_CODE eq 'C'}">
-									<button id="sellerDt"><a href="/seller/sls/sellercmpdetail?sCode=${list.S_CODE }">상세조회</a></button>
+									<button id="sellerDt"><a href="/manager/sls/sellercmpdetail?sCode=${list.S_CODE }">상세조회</a></button>
 								</c:if>
 							</td>
 							<td>
-								<button id="selChk" name="selChk"><a href="/seller/sls/sellerchk?selChk=Y&sCode=${list.S_CODE }">수락</a></button>
-								<button id="selChk" name="selChk"><a href="/seller/sls/sellerchk?selChk=N&sCode=${list.S_CODE }">거절</a></button>
+								<button id="selChk" name="selChk"><a href="/manager/sls/sellerchk?selChk=Y&sCode=${list.S_CODE }">수락</a></button>
+								<button id="selChk" name="selChk"><a href="/manager/sls/sellerchk?selChk=N&sCode=${list.S_CODE }">거절</a></button>
 							</td>
 						</tr>
 					</c:forEach>

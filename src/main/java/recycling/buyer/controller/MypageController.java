@@ -64,6 +64,7 @@ public class MypageController {
 		model.addAttribute("qnaSize", qna.size());
 		model.addAttribute("upUrl", "/buyer/mypage/myboard");
 		
+		// 후기페이징
 		int unPage = mypageService.selectCntRvw(unPaging);
 		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
 		

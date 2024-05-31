@@ -90,8 +90,6 @@
 			</c:choose>
         </tbody>
     </table>
-    <c:import url="/WEB-INF/views/layout/paging.jsp"/>
-    
 </div>
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>

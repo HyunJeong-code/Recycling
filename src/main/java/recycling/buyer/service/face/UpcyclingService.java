@@ -1,6 +1,7 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
@@ -33,15 +34,6 @@ public interface UpcyclingService {
 	 */
 	public Seller selectSeller(String getsCode);
 
-
-	/**
-	 * 판매자 상세 프로필을 가져오는 코드
-	 * 
-	 * @param	getsCode 프라이머리키인 sCode
-	 * @return	판매자 상세 정보
-	 */
-//	public SellerProf selectSellerProf(String sCode);
-	
 	/**
 	 * 구매자 정보 로드
 	 * 
@@ -52,11 +44,11 @@ public interface UpcyclingService {
 
 	/**
 	 * 리뷰 DTO 로드
-	 * @param prdCode 
+	 * @param prdCode 제품번호
 	 * 
-	 * @return
+	 * @return 제품번호에 맞는 리뷰
 	 */
-	public List<UpcyReview> selectRvwList(String prdCode);
+	public List<Map<String, Object>> selectRvwList(String prdCode);
 
 	/**
 	 * 리뷰 상세 조회
@@ -68,11 +60,12 @@ public interface UpcyclingService {
 	/**
 	 * 리뷰 작성
 	 * 
-	 * @param rvwContent 리뷰 내용
-	 * @param prdCode 
-	 * @param buyer 작성자 로그인 정보
+	 * @param upcyContent 리뷰 내용
+	 * @param prdCode 제품고유코드
+	 * @param bCode buyerLogin 로그인 정보에 필요한 프라이머리키
+	 * @param upcyGrade 상품 평점
 	 */
-	public void insertReview(String rvwContent, String prdCode, Buyer buyer);
+	public void insertReview(String upcyContent, String prdCode, String bCode, int upcyGrade);
 
 	
 	/**

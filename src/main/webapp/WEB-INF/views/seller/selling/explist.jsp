@@ -114,7 +114,6 @@ th {
     </tbody>
 </table>
 </div>
-<c:import url="/WEB-INF/views/layout/paging.jsp"/>
 <c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 
 </body>

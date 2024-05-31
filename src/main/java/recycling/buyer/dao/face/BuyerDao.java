@@ -298,7 +298,6 @@ public interface BuyerDao {
 
 	public BuyerRank selectBuyerRank(int rankNo);
 
-	
 	/**
 	 * Cart paging
 	 * 

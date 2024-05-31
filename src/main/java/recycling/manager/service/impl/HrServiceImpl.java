@@ -15,10 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
 import recycling.manager.dao.face.HrDao;
 import recycling.manager.service.face.HrService;
-import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -29,28 +30,21 @@ public class HrServiceImpl implements HrService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private HrDao hrDao;
 	
-	//페이징 처리
+	//전체조회[main]
 	@Override
-	public Paging getPaging(int curPage) {
-		
-		//전체 페이지수 카운팅
-		int totalCount = hrDao.getPaging();
-		
-		//전체 페이지, 현재 페이지 담기
-		Paging paging = new Paging(totalCount, curPage);
-		
-		return paging;
-	}
-	
-	
-	//전체 사원조회
-	@Override
-	public List<Manager> selectAll() {
+	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging) {
 		logger.info("service: select");
 		
-	    return hrDao.selectAll();
+	    return hrDao.selectAllHr(upPaging);
 	}
 
+	//전체조회 페이징[main]
+	@Override
+	public int selectCntAllHr(PagingAndCtg upPaging) {
+		return hrDao.selectCntAllHr(upPaging);
+	}
+	
+	
 	//사원정보 상세조회
 	@Override
 	public Manager selectDetail(Manager manager) {
@@ -198,6 +192,9 @@ public class HrServiceImpl implements HrService {
 		return result;
 		
 	}
+
+
+
 
 
 

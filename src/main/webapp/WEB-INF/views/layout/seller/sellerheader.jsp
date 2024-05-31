@@ -48,22 +48,22 @@ $(function(){
                 </ul>
             </div>
             <div class="logo">
-                <a href="#">
+                <a href="/seller/main">
                     <img src="/resources/img/logo.png" alt="Logo">
                 </a>
             </div>
             <div class="nav-ul">
-                <ul>
-                    <li><a href="">로그인</a></li>
-                    <li><a href="">회원가입</a></li>
-                    <li><a href="">장바구니</a></li>
+           	 	<ul>
+                    <li><a href="/buyer/logout">로그아웃</a></li>
+                    <li><a href="/buyer/mypage/myboard">마이페이지</a></li>
+                    <li><a href="/buyer/mypage/cart">장바구니</a></li>
                 </ul>
             </div>
         </div>
         <div class="container">
             <div>
                 <div class="select-page">
-                    <button class="selected">buyer</button><button>seller</button>
+                    <a href="/buyer/main"><button>buyer</button></a><a href="/seller/main"><button class="selected">seller</button></a>
                 </div>
             </div>
             <div class="search-bar">
