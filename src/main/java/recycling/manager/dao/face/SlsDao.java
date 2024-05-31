@@ -91,8 +91,6 @@ public interface SlsDao {
 	 */
 	public List<ResSchCnt> selectByResCnt(String expCode);
 	
-	
-	
 	/**
 	 * 
 	 * 체험단 등록
