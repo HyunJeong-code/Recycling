@@ -4,10 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.seller.Seller;
+import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.Oto;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
-import recycling.dto.seller.SellerQST;
 
 public interface RecyclingService {
 	
@@ -48,62 +47,23 @@ public interface RecyclingService {
 	 */
 	public List<Map<String, Object>> selectQnaList(String prdCode);
 
+	/**
+	 * 개인 구매자 정보 조회
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
+	 */
+	public Buyer selectBuyerDetail(String bId);
 
 	/**
-	 * 판매자 문의 작성
+	 * 파일 정보 DB에 삽입
 	 * 
-	 * @param sellerQST 판매자 문의
-	 * @return 
-	 */
-	public int insertSellerQST(SellerQST sellerQST);
-
-	/**
-	 * 판매자 문의 리스트를 조회
-	 * @param qstCode 판매자 문의 코드
-	 * @return	핀메매지 문의 리스트
-	 */
-	public List<SellerAns> selectSellerAnswers(String qstCode);
-	
-	/**
-	 * 판매자 문의 수정
-	 * 
-	 * @param sellerQST 판매자 문의
-	 * @return 
-	 */
-	public int updateSellerQST(SellerQST sellerQST);
-
-	/**
-	 * 판매자 문의 삭제
-	 * 
-	 * @param qstCode 문의 코드
-	 * @return 
-	 */
-	public int deleteSellerQST(String qstCode);
-
-	/** 
-	 * 판매자 문의 답변 작성
-	 * 
-	 * @param sellerAns
+	 * @param oto
 	 * @return
 	 */
-	public int insertSellerAnswer(SellerAns sellerAns);
+	public int insertOto(Oto oto);
 
-	/**
-	 * 판매자 문의 답변 수정
-	 * 
-	 * @param sellerAns
-	 * @return
-	 */
-	public int updateSellerAnswer(SellerAns sellerAns);
 
-	
-	/**
-	 * 판매자 문의 답변 삭제
-	 * 
-	 * @param qnaCode
-	 * @return
-	 */
-	public int deleteSellerAnswer(String qnaCode);
 
 
 	

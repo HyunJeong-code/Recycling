@@ -36,55 +36,38 @@
 	</select>
 	
 	<select id="selectQnaList"	resultType="hashmap">
-	    SELECT * FROM qst
+	    SELECT qst.*, COALESCE(qst_hit, 0) AS qstHit -- qst_hit이 null인 경우 0으로 설정
+	    FROM qst
 	    WHERE PRD_CODE = #{prdCode}
 	</select>
 	
-	
-	<insert id="insertSellerQST" parameterType="SellerQST">
-        INSERT INTO SELLER_QST (QST_CODE, CT_QSTNO, PRD_CODE, B_CODE, QST_TITLE, QST_CONTENT, QST_NAME, QST_EMAIL, QST_DATE, QST_HIT)
-        VALUES (#{qstCode}, #{CTqstno}, #{PrdCode}, #{bCode}, #{qstTitle}, #{qstContent}, #{qstName}, #{qstEmail}, #{qstDate}, #{qstHit})
-    </insert>
-    
-	<update id="updateSellerQST" parameterType="SellerQST">
-		UPDATE SELLER_QST
-		SET CTQSTNO = #{CTqstno},
-			PRD_CODE = #{PrdCode},
-			B_CODE = #{bCode},
-			QST_TITLE = #{qstTitle},
-			QST_CONTENT = #{qstContent},
-			QST_NAME = #{qstName},
-			QST_EMAIL = #{qstEmail},
-			QST_DATE = #{qstDate},
-			QST_HIT = #{qstHit}
-        WHERE QST_CODE = #{qstCode}
-    </update>
-    
-    <delete id="deleteSellerQST">
-		DELETE FROM SELLER_QST
-		WHERE QST_CODE = #{qstCode}
-	</delete>
-	
-	<select id="selectSellerAnswers" resultType="recycling.dto.seller.SellerAns">
-		SELECT * FROM SELLER_ANS
-		WHERE QST_CODE = #{qstCode}
+	<select id="selectBuyerByBCode" resultType="Buyer">
+	    SELECT * FROM buyer
+	    WHERE B_CODE = #{bCode}
 	</select>
 	
-	<insert id="insertSellerAnswer" parameterType="recycling.dto.seller.SellerAns">
-		INSERT INTO SELLER_ANS (QNA_CODE, QST_CODE, S_CODE, QNA_CONTENT, QNA_DATE)
-		VALUES (#{qnaCode}, #{qstCode}, #{sCode}, #{qnaContent}, #{qnaDate})
+	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT B_Code AS bCode,
+		       B_Ct_Code AS bCtCode,
+		       B_Id AS bId,
+		       B_Pw AS bPw,
+		       B_Name AS bName,
+		       B_Phone AS bPhone,
+		       B_Email AS bEmail,
+		       Ad_Sms AS adSms,
+		       Ad_Email AS adEmail
+		FROM Buyer
+		<where>
+			AND B_Id = #{bId }
+		</where>
+	</select>
+	
+	<insert id="insertOto" parameterType="Oto" useGeneratedKeys="true" keyProperty="otoCode" keyColumn="oto_code">
+		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
+		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})
 	</insert>
 	
-	<update id="updateSellerAnswer" parameterType="recycling.dto.seller.SellerAns">
-		UPDATE SELLER_ANS
-		SET QNA_CONTENT = #{qnaContent},
-			QNA_DATE = #{qnaDate}
-		WHERE QNA_CODE = #{qnaCode}
-	</update>
 	
-	<delete id="deleteSellerAnswer">
-		DELETE FROM SELLER_ANS
-		WHERE QNA_CODE = #{qnaCode}
-	</delete>
+
 
 </mapper>
