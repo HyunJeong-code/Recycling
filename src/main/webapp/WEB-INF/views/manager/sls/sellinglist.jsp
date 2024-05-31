@@ -213,11 +213,6 @@ $(function() {
 							</div>
 							
 					</div><!-- section -->
-					
-					
-					
-					
-					
 		</div><!-- wrap -->
 	</div><!-- full -->
 </html>

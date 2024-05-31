@@ -147,8 +147,6 @@ public class MgrController {
 		logger.info("/manager/login [GET]");		
 	}
 	
-	
-	
 	@GetMapping("findid")
 	public void findId() {
 		logger.info("/manager/findid [GET]");
@@ -213,7 +211,6 @@ public class MgrController {
 		
 		int upPage = mgrService.selectCntAllempList(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-
 		
 		//사원 전체조회
 		List<ManagerJoinDe> select = mgrService.selectAllempList(upPaging);

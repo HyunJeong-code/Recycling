@@ -28,18 +28,7 @@ public interface HrDao {
 	 * @return
 	 */
 	public int selectCntAllHr(PagingAndCtg upPaging);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Manager mgrCode를 이용한 특정데이터 조회 
 	 * 

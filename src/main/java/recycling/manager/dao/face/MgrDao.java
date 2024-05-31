@@ -92,6 +92,4 @@ public interface MgrDao {
 	 */
 	public void hit(String ntcCode);
 
-	
-	
 }

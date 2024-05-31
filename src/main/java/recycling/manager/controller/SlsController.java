@@ -49,7 +49,8 @@ public class SlsController {
 	public void main(
 			@RequestParam(defaultValue = "0") int curPage
 			, @RequestParam(defaultValue = "") String search
-			, String category, Paging pagingParam, Model model) {
+			, String category, Paging pagingParam, Model model
+			, String prdCode) {
 
 		Paging paging = new Paging();
 
@@ -63,7 +64,7 @@ public class SlsController {
 
 		model.addAttribute("paging", paging);
 		model.addAttribute("main", main);
-
+		
 	}
 	
 	
