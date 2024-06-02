@@ -106,4 +106,35 @@
 		</where>
 		ORDER BY entdate
 	</select>
+	
+	<!-- 1:1 문의 상세 조회 -->
+	<select id="getByOtoCode" parameterType='string' resultType="recycling.dto.buyer.Oto">
+		SELECT * FROM Oto
+		WHERE Oto_Code = #{otoCode }
+	</select>
+	
+	<!-- 1:1 문의 분류 리스트 -->
+	<select id="getAllOct" resultType="recycling.dto.buyer.OtoCt">
+		SELECT * FROM Oto_Ct
+	</select>
+	
+	<!-- 1:1 문의 첨부 파일 리스트 조회 -->
+	<select id="getOtoFiles" parameterType="string" resultType="recycling.dto.buyer.OtoFile">
+		SELECT * FROM Oto_File
+		WHERE Oto_Code = #{otoCode }
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateOtoHit" parameterType="string">
+		UPDATE Oto
+		SET
+			Oto_Hit = Oto_Hit + 1
+		WHERE Oto_Code = #{otoCode }
+	</update>
+	
+	<!-- 1:1 문의 삭제 -->
+	<delete id="deleteOto" parameterType="string">
+		DELETE FROM Oto
+		WHERE Oto_Code = #{otoCode }
+	</delete>
 </mapper>

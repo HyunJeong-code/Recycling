@@ -4,7 +4,6 @@ import java.util.List;
 
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
@@ -12,7 +11,6 @@ import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Change;
-import recycling.dto.seller.Seller;
 import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
@@ -287,14 +285,6 @@ public interface BuyerDao {
 	public int deleteSeller(String sCode);
 	
 	/**
-	 * 판매자 찾기
-	 * 
-	 * @param sCode
-	 * @return
-	 */
-	public List<Seller> findSeller(String sCode);
-	
-	/**
 	 * Cart paging
 	 * 
 	 * @param upPaging - paging
@@ -309,5 +299,5 @@ public interface BuyerDao {
 	 * @return - paging 결과
 	 */
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
-
+	
 }

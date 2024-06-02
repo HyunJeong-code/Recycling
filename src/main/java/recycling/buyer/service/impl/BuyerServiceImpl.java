@@ -205,7 +205,7 @@ public class BuyerServiceImpl implements BuyerService {
 		BuyerProf prof = new BuyerProf();
         String originalFilename = buyerProf.getOriginalFilename();
         String storedName = System.currentTimeMillis() + "_" + originalFilename;
-        Path path = Paths.get(servletContext.getRealPath("/resources/image/") + storedName);
+        Path path = Paths.get(servletContext.getRealPath("D:/uploads/") + storedName);
         
         try {
             
@@ -240,7 +240,7 @@ public class BuyerServiceImpl implements BuyerService {
 	    CmpFile file = new CmpFile();
 	    String originalFilename = cmpFile.getOriginalFilename();
 	    String storedName = System.currentTimeMillis() + "_" + originalFilename;
-	    Path path = Paths.get(servletContext.getRealPath("/resources/cmpfile/") + storedName);
+	    Path path = Paths.get(servletContext.getRealPath("D:/uploads/") + storedName);
 
 	    try {
 
