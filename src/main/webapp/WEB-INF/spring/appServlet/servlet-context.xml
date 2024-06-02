@@ -39,7 +39,7 @@
 	
 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 	
-	<context:component-scan base-package="a.b.c, **.controller. **.service, **.aop" />
+	<context:component-scan base-package="a.b.c, **.controller. **.service, **.aop, **.page" />
 	
 	<!-- 파일 업로드(multipart/from-data)를 처리하는 스프링 빈 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -53,4 +53,6 @@
 		<beans:property name="maxUploadSizePerFile" value="5242880"/>
 	</beans:bean>
 	
+<!-- 	<beans:bean id="configFileAuthenticationdDetailsProvider" class="com.oracle.bmc.auth.ConfigFileAuthenticationdDetailsProvider"> -->
+<!-- 	</beans:bean> -->
 </beans:beans>

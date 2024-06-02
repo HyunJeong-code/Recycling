@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +11,13 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#btnCom").click(function() {
-            var ansContent = $("#ansContent").val();
+            var ansContent = $("#ansContent").val().trim();
             var otoCode = "${oto.otoCode}";
+
+            if (ansContent === "") {
+                alert("답글 내용을 입력해주세요");
+                return;
+            }
 
             console.log("ansContent: ", ansContent);
             console.log("otoCode: ", otoCode);
@@ -59,6 +65,18 @@
                         <th>답글 내용</th>
                         <td colspan="2">${list.ansContent }</td>
                     </tr>
+                    
+                    <tr>
+                        <th>작성일</th>
+                        <td>
+	                        <fmt:parseDate value="${list.ansDate }" var="ansDate" pattern="yyyy-MM-dd" />
+		                    <fmt:formatDate value="${ansDate }" pattern="yyyy-MM-dd" />
+	                    </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="3"><hr></td>
+                    </tr>
                 </c:forEach>
             </table>
         </c:if>
@@ -76,6 +94,7 @@
     <br>
     
     <a href="./otodel?otoCode=${oto.otoCode }"><button>문의글 삭제</button></a>
+    <a href="./main"><button>목록</button></a>
     
 </body>
 </html>

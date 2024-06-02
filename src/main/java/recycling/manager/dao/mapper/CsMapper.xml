@@ -96,7 +96,7 @@
 			SELECT 'ANS' || LPAD(qna_seq.nextval, 7, '0') FROM dual
 		</selectKey>
 		INSERT INTO ANS (ANS_CODE, OTO_CODE, MGR_CODE, ANS_CONTENT, ANS_DATE)
-		VALUES(#{ansCode }, #{otoCode }, 'MGR0000001', #{ansContent }, sysdate)
+		VALUES(#{ansCode }, #{otoCode }, #{mgrCode }, #{ansContent }, sysdate)
 	</insert>
 	
 	<!-- 문의글 삭제 -->

@@ -4,4 +4,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.seller.dao.face.SellDao">
+
+	<select id="selectSeller" parameterType="string" resultType="Seller">
+		SELECT * FROM seller
+		<where>
+			AND b_Code = #{bCode }
+		</where>
+	</select>
 </mapper>

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
@@ -16,6 +17,7 @@ import recycling.manager.service.face.CsService;
 import recycling.util.Paging;
 
 @Service
+@Transactional
 public class CsServiceImpl implements CsService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -25,7 +27,7 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public List<Oto> list(Paging paging) {
-		logger.info("service");
+//		logger.info("service");
 		return csDao.list(paging);
 	}
 
@@ -91,7 +93,7 @@ public class CsServiceImpl implements CsService {
 
 	@Override
 	public List<Ans> viewCom(String otoCode) {
-		logger.info("servocedddddddddddddddddddddd");
+//		logger.info("servocedddddddddddddddddddddd");
 		return csDao.viewCom(otoCode);
 	}
 
@@ -103,6 +105,5 @@ public class CsServiceImpl implements CsService {
 			return true;
 		}
 	}
-
 
 }

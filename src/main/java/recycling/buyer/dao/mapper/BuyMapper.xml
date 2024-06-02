@@ -4,4 +4,143 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.BuyDao">
+	
+	<select id="selectById" parameterType="string" resultType="BuyerLogin">
+		SELECT B.b_code, B.b_ct_code, B.b_id, B.b_pw, B.b_out, S.s_code, S.s_chk, S.s_out 
+		FROM buyer B, seller S
+		<where>
+			AND B.b_code = S.b_code(+)
+			AND B.b_id = #{username }
+		</where> 
+	</select>
+	
+	<select id="selectCntById" parameterType="string" resultType="int">
+		SELECT count(*) FROM buyer
+		<where>
+			AND b_id = #{bId }
+		</where>
+	</select>
+	
+	<insert id="insertBuyer" parameterType="Buyer" useGeneratedKeys="true" keyProperty="bCode" keyColumn="b_code">
+		INSERT INTO buyer (b_code, b_ct_code, rank_no, b_id, b_pw, b_name, b_phone, b_email, b_entdate, ad_sms, ad_email, b_out, b_out_date)
+		VALUES(
+			'BUY' || lpad(buyer_seq.nextval, 7, '0'),
+			#{bCtCode },
+			DEFAULT,
+			#{bId },
+			#{bPw },
+			#{bName },
+			#{bPhone },
+			#{bEmail },
+			sysdate,
+			#{adSms },
+			#{adEmail },
+			DEFAULT,
+			null
+		)
+	</insert>
+	
+	<select id="selectBybIdbPw" parameterType="Buyer" resultType="BuyerLogin">
+		SELECT B.b_code, B.b_ct_code, B.b_id, B.b_pw, B.b_out, S.s_code, S.s_chk, S.s_out 
+		FROM buyer B, seller S
+		<where>
+			AND B.b_code = S.b_code(+)
+			AND B.b_id = #{bId }
+			AND B.b_pw = #{bPw }
+		</where> 
+	</select>
+	
+	<select id="selectByBuyerId" parameterType="Buyer" resultType="string">
+		SELECT b_id FROM buyer
+		<where>
+			AND b_name = #{bName }
+			AND b_phone = #{bPhone }
+			AND b_email = #{bEmail }
+			AND b_out = 'N'
+		</where>
+	</select>
+	
+	<select id="selectByBuyerPw" parameterType="Buyer" resultType="Buyer">
+		SELECT b_code, b_ct_code, rank_no, b_id, b_pw, b_name, b_phone, b_email, b_entdate, ad_sms, ad_email, b_out, b_out_date
+		FROM buyer
+		<where>
+			AND b_id = #{bId }
+			AND b_name = #{bName }
+			AND b_phone = #{bPhone }
+			AND b_email = #{bEmail }
+			AND b_out = 'N'
+		</where>
+	</select>
+	
+	<update id="updatePw" parameterType="Buyer">
+		UPDATE buyer
+		SET b_pw = #{bPw }
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</update>
+	
+	<insert id="insertProf" parameterType="BuyerProf">
+		INSERT INTO buyer_prof (b_profno, b_code, origin_name, stored_name)
+		VALUES(
+			buyer_prof_seq.nextval,
+			#{bCode },
+			#{originName },
+			#{storedName }
+		)
+	</insert>
+	
+	<insert id="insertAdr" parameterType="BuyerAdr">
+		INSERT INTO buyer_adr (adr_code, b_code, adr_name, adr_phone, adr_postcode, adr_addr, adr_detail, adr_chk)
+		VALUES (
+			'ADR' || lpad(buyer_adr_seq.nextval, 7, '0'),
+			#{bCode },
+			#{adrName },
+			#{adrPhone },
+			#{adrPostcode },
+			#{adrAddr },
+			#{adrDetail },
+			'Y'
+		)
+	</insert>
+	
+	<insert id="insertCmp" parameterType="Cmp" useGeneratedKeys="true" keyProperty="cmpNo" keyColumn="cmp_no">
+		INSERT INTO cmp (cmp_no, b_code, cmp_name, cmp_ceo, cmp_num, cmp_postcode, cmp_addr, cmp_detail)
+		VALUES(
+			cmp_seq.nextval,
+			#{bCode },
+			#{cmpName },
+			#{cmpCeo },
+			#{cmpNum },
+			#{cmpPostcode },
+			#{cmpAddr },
+			#{cmpDetail }
+		)
+	</insert>
+	
+	<insert id="insertCmpFile" parameterType="CmpFile">
+		INSERT INTO cmp_file (cmp_flno, cmp_no, origin_name, stored_name)
+		VALUES (
+			cmp_file_seq.nextval,
+			#{cmpNo },
+			#{originName },
+			#{storedName }
+		)
+	</insert>
+	
+	<select id="selectNtc" resultType="hashmap">
+		SELECT NTC.rnum, NTC.ntc_code, NTC.title FROM (
+	    	SELECT rownum rnum, NTC.ntc_code, NTC.title FROM (
+		        SELECT ntc_title title, ntc_code ntc_code FROM notice
+		        <where>
+		        	AND ct_ntcno = 0
+		        </where>
+		        ORDER BY ntc_date
+	    		) NTC
+			) NTC
+		<where>
+			AND rnum BETWEEN 1 AND 5
+		</where> 
+	</select>
+	
 </mapper>
