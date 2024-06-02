@@ -21,6 +21,9 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
+import recycling.dto.buyer.Qst;
+import recycling.dto.buyer.QstCt;
+import recycling.dto.seller.Qna;
 import recycling.util.PagingAndCtg;
 
 @Service
@@ -152,6 +155,58 @@ public class MypageServiceImpl implements MypageService {
 
 		return mypageDao.deleteOto(otoCode);
 	
+	}
+
+	@Override
+	public List<QstCt> getAllQct() {
+
+		List<QstCt> qct = mypageDao.getAllQct();
+		
+		return qct;
+	
+	}
+	
+	@Override
+	public Qst getQstByqstCode(String qstCode) {
+
+		return mypageDao.getQstByqstCode(qstCode);
+	
+	}
+
+	@Override
+	public Qna getQnaByqstCode(String qstCode) {
+
+		return mypageDao.getQnaByqstCode(qstCode);
+
+	}
+
+//	@Override
+//	public int insertQna(Qna qna) {
+//
+//		return mypageDao.insertQna(qna);
+//	
+//	}
+
+	@Override
+	public int deleteQna(String qstCode) {
+
+		int result = mypageDao.deleteQna(qstCode);
+		
+        logger.info("deleteQna result: {}", result);
+        
+        return result;
+	
+	}
+	
+	@Override
+	public int deleteQst(String qstCode) {
+		
+		int result = mypageDao.deleteQst(qstCode);
+		
+        logger.info("deleteQst result: {}", result);
+        
+        return result;
+        
 	}
 
 }

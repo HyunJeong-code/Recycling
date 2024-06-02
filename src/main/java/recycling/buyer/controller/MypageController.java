@@ -22,6 +22,9 @@ import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
+import recycling.dto.buyer.Qst;
+import recycling.dto.buyer.QstCt;
+import recycling.dto.seller.Qna;
 import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 내 게시물 관련
@@ -98,13 +101,11 @@ public class MypageController {
 			Model model
 			) {
 		
+		logger.info("/buyer/mypage/otodetail [GET]");
+		
 		Oto oto = mypageService.getByOtoCode(otoCode);
 		List<OtoCt> oct = mypageService.getAllOct();
 		List<OtoFile> otoFiles = mypageService.getOtoFiles(otoCode);
-		
-		logger.info("Oto: {}", oto);
-	    logger.info("Oto Categories: {}", oct);
-	    logger.info("Oto Files: {}", otoFiles);
 		
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct",oct);
@@ -119,6 +120,8 @@ public class MypageController {
 			Oto oto,
 			Model model
 			) {
+		
+		logger.info("/buyer/mypage/otoform [GET]");
 		
 		List<OtoCt> oct = mypageService.getAllOct();
 		
@@ -155,6 +158,8 @@ public class MypageController {
 			@RequestParam("detail") List<MultipartFile> detail,
 			Model model
 			) {
+		
+		logger.info("/buyer/mypage/otoform [POST]");
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
@@ -227,6 +232,8 @@ public class MypageController {
 	@PostMapping("/otodel")
 	public String otoDel(@RequestParam("otoCode") String otoCode) {
 		
+		logger.info("/buyer/mypage/otodel [POST]");
+		
 		int result = mypageService.deleteOto(otoCode);
 		
 		if(result > 0) {
@@ -248,39 +255,110 @@ public class MypageController {
 			Model model
 			) {
 		
+		logger.info("/buyer/mypage/qnadetail [GET]");
 		
+		Qst qst = mypageService.getQstByqstCode(qstCode);
+		Qna qna = mypageService.getQnaByqstCode(qstCode);
+		List<QstCt> qct = mypageService.getAllQct();
 		
-	}
-	
-	// 판매자 문의 상세 조회
-	@PostMapping("/qnadetail")
-	public void qnaDetailProc() {
-		
-		
+		model.addAttribute("qna", qna);
+		model.addAttribute("qst", qst);
+		model.addAttribute("qct", qct);
 		
 	}
 	
 //	// 판매자 문의 작성
 //	@GetMapping("/qnaform")
-//	public void qnaForm() {
+//	public String qnaForm(
+//			Authentication authentication,
+//			@RequestParam("qstCode") String qstCode,
+//			Model model
+//			) {
 //		
+//		logger.info("/buyer/mypage/qnaform [GET]");
 //		
+//		Qst qst = mypageService.getQstByqstCode(qstCode);
+//		
+//		model.addAttribute("qst", qst);
+//		
+//		return "/buyer/mypage/qnaform";
 //		
 //	}
 //	
 //	// 판매자 문의 작성
 //	@PostMapping("/qnaform")
-//	public void qnaFormProc() {
+//	public String qnaFormProc(
+//			Authentication authentication,
+//			@RequestParam("qstCode") String qstCode,
+//			@RequestParam("qnaContent") String qnaContent,
+//			Model model
+//			) {
 //		
+//		logger.info("/buyer/mypage/qnaform [POST]");
+//		logger.info("qstCode: {}, qnaContent: {}", qstCode, qnaContent);
 //		
+//		if(qnaContent == null || qnaContent.trim().isEmpty()) {
+//			
+//			logger.info("qnaContent is null or empty");
+//			
+//			return "redirect:/buyer/mypage/qnadetail?qstCode=" + qstCode;
+//			
+//		}
+//		
+//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+//		
+//		if(buyerLogin == null) {
+//			
+//			model.addAttribute("error", "로그인 해주세요.");
+//			
+//			return "redirect:/buyer/login";
+//			
+//		}
+//		
+//		Qna qna = new Qna();
+//		
+//		qna.setQstCode(qstCode);
+//		qna.setsCode(buyerLogin.getsCode());
+//		qna.setQnaContent(qnaContent);
+//		
+//		int res = mypageService.insertQna(qna);
+//		logger.info("insertQna result: {}", res);
+//		
+//		if(res > 0) {
+//			
+//			logger.info("답변 삽입 성공");
+//			
+//		} else {
+//			
+//			logger.info("답변 삽입 실패");
+//			
+//		}
+//		
+//		return "redirect:/buyer/mypage/myboard";
 //		
 //	}
 	
 	// 판매자 문의 삭제
 	@PostMapping("/qnadel")
-	public void qnaDel() {
+	public String qnaDel(
+			@RequestParam("qstCode") String qstCode,
+			Model model
+			) {
 		
+		logger.info("/buyer/mypage/qnadel [POST]");
 		
+		int resQna = mypageService.deleteQna(qstCode);
+		int resQst = mypageService.deleteQst(qstCode);
+		
+		if(resQst > 0) {
+			
+			return "redirect:/buyer/mypage/myboard";
+			
+		} else {
+			
+			return "redirect:/buyer/mypage/qnadetail?qstCode=" + qstCode;
+			
+		}
 		
 	}
 	

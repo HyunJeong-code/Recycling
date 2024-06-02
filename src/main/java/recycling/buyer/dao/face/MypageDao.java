@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
+import recycling.dto.buyer.Qst;
+import recycling.dto.buyer.QstCt;
+import recycling.dto.seller.Qna;
 import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 내 게시물 관련 DB 처리
@@ -107,5 +109,52 @@ public interface MypageDao {
 	 * @return 삭제된 행의 수
 	 */
 	public int deleteOto(String otoCode);
+
+	/**
+	 * 판매자 분류
+	 * 
+	 * @return 판매자 분류 리스트
+	 */
+	public List<QstCt> getAllQct();
+	
+	/**
+	 * qstCode와 일치하는 Qst 조회
+	 * 
+	 * @param qstCode - 조회할 qstCode
+	 * @return 조회된 Qst 객체
+	 */
+	public Qst getQstByqstCode(String qstCode);
+
+	/**
+	 * qstCode와 일치하는 Qna 조회
+	 * 
+	 * @param qstCode - 조회할 qstCode
+	 * @return 조회된 Qna 객체
+	 */
+	public Qna getQnaByqstCode(String qstCode);
+
+//	/**
+//	 * Qna 작성
+//	 * 
+//	 * @param qna - 작성할 Qna 객체
+//	 * @return 삽입 결과
+//	 */
+//	public int insertQna(Qna qna);
+
+	/**
+	 * Qst 삭제
+	 * 
+	 * @param qstCode - 삭제할 qstCode
+	 * @return 삭제된 행의 수
+	 */
+	public int deleteQst(String qstCode);
+
+	/**
+	 * Qna 삭제
+	 * 
+	 * @param qnaCode - 삭제할 qnaCode
+	 * @return 삭제된 행의 수
+	 */
+	public int deleteQna(String qstCode);
 
 }

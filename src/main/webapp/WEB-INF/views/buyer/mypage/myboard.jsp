@@ -121,7 +121,7 @@ $(function() {
 									<a href="/buyer/mypage/otodetail?otoCode=${qna.CODE }">${qna.TITLE }</a>
 								</c:if>
 								<c:if test="${qna.CTG eq 'QST' }">
-									<a href="/buyer/help/detail?qstCode=${qna.CODE }">${qna.TITLE }</a>
+									<a href="/buyer/mypage/qnadetail?qstCode=${qna.CODE }">${qna.TITLE }</a>
 								</c:if>
 							</td>
 							

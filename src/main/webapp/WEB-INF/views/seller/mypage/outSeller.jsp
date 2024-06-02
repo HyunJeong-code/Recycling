@@ -4,20 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>outSeller</title>
 </head>
 <body>
+<div class="full">
+	<div class="wrap">
+		<div class="page">
 
-    <div class="full">
-        <div class="wrap">
-            <div class="page">
-            
-            </div>
-        
-            <div class="section">
-                
-            </div>
-        </div>
-    </div>
+		</div>
+		
+		<div class="section">
+		</div> <!-- section End -->
+	</div> <!-- wrap End -->
+</div> <!-- full End -->
+
 </body>
 </html>

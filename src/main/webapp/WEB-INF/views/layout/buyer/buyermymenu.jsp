@@ -18,8 +18,8 @@
 	    <ul>
 	        <li><a href="/buyer/mypage/cart">장바구니</a></li>
 	        <li><a href="">회원정보</a></li>
-	        <li><a href="">비밀번호 변경</a></li>
-	        <li><a href="">회원정보</a></li>
+	        <li><a href="/buyer/mypage/changepw">비밀번호 변경</a></li>
+	        <li><a href="">회원정보변경</a></li>
 	        <li><a href="/buyer/mypage/myorder">주문조회</a></li>
 	        <li><a href="/buyer/mypage/myboard">내 게시글</a></li>
 	    </ul>

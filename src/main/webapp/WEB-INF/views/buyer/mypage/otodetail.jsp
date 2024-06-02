@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>1:1문의 상세내용</title>
+<title>otodetail</title>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -44,80 +44,82 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
-
 </style>
 
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
-<div class="wrap">
 
-<div class="page_box">
-<h2>공지사항</h2>
-</div>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
-<div class="detail-container">
-	<div class="oto_header">
-		<table>
-			<tr>
-				<th>분류</th>
-				<td>
-				<c:forEach items="${oct }" var="otoct">
-				<c:if test="${otoct.ctOtoNo == oto.ctOtoNo }">
-                    ${otoct.ctOtoName }
-                </c:if>
-				</c:forEach>
-                </td>
-			</tr>
-	        <tr>
-	            <th>제목</th>
-	            <td>${oto.otoTitle }</td> 
-	        
-	            <th>작성자</th>
-	            <td>${oto.otoName }</td> 
-	        </tr>
-	        <tr>
-	            <th>작성일</th>
-	            <td>
-                	<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd HH:mm:ss" />
-               		<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd HH:mm:ss"/>
-                </td>
-	        
-	            <th>조회수</th>
-	            <td>${oto.otoHit }</td>
-	        </tr>
-    	</table>
-	</div>
+	<div class="wrap">
 	
-	<div class="oto_content">
-		<p>${oto.otoContent }</p>
-	</div>
+		<div class="page_box">
+			<h2>1:1 문의 상세조회</h2>
+			<hr>
+		</div>
 	
-	<div class="oto_file">
-		<c:forEach var="file" items="${otoFiles }">
-	        <c:choose>
-	            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') }">
-	                <img src="${pageContext.request.contextPath }/upload/${file.storedName }" alt="${file.originName }" style="max-width: 100%;">
-	            </c:when>
-	            <c:otherwise>
-	                <a href="${pageContext.request.contextPath }/upload/${file.storedName }">${file.originName }</a>
-	            </c:otherwise>
-	        </c:choose>
-	    </c:forEach>
+		<div class="detail-container">
+			<div class="oto_header">
+				<table>
+					<tr>
+						<th>분류</th>
+						<td>
+						<c:forEach items="${oct }" var="otoct">
+						<c:if test="${otoct.ctOtoNo == oto.ctOtoNo }">
+		                    ${otoct.ctOtoName }
+		                </c:if>
+						</c:forEach>
+		                </td>
+					</tr>
+			        <tr>
+			            <th>제목</th>
+			            <td>${oto.otoTitle }</td> 
+			        
+			            <th>작성자</th>
+			            <td>${oto.otoName }</td> 
+			        </tr>
+			        <tr>
+			            <th>작성일</th>
+			            <td>
+		                	<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd HH:mm:ss" />
+		               		<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd HH:mm:ss"/>
+		                </td>
+			        
+			            <th>조회수</th>
+			            <td>${oto.otoHit }</td>
+			        </tr>
+		    	</table>
+			</div>
+		
+			<div class="oto_content">
+				<p>${oto.otoContent }</p>
+			</div>
+		
+			<div class="oto_file">
+				<c:forEach var="file" items="${otoFiles }">
+			        <c:choose>
+			            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') }">
+			                <img src="${pageContext.request.contextPath }/upload/${file.storedName }" alt="${file.originName }" style="max-width: 100%;">
+			            </c:when>
+			            <c:otherwise>
+			                <a href="${pageContext.request.contextPath }/upload/${file.storedName }">${file.originName }</a>
+			            </c:otherwise>
+			        </c:choose>
+			    </c:forEach>
+			</div>
+		</div>
+	
+		<div>
+			<button class="btn" type="button" onclick="history.back();">목록으로</button>
+			<button class="btn" type="button"><a href="/buyer/mypage/otoform">1:1 문의 작성하기</a></button>
+			<form action="/buyer/mypage/otodel" method="post" style="display: inline;">
+				<input type="hidden" name="otoCode" value="${oto.otoCode }">
+				<button class="btn" type="submit">삭제하기</button>
+			</form>
+		</div>
 	</div>
-</div>
 
-<div>
-	<button class="btn" type="button" onclick="history.back();">목록으로</button>
-	<button class="btn" type="button"><a href="/buyer/mypage/myboard">내 문의글 목록으로</a></button>
-	<form action="/buyer/mypage/otodel" method="post" style="display: inline;">
-		<input type="hidden" name="otoCode" value="${oto.otoCode }">
-		<button class="btn" type="submit">삭제하기</button>
-	</form>
-</div>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 
-
-</div>
-<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>
