@@ -1,9 +1,9 @@
 package recycling.buyer.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +23,13 @@ import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
+import recycling.dto.manager.Ans;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
+import recycling.page.face.PageService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 메뉴 - 고객센터
 
@@ -36,6 +39,8 @@ public class HelpController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private HelpService helpService;
+	@Autowired private PageService pageService;
+	
 	
 	@GetMapping("/main")
 	public void main(
@@ -103,27 +108,44 @@ public class HelpController {
 	@GetMapping("/otolist")
 	public void otoList(
 			Model model,
-			@RequestParam(defaultValue = "0")int curPage, 
+			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
 			@RequestParam(defaultValue = "0") int ct_otono
 			) {
 		
-		Paging paging = helpService.getPaging(curPage);
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
+									
+		int upPage = helpService.selectCntAllOtoList(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 		
-		List<Oto> list;
+		logger.info("upPaging : {}", upPaging);
+		
+		List<Map<String, Object>> list;
+		
+//		if (ct_otono == 0) {
+//	        list = helpService.selectAllOto(upPaging);
+//	    } else {
+//	        list = helpService.selectByCtOto(Integer.toString(ct_otono),upPaging);
+//	    }
 		
 		if (ct_otono == 0) {
-	        list = helpService.selectAllOto();
+	        list = helpService.selectAllOto(upPaging);
 	    } else {
-	        // ct_otono 값에 해당하는 분류의 게시글만 가져오도록 함
-	        list = helpService.selectByCtOto(Integer.toString(ct_otono));
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("ctOtoNo", ct_otono);
+	        params.put("upPaging", upPaging);
+	        list = helpService.selectByCtOto(params);
 	    }
 		
 		List<OtoCt> ctlist = helpService.selectAllOtoCt();
 		
+		
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
-		model.addAttribute("paging", paging);
 		model.addAttribute("ctlist", ctlist);
+		model.addAttribute("upUrl", "/buyer/help/otolist");
 	}
 	
 	@GetMapping("/otoform")
@@ -166,8 +188,6 @@ public class HelpController {
 			Oto oto,
 			@RequestParam("ct_otono") String ctOtoNo, // 선택된 분류 값을 받음
 			@RequestParam("detail") List<MultipartFile> detail // 여러 파일 업로드 필드
-//			, @RequestParam("visibility") String visibility,
-//            @RequestParam(value = "password", required = false) String password
 			) {
 		
 		//회원 로그인 세션 정보
@@ -184,20 +204,11 @@ public class HelpController {
 		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
 		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
-//		boolean isPrivate = "private".equals(visibility);
 		
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
 		oto.setOtoEmail(buyer.getbEmail());
 		
-		//1:1문의 비공개시 비밀번호 입력
-//		oto.setVisibility(isPrivate ? "private" : "public");
-//		if (isPrivate) {
-//	        if (password == null || !password.equals(buyer.getbPw())) {
-//	            model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-//	            return "redirect:/buyer/help/otoform";
-//	        }
-//	    }
 		
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("oto", oto);
@@ -239,15 +250,19 @@ public class HelpController {
 			Model model,
 			String otoCode
 			) {
+		//문의 내용
 		Oto oto = helpService.selectByOtoCode(otoCode);
 		List<OtoCt> oct = helpService.getAllOct();
 		List<OtoFile> otoFiles = helpService.getOtoFiles(otoCode);
 		
-		
+		//답변 내용
+		Ans ans = helpService.selectAnsByOtoCode(otoCode);
 		
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct",oct);
 		model.addAttribute("otoFiles",otoFiles);
+		model.addAttribute("ans",ans);
+		
 		
 	}
 }

@@ -268,7 +268,6 @@ table .expName_fix_con{
 
 			<div class="section">
 			
-			</div>
 			<table>
 			    <thead>
 			        <tr>
@@ -277,8 +276,7 @@ table .expName_fix_con{
 			            <th>참가 비용</th>
 			            <th>조회수</th>
 			            <th>등록일</th>
-			            <th>예약 관리</th>
-			            <th>상세 조회</th>
+			            <th>상세 관리</th>
 			        </tr>
 			    </thead>
 			    <tbody>
@@ -292,14 +290,14 @@ table .expName_fix_con{
 			                	<fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
 			               		<fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 			                </td>
-			                <td><a href="./expresdetail?expCode=${exp.expCode }"><button class="btn">예약관리</button></a></td>
-			                <td><a href="./expdetail?expCode=${exp.expCode }"><button class="btn">상세 보기</button></a></td>
+			                <td><a href="./expdetail?expCode=${exp.expCode }"><button class="btn">상세 관리</button></a></td>
 			            </tr>
 			        </c:forEach>
 			    </tbody>
 			</table>
 		<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 		<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
+			</div>
 	</div>
 </div>
 </body>

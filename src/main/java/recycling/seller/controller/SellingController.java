@@ -364,7 +364,6 @@ public class SellingController {
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
 			@RequestParam(defaultValue = "") String sCtg,
-			HttpSession session,
 			Authentication authentication,
 			Exp exp
 			) {
@@ -448,18 +447,36 @@ public class SellingController {
 	}
 	
 	
+	//체험단 예약관리
 	@GetMapping("/expresdetail")
 	public void expResDetail(
 			Model model,
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam String expCode
-			
+			String expCode,
+			int schNo
 			) {
 		
-		Exp exp = sellingService.selectByExp(expCode);
+		//체험단 조회
+		Exp expView = sellingService.expResDetail(expCode);
+		model.addAttribute("exp", expView);
 		
-		model.addAttribute("exp", exp);
+		//체험예약 조회
+		ExpSch expSch = sellingService.selectExpSchbySchNo(schNo);
+		model.addAttribute("expSch", expSch);
+		
+		List<ExpRes> resList = sellingService.expResDetailRes(schNo);
+		model.addAttribute("resList", resList);
 
 		
 	}
+	
+	// 체험단 예약 확정,취소 변경
+		@PostMapping("/expresupdate")
+		public String expresupdate(@RequestParam("chBox[]") List<String> chBox, @RequestParam String actionType) {
+			
+			sellingService.expResUpdate(chBox, actionType);
+			
+			return "jsonView";
+		}
+	
+	
 }

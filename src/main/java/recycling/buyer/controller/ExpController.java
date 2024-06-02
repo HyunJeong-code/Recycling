@@ -31,7 +31,9 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
+import recycling.page.face.PageService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 메뉴 - 체험단
 
@@ -41,27 +43,34 @@ public class ExpController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private ExpService expService;
-	
+	@Autowired private PageService pageService;
 	
 	@RequestMapping("/main")
 	public void main(
 			Model model,
 			String expCode,
-			@RequestParam(defaultValue = "0")int curPage,
+			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
 			@RequestParam(defaultValue = "all") String category
 			
 			) {
-		Paging paging = expService.getSearchPaging(curPage, search);
-		logger.info("{}", paging);
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
+									
+		int upPage = expService.selectCntAllExpList(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+		
 		
 		List<Exp> list;
         if ("recent".equals(category)) {
-            list = expService.selectRecentExp(paging);
+            list = expService.selectRecentExp(upPaging);
         } else if ("popular".equals(category)) {
-            list = expService.selectPopularExp(paging);
+            list = expService.selectPopularExp(upPaging);
         } else {
-            list = expService.selectAllExp(paging);
+            list = expService.selectAllExp(upPaging);
         }
         
         Map<String, ExpFile> main = new HashMap<>();
@@ -80,13 +89,13 @@ public class ExpController {
         List<Exp> topRecList = expService.selectTopRecExp();
         
 
-        model.addAttribute("paging", paging);
+        model.addAttribute("upPaging", upPaging);
         model.addAttribute("list", list);
         model.addAttribute("topPopList", topPopList);
-        model.addAttribute("search", search);
         model.addAttribute("category", category);
         model.addAttribute("topRecList", topRecList);
         model.addAttribute("main", main);
+        model.addAttribute("upUrl", "/buyer/exp/main");
 	}
 	
 	@GetMapping("/expdetail")
@@ -95,7 +104,10 @@ public class ExpController {
 			Model model,
 			String sCode,
 			String bCode,
-			Authentication authentication
+			Authentication authentication,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg
 			) {
 		
 		Exp exp = expService.selectByExpCode(expCode);
@@ -131,10 +143,32 @@ public class ExpController {
 		BuyerProf buyerProf = expService.getBuyerProf(bCode);
 		
 		//체험단 후기
-//		List<ExpReview> expReviews = expService.selectRvwByExp(expCode);
+		
+//		PagingAndCtg upPaging = new PagingAndCtg();
+//		upPaging = pageService.upPageAll(curPage, sCtg, search);
+//		
+//		upPaging.setSearch(search);
+//		
+//		int upPage = expService.selectCntRvwList(upPaging, expCode);
+//		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+//		
+//		logger.info("upPaging : {}", upPaging);
+//		
+////		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode, upPaging);
+//		
+//		Map<String, Object> params = new HashMap<>();
+//	    params.put("expCode", expCode);
+//	    params.put("search", search);
+//	    
+//		List<Map<String, Object>> expReviews = expService.selectRvwByExp(params);
+//		logger.info("RVW : {}", expReviews);
+//		logger.info("RVW : {}", expReviews.size());
+		
+		//체험단 후기
 		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode);
 		logger.info("RVW : {}", expReviews);
 		logger.info("RVW : {}", expReviews.size());
+		
 		
 		boolean isLoggedIn = authentication != null && authentication.isAuthenticated();
 	    Buyer loggedInUser = null;
@@ -155,6 +189,8 @@ public class ExpController {
 		model.addAttribute("isLoggedIn", isLoggedIn);
 	    model.addAttribute("loggedInUser", loggedInUser);
 	    model.addAttribute("buyerProf", buyerProf);
+//	    model.addAttribute("upPaging", upPaging);
+//	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
 	}
 	
 	@PostMapping("/expdetail")

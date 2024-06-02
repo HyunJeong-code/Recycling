@@ -240,6 +240,32 @@ public interface SellingService {
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
 
+	/**
+	 * 체험정보
+	 * 
+	 * @param expRes
+	 * @return
+	 */
+	public Exp expResDetail(String expCode);
+
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+
+	/**
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes(int schNo);
+
+	public int expResUpdate(List<String> chBox, String actionType);
+
 	
 
 	

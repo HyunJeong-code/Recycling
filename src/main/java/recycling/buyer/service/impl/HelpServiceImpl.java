@@ -3,6 +3,7 @@ package recycling.buyer.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -20,10 +21,12 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
+import recycling.dto.manager.Ans;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -86,16 +89,6 @@ public class HelpServiceImpl implements HelpService {
 		return helpDao.selectAllOtoCt();
 	}
 
-	@Override
-	public List<Oto> selectAllOto() {
-		
-		return helpDao.selectAllOto();
-	}
-
-	@Override
-	public List<Oto> selectByCtOto(String string) {
-		return helpDao.selectByCtOto(string);
-	}
 
 	@Override
 	public List<OtoCt> getAllOct() {
@@ -178,6 +171,29 @@ public class HelpServiceImpl implements HelpService {
 		
 		return helpDao.chkSeller(bCode) > 0;
 	}
+
+	@Override
+	public int selectCntAllOtoList(PagingAndCtg upPaging) {
+		
+		return helpDao.selectCntAllOtoList(upPaging);
+	}
+
+	@Override
+    public List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging) {
+        return helpDao.selectAllOto(upPaging);
+    }
+
+
+	@Override
+	public List<Map<String, Object>> selectByCtOto(Map<String, Object> params) {
+		return helpDao.selectByCtOto(params);
+	}
+
+	@Override
+	public Ans selectAnsByOtoCode(String otoCode) {
+		return helpDao.selectAnsByOtoCode(otoCode);
+	}
+
 
 
 

@@ -5,10 +5,6 @@
   
 <mapper namespace="recycling.seller.dao.face.SellingDao">
 
-	<sql id="selectExp">
-	SELECT * FROM Exp
-	</sql>
-	
 	<select id="selectAllrcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="Prd">
 		SELECT *
 		FROM (
@@ -272,6 +268,31 @@
 	
 <!-- 	exp start -->
 
+	<sql id="selectExp">
+	SELECT * FROM Exp
+	</sql>
+	
+	<sql id="expBoard">
+	SELECT 
+    	exp_code, s_code, exp_name, exp_price, exp_detail, exp_hit, exp_date
+	FROM exp
+	</sql>
+	
+	<sql id="expResBoard">
+	SELECT
+		res_code, b_code, sch_no, res_name, res_phone
+		,res_email, res_expname, res_date, res_time, res_cnt
+		,res_price, res_sum, res_pay, pay_date, res_cnf
+		,res_cnl, res_dt
+	FROM exp_res
+	</sql>
+	
+	<sql id="expSchBoard">
+	SELECT
+		sch_no, exp_code, sch_date, sch_time, sch_cnt		
+	FROM exp_sch
+	</sql>
+	
 	<select id="selectMyExpList" resultType="Exp" parameterType="string">
 		SELECT * FROM (
 			SELECT rownum no, exp.* FROM (
@@ -352,5 +373,45 @@
     	</where>
     </select>
 	
+	<!-- 체험 예약페이지 정보 조회 -->
+	<select id="expResDetail" resultType="Exp" parameterType="String">
+		SELECT * FROM exp
+		<where>
+			exp_code = #{expCode }
+		</where>
+	</select>
+	
+	<!-- 체험 예약페이지 예약 조회 -->	
+	<select id="expResDetailRes" resultType="ExpRes" parameterType="int">
+		<include refid="expResBoard"/>
+		<where>
+			sch_no = #{schNo}
+		</where>
+		ORDER BY res_date
+	</select>
+	
+	<!-- expResDetail페이지 예약일정조회 -->
+	<select id="selectExpSchbySchNo" resultType="ExpSch" parameterType="int">
+		<include refid="expSchBoard"/>
+		<where>
+			sch_no = #{schNo}
+		</where>
+	</select>
+	
+	<!-- 예약 확정 버튼에 따른 상태변경 -->
+	<update id="expResCnf" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'Y' 
+	    ,res_cnl ='N'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
+	<!-- 예약 취소 버튼에 따른 상태변경 -->
+	<update id="expResCnl" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'N' 
+	    ,res_cnl ='Y'
+	    <where>res_code = #{resCode }</where>
+	</update>
 	
 </mapper>

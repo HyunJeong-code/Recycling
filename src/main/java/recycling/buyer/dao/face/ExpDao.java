@@ -12,42 +12,12 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 체험단 관련 DB 처리
 
 public interface ExpDao {
 
-	/**
-	 * 체험단 전체 리스트
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 체험단 List
-	 */
-	public List<Exp> selectAllExp(Paging paging);
-
-	/**
-	 * 검색된 데이터 개수
-	 * 
-	 * @param search - 데이터 입력
-	 * @return 입력된 데이터를 검색
-	 */
-	public int selectCntAll(String search);
-
-	/**
-	 * 최신순 체험단 전체 리스트
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 체험단 List
-	 */
-	public List<Exp> selectRecentExp(Paging paging);
-
-	/**
-	 * 인기순위 체험단 전체 리스트
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 체험단 List
-	 */
-	public List<Exp> selectPopularExp(Paging paging);
 
 	/**
 	 * 인기순 체험단 5개 리스트
@@ -149,13 +119,6 @@ public interface ExpDao {
 	 */
 	public ExpRes selectByResCode(String resCode);
 
-	/**
-	 * expCode가 일치하는 후기 리스트
-	 * 
-	 * @param expCode - 체험코드
-	 * @return expReview
-	 */
-	public List<Map<String, Object>> selectRvwByExp(String expCode);
 
 
 	/**
@@ -180,5 +143,59 @@ public interface ExpDao {
 	 * @return buyerProf
 	 */
 	public BuyerProf getBuyerProf(String bCode);
+
+	/**
+	 * exp paging
+	 * 
+	 * @param upPaging - paging
+	 * @return paging 결과
+	 */
+	public int selectCntAllExpList(PagingAndCtg upPaging);
+
+	/**
+	 * 최신순 체험단 전체 리스트
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 체험단 List
+	 */
+	public List<Exp> selectRecentExp(PagingAndCtg upPaging);
+
+	/**
+	 * 인기순위 체험단 전체 리스트
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 체험단 List
+	 */
+	public List<Exp> selectPopularExp(PagingAndCtg upPaging);
+
+	/**
+	 * 체험단 전체 리스트
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 체험단 List
+	 */
+	public List<Exp> selectAllExp(PagingAndCtg upPaging);
+
+	/**
+	 * expCode가 일치하는 후기 리스트
+	 * 
+	 * @param expCode - 체험코드
+	 * @param upPaging - paging
+	 * @return expReview
+	 */
+	public List<Map<String, Object>> selectRvwByExp(String expCode);
+//	public List<Map<String, Object>> selectRvwByExp(String expCode, PagingAndCtg upPaging);
+
+	/**
+	 * expCode가 일치하는 후기 리스트 페이징 
+	 * 
+	 * @param upPaging - paging
+	 * @return paging
+	 */
+//	public int selectCntRvwList(PagingAndCtg upPaging);
+
+//	public int selectCntRvwList(PagingAndCtg upPaging, String expCode);
+//
+//	public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params);
 
 }
