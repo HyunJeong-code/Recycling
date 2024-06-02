@@ -40,7 +40,9 @@ public class SellController {
 	         return "/seller/main";
 	      } else {
 	         // 로그인은 되어있으나 판매자가 아닌 경우
+//	    	  s_chk = null
 	         // 판매자 신청은 했으나 허가 되지 않은 경우
+//	    	  s_chk='N'
 	         return "/seller/sellerinfo";
 	      }
 	   }

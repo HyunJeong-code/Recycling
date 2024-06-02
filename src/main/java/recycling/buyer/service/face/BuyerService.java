@@ -16,6 +16,8 @@ import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 회원 정보 관련
 public interface BuyerService {
@@ -38,10 +40,10 @@ public interface BuyerService {
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 session
+	 * @param upPaging - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
-	public List<CartOrder> selectAllCart(String bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging);
 
 	/**
 	 * cCode로 Cart 조회하기
@@ -57,7 +59,7 @@ public interface BuyerService {
 	 * @param bCode - 조회할 bCode
 	 * @return - 조회한 BuyerAdr 정보
 	 */
-	public BuyerAdr selectBybCode(String bCode);
+	public List<BuyerAdr> selectBybCode(String bCode);
 
 	/**
 	 * ordCode로 Orders 조회하기
@@ -100,12 +102,28 @@ public interface BuyerService {
 	public int insertOrderDetail(OrderDetail orderDetail);
 
 	/**
-	 * 주문 상세 조회
+	 * 주문 상세 리스트 조회
 	 * 
-	 * @param bCode - 조회할 회원의 bCode
+	 * @param upPaging - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> selectOrderDetailBybCode(String bCode);
+	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging);
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문상세코드
+	 * @return - 주문 상세 내역
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
+	
+	/**
+	 * 거래 변경 사유
+	 * 
+	 * @param change - 거래 변경 DTO
+	 * @return INSERT 결과
+	 */
+	public int insertChange(Change change);
 
 	/**
 	 * 장바구니 수량 변경
@@ -138,6 +156,24 @@ public interface BuyerService {
 	 * @return 기업 구매자 정보
 	 */
 	public Cmp getCmpDetail(String bCode);
+
+	
+	
+	/**
+	 * 구매자 프로필 조회
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 조회된 프로필 정보
+	 */
+	public BuyerProf getBuyerProf(String bCode);
+	
+	/**
+	 * 사업자 등록증 조회
+	 * 
+	 * @param cmpNo - 기업 번호
+	 * @return 조회된 사업자 등록증 정보
+	 */
+	public CmpFile getCmpFile(int cmpNo);
 	
 	/**
 	 * 구매자 비밀번호 확인
@@ -175,18 +211,19 @@ public interface BuyerService {
 	/**
 	 * 구매자 프로필 업데이트
 	 * 
-	 * @param prof - 업데이트 할 프로필 정보
+	 * @param buyerProf - 업데이트 할 프로필 정보
 	 * @return 업데이트 결과
 	 */
-	public int updateBuyerProf(BuyerProf prof);
+	public int updateBuyerProf(MultipartFile buyerProf, String bCode);
 	
 	/**
 	 * 사업자 등록증 업데이트
 	 * 
-	 * @param file - 업데이트 할 사업자 등록증
+	 * @param cmpFile - 업데이트 할 사업자 등록증
+	 * @param bCode - 구매자 코드
 	 * @return 업데이트 결과
 	 */
-	public int updateCmpFile(CmpFile file);
+	public int updateCmpFile(MultipartFile cmpFile, String bCode);
 	
 	/**
 	 * 구매자의 모든 배송지 정보
@@ -230,11 +267,11 @@ public interface BuyerService {
 	public int unsetDefaultAdr(String bCode);	
 	
 	/**
+	 * 기본 배송지 설정
 	 * 
-	 * 
-	 * @param adrCode
-	 * @param bCode
-	 * @return
+	 * @param adrCode - 배송지 코드
+	 * @param bCode - 구매자 코드
+	 * @return 설정된 행 수
 	 */
 	public int setDefaultAdr(String adrCode, String bCode);	
 	
@@ -242,16 +279,44 @@ public interface BuyerService {
 	 * 구매자 탈퇴
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 탈퇴한 행 수
+	 * @return 처리 결과
 	 */
 	public int deleteBuyer(String bCode);
 
 	/**
+	 * 구매자 등급 조회
+	 * 
+	 * @param rankNo - 구매자 등급 번호
+	 * @return 구매자 등급 정보
+	 */
+
+	public int changePw(BuyerLogin buyerLogin);
+	/**
 	 * 판매자 탈퇴
 	 * 
 	 * @param sCode - 판매자 코드
-	 * @return 탈퇴한 행 수
+	 * @return 처리 결과
 	 */
 	public int deleteSeller(String sCode);
+
+	
+	/**
+	 * Cart paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - upPaging 결과값
+	 */
+	public int selectCntAllCart(PagingAndCtg upPaging);
+
+	
+	/**
+	 * MyOrder paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - paging 결과
+	 */
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
+
+
 
 }

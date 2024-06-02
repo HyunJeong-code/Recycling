@@ -11,12 +11,17 @@
     List<CartOrder> clist = (List<CartOrder>) request.getAttribute("clist");
     Gson gson = new Gson();
     String jsonData = gson.toJson(clist);
+    String buyeradrJson = gson.toJson(request.getAttribute("buyeradr"));
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+	<!-- pay css -->
+	<link rel="stylesheet" href="/resources/css/pay.css">
+	
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     
     <!-- 결제 API -->
@@ -67,7 +72,6 @@
                     $('.modal').modal('hide');
 
                 }
-            // }).open()
             }).embed(postcodeWrap)
 
             //--------------------------------------------------------------
@@ -76,17 +80,36 @@
 
         }) // $("#btnPostcode").click end
 
-        //닫기 버튼 구현
-        //$(".closeIcon").click(function() {
-        //})
-    })
-    
-    //const myModal = document.getElementById('myModal')
-    //const myInput = document.getElementById('myInput')
+		
+		//배송지 입력 체크시
+		$("#adrChk input").change(function() {
+            if ($(this).is(':checked')) {
+            	
+            	if($(this).val() == -1){
+                    $("#ordName").val("");
+                    $("#ordPhone").val("");
+                    $("#ordPostcode").val("");
+                    $("#ordAddr").val("");
+                    $("#ordDetail").val("");
+                    return ;
+            	}
+            	
+                var i = $(this).val();
+                var buyeradr = JSON.parse('<%= buyeradrJson %>');
+                console.log(buyeradr[i].adrDetail);
 
-    //myModal.addEventListener('shown.bs.modal', () => {
-    //  myInput.focus()
-    //})
+                $("#ordName").val(buyeradr[i].adrName);
+                $("#ordPhone").val(buyeradr[i].adrPhone);
+                $("#ordPostcode").val(buyeradr[i].adrPostcode);
+                $("#ordAddr").val(buyeradr[i].adrAddr);
+                $("#ordDetail").val(buyeradr[i].adrDetail);
+                
+            }
+        });
+    	
+        
+    }) //$ end
+    
     
 
         //가맹점 식별코드 초기화
@@ -133,12 +156,12 @@
 	    
 	    console.log(cartList);
 	    
-
         function requestPay(){
         	var payOption = $("input:radio[name=payOption]:checked").attr("id");
+        	var payMethod = $("input:radio[name=payOption]:checked").val();
             IMP.request_pay({
             pg: payOption, // PG사
-            pay_method: "card", //결제 수단 (필수)
+            pay_method: payMethod, //결제 수단 (필수)
             merchant_uid: 'ORD' + new Date().getTime(),   // 주문번호
             name: prdName,             // 주문 상품 이름
             amount: prdAmount,                        // 결제 금액 (필수)
@@ -150,15 +173,6 @@
             }, function (rsp) { // callback
                 //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
                 
-			  	/* $.post("test_data",
-				  {
-				    amount: $("#amount").val(),
-				    rsp: rsp
-				  },
-				  function(data, status){
-				    alert("Data: " + data + "\nStatus: " + status);
-				  }); */
-
                 console.log(rsp)
                 
                 //결제 성공시
@@ -200,25 +214,6 @@
                 	console.log("결제실패"+rsp)
                 }
 
-/*                 $("<form>")
-                    .attr("action","")
-                    .attr("method","post")
-                    .append(
-                        $("<input>")
-                        .attr({
-                            type: "text"
-                            , name: "imp_uid"
-                            , value: rsp.imp_uid
-                        }))
-                    .append(
-                        $("<input>")
-                        .attr({
-                            type: "text"
-                            , name: "merchant_uid"
-                            , value: rsp.merchant_uid
-                        }))
-                    .appendTo($(document.body))
-                    .submit() */ 
             });
         }
     
@@ -226,96 +221,174 @@
 </head>
 <body>
 
-<h1>주문하기</h1>
-<hr>
-
-<table>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 	
-		<thead>
-			<tr>
-				<th>카트 코드</th>
-				<th>상품 이미지</th>
-				<th>상품 이름</th>
-				<th>상품 가격</th>
-				<th>배송비</th>
-				<th>수량</th>
-				<th>총 금액</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="cart" items="${clist }">
+	<div class="full">
+        <div class="page-header">
+            <h1>주문하기</h1>
+        </div>
+
+        <hr class="top-hr">
+
+		<div class="page-header">
+            <h5>주문정보</h5>
+        </div>
+		<table class="order-table">
+			
+			<thead>
 				<tr>
-			 		<td>${cart.cCode }</td>
-			 		<td>${cart.storedName }</td>
-			 		<td>${cart.prdName }</td>
-			 		<td>${cart.price }</td>
-			 		<td>${cart.prdFee }</td>
-			 		<td>${cart.cCnt }</td>
-			 		<td>
-			 			${cart.cCnt * cart.price + cart.prdFee }
-			 		</td>
-			 	</tr>
-			</c:forEach>
-		 	
-	 	</tbody>
-	</table>
+					<th>상품 이미지</th>
+					<th>상품 이름</th>
+					<th>상품 가격</th>
+					<th>배송비</th>
+					<th>수량</th>
+					<th>총 금액</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="cart" items="${clist }">
+					<tr>
+				 		<td>${cart.storedName }</td>
+				 		<td>${cart.prdName }</td>
+				 		<td>${cart.price }</td>
+				 		<td>${cart.prdFee }</td>
+				 		<td>${cart.cCnt }</td>
+				 		<td>
+				 			${cart.cCnt * cart.price + cart.prdFee }
+				 		</td>
+				 	</tr>
+				</c:forEach>
+			 	
+		 	</tbody>
+		</table>
 
-상품: <span id="product_name">친환경 컵</span>
+        <hr class="top-hr">
 
-<br><br>
-<form id="order_form" action="./pay" method="post">
-<label>이름
-	<input type="text" name="ordName" id="ordName" value="${buyer.adrName }">
-</label><br>
-<label>연락처
-	<input type="text" name="ordPhone" id="ordPhone" value="${buyer.adrPhone }">
-</label><br>
-<!-- 클릭시 주소 모달창 활성화 -->
-<button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#exampleModal">주소 찾기</button>
-<label>우편 번호
-	<input type="text" name="ordPostcode" id="ordPostcode" value="${buyer.adrPostcode }">
-</label><br>
-<label>배송 주소
-	<input type="text" name="ordAddr" id="ordAddr" value="${buyer.adrAddr }">
-</label><br>
-<label>상세 주소
-	<input type="text" name="ordDetail" id="ordDetail" value="${buyer.adrDetail }">
-</label><br>
-<label>메모
-	<input type="text" name="ordMemo" id="ordMemo">
-</label><br>
+        <div class="page-header">
+            <h5>배송지 입력</h5>
+        </div>
+        
+        <div class="buyer-info">
+            <div class="form-group">
+                <h6>이름 : </h6>
+                <span>${buyer.bName }</span>
+            </div>
+            <div class="form-group">
+                <h6>전화번호 : </h6>
+                <span>${buyer.bPhone }</span>
+            </div>
+        </div>
 
-<h3>총 가격: <span id="prdAmount"></span></h3>
+        <hr class="top-hr">
 
-<br>
-</form>
+        <div class="page-header">
+            <h5>배송지 입력</h5>
+        </div>
 
-<div id="payOption">
-	<label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" checked="checked"></label>
-	<label>토스페이</label><input type="radio" id="tosspay" name="payOption"></label>
-	<label>카카오페이</label><input type="radio" id="kakaopay" name="payOption"></label>
-</div>
+        <div class="adr-info">
+            <div id="adrChk">
+                <c:forEach var="adr" varStatus="status" items="${buyeradr }">
+                    <label for="${adr.adrCode }">
+                        ${adr.adrPostcode }
+                        ${adr.adrAddr }
+                        ${adr.adrDetail }
+                    </label>
+                    <c:choose>
+                        <c:when test="${status.index == 0}">
+                            <input type="radio" id="${adr.adrCode }" name="adr" value="${status.index }" checked>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="radio" id="${adr.adrCode }" name="adr" value="${status.index }">
+                        </c:otherwise>
+                    </c:choose>
+                    <br>
+                </c:forEach>
+                <label>직접입력</label>
+                <input type="radio" name="adr" value="-1">
 
-<button type="button" onclick="requestPay();">결제하기</button>
+            </div>
 
-<!-- 모달창 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content" style="display: table;">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-	      <div id="postcodeWrap">
-	      </div>
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
+            <div class="order-info">
+                <div>
+                    <form id="order_form" action="./pay" method="post">
+                        <div class="form-group">
+                            <label for="ordName">받는 사람</label>
+                            <input type="text" name="ordName" id="ordName" value="${buyeradr[0].adrName }">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordPhone">연락처</label>
+                            <input type="text" name="ordPhone" id="ordPhone" value="${buyeradr[0].adrPhone }">
+                        </div>
+                        <!-- 클릭시 주소 모달창 활성화 -->
+                        
+                        <div class="form-group">
+                            <label for="ordPostcode">우편 번호</label>
+                            <input type="text" name="ordPostcode" id="ordPostcode" value="${buyeradr[0].adrPostcode }">
+                            <button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#exampleModal">주소 찾기</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="ordAddr">배송 주소</label>
+                            <input type="text" name="ordAddr" id="ordAddr" value="${buyeradr[0].adrAddr }">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordPostcode">상세 주소</label>
+                            <input type="text" name="ordDetail" id="ordDetail" value="${buyeradr[0].adrDetail }">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordMemo">메모</label>
+                            <input type="text" name="ordMemo" id="ordMemo">
+                        </div>
+                        
+                    </form>
+                </div>
+
+
+                <div class="sum-price">
+                    <h3>총 가격: <span id="prdAmount"></span></h3>
+                </div>
+
+            </div>       
+
+        </div>
+        <hr class="top-hr">
+
+        <div class="page-header">
+            <h5>결제 방법</h5>
+        </div>
+
+        <div id="payOption">
+            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
+            <label>토스페이</label><input type="radio" id="tosspay" name="payOption" value="tosspay"></label>
+            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
+        </div>
+
+        <button type="button" id="btnPay" onclick="requestPay();">결제하기</button>
+        
     </div>
-  </div>
-</div>
+
+
+
+    <!-- 모달창 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="display: table;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="postcodeWrap">
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+            </div>
+        </div>
+    </div>
+    
+    <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+    
 </body>
 </html>

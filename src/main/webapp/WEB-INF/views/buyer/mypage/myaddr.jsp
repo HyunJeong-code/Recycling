@@ -88,24 +88,24 @@ function chkAdrLimit() {
 }
 </script>
 
-<style type="text/css">
-.addr-field {
-	width: 300px;
-}
-
-.addr-form {
-	margin-bottom: 20px;
-}
-</style>
-
 </head>
 <body>
+
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+
 	<div class="full">
 		<div class="wrap">
 			<h3>배송지 관리</h3>
 			<hr>
 			<div class="page">
-			<a href="/buyer/main">메인</a><br>
+				<c:choose>
+					<c:when test="${buyerLogin.bCtCode == 'P' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a>
+					</c:when>
+					<c:when test="${buyerLogin.bCtCode == 'C' }">
+						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a>
+					</c:when>
+				</c:choose>
 				<c:if test="${not empty buyerAdrList }">
 					<h4>기본 배송지</h4>
 					<c:forEach var="address" items="${buyerAdrList }" varStatus="status">
@@ -173,7 +173,7 @@ function chkAdrLimit() {
 					</c:if>
 				</c:if>
 				<c:if test="${fn:length(buyerAdrList) <= 2 }">
-				<input type="button" value="추가 배송지 등록하기" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }"><br><br>
+ 					<input type="button" value="추가 배송지 등록하기" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }"><br><br>
 				</c:if>
 				<div id="addForm" style="display: none;">
 					<h4>새 배송지 추가</h4>
@@ -203,5 +203,8 @@ function chkAdrLimit() {
 			</div>
 		</div>
 	</div>
+	
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	
 </body>
 </html>

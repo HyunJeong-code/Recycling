@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.BuyDao;
@@ -29,6 +30,7 @@ import recycling.dto.buyer.CmpFile;
 import recycling.dto.manager.MgrFile;
 
 @Service
+@Transactional
 public class BuyServiceImpl implements BuyService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -40,14 +42,16 @@ public class BuyServiceImpl implements BuyService {
 	public Buyer buyerProc(Buyer buyer, String sPhone, String inPhone, String mPhone, String lPhone, String bEmail2,
 			String inEmail) {	
 		// 비밀번호 암호화
-		String enPw = pwEncoder.encode(buyer.getbPw());
-		buyer.setbPw(enPw);
+		if(buyer.getbPw() != null) {
+			String enPw = pwEncoder.encode(buyer.getbPw());
+			buyer.setbPw(enPw);			
+		}
 		
 		// 핸드폰 번호 처리
 		if(inPhone.equals("")) {
-			buyer.setbPhone(sPhone+mPhone+lPhone);
+			buyer.setbPhone(sPhone + "-" + mPhone + "-" + lPhone);
 		} else {
-			buyer.setbPhone(inPhone+mPhone+lPhone);
+			buyer.setbPhone(inPhone+ "-" +mPhone+ "-" +lPhone);
 		}
 		
 		// 이메일 처리
@@ -66,6 +70,11 @@ public class BuyServiceImpl implements BuyService {
 			buyer.setAdSms("N");
 		}
 		return buyer;
+	}
+	
+	@Override
+	public int selectCntById(String bId) {
+		return buyDao.selectCntById(bId);
 	}
 	
 	@Override
@@ -219,6 +228,7 @@ public class BuyServiceImpl implements BuyService {
 	
 	@Override
 	public int updatePw(Buyer buyer) {
+		buyer.setbPw(pwEncoder.encode(buyer.getbPw()));
 		return buyDao.updatePw(buyer);
 	}
 	

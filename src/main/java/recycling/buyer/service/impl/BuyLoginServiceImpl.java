@@ -11,11 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.BuyDao;
 import recycling.dto.buyer.BuyerLogin;
 
 @Service
+@Transactional
 public class BuyLoginServiceImpl implements UserDetailsService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

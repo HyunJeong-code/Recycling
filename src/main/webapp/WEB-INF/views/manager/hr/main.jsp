@@ -11,6 +11,229 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<style type="text/css">
+/* 전체 기본 설정 */
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	box-sizing: border-box;
+	font: inherit;
+	font-size: 100%;
+	line-height: 1.5;
+	color: #333;
+}
+
+h3 {
+	color: #333;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+}
+
+/* 외부 레이아웃 설정 */
+.full {
+	width: 1200px;
+	border: 1px solid #ccc;
+	margin: 0 auto;
+	display: flex;
+	background-color: #f9f9f9;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+aside {
+	width: 300px;
+	background-color: #f1f1f1;
+	border-right: 1px solid #ddd;
+	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.wrap {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+}
+
+/* 상단 페이지 */
+.page {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
+}
+
+/* [우]중단 페이지 */
+.section {
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* [우]하단 페이지 */
+.btn_bot_style {
+	display: flex;
+	float: right;
+	margin: 0 0 20px 0;
+}
+
+/* ------------------------------------- */
+/* 상단 */
+/* 검색 */
+.search_form_wrap {
+	padding-top: 20px;
+	margin: 0 0 20px 0;
+	display: flex;
+	border-top: 3px solid #d8d8d8;
+	flex-direction: row-reverse;
+}
+/* 검색창 */
+.search_form {
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+	border-radius: 5px;
+}
+
+.search_form button[type="submit"] {
+	padding: 6px 15px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px; /* 버튼 둥글게 */
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.search_form button[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+/* 버튼 */
+button[type="submit"] {
+	padding: 6px 12px;
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+/* 본문 */
+/* 테이블 세팅 */
+table {
+	border-collapse: collapse;
+	border-top: 3px solid #168;
+	width: 100%;
+	text-align: center;
+}
+
+table td {
+	padding: 9px;
+}
+
+table th {
+	color: #168;
+	background: #f0f6f9;
+	text-align: center;
+}
+
+table th, .table td {
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+table th:first-child, .table td:first-child {
+	border-left: 0;
+}
+
+table th:last-child, .table td:last-child {
+	border-right: 0;
+}
+
+table tr td:first-child {
+	text-align: center;
+}
+
+table caption {
+	caption-side: bottom;
+	display: none;
+}
+
+table tr:hover {
+  background-color: #f5f5f5;
+}
+
+
+/* 버튼세팅 */
+.btn_section_detail {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+/* 하단 */
+.btn_bot_wrap {
+	padding-top: 10 px;
+	display: flex;
+	float: right;
+	margin:20px 0;
+	justify-content: flex-end
+}
+
+/* 버튼 세팅 */
+.btn_bot_inform, .btn_bot_del {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.btn_bot_inform {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.btn_bot_inform:hover {
+	background-color: #45a049;
+}
+
+.btn_bot_del {
+	background-color: #f44336;
+	color: white;
+	margin-left: 10px;
+}
+
+.btn_bot_del:hover {
+	background-color: #da190b;
+}
+
+button[type="submit"]:hover,
+.btn_section_detail:hover,
+.btn_bot_inform:hover,
+.btn_bot_del:hover {
+  background-color: #0056b3;
+}
+</style>
 
 <script type="text/javascript">
 	$(function() {
@@ -53,153 +276,39 @@
 
 		})
 	})
-	
 </script>
-<style type="text/css">body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-    color: #333;
-}
 
-.full {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
-
-.wrap {
-    width: 80%;
-    max-width: 1200px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.page {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-h1 {
-    font-size: 2em;
-    margin-bottom: 10px;
-}
-
-hr {
-    border: none;
-    height: 1px;
-    background-color: #ddd;
-    margin-bottom: 20px;
-}
-
-/* Notice Search Form */
-#noticeSearch {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-#noticeSearch form {
-    display: inline-block;
-}
-
-#category {
-    padding: 5px;
-    margin-right: 10px;
-}
-
-#search {
-    padding: 5px;
-    width: 200px;
-}
-
-button[type="submit"] {
-    padding: 6px 12px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-/* Notice Table */
-.section {
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-thead {
-    background-color: #007BFF;
-    color: #fff;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-th {
-    font-weight: bold;
-}
-
-td a {
-    color: #007BFF;
-    text-decoration: none;
-}
-
-td a:hover {
-    text-decoration: underline;
-}
-
-/* Paging Styles */
-.paging {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.paging a {
-    display: inline-block;
-    padding: 6px 12px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    color: #007BFF;
-    text-decoration: none;
-}
-
-.paging a:hover {
-    background-color: #f1f1f1;
-}
-</style>
 </head>
 <body>
 	<div class = "full" >
+		<aside>
+			확인
+		</aside>
 		<div class="wrap">		
 			<div class="page">
-				<h1>전체사원 조회</h1>
+				전체사원 조회
 			</div>
+		<div class="search">
+			<form action="./main" method="get">
+				<input type="hidden" name="sCtg" value="UP">
+				<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+				<button>검색</button>
+			</form>
+		</div>
+			
 					<div class = "section">
-						<table border="1">
+						<table>
 							<thead>
 								<tr>
 									<th></th>
-									<th>사원번호</th>
 									<th>부서명</th>
 									<th>이름</th>
+									<th>사원번호</th>
 									<th>핸드폰 번호</th>
 									<th>이메일</th>
 									<th>입사일</th>
+									<th>생년월일</th>
+									<th>성별</th>
 									<th>상세조회</th>
 								</tr>
 							</thead>
@@ -210,42 +319,37 @@ td a:hover {
 									<c:if test="${select.mgrOut eq 'N'}">
 									<tr>
 										<td><input type="checkbox" id="${select.mgrCode }"name="chkBox"></td>
-										<td>${select.mgrCode }</td>
-										<td>${select.dName }</td>
+										<td>${select.dname }</td>
 										<td>${select.mgrName }</td>
+										<td>${select.mgrCode }</td>
 										<td>${select.mgrPhone }</td>
 										<td>${select.mgrEmail }</td>
 										<td>
-											<!-- 데이터 타입이 Date일 경우 사용 -->
-											<%-- 	<fmt:formatDate value="${manager.mgrEntDate }" pattern="yyyy-MM-dd HH:mm:ss"/> --%>
-					
-												<!-- 데이터 타입이 String일 경우 사용 --> 
-												<fmt:parseDate value="${select.mgrEntDate }" var="mgrEntDate" pattern="yyyy-MM-dd" />
-												<fmt:formatDate value="${mgrEntDate }" pattern="yyyy-MM-dd" />
+											<fmt:parseDate value="${select.mgrEntDate}" pattern="yyyy-MM-dd" var="mgrEntDate"/>
+											<fmt:formatDate value="${mgrEntDate}" pattern="yyyy-MM-dd" />
 										</td>
-					
+										<td>
+											<fmt:parseDate value="${select.mgrBirth}" pattern="yyyy-MM-dd" var="mgrBirth"/>
+											<fmt:formatDate value="${mgrBirth}" pattern="yyyy-MM-dd" />
+										</td>
+										<td>${select.mgrGender }</td>
 										<td><a href="./empdetail?mgrCode=${select.mgrCode }">
-												<button>상세정보 보기</button>
-										</a></td>
+												<button class="btn_section_detail">상세정보 보기</button></a>
+										</td>
 									</tr>
 									</c:if>
 								</c:forEach>
 							</tbody>
 						</table>
-					</div>
-		</div>
-	</div>
-
-	<div>
-		<div>
-			<a href="./empform"><button>사원정보 입력</button></a>
-		</div>
-	
-		<div>
-			<button id="listDel">삭제하기</button>
-		</div>
-	</div>
-
+					</div><!-- section -->
+					<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+					
+							<div class="btn_bot_wrap">
+									<a href="./empform"><button class="btn_bot_inform">사원정보 입력</button></a>
+									<button id="listDel" class="btn_bot_del">삭제하기</button>
+							</div>
+		</div><!-- wrap -->
+	</div><!-- full -->
 
 </body>
 </html>

@@ -1,12 +1,13 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.seller.Seller;
+import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.Oto;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.SellerAns;
-import recycling.dto.seller.SellerProf;
-import recycling.dto.seller.SellerQST;
+import recycling.dto.seller.Seller;
 
 public interface RecyclingService {
 	
@@ -18,11 +19,22 @@ public interface RecyclingService {
 	public List<Seller> findSeller();
 	
 	/**
+	 * 판매자 코드로 재활용품 조회
+	 * 
+	 * @param sCode
+	 * @return
+	 */
+	public List<Prd> findRcyBySellerCode(String sCode);
+	
+	 /** 제품 DTO에서 리스트를 불러온다
+	List<Seller> findSeller();
+	
+	/**
 	 * 제품 DTO에서 리스트를 불러온다
 	 * 
 	 * @return
 	 */
-	public List<Prd> getPrdList();
+	public List<Prd> selectPrdList();
 
 	/**
 	 * 제품번호를 기준으로 불러오면서 제품 정보를 불러온다
@@ -31,79 +43,38 @@ public interface RecyclingService {
 	 * @return 제품번호의 상세페이지
 	 */
 	public Prd view(String prdCode);
-
-	/**
-	 * 판매자 상세 프로필을 가져오는 코드
-	 * 
-	 * @param	getsCode 프라이머리키인 sCode
-	 * @return	판매자 상세 정보
-	 */
-	public SellerProf getSellerProf(String sCode);
-
-	/**
-	 * 판매자 문의 코드를 통해서 판매자 문의 불러오기
-	 * 
-	 * @param qstCode	문의 코드
-	 * @return	판매자 문의
-	 */
-	public SellerQST selectSellerQst(String qstCode);
-
-	/**
-	 * 판매자 문의 작성
-	 * 
-	 * @param sellerQST 판매자 문의
-	 * @return 
-	 */
-	public int insertSellerQST(SellerQST sellerQST);
-
-	/**
-	 * 판매자 문의 리스트를 조회
-	 * @param qstCode 판매자 문의 코드
-	 * @return	핀메매지 문의 리스트
-	 */
-	public List<SellerAns> selectSellerAnswers(String qstCode);
 	
 	/**
-	 * 판매자 문의 수정
+	 * 판매자 기본 정보 로드
 	 * 
-	 * @param sellerQST 판매자 문의
-	 * @return 
+	 * @param getsCode 판매자 코드
+	 * @return 판매자 정보
 	 */
-	public int updateSellerQST(SellerQST sellerQST);
+	public Seller selectSeller(String getsCode);
 
 	/**
-	 * 판매자 문의 삭제
+	 * QnA 코드 로드
 	 * 
-	 * @param qstCode 문의 코드
-	 * @return 
+	 * @param prdCode 로드에 필요한 제품 코드
+	 * @return QnA
 	 */
-	public int deleteSellerQST(String qstCode);
+	public Seller getSeller(String sCode);
 
-	/** 
-	 * 판매자 문의 답변 작성
-	 * 
-	 * @param sellerAns
-	 * @return
-	 */
-	public int insertSellerAnswer(SellerAns sellerAns);
+	public List<Map<String, Object>> selectQnaList(String prdCode);
 
 	/**
-	 * 판매자 문의 답변 수정
+	 * 개인 구매자 정보 조회
 	 * 
-	 * @param sellerAns
-	 * @return
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
 	 */
-	public int updateSellerAnswer(SellerAns sellerAns);
+	public Buyer selectBuyerDetail(String bId);
 
-	
 	/**
-	 * 판매자 문의 답변 삭제
+	 * 파일 정보 DB에 삽입
 	 * 
-	 * @param qnaCode
+	 * @param oto
 	 * @return
 	 */
-	public int deleteSellerAnswer(String qnaCode);
-
-	
-
+	public int insertOto(Oto oto);
 }

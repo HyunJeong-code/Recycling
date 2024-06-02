@@ -10,6 +10,9 @@
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>Insert title here</title>
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/sls/expdetail.css">
+
 <script type="text/javascript">
 $(function() {
 	//예약관리 삭제기능
@@ -58,112 +61,322 @@ $(function() {
 	})//btn_expdetail_cancel
 })
 </script>
-
-
-
 <style type="text/css">
-/* 기본 설정 */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-    color: #333;
+/* 전체 기본 설정 */
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	box-sizing: border-box;
+	font: inherit;
+	font-size: 100%;
+	line-height: 1.5;
+	color: #333;
+	text-align: center;
 }
 
+/* 외부 레이아웃 설정 */
 .full {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
+	width: 1200px;
+	border: 1px solid #ccc;
+	margin: 0 auto;
+	display: flex;
+	background-color: #f9f9f9;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+aside {
+	width: 300px;
+	background-color: #f1f1f1;
+	border-right: 1px solid #ddd;
+	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 .wrap {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
 }
 
-.page h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-align: center;
+/* 상단 페이지 */
+.page {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	color: #007BFF;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
 }
 
-.page hr {
-    margin: 10px 0;
-}
-
+/* 중단 페이지 */
 .section {
-    margin-top: 20px;
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.section div {
-    margin-bottom: 15px;
-}
-
-.section label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.section input[type="text"],
-.section select,
-.section textarea {
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    background-color: #f5f5f5;
-    cursor: default;
-}
-
-.section textarea {
-    height: 100px;
-    resize: none;
-}
-
-.section button {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    margin-right: 10px;
-    display: inline-block;
-}
-
-.section button[type="button"] {
-    background-color: #6c757d;
-}
-
-.section button:hover {
-    background-color: #0056b3;
-}
-
-.section button[type="button"]:hover {
-    background-color: #5a6268;
+.section .top_section_con{
+	width: 500px;
+	margin: 0 auto;
 }
 
 .section img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-    border-radius: 4px;
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin: 20px;
+}
+
+.section .expName
+, .section .expPrice
+, .section .expDetail {
+	margin-bottom: 15px;
+	display: flex;
+	margin-left: 20px;
+}
+.section .expName div
+, .section .expPrice div{
+	width: 300px;
+	border: 1px solid #ccc;
+}
+
+.section .expDetail textarea{
+	border: 1px solid #ccc;
+	width: 300px;
+	height: 300px;
+	
+}
+
+
+label {
+	color: #373f57;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	width: 200px;
+	text-align: justify;
+}
+
+input[type="text"], select {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+.section h3 {
+	color: #333;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+}
+
+.section_top_privacy {
+	padding: 20px;
+	margin-left: 20px;
+	margin-top: 20px;
+	flex: 1;
+}
+
+.section_top_privacy div {
+	margin-bottom: 10px;
+}
+
+/* --------------------------------------- */
+/* 색션 하단 */
+.section_bot_title {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
+}
+
+.section_bot_itembox {
+	width: 500px;
+	margin: 0 auto;
+}
+
+.section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
+	.section .mgrGender_box {
+	margin-bottom: 15px;
+	display: flex;
+	margin-left: 20px;
+}
+
+/* 하단 페이지 버튼 스타일 */
+.btn_bot_wrap {
+	display: flex;
+	width: 500px;
+	padding-top: 20px;
+	margin: 0 auto;
+	justify-content: space-around;
+}
+
+/* 버튼 스타일 */
+button {
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 16px;
+	margin-left: 10px;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+table {
+	border-collapse: collapse;
+	border-top: 3px solid #168;
+	width: 100%;
+	text-align: center;
+}
+
+table td {
+	padding: 9px;
+}
+
+table th {
+	color: #168;
+	background: #f0f6f9;
+	text-align: center;
+}
+
+table th, .table td {
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+table th:first-child, .table td:first-child {
+	border-left: 0;
+}
+
+table th:last-child, .table td:last-child {
+	border-right: 0;
+}
+
+table tr td:first-child {
+	text-align: center;
+}table {
+	border-collapse: collapse;
+	border-top: 3px solid #168;
+	width: 100%;
+	text-align: center;
+}
+
+table td {
+	padding: 9px;
+}
+
+table th {
+	color: #168;
+	background: #f0f6f9;
+	text-align: center;
+}
+
+table th, .table td {
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+table th:first-child, .table td:first-child {
+	border-left: 0;
+}
+
+table th:last-child, .table td:last-child {
+	border-right: 0;
+}
+
+table tr td:first-child {
+	text-align: center;
+}
+
+table caption {
+	caption-side: bottom;
+	display: none;
+}
+
+table tr:hover {
+  background-color: #f5f5f5;
+}table {
+	border-collapse: collapse;
+	border-top: 3px solid #168;
+	width: 100%;
+	text-align: center;
+}
+
+table td {
+	padding: 9px;
+}
+
+table th {
+	color: #168;
+	background: #f0f6f9;
+	text-align: center;
+}
+
+table th, .table td {
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+table th:first-child, .table td:first-child {
+	border-left: 0;
+}
+
+table th:last-child, .table td:last-child {
+	border-right: 0;
+}
+
+table tr td:first-child {
+	text-align: center;
+}
+
+table caption {
+	caption-side: bottom;
+	display: none;
+}
+
+table tr:hover {
+  background-color: #f5f5f5;
+}
+
+table caption {
+	caption-side: bottom;
+	display: none;
+}
+
+table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.btn_bot_box{
+	margin-top: 20px;
 }
 </style>
+
 </head>
 
 <body>
 	<div class="full">
+		<aside>
+			<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+			<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+		</aside>
 		<div class="wrap">
 			<div class="page">
 				<h1>체험 상세조회</h1>
@@ -171,25 +384,39 @@ body {
 			</div>
 
 			<div class="section">
-			    
-	    		<img alt="없음" src="/upload/${fileimage.storedName }">
+				
+				<label>프로필 이미지</label>
+				<div>
+					<img alt="없음" src="/upload/${profileimage.storedName }">
+				</div>
 		
+				<div class="top_section_con">
+						<div class="expName">
+							<label>체험제목</label>
+							<div>${view.expName}</div>
+						</div>
+		
+						<div class="expPrice">
+							<label>참가비용</label>
+							<div>${view.expPrice}</div>
+						</div>
+		
+						<div class="expDetail">
+							<label>체험설명</label>
+							<textarea readonly onclick="this.blur()">${view.expDetail}</textarea>
+						</div>
+		
+						<div>
+							<a href="./expupdate?expCode=${view.expCode }" ><button type="button">수정하기</button></a>
+						</div>				
+					</div>
+				<label>체험상세 이미지</label>
 				<div>
-					<label>체험제목</label> <input type="text" value="${view.expName}" readonly="readonly">
+				<c:forEach var="fileImage" items="${fileImage }">
+		    		<img alt="없음" src="/upload/${fileImage.storedName }">
+				</c:forEach>
 				</div>
 
-				<div>
-					<label>참가비용</label> <input type="text" value="${view.expPrice}" readonly onclick="this.blur()"> 원
-				</div>
-
-				<div>
-					<label>체험설명</label>
-					<textarea readonly onclick="this.blur()">${view.expDetail}</textarea>
-				</div>
-
-				<div>
-					<a href="./expupdate?expCode=${view.expCode }" ><button type="button">수정하기</button></a>
-				</div>				
 				<div class="section">
 	<table>
 		<thead>
@@ -242,12 +469,13 @@ body {
 			</c:forEach>
 		</tbody>
 	</table>
-</div>
+		<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+	</div>
 				
 				
-				<div>
+				<div class="btn_bot_box">
 					<button type="button" id ="btn_expdetail_cancel">삭제하기</button>
-				<a href="./explist" ><button type="button">돌아가기</button></a>
+					<a href="./explist" ><button type="button" >돌아가기</button></a>
 				</div>
 				<div></div>
 			</div>

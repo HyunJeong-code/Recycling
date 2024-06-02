@@ -22,17 +22,25 @@
 		, #{ordFee})
 	</insert>
 	
-	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
-		SELECT
-			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
-		FROM
-			cart c, prd p, prd_file pf
+	<select id="selectAllCart" parameterType="recycling.util.PagingAndCtg" resultType="CartOrder">
+		SELECT *
+		FROM (
+			SELECT rownum no, PRD.* FROM (
+				SELECT
+					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+				FROM
+					cart c, prd p, prd_file pf
+				<where>
+					AND c.PRD_CODE =p.PRD_CODE
+					AND p.PRD_CODE = pf.PRD_CODE(+)
+					AND B_CODE = #{user}
+				</where>
+				ORDER BY C_CODE
+			) PRD
+		)
 		<where>
-			AND c.PRD_CODE =p.PRD_CODE
-			AND p.PRD_CODE = pf.PRD_CODE
-			AND B_CODE = #{bCode}
+			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
-		ORDER BY C_CODE
 	</select>
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
@@ -54,9 +62,8 @@
 		FROM buyer_adr
 		<where>
 			AND b_code = #{bCode}
-			AND adr_chk = 'Y'
 		</where>
-		ORDER BY ADR_CODE
+		ORDER BY ADR_CHK DESC
 	</select>
 	
 	<select id="selectByordCode" parameterType="String" resultType="Orders">
@@ -96,16 +103,47 @@
 		)
 	</insert>
 	
-	<select id="buyerDaoselectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
-		SELECT 
-			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
-		FROM 
-			order_detail od, orders o
+	<select id="buyerDaoselectOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
+		SELECT *
+		FROM (
+			SELECT rownum no, ORD.* FROM (
+				SELECT 
+					ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+				FROM 
+					order_detail od, orders o
+				<where>
+					AND o.ord_code = od.ord_code
+					AND o.b_code = #{user}
+					AND (
+						od.orddt_code LIKE '%' || #{search } || '%'
+						OR od.ord_name LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY orddt_code DESC
+			) ORD
+		)
 		<where>
-			AND o.ord_code = od.ord_code
-			AND o.b_code = #{bCode}
+			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
+	
+	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
+		SELECT * FROM order_detail
+		<where>
+			AND orddt_code = #{orddtCode}
+		</where>
+	</select>
+	
+	<insert id="insertChange" parameterType="Change">
+		INSERT INTO change
+		VALUES(
+			'CHG' || lpad(cart_seq.nextval, '7', 0)
+			, #{orddtCode}
+			, #{ctChgNo}
+			, #{chgDt}
+			, sysdate
+		)
+	</insert>
 	
 	<update id="updatecCnt" parameterType="Cart">
 		UPDATE cart
@@ -138,7 +176,19 @@
     	SELECT * FROM Buyer_Rank
     	WHERE Rank_No = #{rankNo }
     </select>
-	
+    
+    <!-- 구매자 프로필 조회 -->
+    <select id="getBuyerProf" parameterType="string" resultType="recycling.dto.buyer.BuyerProf">
+    	SELECT * FROM Buyer_Prof
+    	WHERE B_Code = #{bCode }
+    </select>
+    
+    <!-- 사업자 등록증 조회 -->
+    <select id="getCmpFile" parameterType="int" resultType="recycling.dto.buyer.CmpFile">
+    	SELECT * FROM Cmp_File
+    	WHERE Cmp_No = #{cmpNo }
+    </select>
+    
     <!-- 비밀번호 변경 -->
     <update id="changePw" parameterType="recycling.dto.buyer.BuyerLogin">
     	UPDATE Buyer
@@ -260,7 +310,7 @@
     	</where>
     </update>
     
-    <!--  -->
+    <!-- 기본 배송지 조회 -->
     <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -270,7 +320,7 @@
     	</where>
     </select>
     
-    <!--  -->
+    <!-- Adr_Code로 배송지 정보 조회 -->
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -278,14 +328,47 @@
     </select>
     
     <!-- 구매자 탈퇴 -->
-    <delete id="deleteBuyer" parameterType="string">
-    	DELETE FROM Buyer
+    <update id="deleteBuyer" parameterType="string">
+    	UPDATE Buyer
+    	SET
+    		B_Out = 'Y',
+    		B_Out_Date = SYSDATE
    		WHERE B_Code = #{bCode }
-    </delete>
+    </update>
     
-    <!-- 판매자 탈퇴 -->
-    <delete id="deleteSeller" parameterType="string">
-    	DELETE FROM Seller
+	<!-- 판매자 탈퇴 -->
+    <update id="deleteSeller" parameterType="string">
+    	UPDATE Seller
+    	SET
+    		S_Out = 'Y',
+    		S_Out_Date = SYSDATE
     	WHERE S_Code = #{sCode }
-    </delete>
+    </update>
+    
+    
+    <select id="selectCntAllCart" parameterType="recycling.util.PagingAndCtg" resultType="int">
+    	SELECT count(*) FROM
+			cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE =p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE(+)
+			AND B_CODE = #{user}
+		</where>
+		ORDER BY C_CODE DESC
+    </select>
+    
+    <select id="selectCntOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="int">
+ 		SELECT count(*) FROM 
+			order_detail od, orders o
+		<where>
+			AND o.ord_code = od.ord_code
+			AND o.b_code = #{user}
+			AND (
+					od.orddt_code LIKE '%' || #{search } || '%'
+					OR od.ord_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY orddt_code DESC
+    </select>
+    
 </mapper>

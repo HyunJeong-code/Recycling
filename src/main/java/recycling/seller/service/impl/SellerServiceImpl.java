@@ -17,6 +17,7 @@ import recycling.seller.dao.face.SellerDao;
 import recycling.seller.service.face.SellerService;
 
 @Service
+@Transactional
 public class SellerServiceImpl implements SellerService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

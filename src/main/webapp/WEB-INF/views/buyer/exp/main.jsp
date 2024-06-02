@@ -8,8 +8,6 @@
 <meta charset="UTF-8">
 <title>체험단 메인페이지</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 <style type="text/css">
 .wrap { 
@@ -120,13 +118,14 @@ $(document).ready(function() {
 
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="wrap">
     <h1>체험단 메인페이지</h1>
     <div class="top-section">
         <!-- 상단 체험단 인기, 최신 -->
         <div class="top-exp">
-            <button id="popularButton">인기 체험</button>
-            <button id="recentButton">새 체험</button>
+            <button class="btn" id="popularButton">인기 체험</button>
+            <button class="btn" id="recentButton">새 체험</button>
         </div>
         <div id="topExpList">
             <c:forEach var="exp" items="${topPopList}">
@@ -175,8 +174,8 @@ $(document).ready(function() {
             </select>
         </div>
         <div class="search">
-            <input type="text" name="search" placeholder="검색어를 입력해 주세요" value="${search}">
-            <button onclick="this.form.submit()" class="btn btn-primary">검색</button>
+            <input type="text" id="search" name="search" placeholder="검색어를 입력해 주세요" value="${search}">
+            <button onclick="this.form.submit()" class="btnSrch">검색하기</button>
         </div>
         </form>
     </div>
@@ -198,7 +197,7 @@ $(document).ready(function() {
            	</a>
         </c:forEach>
     </div>
-    <c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </div>
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

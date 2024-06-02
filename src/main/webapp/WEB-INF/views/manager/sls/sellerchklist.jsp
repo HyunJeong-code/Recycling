@@ -50,55 +50,67 @@ $(function() {
 <div class="full">
 	<div class="wrap">
 		<div class="page">
-		<h3>판매자 전환 요청 관리</h3>
+			<h3>판매자 전환 요청 관리</h3>
 		</div>
 		
 		<div class="section">
-		<table border="1">
-			<tr>
-				<th><input type="checkbox" id="allChk" name="allChk"></th>
-				<th>분류</th>
-				<th>판매자 번호</th>
-				<th>상호명</th>
-				<th>담당자 이름</th>
-				<th>담당자 번호</th>
-				<th>담당자 이메일</th>
-				<th>상세 조회</th>
-				<th>수락 여부</th>
-			</tr>
-			
-			<c:forEach var="list" items="${sellerList }">
-				<c:if test="${list eq null }">
+			<form action="./sellerchklist" method="get">
+				<input type="hidden" name="sCtg" value="UP">
+				<input type="text" id="search" name="search" placeholder="검색어를 입력해주세요." class="search">
+				<button>검색</button>
+			</form>
+			<table border="1">
+				<tr>
+					<th><input type="checkbox" id="allChk" name="allChk"></th>
+					<th>분류</th>
+					<th>판매자 번호</th>
+					<th>상호명</th>
+					<th>(담당자) 이름</th>
+					<th>(담당자) 번호</th>
+					<th>(담당자) 이메일</th>
+					<th>상세 조회</th>
+					<th>수락/거절</th>
+				</tr>
+				
+				<c:if test="${listSize eq 0 }">
 					<tr>
-						<td colspan="9">판매자 전환 신청이 없습니다.</td>
+						<td colspan="8">판매자 전환 신청이 없습니다.</td>
 					</tr>
 				</c:if>
 				
-				<tr>
-					<td>
-						<input type="checkbox" id="${list.S_CODE }" name="chkSel">
-					</td>
-					<td>${list.CT_CODE }</td>
-					<td>${list.S_CODE }</td>
-					<td>${list.CMP_NAME }</td>
-					<td>${list.B_NAME }</td>
-					<td>${list.B_PHONE }</td>
-					<td>${list.B_EMAIL }</td>
-					<td>
-						<c:if test="${list.CT_CODE eq 'P'}">
-							<button id="sellerDt"><a href="./sellerpridetail?sCode=${list.S_CODE }">상세조회</a></button>
-						</c:if>
-						<c:if test="${list.CT_CODE eq 'C'}">
-							<button id="sellerDt"><a href="./sellerpridetail?sCode=${list.S_CODE }">상세조회</a></button>
-						</c:if>
-					</td>
-					<td>
-						<button id="selOk">수락</button>
-						<button id="selNo">거절</button>
-					</td>
-				</tr>
-			</c:forEach>
-		</table>
+				<c:if test="${listSize ne 0 }">
+					<c:forEach var="list" items="${sellerList }">
+						
+						<tr>
+							<td>
+								<input type="checkbox" id="${list.S_CODE }" name="chkSel">
+							</td>
+							<td>${list.CT_CODE }</td>
+							<td>${list.S_CODE }</td>
+							<td>${list.CMP_NAME }</td>
+							<td>${list.B_NAME }</td>
+							<td>${list.B_PHONE }</td>
+							<td>${list.B_EMAIL }</td>
+							<td>
+								<c:if test="${list.CT_CODE eq 'P'}">
+									<button id="sellerDt"><a href="/manager/sls/sellerpridetail?sCode=${list.S_CODE }">상세조회</a></button>
+								</c:if>
+								<c:if test="${list.CT_CODE eq 'C'}">
+									<button id="sellerDt"><a href="/manager/sls/sellercmpdetail?sCode=${list.S_CODE }">상세조회</a></button>
+								</c:if>
+							</td>
+							<td>
+								<button id="selChk" name="selChk"><a href="/manager/sls/sellerchk?selChk=Y&sCode=${list.S_CODE }">수락</a></button>
+								<button id="selChk" name="selChk"><a href="/manager/sls/sellerchk?selChk=N&sCode=${list.S_CODE }">거절</a></button>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				
+			</table>
+			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+			<button type="button" id="AllSel" name="AllSel" value="Y">수락</button>
+			<button type="button" id="AllSel" name="AllSel" value="N">거절</button>
 		</div>
 	</div>
 </div>

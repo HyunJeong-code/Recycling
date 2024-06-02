@@ -1,18 +1,19 @@
 package recycling.buyer.service.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.BuyerDao;
@@ -23,6 +24,8 @@ import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
@@ -32,11 +35,13 @@ import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
 
 @Service
+@Transactional
 public class BuyerServiceImpl implements BuyerService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyerDao buyerDao;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
+	@Autowired private ServletContext servletContext;
 	
 	@Override
 	public int insertOrder(Orders order) {
@@ -44,10 +49,10 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public List<CartOrder> selectAllCart(String bCode) {
-		List<CartOrder> list = buyerDao.selectAllCart(bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging) {
+		List<CartOrder> list = buyerDao.selectAllCart(upPaging);
 		
-		logger.info("bCode: {}", bCode);
+		logger.info("bCode: {}", upPaging);
 		logger.info("list: {}", list);
 		
 		
@@ -66,7 +71,7 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public BuyerAdr selectBybCode(String bCode) {
+	public List<BuyerAdr> selectBybCode(String bCode) {
 		return buyerDao.selectBybCode(bCode);
 	}
 	
@@ -96,8 +101,18 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
-		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
+	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging) {
+		return buyerDao.buyerDaoselectOrderDetailBybCode(upPaging);
+	}
+
+	@Override
+	public OrderDetail selectByorddtCode(String orddtCode) {
+		return buyerDao.selectByorddtCode(orddtCode);
+	}
+	
+	@Override
+	public int insertChange(Change change) {
+		return buyerDao.insertChange(change);
 	}
 
 	@Override
@@ -124,6 +139,20 @@ public class BuyerServiceImpl implements BuyerService {
 		
 		return buyerDao.getCmpDetail(bCode);
 
+	}
+	
+	@Override
+	public BuyerProf getBuyerProf(String bCode) {
+
+		return buyerDao.getBuyerProf(bCode);
+	
+	}
+	
+	@Override
+	public CmpFile getCmpFile(int cmpNo) {
+
+		return buyerDao.getCmpFile(cmpNo);
+	
 	}
 	
 	@Override
@@ -165,19 +194,78 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public int updateBuyerProf(BuyerProf prof) {
+	public int updateBuyerProf(MultipartFile buyerProf, String bCode) {
 
-		return buyerDao.updateBuyerProf(prof);
+		if (buyerProf.isEmpty()) {
+			
+            return 0;
+        
+		}
+
+		BuyerProf prof = new BuyerProf();
+        String originalFilename = buyerProf.getOriginalFilename();
+        String storedName = System.currentTimeMillis() + "_" + originalFilename;
+        Path path = Paths.get(servletContext.getRealPath("/resources/image/") + storedName);
+        
+        try {
+            
+        	Files.createDirectories(path.getParent());
+            buyerProf.transferTo(path.toFile());
+            
+            prof.setbCode(bCode);
+            prof.setOriginName(originalFilename);
+            prof.setStoredName(storedName);
+            
+            return buyerDao.updateBuyerProf(prof);
+        
+        } catch (IOException e) {
+        
+        	e.printStackTrace();
+            
+        	return 0;
+        
+        }
 	
 	}
-
+	
 	@Override
-	public int updateCmpFile(CmpFile file) {
+	public int updateCmpFile(MultipartFile cmpFile, String bCode) {
+		
+		if (cmpFile.isEmpty()) {
+			
+	        return 0;
+	    
+		}
 
-		return buyerDao.updateCmpFile(file);
-	
+	    CmpFile file = new CmpFile();
+	    String originalFilename = cmpFile.getOriginalFilename();
+	    String storedName = System.currentTimeMillis() + "_" + originalFilename;
+	    Path path = Paths.get(servletContext.getRealPath("/resources/cmpfile/") + storedName);
+
+	    try {
+
+	    	Files.createDirectories(path.getParent());
+	        cmpFile.transferTo(path.toFile());
+
+	        Cmp cmp = buyerDao.getCmpDetail(bCode);
+
+	        file.setCmpNo(cmp.getCmpNo());
+	        file.setOriginName(originalFilename);
+	        file.setStoredName(storedName);
+
+
+	        return buyerDao.updateCmpFile(file);
+	    
+	    } catch (IOException e) {
+	    
+	    	e.printStackTrace();
+	        
+	    	return 0;
+	    
+	    }
+		
 	}
-	
+
 	@Override
 	public List<BuyerAdr> getBuyerAdr(String bCode) {
 
@@ -243,5 +331,25 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.deleteSeller(sCode);
 	
 	}
+	
+	@Override
+	public int changePw(BuyerLogin buyerLogin) {
+		return buyerDao.changePw(buyerLogin);
+	}
+
+	
+	
+	//paging cnt
+	@Override
+	public int selectCntAllCart(PagingAndCtg upPaging) {
+		return buyerDao.selectCntAllCart(upPaging);
+	}
+	
+	@Override
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging) {
+		return buyerDao.selectCntOrderDetailBybCode(upPaging);
+	}
+	
+	//paging cnt end
 
 }

@@ -5,40 +5,17 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
-import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 
 // 메인 페이지 관련 처리
 
 public interface MgrService {
 	
-	/**
-	 * 공지사항 전체 조회하기 + 페이징 시스템
-	 * @param paging - 페이징 객체
-	 * 
-	 * @return - List<Notice>
-	 */
-	public List<Notice> selectAll();
-
-	/**
-	 * 공지사항 세부조회
-	 * 
-	 * @param notice - Notice
-	 * @return
-	 */
-	public Notice selectDetail(String ntcCode);
-
-	/**
-	 * 페이징 계산 시스템
-	 * 
-	 * @param pagingParam - 페이징 객체
-	 * @param search - 검색 
-	 * @return
-	 */
-	public Paging selectCntAll(Paging pagingParam);
 	
 	/**
 	 * 비밀번호 암호화, 핸드폰 번호, 이메일 합치기
@@ -85,5 +62,46 @@ public interface MgrService {
 	 * @return 0 : 실패, 1 : 성공
 	 */
 	public int insertMgrProf(MgrFile mgrFile);
+
+	ManagerLogin selectByIdPw(Manager manager);
 	
+	/**
+	 * 전체사원조회[empList]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging);
+	
+	/**
+	 * 전체사원조회 페이징[empList]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllempList(PagingAndCtg upPaging);
+	
+	/**
+	 * 공지사항 관리자조회[noticeist]
+	 * 
+	 * @return  List<Notice>
+	 */
+	public List<Notice> selectAllNotice(PagingAndCtg upPaging);
+
+	/**
+	 * 공지사항 관리자조회 페이징[noticelist]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllNotice(PagingAndCtg upPaging);
+
+	/**
+	 * 공지사항 세부조회
+	 * 
+	 * @param notice
+	 * @return
+	 */
+	public Notice selectDetail(String ntcCode);
+
 }

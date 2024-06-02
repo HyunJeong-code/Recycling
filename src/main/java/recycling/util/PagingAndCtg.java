@@ -12,7 +12,8 @@ public class PagingAndCtg {
 	private int startNo; // 화면의 보이는 게시글의 시작 번호
 	private int endNo; // 화면에 보이는 게시글의 끝 번호
 	private String search; // 검색어
-	private int ctg;
+//	private String ctg; // 카테고리
+	private String user; // 사용자
 	
 	public PagingAndCtg() {}
 
@@ -39,11 +40,11 @@ public class PagingAndCtg {
 	}
 	
 	// 검색어 + 카테고리가 들어간 페이징 처리
-	public PagingAndCtg(int totalCount, int curPage, String search, int ctg) {
+	public PagingAndCtg(int totalCount, int curPage, String search) {
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		setSearch(search);
-		setCtg(ctg);
+//		setCtg(ctg);
 		
 		// 페이징 처리 정보 생성
 		makePaging();
@@ -76,12 +77,12 @@ public class PagingAndCtg {
 		startNo = (curPage - 1) * listCount + 1;
 		endNo = curPage * listCount;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "PagingAndCtg [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount
 				+ ", totalPage=" + totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage="
-				+ endPage + ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", ctg=" + ctg + "]";
+				+ endPage + ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", user=" + user + "]";
 	}
 
 	public void setCurPage(int curPage) {
@@ -160,11 +161,19 @@ public class PagingAndCtg {
 		this.search = search;
 	}
 
-	public int getCtg() {
-		return ctg;
+//	public String getCtg() {
+//		return ctg;
+//	}
+//
+//	public void setCtg(String ctg) {
+//		this.ctg = ctg;
+//	}
+
+	public String getUser() {
+		return user;
 	}
 
-	public void setCtg(int ctg) {
-		this.ctg = ctg;
+	public void setUser(String user) {
+		this.user = user;
 	}
 }
