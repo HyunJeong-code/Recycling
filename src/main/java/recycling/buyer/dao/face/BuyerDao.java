@@ -279,21 +279,16 @@ public interface BuyerDao {
 	public int deleteBuyer(String bCode);
 
 	/**
-	 * 판매자 탈퇴
-	 * 
-	 * @param sCode - 판매자 코드
-	 * @return 탈퇴 결과
-	 */
-	public int deleteSeller(String sCode);
-	
-	/**
 	 * 판매자 찾기
 	 * 
 	 * @param sCode
 	 * @return
 	 */
 	public List<Seller> findSeller(String sCode);
-	
+	public int deleteSeller(String sCode);
+
+	public BuyerRank selectBuyerRank(int rankNo);
+
 	/**
 	 * Cart paging
 	 * 
