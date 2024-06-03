@@ -6,48 +6,108 @@
 <mapper namespace="recycling.buyer.dao.face.HelpDao">
 
 	
-<!-- 	<select id="selectAllFaq" parameterType="recycling.util.Paging" resultType="Faq"> -->
-<!-- 	SELECT * FROM ( -->
-<!-- 			SELECT rownum rnum, B.* FROM ( -->
-<!-- 				SELECT F.*, C.ct_faqname -->
-<!-- 				FROM Faq F -->
-<!-- 				JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno -->
-<!-- 				ORDER BY F.faq_no -->
-<!-- 			) B -->
-<!-- 		) -->
+
+<!-- 	<select id="selectCntAllFaq" resultType="int" parameterType="recycling.util.PagingAndCtg"> -->
+<!-- 		SELECT count(*) FROM faq -->
 <!-- 		<where> -->
-<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
+<!-- 			AND ( -->
+<!-- 				faq_no LIKE '%' || #{search } || '%' -->
+<!-- 				OR faq_title LIKE '%' || #{search } || '%' -->
+<!-- 				) -->
 <!-- 		</where> -->
 <!-- 	</select> -->
+<select id="selectCntAllFaq" resultType="int" parameterType="map">
+    SELECT count(*) FROM faq
+    <where>
+        <if test="ctFaqNo != null and ctFaqNo != 0">
+            AND ct_faqno = #{ctFaqNo}
+        </if>
+        AND (
+            faq_no LIKE '%' || #{search} || '%'
+            OR faq_title LIKE '%' || #{search} || '%'
+        )
+    </where>
+    ORDER BY faq_no DESC
+</select>
 
-	<select id="selectCntAllFaq" resultType="int" parameterType="recycling.util.PagingAndCtg">
-		SELECT count(*) FROM faq
-		<where>
-			AND (
-				faq_no LIKE '%' || #{search } || '%'
-				OR faq_title LIKE '%' || #{search } || '%'
-				)
-		</where>
-		ORDER BY faq_no DESC
+
+
+<!-- 	<select id="selectAllFaq" parameterType="recycling.util.PagingAndCtg" resultType="Faq"> -->
+<!-- 			SELECT * FROM ( -->
+<!--         SELECT rownum AS no, F.* FROM ( -->
+<!--             SELECT F.*, C.ct_faqname -->
+<!--             FROM Faq F -->
+<!--             JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno -->
+<!--             <where> -->
+<!--             	AND F.ct_faqno = #{ctFaqno} -->
+<!--             </where> -->
+<!--             ORDER BY F.faq_no -->
+<!--         ) F -->
+<!--     ) -->
+<!--     <where> -->
+<!--     	AND no BETWEEN #{startNo} AND #{endNo} -->
+<!--     </where> -->
+<!-- 	</select> -->
+<select id="selectAllFaq" parameterType="map" resultType="Faq">
+    SELECT * FROM (
+        SELECT rownum AS no, E.* FROM (
+            SELECT F.*, C.ct_faqname
+            FROM faq F
+            JOIN faq_ct C ON F.ct_faqno = C.ct_faqno
+            <where>
+                <if test="ctFaqNo != null and ctFaqNo != 0">
+                    AND F.ct_faqno = #{ctFaqNo}
+                </if>
+                AND (
+                    F.faq_no LIKE '%' || #{search} || '%'
+                    OR F.faq_title LIKE '%' || #{search} || '%'
+                )
+            </where>
+            ORDER BY F.faq_no
+        ) E
+    )
+    <where>
+        AND no BETWEEN #{startNo} AND #{endNo}
+    </where>
+</select>
+
+	
+	<select id="selectAllCtFaq" resultType="FaqCt">
+		SELECT * FROM Faq_ct
+		
 	</select>
+	
+<select id="selectCntFaqByCt" parameterType="map" resultType="int">
+    SELECT count(*) FROM faq
+    WHERE ct_faqno = #{ctFaqNo}
+    AND (
+        faq_no LIKE '%' || #{search} || '%'
+        OR faq_title LIKE '%' || #{search} || '%'
+    )
+</select>
 
-	<select id="selectAllFaq" parameterType="recycling.util.PagingAndCtg" resultType="Faq">
-			SELECT * FROM (
-        SELECT rownum AS no, F.* FROM (
+<select id="selectFaqByCt" parameterType="map" resultType="Faq">
+    SELECT * FROM (
+        SELECT rownum AS no, E.* FROM (
             SELECT F.*, C.ct_faqname
             FROM Faq F
             JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno
+            WHERE F.ct_faqno = #{ctFaqNo}
+            AND (
+                F.faq_no LIKE '%' || #{paging.search} || '%'
+                OR F.faq_title LIKE '%' || #{paging.search} || '%'
+            )
             ORDER BY F.faq_no
-        ) F
+        ) E
     )
-    <where>
-    	AND no BETWEEN #{startNo} AND #{endNo}
-    </where>
-	</select>
+    WHERE no BETWEEN #{startNo} AND #{endNo}
+</select>
+
+
 	
-	<select id="selectAllCtFaq" parameterType="recycling.util.PagingAndCtg" resultType="FaqCt">
-		SELECT * FROM Faq_ct
-	</select>
+	
+<!-- faq 부분	 -->
+	
 	
 	<select id="selectByCategory" resultType="Notice" parameterType="int">
 	    SELECT * FROM Notice
