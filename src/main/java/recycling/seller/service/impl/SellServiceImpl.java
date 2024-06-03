@@ -34,4 +34,17 @@ public class SellServiceImpl implements SellService {
 	public int deleteSeller(BuyerLogin buyerLogin) {
 		return sellDao.deleteSeller(buyerLogin);
 	}
+	
+	@Override
+	public int selectOrdCnt(BuyerLogin buyerLogin) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public int selectPrdCnt(BuyerLogin buyerLogin) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 }

@@ -20,32 +20,32 @@ $(function(){
 		url : '/buyer/buyerheader',
 		dataType: 'json',
 		success: function(res) {
-			console.log("res : " + JSON.stringify(res));
-			console.log("res : " + JSON.stringify(res).length);
-			console.log("res : " + typeof(JSON.stringify(res)));
+// 			console.log("res : " + JSON.stringify(res));
+// 			console.log("res : " + JSON.stringify(res).length);
+// 			console.log("res : " + typeof(JSON.stringify(res)));
 			
-			var none = "<div id='info'>공지사항이 없습니다.</div>";
+// 			var none = "<div id='info'>공지사항이 없습니다.</div>";
 			
-			var ntcList = JSON.stringify(res);
-			console.log("ntcList : " + ntcList);
-			console.log("ntcList[0] : " + typeof(ntcList));
+// 			var ntcList = JSON.stringify(res);
+// 			console.log("ntcList : " + ntcList);
+// 			console.log("ntcList[0] : " + typeof(ntcList));
 			
 			
-			if(ntcList.length == 0) {
-				$("#ntcBanner").html(none);
-			} else {
+// 			if(ntcList.length == 0) {
+// 				$("#ntcBanner").html(none);
+// 			} else {
 				
-				var banner = $("#ntc-banner");
-				var ntc = "";
+// 				var banner = $("#ntc-banner");
+// 				var ntc = "";
 				
-				ntc += "<ul>";
-				for(var i = 0; i < ntcList.length; i++) {
-					banner.append(
-							$("<li>").html(ntcList[i].NTC_TITLE)
-						);
-				}
-				ntc += "</ul>";
-			}
+// 				ntc += "<ul>";
+// 				for(var i = 0; i < ntcList.length; i++) {
+// 					banner.append(
+// 							$("<li>").html(ntcList[i].NTC_TITLE)
+// 						);
+// 				}
+// 				ntc += "</ul>";
+// 			}
 		}
 	})
 	
@@ -86,6 +86,15 @@ $(function(){
 <body>
 	<header class="header">
         <div class="notice-banner" id="ntcBanner">
+        	<c:if test="${ntcSize eq 0 }">
+        		<div class="banner" style="color:white;">공지사항이 없습니다.</div>
+        	</c:if>
+        	
+        	<c:if test="${ntcSize ne 0 }">
+        		<c:forEach var="list" items="${ntcList }">
+        			<div class="info" style="color:white;"><a href="/buyer/help/noticedetail?ntcCode=${list.NTC_CODE }">${list.TITLE }</a></div>
+        		</c:forEach>
+        	</c:if>        	
         </div>
         
         <div class="container">
