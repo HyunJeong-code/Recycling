@@ -424,7 +424,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -472,7 +472,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -510,7 +510,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -548,7 +548,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -581,7 +581,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -613,7 +613,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -661,7 +661,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -758,7 +758,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -811,7 +811,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -920,7 +920,7 @@ public class BuyerController {
 		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -964,7 +964,7 @@ public class BuyerController {
         if (buyerLogin == null) {
         
         	model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+        	model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
         
@@ -1054,7 +1054,7 @@ public class BuyerController {
 		if (authentication == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
@@ -1084,7 +1084,7 @@ public class BuyerController {
 		if (authentication == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "redirect:/buyer/login");
+			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
 
