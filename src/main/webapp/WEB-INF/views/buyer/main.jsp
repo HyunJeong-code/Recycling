@@ -16,6 +16,10 @@
 	<div class="wrap">
 		
 		<div class="page">
+			<a href="/buyer/mypage/mymain">mymain</a>
+			<a href="/buyer/mypage/changepw">changepw</a>
+			<a href="/buyer/mypage/mydetailpri">mydetailpri</a>
+			<a href="/buyer/mypage/mydetailcmp">mydetailcmp</a>
 		</div>
 		
 		<div class="section">

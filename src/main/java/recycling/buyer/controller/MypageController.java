@@ -149,84 +149,90 @@ public class MypageController {
 		
 	}
 	
-	// 1:1 문의 작성 처리
-	@PostMapping("/otoform")
-	public String otoFormProc(
-			Authentication authentication,
-			Oto oto,
-			@RequestParam("ct_otono") String ctOtoNo,
-			@RequestParam("detail") List<MultipartFile> detail,
-			Model model
-			) {
-		
-		logger.info("/buyer/mypage/otoform [POST]");
-		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
-		}
-		
-		Buyer buyer = mypageService.getBuyerDetail(buyerLogin.getbId());
-		
-		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
-		oto.setbCode(buyer.getbCode());
-		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());
-		
-		model.addAttribute("buyer", buyer);
-		model.addAttribute("oto", oto);
-		
-		int res = mypageService.insertOto(oto);
-		
-		if(res > 0 && detail != null && !detail.isEmpty()) {
-			
-			List<OtoFile> otoFiles = new ArrayList<>();
-			
-			for(MultipartFile mult : detail) {
-				
-				OtoFile otoFile = mypageService.saveFile(mult, oto);
-				
-				if(otoFile != null) {
-					
-					otoFiles.add(otoFile);
-					
-				}
-				
-			}
-			
-			int resDetail = 0;
-			
-			for(OtoFile otoFile : otoFiles) {
-				
-				resDetail += mypageService.insertOtoFiles(otoFile);
-				
-			}
-			
-			if(resDetail == otoFiles.size()) {
-				
-				logger.info("파일 저장 성공");
-				
-			} else {
-				
-				logger.info("파일 저장 실패");
-				
-			}
-			
-		} else {
-			
-			logger.info("등록 실패");
-			
-		}
-		
-		return "redirect:/buyer/mypage/myboard";
-		
-		
-	}
+//	// 1:1 문의 작성 처리
+//	@PostMapping("/otoform")
+//	public String otoFormProc(
+//			Authentication authentication,
+//			Oto oto,
+//			@RequestParam("ct_otono") String ctOtoNo,
+//			@RequestParam("detail") List<MultipartFile> detail,
+//			Model model
+//			) {
+//		
+//		logger.info("/buyer/mypage/otoform [POST]");
+//		
+//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+//		
+//		if(buyerLogin == null) {
+//			
+//			model.addAttribute("error", "로그인 해주세요.");
+//			
+//			return "redirect:/buyer/login";
+//			
+//		}
+//		
+//		Buyer buyer = mypageService.getBuyerDetail(buyerLogin.getbId());
+//		
+//		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
+//		oto.setbCode(buyer.getbCode());
+//		oto.setOtoName(buyer.getbName());
+//		oto.setOtoEmail(buyer.getbEmail());
+//		
+//		model.addAttribute("buyer", buyer);
+//		model.addAttribute("oto", oto);
+//		
+//		int res = mypageService.insertOto(oto);
+//		
+//		if(res > 0) {
+//			
+//			if(detail != null && !detail.isEmpty()) {
+//				
+//				List<OtoFile> otoFiles = new ArrayList<>();
+//				
+//				for(MultipartFile mult : detail) {
+//					
+//					OtoFile otoFile = mypageService.saveFile(mult, oto);
+//					
+//					if(otoFile != null) {
+//						
+//						otoFile.setOtoCode(oto.getOtoCode());
+//						otoFiles.add(otoFile);
+//						
+//					}
+//					
+//				}
+//				
+//				int resDetail = 0;
+//				
+//				for(OtoFile otoFile : otoFiles) {
+//					
+//					otoFile.setOtoCode(oto.getOtoCode());
+//					resDetail += mypageService.insertOtoFiles(otoFile);
+//					
+//				}
+//				
+//				if(resDetail == otoFiles.size()) {
+//					
+//					logger.info("파일 저장 성공");
+//					
+//				} else {
+//					
+//					logger.info("파일 저장 실패");
+//					
+//				}
+//		
+//			}
+//			
+//		} else {
+//			
+//			logger.info("등록 실패");
+//			
+//		}
+//		
+//		return "redirect:/buyer/mypage/myboard";
+//		
+//		
+//	}
 	
 	// 1:1 문의 삭제
 	@PostMapping("/otodel")

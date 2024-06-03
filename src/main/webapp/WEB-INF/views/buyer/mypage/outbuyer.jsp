@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>outBuyer</title>
+<title>outbuyer</title>
 
 <script type="text/javascript">
 
@@ -91,9 +91,6 @@ th {
 						<input type="button" value="취소하기" onclick="history.back()">
 					</div>
 				</form>
-				<c:if test="${not empty error }">
-					<p style="color: red;">${error }</p>
-				</c:if>
 			</div>
 		</div>
 	</div>

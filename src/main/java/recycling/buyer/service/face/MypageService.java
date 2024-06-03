@@ -81,30 +81,30 @@ public interface MypageService {
 	 */
 	public Buyer getBuyerDetail(String bId);
 
-	/**
-	 * 1:1 문의 게시글 작성을 위한 객체
-	 * 
-	 * @param oto - 1:1 문의글
-	 * @return
-	 */
-	public int insertOto(Oto oto);
-
-	/**
-	 * 파일 저장
-	 * 
-	 * @param mult - 저장할 파일
-	 * @param oto - 1:1 문의 정보
-	 * @return null: 실패, else: 성공
-	 */
-	public OtoFile saveFile(MultipartFile mult, Oto oto);
-
-	/**
-	 * 1:1 문의 업로드 한 파일 보여주기
-	 * 
-	 * @param otoFile - 파일 정보
-	 * @return 0: 실패, 1: 성공
-	 */
-	public int insertOtoFiles(OtoFile otoFile);
+//	/**
+//	 * 1:1 문의 게시글 작성을 위한 객체
+//	 * 
+//	 * @param oto - 1:1 문의글
+//	 * @return
+//	 */
+//	public int insertOto(Oto oto);
+//
+//	/**
+//	 * 파일 저장
+//	 * 
+//	 * @param mult - 저장할 파일
+//	 * @param oto - 1:1 문의 정보
+//	 * @return null: 실패, else: 성공
+//	 */
+//	public OtoFile saveFile(MultipartFile file, Oto oto);
+//
+//	/**
+//	 * 1:1 문의 업로드 한 파일 보여주기
+//	 * 
+//	 * @param otoFile - 파일 정보
+//	 * @return 0: 실패, 1: 성공
+//	 */
+//	public int insertOtoFiles(OtoFile otoFile);
 	
 	/**
 	 * 1:1 문의 삭제
@@ -160,7 +160,5 @@ public interface MypageService {
 	 * @return 삭제된 행의 수
 	 */
 	public int deleteQst(String qstCode);
-
-	
 
 }

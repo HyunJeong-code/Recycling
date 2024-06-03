@@ -267,6 +267,7 @@ th {
 <%-- 						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a> --%>
 <%-- 					</c:when> --%>
 <%-- 				</c:choose> --%>
+			
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailpri" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
 					<input type="hidden" id="fullEmail" name="fullEmail" value="${currentBuyer.bEmail}">

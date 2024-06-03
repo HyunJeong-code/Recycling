@@ -86,21 +86,21 @@ public interface MypageDao {
 	 */
 	public Buyer getBuyerDetail(String bId);
 
-	/**
-	 * 1:1 문의 게시글 작성을 위한 객체
-	 * 
-	 * @param oto - 1:1 문의글
-	 * @return
-	 */
-	public int insertOto(Oto oto);
-
-	/**
-	 * 파일 정보 DB에 삽입
-	 * 
-	 * @param otoFile - 파일 정보
-	 * @return 0: 실패, 1: 성공
-	 */
-	public int insertOtoFiles(OtoFile otoFile);
+//	/**
+//	 * 1:1 문의 게시글 작성을 위한 객체
+//	 * 
+//	 * @param oto - 1:1 문의글
+//	 * @return
+//	 */
+//	public int insertOto(Oto oto);
+//
+//	/**
+//	 * 파일 정보 DB에 삽입
+//	 * 
+//	 * @param otoFile - 파일 정보
+//	 * @return 0: 실패, 1: 성공
+//	 */
+//	public int insertOtoFiles(OtoFile otoFile);
 	
 	/**
 	 * 1:1 문의 삭제
@@ -110,6 +110,14 @@ public interface MypageDao {
 	 */
 	public int deleteOto(String otoCode);
 
+	/**
+	 * 1:1 문의 파일 삭제
+	 * 
+	 * @param otoCode - 1:1 문의 코드
+	 * @return 삭제된 행의 수
+	 */
+	public int deleteOtoFile(String otoCode);
+	
 	/**
 	 * 판매자 분류
 	 * 

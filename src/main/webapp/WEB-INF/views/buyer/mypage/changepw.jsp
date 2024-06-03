@@ -62,14 +62,6 @@ label {
 			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
 		
 			<div class="page">
-				<c:choose>
-					<c:when test="${buyerLogin.bCtCode == 'P' }">
-						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a>
-					</c:when>
-					<c:when test="${buyerLogin.bCtCode == 'C' }">
-						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a>
-					</c:when>
-				</c:choose>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/changepw" method="post">
 					<div class="changepw">
 						<div>
