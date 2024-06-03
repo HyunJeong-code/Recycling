@@ -62,7 +62,7 @@
 					<input type="text" id="accBank" name="accBank"><br>
 					
 					<label for="accNo">계좌번호</label>
-					<input type="text" id="accNo" name="accNo"><br><br>
+					<input type="text" id="accNo" name="accNo" placeholder="-를 빼고 입력해주세요."><br><br>
 					
 					<button>신청하기</button>
 					<button><a href="/buyer/main">취소하기</a></button>

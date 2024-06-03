@@ -146,7 +146,7 @@ public class MgrController {
 	public void login() {
 		logger.info("/manager/login [GET]");		
 	}
-	
+
 	@GetMapping("findid")
 	public void findId() {
 		logger.info("/manager/findid [GET]");

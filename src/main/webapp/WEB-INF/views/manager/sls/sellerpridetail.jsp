@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,7 +121,21 @@ $(function() {
 </style>
 </head>
 <body>
-<c:import url="../../../views/layout/manager/managerheader.jsp"/>
+<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+<sec:authentication var="managerLogin" property="principal"/>
+<c:if test="${managerLogin.deptno eq 10}">
+	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 20}">
+	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 30}">
+	<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 40}">
+	<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+</c:if>
+<c:import url="/layout/manager/managerheader.jsp"/>
 <c:set var="seller" value="${seller }" />
 
 <div class="page">
@@ -157,10 +172,12 @@ $(function() {
 							전환 거절
 						</c:if>
 					</td>
-					
+				</tr>
+				
+				<tr>					
 					<c:if test="${seller.S_CHK eq 'Y' }">
 						<th>전환일</th>
-						<td>
+						<td colspan="3">
 							<fmt:parseDate value="${seller.S_ENTDATE }"  var="S_ENTDATE" pattern="yyyy-MM-dd" />
 	                   		<fmt:formatDate value="${S_ENTDATE }" pattern="yyyy-MM-dd"/>
 						</td>
@@ -168,7 +185,15 @@ $(function() {
 					
 					<c:if test="${seller.S_CHK eq 'N' }">
 						<th>전환 신청일</th>
-						<td>
+						<td colspan="3">
+							<fmt:parseDate value="${seller.S_ENTDATE }"  var="S_ENTDATE" pattern="yyyy-MM-dd" />
+	                   		<fmt:formatDate value="${S_ENTDATE }" pattern="yyyy-MM-dd"/>
+						</td>							
+					</c:if>
+					
+					<c:if test="${seller.S_CHK eq null }">
+						<th>전환 신청일</th>
+						<td colspan="3">
 							<fmt:parseDate value="${seller.S_ENTDATE }"  var="S_ENTDATE" pattern="yyyy-MM-dd" />
 	                   		<fmt:formatDate value="${S_ENTDATE }" pattern="yyyy-MM-dd"/>
 						</td>							
