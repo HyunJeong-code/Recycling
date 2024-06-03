@@ -487,15 +487,27 @@ public class SlsServiceImpl implements SlsService {
 
 	//판매자 상품 조회
 	@Override
-	public List<SellerOrderJoin> selectAllPrdList() {
-		return slsDao.selectAllPrdList();
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging) {
+		return slsDao.selectAllPrdList(upPaging);
 	}
 
+	//판매자 상품 조회 페이징
 	@Override
-	public List<SellerOrderJoin> selectAllSellList() {
-		return slsDao.selectAllSellList();
+	public int selectCntAllPrdList(PagingAndCtg upPaging) {
+		return slsDao.selectCntAllPrdList(upPaging);
+	}
+	
+	//판매자 판매 조회
+	@Override
+	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging) {
+		return slsDao.selectAllSellList(unPaging);
 	}
 
+	//판매자 판매조회 페이징
+	@Override
+	public int selectCntAllSellList(PagingAndCtg unPaging) {
+		return slsDao.selectCntAllSellList(unPaging);
+	}
 	//판매자 정보 조회
 	@Override
 	public List<Map<String, Object>> sellerAllSeller(String getsCode) {
@@ -524,5 +536,7 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
+
+
 
 }//main

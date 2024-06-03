@@ -15,6 +15,7 @@ import recycling.buyer.dao.face.UpcyclingDao;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -128,6 +129,11 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	@Override
 	public int insertCart(Cart cart) {
 		return upcyclingDao.insertCart(cart);
+	}
+	
+	@Override
+	public CartOrder selectCartOrder(String prdCode) {
+		return upcyclingDao.selectCartOrder(prdCode);
 	}
 	
 }

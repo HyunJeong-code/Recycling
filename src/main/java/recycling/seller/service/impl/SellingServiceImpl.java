@@ -21,7 +21,10 @@ import com.google.gson.JsonParser;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
+import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
@@ -192,56 +195,8 @@ public class SellingServiceImpl implements SellingService {
 		return res;
 	}
 	
-	@Override
-	public List<Exp> selectMyExpList(Paging paging) {
-		
-		
-		return sellingDao.selectMyExpList(paging);
-	}
-
-	@Override
-	public Paging getSearchPaging(int curPage, String search) {
-		
-		Paging paging = null;
-		
-		int totalCount = sellingDao.selectCntAll(search);
-		
-		if("".equals(search)) {
-			paging = new Paging(totalCount, curPage, search);
-		} else {
-			paging = new Paging(totalCount, curPage, search);
-		}
-		return paging;
-	}
-
-	@Override
-	public Exp selectByExp(String expCode) {
-		
-		return sellingDao.selectByExp(expCode);
-	}
-
-	@Override
-	public Paging getPaging(int curPage) {
-		
-		int totalCount = sellingDao.selectPageAll();
-		
-		Paging paging = new Paging(totalCount, curPage);
-		
-		return paging;
-	}
-
-	@Override
-	public List<ExpRes> selectResList(String expCode) {
-		return sellingDao.selectResList(expCode);
-	}
-
-//	@Override
-//	public List<ExpRes> selectResList(String expCode, Paging paging) {
-//		
-//		return sellingDao.selectResList(expCode, paging);
-//	}
-
 	
+
 	//paging Cnt
 	
 	@Override
@@ -263,6 +218,48 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllMyOrder(PagingAndCtg unPaging) {
 		return sellingDao.selectCntAllMyOrder(unPaging);
 	}
+
 	
+
 	//paging Cnt end
+	
+	
+	//exp start
+	@Override
+	public List<Exp> selectMyExpList(PagingAndCtg upPaging) {
+		return sellingDao.selectMyExpList(upPaging);
+	}
+	
+	@Override
+	public int selectCntAllexpList(PagingAndCtg upPaging) {
+		
+		return sellingDao.selectCntAllexpList(upPaging);
+	}
+	
+	@Override
+	public int selectCntAllExpSch(PagingAndCtg upPaging) {
+		
+		return sellingDao.selectCntAllExpSch(upPaging);
+	}
+
+	@Override
+	public Exp selectByExp(String expCode) {
+		
+		return sellingDao.selectByExp(expCode);
+	}
+
+	@Override
+	public List<ExpSch> selectAllSch(String expCode) {
+		return sellingDao.selectAllSch(expCode);
+	}
+
+	@Override
+	public List<ResSchCnt> selectByResCnt(String expCode) {
+		return sellingDao.selectByResCnt(expCode);
+	}
+
+	@Override
+	public List<ExpFile> selectByExpFile(String expCode) {
+		return sellingDao.selectByExpFile(expCode);
+	}
 }

@@ -284,8 +284,7 @@ public interface BuyerDao {
 	 * @param sCode - 판매자 코드
 	 * @return 탈퇴 결과
 	 */
-
-	//public int changePw(BuyerLogin buyerLogin);
+	public int deleteSeller(String sCode);
 	
 	/**
 	 * 판매자 찾기
@@ -294,10 +293,7 @@ public interface BuyerDao {
 	 * @return
 	 */
 	public List<Seller> findSeller(String sCode);
-	public int deleteSeller(String sCode);
-
-	public BuyerRank selectBuyerRank(int rankNo);
-
+	
 	/**
 	 * Cart paging
 	 * 

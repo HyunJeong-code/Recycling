@@ -7,12 +7,53 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 let pdtList = {0:"플라스틱", 1:"유리", 2:"종이", 3:"캔", 4:"천", 5:"기타"}
 
 let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
 	, 940: "구매 확정", 950: "거래 완료", 960: "반품", 970: "교환", 980: "취소"}
 	
+	
+$(function() {
+	$("#del_btn").click(function() {
+		var arr = new Array();
+		$('input:checkbox[name=checkList]').each(function () {
+	        if($(this).is(":checked")==true){
+	        	let res = $(this).val();
+	        	arr.push(res);
+	        }
+	    });
+		
+		// 체크된 상품이 없을 때 알림
+		if(arr.length == 0){
+			alert("선택된 상품이 없습니다.");
+		}else{
+			$.ajax({
+				type: "post"
+				, url: "./prddel"
+				, data: {
+					arr: arr 
+				}
+				, dataType : "Json"
+				, success: function(res) {
+					console.log("AJAX 성공");
+					
+					location.href="./sellinglist";
+					
+					alert("상품이 삭제되었습니다.");
+				}
+				, error: function() {
+					console.log("AJAX 실패");
+				}
+			}) 
+		}
+	    console.log(arr);
+	}); // #dlt_btn click end
+	
+	
+}); //$ end
+
 </script>
 </head>
 <body>
@@ -85,7 +126,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 													</c:choose>
 												</td>
 												<td><script>document.write(pdtList[${prdList.ctPdtNo}])</script></td>
-												<td>${prdList.prdName }</td>
+												<td><a href="/manager/sls/orderdetail?orddtCode=${prdList.orddtCode}">${prdList.prdName }</a></td>
 												<td>${prdList.price }</td>
 												
 												<td>
@@ -105,12 +146,11 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 									</c:forEach>
 							</tbody>
 						</table>
+						<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 					</div><!-- section -->
 					
 					
-							<div class="btn_bot_wrap">
-									<button id="listDel" class="btn_bot_del">삭제하기</button>
-							</div>
+							
 							
 					<div class="page">
 						판매관리
@@ -133,7 +173,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				
 							<tbody>
 									<c:forEach var="prdList" items="${prdList }">
-										<c:if test="${prdList.sttName ne 'pay'}">
+										<c:if test="${prdList.sttName eq 'pay'}">
 											<tr>
 												<td><input type="checkbox" id="${prdList.prdCode }"name="chkBox"></td>
 												<td>${prdList.prdCode }</td>
@@ -167,12 +207,12 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 									</c:forEach>
 							</tbody>
 						</table>
+						<c:import url="/WEB-INF/views/layout/underpaging.jsp"/>
+						<div class="btn_bot_wrap">
+								<button id="del_btn" class="btn_bot_del">삭제하기</button>
+							</div>
+							
 					</div><!-- section -->
-					
-					
-					
-					
-					
 		</div><!-- wrap -->
 	</div><!-- full -->
 </html>

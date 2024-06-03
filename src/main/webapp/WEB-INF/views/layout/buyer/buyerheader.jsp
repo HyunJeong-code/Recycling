@@ -9,7 +9,7 @@
 <title>새활용 메인페이지</title>
 
 <!-- header css -->
-<link rel="stylesheet" href="/resources/css/header.css">
+<link rel="stylesheet" href="../../../resources/css/header.css">
 
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -106,6 +107,14 @@ public interface UpcyclingService {
 	 * @return - INSERT 결과
 	 */
 	public int insertCart(Cart cart);
+
+	/**
+	 * 구매 상품 정보 조회
+	 * 
+	 * @param prdCode - 조회할 상품의 prdCode
+	 * @return - 조회결과
+	 */
+	public CartOrder selectCartOrder(String prdCode);
 
 
 }
