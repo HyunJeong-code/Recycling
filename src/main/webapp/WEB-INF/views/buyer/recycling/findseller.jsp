@@ -80,6 +80,9 @@
 
         console.log(gpsList);
 
+        // 마커가 표시된 좌표를 저장할 배열
+        var displayedMarkers = [];
+
         for (let i = 0; i < gpsList.length; i++) {
             let gps = gpsList[i];
             let sCode = gps.sCode; // sCode 값을 가져옴
@@ -102,11 +105,23 @@
 
                     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
+                    // 이미 표시된 마커가 있는지 확인하고 있으면 좌표를 조금 이동
+                    displayedMarkers.forEach(function(marker) {
+                        if (marker.getPosition().equals(coords)) {
+                            var newLat = coords.getLat() + (Math.random() - 0.5) * 0.0001;
+                            var newLng = coords.getLng() + (Math.random() - 0.5) * 0.0001;
+                            coords = new kakao.maps.LatLng(newLat, newLng);
+                        }
+                    });
+
                     // 결과값으로 받은 위치를 마커로 표시합니다
                     var marker = new kakao.maps.Marker({
                         map: map,
                         position: coords
                     });
+
+                    // 표시된 마커의 좌표를 저장
+                    displayedMarkers.push(marker);
                     
                     // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
                     var iwContent = '<div style="padding:5px;"><a href="/buyer/recycling/rcydetail?prdcode=' + prdCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
