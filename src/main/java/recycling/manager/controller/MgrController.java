@@ -146,35 +146,7 @@ public class MgrController {
 	public void login() {
 		logger.info("/manager/login [GET]");		
 	}
-	
-<<<<<<< HEAD
-	//공지사항 전체조회
-	@GetMapping("/noticelist")
-	public void noticeList(
-			Model model
-			) {
-		//관리자 공지사항 전체조회
-		List<Notice> mgrNoticeList = mgrService.selectAll();
-		model.addAttribute("notice", mgrNoticeList);
-		logger.info("controller: noticeList[GET]");
-		
-		Paging pagingParam = null;
-		//페이징 계산, 검색기능
-//		Paging paging = mgrService.selectCntAll(pagingParam);
-		
-		//전체 조회기능
-		List<Notice> list = mgrService.selectAll();
-		
-		//JSP로 보내기
-//		model.addAttribute("paging", paging);
-		model.addAttribute("notice", list);
-		
-		logger.info("controller: noticelist : {}", list);
-	}
-=======
-	
->>>>>>> main
-	
+
 	@GetMapping("findid")
 	public void findId() {
 		logger.info("/manager/findid [GET]");

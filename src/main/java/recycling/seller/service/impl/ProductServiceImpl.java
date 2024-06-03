@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 		do {
 			storedName = file.getOriginalFilename(); // 원본 파일명
 			
-			storedName += UUID.randomUUID().toString().split("-")[4]; // UUID 추가
+			storedName = UUID.randomUUID().toString().split("-")[4] + storedName; // UUID 추가
 			logger.info("storedName : {}", storedName);
 			
 			dest = new File(storedFolder, storedName);			

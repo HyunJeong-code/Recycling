@@ -9,24 +9,17 @@
 <title>새활용 판매자 페이지</title>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 <c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
-<sec:authorize access="hasAnyRole('ROLE_SELLER')">
-	<button><a href="./logout">로그아웃</a></button>
-</sec:authorize>
-<c:if test="">
-	<div class="full">
-		<div class="wrap">
-			<div class="page">
-			</div>
-			
-			<div class="section">
-			</div>
+<div class="full">
+	<div class="wrap">
+		<div class="page">
+		</div>
+		
+		<div class="section">
 		</div>
 	</div>
-</c:if>
-
-<c:if test="">
-</c:if>
-
+</div>
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 </body>
 </html>
