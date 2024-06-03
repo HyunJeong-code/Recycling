@@ -31,9 +31,37 @@ public interface UpcyclingDao {
 
 	public void deleteReview(String upcyCode);
 
-
-
-
 	
+	/**
+	 * 장바구니 상품 갯수 조회
+	 * 
+	 * @param cart - cart DTO
+	 * @return - cCnt
+	 */
+	public Integer selectcCnt(Cart cart);
+
+	/**
+	 * 장바구니 수량 업데이트
+	 * 
+	 * @param cart - cart DTO
+	 * @return - UPDATE 결과
+	 */
+	public int updatecCnt(Cart cart);
+
+	/**
+	 * 장바구니 추가
+	 * 
+	 * @param cart - cart DTO
+	 * @return - INSERT 결과
+	 */
+	public int insertCart(Cart cart);
+
+	/**
+	 * 구매 상품 정보 조회
+	 * 
+	 * @param prdCode - 조회할 상품의 prdCode
+	 * @return - 조회결과
+	 */
+	public CartOrder selectCartOrder(String prdCode);
 
 }

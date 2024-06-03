@@ -163,7 +163,7 @@ public class UpcyclingController {
 	
 	 
 	 @GetMapping("/pay")
-	 public void pay(
+	 public String pay(
 			 Authentication authentication
 			 , CartOrder cartOrder
 			 , Model model
@@ -178,6 +178,28 @@ public class UpcyclingController {
 		 //아이디 상세 가져오기
 		 Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		 
+		 String prdCode = cartOrder.getPrdCode();
+		 
+		 //상품 정보 가져오기
+		 CartOrder prd = upcyclingService.selectCartOrder(prdCode);
+		 
+		 //상품 수량 확인 후 알림 메시지
+		 if(prd.getcCnt() < cartOrder.getcCnt()) {
+				model.addAttribute("msg", "상품 수량이 부족합니다.");
+				model.addAttribute("url", "/buyer/upcycling/main");
+				return "/layout/alert";
+		 } else if(prd.getcCnt() == 0) {
+				model.addAttribute("msg", "해당 상품이 품절되었습니다.");
+				model.addAttribute("url", "/buyer/upcycling/main");
+				return "/layout/alert";
+		 }
+		 
+		 cartOrder.setPrdName(prd.getPrdName());
+		 cartOrder.setPrice(prd.getPrice());
+		 cartOrder.setPrdFee(prd.getPrdFee());
+		 cartOrder.setStoredName(prd.getStoredName());
+		 
+		 
 		 //배송지 주소 가져오기
 		 List<BuyerAdr> buyeradr = buyerService.selectBybCode(bCode); 
 		 
@@ -191,6 +213,8 @@ public class UpcyclingController {
 		 model.addAttribute("buyer", buyer);
 		 model.addAttribute("cart", cartOrder);
 		 model.addAttribute("buyeradr", buyeradr);
+		 
+		 return "/buyer/upcycling/pay";
 	 }
 	 
 	 
@@ -214,6 +238,21 @@ public class UpcyclingController {
 		 //주문 INSERT
 		 int res = buyerService.insertOrder(order);
 		
+		 //prdCode
+		 String prdCode = orderDetail.getPrdCode();
+		 
+		 //상품 정보 가져오기
+		 Prd prd = upcyclingService.selectPrd(prdCode);
+		 
+		 //상품 상세 데이터 삽입
+		 orderDetail.setOrdCode(order.getOrdCode());
+		 orderDetail.setPrdCode(prd.getPrdCode());
+		 orderDetail.setOrdName(prd.getPrdName());
+		 orderDetail.setOrdPrice(prd.getPrice());
+		 orderDetail.setOrdSum(orderDetail.getOrdCnt() * prd.getPrice());
+		 orderDetail.setSttNo(900);
+		 
+		 //상품 상세 INSERT
 		 int ordRes = buyerService.insertOrderDetail(orderDetail);
          
 		 model.addAttribute("order", order);

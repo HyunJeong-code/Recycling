@@ -64,22 +64,7 @@ public class SellingController {
 			}
 		}
 		
-		//삭제된 상품을 제외한 상품 리스트
-		List<Prd> nplist = new ArrayList<Prd>();
-		
-		for(Prd prd : plist) {
-			String prdOut = prd.getPrdOut();
-			
-			logger.info("{}",prdOut);
-			
-			if("N".equals(prdOut)) {
-				nplist.add(prd);
-			}
-		}
-		
-		logger.info("{}",nplist);
-		
-		model.addAttribute("plist", nplist);
+		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
 	}
 	
@@ -107,26 +92,14 @@ public class SellingController {
 			}
 		}
 		
-		//삭제된 상품을 제외한 상품 리스트
-		List<Prd> nplist = new ArrayList<Prd>();
-		
-		for(Prd prd : plist) {
-			String prdOut = prd.getPrdOut();
-			
-			logger.info("{}",prdOut);
-			
-			if("N".equals(prdOut)) {
-				nplist.add(prd);
-			}
-		}
 		
 		//내림차순 정렬
 		Collections.sort(olist, new Range());
 		
 		logger.info("olist: {}",olist);
-		logger.info("nplist: {}",nplist);
+		logger.info("nplist: {}",plist);
 		
-		model.addAttribute("plist", nplist);
+		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
 	}
 	
@@ -191,11 +164,7 @@ public class SellingController {
 		logger.info("list: {}",list);
 		logger.info("sttNo: {}",sttNo);
 		
-<<<<<<< Updated upstream
 		if(sttNo == 980) {
-=======
-		if(sttNo >= 970) {
->>>>>>> Stashed changes
 			//토큰 발급
 			String token = sellingService.getToken();
 			

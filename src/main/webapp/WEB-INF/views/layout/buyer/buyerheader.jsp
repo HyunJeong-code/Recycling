@@ -9,17 +9,46 @@
 <title>새활용 메인페이지</title>
 
 <!-- header css -->
-<<<<<<< Updated upstream
-<link rel="stylesheet" href="../../../resources/css/header.css">
-=======
 <link rel="stylesheet" href="/resources/css/header.css">
->>>>>>> Stashed changes
-
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 $(function(){
 
+	$.ajax({
+		type: 'get',
+		url : '/buyer/buyerheader',
+		dataType: 'json',
+		success: function(res) {
+// 			console.log("res : " + JSON.stringify(res));
+// 			console.log("res : " + JSON.stringify(res).length);
+// 			console.log("res : " + typeof(JSON.stringify(res)));
+			
+// 			var none = "<div id='info'>공지사항이 없습니다.</div>";
+			
+// 			var ntcList = JSON.stringify(res);
+// 			console.log("ntcList : " + ntcList);
+// 			console.log("ntcList[0] : " + typeof(ntcList));
+			
+			
+// 			if(ntcList.length == 0) {
+// 				$("#ntcBanner").html(none);
+// 			} else {
+				
+// 				var banner = $("#ntc-banner");
+// 				var ntc = "";
+				
+// 				ntc += "<ul>";
+// 				for(var i = 0; i < ntcList.length; i++) {
+// 					banner.append(
+// 							$("<li>").html(ntcList[i].NTC_TITLE)
+// 						);
+// 				}
+// 				ntc += "</ul>";
+// 			}
+		}
+	})
+	
     var header = $('.header');
     var headerOffset = header.offset().top;
 
@@ -56,9 +85,18 @@ $(function(){
 </head>
 <body>
 	<header class="header">
-        <div class="notice-banner">
-            <a href="">공지사항</a>
+        <div class="notice-banner" id="ntcBanner">
+        	<c:if test="${ntcSize eq 0 }">
+        		<div class="banner" style="color:white;">공지사항이 없습니다.</div>
+        	</c:if>
+        	
+        	<c:if test="${ntcSize ne 0 }">
+        		<c:forEach var="list" items="${ntcList }">
+        			<div class="info" style="color:white;"><a href="/buyer/help/noticedetail?ntcCode=${list.NTC_CODE }">${list.TITLE }</a></div>
+        		</c:forEach>
+        	</c:if>        	
         </div>
+        
         <div class="container">
             <div class="nav-ul">
                 <ul>
@@ -91,11 +129,8 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
-<<<<<<< Updated upstream
-                    <a href="/buyer/main"><button class="selected">buyer</button></a><a href="/seller/main"><button>seller</button></a>
-=======
                     <button class="selected">Buyer</button><button>Seller</button>
->>>>>>> Stashed changes
+                    <button class="selected"><a href="/buyer/main">Buyer</a></button><button><a href="/seller/main">Seller</a></button>
                 </div>
             </div>
             <div class="search-bar">
@@ -140,15 +175,7 @@ $(function(){
 	                <li><a href="">분류5</a></li>
 	            </ul>
 	            <ul>
-<<<<<<< Updated upstream
 	                <li><a href="/buyer/exp/main">체험단 예약</a></li>
-=======
-	                <li><a href="">업체 소개</a></li>
-	                <li><a href="">세척</a></li>
-	            </ul>
-	            <ul>
-	                <li><a href="">체험단 예약</a></li>
->>>>>>> Stashed changes
 	                <li><a href="">체험단 후기</a></li>
 	            </ul>
 	            <ul>

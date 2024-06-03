@@ -9,32 +9,7 @@
 <title>새활용 판매자 페이지</title>
 </head>
 <body>
-<<<<<<< Updated upstream
-	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
-
-	<div class="full">
-	
-		<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
-		<sec:authorize access="hasAnyRole('ROLE_SELLER')">
-			<button><a href="./logout">로그아웃</a></button>
-		</sec:authorize>
-		<c:if test="">
-			<div class="full">
-				<div class="wrap">
-					<div class="page">
-					</div>
-					
-					<div class="section">
-					</div>
-				</div>
-			</div>
-		</c:if>
-		
-		<c:if test="">
-		</c:if>
-	</div>
-	<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
-=======
+<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 <c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
 <sec:authorize access="hasAnyRole('ROLE_SELLER')">
 	<button><a href="./logout">로그아웃</a></button>
@@ -54,6 +29,7 @@
 <c:if test="">
 </c:if>
 
->>>>>>> Stashed changes
+</div>
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 </body>
 </html>

@@ -142,9 +142,7 @@ public class MgrController {
 	public void login() {
 		logger.info("/manager/login [GET]");		
 	}
-	
-<<<<<<< Updated upstream
-=======
+
 	//공지사항 전체조회
 	@GetMapping("/noticelist")
 	public void noticeList(
@@ -170,7 +168,6 @@ public class MgrController {
 		logger.info("controller: noticelist : {}", list);
 	}
 	
->>>>>>> Stashed changes
 	@GetMapping("findid")
 	public void findId() {
 		logger.info("/manager/findid [GET]");

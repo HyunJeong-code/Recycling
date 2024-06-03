@@ -9,8 +9,45 @@
 	SELECT * FROM Exp
 	</sql>
 	
-	<select id="selectAllrcyPrd" parameterType="String" resultType="Prd">
-		SELECT * FROM prd
+	<select id="selectAllrcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="Prd">
+		SELECT *
+		FROM (
+			SELECT rownum no, PRD.* FROM (
+				SELECT * FROM prd
+				<where>
+					AND s_code = #{user }
+					AND ct_pno = 0
+					AND prd_out = 'N'
+					AND (
+					prd_name LIKE '%' || #{search } || '%'
+					OR prd_detail LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY prd_code DESC
+		) PRD
+	)
+	<where>
+		AND no BETWEEN #{startNo } AND #{endNo }
+	</where>
+	</select>
+	
+	<select id="selectAllupcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="Prd">
+		SELECT *
+		FROM (
+			SELECT rownum no, PRD.* FROM (
+				SELECT * FROM prd
+				<where>
+					AND s_code = #{user }
+					AND ct_pno = 1
+					AND prd_out = 'N'
+					AND (
+					prd_name LIKE '%' || #{search } || '%'
+					OR prd_detail LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY prd_code DESC
+			) PRD
+		)
 		<where>
 			AND s_code = #{sCode}
 			AND ct_pno = 0
@@ -29,7 +66,6 @@
 	
 	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
 		SELECT 
-<<<<<<< Updated upstream
 			*
 		FROM (
 			SELECT rownum no, ORD.* FROM (
@@ -50,11 +86,6 @@
 					od.ORDDT_CODE DESC
 			) ORD
 		)
-=======
-			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
-		FROM 
-			order_detail od, orders o, ship s
->>>>>>> Stashed changes
 		<where>
 			AND od.ord_code = o.ord_code
 			AND od.orddt_code = s.orddt_code(+)
@@ -122,7 +153,6 @@
 		
 <!-- 	</select> -->
 
-<<<<<<< Updated upstream
 	<!-- paging Cnt -->
 	
 	<select id="selectCntAllrcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
@@ -130,6 +160,7 @@
 		<where>
 			AND s_code = #{user }
 			AND ct_pno = 0
+			AND prd_out = 'N'
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -166,6 +197,7 @@
 		<where>
 			AND s_code = #{user }
 			AND ct_pno = 1
+			AND prd_out = 'N'
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -251,43 +283,6 @@
 	</select>
 	
 	<!-- 체험단 세부 조회[expdetail] -->
-=======
-	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
-		SELECT * FROM (
-			SELECT rownum rnum, E.* FROM (
-				<include refid="selectExp"/>
-				<where>
-					AND exp_name LIKE '%' || #{search } || '%' 
-						OR exp_code LIKE '%' || #{search } || '%' 
-				</where>
-				ORDER BY exp_code
-			) E
-		)
-		<where>
-			AND rnum BETWEEN #{startNo} AND #{endNo}
-		</where>
-	</select>
-	
-	
-	<select id="selectCntAll" parameterType="string" resultType="int">
-		SELECT count(*) FROM Exp
-		<where>
-			AND exp_name LIKE '%' || #{key } || '%' 
-				OR exp_code LIKE '%' || #{search } || '%'
-		</where>
-		ORDER BY exp_date DESC
-	</select>
-	
-	<select id="selectPageAll" resultType="int">
-		SELECT COUNT(*) FROM (
-			SELECT * FROM exp_res
-			<where>
-				AND sch_no = #{schNo}
-			</where>
-		)
-	</select>
-	
->>>>>>> Stashed changes
 	<select id="selectByExp" parameterType="string" resultType="Exp">
 		SELECT * FROM exp
 		<where>
@@ -295,7 +290,6 @@
 		</where>
 	</select>
 	
-<<<<<<< Updated upstream
 	<!-- 체험단 스케쥴 조회[expdetail] -->
 	<select id="selectAllSch" resultType="ExpSch" parameterType="string">
 		SELECT * FROM exp_sch
@@ -320,7 +314,6 @@
     </select>
 	
 	
-=======
 <!-- 	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes"> -->
 <!-- 		<bind name="expCode" value="'#{expCode}'"/> -->
 <!-- 		SELECT * FROM ( -->
@@ -346,5 +339,4 @@
 		</where>
 	</select>
 
->>>>>>> Stashed changes
 </mapper>

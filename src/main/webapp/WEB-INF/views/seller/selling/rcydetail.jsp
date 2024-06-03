@@ -12,11 +12,13 @@
 
 <script type="text/javascript">
 	$(function() {
+		
 		// 해당 상품의 ctPdtNo 선택
 		$("#ctPdtNo option:eq(${prd.ctPdtNo})").attr("selected", "selected");
 		
 		//input 빈값 체크
         $("#btnUpdate").click(function(){
+        	
             var isRight = true;
             $("#detailForm").find("input[type=text]").each(function(index, item){
                 // 아무값없이 띄어쓰기만 있을 때도 빈 값으로 체크되도록 trim() 함수 호출
@@ -43,9 +45,7 @@
 	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
     <div class="full">
         <div class="wrap">
-            <div class="page">
-            
-            </div>
+            <c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
         
             <div class="section">
             	<h3>${prd.prdCode }</h3>
@@ -70,15 +70,15 @@
 	            		</tr>
 	            		<tr>
 	            			<td>상품명</td>
-	            			<td><input type="text" name="prdName" value="${prd.prdName }"></td>
+	            			<td><input type="text" id="prdName" name="prdName" value="${prd.prdName }" data-name="상품명"></td>
 	            		</tr>
 	            		<tr>
 	            			<td>가격</td>
-	            			<td><input type="text" name="price" value="${prd.price }"></td>
+	            			<td><input type="text" id="price" name="price" value="${prd.price }" data-name="가격"></td>
 	            		</tr>
 	            		<tr>
 	            			<td>상품 상세</td>
-	            			<td><input type="text" name="prdDetail" value="${prd.prdDetail }"></td>
+	            			<td><input type="text" id="prdDetail" name="prdDetail" value="${prd.prdDetail }" data-name="상품 상세"></td>
 	            		</tr>
 		           	</table>
 		           	<button type="button"><a href="./rcylist">목록</a></button>

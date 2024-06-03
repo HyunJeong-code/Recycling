@@ -12,7 +12,7 @@ public class MyOrder {
 	private int sttNo;
 	private String ordDate;
 	private String shipName;
-	private int shipNo;
+	private String shipNo;
 	
 	public MyOrder() {}
 
@@ -119,11 +119,11 @@ public class MyOrder {
 		this.shipName = shipName;
 	}
 
-	public int getShipNo() {
+	public String getShipNo() {
 		return shipNo;
 	}
 
-	public void setShipNo(int shipNo) {
+	public void setShipNo(String shipNo) {
 		this.shipNo = shipNo;
 	}
 }
