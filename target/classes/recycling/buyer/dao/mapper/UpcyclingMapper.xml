@@ -36,16 +36,31 @@
 		WHERE PRD_CODE = #{prdCode}
 	</select>
 	
+	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT B_Code AS bCode,
+		       B_Ct_Code AS bCtCode,
+		       B_Id AS bId,
+		       B_Pw AS bPw,
+		       B_Name AS bName,
+		       B_Phone AS bPhone,
+		       B_Email AS bEmail,
+		       Ad_Sms AS adSms,
+		       Ad_Email AS adEmail
+		FROM Buyer
+		<where>
+			AND B_Id = #{bId }
+		</where>
+	</select>
     
 	<select id="selectRvw" parameterType="String" resultType="UpcyReview">
 		SELECT * FROM upcy_review 
 		WHERE UPCY_CODE  = #{upcyCode} 
 	</select> 
 
-    <insert id="insertReview" parameterType="map">
-        INSERT INTO upcy_table (B_CODE, PRD_CODE, UPCY_CONTENT, UPCY_GRADE, UPCY_DATE)
-        VALUES (#{bCode}, #{prdCode}, #{upcyContent}, #{upcyGrade}, SYSDATE)
-    </insert>
+	<insert id="insertReview" parameterType="UpcyReview" useGeneratedKeys="true" keyProperty="upcyCode" keyColumn="UPCY_CODE">
+	    INSERT INTO upcy_review (UPCY_CODE, B_CODE, PRD_CODE, UPCY_CONTENT, UPCY_GRADE, UPCY_DATE)
+	    VALUES ('UPCY' || lpad(UPCY_RVW_SEQ.nextval, 7, '0'), #{bCode}, #{prdCode}, #{upcyContent}, #{upcyGrade}, SYSDATE)
+	</insert>
 
 	<update id="updateReview" parameterType="map">
         UPDATE upcy_review 

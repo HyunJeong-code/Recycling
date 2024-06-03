@@ -1,9 +1,7 @@
 package recycling.buyer.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +57,16 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public Buyer selectBuyerCode(int bCode) {
 		return upcyclingDao.selectBcode(bCode);
 	}
+	
+	@Override
+	public Buyer selectBuyerDetail(String bId) {
+		return upcyclingDao.selectBuyerBybId(bId);
+	}
 
+	@Override
+	public int insertReview(UpcyReview review) {
+		return upcyclingDao.insertReview(review);
+	}
 	
 	@Override
 	public List<Map<String, Object>> selectRvwList(String prdCode) {
@@ -89,31 +96,6 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		
 		return upcyclingDao.selectRvw();
 	}
-
-	
-	@Override
-	public void insertReview(String upcyContent, String prdCode, String bCode, int upcyGrade) {
-		Map<String, Object> reviewData = new HashMap<>();
-		reviewData.put("bCode", bCode);
-		reviewData.put("prdCode", prdCode);
-		reviewData.put("upcyContent", upcyContent);
-		reviewData.put("upcyGrade", upcyGrade);
-        upcyclingDao.insertReview(reviewData);
-	}
-
-	@Override
-	public void updateReview(String upcyCode, String upcyContent) {
-		upcyclingDao.updateReview(upcyCode, upcyContent);
-		logger.info("updateReview() - UpcyReview updated: upcyCode={}, upcyContent={}", upcyCode, upcyContent);
-	}
-
-	
-	@Override
-	public void deleteReview(String upcyCode) {
-		upcyclingDao.deleteReview(upcyCode);
-		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
-	}
-
 
 
 

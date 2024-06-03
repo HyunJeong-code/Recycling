@@ -46,12 +46,12 @@ public class UpcyclingController {
 	@GetMapping("/upcydetail")
 	public String  upcyDetail(
 			@RequestParam("prdcode") String prdCode,
-			HttpSession session, Model model) {
+			Authentication authentication, Model model) {
 		logger.info("/upcydetail [GET] - prdCode: {}", prdCode );
 		
-	    if (session.getAttribute("buyerLogin") != null) {
+		if (authentication != null && authentication.isAuthenticated()) {
 	        // 세션이 존재하면 로그인 정보를 출력
-	        BuyerLogin buyerLogin = (BuyerLogin) session.getAttribute("buyerLogin");
+	    	BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 	        logger.info("상세페이지 조회 - 로그인 되어 있음, BuyerLogin 정보: {}", buyerLogin);
 	    } else {
 	        // 세션이 존재하지 않으면 비로그인 상태임을 안내
@@ -104,73 +104,68 @@ public class UpcyclingController {
 	
 	
 	 @GetMapping("/upcyrvwform")
-	 public String upcyrvwform(@RequestParam("prdCode") String prdCode, Model model) {
+	 public String upcyrvwform(
+			 @RequestParam("prdCode") String prdCode,
+			 Authentication authentication,
+			 Model model) {
 	        logger.info("/upcyrvwform [GET]");
 	        
-	        model.addAttribute("prdCode", prdCode);
+	        //로그인 정보 불러오기
+			 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+			 
+			// 로그인 확인
+			 if (authentication == null || !authentication.isAuthenticated()) {
+				 	// 비로그인 상태인 경우 로그인 페이지로 리다이렉트
+				 return "redirect:/buyer/login";
+			 }
+			 
+			 Buyer buyer = upcyclingService.selectBuyerDetail(buyerLogin.getbId());
+			 model.addAttribute("buyer", buyer);
+			 model.addAttribute("prdCode", prdCode);
 	        
-	        return "upcyrvwform"; // 후기 작성 폼 페이지로 이동
+	        return "/buyer/upcycling/upcyrvwform"; // 후기 작성 폼 페이지로 이동
 	    }
 	 
-	 @PostMapping("/upcyrvwform")
+	 @PostMapping("/upcyrvwformProc")
 	 public String upcyrvwformProc(
+			 Model model,
+			 @RequestParam("prdcode") String prdCode,
 			 @RequestParam("upcyContent") String upcyContent,
 			 @RequestParam("upcyGrade") int upcyGrade,
-			 @RequestParam("prdCode") String prdCode,
-			 HttpSession session) {
+			 Authentication authentication) {
 		 logger.info("/upcyrvwformProc [POST]");
-		 
-		 //로그인 정보 불러오기
-		 BuyerLogin buyerLogin = (BuyerLogin)session.getAttribute("buyerLogin");
-		 
-		 if (buyerLogin == null) {
-			 // 세션에 buyerLogin 정보가 없을 경우 처리
-			 logger.error("BuyerLogin 정보가 세션에 없습니다. 세션 ID: " + session.getId());
-			 return "redirect:/buyer/login"; // 로그인 페이지로 리다이렉트
+
+		 // 로그인 확인
+		 if (authentication == null || !authentication.isAuthenticated()) {
+			 // 비로그인 상태인 경우 로그인 페이지로 리다이렉트
+			 return "redirect:/buyer/login";
 		 }
 		 
-		 logger.info("BuyerLogin 정보: " + buyerLogin);
+		 //로그인 정보 불러오기
+		 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		 if (buyerLogin == null) {
+			 // BuyerLogin 객체가 null이면 로그인 페이지로 리다이렉트
+			 return "redirect:/buyer/login";
+		 }
 		 
-		 String bCode = buyerLogin.getbCode();
 		 
-		 upcyclingService.insertReview(upcyContent, prdCode, bCode, upcyGrade);
+		 Buyer buyer = upcyclingService.selectBuyerDetail(buyerLogin.getbId());
+		 if (buyer == null) {
+			 // Buyer 객체가 null이면 오류 페이지로 리다이렉트
+			 return "redirect:/buyer/loginr";
+		 }
+		 
+		 UpcyReview review = new UpcyReview();
+		 review.setbCode(buyer.getbCode());
+		 review.setPrdCode(prdCode);
+		 review.setUpcyContent(upcyContent);
+		 review.setUpcyGrade(upcyGrade);
+		 
+		 int res = upcyclingService.insertReview(review);
 		 
 		 return "redirect:/buyer/upcycling/upcydetail?prdcode=" + prdCode;
 	 }
 	 
-	 @GetMapping("/upcyrvwupdate")
-	 public String upcyrvwupdate(@RequestParam("upcyCode") String upcyCode, Model model) {
-		 logger.info("/upcyrvwupdate [GET]");
-		 
-		// 후기 상세 조회
-		 UpcyReview upcyReview = upcyclingService.selectRvw(upcyCode);
-		 model.addAttribute("upcyReview", upcyReview);
-		 
-		 return "upcyrvwupdate";
-	 }
-	 
-	 @PostMapping("/upcyrvwupdateProc")
-	 public String  upcyrvwupdate(
-			 @RequestParam("upcyCode") String upcyCode
-			 , @RequestParam("rvwContent") String upcyContent
-			 ,@RequestParam("prdCode") String prdCode) {
-		 
-		 logger.info("/upcyrvwupdateProc [GET]");
-		 upcyclingService.updateReview(upcyCode, upcyContent);
-		 
-		 
-		 return "redirect:/buyer/upcycling/upcydetail?prdcode=" + prdCode;
-		 
-	 }
-	 
-	 @PostMapping("/upcyrvwdel")
-	 public String upcyrvwdel(@RequestParam("upcyCode") String upcyCode, @RequestParam("prdCode") String prdCode) {
-		 logger.info("/upcyrvwdel [POST]");
-		 
-		 upcyclingService.deleteReview(upcyCode);
-		 
-		 return "redirect:/buyer/upcycling/upcydetail?prdcode=" + prdCode;
-	 }
 	
 	
 }

@@ -17,15 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
-import recycling.dto.buyer.OtoFile;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 

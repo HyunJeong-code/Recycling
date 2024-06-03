@@ -35,14 +35,20 @@ public interface UpcyclingService {
 
 	
 	/**
-	 * 구매자 정보 로드
+	 * 개인 구매자 정보 조회
 	 * 
-	 * @param bCode 구매자 코드
-	 * @return 구매자 정보
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
 	 */
 	public Buyer selectBuyerCode(int bCode);
 	
-
+	/**
+	 * 구매
+	 * 
+	 * @param getbId
+	 * @return
+	 */
+	public Buyer selectBuyerDetail(String getbId);
 
 	/**
 	 * 리뷰 DTO 로드
@@ -60,34 +66,13 @@ public interface UpcyclingService {
 	public UpcyReview selectRvw(String upcyCode);
 
 	/**
-	 * 리뷰 작성
+	 * 파일 정보 DB에 삽입
 	 * 
-	 * @param upcyContent 리뷰 내용
-	 * @param prdCode 제품고유코드
-	 * @param bCode buyerLogin 로그인 정보에 필요한 프라이머리키
-	 * @param upcyGrade 상품 평점
+	 * @param review
+	 * @return
 	 */
-	public void insertReview(String upcyContent, String prdCode, String bCode, int upcyGrade);
-
+	public int	insertReview(UpcyReview review);
 	
-	/**
-	 * 리뷰 업데이트 메소드
-	 * 
-	 * @param rvwCode 리뷰코드
-	 * @param rvwContent 리뷰내용
-	 */
-	public void updateReview(String upcyCode, String upcyContent);
-
-	/**
-	 * 리뷰 삭제 메소드
-	 * 
-	 * @param rvwCode 리뷰코드
-	 */
-	public void deleteReview(String upcyCode);
-
-	
-
-
 	
 
 }
