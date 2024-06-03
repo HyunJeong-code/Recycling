@@ -236,4 +236,19 @@ public class BuyServiceImpl implements BuyService {
 	public List<Map<String, Object>> selectNtc() {
 		return buyDao.selectNtc();
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectRcy() {
+		return buyDao.selectRcy();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectUpcy() {
+		return buyDao.selectUpcy();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectExp() {
+		return buyDao.selectExp();
+	}
 }

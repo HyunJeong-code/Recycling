@@ -54,13 +54,20 @@ public class BuyLoginServiceImpl implements UserDetailsService {
 			auth = new ArrayList<SimpleGrantedAuthority>();
 			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
 			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
-		} else if (buyerLogin.getbOut().equals("Y") && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
-			auth = new ArrayList<SimpleGrantedAuthority>();
-			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
 		} else if (buyerLogin.getbOut().equals("N") && buyerLogin.getsChk().equals("N") && buyerLogin.getsOut().equals("N")) {
 			auth = new ArrayList<SimpleGrantedAuthority>();
 			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
+		} else if(buyerLogin.getbOut().equals('N') && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("Y")) {
+			auth = new ArrayList<SimpleGrantedAuthority>();
+			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));						
+		} else if (buyerLogin.getbOut().equals('Y')) {
+			auth = new ArrayList<SimpleGrantedAuthority>();
+			auth.add(new SimpleGrantedAuthority("anonymous"));									
 		}
+//		else if (buyerLogin.getbOut().equals("Y") && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
+//			auth = new ArrayList<SimpleGrantedAuthority>();
+//			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
+//		}
 		
 		buyerLogin.setAuth(auth);
 		
