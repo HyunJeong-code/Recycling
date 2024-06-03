@@ -90,21 +90,21 @@ public class SellingController {
 //		}
 		
 		//삭제된 상품을 제외한 상품 리스트
-		List<Prd> nplist = new ArrayList<Prd>();
+//		List<Prd> nplist = new ArrayList<Prd>();
+//		
+//		for(Prd prd : plist) {
+//			String prdOut = prd.getPrdOut();
+//			
+//			logger.info("{}",prdOut);
+//			
+//			if("N".equals(prdOut)) {
+//				nplist.add(prd);
+//			}
+//		}
 		
-		for(Prd prd : plist) {
-			String prdOut = prd.getPrdOut();
-			
-			logger.info("{}",prdOut);
-			
-			if("N".equals(prdOut)) {
-				nplist.add(prd);
-			}
-		}
+		logger.info("{}",plist);
 		
-		logger.info("{}",nplist);
-		
-		model.addAttribute("plist", nplist);
+		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
 		
 		model.addAttribute("upPaging", upPaging);
@@ -151,22 +151,22 @@ public class SellingController {
 		List<MyOrder> olist = sellingService.selectAllupcyMyOrder(unPaging);
 		
 		//삭제된 상품을 제외한 상품 리스트
-		List<Prd> nplist = new ArrayList<Prd>();
-		
-		for(Prd prd : plist) {
-			String prdOut = prd.getPrdOut();
-			
-			logger.info("{}",prdOut);
-			
-			if("N".equals(prdOut)) {
-				nplist.add(prd);
-			}
-		}
+//		List<Prd> nplist = new ArrayList<Prd>();
+//		
+//		for(Prd prd : plist) {
+//			String prdOut = prd.getPrdOut();
+//			
+//			logger.info("{}",prdOut);
+//			
+//			if("N".equals(prdOut)) {
+//				nplist.add(prd);
+//			}
+//		}
 		
 		logger.info("olist: {}",olist);
-		logger.info("nplist: {}",nplist);
+		logger.info("nplist: {}",plist);
 		
-		model.addAttribute("plist", nplist);
+		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
 		
 		model.addAttribute("upPaging", upPaging);
