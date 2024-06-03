@@ -63,7 +63,7 @@ public class SlsController {
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		
-		int upPage = mgrService.selectCntAllempList(upPaging);
+		int upPage = slsService.selectCntAllList(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		// 판매자 목록 조회

@@ -45,8 +45,8 @@ public class SlsServiceImpl implements SlsService {
 	}
 
 	@Override
-	public int getPaging(PagingAndCtg upPaging) {
-		return slsDao.getPaging(upPaging);
+	public int selectCntAllList(PagingAndCtg upPaging) {
+		return slsDao.selectCntAllList(upPaging);
 	}
 	
 	//전체조회
