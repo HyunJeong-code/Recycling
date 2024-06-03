@@ -313,16 +313,13 @@ button:hover {
 					<div class="section_bot_title">사원 정보</div>
 					
 				<div class="section_bot_itembox">
-					<div class="mgrId_box">
-						<label for ="mgrId">아이디</label> 
-						<input type="text" name="mgrId" id="mgrId" value="${view.mgrId }">
-					</div>
+					<c:if test="${not empty view.mgrId}">
+					    <div class="mgrId_box">
+					        <label for="mgrId">아이디</label> 
+					        <input type="text" name="mgrId" id="mgrId" value="${view.mgrId}">
+					    </div>
+					</c:if>
 					
-					<div class="mgrPw_box">
-						<label for ="mgrPw">비밀번호</label> 
-						<input type="text" name="mgrPw" id="mgrPw" value="${view.mgrPw }">
-					</div>
-				
 					<div class="mgrPhone_box">
 						<label for ="mgrPhone">전화번호</label> 
 						<input type="text" name="mgrPhone" id="mgrPhone" value="${view.mgrPhone }">
@@ -345,10 +342,10 @@ button:hover {
 					</div>
 
 					<!-- 근로계약서, 등본 등 -->
-					<div>
-						입사서류 파일
-						<a href="./hrdownload?mgrCode=${mgrFile.mgrCode }">${fileList.originName }</a>
-					</div>
+<!-- 					<div> -->
+<!-- 						입사서류 파일 -->
+<%-- 						<a href="./hrdownload?mgrCode=${mgrFile.mgrCode }">${fileList.originName }</a> --%>
+<!-- 					</div> -->
 
 					<!-- 개명, 주소지변경 등 -->
 <!-- 					<div class="bot_document_filebox"> -->

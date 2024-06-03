@@ -48,16 +48,11 @@ public class SlsController {
 	
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
-<<<<<<< Updated upstream
 	public void main(
 			@RequestParam(defaultValue = "0") int curPage
 			, @RequestParam(defaultValue = "") String search
 			, String category, Paging pagingParam, Model model
 			, String prdCode) {
-=======
-	public void main(@RequestParam(defaultValue = "0") int curPage, @RequestParam(defaultValue = "") String search,
-			String category, Paging pagingParam, Model model) {
->>>>>>> Stashed changes
 
 		Paging paging = new Paging();
 
@@ -179,7 +174,6 @@ public class SlsController {
 			) {
 		logger.info("/manager/sls/sellerchk [GET]");
 		
-<<<<<<< Updated upstream
 		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
 	
         // 문의글 페이지 수 계산
@@ -319,12 +313,6 @@ public class SlsController {
 			}
 			
 			model.addAttribute("Msg", successRes + failRes);
-=======
-		logger.info("sCode, selChk : {}, {}", sCode, selChk);
-		Seller seller = new Seller();
-		seller.setsCode(sCode);
-		seller.setsChk(selChk);
->>>>>>> Stashed changes
 		
 		int res = 0;
 		if(selChk.equals("Y")) {
@@ -451,9 +439,10 @@ public class SlsController {
 		logger.info("controller: updateProc[Post]");
 		
 		slsService.expUpdateProc(exp);
-<<<<<<< Updated upstream
 
-		
+		logger.info("controller: expfileUpdate{}",expfileUpdate);
+		logger.info("controller: expMultiFileUpdate{}",expMultiFileUpdate);
+
 		//expfile 프로필 업데이트
 		if(expfileUpdate != null && !expfileUpdate.isEmpty()) {
 		
@@ -478,12 +467,11 @@ public class SlsController {
 		}else {
 			logger.info("파일이 존재합니다.");
 		}
-		model.addAttribute("msg", "사원정보가 변경되었습니다.");
-		model.addAttribute("url", "redirect:manager/sls/expdetail?expCode=" + exp.getExpCode());
-=======
 		logger.info("exp : {}",exp);
->>>>>>> Stashed changes
-		
+
+		model.addAttribute("msg", "체험정보가 변경되었습니다.");
+		model.addAttribute("url", "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode());
+
 		return "/layout/alert";
 	}
 	
