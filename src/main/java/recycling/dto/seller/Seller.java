@@ -1,7 +1,7 @@
 package recycling.dto.seller;
 
 public class Seller {
-	
+
 	private String sCode;
 	private String bCode;
 	private String accName;
@@ -16,11 +16,12 @@ public class Seller {
 	private String sOutDate;
 	private String originName;
 	private String storedName;
-	private String sTier;	//판매자 등급
-	private double sRating;	//판매자 평점
-	private int totalTransaction;	//총거래횟수
-	
-	public Seller() {}
+	private String sTier; // 판매자 등급
+	private double sRating; // 판매자 평점
+	private int totalTransaction; // 총거래횟수
+
+	public Seller() {
+	}
 
 	@Override
 	public String toString() {
@@ -188,8 +189,6 @@ public class Seller {
 
 	public void setTotalTransaction(int totalTransaction) {
 		this.totalTransaction = totalTransaction;
-	}		
+	}
 
-	
-	
 }

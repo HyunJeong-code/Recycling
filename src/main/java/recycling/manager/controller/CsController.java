@@ -67,7 +67,7 @@ public class CsController {
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
 		model.addAttribute("upUrl", "/manager/cs/main");
-
+		
 	}
 	
 	// 구매자 리스트
