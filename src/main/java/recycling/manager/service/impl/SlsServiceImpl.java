@@ -27,7 +27,6 @@ import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 @Service
@@ -40,20 +39,14 @@ public class SlsServiceImpl implements SlsService {
 	@Autowired private SlsDao slsDao;
 	
 	@Override
-	public List<Seller> main(Paging paging) {
-		return slsDao.main(paging);
+	public List<Seller> main(PagingAndCtg upPaging) {
+		return slsDao.main(upPaging);
 	}
 
+
 	@Override
-	public Paging getPaging(Paging pagingParam) {
-		
-		// 총 게시글 수 조회
-		int totalCount = slsDao.getPaging();
-
-		// 페이징 계산
-		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
-
-		return paging;
+	public int upPageSlsMain(PagingAndCtg upPaging) {
+		return slsDao.upPageSlsMain(upPaging);
 	}
 	
 	//전체조회
@@ -499,7 +492,7 @@ public class SlsServiceImpl implements SlsService {
 	
 	//판매자 판매 조회
 	@Override
-	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging) {
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging) {
 		return slsDao.selectAllSellList(unPaging);
 	}
 
@@ -510,8 +503,8 @@ public class SlsServiceImpl implements SlsService {
 	}
 	//판매자 정보 조회
 	@Override
-	public List<Map<String, Object>> sellerAllSeller(String getsCode) {
-		return slsDao.sellerAllSeller(getsCode);
+	public Map<String, Object> sellerAllSeller(Seller seller) {
+		return slsDao.sellerAllSeller(seller);
 	}
 
 	//판매자 상품세부조회
@@ -536,6 +529,9 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
+
+
+
 
 
 

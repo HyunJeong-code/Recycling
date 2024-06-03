@@ -30,24 +30,36 @@
 	
 	<!-- 판매자 목록 -->
 	<select id="main" resultType="Seller" parameterType="recycling.util.Paging">
-		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				<include refid="selectSellerList" />
+			SELECT *
+			FROM (
+			    SELECT rownum no, B.* FROM (
+			        SELECT * FROM seller
+			<where>
+				AND s_chk = 'Y'
+		        AND (
+		            s_code LIKE '%' || #{search} || '%'
+		        )
+			</where>
 				ORDER BY s_code DESC
 			) B
 		)
 		<where>
-			AND rnum BETWEEN #{startNo } AND #{endNo }
+			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
 	
-	<!-- 총 판매자 페이징 -->
-	<select id="getPaging" resultType="int">
-		SELECT count(*) FROM (
-			<include refid="selectSellerList" />
-		)
+	<!-- 전체조회 페이징[main] -->
+	<select id="upPageSlsMain" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM seller
+			<where>
+				AND s_chk = 'Y'
+		        AND (
+		            s_code LIKE '%' || #{search} || '%'
+		        )
+			</where>
+		ORDER BY s_code DESC
 	</select>
-
+	
 	<!-- 체험단 조회구조[exp]  -->
 	<sql id="expBoard">
 	SELECT 
@@ -280,47 +292,62 @@
 
 	<!-- 판매자 상품관리 -->
 	<select id="selectAllPrdList" resultType="SellerOrderJoin" parameterType="recycling.util.PagingAndCtg">
-		SELECT * FROM (
-			SELECT rownum no, ORD.* FROM (
-				<include refid="SellOrderJoin"/>
+		SELECT *
+		FROM (
+			SELECT rownum no, PRD.* FROM (
+				SELECT * FROM prd
 				<where>
-<!-- 					AND od.ord_code = o.ord_code -->
-<!-- 					AND od.orddt_code = s.orddt_code(+) -->
-<!-- 					AND od.prd_code = p.prd_code -->
-<!-- 				    AND p.prd_OUT = 'N' -->
-<!-- 				    AND p.ct_pno = 0 -->
-<!-- 				    AND p.s_code = #{user } -->
+					AND s_code = #{user }
+					AND prd_out = 'N'
+					AND prd_cnt = 0
+					AND (
+					prd_name LIKE '%' || #{search } || '%'
+					OR prd_detail LIKE '%' || #{search } || '%'
+					)
 				</where>
-				ORDER BY
-					od.ORDDT_CODE DESC
-			) ORD
-		)
-		<where>
-			AND no BETWEEN #{startNo } AND #{endNo }
-		</where>
+				ORDER BY prd_code DESC
+		) PRD
+	)
+	<where>
+		AND no BETWEEN #{startNo } AND #{endNo }
+	</where>
 	</select>	
 	
 	<!-- 판매자 상품관리[페이징] -->
 	<select id="selectCntAllPrdList" resultType="int" parameterType="recycling.util.PagingAndCtg">
-		SELECT count(*) FROM(
-			<include refid="SellOrderJoin"/>
-		)
+		SELECT count(*) FROM prd
+		<where>
+			AND s_code = #{user }
+			AND prd_out = 'N'
+			AND prd_cnt = 0
+			AND (
+				prd_name LIKE '%' || #{search } || '%'
+				OR prd_detail LIKE '%' || #{search } || '%'
+				)
+		</where>
 	</select>
 	
 	<!-- 판매자 판매관리 -->
-	<select id="selectAllSellList" resultType="SellerOrderJoin">
-		SELECT * FROM (
+	<select id="selectAllSellList" resultType="MyOrder" parameterType="recycling.util.PagingAndCtg">
+		SELECT 
+			*
+		FROM (
 			SELECT rownum no, ORD.* FROM (
-				<include refid="SellOrderJoin"/>
+				SELECT 
+					od.ORDDT_CODE, od.ORD_CODE, od.PRD_CODE, od.ORD_NAME, o.SEND_NAME
+					, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
+					, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
+				FROM 
+					order_detail od, orders o, ship s, prd p
 				<where>
-<!-- 					AND od.ord_code = o.ord_code -->
-<!-- 					AND od.orddt_code = s.orddt_code(+) -->
-<!-- 					AND od.prd_code = p.prd_code -->
-<!-- 				    AND p.prd_OUT = 'N' -->
-<!-- 				    AND p.ct_pno = 0 -->
-<!-- 				    AND p.s_code = #{user } -->
+					AND od.ord_code = o.ord_code
+					AND od.orddt_code = s.orddt_code(+)
+					AND od.prd_code = p.prd_code
+				    AND p.prd_OUT = 'N'
+				    AND p.s_code = #{user }
 				</where>
-				ORDER BY od.ORDDT_CODE DESC
+				ORDER BY
+					od.ORDDT_CODE DESC
 			) ORD
 		)
 		<where>
@@ -330,9 +357,20 @@
 	
 	<!-- 판매자 판매관리[페이징] -->
 	<select id="selectCntAllSellList" resultType="int" parameterType="recycling.util.PagingAndCtg">
-		SELECT count(*) FROM(
-		<include refid="SellOrderJoin"/>
-		)
+		SELECT 
+			count(*)
+		FROM 
+			order_detail od, orders o, ship s, prd p
+		<where>
+			AND od.ord_code = o.ord_code
+			AND od.orddt_code = s.orddt_code(+)
+			AND od.prd_code = p.prd_code
+		    AND p.s_code = #{user }
+		    AND (
+				od.ord_name LIKE '%' || #{search } || '%'
+				OR od.ord_code LIKE '%' || #{search } || '%'
+				)
+		</where>
 	</select>
 	
 	
@@ -689,13 +727,13 @@
 	</update>
 	
 	<!-- 판매자 정보조회 -->
-	<select id="sellerAllSeller" parameterType="String" resultType="hashmap">
-		<include refid="buyerJoinSellerJoinCmp"/>
-		<where>
-			AND S.s_code = #{sCode }
-			AND S.s_chk = 'Y'
-		</where>
-	</select>
+		<select id="sellerAllSeller" resultType="hashmap" parameterType="Seller">
+		    <include refid="buyerJoinSellerJoinCmp"/>
+		    <where>
+		        AND S_CODE = #{sCode}
+		        AND S_CHK = 'Y'
+		    </where>
+		</select>
 	
 	<!-- 판매자 상품세부조회 -->
 	<select id="selectDetailPrd" parameterType="String" resultType="Prd">

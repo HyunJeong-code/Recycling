@@ -23,18 +23,11 @@ public interface SlsService {
 	/**
 	 * 판매자 목록
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Seller> main(Paging paging);
+	public List<Seller> main(PagingAndCtg upPaging);
 	
-	/**
-	 * 페이징
-	 * 
-	 * @param pagingParam
-	 * @return
-	 */
-	public Paging getPaging(Paging pagingParam);
 
 	/**
 	 * 판매자 전환 요청 전체 목록
@@ -43,23 +36,6 @@ public interface SlsService {
 	 * @return 판매자 리스트
 	 */
 	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging);
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/**
@@ -410,7 +386,7 @@ public interface SlsService {
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging);
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
 
 	/**
 	 * 판매자 판매 조회[페이징]
@@ -422,11 +398,11 @@ public interface SlsService {
 	
 	/**
 	 * 판매자 정보 조회
-	 * 
-	 * @param getsCode
+	 * @param seller 
+	 * @param string
 	 * @return
 	 */
-	public List<Map<String, Object>> sellerAllSeller(String getsCode);
+	public Map<String, Object> sellerAllSeller(Seller seller);
 
 	/**
 	 * 판매자 상품 세부조회
@@ -459,6 +435,9 @@ public interface SlsService {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
+
+
+	public int upPageSlsMain(PagingAndCtg upPaging);
 
 
 

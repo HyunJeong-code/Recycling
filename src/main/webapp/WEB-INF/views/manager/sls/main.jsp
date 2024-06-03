@@ -29,8 +29,15 @@
                 <div class="section">    
                     <h1>판매자 리스트</h1>
                     <hr>
-                </div>
-                
+                </div>       
+				<div class="search">
+					<form action="./main" method="get">
+						<input type="hidden" name="sCtg" value="UP">
+						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+						<button>검색</button>
+					</form>
+				</div>
+			                
                 <table class="table table-striped table-hover table-sm">
         
                     <colgroup>
@@ -40,7 +47,7 @@
                         <col style="width: 10%;">
                         <col style="width: 20%;">
                     </colgroup>
-                    
+
                     <thead>
                         <tr>
                             <th>판매자 코드</th>
@@ -74,6 +81,7 @@
                         </c:forEach>
                     </tbody>
                 </table>
+                    <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
             </div>
         </div>
     </div>
