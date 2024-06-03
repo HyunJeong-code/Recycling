@@ -46,16 +46,30 @@ public interface SlsDao {
 	 * @param paging
 	 * @return
 	 */
-	public List<Seller> main(Paging paging);
+	public List<Seller> main(PagingAndCtg upPaging);
 
 	/**
 	 * 페이징
 	 * 
 	 * @return
 	 */
-	public int getPaging();
-
-
+	public int getPaging(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험단 전체 조회하기[expList]
+	 * 
+	 * @return - List<Exp>
+	 */
+	public List<Exp> selectAllExp(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험단 전체 조회 페이징[expList]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllExp(PagingAndCtg upPaging);
+	
 	/**
 	 * 체험단 세부 조회하기
 	 * 

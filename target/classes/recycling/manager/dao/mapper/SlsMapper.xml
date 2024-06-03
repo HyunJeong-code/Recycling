@@ -24,9 +24,9 @@
 	</select>
 	
 	<!-- 총 판매자 페이징 -->
-	<select id="getPaging" resultType="int">
-		SELECT count(*) FROM (
-			<include refid="selectSellerList" />
+	<select id="getPaging" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM(
+			<include refid="selectSellerList"/>
 		)
 	</select>
 

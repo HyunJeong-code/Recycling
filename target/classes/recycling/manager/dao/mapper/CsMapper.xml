@@ -18,7 +18,7 @@
 	</sql>
 	
 	<!-- 문의글 목록 -->
-	<select id="list" resultType="Oto" parameterType="recycling.util.Paging">
+	<select id="list" resultType="Oto">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				<include refid="selectAll" />
@@ -30,15 +30,16 @@
 		</where>
 	</select>
 	
-	<!-- 총 게시글 조회 -->
-	<select id="getPaging" resultType="int">
-		SELECT count(*) FROM (
-			<include refid="selectAll" />
+	<!-- 페이징 -->
+	<select id="getPaging" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM(
+			<include refid="selectAll"/>
+			<include refid="selectBuyerList"/>
 		)
 	</select>
 	
 	<!-- 구매자 목록 -->
-	<select id="buyerList" resultType="Buyer" parameterType="recycling.util.Paging">
+	<select id="buyerList" resultType="Buyer">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				<include refid="selectBuyerList" />

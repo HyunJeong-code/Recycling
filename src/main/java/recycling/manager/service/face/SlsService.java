@@ -25,57 +25,88 @@ public interface SlsService {
 	 * @param paging
 	 * @return
 	 */
-	public List<Seller> main(Paging paging);
-	
+	public List<Seller> main(PagingAndCtg upPaging);
+
 	/**
 	 * 페이징
 	 * 
 	 * @param pagingParam
 	 * @return
 	 */
-	public Paging getPaging(Paging pagingParam);
+	public int getPaging(PagingAndCtg upPaging);
 
 	/**
 	 * 판매자 전환 요청 전체 목록
-	 * @param paging 
+	 * 
+	 * @param paging
 	 * 
 	 * @return 판매자 리스트
 	 */
 	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging);
 	
+
 	/**
 	 * 체험단 전체 조회하기
 	 * 
 	 * @return - List<Exp>
 	 */
-	public List<Exp> selectAll();
-	
+	public List<Exp> selectAllExp(PagingAndCtg upPaging);
+
 	/**
-	 * 체험단 체험일정 조회하기
-	 * @param expCode 
+	 * 체험단 전체 조회 페이징[expList]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllExp(PagingAndCtg upPaging);
+
+	/**
+	 * 체험단 세부 조회하기
+	 * 
+	 * @param upPaging - DTO 객체
+	 * @return
+	 */
+	public Exp selectDetailExp(String expCode);
+
+	/**
+	 * 체험단 체험일정 조회[expdetail]
+	 * 
+	 * @param expCode
 	 * 
 	 * @return
 	 */
-	public List<ExpSch> selectSchAll(String expCode);
+	public List<ExpSch> selectAllSch(String expCode);
 
 	/**
-	 * 체험단 세부사항 조회
+	 * 체험단 체험일정 조회페이징[expdetail]
 	 * 
-	 * @param expCode - Exp
-	 * @return Exp
+	 * @param upPaging
+	 * @return
 	 */
-	public Exp selectDetail(String expCode);
+	public int selectCntAllExpSch(PagingAndCtg upPaging);
+
+	/**
+	 * 체혐 스케쥴 예약된 인원 조회
+	 * 
+	 * @param schNo
+	 * @param schNo
+	 * @param expCode
+	 * 
+	 * @return
+	 */
+	public List<ResSchCnt> selectByResCnt(String expCode);
 
 	/**
 	 * 체험단 등록
 	 * 
 	 * @param exp
-	 * @param selectedTimes 
-	 * @param expSch 
-	 * @param file 
+	 * @param selectedTimes
+	 * @param expSch
+	 * @param file
+	 * @param file2
 	 */
-	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile file);
-	
+	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile profile, List<MultipartFile> file);
+
 	/**
 	 * 체험정보 업데이트항목 조회
 	 * 
@@ -83,12 +114,12 @@ public interface SlsService {
 	 * @return
 	 */
 	public Exp expUpdateView(Exp exp);
-	
+
 	/**
 	 * 체험정보 업데이트
 	 * 
 	 * @param manager
-	 * @return 
+	 * @return
 	 */
 	public void expUpdateProc(Exp exp);
 
@@ -99,7 +130,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public Exp expResDetail(String expCode);
-	
+
 	/**
 	 * 체험예약 정보
 	 * 
@@ -115,7 +146,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public int expReviewListDel(String expCode);
-	
+
 	/**
 	 * 체험단 리스트 파일삭제
 	 * 
@@ -123,7 +154,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public int expFileListDel(String expCode);
-	
+
 	/**
 	 * 체험단 리스트 스케줄삭제
 	 * 
@@ -131,7 +162,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public int expSchListDel(String expCode);
-	
+
 	/**
 	 * 체험단 리스트 삭제
 	 * 
@@ -174,29 +205,31 @@ public interface SlsService {
 
 	/**
 	 * 체험단 예약인원 예약변경창 조회하기
-	 * @param resSchCnt 
+	 * 
+	 * @param resSchCnt
 	 * 
 	 * @return
 	 */
 	public ResSchCnt changeExpRes(ResSchCnt resSchCnt);
-	
+
 	/**
 	 * 체험단 예약인원 예약변경창 조회[ExpSchList]
 	 * 
 	 * @return
 	 */
 	public List<ExpSch> changeExpSch();
-	
+
 	/**
 	 * 체험단 예약인원 예약변경하기
-	 * @param resSchCnt 
+	 * 
+	 * @param resSchCnt
 	 * 
 	 * @return
 	 */
 	public void changeExpResProc(ResSchCnt resSchCnt);
 
 	/**
-	 * 인원 변경 
+	 * 인원 변경
 	 * 
 	 * @param expSch
 	 * @return
@@ -210,7 +243,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public int getTotalResCnt(ExpSch expSch);
-	
+
 	/**
 	 * 예약자 체크삭제
 	 * 
@@ -232,7 +265,7 @@ public interface SlsService {
 	 * @return bCode - 구매자 코드
 	 */
 	public String selectBysCode(String sCode);
-	
+
 	/**
 	 * 개인 판매자 상세 조회
 	 * 
@@ -240,7 +273,7 @@ public interface SlsService {
 	 * @return 상세 정보
 	 */
 	public Map<String, Object> selectPriSeller(String bCode);
-	
+
 	/**
 	 * 기업 판매자 상세 조회
 	 * 
@@ -248,7 +281,7 @@ public interface SlsService {
 	 * @return 상세 정보
 	 */
 	public Map<String, Object> selectCmpSeller(String bCode);
-	
+
 	/**
 	 * 신고 받은 횟수
 	 * 
@@ -256,7 +289,7 @@ public interface SlsService {
 	 * @return 총 신고 횟수
 	 */
 	public int selectCntRpt(String sCode);
-	
+
 	/**
 	 * 총 거래완료 건수
 	 * 
@@ -271,21 +304,22 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<Map<String, Object>> sellerSelect(String getbCode);
-	
+
 	/**
 	 * 판매자 전환 수락/거절
+	 * 
 	 * @param seller - 판매자 정보 및 수락/거절 여부
 	 * @return 0 : 실패, 1 : 성공
 	 */
 	public int updateSelChk(Seller seller);
-	
+
 	/**
 	 * 판매자 전환 신청 리스트 페이징
 	 * 
 	 * @return 총 게시물 수
 	 */
 	public int selectCntSeller();
-	
+
 	/**
 	 * 판매자 탈퇴 처리
 	 * 
@@ -294,8 +328,6 @@ public interface SlsService {
 	 */
 	public int updateSelOut(String sCode);
 
-
-<<<<<<< Updated upstream
 	/**
 	 * 업데이트 프로필 조회
 	 * 
@@ -322,6 +354,7 @@ public interface SlsService {
 
 	/**
 	 * 업데이트 파일 가져오기
+	 * 
 	 * @param expfileUpdate
 	 * @param expFileJoinCt
 	 * @return
@@ -337,18 +370,19 @@ public interface SlsService {
 	 */
 	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp);
 
-
 	/**
 	 * 판매자 상품 조회
-	 * @param upPaging 
+	 * 
+	 * @param upPaging
 	 * 
 	 * @return
 	 */
 	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
-	
+
 	/**
 	 * 판매자 상품 조회[페이징]
-	 * @param upPaging 
+	 * 
+	 * @param upPaging
 	 * 
 	 * @return
 	 */
@@ -356,7 +390,8 @@ public interface SlsService {
 
 	/**
 	 * 판매자 판매 조회
-	 * @param unPaging 
+	 * 
+	 * @param unPaging
 	 * 
 	 * @return
 	 */
@@ -369,7 +404,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public int selectCntAllSellList(PagingAndCtg unPaging);
-	
+
 	/**
 	 * 판매자 정보 조회
 	 * 
@@ -410,24 +445,6 @@ public interface SlsService {
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
 
-
-
-
-
-
-
-
-=======
->>>>>>> Stashed changes
-
-
-
-
-
-	
-
-
-
-	
 	
 }
+

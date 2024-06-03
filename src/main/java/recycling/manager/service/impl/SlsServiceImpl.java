@@ -36,20 +36,13 @@ public class SlsServiceImpl implements SlsService {
 	@Autowired private SlsDao slsDao;
 	
 	@Override
-	public List<Seller> main(Paging paging) {
-		return slsDao.main(paging);
+	public List<Seller> main(PagingAndCtg upPaging) {
+		return slsDao.main(upPaging);
 	}
 
 	@Override
-	public Paging getPaging(Paging pagingParam) {
-		
-		// 총 게시글 수 조회
-		int totalCount = slsDao.getPaging();
-
-		// 페이징 계산
-		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
-
-		return paging;
+	public int getPaging(PagingAndCtg upPaging) {
+		return slsDao.getPaging(upPaging);
 	}
 	
 	//전체조회
@@ -305,14 +298,11 @@ public class SlsServiceImpl implements SlsService {
 	//체험단 예약인원
 	@Override
 	public List<ExpSch> changeExpSch() {
-		
 		return slsDao.changeExpSch();
 	}
 	
 	@Override
 	public void changeExpResProc(ResSchCnt resSchCnt) {
-
-		
 		slsDao.changeExpResProc(resSchCnt);
 	}
 
@@ -368,7 +358,6 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.sellerSelect(getbCode);
 	}
 
-<<<<<<< Updated upstream
 	//업데이트 프로필 조회하기
 	@Override
 	public ExpFile expUpdateProfile(ExpFile expFile) {
@@ -539,8 +528,4 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
 
-
-
-=======
->>>>>>> Stashed changes
 }//main

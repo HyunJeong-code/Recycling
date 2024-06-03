@@ -64,7 +64,6 @@ import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 
 // 마이페이지 - 회원 정보 관련
-
 @Controller
 @RequestMapping("/buyer/mypage")
 public class BuyerController {
