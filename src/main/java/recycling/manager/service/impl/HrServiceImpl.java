@@ -157,8 +157,6 @@ public class HrServiceImpl implements HrService {
 		
 		//파일 업로드
 		hrDao.fileup(mgrFile);
-		
-		
 	
 	}
 	
@@ -191,6 +189,56 @@ public class HrServiceImpl implements HrService {
 		
 		return result;
 		
+	}
+	//업데이트창 파일조회
+	@Override
+	public MgrFile mgrFileUpdateList(MgrFile mgrFile) {
+		return hrDao.mgrFileUpdateList(mgrFile);
+	}
+
+	//업데이트창 파일가져오기
+	@Override
+	public MgrFile updateProFileGet(MultipartFile empFileUpdate, Manager manager) {
+		
+		String mgrCode = manager.getMgrCode();
+
+		String storedPath = servletContext.getRealPath("upload");
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		String profileStoredName = null;
+		File destProfile = null;
+		
+		//저장될 파일명이 중복되지 않도록 반복
+		do {
+			profileStoredName = empFileUpdate.getOriginalFilename(); //원본 파일명
+			profileStoredName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+			
+			destProfile = new File( storedFolder, profileStoredName );
+		} while( destProfile.exists() );
+		try {
+			//업로드된 임시 파일을 upload 폴더로 옮기기
+			empFileUpdate.transferTo(destProfile);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	    //프로필 DB에 저장
+        MgrFile profileFile = new MgrFile();
+        profileFile.setOriginName(empFileUpdate.getOriginalFilename());
+        profileFile.setStoredName(profileStoredName);
+        profileFile.setMgrCode(mgrCode);
+        profileFile.setctMflNo(1000); // document 데이터 1000
+		
+        return profileFile;
+
+	}
+
+	//업데이트창 파일 변경하기
+	@Override
+	public void updateProfileProc(MgrFile mgrFile) {
+		hrDao.updateProfileProc(mgrFile);
 	}
 
 

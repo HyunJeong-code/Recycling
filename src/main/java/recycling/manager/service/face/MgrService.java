@@ -104,11 +104,4 @@ public interface MgrService {
 	 */
 	public Notice selectDetail(String ntcCode);
 
-	
-
-
-
-	
-	
-	
 }

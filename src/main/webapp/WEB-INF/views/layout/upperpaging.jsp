@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="/resources/css/paging.css">
 <div class="paging">
 
 	<ul class="page-ul">	
@@ -14,7 +15,7 @@
 		<!-- 이전 페이지로 이동 -->
 		<c:if test="${upPaging.curPage > 1 }">
 		<li class="page-item">
-			<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage - 1}&search=${upPaging.search }&sCtg=UP">&lt;</a>
+			<a class="page-link prev" href="${upUrl}?curPage=${upPaging.curPage - 1}&search=${upPaging.search }&sCtg=UP"></a>
 		</li>
 		</c:if>
 		
@@ -22,13 +23,13 @@
 		<c:choose>
 			<c:when test="${upPaging.startPage ne 1 }">
 				<li class="page-item">
-					<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage - 1}&search=${upPaging.search }&sCtg=UP">&laquo;</a>
+					<a class="page-link pprev" href="${upUrl}?curPage=${upPaging.curPage - 1}&search=${upPaging.search }&sCtg=UP"></a>
 				</li>
 			</c:when>
 			
 			<c:when test="${upPaging.startPage eq 1 }">
 				<li class="page-item">
-					<a class="page-link disabled">&laquo;</a>
+					<a class="page-link pprev disabled"></a>
 				</li>
 			</c:when>
 		</c:choose>
@@ -57,7 +58,7 @@
 		<!-- 다음 페이지로 이동 -->
 		<c:if test="${upPaging.curPage < upPaging.totalPage }">
 		<li class="page-item">
-			<a class="page-link" href="${upUrl}?curPage=${upPaging.curPage + 1}&search=${upPaging.search }&sCtg=UP">&gt;</a>
+			<a class="page-link next" href="${upUrl}?curPage=${upPaging.curPage + 1}&search=${upPaging.search }&sCtg=UP"></a>
 		</li>
 		</c:if>
 		
@@ -65,13 +66,13 @@
 		<c:choose>
 			<c:when test="${upPaging.startPage ne upPaging.totalPage }">
 				<li class="page-item">
-					<a class="page-link" href="${upUrl}?curPage=${upPaging.startPage + upPaging.pageCount}&search=${upPaging.search }&sCtg=UP">&raquo;</a>
+					<a class="page-link nnext" href="${upUrl}?curPage=${upPaging.startPage + upPaging.pageCount}&search=${upPaging.search }&sCtg=UP"></a>
 				</li>
 			</c:when>
 			
 			<c:when test="${upPaging.startPage eq upPaging.totalPage }">
 				<li class="page-item">
-					<a class="page-link disabled">&raquo;</a>
+					<a class="page-link nnext disabled"></a>
 				</li>
 			</c:when>
 		</c:choose>

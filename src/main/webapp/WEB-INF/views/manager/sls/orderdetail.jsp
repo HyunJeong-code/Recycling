@@ -15,43 +15,11 @@
 let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
 	, 940: "구매 확정", 950: "거래 완료", 960: "반품", 970: "교환", 980: "취소"}
 	
-	
+
 $(function() {
-	
 	$("#sttName").text(sttList[${order.sttNo }])
-
-	("#del_btn").click(function() {
-		var arr = new Array();
-		arr.push("${prd.prdCode}");
-		
-		// 체크된 상품이 없을 때 알림
-		if(arr.length == 0){
-			alert("선택된 상품이 없습니다.");
-		}else{
-			$.ajax({
-				type: "post"
-				, url: "./cydel"
-				, data: {
-					arr: arr 
-				}
-				, dataType : "Json"
-				, success: function(res) {
-					console.log("AJAX 성공");
-					
-					location.href="./rcylist";
-					
-					alert("상품이 삭제되었습니다.");
-				}
-				, error: function() {
-					console.log("AJAX 실패");
-				}
-			}) 
-		}
-	    console.log(arr);
-	}); // #dlt_btn click end
 })
 
-})
 	
 </script>
 
@@ -62,7 +30,7 @@ $(function() {
 
 	<div class="full">
 
-		<form action="./upcyorderupdate" method="post">
+		<form action="./orderupdate" method="post">
 			<input name="orddtCode" value="${order.orddtCode }" style="display:none">
 			<input name="ordCode" value="${order.ordCode }" style="display:none">
 			<table>

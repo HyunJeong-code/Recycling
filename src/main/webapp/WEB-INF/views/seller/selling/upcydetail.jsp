@@ -14,13 +14,38 @@
 	$(function() {
 		// 해당 상품의 ctPdtNo 선택
 		$("#ctPdtNo option:eq(${prd.ctPdtNo})").attr("selected", "selected");
+		
+		
+		
+		//input 빈값 체크
+        $("#btnUpdate").click(function(){
+            var isRight = true;
+            $("#detailForm").find("input[type=text]").each(function(index, item){
+                // 아무값없이 띄어쓰기만 있을 때도 빈 값으로 체크되도록 trim() 함수 호출
+                if ($(this).val().trim() == '') {
+                    alert($(this).attr("data-name")+" 항목을 입력하세요.");
+                    isRight = false;
+                    return false;
+                }
+            });
+
+            if (!isRight) {
+            	return false;
+            } else {
+            	$("#detailForm").submit();
+            }
+
+            $(this).prop("disabled", true);
+            $(this).prop("disabled", false);
+        });
+		
 	})
 	
 </script>
 
 <body>
 
-	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 
     <div class="full">
         <div class="wrap">
@@ -29,27 +54,51 @@
             </div>
         
             <div class="section">
-            	<h3>${prd.prdCode }</h3>
-            	<form action="./cyupdate?prdCode=${prd.prdCode}" method="post">
-		            <select name="ctPdtNo" id="ctPdtNo">
-			           	<option value="0">플라스틱</option>
-			           	<option value="1">유리</option>
-			           	<option value="2">종이</option>
-			           	<option value="3">캔</option>
-			           	<option value="4">천</option>
-			           	<option value="5">기타</option>
-		            </select><br>
-		           	<input type="text" name="prdName" value="${prd.prdName }"><br>
-		           	<input type="text" name="price" value="${prd.price }"><br>
-		           	<input type="number" min="0" name="prdCnt" value="${prd.prdCnt }"><br>
-		           	<input type="text" name="prdDetail" value="${prd.prdDetail }"><br>
+            	<h3>${prd.prdName }</h3>
+            	<form action="./cyupdate?prdCode=${prd.prdCode}" id="detailForm" method="post">
+	            	<table>
+	            		<tr>
+	            			<td>상품코드</td>
+	            			<td>${prd.prdCode }</td>
+	            		</tr>
+	            		<tr>
+	            			<td>상품 분류</td>
+	            			<td>
+	            				<select name="ctPdtNo" id="ctPdtNo">
+						           	<option value="0">플라스틱</option>
+						           	<option value="1">유리</option>
+						           	<option value="2">종이</option>
+						           	<option value="3">캔</option>
+						           	<option value="4">천</option>
+						           	<option value="5">기타</option>
+					            </select>
+	            			</td>
+	            		</tr>
+	            		<tr>
+	            			<td>상품명</td>
+	            			<td><input type="text" name="prdName" value="${prd.prdName }" data-name="상품명"></td>
+	            		</tr>
+	            		<tr>
+	            			<td>가격</td>
+	            			<td><input type="text" name="price" value="${prd.price }" data-name="가격"></td>
+	            		</tr>
+	            		<tr>
+	            			<td>재고</td>
+	            			<td><input type="number" min="0" name="prdCnt" value="${prd.prdCnt }" data-name="재고"></td>
+	            		</tr>
+	            		<tr>
+	            			<td>상품 상세</td>
+	            			<td><input type="text" name="prdDetail" value="${prd.prdDetail }" data-name="상품 상세"></td>
+	            		</tr>
+		           	</table>
 		           	<button type="button"><a href="./upcylist">목록</a></button>
-		           	<button>수정하기</button>
+		           	<button type="button" id="btnUpdate">수정하기</button>
+		           	<button type="button"><a href="./upcydel?prdCode=${prd.prdCode}">삭제하기</a></button>
 	           	</form>
             </div>
         </div>
     </div>
     
-    <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+    <c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 </body>
 </html>
