@@ -22,10 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import recycling.buyer.service.face.RecyclingService;
+<<<<<<< Updated upstream
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoFile;
+=======
+>>>>>>> Stashed changes
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 
@@ -43,7 +46,7 @@ public class RecyclingController {
 	public String rcyMain(Model model) {
 		logger.info("/buyer/recycling/main [GET]");
 		
-		List<Prd> list = recyclingService.selectPrdList();
+		List<Prd> list = recyclingService.getPrdList();
 		
 		model.addAttribute("list", list);
 		
@@ -90,8 +93,21 @@ public class RecyclingController {
         // 지도 마커 클릭하고 판매자 코드 클릭하면 상품 판매 리스트 넘기는거 수정 중
 //        return "buyer/recycling/findseller_origin";
         }
-        
+
+//	@GetMapping("/main")
+//	public String rcyMain(Model model) {
+//		logger.info("/buyer/recycling/main [GET]");
+//		
+//		List<Prd> list = recyclingService.getPrdList();
+//		
+//		model.addAttribute("list", list);
+//		
+//		return "buyer/recycling/main";
+//	}
+	
+	
 	@GetMapping("/rcydetail")
+<<<<<<< Updated upstream
 	public String rcyDetail(
 			@RequestParam("prdcode") String prdCode,
 			Model model, Authentication authentication) {
@@ -106,6 +122,11 @@ public class RecyclingController {
 	        logger.info("상세페이지 조회 - 비로그인 상태입니다.");
 	    }
 		
+=======
+	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, HttpSession session) {
+		logger.info("/rcydetail [GET] - prdCode: {}", prdCode );
+		
+>>>>>>> Stashed changes
 		Prd prd = recyclingService.view(prdCode);
 		
 		if (prd == null) {
@@ -118,18 +139,6 @@ public class RecyclingController {
 		model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
 //		model.addAttribute("sellerProf", sellerProf);
-
-		List<Map<String, Object>> qna = recyclingService.selectQnaList(prdCode);
-		
-		if (qna == null || qna.isEmpty()) {
-			model.addAttribute("qnaMessage", "QnA가 존재하지 않습니다.");
-		} else {
-			model.addAttribute("qna", qna);
-			model.addAttribute("qnaSize", qna.size());
-		}
-		
-		model.addAttribute("prd", prd);
-		model.addAttribute("seller", seller);
 		
 		return "buyer/recycling/rcydetail";
 	}
@@ -139,6 +148,11 @@ public class RecyclingController {
 	public String sellerQST(@RequestParam("qstCode") String qstCode, Model model) {
 		logger.info("/buyer/recycling/rcycmt [GET]");
 		
+//		SellerQST sellerQst = recyclingService.selectSellerQst(qstCode);
+//		List<SellerAns> answers  = recyclingService.selectSellerAnswers(qstCode);
+		
+//		model.addAttribute("sellerQst", sellerQst);
+//		model.addAttribute("answers", answers);
 
 		// 판매자 문의 조회 등의 기능 수행
 		return "buyer/recycling/rcycmt";
@@ -151,6 +165,7 @@ public class RecyclingController {
 	        Model model) {
 		logger.info("/buyer/recycling/write [GET]");
 		
+<<<<<<< Updated upstream
 		
 		// 로그인 확인
 	    if (authentication == null || !authentication.isAuthenticated()) {
@@ -165,6 +180,12 @@ public class RecyclingController {
 
 	    // 후기 작성 폼으로 이동
 	    return "buyer/recycling/writeReview";
+=======
+//		int result = recyclingService.insertSellerQST(sellerQST);
+//		redirectAttributes.addAttribute("qstCode", sellerQST.getQstCode());
+		
+		return "redirect:/buyer/recycling/rcycmt";
+>>>>>>> Stashed changes
 	}
 	
 	

@@ -120,7 +120,10 @@ $(function() {
 </style>
 </head>
 <body>
+<<<<<<< Updated upstream
 <c:import url="../../../views/layout/manager/managerheader.jsp"/>
+=======
+>>>>>>> Stashed changes
 <c:set var="seller" value="${seller }" />
 
 <div class="page">

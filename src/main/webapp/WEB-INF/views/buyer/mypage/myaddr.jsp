@@ -88,11 +88,18 @@ function chkAdrLimit() {
 }
 </script>
 
+<style type="text/css">
+.addr-field {
+	width: 300px;
+}
+
+.addr-form {
+	margin-bottom: 20px;
+}
+</style>
+
 </head>
 <body>
-
-	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
-
 	<div class="full">
 		<div class="wrap">
 			<h3>배송지 관리</h3>
@@ -173,7 +180,7 @@ function chkAdrLimit() {
 					</c:if>
 				</c:if>
 				<c:if test="${fn:length(buyerAdrList) <= 2 }">
- 					<input type="button" value="추가 배송지 등록하기" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }"><br><br>
+				<input type="button" value="추가 배송지 등록하기" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }"><br><br>
 				</c:if>
 				<div id="addForm" style="display: none;">
 					<h4>새 배송지 추가</h4>
@@ -203,8 +210,5 @@ function chkAdrLimit() {
 			</div>
 		</div>
 	</div>
-	
-	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
-	
 </body>
 </html>

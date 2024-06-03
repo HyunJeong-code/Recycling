@@ -12,7 +12,6 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.util.Paging;
-import recycling.util.PagingAndCtg;
 import recycling.dto.seller.AllPrd;
 import recycling.dto.seller.Exp;
 
@@ -82,34 +81,26 @@ public interface SellingService {
 	/**
 	 * sCode와 일치하는 모든 rcyPrd 조회
 	 * 
-	 * @param upPaging - 조회할 sCode
+	 * @param sCode - 조회할 sCode
 	 * @return - 모든 rcyPrd 리스트
 	 */
-	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging);
+	public List<Prd> selectAllrcyPrd(String sCode);
 
 	/**
-	 * prdCode와 일치하는 upcy orders 조회
+	 * prdCode와 일치하는 모든 orders 조회
 	 * 
-	 * @param unPaging - 조회할 prdCode
+	 * @param prdCode - 조회할 prdCode
 	 * @return - 모든 orders 리스트
 	 */
-	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging);
-	
-	/**
-	 * prdCode와 일치하는 rcy orders 조회
-	 * 
-	 * @param unPaging - 조회할 prdCode
-	 * @return - 모든 orders 리스트
-	 */
-	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging);
+	public List<MyOrder> selectAllMyOrder(String prdCode);
 
 	/**
 	 * sCode와 일치하는 모든 upcyPrd 조회
 	 * 
-	 * @param upPaging - 조회할 sCode
+	 * @param sCode - 조회할 sCode
 	 * @return - 모든 upcyPrd 리스트
 	 */
-	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging);
+	public List<Prd> selectAllupcyPrd(String sCode);
 
 	/**
 	 * prdCode와 일치하는 Prd 삭제
@@ -189,6 +180,7 @@ public interface SellingService {
 	 * @return - DELETE 결과
 	 */
 	public int deleteShip(String orddtCode);
+<<<<<<< Updated upstream
 	
 
 	/**
@@ -254,6 +246,8 @@ public interface SellingService {
 
 
 
+=======
+>>>>>>> Stashed changes
 
 
 }

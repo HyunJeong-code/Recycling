@@ -13,6 +13,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
+<<<<<<< Updated upstream
 $(function() {
 	// 이미지 클릭 시 파일 선택 창 열기
 	$("#profilePreview").on('click', function() {
@@ -53,63 +54,9 @@ $(function() {
 //핸드폰 번호 처리
 var mgrPhone = "${manager.mgrPhone}".split("-");
 console.log("mgrPhone : " + mgrPhone);
+=======
+>>>>>>> Stashed changes
 
-if($("#sPhone").val(mgrPhone[0])) {
-	$("#inPhone").hide();
-	$("#sPhone").val(mgrPhone[0]).attr("selected", "selected");
-} else {
-	$("#inPhone").val(mgrPhone[0])
-}
-
-$("#mPhone").val(mgrPhone[1]);
-$("#lPhone").val(mgrPhone[2]);
-
-$("#sPhone").change(function() {
-	if($("#sPhone").val() === "in") {
-		$("#inPhone").show();		
-		$("#sPhone").hide();		
-	} else {
-		$("#inPhone").hide();				
-		$("#sPhone").show();		
-	}		
-})
-
-// 이메일 처리
-var mgrEmail = "${manager.mgrEmail}".split("@");
-console.log("mgrEmail: " + mgrEmail);
-
-$("#mgrEmail").val(mgrEmail[0]);
-
-if($("#mgrEmail2").val("@" + mgrEmail[1])) {
-	$("#inEmail").hide();
-	$("mgrEmail2").val(mgrEmail[1]).attr("selected", "selected");
-} else {
-	$("#inEmail").val(mgrEmail[1]);
-}
-
-$("#mgrEmail2").change(function() {
-	if($("#mgrEmail2").val() === "in") {
-		$("#inEmail").show();
-		$("#mgrEmail2").hide();
-	} else {
-		$("#inEmail").hide();
-		$("#mgrEmail2").show();
-	}
-})
-
-$("#update").click(function() {
-	console.log("deptno : " + $("#detpno").val());
-	
-	if($("#detpno").val() === 'CEO') {
-		$("#detpno").val(10);
-	} else if ($("#detpno").val() === '인사팀') {
-		$("#detpno").val(20);
-	} else if($("#detpno").val() === '판매제휴팀') {
-		$("#detpno").val(30);			
-	} else {
-		$("#detpno").val(40);						
-	}
-})
 </script>
 <style type="text/css">
 /* 전체 기본 설정 */

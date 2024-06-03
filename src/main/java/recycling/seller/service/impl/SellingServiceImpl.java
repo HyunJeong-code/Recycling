@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -26,10 +27,12 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.seller.dao.face.SellerDao;
+import recycling.dto.seller.AllPrd;
+import recycling.dto.seller.Exp;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
-import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -50,23 +53,18 @@ public class SellingServiceImpl implements SellingService {
 //	}
 	
 	@Override
-	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging) {
-		return sellingDao.selectAllrcyPrd(upPaging);
+	public List<Prd> selectAllrcyPrd(String sCode) {
+		return sellingDao.selectAllrcyPrd(sCode);
 	}
 	
 	@Override
-	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging) {
-		return sellingDao.selectAllupcyMyOrder(unPaging);
+	public List<MyOrder> selectAllMyOrder(String prdCode) {
+		return sellingDao.selectAllMyOrder(prdCode);
 	}
 	
 	@Override
-	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging) {
-		return sellingDao.selectAllrcyMyOrder(unPaging);
-	}
-	
-	@Override
-	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging) {
-		return sellingDao.selectAllupcyPrd(upPaging);
+	public List<Prd> selectAllupcyPrd(String sCode) {
+		return sellingDao.selectAllupcyPrd(sCode);
 	}
 	
 	@Override
@@ -182,6 +180,7 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
+<<<<<<< Updated upstream
 	public MyOrder selectMyOrderByOrddtCode(String orddtCode) {
 		return sellingDao.selectMyOrderByOrddtCode(orddtCode);
 	}
@@ -240,6 +239,27 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllExpSch(PagingAndCtg upPaging) {
 		
 		return sellingDao.selectCntAllExpSch(upPaging);
+=======
+	public List<Exp> selectMyExpList(Paging paging) {
+		
+		
+		return sellingDao.selectMyExpList(paging);
+	}
+
+	@Override
+	public Paging getSearchPaging(int curPage, String search) {
+		
+		Paging paging = null;
+		
+		int totalCount = sellingDao.selectCntAll(search);
+		
+		if("".equals(search)) {
+			paging = new Paging(totalCount, curPage, search);
+		} else {
+			paging = new Paging(totalCount, curPage, search);
+		}
+		return paging;
+>>>>>>> Stashed changes
 	}
 
 	@Override
@@ -249,6 +269,7 @@ public class SellingServiceImpl implements SellingService {
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public List<ExpSch> selectAllSch(String expCode) {
 		return sellingDao.selectAllSch(expCode);
 	}
@@ -262,4 +283,26 @@ public class SellingServiceImpl implements SellingService {
 	public List<ExpFile> selectByExpFile(String expCode) {
 		return sellingDao.selectByExpFile(expCode);
 	}
+=======
+	public Paging getPaging(int curPage) {
+		
+		int totalCount = sellingDao.selectPageAll();
+		
+		Paging paging = new Paging(totalCount, curPage);
+		
+		return paging;
+	}
+
+	@Override
+	public List<ExpRes> selectResList(String expCode) {
+		return sellingDao.selectResList(expCode);
+	}
+
+//	@Override
+//	public List<ExpRes> selectResList(String expCode, Paging paging) {
+//		
+//		return sellingDao.selectResList(expCode, paging);
+//	}
+
+>>>>>>> Stashed changes
 }

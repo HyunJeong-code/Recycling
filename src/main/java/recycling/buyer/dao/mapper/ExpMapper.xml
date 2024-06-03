@@ -205,43 +205,5 @@
 	    SET sch_cnt = sch_cnt - #{resCnt}
 	    WHERE sch_no = #{schNo}
 	</update>
-	
-	<select id="selectByResCode" resultType="ExpRes" parameterType="string">
-		SELECT * FROM exp_res
-		<where>
-			AND res_code = #{resCode}
-		</where>
-	</select>
-	
-	<select id="selectRvwByExp" resultType="map" parameterType="string">
-		SELECT er.rvw_code, er.b_code, er.exp_code, er.rvw_grade, er.rvw_content, er.rvw_date, b.b_id AS buyerId
-        FROM exp_review er
-        JOIN buyer b ON er.b_code = b.b_code
-        WHERE er.exp_code = #{expCode}
-	</select>
-	
-	<select id="selectByBuyerChk" resultType="ExpRes" parameterType="map">
-		SELECT * FROM exp_res
-        WHERE b_code = #{bCode}
-        AND sch_no IN (
-            SELECT sch_no FROM exp_sch WHERE exp_code = #{expCode}
-        )
-        AND res_date &lt; SYSDATE
-	</select>
-	
-	<insert id="insertExpReview" parameterType="ExpReview">
-        INSERT INTO exp_review (
-            rvw_code, b_code, exp_code, rvw_grade, rvw_content, rvw_date
-        ) VALUES (
-            'RVW' || lpad(exp_rvw_seq.nextval, 7, '0'), #{bCode}, #{expCode}, #{rvwGrade}, #{rvwContent}, SYSDATE
-        )
-    </insert>
-    
-    <select id="getBuyerProf" resultType="BuyerProf" parameterType="string">
-    	SELECT * FROM buyer_prof
-    	<where>
-    		AND b_code = #{bCode}
-    	</where>
-    </select>
 
 </mapper>

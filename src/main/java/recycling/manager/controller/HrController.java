@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
-import recycling.dto.manager.ManagerJoinDe;
-import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.manager.service.face.HrService;
-import recycling.util.PagingAndCtg;
 
 
 @Controller
@@ -32,37 +28,16 @@ public class HrController {
 	
 	@Autowired private HrService hrService; 
 	@Autowired HttpSession session;
-	@Autowired private recycling.page.face.PageService pageService;
 	
 	//전체 사원조회
 	@GetMapping("/main")
 	public String main(
-			Authentication authentication
-			, Model model
-			, @RequestParam(defaultValue = "0") int curPage
-			, @RequestParam(defaultValue = "") String search
-			, @RequestParam(defaultValue = "") String sCtg
+			Model model
 			) {
-		//매니저 권한 부여
-		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
-		
-		//페이지 수 계산
-		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
-		
-		int upPage = hrService.selectCntAllHr(upPaging);
-        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
-		
 		//사원 전체조회
-		List<ManagerJoinDe> select = hrService.selectAllHr(upPaging);
-		
-		//JSP로 보내기
+		List<Manager> select = hrService.selectAll();
 		model.addAttribute("select", select);
-		
-		//페이징
-		model.addAttribute("upPaging", upPaging);
-		model.addAttribute("upUrl", "/manager/hr/main");
 		
 		return "/manager/hr/main";
 	}
@@ -79,11 +54,6 @@ public class HrController {
 		Manager view = hrService.selectDetail(manager);
 		model.addAttribute("view", view);
 		logger.info("view:{}", view );
-		
-		//프로필 조회
-		MgrFile profileList = hrService.mgrProFileList(mgrFile);
-		model.addAttribute("profileList", profileList);
-		logger.info("profileList:{}", profileList );
 		
 		//파일 조회
 		MgrFile fileList = hrService.mgrFileList(mgrFile);
@@ -115,18 +85,13 @@ public class HrController {
 	@PostMapping("/empform")
 	public String empFormProc(
 			Manager manager
-			, Model model
-			, @RequestParam("profile") MultipartFile profile
-			, @RequestParam("file") MultipartFile file
+			,@RequestParam("file") MultipartFile file
 			) {
 		logger.info("controller: empform[Post]");
 		
-		hrService.insert(manager,profile, file);
+		hrService.insert(manager, file);
 		
-		model.addAttribute("msg", "사원 정보가 입력되었습니다.");
-		model.addAttribute("url", "/manager/hr/main");
-		
-		return "/layout/alert";
+		return "redirect:./empform";
 	}
 
 	//사원정보 업데이트창

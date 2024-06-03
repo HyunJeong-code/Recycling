@@ -241,7 +241,11 @@ button:hover {
 
 			<div class="section">
 				<div class ="section_top">
+<<<<<<< Updated upstream
 					<img alt=""src="${pageContext.request.contextPath}/upload/${profileList.storedName}">
+=======
+					<img alt="" src="">
+>>>>>>> Stashed changes
 					
 				<div class="section_top_privacy">
 					<div class="mgrCode_box">

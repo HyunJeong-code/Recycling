@@ -4,34 +4,36 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.POST;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import recycling.dto.seller.Seller;
+import recycling.manager.service.face.SlsService;
+import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.ResSchCnt;
-import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.manager.service.face.SlsService;
-import recycling.seller.service.face.SellingService;
-import recycling.util.Paging;
-import recycling.util.PagingAndCtg;
 
 @Controller
 @RequestMapping("/manager/sls")
@@ -39,18 +41,23 @@ public class SlsController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired private SlsService slsService;
-	@Autowired HttpSession session;
-	@Autowired private recycling.page.face.PageService pageService;
-	@Autowired private SellingService sellingService;
+	@Autowired
+	private SlsService slsService;
+	@Autowired 
+	HttpSession session;
 	
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
+<<<<<<< Updated upstream
 	public void main(
 			@RequestParam(defaultValue = "0") int curPage
 			, @RequestParam(defaultValue = "") String search
 			, String category, Paging pagingParam, Model model
 			, String prdCode) {
+=======
+	public void main(@RequestParam(defaultValue = "0") int curPage, @RequestParam(defaultValue = "") String search,
+			String category, Paging pagingParam, Model model) {
+>>>>>>> Stashed changes
 
 		Paging paging = new Paging();
 
@@ -61,7 +68,7 @@ public class SlsController {
 		// 판매자 목록 조회
 		List<Seller> main = slsService.main(paging);
 //		logger.info("controller list: {}", list);
-
+		
 		model.addAttribute("paging", paging);
 		model.addAttribute("main", main);
 		
@@ -70,7 +77,7 @@ public class SlsController {
 	
 	@GetMapping("/sellerdetail")
 	public void sellerDetail() {
-//		logger.info("/manager/sls/sellerdetail [GET]");
+		logger.info("/manager/sls/sellerdetail [GET]");
 		
 		
 	}
@@ -88,9 +95,7 @@ public class SlsController {
 		int ordCnt = slsService.selectCntOrd(sCode);
 		logger.info("rpt : {}, ord : {}", rptCnt, ordCnt);
 		
-		Map<String, Object> seller = null;
-		
-		seller = slsService.selectPriSeller(bCode);
+		Map<String, Object> seller = slsService.selectPriSeller(bCode);
 		model.addAttribute("seller", seller);
 		model.addAttribute("rptCnt", rptCnt);
 		model.addAttribute("ordCnt", ordCnt);
@@ -121,6 +126,25 @@ public class SlsController {
 		logger.info("C : {}", seller);
 	}
 	
+	@PostMapping("/sellerout")
+	@ResponseBody
+	public int sellerOut(
+			String sCode
+			) {
+		logger.info("/manager/sls/sellerout [GET]");
+		
+		logger.info("sCode : {}", sCode);
+		
+		int res = slsService.updateSelOut(sCode);
+		
+		return res;
+	}	
+	
+	@GetMapping("/rptseller")
+	public void rptSeller() {
+		logger.info("/manager/sls/rptseller [GET]");
+	}
+	
 	@GetMapping("/sellerchklist")
 	public void sellerChkList(
 			@RequestParam(defaultValue = "0") int curPage,
@@ -147,26 +171,15 @@ public class SlsController {
 		model.addAttribute("upUrl", "/manager/sls/sellerchklist");
 	}
 	
-	@GetMapping("/sellerchkdetail")
-	public void sellerChkDetail(Model model) {
-		logger.info("/manager/sls/sellerchkdetail [GET]");		
-	}
-	
 	@GetMapping("/sellerchk")
-	public void sellerChk() {
-		logger.info("/manager/sls/sellerchk [GET]");				
-	}
-	
-	@GetMapping("sellinglist")
-	public void sellinglist(
-			Authentication authentication
-			, Model model
-			, Seller seller
-			, @RequestParam(defaultValue = "0") int curPage
-			, @RequestParam(defaultValue = "") String search
-			, @RequestParam(defaultValue = "") String sCtg
+	public String sellerChk(
+			String selChk,
+			String sCode,
+			Model model
 			) {
+		logger.info("/manager/sls/sellerchk [GET]");
 		
+<<<<<<< Updated upstream
 		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
 	
         // 문의글 페이지 수 계산
@@ -306,48 +319,39 @@ public class SlsController {
 			}
 			
 			model.addAttribute("Msg", successRes + failRes);
+=======
+		logger.info("sCode, selChk : {}, {}", sCode, selChk);
+		Seller seller = new Seller();
+		seller.setsCode(sCode);
+		seller.setsChk(selChk);
+>>>>>>> Stashed changes
 		
+		int res = 0;
+		if(selChk.equals("Y")) {
+			res = slsService.updateSelChk(seller);
+			model.addAttribute("msg", sCode + "판매자 전환 수락에 성공했습니다.");
+			model.addAttribute("url", "/seller/sls/sellerchklist");
+			return "/layout/alert";
 		} else {
-			for(String orddtCode : list) {
-				OrderDetail ordd = new OrderDetail();
-				ordd.setOrddtCode(orddtCode);
-				ordd.setSttNo(sttNo);
-				int updateRes = sellingService.updateOrderDetail(ordd);
-			}
-			model.addAttribute("Msg", "변경");
+			res = slsService.updateSelChk(seller);
+			model.addAttribute("msg", sCode + "판매자 전환 수락에 거절했습니다.");
+			model.addAttribute("url", "/seller/sls/sellerchklist");
+			
+			return "/layout/alert";
 		}
-        return "jsonView";
-    }
+		
+	}
 	
-	//체험단 전체조회[explist]
+	//체험단 전체조회
 	@GetMapping("/explist")
 	public String expList(
-			Authentication authentication
-			, Model model
-			, @RequestParam(defaultValue = "0") int curPage
-			, @RequestParam(defaultValue = "") String search
-			, @RequestParam(defaultValue = "") String sCtg
+			Model model
 			) {
+		logger.info("controller explist :[Get]");
 		
-		//매니저 권한 부여
-		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
-				
-		//페이지 수 계산
-		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
-		
-		int upPage = slsService.selectCntAllExp(upPaging);
-        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-	
 		//전체 Exp 조회기능
-		List<Exp> list = slsService.selectAllExp(upPaging);
-		
-		
-		//JSP로 보내기
+		List<Exp> list = slsService.selectAll();
 		model.addAttribute("explist", list);
-		
-		model.addAttribute("upPaging", upPaging);
-		model.addAttribute("upUrl", "/manager/sls/explist"); //jsp 페이징
 		
 		return "/manager/sls/explist";
 	}
@@ -355,44 +359,31 @@ public class SlsController {
 	//세부조회
 	@GetMapping("/expdetail")
 	public void expDetail(
-				Authentication authentication
-				,@RequestParam("expCode") String expCode
+				@RequestParam("expCode") String expCode
 				, ExpFile expFile
 				, Model model
-				, @RequestParam(defaultValue = "0") int curPage
-				, @RequestParam(defaultValue = "") String search
-				, @RequestParam(defaultValue = "") String sCtg
 				) {
-			ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
-
-			//페이징
-			PagingAndCtg upPaging = new PagingAndCtg();
-			upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
-			int upPage = slsService.selectCntAllExpSch(upPaging);
-	        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+			//expCode번호와 동일한 expfile 가져오기
+			ExpFile fileimage = slsService.image(expFile);
+			model.addAttribute("fileimage", fileimage);
+			logger.info("expDetail fileimage:{}", fileimage );
+			
 	        
 			//상세조회
-			Exp view = slsService.selectDetailExp(expCode);
+			Exp view = slsService.selectDetail(expCode);
 			model.addAttribute("view", view);
+			logger.info("expDetail view:{}", view );
 	
-			//예약 스케쥴 조회기능
-			List<ExpSch> schList = slsService.selectAllSch(expCode);
+			//전체 예약 조회기능
+			List<ExpSch> schList = slsService.selectSchAll(expCode);
 			model.addAttribute("expSchList", schList);
-
-			//예약된인원 조회
-			List<ResSchCnt> resCnt = slsService.selectByResCnt(expCode);
+			logger.info("expDetail expSchList:{}", schList );
+			
+			//예약 인원 조회
+			List<ResSchCnt> resCnt =slsService.selectByResCnt(expCode);
 			model.addAttribute("resCnt", resCnt);
-
-			//프로필 조회
-			ExpFile profileimage = slsService.expProImage(expFile);
-			model.addAttribute("profileimage", profileimage);
-		
-			//파일 조회
-			List <ExpFile> fileimage = slsService.expImage(expFile);
-			model.addAttribute("fileImage", fileimage);
-	        
-	        model.addAttribute("upPaging", upPaging);
-			model.addAttribute("upUrl", "/manager/sls/expdetail?expCode=" + expCode);
+			logger.info("expDetail resCnt:{}", resCnt );
 			
 	}
 	
@@ -405,7 +396,7 @@ public class SlsController {
 		
 		List<Map<String, Object>> selList = slsService.sellerSelect(seller.getbCode());
 		model.addAttribute("selList", selList);
-//		logger.info("selList:{}", selList);
+		logger.info("selList:{}", selList);
 		
 	}
 	
@@ -421,19 +412,19 @@ public class SlsController {
 			Exp exp
 			, @RequestParam("schTime") List<String> schTime
 			, ExpSch expSch
-			, @RequestParam("profile") MultipartFile profile
-			, @RequestParam("file") List<MultipartFile> file
-			, Model model
+			, @RequestParam("file") MultipartFile file
 			) {
 		
 //		ManagerLogin mgrLogin = (ManagerLogin) authentication.getPrincipal();
-		slsService.insert(exp, schTime, expSch, profile, file);
+//		logger.info("mgr : {}", mgrLogin);
 		
 		
-		model.addAttribute("msg", "체험일이 등록되었습니다.");
-		model.addAttribute("url", "/manager/sls/explist");
+		//test데이터
+//		exp.setsCode("SEL0000001");
+		slsService.insert(exp, schTime, expSch, file);
 		
-		return "/layout/alert";
+		
+		return "redirect:./explist";
 
 	}
 	
@@ -442,21 +433,13 @@ public class SlsController {
 	public String expUpdate(
 				Exp exp
 				, Model model
-				, ExpFile expFile
 			) {
-		//수정창 조회
+		
 		Exp update = slsService.expUpdateView(exp);
 		model.addAttribute("update", update);
 		
-		//수정창 파일조회
-		ExpFile profile = slsService.expUpdateProfile(expFile);
-		model.addAttribute("profile",profile);
-		logger.info("expFile:{}",profile);
-		
-		List<ExpFile> file = slsService.expUpdateFile(expFile);
-		model.addAttribute("expFileList",file);
-		logger.info("file:{}",file);
-		
+		//exp정보
+		logger.info("controller: update{}",update );
 		return "/manager/sls/expupdate";
 	}
 	
@@ -464,14 +447,11 @@ public class SlsController {
 	@PostMapping("/expupdate")
 	public String updateProc(
 			Exp exp
-			, Model model
-			, int expFlNo
-			, String expCode
-			, MultipartFile expfileUpdate
-			, List<MultipartFile> expMultiFileUpdate
 			){
-		//수정창 exp 내용 바꾸기
+		logger.info("controller: updateProc[Post]");
+		
 		slsService.expUpdateProc(exp);
+<<<<<<< Updated upstream
 
 		
 		//expfile 프로필 업데이트
@@ -500,6 +480,9 @@ public class SlsController {
 		}
 		model.addAttribute("msg", "사원정보가 변경되었습니다.");
 		model.addAttribute("url", "redirect:manager/sls/expdetail?expCode=" + exp.getExpCode());
+=======
+		logger.info("exp : {}",exp);
+>>>>>>> Stashed changes
 		
 		return "/layout/alert";
 	}
@@ -641,13 +624,11 @@ public class SlsController {
 	@PostMapping("/expdetaillistdel")	
 	public String expDetailListDel(@RequestParam("chBox[]") List<String> chBox, Model model) {
 	    
-		int res = slsService.expDetailListDel(chBox);
-       
-		model.addAttribute("res", res);
-       
-		return "jsonView";
+	       int res = slsService.expDetailListDel(chBox);
+	       
+	       model.addAttribute("res", res);
+	       
+	        return "jsonView";
 	
 	}
-	
-	
 }

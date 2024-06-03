@@ -9,6 +9,9 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 <title>1:1 문의 전체 조회</title>
 
 <style type="text/css">
@@ -19,7 +22,6 @@
 </style>
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="wrap">
 <h1>1:1 문의 전체 조회</h1>
 <form action="./otolist" method="get">
@@ -36,7 +38,7 @@
     </form>
     
     <div>
-		<button class="btn" type="button" style="text-align: right;"><a href="./otoform">작성하기</a></button>
+		<button type="button" style="text-align: right;"><a href="./otoform">작성하기</a></button>
 	</div>
     <table border="1" class="table table-hover table-sm" style="width: 800px; border: 2px solid #444444;">
     
@@ -90,7 +92,8 @@
 			</c:choose>
         </tbody>
     </table>
+    <c:import url="/WEB-INF/views/layout/paging.jsp"/>
+    
 </div>
-<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

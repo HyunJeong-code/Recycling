@@ -9,7 +9,11 @@
 <title>새활용 메인페이지</title>
 
 <!-- header css -->
+<<<<<<< Updated upstream
 <link rel="stylesheet" href="../../../resources/css/header.css">
+=======
+<link rel="stylesheet" href="/resources/css/header.css">
+>>>>>>> Stashed changes
 
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -87,7 +91,11 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
+<<<<<<< Updated upstream
                     <a href="/buyer/main"><button class="selected">buyer</button></a><a href="/seller/main"><button>seller</button></a>
+=======
+                    <button class="selected">Buyer</button><button>Seller</button>
+>>>>>>> Stashed changes
                 </div>
             </div>
             <div class="search-bar">
@@ -132,7 +140,15 @@ $(function(){
 	                <li><a href="">분류5</a></li>
 	            </ul>
 	            <ul>
+<<<<<<< Updated upstream
 	                <li><a href="/buyer/exp/main">체험단 예약</a></li>
+=======
+	                <li><a href="">업체 소개</a></li>
+	                <li><a href="">세척</a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="">체험단 예약</a></li>
+>>>>>>> Stashed changes
 	                <li><a href="">체험단 후기</a></li>
 	            </ul>
 	            <ul>
