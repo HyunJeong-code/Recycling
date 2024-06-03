@@ -17,15 +17,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import recycling.buyer.service.face.BuyerService;
 import recycling.buyer.service.face.RecyclingService;
+import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Oto;
-import recycling.dto.buyer.OtoFile;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 
@@ -38,6 +42,8 @@ public class RecyclingController {
 	
     @Autowired
 	private RecyclingService recyclingService;
+    @Autowired private BuyerService buyerService;
+    @Autowired private UpcyclingService upcyclingService;
 	
 	@GetMapping("/main")
 	public String rcyMain(Model model) {
@@ -242,5 +248,94 @@ public class RecyclingController {
 //        
 //        return "redirect:/buyer/recycling/rcycmt";
 //    }
+	
+	@GetMapping("/pay")
+	public String pay(Authentication authentication, Model model, String prdCode) {
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	    logger.info("buyerLogin : {}", buyerLogin);
+		
+		String bCode = buyerLogin.getbCode();
+		
+		//아이디 상세 가져오기
+		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+		
+		//상품 정보 가져오기
+		CartOrder prd = upcyclingService.selectCartOrder(prdCode);
+		
+		//상품 수량 확인 후 알림 메시지
+		logger.info("{}",prd);
+		if(prd.getcCnt() == 0) {
+			model.addAttribute("msg", "해당 상품이 품절되었습니다.");
+			model.addAttribute("url", "/buyer/recycling/main");
+			return "/layout/alert";
+		}
+		
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("prd", prd);
+		
+		return "/buyer/recycling/pay";
+	}
+	
+	@PostMapping("/pay")
+	public String payProc( 
+	 			 Authentication authentication
+	 			 ,OrderDetail orderDetail
+				 ,Orders order
+				 , Model model
+	 		 ) {
+		logger.info("order: {}", order);
+		logger.info("orderDetail: {}", orderDetail);
+		
+	 	BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
+		
+		String bCode = buyerLogin.getbCode();
+		
+		order.setbCode(bCode);
+		
+		logger.info("order: {}", order);
+		
+		//주문 INSERT
+		int res = buyerService.insertOrder(order);
+		 
+		//cartOrder 객체로 prd 수량 차감
+		CartOrder cart = new CartOrder();
+		 
+		cart.setcCnt(orderDetail.getOrdCnt());
+		cart.setPrdCode(orderDetail.getPrdCode());
+		 
+		//수량 차감
+		int updateRes = buyerService.updatePrdCnt(cart);
+		
+		//prdCode
+		String prdCode = orderDetail.getPrdCode();
+		 
+		//상품 정보 가져오기
+		Prd prd = upcyclingService.selectPrd(prdCode);
+		
+		//상품 상세 데이터 삽입
+		orderDetail.setOrdCode(order.getOrdCode());
+		orderDetail.setPrdCode(prd.getPrdCode());
+		orderDetail.setOrdName(prd.getPrdName());
+		orderDetail.setOrdPrice(prd.getPrice());
+		orderDetail.setOrdSum(orderDetail.getOrdCnt() * prd.getPrice());
+		orderDetail.setSttNo(900);
+		 
+		//상품 상세 INSERT
+		int ordRes = buyerService.insertOrderDetail(orderDetail);
+        
+		model.addAttribute("order", order);
+		
+		return "jsonView";
+	}
+	
+	@GetMapping("/payinfo")
+	public void payInfo(String ordCode, Model model) {
+		logger.info("{}",ordCode);
+		
+		Orders order = buyerService.selectByordCode(ordCode);
+		
+		model.addAttribute("order", order);
+	}
 	
 }

@@ -189,7 +189,7 @@ public class SellingServiceImpl implements SellingService {
 	@Override
 	public int updateMyOrder(MyOrder myOrder) {
 		int res = sellingDao.updateMyOrder(myOrder);
-		if(myOrder.getShipNo() != 0 && myOrder.getShipName() != null) {
+		if(myOrder.getShipNo() != null && myOrder.getShipName() != null) {
 			res *= sellingDao.insertShip(myOrder);
 		}
 		return res;

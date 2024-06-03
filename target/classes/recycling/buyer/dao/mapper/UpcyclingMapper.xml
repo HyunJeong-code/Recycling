@@ -8,6 +8,7 @@
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE CT_PNO = 1
+	    AND NOT PRD_CNT = 0
 	</select>
 	
 	<select id="selectPrd" resultType="Prd">
@@ -77,5 +78,16 @@
     	INSERT INTO cart
     	VALUES ('CART' || lpad(cart_seq.nextval, '6', 0), #{prdCode}, #{bCode}, #{cCnt}, sysdate)
     </insert>
+    
+    <select id="selectCartOrder" parameterType="String" resultType="CartOrder">
+    	SELECT
+		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, stored_name
+		FROM
+		    prd p, prd_file pf
+			<where>
+			 	AND p.PRD_CODE = pf.PRD_CODE(+)
+		     	AND p.PRD_CODE = #{prdCode}
+	     	</where>
+    </select>
     
 </mapper>

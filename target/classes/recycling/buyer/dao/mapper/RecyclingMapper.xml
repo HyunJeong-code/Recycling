@@ -27,6 +27,7 @@
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE CT_PNO = 0
+	    AND NOT PRD_CNT = 0
 	</select>
 	
 	<select id="selectPrd" resultType="Prd">

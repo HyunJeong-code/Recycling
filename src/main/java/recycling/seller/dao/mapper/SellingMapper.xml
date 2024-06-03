@@ -17,6 +17,7 @@
 				<where>
 					AND s_code = #{user }
 					AND ct_pno = 0
+					AND prd_out = 'N'
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
@@ -38,6 +39,7 @@
 				<where>
 					AND s_code = #{user }
 					AND ct_pno = 1
+					AND prd_out = 'N'
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
@@ -201,6 +203,7 @@
 		<where>
 			AND s_code = #{user }
 			AND ct_pno = 0
+			AND prd_out = 'N'
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -237,6 +240,7 @@
 		<where>
 			AND s_code = #{user }
 			AND ct_pno = 1
+			AND prd_out = 'N'
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
