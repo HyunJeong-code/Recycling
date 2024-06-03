@@ -2,7 +2,6 @@ package recycling.buyer.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -36,6 +35,7 @@ public class HelpServiceImpl implements HelpService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private HelpDao helpDao;
 	@Autowired private ServletContext servletContext;
+	
 
 	@Override
 	public List<Notice> selectNoticeSeller() {
@@ -174,58 +174,20 @@ public class HelpServiceImpl implements HelpService {
 		return helpDao.selectAnsByOtoCode(otoCode);
 	}
 
-//	@Override
-//	public int selectCntAllFaq(PagingAndCtg upPaging) {
-//		return helpDao.selectCntAllFaq(upPaging);
-//	}
-//
-//	@Override
-//	public List<Faq> selectAllFaq(PagingAndCtg upPaging) {
-//		return helpDao.selectAllFaq(upPaging);
-//	}
-
-
 	@Override
-	public List<FaqCt> selectAllCtFaq() {
-		return helpDao.selectAllCtFaq();
+	public int selectCntAllFaq(PagingAndCtg upPaging) {
+		return helpDao.selectCntAllFaq(upPaging);
 	}
 
 	@Override
-	public int selectCntAllFaq(Map<String, Object> params) {
-	    return helpDao.selectCntAllFaq(params);
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging) {
+		return helpDao.selectAllFaq(upPaging);
 	}
 
 	@Override
-	public List<Faq> selectAllFaq(Map<String, Object> params) {
-	    return helpDao.selectAllFaq(params);
+	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging) {
+		return helpDao.selectAllCtFaq(upPaging);
 	}
-
-	@Override
-	public int selectCntFaqByCt(Map<String, Object> params) {
-	    return helpDao.selectCntFaqByCt(params);
-	}
-
-	@Override
-	public List<Faq> selectFaqByCt(Map<String, Object> params) {
-	    return helpDao.selectFaqByCt(params);
-	}
-
-
-//	@Override
-//	public int selectCntFaqByCt(int ctFaqNo, String search) {
-//	    Map<String, Object> params = new HashMap<>();
-//	    params.put("ctFaqNo", ctFaqNo);
-//	    params.put("search", search);
-//	    return helpDao.selectCntFaqByCt(params);
-//	}
-//
-//	@Override
-//	public List<Faq> selectFaqByCt(int ctFaqNo, PagingAndCtg upPaging) {
-//	    Map<String, Object> params = new HashMap<>();
-//	    params.put("ctFaqNo", ctFaqNo);
-//	    params.put("upPaging", upPaging);
-//	    return helpDao.selectFaqByCt(params);
-//	}
 
 
 

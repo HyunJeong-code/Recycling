@@ -47,48 +47,30 @@ public class HelpController {
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
 			@RequestParam(defaultValue = "") String sCtg,
-			@RequestParam(defaultValue = "0") int ctFaqNo, // 분류 파라미터 추가
-			Model model,
-			Authentication authentication,
-			Buyer buyer
+			Model model
+//			Authentication authentication,
+//			Buyer buyer
 			) {
+//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+//		logger.info("buyerLogin : {}", buyerLogin);
 		
-		//페이징 정보
 		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageAll(curPage, sCtg, search );
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
 									
-//		int upPage = helpService.selectCntAllFaq(upPaging);
-		
-		Map<String, Object> params = new HashMap<>();
-	    params.put("curPage", curPage);
-	    params.put("search", search);
-	    params.put("startNo", upPaging.getStartNo());
-	    params.put("endNo", upPaging.getEndNo());
-	    params.put("ctFaqNo", ctFaqNo);
-	    
-		int upPage;
-	    List<Faq> list;
-	    
-		if (ctFaqNo == 3000) {
-			upPage = helpService.selectCntAllFaq(params);
-	        list = helpService.selectAllFaq(params);
-	    } else {
-	    	upPage = helpService.selectCntFaqByCt(params);
-	        list = helpService.selectFaqByCt(params);
-	    }
+		int upPage = helpService.selectCntAllFaq(upPaging);
 		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 		
 		logger.info("upPaging : {}", upPaging);
-		//자주 묻는 질문 전체 리스트
-//		List<Faq> list = helpService.selectAllFaq(upPaging);
 		
-		//자주 묻는 질문 분류리스트
-		List<FaqCt> faqCtlist = helpService.selectAllCtFaq();
+		//자주 묻는 질문 전체 리스트
+		List<Faq> list = helpService.selectAllFaq(upPaging);
+		
+		//자주 묻는 질문 분류 리스트
+		List<FaqCt> faqCtlist = helpService.selectAllCtFaq(upPaging);
 		
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
 		model.addAttribute("faqCtlist", faqCtlist);
-		model.addAttribute("ctFaqNo", ctFaqNo); // 현재 선택된 분류 추가
 		model.addAttribute("upUrl", "/buyer/help/main");
 		
 	}

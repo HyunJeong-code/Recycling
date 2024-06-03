@@ -152,9 +152,9 @@ public interface HelpService {
 	 * 자주 묻는 질문 페이징
 	 * 
 	 * @param upPaging - 페이징 정보 객체
-	 * @return paging
+	 * @return 
 	 */
-//	public int selectCntAllFaq(PagingAndCtg upPaging);
+	public int selectCntAllFaq(PagingAndCtg upPaging);
 
 	/**
 	 * 자주 묻는 질문 전체 조회
@@ -162,7 +162,7 @@ public interface HelpService {
 	 * @param upPaging - 페이징 정보 객체
 	 * @return 자주 묻는 질문 List
 	 */
-//	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
 
 	/**
 	 * 자주 묻는 질문 분류 조회
@@ -170,25 +170,7 @@ public interface HelpService {
 	 * @param upPaging - 페이징 정보 객체
 	 * @return 질문 분류 List
 	 */
-	public List<FaqCt> selectAllCtFaq();
-
-	
-	
-	
-	
-	public int selectCntAllFaq(Map<String, Object> params);
-
-	public List<Faq> selectAllFaq(Map<String, Object> params);
-
-	public int selectCntFaqByCt(Map<String, Object> params);
-
-	public List<Faq> selectFaqByCt(Map<String, Object> params);
-
-	
-
-//	public List<Faq> selectFaqByCt(int ctFaqNo, PagingAndCtg upPaging);
-
-//	public int selectCntFaqByCt(int ctFaqNo, String search);
+	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging);
 
 
 

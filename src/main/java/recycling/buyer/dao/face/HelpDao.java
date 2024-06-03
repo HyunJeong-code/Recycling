@@ -18,14 +18,7 @@ import recycling.util.PagingAndCtg;
 
 public interface HelpDao {
 
-	/**
-	 * 전체 페이징 조회
-	 * 
-	 * @return 총 페이지 수
-	 */
-	public int selectPageAll();
 
-	
 	/**
 	 * 공지사항 구매자 판매자 분류 조회
 	 * 
@@ -172,7 +165,7 @@ public interface HelpDao {
 	 * @param upPaging - 페이징 정보 객체
 	 * @return paging
 	 */
-//	public int selectCntAllFaq(PagingAndCtg upPaging);
+	public int selectCntAllFaq(PagingAndCtg upPaging);
 
 
 	/**
@@ -181,31 +174,16 @@ public interface HelpDao {
 	 * @param upPaging - 페이징 정보 객체
 	 * @return 자주 묻는 질문 List
 	 */
-//	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
 
 	/**
+	 * 자주 묻는 질문 분류 조회
 	 * 
+	 * @param upPaging - 페이징 정보 객체
 	 * @return 질문 분류 List
 	 */
-	public List<FaqCt> selectAllCtFaq();
+	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging);
 
-
-	public int selectCntAllFaq(Map<String, Object> params);
-
-
-	public List<Faq> selectAllFaq(Map<String, Object> params);
-
-
-	public int selectCntFaqByCt(Map<String, Object> params);
-
-
-	public List<Faq> selectFaqByCt(Map<String, Object> params);
-
-
-//	public int selectCntFaqByCt(Map<String, Object> params);
-
-
-//	public List<Faq> selectFaqByCt(Map<String, Object> params);
 
 
 
