@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
-import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
+import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.Oto;
+import recycling.dto.seller.Prd;
 
 @Service
 @Transactional
@@ -71,15 +73,36 @@ public class RecyclingServiceImpl implements RecyclingService {
 		
 		List<Map<String, Object>> qnaList = recyclingDao.selectQnaList(prdCode);
 	    if (qnaList != null && !qnaList.isEmpty()) {
-	        logger.info("selectRvwList() - qna list found for product code: {}", prdCode);
+	        logger.info("selectQnaList() - qna list found for product code: {}", prdCode);
 	        for (Map<String, Object> qna : qnaList) {
+	        	String bCode = (String) qna.get("B_CODE");
+	        	Buyer buyer = recyclingDao.selectBuyerByBCode(bCode);
+	        	
+	            if (buyer != null) {
+	            	qna.put("B_NAME", buyer.getbName());
+	            } else {
+	            	qna.put("B_NAME", "Unknown");
+	            }
+	            
 	            logger.info("selectQnaList() - qna: {}", qna);
 	        }
 	    } else {
 	        logger.info("selectQnaList() - No QnA found for product code: {}", prdCode);
 	    }
 		
-		return recyclingDao.selectQnaList(prdCode);
+//		return recyclingDao.selectQnaList(prdCode);
+		return qnaList;
+	}
+
+	
+	@Override
+	public Buyer selectBuyerDetail(String bId) {
+		return recyclingDao.selectBuyerBybId(bId);
+	}
+
+	@Override
+	public int insertOto(Oto oto) {
+		return recyclingDao.insertOto(oto);
 	}
 	
 }

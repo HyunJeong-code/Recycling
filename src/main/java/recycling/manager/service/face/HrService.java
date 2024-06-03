@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
+import recycling.dto.seller.ExpFile;
 import recycling.util.PagingAndCtg;
 
 // 인사팀 관련 처리
@@ -89,6 +90,31 @@ public interface HrService {
 	 * @return
 	 */
 	public int listDel(List<String> chBox);
+
+	/**
+	 * 세부사항 파일조회
+	 * @param manager 
+	 * 
+	 * @return
+	 */
+	public MgrFile mgrFileUpdateList(MgrFile mgrFile);
+
+	/**
+	 * 업데이트 파일 가져오기
+	 * 
+	 * @param empFileUpdate
+	 * @param manager
+	 * @return
+	 */
+	public MgrFile updateProFileGet(MultipartFile empFileUpdate, Manager manager);
+
+	/**
+	 * 업데이트 프로필 수정하기
+	 * 
+	 * @param mgrfile
+	 */
+	public void updateProfileProc(MgrFile mgrfile);
+
 
 	
 

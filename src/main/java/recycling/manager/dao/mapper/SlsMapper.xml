@@ -42,9 +42,9 @@
 	</select>
 	
 	<!-- 총 판매자 페이징 -->
-	<select id="getPaging" resultType="int">
-		SELECT count(*) FROM (
-			<include refid="selectSellerList" />
+	<select id="getPaging" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM(
+			<include refid="selectSellerList"/>
 		)
 	</select>
 
@@ -279,16 +279,62 @@
 	</select>
 
 	<!-- 판매자 상품관리 -->
-	<select id="selectAllPrdList" resultType="SellerOrderJoin">
-		<include refid="SellOrderJoin"/>
-<!-- 		<where>p.s_code = #{sCode }</where> -->
+	<select id="selectAllPrdList" resultType="SellerOrderJoin" parameterType="recycling.util.PagingAndCtg">
+		SELECT * FROM (
+			SELECT rownum no, ORD.* FROM (
+				<include refid="SellOrderJoin"/>
+				<where>
+<!-- 					AND od.ord_code = o.ord_code -->
+<!-- 					AND od.orddt_code = s.orddt_code(+) -->
+<!-- 					AND od.prd_code = p.prd_code -->
+<!-- 				    AND p.prd_OUT = 'N' -->
+<!-- 				    AND p.ct_pno = 0 -->
+<!-- 				    AND p.s_code = #{user } -->
+				</where>
+				ORDER BY
+					od.ORDDT_CODE DESC
+			) ORD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>	
+	
+	<!-- 판매자 상품관리[페이징] -->
+	<select id="selectCntAllPrdList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM(
+			<include refid="SellOrderJoin"/>
+		)
 	</select>
 	
 	<!-- 판매자 판매관리 -->
 	<select id="selectAllSellList" resultType="SellerOrderJoin">
-		<include refid="SellOrderJoin"/>
-<!-- 		<where>p.s_code = #{sCode }</where> -->
+		SELECT * FROM (
+			SELECT rownum no, ORD.* FROM (
+				<include refid="SellOrderJoin"/>
+				<where>
+<!-- 					AND od.ord_code = o.ord_code -->
+<!-- 					AND od.orddt_code = s.orddt_code(+) -->
+<!-- 					AND od.prd_code = p.prd_code -->
+<!-- 				    AND p.prd_OUT = 'N' -->
+<!-- 				    AND p.ct_pno = 0 -->
+<!-- 				    AND p.s_code = #{user } -->
+				</where>
+				ORDER BY od.ORDDT_CODE DESC
+			) ORD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
+	
+	<!-- 판매자 판매관리[페이징] -->
+	<select id="selectCntAllSellList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM(
+		<include refid="SellOrderJoin"/>
+		)
+	</select>
+	
 	
 	<!-- 체험단 전체 조회하기[expList] -->
 	<select id="selectAllExp" resultType="Exp">
@@ -375,36 +421,6 @@
 			AND ct_pflno = '610'
 		</where>
 	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	<!-- 관리자쪽 구현 x -->
-	<!-- 세부조회에 따른 조회수 증가 -->
-<!-- 	<update id="hit" parameterType="Exp" > -->
-<!-- 	    UPDATE exp SET exp_hit = exp_hit + 1 -->
-<!--     	WHERE exp_code = #{expCode } -->
-<!-- 	</update> -->
 	
 	<!-- 체험단 등록 -->
 	<insert id="insert" parameterType="Exp">

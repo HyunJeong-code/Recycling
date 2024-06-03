@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* 전체 기본 설정 */
 * {
 	margin: 0;
@@ -81,6 +82,7 @@ aside {
 	border-top: 3px solid #d8d8d8;
 	flex-direction: row-reverse;
 }
+
 /* 검색창 */
 .search_form {
 	display: flex;
@@ -124,7 +126,6 @@ table {
 	border-top: 3px solid #168;
 	width: 100%;
 	text-align: center;
-	white-space: nowrap;
 }
 
 table td {
@@ -160,9 +161,8 @@ table caption {
 }
 
 table tr:hover {
-  background-color: #f5f5f5;
+	background-color: #f5f5f5;
 }
-
 
 /* 버튼세팅 */
 .btn_section_detail {
@@ -177,11 +177,11 @@ table tr:hover {
 
 /* 하단 */
 .btn_bot_wrap {
-	padding-top: 10 px;
+	padding-top: 10px;
 	display: flex;
 	float: right;
-	margin:20px 0;
-	justify-content: flex-end
+	margin: 20px 0;
+	justify-content: flex-end;
 }
 
 /* 버튼 세팅 */
@@ -218,18 +218,5 @@ button[type="submit"]:hover,
 .btn_section_detail:hover,
 .btn_bot_inform:hover,
 .btn_bot_del:hover {
-  background-color: #0056b3;
-}
-
-
-#cnt_change_update{
-	width: 67px;
-    text-align: center;
-    border: 1px solid #ccc;
-    animation: blink 1s infinite;
-}
-
-table .expName_fix{
-	width: 150px;
-	text-align: left;	
+	background-color: #0056b3;
 }

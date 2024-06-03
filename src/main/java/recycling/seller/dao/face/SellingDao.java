@@ -6,7 +6,9 @@ import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
+import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
+import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.util.Paging;
@@ -21,25 +23,26 @@ public interface SellingDao {
 	/**
 	 * 판매자가 올린 체험단 리스트
 	 * 
-	 * @param paging - 페이징 정보 객체
+	 * @param upPaging 페이징 정보 객체
 	 * @return 체험단 List
 	 */
-	public List<Exp> selectMyExpList(Paging paging);
-
+	public List<Exp> selectMyExpList(PagingAndCtg upPaging);
+	
 	/**
-	 * 검색된 데이터 개수
+	 * exp paging
 	 * 
-	 * @param search - 데이터 입력
-	 * @return 입력된 데이터를 검색
+	 * @param upPaging - paging
+	 * @return paging 결과
 	 */
-	public int selectCntAll(String search);
-
+	public int selectCntAllexpList(PagingAndCtg upPaging);
+	
 	/**
-	 * 전체 페이징 조회
+	 * 체험단 체험일정 조회 페이징
 	 * 
-	 * @return 총 페이지 수
+	 * @param upPaging - paging
+	 * @return paging 결과
 	 */
-	public int selectPageAll();
+	public int selectCntAllExpSch(PagingAndCtg upPaging);
 
 	/**
 	 * expcode와 일치하는 체험단 조회
@@ -48,17 +51,35 @@ public interface SellingDao {
 	 * @return 일치하는 exp 조회
 	 */
 	public Exp selectByExp(String expCode);
+	
+	/**
+	 * expCode와 일치하는 체험단 일정 조회
+	 * 
+	 * @param expCode - 체험코드
+	 * @return expSch 체험일정 List
+	 */
+	public List<ExpSch> selectAllSch(String expCode);
 
 	/**
-	 * expCode와 일치하는 expRes예약 리스트 조회
+	 * 체험 스케쥴 예약된 인원 조회
 	 * 
-	 * @param expCode - 체험단 코드번호
-	 * @return 조회된 모든 expRes 리스트
+	 * @param schNo - 일정번호
+	 * @param expCode - 체험코드
+	 * @return 예약된 인원 List
 	 */
-	public List<ExpRes> selectResList(String expCode);
+	public List<ResSchCnt> selectByResCnt(String expCode);
 
-//	public List<ExpRes> selectResList(String expCode, Paging paging);
+	/**
+	 * expCode와 일치하는 체험 file 조회(main, detail)
+	 * 
+	 * @param expCode - 체험코드
+	 * @return file List
+	 */
+	public List<ExpFile> selectByExpFile(String expCode);
 
+
+	//---------------exp END---------------------
+	
 	/**
 	 * sCode와 일치하는 모든 rcyPrd 조회
 	 * 
@@ -204,6 +225,7 @@ public interface SellingDao {
 	 * @return
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
+
 
 
 

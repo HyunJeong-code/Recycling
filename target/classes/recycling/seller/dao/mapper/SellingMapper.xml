@@ -66,7 +66,6 @@
 					AND od.ord_code = o.ord_code
 					AND od.orddt_code = s.orddt_code(+)
 					AND od.prd_code = p.prd_code
-				    AND p.prd_OUT = 'N'
 				    AND p.ct_pno = 1
 				    AND p.s_code = #{user }
 				</where>
@@ -195,74 +194,6 @@
 		
 <!-- 	</select> -->
 
-	<select id="selectMyExpList" parameterType="recycling.util.Paging" resultType="Exp">
-		SELECT * FROM (
-			SELECT rownum rnum, E.* FROM (
-				<include refid="selectExp"/>
-				<where>
-					AND exp_name LIKE '%' || #{search } || '%' 
-						OR exp_code LIKE '%' || #{search } || '%' 
-				</where>
-				ORDER BY exp_code
-			) E
-		)
-		<where>
-			AND rnum BETWEEN #{startNo} AND #{endNo}
-		</where>
-	</select>
-	
-	
-	<select id="selectCntAll" parameterType="string" resultType="int">
-		SELECT count(*) FROM Exp
-		<where>
-			AND exp_name LIKE '%' || #{key } || '%' 
-				OR exp_code LIKE '%' || #{search } || '%'
-		</where>
-		ORDER BY exp_date DESC
-	</select>
-	
-	<select id="selectPageAll" resultType="int">
-		SELECT COUNT(*) FROM (
-			SELECT * FROM exp_res
-			<where>
-				AND sch_no = #{schNo}
-			</where>
-		)
-	</select>
-	
-	<select id="selectByExp" parameterType="string" resultType="Exp">
-		SELECT * FROM exp
-		<where>
-			AND exp_code = #{expCode}
-		</where>
-	</select>
-	
-<!-- 	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes"> -->
-<!-- 		<bind name="expCode" value="'#{expCode}'"/> -->
-<!-- 		SELECT * FROM ( -->
-<!-- 			SELECT rownum rnum, B.* FROM ( -->
-<!-- 				SELECT er.* -->
-<!-- 				FROM exp_res er -->
-<!-- 				INNER JOIN exp_sch es ON er.SCH_NO = es.SCH_NO -->
-<!-- 				INNER JOIN exp e ON es.exp_code = e.exp_code -->
-<!-- 				WHERE e.exp_code = #{expCode} -->
-<!-- 			) B -->
-<!-- 		) -->
-<!-- 		<where> -->
-<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
-<!-- 		</where> -->
-<!-- 	</select> -->
-	<select id="selectResList" parameterType="string" resultType="ExpRes">
-		SELECT er.*
-		FROM exp_res er
-		INNER JOIN exp_sch es ON er.sch_no = es.sch_no
-		INNER JOIN exp e ON es.exp_code = e.exp_code
-		<where>
-			AND e.exp_code = #{expCode}
-		</where>
-	</select>
-
-
 	<!-- paging Cnt -->
 	
 	<select id="selectCntAllrcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
@@ -290,7 +221,6 @@
 			AND od.ord_code = o.ord_code
 			AND od.orddt_code = s.orddt_code(+)
 			AND od.prd_code = p.prd_code
-		    AND p.prd_OUT = 'N'
 		    AND p.ct_pno = 0
 		    AND p.s_code = #{user }
 		    AND (
@@ -327,7 +257,6 @@
 			AND od.ord_code = o.ord_code
 			AND od.orddt_code = s.orddt_code(+)
 			AND od.prd_code = p.prd_code
-		    AND p.prd_OUT = 'N'
 		    AND p.ct_pno = 1
 		    AND p.s_code = #{user }
 		    AND (
@@ -339,4 +268,89 @@
 	</select>
 	
 	<!-- paging Cnt end -->
+
+	
+<!-- 	exp start -->
+
+	<select id="selectMyExpList" resultType="Exp" parameterType="string">
+		SELECT * FROM (
+			SELECT rownum no, exp.* FROM (
+				SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price, e.exp_detail, e.exp_hit, e.exp_date
+				FROM 
+					exp e, seller s
+				<where>
+					AND s.s_code = e.s_code
+					AND s.s_code = #{user}
+					AND (
+						exp_name LIKE '%' || #{search } || '%' 
+						OR exp_code LIKE '%' || #{search } || '%' 
+						)
+				</where>
+				ORDER BY exp_code DESC
+			) exp
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectCntAllexpList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM 
+			exp e, seller s
+		<where>
+			AND s.s_code = e.s_code
+			AND s.s_code = #{user}
+			AND (
+				exp_code LIKE '%' || #{search } || '%'
+				OR exp_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY exp_code DESC
+	</select>
+	
+	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
+	<select id="selectCntAllExpSch" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM exp_Sch
+		<where>
+			AND (
+				exp_code LIKE '%' || #{search} || '%'
+				AND sch_no LIKE '%' || #{search } || '%'
+				)
+			AND exp_code = #{user }
+		</where>
+		ORDER BY sch_no DESC
+	</select>
+	
+	<!-- 체험단 세부 조회[expdetail] -->
+	<select id="selectByExp" parameterType="string" resultType="Exp">
+		SELECT * FROM exp
+		<where>
+			AND exp_code = #{expCode}
+		</where>
+	</select>
+	
+	<!-- 체험단 스케쥴 조회[expdetail] -->
+	<select id="selectAllSch" resultType="ExpSch" parameterType="string">
+		SELECT * FROM exp_sch
+		<where>
+			exp_code = #{expCode }
+		</where>
+	</select>
+	
+	<!-- 체혐 스케쥴 예약된 인원 조회 -->
+	<select id="selectByResCnt" resultType="ResSchCnt" parameterType="string">
+		SELECT s.sch_no, s.exp_code, s.sch_date, s.sch_time, s.sch_cnt, r.res_cnt
+			FROM exp_sch s
+			JOIN exp_res r ON s.sch_no = r.sch_no
+		WHERE s.exp_code = #{expCode}
+	</select>
+	
+	<select id="selectByExpFile" resultType="ExpFile" parameterType="string">
+    	SELECT * FROM exp_file
+    	<where>
+    		AND exp_code = #{expCode}
+    	</where>
+    </select>
+	
+	
 </mapper>

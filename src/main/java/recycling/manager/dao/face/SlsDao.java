@@ -35,14 +35,14 @@ public interface SlsDao {
 	 * @param paging
 	 * @return
 	 */
-	public List<Seller> main(Paging paging);
+	public List<Seller> main(PagingAndCtg upPaging);
 
 	/**
 	 * 페이징
 	 * 
 	 * @return
 	 */
-	public int getPaging();
+	public int getPaging(PagingAndCtg upPaging);
 	
 	/**
 	 * 체험단 전체 조회하기[expList]
@@ -400,17 +400,35 @@ public interface SlsDao {
 	
 	/**
 	 * 판매자 상품 조회
+	 * @param upPaging 
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllPrdList();
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 	
 	/**
-	 * 판매자 판매 조회
+	 * 판매자 상품 조회[페이징]
+	 * @param upPaging 
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllSellList();
+	public int selectCntAllPrdList(PagingAndCtg upPaging);
+
+	/**
+	 * 판매자 판매 조회
+	 * @param unPaging 
+	 * 
+	 * @return
+	 */
+	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging);
+
+	/**
+	 * 판매자 판매 조회[페이징]
+	 * @param unPaging 
+	 * 
+	 * @return
+	 */
+	public int selectCntAllSellList(PagingAndCtg unPaging);
 
 	/**
 	 * 판매자 정보 조회
@@ -465,4 +483,5 @@ public interface SlsDao {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
+
 }

@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<!-- <link rel="stylesheet" href="../../../resources/css/manager/sls/explist.css"> -->
+<link rel="stylesheet" href="/resources/css/manager/sls/explist.css">
 </head>
 <body>
 	<header class="header">

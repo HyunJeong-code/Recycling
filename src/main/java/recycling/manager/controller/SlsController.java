@@ -28,6 +28,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
+import recycling.manager.service.face.MgrService;
 import recycling.manager.service.face.SlsService;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
@@ -43,26 +44,33 @@ public class SlsController {
 	@Autowired HttpSession session;
 	@Autowired private recycling.page.face.PageService pageService;
 	@Autowired private SellingService sellingService;
+	@Autowired private MgrService mgrService;
 	
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
 	public void main(
-			@RequestParam(defaultValue = "0") int curPage
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
 			, @RequestParam(defaultValue = "") String search
-			, String category, Paging pagingParam, Model model
+			, @RequestParam(defaultValue = "") String sCtg
 			, String prdCode) {
 
-		Paging paging = new Paging();
-
-		// 페이징 계산
-		paging = slsService.getPaging(pagingParam);
-//		logger.info("{}", paging);
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = mgrService.selectCntAllempList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		// 판매자 목록 조회
-		List<Seller> main = slsService.main(paging);
+		List<Seller> main = slsService.main(upPaging);
 //		logger.info("controller list: {}", list);
 
-		model.addAttribute("paging", paging);
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("main", main);
 		
 	}
@@ -169,16 +177,36 @@ public class SlsController {
 		
 		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
 	
+        // 문의글 페이지 수 계산
+  		PagingAndCtg upPaging = new PagingAndCtg();
+  		PagingAndCtg unPaging = new PagingAndCtg();
+         
+        upPaging = pageService.upPageSeller(curPage, sCtg, search, managerLogin.getMgrCode());
+        unPaging = pageService.unPageSeller(curPage, sCtg, search, managerLogin.getMgrCode());
+        
 		//판매자 조회 조회
 		List<Map<String, Object>> selList = slsService.sellerAllSeller(seller.getsCode());
 		model.addAttribute("selList", selList);
 		
+		
+		//상단페이징[상품 조회]
+		int upPage = slsService.selectCntAllPrdList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+        upPaging.setUser(managerLogin.getMgrCode());
+  		
 		//상품 조회
-		List<SellerOrderJoin> prdList = slsService.selectAllPrdList();
+		List<SellerOrderJoin> prdList = slsService.selectAllPrdList(upPaging);
 		model.addAttribute("prdList", prdList);
 		
+		//하단페이징[판매 조회]
+  		int unPage = slsService.selectCntAllSellList(unPaging);
+  		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
+         
+  		logger.info("unPaging : {}", unPaging);
+  		unPaging.setUser(managerLogin.getMgrCode());
+		
 		//판매 조회
-		List<SellerOrderJoin> sellList = slsService.selectAllSellList();
+		List<SellerOrderJoin> sellList = slsService.selectAllSellList(unPaging);
 		model.addAttribute("sellList", sellList);
 		
 	}
@@ -224,16 +252,19 @@ public class SlsController {
 		model.addAttribute("order", myOrder);
 	}
 	
-	//구매자 정보변경
-	@GetMapping("/orderupdate")
-	public void orderupdate(String orddtCode, Model model) {
+	//주문 정보 변경
+	@PostMapping("/orderupdate")
+	public String orderUpdate(MyOrder myOrder, Model model) {
+		logger.info("{}", myOrder);
 		
-		MyOrder myOrder = sellingService.selectMyOrderByOrddtCode(orddtCode);
+		int res = sellingService.updateMyOrder(myOrder);
 		
-		model.addAttribute("order", myOrder);
+		model.addAttribute("msg", "주문정보가 수정되었습니다.");
+		model.addAttribute("url", "/manager/sls/sellinglist");
+		return "/layout/alert";
 	}
 	
-//	주문 상태 변경
+//	주문 상태 변경[완성x]
 	@GetMapping("/changeorder")
     public String changeOrder(@RequestParam(value = "arr[]") List<String> list, int sttNo, Model model) {
 		logger.info("list: {}",list);
@@ -475,8 +506,10 @@ public class SlsController {
 		}else {
 			logger.info("파일이 존재합니다.");
 		}
+		model.addAttribute("msg", "사원정보가 변경되었습니다.");
+		model.addAttribute("url", "redirect:manager/sls/expdetail?expCode=" + exp.getExpCode());
 		
-		return "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode();
+		return "/layout/alert";
 	}
 	
 	// 체험단삭제

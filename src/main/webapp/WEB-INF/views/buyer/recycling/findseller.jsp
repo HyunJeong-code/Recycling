@@ -86,8 +86,9 @@
             let prdCode = gps.prdCode; // prdCode 값을 가져옴
             let sOut = gps.sOut; // sOut 값을 가져옴
 
+            // sOut이 "Y"일 경우 마커를 생성하지 않음
             if (sOut === "Y") {
-                continue; // sOut이 "Y"일 경우 마커를 생성하지 않음
+                continue;
             }
             
             // 주소-좌표 변환 객체를 생성합니다
