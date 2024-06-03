@@ -2,6 +2,7 @@ package recycling.buyer.service.impl;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,16 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public Buyer selectBuyerCode(int bCode) {
 		return upcyclingDao.selectBcode(bCode);
 	}
+	
+	@Override
+	public Buyer selectBuyerDetail(String bId) {
+		return upcyclingDao.selectBuyerBybId(bId);
+	}
 
+	@Override
+	public int insertReview(UpcyReview review) {
+		return upcyclingDao.insertReview(review);
+	}
 	
 	@Override
 	public List<UpcyReview> selectRvwList(String prdCode) {
@@ -90,7 +100,6 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectRvw();
 	}
 
-	
 	@Override
 	public void insertReview(String upcyContent, String prdCode, Buyer buyer) {
 		UpcyReview upcyReview = new UpcyReview();

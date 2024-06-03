@@ -259,19 +259,24 @@
 				</c:forEach>
 				
 				<div class="review-form">
-					<form action="/upcyrvwform" method="post">
-						<textarea class="comment-textarea" name="rvwContent" rows="4" placeholder="리뷰를 작성하세요"></textarea>
-						<button type="submit">리뷰 작성</button>
-					</form>
+				    <form action="./upcyrvwformProc" method="post">
+				        <input type="hidden" name="prdcode" value="${param.prdCode}">
+				        <textarea class="comment-textarea" name="upcyContent" rows="4" placeholder="리뷰를 작성하세요"></textarea>
+				        <label for="upcyGrade">평점:</label>
+				        <select name="upcyGrade">
+				            <option value="1">1점</option>
+				            <option value="2">2점</option>
+				            <option value="3">3점</option>
+				            <option value="4">4점</option>
+				            <option value="5">5점</option>
+				        </select>
+				        <button type="submit">리뷰 작성</button>
+				    </form>
 				</div>
 				
 			</div>
 		</div>
 		
-<!-- 		<div id="section5" class="section">
-			<h3>상품문의</h3>
-			<p>상품문의 내용</p>
-		</div> -->
 		
 	</div>
 

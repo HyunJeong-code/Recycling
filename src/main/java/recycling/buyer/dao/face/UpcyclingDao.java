@@ -2,8 +2,6 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
