@@ -83,25 +83,6 @@ public class UpcyclingController {
 	}
 	
 	
-	@PostMapping("/cart")
-	public String addCart(String prdCode, int bCode,
-			Model model, HttpSession session) {
-		logger.info("/cart [POST]");
-		
-		Prd prd = upcyclingService.selectPrd(prdCode);
-		Buyer buyer = upcyclingService.selectBuyerCode(bCode);
-		
-		List<Prd> cartList = (List<Prd>) session.getAttribute("cartList");
-		if (cartList == null) {
-	        cartList = new ArrayList<>();
-	    }
-	    cartList.add(prd); // 장바구니에 상품 추가
-	    session.setAttribute("cartList", cartList); // 세션에 장바구니 정보 저장
-		
-		
-		return "redirect:/buyer/upcycling/main";
-	}
-	
 	
 	 @GetMapping("/upcyrvwform")
 	 public String upcyrvwform(
