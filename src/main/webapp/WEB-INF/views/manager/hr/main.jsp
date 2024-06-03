@@ -306,6 +306,9 @@ button[type="submit"]:hover,
 									<th>사원번호</th>
 									<th>핸드폰 번호</th>
 									<th>이메일</th>
+									<th>입사일</th>
+									<th>생년월일</th>
+									<th>성별</th>
 									<th>상세조회</th>
 								</tr>
 							</thead>
@@ -321,6 +324,15 @@ button[type="submit"]:hover,
 										<td>${select.mgrCode }</td>
 										<td>${select.mgrPhone }</td>
 										<td>${select.mgrEmail }</td>
+										<td>
+											<fmt:parseDate value="${select.mgrEntDate}" pattern="yyyy-MM-dd" var="mgrEntDate"/>
+											<fmt:formatDate value="${mgrEntDate}" pattern="yyyy-MM-dd" />
+										</td>
+										<td>
+											<fmt:parseDate value="${select.mgrBirth}" pattern="yyyy-MM-dd" var="mgrBirth"/>
+											<fmt:formatDate value="${mgrBirth}" pattern="yyyy-MM-dd" />
+										</td>
+										<td>${select.mgrGender }</td>
 										<td><a href="./empdetail?mgrCode=${select.mgrCode }">
 												<button class="btn_section_detail">상세정보 보기</button></a>
 										</td>

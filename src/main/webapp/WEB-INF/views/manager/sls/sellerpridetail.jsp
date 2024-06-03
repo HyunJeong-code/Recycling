@@ -122,8 +122,6 @@ $(function() {
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-<<<<<<< HEAD
-
 <sec:authentication var="managerLogin" property="principal"/>
 <c:if test="${managerLogin.deptno eq 10}">
 	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
@@ -137,8 +135,7 @@ $(function() {
 <c:if test="${managerLogin.deptno eq 40}">
 	<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
 </c:if>
-=======
->>>>>>> main
+<c:import url="/layout/manager/managerheader.jsp"/>
 <c:set var="seller" value="${seller }" />
 
 <div class="page">
@@ -214,7 +211,6 @@ $(function() {
 				</tr>
 			</table>	
 		</div> <!-- info End -->
-			
 	</div> <!-- main End -->
 </div> <!-- section End -->
 

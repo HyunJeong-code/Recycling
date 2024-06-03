@@ -135,16 +135,12 @@
 	<!-- 업데이트 -->
 	<update id="hrUpdate" parameterType="Manager">
 		UPDATE Manager SET
-		mgr_code = #{mgrCode }
 		, deptno = #{deptno }
 		, mgr_id = #{mgrId }
 		, mgr_pw = #{mgrPw }
 		, mgr_name = #{mgrName }
 		, mgr_phone = #{mgrPhone }
 		, mgr_email = #{mgrEmail }
-		, mgr_birth = #{mgrBirth }
-		, mgr_gender = #{mgrGender }
-		, mgr_entDate = #{mgrEntDate }
 		<where>mgr_code = #{mgrCode} </where>
 	</update>
 	
@@ -163,9 +159,28 @@
 	    WHERE mgr_code = #{mgrCode }
 	</update>
 
+	<!-- 업데이트 파일조회 -->
+	<select id="mgrFileUpdateList" resultType="MgrFile" parameterType="MgrFile">
+		SELECT
+			mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name
+		FROM Mgr_File
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND ct_mflno = 1000
+		</where>
+	</select>
 		
-		
-
+	<!-- 프로필 업데이트 -->	
+	<update id="updateProfileProc"  parameterType="MgrFile">
+		UPDATE mgr_file SET
+			origin_name = #{originName } 
+			, stored_name = #{storedName }
+		<where>
+			AND mgr_code = #{mgrCode }
+			AND mgr_flno = #{mgrFlNo }
+		</where>
+	</update>
+	
 
 
 </mapper>

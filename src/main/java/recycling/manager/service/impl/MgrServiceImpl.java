@@ -165,6 +165,4 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDao.selectDetail(ntcCode);
 	}
 
-
-
 }
