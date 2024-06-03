@@ -182,6 +182,31 @@ public interface HelpDao {
 	 */
 	public Ans selectAnsByOtoCode(String otoCode);
 
+	/**
+	 * 자주 묻는 질문 페이징
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return paging
+	 */
+	public int selectCntAllFaq(PagingAndCtg upPaging);
+
+
+	/**
+	 * 자주 묻는 질문 전체 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 자주 묻는 질문 List
+	 */
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
+
+	/**
+	 * 자주 묻는 질문 분류 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 질문 분류 List
+	 */
+	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging);
+
 
 
 

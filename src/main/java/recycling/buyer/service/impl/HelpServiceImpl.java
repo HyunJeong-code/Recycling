@@ -35,27 +35,6 @@ public class HelpServiceImpl implements HelpService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private HelpDao helpDao;
 	@Autowired private ServletContext servletContext;
-	
-	@Override
-	public Paging getPaging(int curPage) {
-		
-		int totalCount = helpDao.selectPageAll();
-		
-		Paging paging = new Paging(totalCount, curPage);
-		
-		return paging;
-	}
-
-	@Override
-	public List<Faq> selectAllFaq(Paging paging) {
-		
-		return helpDao.selectAllFaq(paging);
-	}
-
-	@Override
-	public List<FaqCt> selectAllCtFaq(Paging paging) {
-		return helpDao.selectAllCtFaq(paging);
-	}
 
 	@Override
 	public List<Notice> selectNoticeSeller() {
@@ -192,6 +171,21 @@ public class HelpServiceImpl implements HelpService {
 	@Override
 	public Ans selectAnsByOtoCode(String otoCode) {
 		return helpDao.selectAnsByOtoCode(otoCode);
+	}
+
+	@Override
+	public int selectCntAllFaq(PagingAndCtg upPaging) {
+		return helpDao.selectCntAllFaq(upPaging);
+	}
+
+	@Override
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging) {
+		return helpDao.selectAllFaq(upPaging);
+	}
+
+	@Override
+	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging) {
+		return helpDao.selectAllCtFaq(upPaging);
 	}
 
 

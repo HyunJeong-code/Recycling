@@ -18,34 +18,6 @@ import recycling.util.PagingAndCtg;
 
 public interface HelpService {
 
-	/**
-	 * 게시글 목록을 위한 페이징 객체를 생성
-	 * 
-	 * 전달 파라미터의 curPage - 현재 페이지
-	 * DB에서 조회한 totalCount - 총 게시글 수
-	 * 
-	 * 두 가지 데이터를 활용하여 페이징 객체를 생성하고 반환
-	 * 
-	 * @param curPage - 현재 페이지 번호
-	 * @return 페이징 계산이 완료된 객체
-	 */
-	public Paging getPaging(int curPage);
-
-	/**
-	 * 자주 묻는 질문 전체 조회
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 자주 묻는 질문 List
-	 */
-	public List<Faq> selectAllFaq(Paging paging);
-
-	/**
-	 * 자주 묻는 질문 분류 조회
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 질문 분류 List
-	 */
-	public List<FaqCt> selectAllCtFaq(Paging paging);
 
 	/**
 	 * 판매자 전용 공지사항 전체 조회
@@ -175,6 +147,30 @@ public interface HelpService {
 	 * @return ans
 	 */
 	public Ans selectAnsByOtoCode(String otoCode);
+
+	/**
+	 * 자주 묻는 질문 페이징
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return paging
+	 */
+	public int selectCntAllFaq(PagingAndCtg upPaging);
+
+	/**
+	 * 자주 묻는 질문 전체 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 자주 묻는 질문 List
+	 */
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
+
+	/**
+	 * 자주 묻는 질문 분류 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 질문 분류 List
+	 */
+	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging);
 
 
 

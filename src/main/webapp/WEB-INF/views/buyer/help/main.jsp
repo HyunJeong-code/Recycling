@@ -221,7 +221,7 @@ $(document).ready(function(){
         %>
 </div>
 </div>
-
+<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

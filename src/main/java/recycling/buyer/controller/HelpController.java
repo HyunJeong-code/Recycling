@@ -45,6 +45,8 @@ public class HelpController {
 	@GetMapping("/main")
 	public void main(
 			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
 			Model model,
 			Authentication authentication,
 			Buyer buyer
@@ -52,12 +54,21 @@ public class HelpController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("buyerLogin : {}", buyerLogin);
 		
-		Paging paging = helpService.getPaging(curPage);
-		List<Faq> list = helpService.selectAllFaq(paging);
-		List<FaqCt> faqCtlist = helpService.selectAllCtFaq(paging);
-		model.addAttribute("paging", paging);
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
+									
+		int upPage = helpService.selectCntAllFaq(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+		
+		List<Faq> list = helpService.selectAllFaq(upPaging);
+		List<FaqCt> faqCtlist = helpService.selectAllCtFaq(upPaging);
+		
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
 		model.addAttribute("faqCtlist", faqCtlist);
+		model.addAttribute("upUrl", "/buyer/help/main");
 		
 	}
 	
