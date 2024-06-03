@@ -32,5 +32,9 @@ public interface SellService {
 	 */
 	public int deleteSeller(BuyerLogin buyerLogin);
 
+	public int selectPrdCnt(BuyerLogin buyerLogin);
+
+	public int selectOrdCnt(BuyerLogin buyerLogin);
+
 
 }
