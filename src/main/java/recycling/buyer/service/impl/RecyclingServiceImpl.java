@@ -11,11 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Seller;
-<<<<<<< Updated upstream
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
-=======
->>>>>>> Stashed changes
 import recycling.dto.seller.Prd;
 
 @Service
@@ -70,7 +67,6 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.selectSeller(getsCode);
 	}
 	
-<<<<<<< Updated upstream
 	@Override
 	public List<Map<String, Object>> selectQnaList(String prdCode) {
 		
@@ -108,7 +104,6 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.insertOto(oto);
 	}
 	
-=======
 //	@Override
 //	public SellerProf getSellerProf(String sCode) {
 //		return recyclingDao.selectSellerProfByCode(sCode);
@@ -160,12 +155,5 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.deleteSellerAnswer(qnaCode);
 	}
 
-
-
-
-
-	
-	
-
->>>>>>> Stashed changes
 }
+

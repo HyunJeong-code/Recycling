@@ -259,7 +259,6 @@ public class BuyerController {
 		
 		
 		
-<<<<<<< Updated upstream
 		// 문의글 페이지 수 계산
   		PagingAndCtg upPaging = new PagingAndCtg();
   		
@@ -275,10 +274,6 @@ public class BuyerController {
 
 		List<MyOrder> list = buyerService.selectOrderDetailBybCode(upPaging);
 
-=======
-		List<MyOrder> list = buyerService.selectOrderDetailBybCode(bCode);
-		
->>>>>>> Stashed changes
 		model.addAttribute("list", list);
 	}
 	
@@ -363,23 +358,29 @@ public class BuyerController {
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("/buyer/mypage/mymain [POST]");
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		}
 		
 		// 비밀번호 확인
-		if(!pwEncoder.matches(password, buyerLogin.getbPw())) {
-			model.addAttribute("error", "비밀번호가 틀렸습니다.");
+		if (!pwEncoder.matches(password, buyerLogin.getbPw())) {
 			
-			return "/buyer/mypage/mymain";
+			model.addAttribute("msg", "비밀번호가 틀렸습니다.");
+			model.addAttribute("url", "/buyer/mypage/mymain");
+
+			return "/layout/alert";
+		
 		}
 		
-		if(buyerLogin.getbCtCode().equals("P")) {
+		session.setAttribute("authenticated", true);
+
+		if (buyerLogin.getbCtCode().equals("P")) {
 
 			return "redirect:/buyer/mypage/mypagepri";
 				
@@ -388,11 +389,12 @@ public class BuyerController {
 			return "redirect:/buyer/mypage/mypagecmp";
 		
 		} else {
-			
-			model.addAttribute("error", "처리할 수 없습니다.");
-			
-			return "/buyer/mypage/mymain";
-			
+
+			model.addAttribute("msg", "다시 로그인 해주세요.");
+			model.addAttribute("url", "/buyer/mypage/mymain");
+
+			return "/layout/alert";
+
 		}
 		
 	}
@@ -406,15 +408,25 @@ public class BuyerController {
 		logger.info("/buyer/mypage/mypagepri [GET]");
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		}
 		
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+			
+	        model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	    
+	        return "/layout/alert";
+	    
+		}
+
 		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		BuyerRank buyerRank = buyerService.getBuyerRank(buyer.getRankNo());
 		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
@@ -436,15 +448,25 @@ public class BuyerController {
 		logger.info("/buyer/mypage/mypagecmp [GET]");
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		}
 		
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
+		}
+
 		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		Cmp cmp = buyerService.getCmpDetail(buyerLogin.getbCode());
 		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
@@ -466,14 +488,21 @@ public class BuyerController {
 			Model model) {
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		}
+
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        return "/layout/alert";
+	    }
 		
 		logger.info("/buyer/mypage/changepw [GET]");
 		
@@ -487,37 +516,34 @@ public class BuyerController {
 			Authentication authentication,
 			@RequestParam("currentPw") String currentPw,
 			@RequestParam("newPw") String newPw,
-			@RequestParam("confirmPw") String confirmPw,
-			Model model
-			) {
-		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
+			Model model) {
+
 		logger.info("/buyer/mypage/changepw [POST]");
 		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		}
 		
-		// 프론트로..!
-		if(!newPw.equals(confirmPw)) {
-			
-			model.addAttribute("error", "새 비밀번호가 일치하지 않습니다.");
-			
-			return "/buyer/mypage/changepw";
-			
-		}
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        return "/layout/alert";
+	    }
 		
 		buyerService.changePw(buyerLogin, pwEncoder.encode(newPw));
-		
-		model.addAttribute("success", "비밀번호가 변경되었습니다.");
-		
-		return "redirect:/buyer/mypage/changepw";
-		
+
+		model.addAttribute("msg", "비밀번호가 변경되었습니다.");
+		model.addAttribute("url", "/buyer/mypage/changepw");
+
+		return "/layout/alert";
+
 	}
 	
 	// 회원 정보 변경 (개인)
@@ -529,15 +555,25 @@ public class BuyerController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
 		logger.info("/buyer/mypage/mydetailpri [GET]");
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		}
 		
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
+		}
+
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		BuyerRank buyerRank = buyerService.getBuyerRank(currentBuyer.getRankNo());
 		BuyerProf buyerProf = buyerService.getBuyerProf(buyerLogin.getbCode());
@@ -566,13 +602,69 @@ public class BuyerController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
 		logger.info("/buyer/mypage/mydetailpri [POST]");
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
+		}
 		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
+		}
+
+		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
+	    boolean emailChanged = !fullEmail.equals(currentBuyer.getbEmail());
+
+	    if(emailChanged) {
+	        
+	    	Integer sessionEmailAuthCode = (Integer) session.getAttribute("emailAuthCode");
+	        
+	    	if(emailNum == null || sessionEmailAuthCode == null || !emailNum.equals(sessionEmailAuthCode)) {
+	        
+	    		model.addAttribute("msg", "이메일 인증을 완료해주세요.");
+	    		model.addAttribute("url", "/buyer/mypage/mydetailpri");
+	            
+	    		return "/layout/alert";
+	        
+	    	}
+	    
+	    }
+	    
+		buyer.setbCode(buyerLogin.getbCode());
+		buyer.setbCtCode(buyerLogin.getbCtCode());
+		buyer.setAdSms(adSms);
+		buyer.setAdEmail(adEmail);
+		buyer.setbEmail(fullEmail);
+
+		// 기존 비밀번호 유지
+		if (buyer.getbPw() == null || buyer.getbPw().isEmpty()) {
+
+			buyer.setbPw(currentBuyer.getbPw());
+
+		}
+
+		// 프로필 이미지 업데이트
+		if (!buyerProf.isEmpty()) {
+
+			int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
+
+			if (result == 0) {
+
+				model.addAttribute("error", "프로필 이미지 저장 실패");
+
+				return "redirect:/buyer/mypage/mydetailpri";
+
+			}
+
 		}
 		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
@@ -585,52 +677,12 @@ public class BuyerController {
             return "redirect:/buyer/mypage/mydetailpri";
 			
 		}
-		
-		buyer.setbCode(buyerLogin.getbCode());
-		buyer.setbCtCode(buyerLogin.getbCtCode());
-		
-		// 광고성 정보 수신 여부
-		buyer.setAdSms(adSms);
-		buyer.setAdEmail(adEmail);
-		
-		// 기존 비밀번호 유지
-		if(buyer.getbPw() == null || buyer.getbPw().isEmpty()) {
-			
-			buyer.setbPw(currentBuyer.getbPw());
-			
-		}
-		
-		// 프로필 이미지 업데이트
-	    if (!buyerProf.isEmpty()) {
-	    	
-	    	 int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
-	         
-	    	 if (result == 0) {
-	             
-	    		 model.addAttribute("error", "프로필 이미지 저장 실패");
-	             
-	    		 return "redirect:/buyer/mypage/mydetailpri";
-	         
-	    	 }
-	        
-	    }
-		
-		int updateResult = buyerService.updateBuyerDetail(buyer);
-		
-		if(updateResult == 0) {
-			
-			logger.info("업데이트 실패: {}", buyer);
-			
-			model.addAttribute("error", "업데이트 실패");
-			
-			return "redirect:/buyer/mypage/mydetailpri";
-			
-		}
-		
-		model.addAttribute("success", "개인 정보가 수정되었습니다.");
-		
-		return "redirect:/buyer/mypage/mydetailpri";
-		
+
+		model.addAttribute("msg", "개인 정보가 수정되었습니다.");
+		model.addAttribute("url", "/buyer/mypage/mydetailpri");
+
+		return "/layout/alert";
+
 	}
 	
 	// 회원 정보 변경 (기업)
@@ -642,13 +694,23 @@ public class BuyerController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
 		logger.info("/buyer/mypage/mydetailcmp [GET]");
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
+		}
+
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
 		}
 		
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
@@ -681,22 +743,41 @@ public class BuyerController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
 		logger.info("/buyer/mypage/mydetailcmp [POST]");
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+
+		if (buyerLogin == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		}
 		
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
+		}
+
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
-		
-		boolean emailChanged = !buyer.getbEmail().equals(currentBuyer.getbEmail());
-		
-		if (emailChanged && (emailNum == null || !emailNum.equals(session.getAttribute("emailAuthCode")))) {
-	        model.addAttribute("error", "이메일 인증을 완료해주세요.");
-	        return "redirect:/buyer/mypage/mydetailcmp";
+		boolean emailChanged = !fullEmail.equals(currentBuyer.getbEmail());
+
+		if(emailChanged) {
+	        
+	    	Integer sessionEmailAuthCode = (Integer) session.getAttribute("emailAuthCode");
+	        
+	    	if(emailNum == null || sessionEmailAuthCode == null || !emailNum.equals(sessionEmailAuthCode)) {
+	        
+	    		model.addAttribute("msg", "이메일 인증을 완료해주세요.");
+	    		model.addAttribute("url", "/buyer/mypage/mydetailpri");
+	            
+	    		return "/layout/alert";
+	        
+	    	}
+	    
 	    }
 		
 		buyer.setbCode(buyerLogin.getbCode());
@@ -755,11 +836,12 @@ public class BuyerController {
 			return "redirect:/buyer/mypage/mydetailcmp";
 			
 		}
-		
-		model.addAttribute("success", "기업 정보가 수정되었습니다.");
-		
-		return "redirect:/buyer/mypage/mydetailcmp";
-		
+
+		model.addAttribute("msg", "기업 정보가 수정되었습니다.");
+		model.addAttribute("url", "/buyer/mypage/mydetailpri");
+
+		return "layout/alert";
+
 	}
 	
 	// 배송지 관리 페이지 (등록, 수정, 삭제)
@@ -811,8 +893,75 @@ public class BuyerController {
         
         }
 
-        String bCode = buyerLogin.getbCode();
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
 
+			return "/layout/alert";
+
+		}
+		
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
+		}
+
+		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(buyerLogin.getbCode());
+
+		model.addAttribute("buyerAdrList", buyerAdrList);
+		model.addAttribute("buyerLogin", buyerLogin);
+
+		return "/buyer/mypage/myaddr";
+
+	}
+
+	// 배송지 관리 페이지 (등록, 수정, 삭제) 처리
+	@PostMapping("/myaddr")
+	public String myAddrProc(
+			Authentication authentication,
+			@RequestParam("action") String action, 
+			@RequestParam(value = "adrCode", required = false) String adrCode,
+			@RequestParam(value = "adrName", required = false) String adrName, 
+			@RequestParam(value = "adrPhone", required = false) String adrPhone, 
+			@RequestParam(value = "adrPostcode", required = false) String adrPostcode, 
+			@RequestParam(value = "adrAddr", required = false) String adrAddr, 
+			@RequestParam(value = "adrDetail", required = false) String adrDetail,
+			@RequestParam(value = "adrChk", required = false, defaultValue = "N") String adrChk,
+			Model model
+			) {
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+        if (buyerLogin == null) {
+        
+        	model.addAttribute("msg", "로그인 해주세요.");
+        	model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+        
+        }
+        
+        if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
+		}
+
+        String bCode = buyerLogin.getbCode();
+        List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(bCode);
+
+        if (adrChk == null) {
+        
+        	adrChk = "N";
+        
+        }
+        
         if("register".equals(action)) {
         	
         	BuyerAdr buyerAdr = new BuyerAdr();
@@ -823,7 +972,17 @@ public class BuyerController {
         	buyerAdr.setAdrPostcode(adrPostcode);
         	buyerAdr.setAdrAddr(adrAddr);
         	buyerAdr.setAdrDetail(adrDetail);
-        	buyerAdr.setAdrChk("N");
+
+        	// 첫 배송지 등록 시 기본 배송지로 설정
+            if (buyerAdrList.isEmpty()) {
+            
+            	buyerAdr.setAdrChk("Y");
+            
+            } else {
+            
+            	buyerAdr.setAdrChk("N");
+            
+            }
         	
         	buyerService.registerBuyerAdr(buyerAdr);
         	
@@ -837,6 +996,7 @@ public class BuyerController {
         	buyerAdr.setAdrPostcode(adrPostcode);
         	buyerAdr.setAdrAddr(adrAddr);
         	buyerAdr.setAdrDetail(adrDetail);
+        	buyerAdr.setAdrChk(adrChk);
                 
         	buyerService.updateBuyerAdr(buyerAdr);
         	
@@ -851,14 +1011,14 @@ public class BuyerController {
         	
         }
         
-        List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(bCode);
+        buyerAdrList = buyerService.getBuyerAdr(bCode);
         
         model.addAttribute("buyerAdrList", buyerAdrList);
         
         return "redirect:/buyer/mypage/myaddr";
 
 	}
-	
+
 	// 회원 탈퇴
 	@GetMapping("/outbuyer")
 	public String outBuyer(
@@ -866,15 +1026,25 @@ public class BuyerController {
 			Model model) {
 		
 		logger.info("/buyer/mypage/outbuyer [GET]");
-		
-		if(authentication == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+
+		if (authentication == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		}
 		
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
+		}
+
 		return "/buyer/mypage/outbuyer";
 		
 	}
@@ -890,21 +1060,34 @@ public class BuyerController {
 			) {
 		
 		logger.info("/buyer/mypage/outbuyer [POST]");
+
+		if (authentication == null) {
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
+		}
 		
-		if(authentication == null) {
-			
-			return "redirect:/buyer/login";
-			
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
 		}
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if(!pwEncoder.matches(password, buyerLogin.getbPw())) {
-			
-			model.addAttribute("error", "비밀번호가 틀렸습니다.");
-			
-			return "/buyer/mypage/outbuyer";
-			
+
+		if (!pwEncoder.matches(password, buyerLogin.getbPw())) {
+
+			model.addAttribute("msg", "비밀번호가 틀렸습니다.");
+			model.addAttribute("url", "/buyer/mypage/outbuyer");
+
+			return "/layout/alert";
+
 		}
 		
 		if("agree".equals(ps) && "agree".equals(is)) {
@@ -922,14 +1105,18 @@ public class BuyerController {
 			
 			session.invalidate();
 			
-			return "redirect:/buyer/login";
-			
+			model.addAttribute("msg", "회원탈퇴 되었습니다.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+
 		} else {
-			
-			model.addAttribute("error", "모든 약관에 동의해주세요.");
-			
-			return "/buyer/mypage/outbuyer";
-			
+
+			model.addAttribute("msg", "모든 약관에 동의해주세요.");
+			model.addAttribute("url", "/buyer/mypage/outbuyer");
+
+			return "/layout/alert";
+
 		}
 		
 	}

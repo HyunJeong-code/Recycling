@@ -323,7 +323,6 @@ public interface SlsDao {
 	public int updateSelChk(Seller seller);
 	
 	/**
-<<<<<<< Updated upstream
 	 * 판매자 상품 조회
 	 * @param upPaging 
 	 * 
@@ -363,8 +362,6 @@ public interface SlsDao {
 	public List<Map<String, Object>> sellerAllSeller(String getsCode);
 
 	/**
-=======
->>>>>>> Stashed changes
 	 * 판매자 전환 신청 리스트 페이징
 	 * 
 	 * @return 총 게시물 수
@@ -379,7 +376,6 @@ public interface SlsDao {
 	 */
 	public int updateSelOut(String sCode);
 
-<<<<<<< Updated upstream
 	/**
 	 * 판매자 상품 세부조회
 	 * 
@@ -411,8 +407,5 @@ public interface SlsDao {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
-
-
-=======
->>>>>>> Stashed changes
 }
+

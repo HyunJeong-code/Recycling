@@ -13,23 +13,88 @@
 
 </script>
 
+<style>
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 600px;
+}
+h2 {
+    margin-top: 0;
+    color: #333;
+}
+hr {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+.page a {
+    display: block;
+    margin: 10px 0;
+    color: #0066cc;
+    text-decoration: none;
+}
+.page a:hover {
+    text-decoration: underline;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table, th, td {
+    border: 1px solid #dddddd;
+}
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+</style>
+
 </head>
 <body>
 	<div class="full">
 		<div class="wrap">
-			<h2>마이페이지</h2>
-			<hr>
+		
+			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
+		
 			<div class="page">
-				<a href="/buyer/main">메인</a><br>
-				<a href="/buyer/mypage/changepw">비밀번호 변경</a><br>
-				<a href="/buyer/mypage/mydetailpri" >개인 정보 수정</a><br>
-				<a href="/buyer/mypage/myaddr">배송지</a><br>
-				<a href="/buyer/mypage/outbuyer">회원탈퇴</a><br>
-				<c:if test="${buyerProf != null}">
-        			<img src="${pageContext.request.contextPath }/resources/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
-    			</c:if>
-				<h3>이름: ${buyer.bName }</h3>
-				<h3>멤버쉽 등급: ${buyerRank.rankName }</h3>
+				<table>
+					<tr>
+						<th colspan="2">프로필 정보</th>
+					</tr>
+					<tr>
+						<td>프로필 이미지</td>
+						<td>
+							<c:if test="${buyerProf != null}">
+        						<img src="${pageContext.request.contextPath }/resources/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
+    						</c:if>
+						</td>
+					</tr>
+					<tr>
+						<td>이름</td>
+						<td>${buyer.bName }</td>
+					</tr>
+					<tr>
+						<td>멤버쉽 등급</td>
+						<td>${buyerRank.rankName }</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

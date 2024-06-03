@@ -139,8 +139,6 @@ public interface BuyerService {
 	 */
 	public Cmp getCmpDetail(String bCode);
 
-	
-	
 	/**
 	 * 구매자 프로필 조회
 	 * 

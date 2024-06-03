@@ -5,7 +5,6 @@ import java.util.List;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
@@ -14,6 +13,8 @@ import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.seller.Seller;
+import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cmp;
@@ -268,20 +269,16 @@ public interface BuyerDao {
 	 * @param sCode - 판매자 코드
 	 * @return 탈퇴 결과
 	 */
-<<<<<<< Updated upstream
 	public int deleteSeller(String sCode);
 	
-=======
-
->>>>>>> Stashed changes
 	/**
+
 	 * 판매자 찾기
 	 * 
 	 * @param sCode
 	 * @return
 	 */
 	public List<Seller> findSeller(String sCode);
-<<<<<<< Updated upstream
 	
 	/**
 	 * Cart paging
@@ -298,10 +295,8 @@ public interface BuyerDao {
 	 * @return - paging 결과
 	 */
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
-=======
-	public int deleteSeller(String sCode);
 
 	public BuyerRank selectBuyerRank(int rankNo);
->>>>>>> Stashed changes
 
 }
+

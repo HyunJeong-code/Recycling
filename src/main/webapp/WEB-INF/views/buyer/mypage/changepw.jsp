@@ -45,21 +45,15 @@ label {
 <body>
 	<div class="full">
 		<div class="wrap">
-			<h2>비밀번호 변경</h2>
-			<hr>
-			
+		
+			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
+		
 			<div class="page">
-				<c:choose>
-					<c:when test="${buyerLogin.bCtCode == 'P' }">
-						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a>
-					</c:when>
-					<c:when test="${buyerLogin.bCtCode == 'C' }">
-						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a>
-					</c:when>
-				</c:choose>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/changepw" method="post">
 					<div class="changepw">
-						<h3>비밀번호 변경</h3>
+						<div>
+							<h3>비밀번호 변경</h3>
+						</div>
 						<div class="form-group">
 							<label for="currentPw">현재 비밀번호</label>
 							<input type="text" id="currentPw" name="currentPw" required>
