@@ -109,9 +109,9 @@ th {
 			</div>
 		</div>
 	
-		<div>
+		<div class="btn">
 			<button class="btn" type="button" onclick="history.back();">목록으로</button>
-			<button class="btn" type="button"><a href="/buyer/mypage/otoform">1:1 문의 작성하기</a></button>
+			<button class="btn" type="button"><a href="/buyer/help/otoform">1:1 문의 작성하기</a></button>
 			<form action="/buyer/mypage/otodel" method="post" style="display: inline;">
 				<input type="hidden" name="otoCode" value="${oto.otoCode }">
 				<button class="btn" type="submit">삭제하기</button>

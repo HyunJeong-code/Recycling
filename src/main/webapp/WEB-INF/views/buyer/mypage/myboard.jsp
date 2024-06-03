@@ -35,6 +35,7 @@ $(function() {
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
+	
 		<div class="page">
 			<h3>내가 쓴 게시글 조회</h3>
 		</div>
