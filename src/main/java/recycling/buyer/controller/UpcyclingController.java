@@ -121,7 +121,6 @@ public class UpcyclingController {
 			 
 			 Buyer buyer = upcyclingService.selectBuyerDetail(buyerLogin.getbId());
 			 model.addAttribute("buyer", buyer);
-			 model.addAttribute("prdCode", prdCode);
 	        
 	        return "/buyer/upcycling/upcyrvwform"; // 후기 작성 폼 페이지로 이동
 	    }
@@ -143,6 +142,7 @@ public class UpcyclingController {
 		 
 		 //로그인 정보 불러오기
 		 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		 
 		 if (buyerLogin == null) {
 			 // BuyerLogin 객체가 null이면 로그인 페이지로 리다이렉트
 			 return "redirect:/buyer/login";
@@ -150,10 +150,13 @@ public class UpcyclingController {
 		 
 		 
 		 Buyer buyer = upcyclingService.selectBuyerDetail(buyerLogin.getbId());
+		 
 		 if (buyer == null) {
 			 // Buyer 객체가 null이면 오류 페이지로 리다이렉트
 			 return "redirect:/buyer/loginr";
 		 }
+		 
+		 logger.info("Received prdCode: " + prdCode);
 		 
 		 UpcyReview review = new UpcyReview();
 		 review.setbCode(buyer.getbCode());

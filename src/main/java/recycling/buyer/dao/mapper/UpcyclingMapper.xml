@@ -59,7 +59,7 @@
 
 	<insert id="insertReview" parameterType="UpcyReview" useGeneratedKeys="true" keyProperty="upcyCode" keyColumn="UPCY_CODE">
 	    INSERT INTO upcy_review (UPCY_CODE, B_CODE, PRD_CODE, UPCY_CONTENT, UPCY_GRADE, UPCY_DATE)
-	    VALUES ('UPCY' || lpad(UPCY_RVW_SEQ.nextval, 7, '0'), #{bCode}, #{prdCode}, #{upcyContent}, #{upcyGrade}, SYSDATE)
+	    VALUES ('UPCY' || lpad(UPCY_RVW_SEQ.nextval, 6, '0'), #{bCode}, #{prdCode}, #{upcyContent}, #{upcyGrade}, SYSDATE)
 	</insert>
 
 	<update id="updateReview" parameterType="map">
