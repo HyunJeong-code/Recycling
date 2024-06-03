@@ -11,4 +11,36 @@
 			AND b_Code = #{bCode }
 		</where>
 	</select>
+	
+	<select id="selectBuyerAdr" parameterType="Seller" resultType="BuyerAdr">
+		SELECT * FROM buyer_adr
+		<where>
+			AND b_code = #{bCode }
+			AND adr_chk = 'Y'
+		</where>
+	</select>
+	
+	<insert id="insertSeller" parameterType="Seller">
+		INSERT INTO seller VALUES (
+			'SEL' || lpad(seller_seq.nextval, 7, '0'),
+			#{bCode },
+			#{accName },
+			#{accBank },
+			#{accNo },
+			#{sPostcode },
+			#{sAddr },
+			#{sDetail },
+			sysdate,
+			null,
+			DEFAULT,
+			null
+		)
+	</insert>
+	
+	<delete id="deleteSeller" parameterType="BuyerLogin">
+		DELETE FROM seller
+		<where>
+			AND s_code = #{sCode }
+		</where>
+	</delete>
 </mapper>
