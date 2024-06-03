@@ -78,30 +78,6 @@ public class SellingController {
 		//주문 리스트
 		List<MyOrder> olist = sellingService.selectAllrcyMyOrder(unPaging);
 		
-		//조회된 상품의 주문 리스트 조회
-//		for(Prd prd : plist) {
-//			String prdCode = prd.getPrdCode();
-//			
-//			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
-//			
-//			for(MyOrder mo : list) {
-//				olist.add(mo);
-//			}
-//		}
-		
-		//삭제된 상품을 제외한 상품 리스트
-//		List<Prd> nplist = new ArrayList<Prd>();
-//		
-//		for(Prd prd : plist) {
-//			String prdOut = prd.getPrdOut();
-//			
-//			logger.info("{}",prdOut);
-//			
-//			if("N".equals(prdOut)) {
-//				nplist.add(prd);
-//			}
-//		}
-		
 		logger.info("{}",plist);
 		
 		model.addAttribute("plist", plist);
@@ -150,18 +126,6 @@ public class SellingController {
 		//주문 리스트
 		List<MyOrder> olist = sellingService.selectAllupcyMyOrder(unPaging);
 		
-		//삭제된 상품을 제외한 상품 리스트
-//		List<Prd> nplist = new ArrayList<Prd>();
-//		
-//		for(Prd prd : plist) {
-//			String prdOut = prd.getPrdOut();
-//			
-//			logger.info("{}",prdOut);
-//			
-//			if("N".equals(prdOut)) {
-//				nplist.add(prd);
-//			}
-//		}
 		
 		logger.info("olist: {}",olist);
 		logger.info("nplist: {}",plist);
