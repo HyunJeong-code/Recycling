@@ -1,6 +1,7 @@
 package recycling.seller.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
@@ -169,7 +170,6 @@ public interface SellingDao {
 	 */
 	public int deleteShip(String orddtCode);
 
-<<<<<<< Updated upstream
 	/**
 	 * 주문 상세 조회
 	 * 
@@ -218,9 +218,35 @@ public interface SellingDao {
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
 
+	/**
+	 * 판매자 전체 상품 개수 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllPrd(PagingAndCtg upPaging);
+	
+	/**
+	 * 판매자 전체 주문 개수 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllOrd(PagingAndCtg unPaging);
 
+	/**
+	 * 판매자 전체 상품 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 상품 리스트
+	 */
+	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging);
 
-
-=======
->>>>>>> Stashed changes
+	/**
+	 * 판매자 전체 주문 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 주문 리스트
+	 */
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
 }

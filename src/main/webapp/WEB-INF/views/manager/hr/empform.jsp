@@ -330,7 +330,6 @@ label {
                 <div>
                 	<input type="text" id="mgrName" name="mgrName" required="required"> 
                 </div>
-<<<<<<< Updated upstream
                 
 				<label for="sPhone">핸드폰 번호</label>
 				<div class="phone_box">
@@ -346,23 +345,6 @@ label {
 	                <input type="text" class="s" id="mPhone" name="mPhone" maxlength="4">
 	                    <div class="hyphen">-</div>
 	                <input type="text" class="s" id="lPhone" name="lPhone" maxlength="4">
-=======
-				
-                <label for="sPhone">핸드폰 번호</label>
-                <div class ="phone_box">
-	                <select class="sPhone" id="sPhone" name="sPhone" required="required">
-	                    <option>010</option>
-	                    <option>011</option>
-	                    <option>017</option>
-	                    <option>016</option>
-	                    <option value="in">직접 입력</option>
-	                </select>
-	                <input type="text" id="inPhone" name="inPhone">
-						<div class="hyphen">-</div>
-	                <input type="text" id="mPhone" name="mPhone" required="required">
-	                    <div class="hyphen">-</div>
-	                <input type="text" id="lPhone" name="lPhone" required="required">
->>>>>>> Stashed changes
                 </div>
 				
 				<label for="mgrBirth">생년월일</label>

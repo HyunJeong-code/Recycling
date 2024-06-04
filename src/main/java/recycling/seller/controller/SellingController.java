@@ -3,6 +3,7 @@ package recycling.seller.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -39,6 +40,51 @@ public class SellingController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private SellingService sellingService;
+	@Autowired private PageService pageService;
+	
+	@GetMapping("/main")
+	public void main(
+				Authentication authentication,
+				@RequestParam(defaultValue = "0") int curPage,
+				@RequestParam(defaultValue = "") String search,
+				@RequestParam(defaultValue = "") String sCtg,
+				Model model
+			) {
+		logger.info("/seller/selling/main [GET]");
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
+        
+        // 문의글 페이지 수 계산
+  		PagingAndCtg upPaging = new PagingAndCtg();
+  		PagingAndCtg unPaging = new PagingAndCtg();
+        
+  		upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+        unPaging = pageService.unPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+  		
+        int upPage = sellingService.selectCntAllPrd(upPaging);
+        int unPage = sellingService.selectCntAllOrd(unPaging);
+        
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+        upPaging.setUser(buyerLogin.getsCode());
+        unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
+        unPaging.setUser(buyerLogin.getsCode());
+        
+        List<Map<String, Object>> prdList = sellingService.selectAllPrd(upPaging);
+        List<Map<String, Object>> ordList = sellingService.selectAllOrd(unPaging);
+        
+        logger.info("prdList : {}", prdList);
+        logger.info("ordList : {}", ordList);
+        
+        model.addAttribute("prdList", prdList);
+        model.addAttribute("prdSize", prdList.size());
+        model.addAttribute("upPaging", upPaging);
+        
+        model.addAttribute("ordList", ordList);
+        model.addAttribute("ordSize", ordList.size());
+        model.addAttribute("unPaging", unPaging);
+        
+    }
 	
 	@GetMapping("/rcylist")
 	public void rcyList(Authentication authentication, Model model) {
@@ -245,14 +291,33 @@ public class SellingController {
 	    return "jsonView"; 
 	}
 
-	@GetMapping("/main")
-	public void main(HttpSession session, Model model) {
-		logger.info("/seller/selling/main [GET]");
+	@GetMapping("/upcyorderdetail")
+	public void upcyOrderDetail(String orddtCode, Model model) {
 		
-		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers");
-		logger.info("seller : {}", seller);
+		MyOrder myOrder = sellingService.selectMyOrderByOrddtCode(orddtCode);
 		
-//		List<AllPrd> allPrd = sellingService.selectAllPrd(seller);
+		model.addAttribute("order", myOrder);
+	}
+	
+	@PostMapping("/upcyorderupdate")
+	public String upcyOrderUpdate(MyOrder myOrder, Model model) {
+		logger.info("{}", myOrder);
+		
+		int res = sellingService.updateMyOrder(myOrder);
+		
+		model.addAttribute("msg", "주문정보가 수정되었습니다.");
+		model.addAttribute("url", "/seller/selling/upcylist");
+		return "/layout/alert";
+	}
+	
+	@GetMapping("/delship")
+	public String delShip(String orddtCode, Model model) {
+		int res = sellingService.deleteShip(orddtCode);
+		
+		
+		model.addAttribute("msg", "송장이 삭제되었습니다.");
+		model.addAttribute("url", "/seller/selling/upcylist");
+		return "/layout/alert";
 	}
 	
 	//판매자 체험 조회
@@ -357,7 +422,5 @@ public class SellingController {
 		Exp exp = sellingService.selectByExp(expCode);
 		
 		model.addAttribute("exp", exp);
-
-		
 	}
 }

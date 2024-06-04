@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -180,7 +181,6 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
-<<<<<<< Updated upstream
 	public MyOrder selectMyOrderByOrddtCode(String orddtCode) {
 		return sellingDao.selectMyOrderByOrddtCode(orddtCode);
 	}
@@ -194,8 +194,6 @@ public class SellingServiceImpl implements SellingService {
 		return res;
 	}
 	
-	
-
 	//paging Cnt
 	
 	@Override
@@ -218,10 +216,7 @@ public class SellingServiceImpl implements SellingService {
 		return sellingDao.selectCntAllMyOrder(unPaging);
 	}
 
-	
-
 	//paging Cnt end
-	
 	
 	//exp start
 	@Override
@@ -239,7 +234,6 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllExpSch(PagingAndCtg upPaging) {
 		
 		return sellingDao.selectCntAllExpSch(upPaging);
-=======
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		
@@ -259,7 +253,6 @@ public class SellingServiceImpl implements SellingService {
 			paging = new Paging(totalCount, curPage, search);
 		}
 		return paging;
->>>>>>> Stashed changes
 	}
 
 	@Override
@@ -269,7 +262,6 @@ public class SellingServiceImpl implements SellingService {
 	}
 
 	@Override
-<<<<<<< Updated upstream
 	public List<ExpSch> selectAllSch(String expCode) {
 		return sellingDao.selectAllSch(expCode);
 	}
@@ -283,26 +275,24 @@ public class SellingServiceImpl implements SellingService {
 	public List<ExpFile> selectByExpFile(String expCode) {
 		return sellingDao.selectByExpFile(expCode);
 	}
-=======
-	public Paging getPaging(int curPage) {
-		
-		int totalCount = sellingDao.selectPageAll();
-		
-		Paging paging = new Paging(totalCount, curPage);
-		
-		return paging;
-	}
-
+	
 	@Override
-	public List<ExpRes> selectResList(String expCode) {
-		return sellingDao.selectResList(expCode);
+	public int selectCntAllPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectCntAllPrd(upPaging);
 	}
-
-//	@Override
-//	public List<ExpRes> selectResList(String expCode, Paging paging) {
-//		
-//		return sellingDao.selectResList(expCode, paging);
-//	}
-
->>>>>>> Stashed changes
+	
+	@Override
+	public int selectCntAllOrd(PagingAndCtg unPaging) {
+		return sellingDao.selectCntAllOrd(unPaging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllPrd(upPaging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
+		return sellingDao.selectAllOrd(unPaging);
+	}
 }

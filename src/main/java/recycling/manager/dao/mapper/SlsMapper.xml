@@ -217,7 +217,7 @@
 	</select>
 	
 	<!-- 판매자 요청수 -->
-	<select id="selectCntSeller" resultType="int">
+	<select id="selectCntSeller" resultType="int" parameterType="recycling.util.PagingAndCtg">
 		SELECT count(*) FROM seller
 		<where>
 			AND (
