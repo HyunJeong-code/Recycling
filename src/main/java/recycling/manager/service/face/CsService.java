@@ -19,14 +19,22 @@ public interface CsService {
 	 * @return
 	 */
 	public List<Oto> list(PagingAndCtg upPaging);
-
+	
 	/**
-	 * 페이징
+	 * 문의 페이징
 	 * 
-	 * @param pagingParam
+	 * @param upPaging
 	 * @return
 	 */
-	public int getPaging(PagingAndCtg upPaging);
+	public int selectCntAllotoList(PagingAndCtg upPaging);
+
+	/**
+	 * 구매자 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllbuyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 목록
