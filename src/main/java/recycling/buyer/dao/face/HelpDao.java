@@ -182,7 +182,11 @@ public interface HelpDao {
 	 * @param upPaging - 페이징 정보 객체
 	 * @return 질문 분류 List
 	 */
-	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging);
+	public List<FaqCt> selectAllCtFaq();
+
+	public int selectCntFaqByCt(Map<String, Object> params);
+
+	public List<Faq> selectFaqByCt(Map<String, Object> params);
 
 
 

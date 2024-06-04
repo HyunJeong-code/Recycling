@@ -41,39 +41,85 @@ public class HelpController {
 	@Autowired private HelpService helpService;
 	@Autowired private PageService pageService;
 	
-	
 	@GetMapping("/main")
 	public void main(
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg,
-			Model model
-//			Authentication authentication,
-//			Buyer buyer
-			) {
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		logger.info("buyerLogin : {}", buyerLogin);
-		
-		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageAll(curPage, sCtg, search);
-									
-		int upPage = helpService.selectCntAllFaq(upPaging);
-		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-		
-		logger.info("upPaging : {}", upPaging);
-		
-		//자주 묻는 질문 전체 리스트
-		List<Faq> list = helpService.selectAllFaq(upPaging);
-		
-		//자주 묻는 질문 분류 리스트
-		List<FaqCt> faqCtlist = helpService.selectAllCtFaq(upPaging);
-		
-		model.addAttribute("upPaging", upPaging);
-		model.addAttribute("list", list);
-		model.addAttribute("faqCtlist", faqCtlist);
-		model.addAttribute("upUrl", "/buyer/help/main");
-		
+	        @RequestParam(defaultValue = "0") int curPage,
+	        @RequestParam(defaultValue = "") String search,
+	        @RequestParam(defaultValue = "") String sCtg,
+	        Model model,
+	        @RequestParam(defaultValue = "0") int ctFaqno
+	        ) {
+
+	    PagingAndCtg upPaging = new PagingAndCtg();
+	    upPaging = pageService.upPageAll(curPage, sCtg, search);
+
+	    // 전체 또는 특정 분류의 자주 묻는 질문 개수 조회
+	    int upPage;
+	    List<Faq> list;
+
+	    if (ctFaqno == 0) {
+	        upPage = helpService.selectCntAllFaq(upPaging);
+	        list = helpService.selectAllFaq(upPaging);
+	    } else {
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("search", ctFaqno); // search에 ctFaqNo를 사용
+	        params.put("upPaging", upPaging);
+	        upPage = helpService.selectCntFaqByCt(params);
+	        list = helpService.selectFaqByCt(params);
+	    }
+	    
+	    upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+
+	    logger.info("upPaging : {}", upPaging);
+	    logger.info("search : {}", search);
+	    logger.info("list : {}", list);
+
+	    // 자주 묻는 질문 분류 리스트
+	    List<FaqCt> faqCtlist = helpService.selectAllCtFaq();
+
+	    model.addAttribute("upPaging", upPaging);
+	    model.addAttribute("list", list);
+	    model.addAttribute("faqCtlist", faqCtlist);
+	    model.addAttribute("ctFaqno", ctFaqno);
+	    model.addAttribute("upUrl", "/buyer/help/main");
 	}
+
+	
+//	@GetMapping("/main")
+//	public void main(
+//	        @RequestParam(defaultValue = "0") int curPage,
+//	        @RequestParam(defaultValue = "") String search,
+//	        @RequestParam(defaultValue = "") String sCtg,
+//	        @RequestParam(defaultValue = "0") int ctFaqno, // 분류 파라미터 추가
+//	        Model model,
+//	        Authentication authentication
+//	        ) {
+//	    PagingAndCtg upPaging = new PagingAndCtg();
+//	    upPaging = pageService.upPageAll(curPage, sCtg, search);
+//
+//	    upPaging.setSearch(ctFaqno != 0 ? String.valueOf(ctFaqno) : null);
+//	    
+//	    int upPage = helpService.selectCntAllFaq(upPaging);
+//	    
+//	    upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+//
+//	    
+//	    List<Faq> list = helpService.selectAllFaq(upPaging);
+//	    logger.info("upPaging : {}", upPaging);
+//	    logger.info("search : {}", search);
+//	    logger.info("list : {}", list);
+//
+//	    List<FaqCt> faqCtlist = helpService.selectAllCtFaq(upPaging);
+//	    logger.info("faqCtlist : {}", faqCtlist);
+//
+//	    model.addAttribute("upPaging", upPaging);
+//	    model.addAttribute("list", list);
+//	    model.addAttribute("faqCtlist", faqCtlist);
+//	    model.addAttribute("ctFaqno", ctFaqno); // 선택된 분류 유지
+//	    model.addAttribute("upUrl", "/buyer/help/main");
+//	}
+
+
 	
 	@GetMapping("/noticelist")
 	public void noticeList(
