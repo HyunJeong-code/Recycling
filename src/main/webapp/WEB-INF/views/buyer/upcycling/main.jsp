@@ -13,7 +13,7 @@
 		flex-direction: column;
 		align-items: center;
 		margin: 0;
-		overflow: auto;
+		overflow-x: hidden;
 		width: 100%;
 		min-height: 100vh;
 		position: relative;
@@ -38,9 +38,8 @@
 	}
 
 	.mainBanner {
-		width: 100%;
 		max-width: 1000px;
-		height: 650px;
+		height: 620px;
 		border: 1px solid black;
 		overflow: hidden;
 		display: flex;
@@ -72,7 +71,6 @@
 		width: 100%;
 		margin: 0 auto;
 		display: flex;
-		justify-content: space-around;
 		align-items: center;
 		flex-wrap: wrap;
 	}
@@ -278,13 +276,13 @@
 		<div class="categoryContainer">
 				<div class="categoryBig"><strong>업사이클</strong></div>
 				<div class="categoryBox">
-					<div class="categoryMid">전체</div>
-					<div class="categoryMid">플라스틱</div>
-					<div class="categoryMid">유리</div>
-					<div class="categoryMid">천</div>
-					<div class="categoryMid">캔</div>
-					<div class="categoryMid">종이</div>
-					<div class="categoryMid">기타</div>
+				    <div class="categoryMid" data-category="all">전체</div>
+				    <div class="categoryMid" data-category="0">플라스틱</div>
+				    <div class="categoryMid" data-category="1">유리</div>
+				    <div class="categoryMid" data-category="2">종이</div>
+				    <div class="categoryMid" data-category="3">캔</div>
+				    <div class="categoryMid" data-category="4">천</div>
+				    <div class="categoryMid" data-category="5">기타</div>
 				</div>
 			</div>
 		<div class="sortBtn">
@@ -296,25 +294,15 @@
 		
 		<div class="prdContainer">
 			<div class="prdList">
-				<!-- 테스트용 상품 리스트 -->
-<%-- 				<c:forEach var="index" begin="1" end="32">
-					<div class="prd" style="display: ${index <= 16 ? 'flex' : 'none'};">
-						<img src="${pageContext.request.contextPath}/resources/img/product_${index}.jpg">
-						<p class="prdTitle">Proddddddddddddddddduct ${index}</p>
-						<p class="prdPrice">30,000원</p>
-					</div>
-                </c:forEach> --%>
-                
 				<c:forEach var="prd" items="${list}">
-				    <div class="prd">
-				        <a href="${pageContext.request.contextPath}/buyer/upcycling/upcydetail?prdcode=${prd.prdCode}"">
+				    <div class="prd" data-ct-pdt-no="${prd.ctPdtNo}">
+				        <a href="${pageContext.request.contextPath}/buyer/upcycling/upcydetail?prdcode=${prd.prdCode}">
 				            <img src="${pageContext.request.contextPath}/resources/img/product_${prd.prdCode}.jpg">
-				            <p class="prdTitle">${prd.prdName}</p>
-				            <p class="prdPrice">${prd.price}원</p>
+                            <p class="prdTitle">${prd.prdName}</p>
+                            <p class="prdPrice">${prd.price}원</p>
 				        </a>
 				    </div>
 				</c:forEach>
-                
 			</div>
 		</div>
 		
@@ -327,128 +315,144 @@
 	
 	<div class="spacer"></div>
 	
-<%-- 	<footer>
+<%--  	<footer>
 		<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/> 
 	</footer> --%>
 	
 </body>
 
 <script>
-	    document.addEventListener('DOMContentLoaded', function() {
-			const newPrdBtn = document.getElementById('newPrdBtn');
-	        const popPrdBtn = document.getElementById('popPrdBtn');
-	        const newPrds = document.querySelectorAll('.bannerContent[id^="newPrd"]');
-	        const popPrds = document.querySelectorAll('.bannerContent[id^="popPrd"]');
-	        const sortButtons = document.querySelectorAll('.sortBtn button');
-	        const categoryItems = document.querySelectorAll('.categoryMid');
-	        const prdLists = document.querySelectorAll('.prdList');
+	document.addEventListener('DOMContentLoaded', function() {
+	    const categoryItems = document.querySelectorAll('.categoryMid');
+	    const prdItems = document.querySelectorAll('.prd');
+	    const sortButtons = document.querySelectorAll('.sortBtn button');
 	
-	        let currentPage = 1;
+	    // 중분류 '전체' 활성화
+	    const allCategory = document.querySelector('.categoryMid[data-category="all"]');
+	    allCategory.classList.add('active');
+	    allCategory.style.fontWeight = 'bold';
+	    allCategory.style.color = 'black';
 	
-	        // 초기 설정: 신규 상품 표시
-	        newPrdBtn.style.backgroundColor = '#007bff';
-	        newPrdBtn.style.color = 'white';
-	        popPrds.forEach(prd => {
-	            prd.style.display = 'none';
-	        });
+	    // 정렬 버튼 중 '낮은가격순' 활성화
+	    const lowPriceBtn = document.getElementById('lowPrice');
+	    lowPriceBtn.classList.add('active');
+	    lowPriceBtn.style.backgroundColor = '#007bff';
+	    lowPriceBtn.style.color = 'white';
 	
-	        // 중분류 '전체' 활성화
-	        const allCategory = document.querySelector('.categoryMid:first-child');
-	        allCategory.classList.add('active');
-	        allCategory.style.fontWeight = 'bold';
-	        allCategory.style.color = 'black';
-	
-	        // 정렬 버튼 중 '낮은가격순' 활성화
-	        const lowPriceBtn = document.getElementById('lowPrice');
-	        lowPriceBtn.classList.add('active');
-	        lowPriceBtn.style.backgroundColor = '#007bff';
-	        lowPriceBtn.style.color = 'white';
-	
-	        
-	
-	        // 카테고리 클릭 시
-	        categoryItems.forEach(item => {
-	            item.addEventListener('click', function() {
-	                categoryItems.forEach(item => {
-	                    item.classList.remove('active');
-	                    item.style.fontWeight = 'normal';
-	                    item.style.color = '';
-	                });
-	                this.classList.add('active');
-	                this.style.fontWeight = 'bold';
-	                this.style.color = 'black';
+	    // 카테고리 클릭 시
+	    categoryItems.forEach((item) => {
+	        item.addEventListener('click', function() {
+	            // 모든 카테고리 스타일 초기화
+	            categoryItems.forEach(item => {
+	                item.classList.remove('active');
+	                item.style.fontWeight = 'normal';
+	                item.style.color = '';
 	            });
+	            // 선택된 카테고리 스타일 변경
+	            this.classList.add('active');
+	            this.style.fontWeight = 'bold';
+	            this.style.color = 'black';
+	            // 해당 카테고리에 맞는 제품 로드
+	            loadProductsByCategory(this.getAttribute('data-category'));
 	        });
-	
-	        // 정렬 버튼 클릭 시
-	        sortButtons.forEach(button => {
-	            button.addEventListener('click', function() {
-	                sortButtons.forEach(button => {
-	                    button.classList.remove('active');
-	                    button.style.backgroundColor = '';
-	                    button.style.color = '';
-	                    button.style.fontWeight = 'normal';
-	                });
-	                this.classList.add('active');
-	                this.style.backgroundColor = '#007bff';
-	                this.style.color = 'white';
-	                this.style.fontWeight = 'bold';
-	            });
-	        });
-	
-	        // 페이지 표시 함수
-	        function showPage(pageNum) {
-	            // 모든 페이지 숨기기
-	            prdLists.forEach(list => {
-	                list.style.display = 'none';
-	            });
-	            // 현재 페이지만 보이기
-	            if (prdLists[pageNum - 1]) {
-	                prdLists[pageNum - 1].style.display = 'flex';
-	            }
-	        }
-	
-	        // 다음 페이지로 이동
-	        function nextPage() {
-	            if (currentPage < prdLists.length) {
-	                currentPage++;
-	                showPage(currentPage);
-	            }
-	        }
-	
-	        // 이전 페이지로 이동
-	        function prevPage() {
-	            if (currentPage > 1) {
-	                currentPage--;
-	                showPage(currentPage);
-	            }
-	        }
-	
-	        // 초기 설정: 첫 번째 페이지 표시
-	        showPage(currentPage);
-	        
-		// footer 위치 조정 함수
-		function adjustFooterPosition() {
-			var bodyHeight = document.body.clientHeight;
-			var windowHeight = window.innerHeight;
-			var footer = document.querySelector('footer');
-
-			if (windowHeight > bodyHeight) {
-				var offset = windowHeight - bodyHeight;
-				footer.style.bottom = offset + 'px';
-			} else {
-				footer.style.bottom = '0';
-			}
-		}
-
-		// resize 이벤트 리스너 등록하여 footer 위치 조정
-		window.addEventListener('resize', adjustFooterPosition);
-
-		// 페이지 로드 후 초기에도 한 번 실행하여 화면 크기에 맞게 footer를 조정합니다.
-		adjustFooterPosition();
-	        
 	    });
-	</script>
+	
+	    // 카테고리에 따른 제품 로드 함수
+	    function loadProductsByCategory(category) {
+	        prdItems.forEach(item => {
+	            if (category === 'all' || item.getAttribute('data-ct-pdt-no') === category) {
+	                item.style.display = 'flex';
+	            } else {
+	                item.style.display = 'none';
+	            }
+	        });
+	    }
+	
+	    
+	 // 정렬 버튼 클릭 시
+	    sortButtons.forEach(button => {
+	        button.addEventListener('click', function() {
+	            // 현재 선택된 중분류 가져오기
+	            const currentCategory = document.querySelector('.categoryMid.active').getAttribute('data-category');
+	            
+	            sortButtons.forEach(button => {
+	                button.classList.remove('active');
+	                button.style.backgroundColor = '';
+	                button.style.color = '';
+	                button.style.fontWeight = 'normal';
+	            });
+	            this.classList.add('active');
+	            this.style.backgroundColor = '#007bff';
+	            this.style.color = 'white';
+	            this.style.fontWeight = 'bold';
+	            
+	            // 정렬 함수 호출
+	            sortProducts(this.id, currentCategory); // 정렬 함수에 현재 중분류를 전달
+	        });
+	    });
+	
+	 // 제품 정렬 함수
+	    function sortProducts(criteria, category) {
+	        let productsArray = Array.from(prdItems);
+	        switch(criteria) {
+	            case 'lowPrice':
+	                productsArray.sort((a, b) => {
+	                    return parseInt(a.querySelector('.prdPrice').textContent.replace(/,/g, '')) - parseInt(b.querySelector('.prdPrice').textContent.replace(/,/g, ''));
+	                });
+	                break;
+	            case 'highPrice':
+	                productsArray.sort((a, b) => {
+	                    return parseInt(b.querySelector('.prdPrice').textContent.replace(/,/g, '')) - parseInt(a.querySelector('.prdPrice').textContent.replace(/,/g, ''));
+	                });
+	                break;
+	            case 'latest':
+	                productsArray.sort((a, b) => {
+	                    return new Date(b.getAttribute('data-ct-pdt-no')) - new Date(a.getAttribute('data-ct-pdt-no'));
+	                });
+	                break;
+	            default:
+	                break;
+	        }
+	        const prdList = document.querySelector('.prdList');
+	        prdList.innerHTML = '';
+	        productsArray.forEach(product => {
+	            // 해당 중분류에 맞는 제품만 추가
+	            if (category === 'all' || product.getAttribute('data-ct-pdt-no') === category) {
+	                prdList.appendChild(product);
+	            }
+	        });
+	        showPage(currentPage);
+	    }
+	    
+	    // 페이지 표시 함수
+	    function showPage(pageNum) {
+	        // 모든 페이지 숨기기
+	        prdItems.forEach((item, index) => {
+	            item.style.display = (index >= (pageNum - 1) * 16 && index < pageNum * 16) ? 'flex' : 'none';
+	        });
+	    }
+	
+	    // 다음 페이지로 이동
+	    function nextPage() {
+	        if (currentPage < Math.ceil(prdItems.length / 16)) {
+	            currentPage++;
+	            showPage(currentPage);
+	        }
+	    }
+	
+	    // 이전 페이지로 이동
+	    function prevPage() {
+	        if (currentPage > 1) {
+	            currentPage--;
+	            showPage(currentPage);
+	        }
+	    }
+	
+	    // 초기 설정: 첫 번째 페이지 표시
+	    let currentPage = 1;
+	    showPage(currentPage);
+	});
+</script>
 
 
 </html>
