@@ -224,7 +224,7 @@ $(function() {
 			<c:if test="${rvwSize ne 0 }">
 				<button type="button" id="delrvw" class="btnLeft">삭제하기</button>
 			</c:if>
-			<button type="button" class="btn" id="btnRvw"><a href="#none" target="_blank" onclick="openPop()">작성하기</a></button>
+			<button type="button" class="btn" id="btnRvw"><a href="/buyer/mypage/rvwform">작성하기</a></button>
 		</div> <!-- section End -->
 	</div>
 </div>
