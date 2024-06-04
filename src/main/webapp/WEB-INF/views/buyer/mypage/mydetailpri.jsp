@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
 <!DOCTYPE html>
 <html>
@@ -13,134 +12,69 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
 	var num;
-    var originalEmail = $('#bEmail').val() + '@' + $('#emailDomain').val();
-    var emailChanged = false;
-    var emailVerified = false;
-    
- 	// 이메일 입력 변경 감지
-    $("#bEmail, #emailDomain").on('input', function() {
-        var currentEmail = $('#bEmail').val() + '@' + $('#emailDomain').val();
-        emailChanged = currentEmail !== originalEmail;
-        emailVerified = false;
-        $("#emailChk").hide();
-        $("#emailOk").hide();
-        $("#emailNo").hide();
-        $("#emailNum").val('');
-    });
-    
- 	// 이메일 인증 버튼 클릭
-    $("#btnEmail").click(function() {
-        if (!emailChanged) {
-            alert("이메일을 변경해주세요.");
-            return;
-        }
-        
-        var email = $('#bEmail').val() + '@' + $('#emailDomain').val();
-        console.log("이메일 : " + email);
-        
-        $.ajax({
-            type: 'post',
-            url: '${pageContext.request.contextPath}/buyer/mypage/EmailAuth',
-            data: {email: email},
-            dataType: 'json',
-            success: function(res) {
-                console.log("res : " + res);
-                $("#emailChk").show();
-                num = res;
-                alert("인증번호가 발송되었습니다. 입력하신 메일의 메일함을 확인해주세요.");
-            },
-            error: function(xhr, status, error) {
-                console.error("Ajax 오류:", status, error);
-                alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
-            }
-        });
-    });
-    
- 	// 인증번호 입력 확인
-    $("#emailNum").on('input', function() {
-        var inputNum = $("#emailNum").val();
-        
-        console.log("입력 인증 번호 : " + inputNum);
-        console.log("전송 인증 번호 : " + num);
-        
-        if (Number(inputNum) === num) {
-            $("#emailOk").show();
-            $("#emailNo").hide();
-            emailVerified = true;
-        } else {
-            $("#emailNo").show();
-            $("#emailOk").hide();
-            emailVerified = false;
-        }
-    });
-    
- 	// 폼 제출 시 이메일 인증 확인 및 이메일 병합
-    $("form").submit(function(e) {
-        console.log("폼 제출 시 상태:", emailChanged, emailVerified);
-        if (emailChanged && !emailVerified) {
-            alert("이메일 인증을 완료해주세요.");
-            e.preventDefault();
-        } else {
-            // 이메일 병합
-            var email = $('#bEmail').val() + '@' + $('#emailDomain').val();
-            $('#fullEmail').val(email);
-        }
-    });
-    
- 	// 이메일 도메인 선택에 따른 처리
-    $("#emailSelect").change(function() {
-        var selected = $(this).val();
-        if (selected === 'custom') {
-            $('#emailDomain').val('').prop('readonly', false);
-        } else {
-            $('#emailDomain').val(selected).prop('readonly', true);
-        }
-        // 도메인 선택 변경도 이메일 변경으로 처리
-        var currentEmail = $('#bEmail').val() + '@' + $('#emailDomain').val();
-        emailChanged = currentEmail !== originalEmail;
-        emailVerified = false;
-        $("#emailChk").hide();
-        $("#emailOk").hide();
-        $("#emailNo").hide();
-        $("#emailNum").val('');
-    });
- 	
- 	// 초기 이메일 도메인 설정
-    var currentEmailDomain = "${fn:substringAfter(currentBuyer.bEmail, '@')}";
-    if (["naver.com", "gmail.com", "daum.net"].includes(currentEmailDomain)) {
-        $('#emailSelect').val(currentEmailDomain);
-        $('#emailDomain').val(currentEmailDomain).prop('readonly', true);
-    } else {
-        $('#emailSelect').val('custom');
-        $('#emailDomain').val(currentEmailDomain).prop('readonly', false);
-    }
+	var originalEmail = $('#bEmail').val();
+	var emailChanged = false;
 	
-	// 전화번호 옵션 설정
-	var phonePrefixes = ["010", "011", "016", "017"];
-    var currentPhone = "${currentBuyer.bPhone}";
-    var phoneParts = currentPhone.split("-");
+	$("#bEmail").on('input', function() {
+		var currentEmail = $(this).val();
+		emailChanged = currentEmail !== originalEmail;
+	});
 	
-    if (phonePrefixes.includes(phoneParts[0])) {
-        $('#phoneSelect').val(phoneParts[0]);
-        $('#bPhone1').val(phoneParts[0]).prop('readonly', true);
-    } else {
-        $('#phoneSelect').val('custom');
-        $('#bPhone1').val(phoneParts[0]).prop('readonly', false);
-    }
+	$("#btnEmail").click(function() {
+		if (!emailChanged) {
+			alert("이메일을 변경해주세요.");
+			return;
+		}
+		
+		var email = $('#bEmail').val();
+		console.log("이메일 : " + email);
+		var emailNum = $("#emailNum")
+		
+		$.ajax({
+			type: 'post',
+			url : '${pageContext.request.contextPath}/buyer/mypage/EmailAuth',
+			data: {email : email},
+			dataType: 'json',
+			success: function(res) {
+				console.log("res : " + res);
+				$("#emailChk").css("display", "block");
+				num = res;
+				alert("인증번호가 발송되었습니다. 입력하신 메일의 메일함을 확인해주세요.");
+			}
+		})
+	})
 	
-	$('#bPhone2').val(phoneParts[1]);
-    $('#bPhone3').val(phoneParts[2]);
-    
-    $('#phoneSelect').change(function() {
-        var selected = $(this).val();
-        if (selected === 'custom') {
-            $('#bPhone1').val('').prop('readonly', false);
-        } else {
-            $('#bPhone1').val(selected).prop('readonly', true);
-        }
-    })
+	$("#emailNum").focusout(function() {
+		var inputNum = $("#emailNum").val();
+		
+		console.log("입력 인증 번호 : " + inputNum);
+		console.log("전송 인증 번호 : " + num);
+		
+		if(Number(inputNum) === num) {
+			$("#emailOk").css("display", "block");
+			$("#bEmail").css("disabled", "true");
+			$("#bEmail2").css("disabled", "true");
+			$("#btnEmail").css("disabled", "true");
+			$("#emailNo").css("display", "none");			
+		} else {
+			$("#emailNo").css("display", "block");			
+			$("#emailOk").css("display", "none");			
+		}
+	});
+	
+	$("form").submit(function(e) {
+		if (emailChanged && $("#emailOk").css("display") !== "block") {
+			alert("이메일 인증을 완료해주세요.");
+			e.preventDefault();
+		}
+	});
+	
+	<c:if test="${not empty success }">
+		alert("${success }");
+	</c:if>
+	
 })
 </script>
 
@@ -252,9 +186,6 @@ th {
 
 </head>
 <body>
-
-	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
-
 	<div class="full">
 		<div class="wrap">
 		
@@ -273,7 +204,6 @@ th {
 			
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailpri" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
-					<input type="hidden" id="fullEmail" name="fullEmail" value="${currentBuyer.bEmail}">
 					
 					<div class="mydetailpri">
 						<table>
@@ -352,6 +282,18 @@ th {
 							<button type="btn" onclick="cancelUpdate()">취소하기</button>
 						</div>
 					</div>
+					
+					<h3>광고성 정보 수신 여부 </h3>
+					<label for="adSms">SMS</label>
+					<input type="radio" name="adSms" id="adSms" value="Y" 
+						<c:if test="${currentBuyer.adSms eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)">
+					
+					<label for="adEmail">Email</label>
+					<input type="radio" name="adEmail" id="adEmail" value="Y" 
+						<c:if test="${currentBuyer.adEmail eq 'Y' }">checked</c:if> onclick="toggleRadioButton(this)"><br>
+					
+					<input type="submit" value="수정하기">
+					<input type="button" value="취소하기" onclick="cancelUpdate()">
 				</form>
 				<c:if test="${not empty success }">
 					<p style="color: green;">${success }</p>
@@ -362,8 +304,5 @@ th {
 			</div>
 		</div>
 	</div>
-	
-	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
-	
 </body>
 </html>

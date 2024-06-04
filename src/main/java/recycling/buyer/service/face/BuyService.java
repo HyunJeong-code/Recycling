@@ -151,5 +151,26 @@ public interface BuyService {
 	 */
 	public int selectCntById(String bId);
 
+	/**
+	 * 메인페이지 재활용품 정보
+	 * 
+	 *  @return 재활용품 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectRcy();
+	
+	/**
+	 * 메인페이지 새활용 정보
+	 * 
+	 *  @return 새활용 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectUpcy();
+
+	/**
+	 * 메인페이지 체험단 정보
+	 * 
+	 *  @return 체험단 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectExp();
+
 
 }

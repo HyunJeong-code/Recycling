@@ -12,6 +12,10 @@
     display: flex;
 }
 
+.main-section {
+	width: 100%;
+}
+
 .sidebar {
     width: 300px;
 }

@@ -7,7 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
+<<<<<<< Updated upstream
 <link rel="stylesheet" href="/resources/css/manager/sls/explist.css">
+=======
+>>>>>>> Stashed changes
 </head>
 <body>
 	<header class="header">

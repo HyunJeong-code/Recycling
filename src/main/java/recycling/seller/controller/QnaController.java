@@ -13,15 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
 import recycling.dto.seller.Qna;
-import recycling.page.face.PageService;
 import recycling.seller.service.face.QnaService;
-import recycling.util.PagingAndCtg;
 
 // 고객 문의 관리
 
@@ -31,48 +28,18 @@ public class QnaController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired QnaService qnaService;
-	@Autowired private PageService pageService;
 	
 	@GetMapping("/main")
-	public void main(Authentication authentication, Model model,
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg) {
+	public void main(Authentication authentication, Model model) {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
 		
-		// 문의글 페이지 수 계산
- 		PagingAndCtg upPaging = new PagingAndCtg();
- 		PagingAndCtg unPaging = new PagingAndCtg();
-        
-        upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
-        unPaging = pageService.unPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+		String sCode = buyerLogin.getsCode();
 		
-        int upPage = qnaService.selectCntQstBysCode(upPaging);
-        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-        
- 		logger.info("upPaging : {}", upPaging);
- 		upPaging.setUser(buyerLogin.getsCode());
- 		
- 		
- 		int unPage = qnaService.selectCntQstAllBysCode(unPaging);
- 		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
-        
- 		logger.info("unPaging : {}", unPaging);
- 		unPaging.setUser(buyerLogin.getsCode());
-        
- 		List<QstA> qlist = qnaService.selectQstBysCode(upPaging);
-		
-		List<QstA> qlistA = qnaService.selectQstAllBysCode(unPaging);
+		List<QstA> qlist = qnaService.selectBysCode(sCode);
 		
 		logger.info("{}",qlist);
 		model.addAttribute("qlist", qlist);
-		model.addAttribute("qlistA", qlistA);
-		
-		model.addAttribute("upPaging", upPaging);
-		model.addAttribute("upUrl", "/seller/qna/main");
-		model.addAttribute("unPaging", unPaging);
-		model.addAttribute("unUrl", "/seller/qna/main");
 	}
 	
 	@GetMapping("/qnaform")

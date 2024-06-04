@@ -1,6 +1,7 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,41 +9,15 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
+import recycling.dto.manager.Ans;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 public interface HelpService {
 
-	/**
-	 * 게시글 목록을 위한 페이징 객체를 생성
-	 * 
-	 * 전달 파라미터의 curPage - 현재 페이지
-	 * DB에서 조회한 totalCount - 총 게시글 수
-	 * 
-	 * 두 가지 데이터를 활용하여 페이징 객체를 생성하고 반환
-	 * 
-	 * @param curPage - 현재 페이지 번호
-	 * @return 페이징 계산이 완료된 객체
-	 */
-	public Paging getPaging(int curPage);
-
-	/**
-	 * 자주 묻는 질문 전체 조회
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 자주 묻는 질문 List
-	 */
-	public List<Faq> selectAllFaq(Paging paging);
-
-	/**
-	 * 자주 묻는 질문 분류 조회
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 질문 분류 List
-	 */
-	public List<FaqCt> selectAllCtFaq(Paging paging);
 
 	/**
 	 * 판매자 전용 공지사항 전체 조회
@@ -72,8 +47,6 @@ public interface HelpService {
 	 * @param oto - 1:1문의글
 	 */
 	public int insertOto(Oto oto);
-//	public void insertOto(Oto oto);
-
 
 	/**
 	 * 1:1문의글 분류 선택을 위한 객체
@@ -82,20 +55,7 @@ public interface HelpService {
 	 */
 	public List<OtoCt> selectAllOtoCt();
 
-	/**
-	 * 1:1문의 게시글 전체 조회
-	 * 
-	 * @return 1:1문의 DTO를 가진 List
-	 */
-	public List<Oto> selectAllOto();
 
-	/**
-	 * ct_otono 값에 해당하는 1:1문의글 분류 
-	 * 
-	 * @param string - ct_otono를 형식 변환
-	 * @return 선택한 분류 1:1문의글 List
-	 */
-	public List<Oto> selectByCtOto(String string);
 
 	/**
 	 * 1:1문의 작성 폼에 분류 선택 기능
@@ -154,6 +114,67 @@ public interface HelpService {
 	 * @return 0 : 실패, 1 : 성공
 	 */
 	public boolean chkSeller(String bCode);
+
+	/**
+	 * oto paging
+	 * 
+	 * @param upPaging - paging
+	 * @return paging 결과
+	 */
+	public int selectCntAllOtoList(PagingAndCtg upPaging);
+
+	/**
+	 * 전체 oto 리스트 조회
+	 * 
+	 * @param upPaging - paging
+	 * @return oto List
+	 */
+	List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging);
+
+
+	/**
+	 * oto 분류 코드
+	 * 
+	 * @param params - otoCtNo
+	 * @return 
+	 */
+	public List<Map<String, Object>> selectByCtOto(Map<String, Object> params);
+
+	/**
+	 * otoCode 와 일치하는 답변
+	 * 
+	 * @param otoCode - 1:1문의 코드
+	 * @return ans
+	 */
+	public Ans selectAnsByOtoCode(String otoCode);
+
+	/**
+	 * 자주 묻는 질문 페이징
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 
+	 */
+	public int selectCntAllFaq(PagingAndCtg upPaging);
+
+	/**
+	 * 자주 묻는 질문 전체 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 자주 묻는 질문 List
+	 */
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
+
+	/**
+	 * 자주 묻는 질문 분류 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 질문 분류 List
+	 */
+	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging);
+
+
+
+
 
 	
 

@@ -15,6 +15,7 @@ import recycling.dto.manager.Manager;
 import recycling.manager.dao.face.CsDao;
 import recycling.manager.service.face.CsService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -26,26 +27,19 @@ public class CsServiceImpl implements CsService {
 	private CsDao csDao;
 
 	@Override
-	public List<Oto> list(Paging paging) {
+	public List<Oto> list(PagingAndCtg upPaging) {
 //		logger.info("service");
-		return csDao.list(paging);
+		return csDao.list(upPaging);
 	}
 
 	@Override
-	public Paging getPaging(Paging pagingParam) {
-
-		// 총 게시글 수 조회
-		int totalCount = csDao.getPaging();
-
-		// 페이징 계산
-		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
-
-		return paging;
+	public int getPaging(PagingAndCtg upPaging) {
+		return csDao.getPaging(upPaging);
 	}
 
 	@Override
-	public List<Buyer> buyerList(Paging paging) {
-		return csDao.buyerList(paging);
+	public List<Buyer> buyerList(PagingAndCtg upPaging) {
+		return csDao.buyerList(upPaging);
 	}
 
 	@Override

@@ -143,4 +143,32 @@
 		</where> 
 	</select>
 	
+	<select id="selectRcy">
+		SELECT P.prd_code PrdCode, P.prd_name PrdName, P.prd_date PrdDate, F.origin_name OriginName, F.stored_name storedName FROM prd P, prd_file F
+		<where>
+			AND P.prd_code = F.prd_code(+)
+			AND F.ct_pflno = 600
+			AND P.ct_pno = 0
+		</where>
+		ORDER BY P.prd_hit DESC, P.prd_date
+	</select>
+	
+	<select id="selectUpcy">
+		SELECT P.prd_code PrdCode, P.prd_name PrdName, P.prd_date PrdDate, F.origin_name OriginName, F.stored_name storedName FROM prd P, prd_file F
+		<where>
+			AND P.prd_code = F.prd_code(+)
+			AND F.ct_pflno = 600
+			AND P.ct_pno = 1
+		</where>
+		ORDER BY P.prd_hit DESC, P.prd_date
+	</select>
+	
+	<select id="selectExp">
+		SELECT E.exp_code expCode, E.exp_name expName, E.exp_date expDate, F.origin_name originName, F.stored_name storedName FROM exp E, exp_file F
+		<where>
+			AND E.exp_code = F.exp_code(+)
+			AND F.ct_pflno = 600
+		</where>
+		ORDER BY E.exp_hit DESC, E.exp_date
+	</select>
 </mapper>
