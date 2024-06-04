@@ -471,17 +471,17 @@ table tr:hover {
 			                		</c:when>
 		                		</c:choose>
 							</td>
-							<td><a href="./expresdetail?expCode=${expSchList.expCode}&schNo=${expSchList.schNo }"><button>예약관리</button></a></td>
+							<td><a href="./expresdetail?expCode=${expSchList.expCode}&schNo=${expSchList.schNo }"><button class="btn">예약관리</button></a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
+			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 		</div>
 			
 			<div class="btn_bot_box">
 				<a href="./explist"><button class="btn" type="button">목록으로</button></a>
 			</div>
-			
 			<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 		</div>
 	</div>	

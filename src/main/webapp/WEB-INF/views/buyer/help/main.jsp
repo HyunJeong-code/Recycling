@@ -177,7 +177,7 @@ $(document).ready(function(){
 	<h2>FAQ 자주 묻는 질문</h2>
 	
 	<nav class="FAQ_CT">
-			<button type="button" class="FAQ_CT_button " value="3000" >회원</button>
+			<button type="button" class="FAQ_CT_button " value="3000"><a href="/buyer/help/main?search=3000&sCtg=UP">회원</a></button>
             <button type="button" class="FAQ_CT_button " value="3010" >결제</button>
             <button type="button" class="FAQ_CT_button " value="3020" >예약</button>
             <button type="button" class="FAQ_CT_button " value="3030" >재활용품</button>
@@ -228,10 +228,9 @@ $(document).ready(function(){
                 <%
             }
         %>
+<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 </div>
-<c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </div>
-
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

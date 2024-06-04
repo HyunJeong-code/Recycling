@@ -294,5 +294,40 @@ public class SellingServiceImpl implements SellingService {
 	@Override
 	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
 		return sellingDao.selectAllOrd(unPaging);
+
+	@Override
+	public Exp expResDetail(String expCode) {
+		return sellingDao.expResDetail(expCode);
+	}
+
+	@Override
+	public ExpSch selectExpSchbySchNo(int schNo) {
+		return sellingDao.selectExpSchbySchNo(schNo);
+	}
+
+	@Override
+	public List<ExpRes> expResDetailRes(int schNo) {
+		return sellingDao.expResDetailRes(schNo);
+	}
+
+	@Override
+	public int expResUpdate(List<String> chBox, String actionType) {
+int result = 0;
+		
+		for(int i = 0; i < chBox.size(); i++) {
+			String resCode = chBox.get(i);
+			
+	        if ("complete".equals(actionType)) {
+	        	 // 예약완료 메서드 호출
+	            result += sellingDao.expResCnf(resCode);
+	   
+	        } else if ("cancel".equals(actionType)) {
+	        
+	        	// 예약취소 메서드 호출
+	            result += sellingDao.expResCnl(resCode); 
+	        }
+		}
+		
+		return result;
 	}
 }

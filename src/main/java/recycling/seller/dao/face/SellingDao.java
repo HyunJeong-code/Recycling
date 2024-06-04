@@ -233,6 +233,45 @@ public interface SellingDao {
 	 * @return 개수
 	 */
 	public int selectCntAllOrd(PagingAndCtg unPaging);
+	
+	/**
+	 * 체험정보
+	 * 
+	 * @param expRes
+	 * @return
+	 */
+	public Exp expResDetail(String expCode);
+
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+	
+	/**
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes(int schNo);
+
+	/**
+	 * 예약 확정버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnf(String resCode);
+
+	/**
+	 * 예약 취소버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnl(String resCode);
+
 
 	/**
 	 * 판매자 전체 상품 조회
