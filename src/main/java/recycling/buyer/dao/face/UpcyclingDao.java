@@ -1,13 +1,8 @@
 package recycling.buyer.dao.face;
 
 import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Cart;
-import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -24,11 +19,11 @@ public interface UpcyclingDao {
 
 	public Buyer selectBcode(int bCode);
 
-	public List<Map<String, Object>> selectRvwList(String prdCode);
+	public List<UpcyReview> selectRvwList(String prdCode);
 
 	public UpcyReview selectRvw();
 
-	public void insertReview(Map<String, Object> reviewData);
+	public void insertReview(@Param("rvwContent") String rvwContent, @Param("prdCode") String prdCode, @Param("buyer") Buyer buyer);
 
 	public void updateReview(@Param("upcyCode") String upcyCode, @Param("upcyContent") String upcyContent);
 

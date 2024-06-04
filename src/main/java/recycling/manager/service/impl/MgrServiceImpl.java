@@ -22,6 +22,7 @@ import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.dao.face.MgrDao;
 import recycling.manager.service.face.MgrService;
+import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 @Service
@@ -32,7 +33,32 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired private MgrDao mgrDao;
 	@Autowired private ServletContext servletContext;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
+	
+	//공지사항 전체조회
+	@Override
+	public List<Notice> selectAll() {
+		//ctNtcNo = 2일경우 manager공지사항이므로 2번만 조회
+		List<Notice> selectAllManager = mgrDao.selectAll(2);
+		
+		return selectAllManager;
+	}
 
+	//페이징 계산기능
+	@Override
+	public Paging selectCntAll(Paging pagingParam) {
+		logger.info("service: selectCntAll");
+		
+		Paging paging = null;
+		
+		//총 게시글 수 조회
+		int totalCount = mgrDao.selectCntAll(pagingParam);
+	    
+		//페이징 계산
+		paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch() );
+		
+		return paging;
+	}
+	
 	@Override
 	public Manager mgrProc(
 			Manager manager, 
@@ -119,6 +145,12 @@ public class MgrServiceImpl implements MgrService {
 	@Override
 	public int insertMgrProf(MgrFile mgrFile) {
 		return mgrDao.insertMgrProf(mgrFile);
+	}
+
+	@Override
+	public List<Notice> selectAll(Paging paging) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

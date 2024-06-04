@@ -7,6 +7,7 @@ import recycling.dto.buyer.Oto;
 import recycling.dto.manager.Ans;
 import recycling.dto.manager.Manager;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 구매CS팀 DB 처리
 public interface CsDao {
@@ -17,22 +18,22 @@ public interface CsDao {
 	 * @param paging
 	 * @return
 	 */
-	public List<Oto> list(Paging paging);
+	public List<Oto> list(PagingAndCtg upPaging);
 	
 	/**
 	 * 총 게시글 조회
 	 * 
 	 * @return
 	 */
-	public int getPaging();
+	public int getPaging(PagingAndCtg upPaging);
 
 	/**
 	 * 모든 구매자 조회
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Buyer> buyerList(Paging paging);
+	public List<Buyer> buyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 상세 조회
