@@ -185,8 +185,18 @@ public class HelpServiceImpl implements HelpService {
 	}
 
 	@Override
-	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging) {
-		return helpDao.selectAllCtFaq(upPaging);
+	public List<FaqCt> selectAllCtFaq() {
+		return helpDao.selectAllCtFaq();
+	}
+
+	@Override
+	public int selectCntFaqByCt(Map<String, Object> params) {
+		return helpDao.selectCntFaqByCt(params);
+	}
+
+	@Override
+	public List<Faq> selectFaqByCt(Map<String, Object> params) {
+		return helpDao.selectFaqByCt(params);
 	}
 
 

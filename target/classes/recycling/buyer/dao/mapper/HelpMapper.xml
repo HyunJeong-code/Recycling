@@ -21,36 +21,85 @@
 <!-- 	</select> -->
 
 	<select id="selectCntAllFaq" resultType="int" parameterType="recycling.util.PagingAndCtg">
-		SELECT count(*) FROM faq
-		<where>
-			AND (
-				faq_no LIKE '%' || #{search } || '%'
-				OR faq_title LIKE '%' || #{search } || '%'
-				)
-		</where>
-		ORDER BY faq_no DESC
+		SELECT count(*) 
+    FROM faq F
+    JOIN faq_ct C ON F.ct_faqno = C.ct_faqno
+    <where>
+            AND F.ct_faqno LIKE '%' || #{search } || '%'
+    </where>
 	</select>
 
+<!-- 	<select id="selectAllFaq" parameterType="recycling.util.PagingAndCtg" resultType="Faq"> -->
+<!--     SELECT * FROM ( -->
+<!--         SELECT rownum AS no, F.* FROM ( -->
+<!--             SELECT F.*, C.ct_faqname -->
+<!--             FROM Faq F -->
+<!--             JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno -->
+<!--             <where> -->
+<!--                 <if test="search != null and search != ''"> -->
+<!--                     <choose> -->
+<!--                         <when test="search == '3000' or search == '3010' or search == '3020' or search == '3030' or search == '3040' or search == '3050' or search == '3060' or search == '3070'"> -->
+<!--                             AND F.ct_faqno = #{search} -->
+<!--                         </when> -->
+<!--                         <otherwise> -->
+<!--                             AND ( -->
+<!--                                 faq_no LIKE '%' || #{search} || '%' -->
+<!--                                 OR faq_title LIKE '%' || #{search} || '%' -->
+<!--                             ) -->
+<!--                         </otherwise> -->
+<!--                     </choose> -->
+<!--                 </if> -->
+<!--             </where> -->
+<!--             ORDER BY F.faq_no -->
+<!--         ) F -->
+<!--     ) -->
+<!--     <where> -->
+<!--         AND no BETWEEN #{startNo} AND #{endNo} -->
+<!--     </where> -->
+<!-- </select> -->
+
 	<select id="selectAllFaq" parameterType="recycling.util.PagingAndCtg" resultType="Faq">
-			SELECT * FROM (
-        SELECT rownum AS no, F.* FROM (
+		SELECT * FROM (
+			SELECT rownum no, E.* FROM (
+				SELECT F.*, C.ct_faqname
+				FROM faq F
+				JOIN faq_ct C ON F.ct_faqno = C.ct_faqno
+				<where>
+                	AND F.ct_faqno LIKE '%' || #{search } || '%'
+				</where>
+				ORDER BY F.faq_no
+			) E
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectAllCtFaq" parameterType="recycling.util.PagingAndCtg" resultType="FaqCt">
+		SELECT * FROM Faq_ct
+	</select>
+	
+	<select id="selectCntFaqByCt" parameterType="map" resultType="int">
+    SELECT count(*) FROM faq
+    <where>
+    	AND F.ct_faqno LIKE '%' || #{search } || '%'
+    </where>
+</select>
+
+<select id="selectFaqByCt" parameterType="map" resultType="Faq">
+    SELECT * FROM (
+        SELECT rownum AS no, E.* FROM (
             SELECT F.*, C.ct_faqname
             FROM Faq F
             JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno
             <where>
-           		 C.ct_faqno = #{search}
-           	</where>
+            	AND F.ct_faqno LIKE '%' || #{search } || '%'
+            </where>
             ORDER BY F.faq_no
-        ) F
+        ) E
     )
-    <where>
-    	AND no BETWEEN #{startNo} AND #{endNo}
-    </where>
-	</select>
-	
-	<select id="selectAllCtFaq" resultType="FaqCt">
-		SELECT * FROM Faq_ct
-	</select>
+    WHERE no BETWEEN #{upPaging.startNo} AND #{upPaging.endNo}
+</select>
 	
 	<select id="selectByCategory" resultType="Notice" parameterType="int">
 	    SELECT * FROM Notice
