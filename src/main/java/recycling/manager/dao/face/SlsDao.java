@@ -31,7 +31,7 @@ public interface SlsDao {
 	/**
 	 * 판매자 조회
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
 	public List<Seller> main(PagingAndCtg upPaging);
@@ -42,7 +42,11 @@ public interface SlsDao {
 	 * @param upPaging
 	 * @return
 	 */
+<<<<<<< HEAD
 	public int selectCntAllList(PagingAndCtg upPaging);
+=======
+	public int upPageSlsMain(PagingAndCtg upPaging);
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 	
 	/**
 	 * 체험단 전체 조회하기[expList]
@@ -422,7 +426,10 @@ public interface SlsDao {
 	 * @return
 	 */
 	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 
 	/**
 	 * 판매자 판매 조회[페이징]
@@ -437,7 +444,7 @@ public interface SlsDao {
 	 * @param getsCode 
 	 * @return
 	 */
-	public List<Map<String, Object>> sellerAllSeller(String getsCode);
+	public Map<String, Object> sellerAllSeller(Seller seller);
 
 	/**
 	 * 판매자 전환 신청 리스트 페이징
@@ -496,4 +503,8 @@ public interface SlsDao {
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 }

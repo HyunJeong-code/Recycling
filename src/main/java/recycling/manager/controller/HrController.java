@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.manager.service.face.HrService;
+import recycling.page.face.PageService;
 import recycling.util.PagingAndCtg;
 
 
@@ -32,7 +34,7 @@ public class HrController {
 	
 	@Autowired private HrService hrService; 
 	@Autowired HttpSession session;
-	@Autowired private recycling.page.face.PageService pageService;
+	@Autowired private PageService pageService;
 	
 	//전체 사원조회
 	@GetMapping("/main")
@@ -46,14 +48,14 @@ public class HrController {
 		//매니저 권한 부여
 		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
 		
-		//페이지 수 계산
+		
+	     //페이지 수 계산
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		
 		int upPage = hrService.selectCntAllHr(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
-		
 		//사원 전체조회
 		List<ManagerJoinDe> select = hrService.selectAllHr(upPaging);
 		
@@ -131,7 +133,7 @@ public class HrController {
 
 	//사원정보 업데이트창
 	@GetMapping("/empupdate")
-	public void empUpdate(
+	public String empUpdate(
 			Manager manager
 			, Model model
 			, MgrFile mgrFile
@@ -148,6 +150,7 @@ public class HrController {
 		Manager update = hrService.hrUpdateView(manager);
 		model.addAttribute("view", update);
 		
+		return "/manager/hr/empupdate";
 
 	}
 	
@@ -161,6 +164,9 @@ public class HrController {
 			, MultipartFile empFileUpdate
 			) {
 		logger.info("controller: empupdate[Post]");
+		logger.info("updateProc mgrFlNo: {}",mgrFlNo);
+
+		logger.info("controller:empFileUpdate  {}",empFileUpdate);
 		
 		hrService.hrUpdate(manager);
 		
@@ -171,17 +177,17 @@ public class HrController {
 			mgrfile = hrService.updateProFileGet(empFileUpdate, manager);
 			mgrfile.setMgrFlNo(mgrFlNo);
 			mgrfile.setMgrCode(mgrCode);
-			logger.info("MgrFile : {}",mgrfile);
+			logger.info("MgrFile : {}", mgrfile);
 			
 			//파일 업데이트
 			hrService.updateProfileProc(mgrfile);
-			logger.info("파일이 없음 : {}",mgrfile);
+			logger.info("파일이 업데이트되었다 : {}",mgrfile);
 		}else {
 			logger.info("프로필이 존재합니다.");
 		}
 		
 		model.addAttribute("msg", "사원정보가 변경되었습니다.");
-		model.addAttribute("url", "redirect: /manager/hr/empupdate?mgrCode=" + mgrCode);
+		model.addAttribute("url", "/manager/hr/empdetail?mgrCode=" + mgrCode);
 		
 		return "/layout/alert";
 

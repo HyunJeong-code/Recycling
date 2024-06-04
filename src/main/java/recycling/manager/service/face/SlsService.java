@@ -26,6 +26,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<Seller> main(PagingAndCtg upPaging);
+<<<<<<< HEAD
 
 	/**
 	 * 페이징
@@ -34,6 +35,9 @@ public interface SlsService {
 	 * @return
 	 */
 	public int selectCntAllList(PagingAndCtg upPaging);
+=======
+	
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 
 	/**
 	 * 판매자 전환 요청 전체 목록
@@ -43,7 +47,12 @@ public interface SlsService {
 	 * @return 판매자 리스트
 	 */
 	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging);
+<<<<<<< HEAD
 
+=======
+	
+	
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 	/**
 	 * 체험단 전체 조회하기[expList]
 	 * 
@@ -393,7 +402,10 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 
 	/**
 	 * 판매자 판매 조회[페이징]
@@ -443,4 +455,36 @@ public interface SlsService {
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
 
+<<<<<<< HEAD
+=======
+
+	public int upPageSlsMain(PagingAndCtg upPaging);
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 }

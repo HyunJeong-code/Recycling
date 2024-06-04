@@ -40,17 +40,25 @@
 	
 	<!-- 판매자 목록 -->
 	<select id="main" resultType="Seller" parameterType="recycling.util.Paging">
-		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				<include refid="selectSellerList" />
+			SELECT *
+			FROM (
+			    SELECT rownum no, B.* FROM (
+			        SELECT * FROM seller
+			<where>
+				AND s_chk = 'Y'
+		        AND (
+		            s_code LIKE '%' || #{search} || '%'
+		        )
+			</where>
 				ORDER BY s_code DESC
 			) B
 		)
 		<where>
-			AND rnum BETWEEN #{startNo } AND #{endNo }
+			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
 	
+<<<<<<< HEAD
 	<!-- 총 판매자 페이징 -->
 	<select id="selectCntAllList" resultType="int" parameterType="recycling.util.PagingAndCtg">
    		SELECT count(*)
@@ -63,9 +71,20 @@
 				OR b_code LIKE '%' || #{search } || '%'
 				)
 		</where>
+=======
+	<!-- 전체조회 페이징[main] -->
+	<select id="upPageSlsMain" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM seller
+			<where>
+				AND s_chk = 'Y'
+		        AND (
+		            s_code LIKE '%' || #{search} || '%'
+		        )
+			</where>
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 		ORDER BY s_code DESC
 	</select>
-
+	
 	<!-- 체험단 조회구조[exp]  -->
 	<sql id="expBoard">
 	SELECT 
@@ -288,6 +307,10 @@
 				<where>
 					AND s_code = #{user }
 					AND prd_out = 'N'
+<<<<<<< HEAD
+=======
+					AND prd_cnt = 0
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
@@ -307,6 +330,10 @@
 		<where>
 			AND s_code = #{user }
 			AND prd_out = 'N'
+<<<<<<< HEAD
+=======
+			AND prd_cnt = 0
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -714,13 +741,13 @@
 	</update>
 	
 	<!-- 판매자 정보조회 -->
-	<select id="sellerAllSeller" parameterType="String" resultType="hashmap">
-		<include refid="buyerJoinSellerJoinCmp"/>
-		<where>
-			AND S.s_code = #{sCode }
-			AND S.s_chk = 'Y'
-		</where>
-	</select>
+		<select id="sellerAllSeller" resultType="hashmap" parameterType="Seller">
+		    <include refid="buyerJoinSellerJoinCmp"/>
+		    <where>
+		        AND S_CODE = #{sCode}
+		        AND S_CHK = 'Y'
+		    </where>
+		</select>
 	
 	<!-- 판매자 상품세부조회 -->
 	<select id="selectDetailPrd" parameterType="String" resultType="Prd">
