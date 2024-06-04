@@ -18,7 +18,7 @@
 let pdtList = {0:"플라스틱", 1:"유리", 2:"종이", 3:"캔", 4:"천", 5:"기타"}
 
 let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
-	, 940: "구매 확정", 950: "거래 완료", 960: "반품", 970: "교환", 980: "취소"}
+		, 940: "구매 확정", 950: "거래 완료", 960: "환불", 970: "반품", 980: "취소"}
 
 
 
@@ -210,138 +210,143 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp" />
 	
 	<div class="full">
-		
-		<h1>새활용 상품 관리</h1>
-		
-		<div class="search">
-			<form action="./upcylist" method="get">
-				<input type="hidden" name="sCtg" value="UP">
-				<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-				<button>검색</button>
-			</form>
+		<div class="wrap">
+	
+			<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
+			
+			<div class="main-section">
+				<h1>새활용 상품 관리</h1>
+				
+				<div class="search">
+					<form action="./upcylist" method="get">
+						<input type="hidden" name="sCtg" value="UP">
+						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+						<button>검색</button>
+					</form>
+				</div>
+				
+				<table border="1">
+				    <thead>
+				        <tr>
+				            <th></th>
+				            <th>상품 번호</th>
+				            <th>제품 분류</th>
+				            <th>상품 이름</th>
+				            <th>재고</th>
+				            <th>가격</th>
+				            <th>등록일</th>
+				            <th>조회수</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				        <c:forEach items="${plist}" var="prd">
+				            <tr>
+				                <td>
+				                	<input type="checkbox" class="checkList" name="checkList" value="${prd.prdCode }">
+				                </td>
+				                <td>${prd.prdCode}</td>
+				                <td>
+				                	<script>document.write(pdtList[${prd.ctPdtNo}])</script>
+				                </td>
+				                <td><a href="./upcydetail?prdCode=${prd.prdCode}">${prd.prdName}</a></td>
+				                <td>${prd.prdCnt}</td>
+				                <td>${prd.price}</td>
+				                <td>
+				                	<fmt:parseDate value="${prd.prdDate}" var="prdDate" pattern="yyyy-MM-dd HH:mm:ss" />
+				               		<fmt:formatDate value="${prdDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				                </td>
+				                <td>${prd.prdHit}</td>
+				            </tr>
+				        </c:forEach>
+				    </tbody>
+				</table>
+				
+				<button id="del_btn">삭제하기</button>
+				
+				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+				
+				
+				<h1>새활용 판매 관리</h1>
+				
+				<div class="search">
+					<form action="./upcylist" method="get">
+						<input type="hidden" name="sCtg" value="UN">
+						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+						<button>검색</button>
+					</form>
+				</div>
+				
+				<div>
+					<button class="updateSttBtn" id="900">결제 완료</button>
+					<button class="updateSttBtn" id="910">배송 준비 중</button>
+					<button class="updateSttBtn" id="920">배송중</button>
+					<button class="updateSttBtn" id="930">배송완료</button>
+					<button class="updateSttBtn" id="940">구매 확정</button>
+					<button class="updateSttBtn" id="960">반품</button>
+					<button class="updateSttBtn" id="980">취소</button>
+					<button id="shipCreateBtn">송장 직접입력</button>
+					<button id="shipDelBtn">송장 삭제</button>
+				</div>
+				<table border="1">
+					<thead>
+						<tr>
+							<th></th>
+							<th>주문번호</th>
+							<th>상품 이름</th>
+							<th>가격</th>
+							<th>총금액</th>
+							<th>주문일</th>
+							<th>주문 상태</th>
+							<th>택배사</th>
+							<th>송장번호</th>
+						</tr>
+					</thead>
+					<tbody>
+					<c:forEach var="ord" items="${olist }">
+						<tr>
+							<td>
+				            	<input type="checkbox" class="ordCheckList" name="ordCheckList" id="${ord.orddtCode }" value="${ord.sttNo}">
+				            </td>
+					 		<td><a href="./upcyorderdetail?orddtCode=${ord.orddtCode}">${ord.orddtCode }</a></td>
+					 		<td>${ord.ordName }</td>
+					 		<td>${ord.ordPrice }</td>
+					 		<td>${ord.ordSum }</td>
+					 		<td>
+				            	<fmt:parseDate value="${ord.ordDate}" var="ordDate" pattern="yyyy-MM-dd HH:mm:ss" />
+				           		<fmt:formatDate value="${ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				            </td>
+					 		<td id="sttNo"><script>document.write(sttList[${ord.sttNo}])</script></td>
+					 		<td>
+					 			<c:if test="${ord.shipName != null}">
+					 				${ord.shipName }
+					 			</c:if>
+					 			<c:if test="${ord.shipName == null}">
+									<select name="shipName">
+									    <option value="">택배사 선택</option>
+									    <option value="우체국택배">우체국택배</option>
+									    <option value="CJ대한통운">CJ대한통운</option>
+									    <option value="한진택배">한진택배</option>
+									    <option value="로젠택배">로젠택배</option>
+									    <option value="롯데택배">롯데택배</option>
+									</select>
+					 			</c:if>
+					 		</td>
+					 		<td>
+					 			<c:if test="${ord.shipNo != 0}">
+					 				${ord.shipNo }
+					 			</c:if>
+					 			<c:if test="${ord.shipNo == 0}">
+					 				<input type="text" name="shipNo">
+					 			</c:if>
+					 		</td>
+					 	</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+				
+				<c:import url="/WEB-INF/views/layout/underpaging.jsp"/>
+			</div>
 		</div>
-		
-		<table border="1">
-		    <thead>
-		        <tr>
-		            <th></th>
-		            <th>상품 번호</th>
-		            <th>제품 분류</th>
-		            <th>상품 이름</th>
-		            <th>재고</th>
-		            <th>가격</th>
-		            <th>등록일</th>
-		            <th>조회수</th>
-		        </tr>
-		    </thead>
-		    <tbody>
-		        <c:forEach items="${plist}" var="prd">
-		            <tr>
-		                <td>
-		                	<input type="checkbox" class="checkList" name="checkList" value="${prd.prdCode }">
-		                </td>
-		                <td>${prd.prdCode}</td>
-		                <td>
-		                	<script>document.write(pdtList[${prd.ctPdtNo}])</script>
-		                </td>
-		                <td><a href="./upcydetail?prdCode=${prd.prdCode}">${prd.prdName}</a></td>
-		                <td>${prd.prdCnt}</td>
-		                <td>${prd.price}</td>
-		                <td>
-		                	<fmt:parseDate value="${prd.prdDate}" var="prdDate" pattern="yyyy-MM-dd HH:mm:ss" />
-		               		<fmt:formatDate value="${prdDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-		                </td>
-		                <td>${prd.prdHit}</td>
-		            </tr>
-		        </c:forEach>
-		    </tbody>
-		</table>
-		
-		<button id="del_btn">삭제하기</button>
-		
-		<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-		
-		
-		<h1>새활용 판매 관리</h1>
-		
-		<div class="search">
-			<form action="./upcylist" method="get">
-				<input type="hidden" name="sCtg" value="UN">
-				<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-				<button>검색</button>
-			</form>
-		</div>
-		
-		<div>
-			<button class="updateSttBtn" id="900">결제 완료</button>
-			<button class="updateSttBtn" id="910">배송 준비 중</button>
-			<button class="updateSttBtn" id="920">배송중</button>
-			<button class="updateSttBtn" id="930">배송완료</button>
-			<button class="updateSttBtn" id="940">구매 확정</button>
-			<button class="updateSttBtn" id="960">반품</button>
-			<button class="updateSttBtn" id="980">취소</button>
-			<button id="shipCreateBtn">송장 직접입력</button>
-			<button id="shipDelBtn">송장 삭제</button>
-		</div>
-		<table border="1">
-			<thead>
-				<tr>
-					<th></th>
-					<th>주문번호</th>
-					<th>상품 이름</th>
-					<th>가격</th>
-					<th>총금액</th>
-					<th>주문일</th>
-					<th>주문 상태</th>
-					<th>택배사</th>
-					<th>송장번호</th>
-				</tr>
-			</thead>
-			<tbody>
-			<c:forEach var="ord" items="${olist }">
-				<tr>
-					<td>
-		            	<input type="checkbox" class="ordCheckList" name="ordCheckList" id="${ord.orddtCode }" value="${ord.sttNo}">
-		            </td>
-			 		<td><a href="./upcyorderdetail?orddtCode=${ord.orddtCode}">${ord.orddtCode }</a></td>
-			 		<td>${ord.ordName }</td>
-			 		<td>${ord.ordPrice }</td>
-			 		<td>${ord.ordSum }</td>
-			 		<td>
-		            	<fmt:parseDate value="${ord.ordDate}" var="ordDate" pattern="yyyy-MM-dd HH:mm:ss" />
-		           		<fmt:formatDate value="${ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-		            </td>
-			 		<td id="sttNo"><script>document.write(sttList[${ord.sttNo}])</script></td>
-			 		<td>
-			 			<c:if test="${ord.shipName != null}">
-			 				${ord.shipName }
-			 			</c:if>
-			 			<c:if test="${ord.shipName == null}">
-							<select name="shipName">
-							    <option value="">택배사 선택</option>
-							    <option value="우체국택배">우체국택배</option>
-							    <option value="CJ대한통운">CJ대한통운</option>
-							    <option value="한진택배">한진택배</option>
-							    <option value="로젠택배">로젠택배</option>
-							    <option value="롯데택배">롯데택배</option>
-							</select>
-			 			</c:if>
-			 		</td>
-			 		<td>
-			 			<c:if test="${ord.shipNo != 0}">
-			 				${ord.shipNo }
-			 			</c:if>
-			 			<c:if test="${ord.shipNo == 0}">
-			 				<input type="text" name="shipNo">
-			 			</c:if>
-			 		</td>
-			 	</tr>
-			</c:forEach>
-			</tbody>
-		</table>
-		
-		<c:import url="/WEB-INF/views/layout/underpaging.jsp"/>
-		
 	</div>
 	
 	<!-- import footer -->

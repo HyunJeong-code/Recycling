@@ -15,11 +15,10 @@ public class Seller {
 	private String sOut;
 	private String sOutDate;
 	
-	public Seller() {}
-	
+	public Seller() {}		
+
 	public Seller(String sCode, String bCode, String accName, String accBank, String accNo, String sPostcode,
-			String sAddr, String sDetail, String sEntDate, String sChk, String sOut, String sOutDate, String originName,
-			String storedName, String sTier, double sRating, int totalTransaction) {
+			String sAddr, String sDetail, String sEntDate, String sChk, String sOut, String sOutDate) {
 		this.sCode = sCode;
 		this.bCode = bCode;
 		this.accName = accName;
@@ -32,7 +31,13 @@ public class Seller {
 		this.sChk = sChk;
 		this.sOut = sOut;
 		this.sOutDate = sOutDate;
+	}
 
+	@Override
+	public String toString() {
+		return "Seller [sCode=" + sCode + ", bCode=" + bCode + ", accName=" + accName + ", accBank=" + accBank
+				+ ", accNo=" + accNo + ", sPostcode=" + sPostcode + ", sAddr=" + sAddr + ", sDetail=" + sDetail
+				+ ", sEntDate=" + sEntDate + ", sChk=" + sChk + ", sOut=" + sOut + ", sOutDate=" + sOutDate + "]";
 	}
 
 	public String getsCode() {

@@ -72,6 +72,7 @@
                     $('.modal').modal('hide');
 
                 }
+            // }).open()
             }).embed(postcodeWrap)
 
             //--------------------------------------------------------------
@@ -106,7 +107,6 @@
                 
             }
         });
-    	
         
     }) //$ end
     
@@ -156,12 +156,12 @@
 	    
 	    console.log(cartList);
 	    
+
         function requestPay(){
         	var payOption = $("input:radio[name=payOption]:checked").attr("id");
-        	var payMethod = $("input:radio[name=payOption]:checked").val();
             IMP.request_pay({
             pg: payOption, // PG사
-            pay_method: payMethod, //결제 수단 (필수)
+            pay_method: "card", //결제 수단 (필수)
             merchant_uid: 'ORD' + new Date().getTime(),   // 주문번호
             name: prdName,             // 주문 상품 이름
             amount: prdAmount,                        // 결제 금액 (필수)
@@ -303,7 +303,7 @@
                     </c:choose>
                     <br>
                 </c:forEach>
-                <label>직접입력</label>
+                <label for>직접입력</label>
                 <input type="radio" name="adr" value="-1">
 
             </div>
@@ -357,9 +357,9 @@
         </div>
 
         <div id="payOption">
-            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
-            <label>토스페이</label><input type="radio" id="tosspay" name="payOption" value="tosspay"></label>
-            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
+            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" checked="checked"></label>
+            <label>토스페이</label><input type="radio" id="tosspay" name="payOption"></label>
+            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption"></label>
         </div>
 
         <button type="button" id="btnPay" onclick="requestPay();">결제하기</button>

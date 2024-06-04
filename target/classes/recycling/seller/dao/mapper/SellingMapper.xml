@@ -5,10 +5,6 @@
   
 <mapper namespace="recycling.seller.dao.face.SellingDao">
 
-	<sql id="selectExp">
-	SELECT * FROM Exp
-	</sql>
-	
 	<select id="selectAllrcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="Prd">
 		SELECT *
 		FROM (
@@ -17,6 +13,7 @@
 				<where>
 					AND s_code = #{user }
 					AND ct_pno = 0
+					AND prd_out = 'N'
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
@@ -38,6 +35,7 @@
 				<where>
 					AND s_code = #{user }
 					AND ct_pno = 1
+					AND prd_out = 'N'
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
@@ -47,11 +45,22 @@
 			) PRD
 		)
 		<where>
-			AND no BETWEEN #{startNo } AND #{endNo }
+			AND s_code = #{sCode}
+			AND ct_pno = 0
 		</where>
+		ORDER BY prd_code DESC
 	</select>
 	
-	<select id="selectAllupcyMyOrder" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
+	<select id="selectAllupcyPrd" parameterType="String" resultType="Prd">
+		SELECT * FROM prd
+		<where>
+			AND s_code = #{sCode}
+			AND ct_pno = 1
+		</where>
+		ORDER BY prd_code DESC
+	</select>
+	
+	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
 		SELECT 
 			*
 		FROM (
@@ -74,36 +83,11 @@
 			) ORD
 		)
 		<where>
-			AND no BETWEEN #{startNo } AND #{endNo }
+			AND od.ord_code = o.ord_code
+			AND od.orddt_code = s.orddt_code(+)
+			AND od.prd_code = #{prdCode}
 		</where>
-	</select>
-	
-	<select id="selectAllrcyMyOrder" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
-		SELECT 
-			*
-		FROM (
-			SELECT rownum no, ORD.* FROM (
-				SELECT 
-					od.ORDDT_CODE, od.ORD_CODE, od.PRD_CODE, od.ORD_NAME, o.SEND_NAME
-					, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
-					, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
-				FROM 
-					order_detail od, orders o, ship s, prd p
-				<where>
-					AND od.ord_code = o.ord_code
-					AND od.orddt_code = s.orddt_code(+)
-					AND od.prd_code = p.prd_code
-				    AND p.prd_OUT = 'N'
-				    AND p.ct_pno = 0
-				    AND p.s_code = #{user }
-				</where>
-				ORDER BY
-					od.ORDDT_CODE DESC
-			) ORD
-		)
-		<where>
-			AND no BETWEEN #{startNo } AND #{endNo }
-		</where>
+		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
 	<update id="deletePrd" parameterType="String">
@@ -160,35 +144,6 @@
 			AND orddt_code = #{orddtCode}
 		</where>
 	</delete>
-	
-	<select id="selectMyOrderByOrddtCode" parameterType="String" resultType="MyOrder">
-		SELECT 
-			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, o.SEND_NAME
-			, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
-			, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
-		FROM 
-			order_detail od, orders o, ship s
-		<where>
-			AND od.ord_code = o.ord_code
-			AND od.orddt_code = s.orddt_code(+)
-			AND od.orddt_code = #{orddtCode}
-		</where>
-		ORDER BY od.ORDDT_CODE DESC
-	</select>
-	
-	<update id="updateMyOrder" parameterType="MyOrder">
-		UPDATE
-			orders
-		SET
-			send_name = #{sendName}
-			, send_phone = #{sendPhone}
-			, ord_postcode = #{ordPostcode}
-			, ord_addr = #{ordAddr}
-			, ord_detail = #{ordDetail}
-		<where>
-			AND ord_code = #{ordCode}
-		</where>
-	</update>
 
 <!-- 	<select id="selectAllPrd" parameterType="BuyerLogin" resultType="AllPrd"> -->
 		
@@ -201,6 +156,7 @@
 		<where>
 			AND s_code = #{user }
 			AND ct_pno = 0
+			AND prd_out = 'N'
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -237,6 +193,7 @@
 		<where>
 			AND s_code = #{user }
 			AND ct_pno = 1
+			AND prd_out = 'N'
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -272,6 +229,31 @@
 	
 <!-- 	exp start -->
 
+	<sql id="selectExp">
+	SELECT * FROM Exp
+	</sql>
+	
+	<sql id="expBoard">
+	SELECT 
+    	exp_code, s_code, exp_name, exp_price, exp_detail, exp_hit, exp_date
+	FROM exp
+	</sql>
+	
+	<sql id="expResBoard">
+	SELECT
+		res_code, b_code, sch_no, res_name, res_phone
+		,res_email, res_expname, res_date, res_time, res_cnt
+		,res_price, res_sum, res_pay, pay_date, res_cnf
+		,res_cnl, res_dt
+	FROM exp_res
+	</sql>
+	
+	<sql id="expSchBoard">
+	SELECT
+		sch_no, exp_code, sch_date, sch_time, sch_cnt		
+	FROM exp_sch
+	</sql>
+	
 	<select id="selectMyExpList" resultType="Exp" parameterType="string">
 		SELECT * FROM (
 			SELECT rownum no, exp.* FROM (
@@ -368,6 +350,47 @@
 		)
 	</select>
 	
+	<!-- 체험 예약페이지 정보 조회 -->
+	<select id="expResDetail" resultType="Exp" parameterType="String">
+		SELECT * FROM exp
+		<where>
+			exp_code = #{expCode }
+		</where>
+	</select>
+	
+	<!-- 체험 예약페이지 예약 조회 -->	
+	<select id="expResDetailRes" resultType="ExpRes" parameterType="int">
+		<include refid="expResBoard"/>
+		<where>
+			sch_no = #{schNo}
+		</where>
+		ORDER BY res_date
+	</select>
+	
+	<!-- expResDetail페이지 예약일정조회 -->
+	<select id="selectExpSchbySchNo" resultType="ExpSch" parameterType="int">
+		<include refid="expSchBoard"/>
+		<where>
+			sch_no = #{schNo}
+		</where>
+	</select>
+	
+	<!-- 예약 확정 버튼에 따른 상태변경 -->
+	<update id="expResCnf" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'Y' 
+	    ,res_cnl ='N'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
+	<!-- 예약 취소 버튼에 따른 상태변경 -->
+	<update id="expResCnl" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'N' 
+	    ,res_cnl ='Y'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
 	<select id="selectCntAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
 		SELECT count(*) FROM (
 			SELECT rownum no, ODD.* FROM (
@@ -440,4 +463,29 @@
 		</where>
 	</select>
 	
+<!-- 	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes"> -->
+<!-- 		<bind name="expCode" value="'#{expCode}'"/> -->
+<!-- 		SELECT * FROM ( -->
+<!-- 			SELECT rownum rnum, B.* FROM ( -->
+<!-- 				SELECT er.* -->
+<!-- 				FROM exp_res er -->
+<!-- 				INNER JOIN exp_sch es ON er.SCH_NO = es.SCH_NO -->
+<!-- 				INNER JOIN exp e ON es.exp_code = e.exp_code -->
+<!-- 				WHERE e.exp_code = #{expCode} -->
+<!-- 			) B -->
+<!-- 		) -->
+<!-- 		<where> -->
+<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	<select id="selectResList" parameterType="string" resultType="ExpRes">
+		SELECT er.*
+		FROM exp_res er
+		INNER JOIN exp_sch es ON er.sch_no = es.sch_no
+		INNER JOIN exp e ON es.exp_code = e.exp_code
+		<where>
+			AND e.exp_code = #{expCode}
+		</where>
+	</select>
+
 </mapper>

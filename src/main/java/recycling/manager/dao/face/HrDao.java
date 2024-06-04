@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
-import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
-import recycling.util.PagingAndCtg;
 
 
 // 인사팀 DB 처리
@@ -15,19 +13,18 @@ import recycling.util.PagingAndCtg;
 public interface HrDao {
 	
 	/**
-	 * 전체조회[main]
+	 * 페이징 시스템
 	 * 
 	 * @return
 	 */
-	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging);
-
+	public int getPaging();
+	
 	/**
-	 * 전체조회 페이징[main]
+	 * Manager 전체 조회하기
 	 * 
-	 * @param upPaging
 	 * @return
 	 */
-	public int selectCntAllHr(PagingAndCtg upPaging);
+	public List<Manager> selectAll();
 
 	/**
 	 * Manager mgrCode를 이용한 특정데이터 조회 
@@ -37,13 +34,6 @@ public interface HrDao {
 	 */
 	public Manager selectDetail(Manager manager);
 
-	/**
-	 * 세부사항 프로필 조회
-	 * @param mgrFile
-	 * @return
-	 */
-	public MgrFile mgrProFileList(MgrFile mgrFile);
-	
 	/**
 	 * 세부사항 파일조회
 	 * @param manager 
@@ -97,6 +87,7 @@ public interface HrDao {
 	 */
 	public int listDel(String mgrCode);
 
+<<<<<<< Updated upstream
 	/**
 	 * 세부사항 파일조회
 	 * @param manager 
@@ -117,6 +108,8 @@ public interface HrDao {
 
 	
 
+=======
+>>>>>>> Stashed changes
 
 
 
