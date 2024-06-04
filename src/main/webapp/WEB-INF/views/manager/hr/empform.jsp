@@ -26,7 +26,7 @@ $(function() {
 	        }
 	    });
 
-	    // 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
+	 // 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
 	$("form").submit(function() {
 	        var email1 = $("#inPhone").val();
 	        var mPhone = $("#mPhone").val();

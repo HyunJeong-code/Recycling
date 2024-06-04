@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -261,5 +262,25 @@ public class SellingServiceImpl implements SellingService {
 	@Override
 	public List<ExpFile> selectByExpFile(String expCode) {
 		return sellingDao.selectByExpFile(expCode);
+	}
+	
+	@Override
+	public int selectCntAllPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectCntAllPrd(upPaging);
+	}
+	
+	@Override
+	public int selectCntAllOrd(PagingAndCtg unPaging) {
+		return sellingDao.selectCntAllOrd(unPaging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllPrd(upPaging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
+		return sellingDao.selectAllOrd(unPaging);
 	}
 }

@@ -41,4 +41,14 @@ public class MypageServiceImpl implements MypageService {
 	public int selectCntRvw(PagingAndCtg unPaging) {
 		return mypageDao.selectCntRvw(unPaging);
 	}
+	
+	@Override
+	public int selectAllCnt(PagingAndCtg paging) {
+		return mypageDao.selectAllCnt(paging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAll(PagingAndCtg paging) {
+		return mypageDao.selectAll(paging);
+	}
 }

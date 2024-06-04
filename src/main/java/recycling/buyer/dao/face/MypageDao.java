@@ -41,4 +41,18 @@ public interface MypageDao {
 	 * @return 총 페이지 개수
 	 */
 	public int selectCntRvw(PagingAndCtg unPaging);
+	
+	/**
+	 * 구매 완료, 체험 완료 개수 조회
+	 * @param paging
+	 * @return 개수
+	 */
+	public int selectAllCnt(PagingAndCtg paging);
+
+	/**
+	 * 구매 완료, 체험 완료 리스트 조회
+	 * @param paging
+	 * @return 리스트
+	 */
+	public List<Map<String, Object>> selectAll(PagingAndCtg paging);
 }

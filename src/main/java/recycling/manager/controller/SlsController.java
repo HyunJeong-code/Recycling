@@ -132,7 +132,8 @@ public class SlsController {
 		
 		// 페이징 - 전체 조회 글 개수
 		PagingAndCtg paging = new PagingAndCtg();
-		int page = slsService.selectCntSeller();
+		paging.setSearch(search);
+		int page = slsService.selectCntSeller(paging);
 		
 		// 페이징 - 페이징 처리
 		paging = new PagingAndCtg(page, curPage, search);

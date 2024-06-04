@@ -63,8 +63,8 @@ public class SlsServiceImpl implements SlsService {
 	}
 	
 	@Override
-	public int selectCntSeller() {
-		return slsDao.selectCntSeller();
+	public int selectCntSeller(PagingAndCtg paging) {
+		return slsDao.selectCntSeller(paging);
 	}
 	
 	@Override

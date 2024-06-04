@@ -439,10 +439,11 @@ public interface SlsDao {
 
 	/**
 	 * 판매자 전환 신청 리스트 페이징
+	 * @param paging 
 	 * 
 	 * @return 총 게시물 수
 	 */
-	public int selectCntSeller();
+	public int selectCntSeller(PagingAndCtg paging);
 	
 	/**
 	 * 판매자 탈퇴 처리

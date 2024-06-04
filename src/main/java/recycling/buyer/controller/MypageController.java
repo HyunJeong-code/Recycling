@@ -87,13 +87,29 @@ public class MypageController {
 	
 	@GetMapping("/rvwform")
 	public void rvwForm(
-				Authentication authentication
+				Authentication authentication,
+				@RequestParam(defaultValue = "0") int curPage,
+				@RequestParam(defaultValue = "") String search,
+				@RequestParam(defaultValue = "") String sCtg,
+				Model model
 			) {
 		logger.info("/buyer/mypage/rvwform [GET]");
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		logger.info("buyer : {}", buyerLogin);
-//		logger.info("code : {}", code);
+		logger.info("buyerLogin : {}", buyerLogin);
+		
+		// 문의글 페이지 수 계산
+		PagingAndCtg paging = new PagingAndCtg();
+		paging.setSearch(search);
+		paging.setUser(buyerLogin.getbCode());
+		
+		int page = mypageService.selectAllCnt(paging);
+		paging = new PagingAndCtg(page, curPage, search);
+		paging.setUser(buyerLogin.getbCode());
+		
+		List<Map<String, Object>> list = mypageService.selectAll(paging);
+		
+		
 		
 		
 	}

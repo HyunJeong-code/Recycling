@@ -106,4 +106,85 @@
 		</where>
 		ORDER BY entdate
 	</select>
+	
+	<select id="selectAllCnt" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+		    SELECT rownum no, OD.* FROM (
+		    SELECT O.ord_date entdate, OD.title title, OD.cnt cnt, OD.price price, OD.code code, OD.detail detail FROM orders O, (
+		        SELECT OD.ord_name title, OD.ord_cnt cnt, OD.ord_price price, P.prd_code code, P.prd_detail detail, OD.ord_code ord_code FROM order_detail OD, prd P
+		        <where>
+			        AND OD.prd_code = P.prd_code(+)
+			        AND OD.stt_no = 940
+			        AND P.prd_detail LIKE '%'
+		        </where>
+		    ) OD
+		    <where>
+			    AND O.ord_code(+) = OD.ord_code
+			    AND O.b_code = #{user }
+		    </where>
+		    ORDER BY O.ord_date
+		    ) OD
+		    UNION ALL
+		    SELECT rownum no, EXP.* FROM (
+		        SELECT ER.res_date entdate, ER.res_expname title, ER.res_cnt cnt, ER.res_price price, ES.exp_code code, ES.exp_detail detail FROM exp_res ER, (
+		            SELECT E.exp_code, E.exp_name, E.exp_detail, ES.sch_no FROM exp E, exp_sch ES
+		            <where>
+			            AND E.exp_code = ES.exp_code(+)
+		            </where>
+		        ) ES
+		        <where>
+			        AND ER.sch_no(+) = ES.sch_no 
+	            	AND res_date &lt; sysdate
+		            AND res_cnf = 'N'
+		            AND ER.b_code = #{user };
+		            AND (
+		                ER.res_expname = #{search }
+		                OR ES.exp_detail = #{search }
+		            )
+		        </where>
+		        ORDER BY res_date
+		    ) EXP
+		)
+	</select>
+	
+	<select id="selectAll" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+		    SELECT rownum no, OD.* FROM (
+		    SELECT O.ord_date entdate, OD.title title, OD.cnt cnt, OD.price price, OD.code code, OD.detail detail FROM orders O, (
+		        SELECT OD.ord_name title, OD.ord_cnt cnt, OD.ord_price price, P.prd_code code, P.prd_detail detail, OD.ord_code ord_code FROM order_detail OD, prd P
+		        <where>
+			        AND OD.prd_code = P.prd_code(+)
+			        AND OD.stt_no = 940
+			        AND P.prd_detail LIKE '%' || #{search } || '%'
+		        </where> 
+		    ) OD
+		    <where>
+			    AND O.ord_code(+) = OD.ord_code
+			    AND O.b_code = #{user }
+		    </where>
+		    ORDER BY O.ord_date
+		    ) OD
+		    UNION ALL
+		    SELECT rownum no, EXP.* FROM (
+		        SELECT ER.res_date entdate, ER.res_expname title, ER.res_cnt cnt, ER.res_price price, ES.exp_code code, ES.exp_detail detail FROM exp_res ER, (
+		            SELECT E.exp_code, E.exp_name, E.exp_detail, ES.sch_no FROM exp E, exp_sch ES
+		            WHERE E.exp_code = ES.exp_code(+)
+		        ) ES
+		        <where>
+			        AND ER.sch_no(+) = ES.sch_no 
+		            AND res_date &lt; sysdate
+		            AND res_cnf = 'N'
+		            AND ER.b_code = #{user }
+		            AND (
+		                ER.res_expname LIKE '%' || #{search } || '%'
+		                OR ES.exp_detail LIKE '%' || #{search } || '%'
+		            )
+		        </where>
+		        ORDER BY res_date
+		    ) EXP
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo } 
+		</where>
+	</select>
 </mapper>
