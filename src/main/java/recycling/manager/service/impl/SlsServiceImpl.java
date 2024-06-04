@@ -45,13 +45,8 @@ public class SlsServiceImpl implements SlsService {
 
 
 	@Override
-<<<<<<< HEAD
-	public int selectCntAllList(PagingAndCtg upPaging) {
-		return slsDao.selectCntAllList(upPaging);
-=======
 	public int upPageSlsMain(PagingAndCtg upPaging) {
 		return slsDao.upPageSlsMain(upPaging);
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 	}
 	
 	//전체조회
@@ -531,13 +526,4 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
-
-<<<<<<< HEAD
-=======
-
-
-
-
-
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 }//main

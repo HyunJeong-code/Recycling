@@ -55,23 +55,11 @@ public class SlsController {
 			, @RequestParam(defaultValue = "0") int curPage
 			, @RequestParam(defaultValue = "") String search
 			, @RequestParam(defaultValue = "") String sCtg
-<<<<<<< HEAD
-			, String prdCode) {
+			) {
 
 		//매니저 권한 부여
 		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
 		
-		//페이지 수 계산
-		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
-		
-		int upPage = slsService.selectCntAllList(upPaging);
-        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-=======
-			) {
-		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
-
 		//페이지 수 계산
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
@@ -82,10 +70,6 @@ public class SlsController {
         
 		// 판매자 목록 조회
 		List<Seller> main = slsService.main(upPaging);
-<<<<<<< HEAD
-//		logger.info("controller list: {}", list);
-=======
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("main", main);
@@ -200,10 +184,6 @@ public class SlsController {
         upPaging = pageService.upPageSeller(curPage, sCtg, search, sCode);
         unPaging = pageService.unPageSeller(curPage, sCtg, search, sCode);
         
-<<<<<<< HEAD
-=======
-        
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 		//판매자 조회
 		Map<String, Object> selList = slsService.sellerAllSeller(seller);
 		model.addAttribute("selList", selList);
@@ -246,18 +226,10 @@ public class SlsController {
 		model.addAttribute("plist", nplist);
 		model.addAttribute("olist", olist);
 		
-<<<<<<< HEAD
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("upUrl", "/manager/sls/sellinglist?sCode=" + sCode + "&");
 		model.addAttribute("unPaging", unPaging);
 		model.addAttribute("unUrl", "/manager/sls/sellinglist?sCode=" + sCode + "&");
-=======
-		logger.info("11111111111111111{}",sCode);
-		model.addAttribute("upPaging", upPaging);
-		model.addAttribute("upUrl", "/manager/sls/sellinglist?sCode=" + sCode);
-		model.addAttribute("unPaging", unPaging);
-		model.addAttribute("unUrl", "/manager/sls/sellinglist?sCode=" + sCode);
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 		
 	}
 	
@@ -286,10 +258,7 @@ public class SlsController {
 		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
 		return "/layout/alert";
 	}
-<<<<<<< HEAD
 	
-=======
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 	//업사이클링 상품수정
 	@RequestMapping("/upprdupdate")
 	public String upprdUpdate(Prd prd,Model model) {
@@ -349,10 +318,7 @@ public class SlsController {
 		logger.info("list: {}",list);
 		logger.info("sttNo: {}",sttNo);
 		
-<<<<<<< HEAD
-=======
 		//환불
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 		if(sttNo == 980) {
 			//토큰 발급
 			String token = sellingService.getToken();
@@ -425,7 +391,6 @@ public class SlsController {
 	}
 	
 	//송장삭제
-<<<<<<< HEAD
 	@PostMapping("/shipdel")
 	public String delShip(String orddtCode, Model model) {
 		int res = sellingService.deleteShip(orddtCode);
@@ -435,18 +400,6 @@ public class SlsController {
 		return "jsonView";
 	}
 		
-=======
-	@GetMapping("/delship")
-	public String delShip(String orddtCode, Model model) {
-		int res = sellingService.deleteShip(orddtCode);
-		
-		
-		model.addAttribute("msg", "송장이 삭제되었습니다.");
-		model.addAttribute("url", "/manager/sls/sellinglist");
-		return "/layout/alert";
-	}
-	
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 	//체험단 전체조회[explist]
 	@GetMapping("/explist")
 	public String expList(

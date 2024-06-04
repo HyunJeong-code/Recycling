@@ -58,20 +58,6 @@
 		</where>
 	</select>
 	
-<<<<<<< HEAD
-	<!-- 총 판매자 페이징 -->
-	<select id="selectCntAllList" resultType="int" parameterType="recycling.util.PagingAndCtg">
-   		SELECT count(*)
-   			FROM(
-		   		<include refid="sellerJoin"/>
-   			)
-		<where>
-			AND (
-				s_code LIKE '%' || #{search } || '%'
-				OR b_code LIKE '%' || #{search } || '%'
-				)
-		</where>
-=======
 	<!-- 전체조회 페이징[main] -->
 	<select id="upPageSlsMain" resultType="int" parameterType="recycling.util.PagingAndCtg">
    		SELECT count(*) FROM seller
@@ -81,7 +67,6 @@
 		            s_code LIKE '%' || #{search} || '%'
 		        )
 			</where>
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 		ORDER BY s_code DESC
 	</select>
 	
