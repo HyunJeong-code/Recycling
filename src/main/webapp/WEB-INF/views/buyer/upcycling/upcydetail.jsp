@@ -270,7 +270,7 @@
 				            <option value="4">4점</option>
 				            <option value="5">5점</option>
 				        </select>
-				        <button type="submit">리뷰 작성</button>
+				        <!-- <button type="submit">리뷰 작성</button> -->
 				    </form>
 				</div>
 				
