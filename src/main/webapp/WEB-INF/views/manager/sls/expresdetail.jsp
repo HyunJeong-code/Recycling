@@ -170,6 +170,11 @@ $(function() {
 		})//btn_reserve_cancel
 		
 		
+		
+		
+		
+		
+		
 })
 </script>
 <style type="text/css">
@@ -415,8 +420,7 @@ table .expName_fix{
 <body>
     <div class="full">
     	<aside>
-    		<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-			<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+    	
     	</aside>
         <div class="wrap">
             <div class="page">

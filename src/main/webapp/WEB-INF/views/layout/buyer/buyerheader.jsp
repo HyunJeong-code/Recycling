@@ -129,6 +129,7 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
+                    <button class="selected">Buyer</button><button>Seller</button>
                     <button class="selected"><a href="/buyer/main">Buyer</a></button><button><a href="/seller/main">Seller</a></button>
                 </div>
             </div>

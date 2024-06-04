@@ -411,6 +411,7 @@ $(function() {
 </script>
 </head>
 <body>
+<<<<<<< Updated upstream
     <div class="full">
     	<aside>
 			<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
@@ -423,6 +424,8 @@ $(function() {
             </div>
         
             <div class="section">
+=======
+>>>>>>> Stashed changes
 
 <table>
 	
@@ -485,10 +488,15 @@ $(function() {
 	<tbody>
 	<tr>
 		<td>예약 관리</td>
+<<<<<<< Updated upstream
 		<td><button id = "btn_reserve_complete">예약완료</button></td>
 		<td><button id = "btn_reserve_wait">예약대기</button></td>
 		<td><button id = "btn_reserve_cancel">예약취소</button></td>
 	</tr>
+=======
+		<td><button>예약완료</button></td>
+		<td><button>예약취소</button></td>
+>>>>>>> Stashed changes
 	</tbody>
 </table>
 
@@ -557,6 +565,10 @@ $(function() {
         </div>
     </div>
 
+<<<<<<< Updated upstream
 
+=======
+<c:import url="/WEB-INF/views/layout/paging.jsp"/>
+>>>>>>> Stashed changes
 </body>
 </html>
