@@ -15,7 +15,6 @@ import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 // 판매제휴팀 DB 처리
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 판매제휴팀 DB 처리
@@ -417,11 +416,13 @@ public interface SlsDao {
 
 	/**
 	 * 판매자 판매 조회
-	 * @param unPaging 
+	 * 
+	 * @param unPaging
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging);
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
+
 
 	/**
 	 * 판매자 판매 조회[페이징]
@@ -454,13 +455,21 @@ public interface SlsDao {
 	public int updateSelOut(String sCode);
 
 	/**
+	 * 판매자 정보 조회
+	 * @param seller 
+	 * @param string
+	 * @return
+	 */
+	public Map<String, Object> sellerAllSeller(Seller seller);
+
+	/**
 	 * 판매자 상품 세부조회
 	 * 
 	 * @param prdCode
 	 * @return
 	 */
 	public Prd selectDetailPrd(String prdCode);
-
+	
 	/**
 	 * 판매자 상품 업데이트
 	 * 
@@ -484,5 +493,7 @@ public interface SlsDao {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
+
+
 
 }

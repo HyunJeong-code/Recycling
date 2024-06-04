@@ -135,9 +135,8 @@
 	<!-- 업데이트 -->
 	<update id="hrUpdate" parameterType="Manager">
 		UPDATE Manager SET
+		mgr_code = #{mgrCode }
 		, deptno = #{deptno }
-		, mgr_id = #{mgrId }
-		, mgr_pw = #{mgrPw }
 		, mgr_name = #{mgrName }
 		, mgr_phone = #{mgrPhone }
 		, mgr_email = #{mgrEmail }

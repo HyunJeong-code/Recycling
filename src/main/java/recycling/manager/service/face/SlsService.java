@@ -14,7 +14,6 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 판매제휴팀 관련 처리
@@ -393,7 +392,8 @@ public interface SlsService {
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging);
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
+
 
 	/**
 	 * 판매자 판매 조회[페이징]
@@ -405,11 +405,11 @@ public interface SlsService {
 
 	/**
 	 * 판매자 정보 조회
-	 * 
-	 * @param getsCode
+	 * @param seller 
+	 * @param string
 	 * @return
 	 */
-	public List<Map<String, Object>> sellerAllSeller(String getsCode);
+	public Map<String, Object> sellerAllSeller(Seller seller);
 
 	/**
 	 * 판매자 상품 세부조회
