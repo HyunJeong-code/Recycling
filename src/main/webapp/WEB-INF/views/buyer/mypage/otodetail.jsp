@@ -13,28 +13,41 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <style type="text/css">
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
 .wrap {
-	width: 800px;
-	margin: auto;
+    width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 .page_box {
-	border-bottom: 2px solid #444444;
+    border-bottom: 2px solid #444444;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
-
+.page_box h2 {
+    margin: 0;
+    color: #333;
+}
 .detail-container {
-	margin: 50px;
+    margin: 20px 0;
 }
-
 .oto_content {
-	margin-top: 50px; 
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fafafa;
+    border-radius: 4px;
 }
-
 table {
     border-collapse: collapse;
     width: 100%;
     margin-bottom: 20px;
-    margin-top: 40px;
 }
 th, td {
     border: 1px solid #dddddd;
@@ -43,6 +56,26 @@ th, td {
 }
 th {
     background-color: #f2f2f2;
+}
+.button-group {
+    text-align: center;
+    margin-top: 20px;
+}
+.button-group button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.button-group button:hover {
+    background-color: #005bb5;
+}
+.button-group a {
+    color: white;
+    text-decoration: none;
 }
 </style>
 
@@ -109,12 +142,12 @@ th {
 			</div>
 		</div>
 	
-		<div class="btn">
-			<button class="btn" type="button" onclick="history.back();">목록으로</button>
-			<button class="btn" type="button"><a href="/buyer/help/otoform">1:1 문의 작성하기</a></button>
+		<div class="button-group">
+			<button class="btnLeft" type="button" onclick="history.back();">목록으로</button>
+			<button class="btn1" type="button"><a href="/buyer/help/otoform">1:1 문의 작성하기</a></button>
 			<form action="/buyer/mypage/otodel" method="post" style="display: inline;">
 				<input type="hidden" name="otoCode" value="${oto.otoCode }">
-				<button class="btn" type="submit">삭제하기</button>
+				<button class="btn2" type="submit">삭제하기</button>
 			</form>
 		</div>
 	</div>

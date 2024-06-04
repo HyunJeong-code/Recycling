@@ -153,6 +153,21 @@ th {
     margin-top: 10px;
     font-weight: bold;
 }
+.button-group button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.button-group button[type="btn"] {
+    background-color: #0066cc;
+}
+.button-group button[type="btn"]:hover {
+    background-color: #005bb5;
+}
 </style>
 
 </head>
@@ -274,9 +289,11 @@ th {
 						<p>추가 배송지가 없습니다.</p>
 					</c:if>
 				</c:if>
-				<c:if test="${fn:length(buyerAdrList) <= 2 }">
- 					<input type="button" value="추가 배송지 등록하기" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }"><br><br>
-				</c:if>
+				<div class="button-group">
+					<c:if test="${fn:length(buyerAdrList) <= 2 }">
+	 					<button type="btn" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }">추가 배송지 등록하기</button><br><br>
+					</c:if>
+				</div>
 				<div id="addForm" style="display: none;">
 					<div>
 						<h4>새 배송지 추가</h4>
