@@ -2,7 +2,6 @@ package recycling.buyer.service.face;
 
 import java.util.List;
 
-import recycling.dto.seller.Seller;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.seller.Prd;

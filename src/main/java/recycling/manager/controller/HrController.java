@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.MgrFile;
 import recycling.manager.service.face.HrService;
+import recycling.page.face.PageService;
+import recycling.util.PagingAndCtg;
 
 
 @Controller
@@ -28,12 +31,23 @@ public class HrController {
 	
 	@Autowired private HrService hrService; 
 	@Autowired HttpSession session;
+	@Autowired private PageService pageService;
 	
 	//전체 사원조회
 	@GetMapping("/main")
 	public String main(
 			Model model
 			) {
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		
+	     //페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = hrService.selectCntAllHr(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		//사원 전체조회
 		List<Manager> select = hrService.selectAll();
@@ -127,8 +141,9 @@ public class HrController {
 			, MultipartFile empFileUpdate
 			) {
 		logger.info("controller: empupdate[Post]");
+		logger.info("updateProc mgrFlNo: {}",mgrFlNo);
 
-		logger.info("controller: {}",empFileUpdate);
+		logger.info("controller:empFileUpdate  {}",empFileUpdate);
 		
 		hrService.hrUpdate(manager);
 		
