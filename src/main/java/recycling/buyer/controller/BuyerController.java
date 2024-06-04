@@ -180,7 +180,10 @@ public class BuyerController {
 
 			list.add(cart);
 		}
+		
+		
 
+		logger.info("list : {}", list);
 		logger.info("buyer : {}", buyeradr);
 
 		model.addAttribute("buyer", buyer);

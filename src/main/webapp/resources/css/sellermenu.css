@@ -27,33 +27,54 @@
 }
 
 .sidebar ul li {
-    margin-bottom: 15px;
+	margin: 0 0 15px 10px;
 }
 
-.table-test {
-    width: 100%;
-}
-
-.b-table {
+.main-section .s-table {
     width: 100%;
     border-top: 2px solid #333;
     border-collapse: collapse;
+    margin-bottom: 30px;
 }
 
-.b-table thead {
+.main-section .s-table thead {
     border-top: 2px solid #252525;
     border-bottom: 1px solid #b7b7b7;
     background-color: #CEE741;
     font-size: 13px;
     font-weight: 700;
-    height: 36px;
+    height: 40px;
 }
 
-.b-table tbody tr {
+.main-section .s-table tbody tr {
     text-align: center;
     font-size: 13px;
     height: 60px;
     border-bottom: 1px solid #b7b7b7;
+}
+
+.main-section .s-table a {
+	color: #2d31e5;
+    font-weight: 700;
+}
+
+.main-section .s-table a:hover {
+	color: #7c7ff9;
+    font-weight: 700;
+}
+
+.page-header {
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+}
+
+.page-header h3 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.page-header h5 {
+    font-size: 16px;
 }
 
 

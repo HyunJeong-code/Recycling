@@ -107,7 +107,6 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		
 		
 	}); //$ end
-
 </script>
 
 </head>
@@ -132,7 +131,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					</form>
 				</div>
 				
-				<table border="1">
+				<table class="s-table">
 				    <thead>
 				        <tr>
 				            <th></th>
@@ -185,7 +184,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					<button class="updateSttBtn" id="900">대기중</button>
 					<button class="updateSttBtn" id="950">거래 완료</button>
 				</div>
-				<table border="1">
+				<table class="s-table">
 					<thead>
 						<tr>
 							<th></th>

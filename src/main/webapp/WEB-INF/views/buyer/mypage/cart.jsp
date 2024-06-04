@@ -117,7 +117,7 @@
 		            <h3>장바구니</h3>
 		        </div>
 				<form action="./pay" method="get" id="ord_form">
-				<table id="myTable">
+				<table id="myTable" class="b-table">
 					<thead>
 						<tr>
 							<th></th>
@@ -144,7 +144,9 @@
 											<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
 										</td>
 								 		<td>${cart.cCode }</td>
-								 		<td>${cart.storedName }</td>
+								 		<td>
+								 			<img alt="${cart.prdName }" src="/upload/${cart.storedName }">
+								 		</td>
 								 		<td>${cart.prdName }</td>
 								 		<td>${cart.price }</td>
 								 		<td>${cart.prdFee }</td>

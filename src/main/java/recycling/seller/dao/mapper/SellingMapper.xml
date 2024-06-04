@@ -120,8 +120,16 @@
 	<select id="selectByprdCode" parameterType="String" resultType="Prd">
 		SELECT * FROM prd
 		<where>
-			prd_code = #{prdCode}
+			AND prd_code = #{prdCode}
 		</where>
+	</select>
+	
+	<select id="selectPrdFile" parameterType="String" resultType="PrdFile">
+		SELECT * FROM prd_file
+		<where>
+			AND prd_code = #{prdCode}
+		</where>
+		ORDER BY PRD_FLNO
 	</select>
 	
 	<update id="updatePrd" parameterType="Prd">
@@ -135,6 +143,30 @@
 			prd_code = #{prdCode}
 		</where>
 	</update>
+	
+	<delete id="deletePrdFile" parameterType="PrdFile">
+		DELETE FROM prd_file
+		<where>
+			AND prd_code = #{prdCode}
+			AND ct_pflno = #{ctPflNo}
+		</where>
+	</delete>
+	
+	<delete id="deleteDetailFile" parameterType="HashMap">
+		DELETE FROM prd_file
+		<where>
+			AND prd_code = #{prdCode}
+			AND ct_pflno = 610
+        	AND prd_flno NOT IN (${prdFlNo})
+		</where>
+	</delete>
+	
+	<insert id="insertPrdFile" parameterType="PrdFile">
+		INSERT INTO prd_file 
+	    	(prd_flNo, ct_pflNo, prd_code, origin_name, stored_name)
+	    VALUES
+	    	(prd_file_seq.nextval, #{ctPflNo}, #{prdCode}, #{originName}, #{storedName})
+	</insert>
 	
 	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
 		SELECT * FROM order_detail

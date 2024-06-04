@@ -1,6 +1,9 @@
 package recycling.seller.service.face;
 
+import java.util.HashMap;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
@@ -11,6 +14,7 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 import recycling.dto.seller.AllPrd;
@@ -239,6 +243,50 @@ public interface SellingService {
 	 * @return
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
+
+	/**
+	 * PRD 파일 조회 
+	 * 
+	 * @param prdCode - 조회할 prdCode
+	 * @return - 파일 조회 결과
+	 */
+	public List<PrdFile> selectPrdFile(String prdCode);
+	
+	/**
+	 * 파일 업데이트
+	 * @param prdCode 
+	 * 
+	 * @param profile - 업데이트할 파일
+	 * @param file 
+	 * @return
+	 */
+	public int updatePrdFile(String prdCode, MultipartFile profile, MultipartFile file);
+
+	/**
+	 * 파일 업데이트
+	 * 
+	 * @param prdCode - 업데이트할 상품코드
+	 * @param profile - 업데이트할 파일
+	 * @return
+	 */
+	public int updateMainFile(String prdCode, MultipartFile profile);
+
+	/**
+	 * 파일 업데이트
+	 * 
+	 * @param prdCode - 업데이트할 상품코드
+	 * @param profile - 업데이트할 파일
+	 * @return
+	 */
+	public int updateDetailFile(String prdCode, MultipartFile detailFile);
+
+	/**
+	 * 상세 파일 삭제
+	 * 
+	 * @param map - 삭제할 파일코드
+	 */
+	public void deleteDetailFile(HashMap<String, String> map);
+
 
 	
 

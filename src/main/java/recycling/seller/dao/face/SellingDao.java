@@ -1,5 +1,6 @@
 package recycling.seller.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 
 import recycling.dto.buyer.BuyerLogin;
@@ -11,6 +12,7 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 import recycling.dto.seller.AllPrd;
@@ -225,6 +227,35 @@ public interface SellingDao {
 	 * @return
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
+
+	/**
+	 * PRD 파일 조회 
+	 * 
+	 * @param prdCode - 조회할 prdCode
+	 * @return - 파일 조회 결과
+	 */
+	public List<PrdFile> selectPrdFile(String prdCode);
+
+	/**
+	 * Prd 파일 업로드
+	 * 
+	 * @param prdMainFile - prdfile 객체
+	 */
+	public int insertPrdFile(PrdFile prdFile);
+
+	/**
+	 * Prd 파일 삭제
+	 * 
+	 * @param prdFile - prdfile 객체
+	 */
+	public int deletePrdFile(PrdFile prdFile);
+
+	/**
+	 * 상세 파일 삭제
+	 * 
+	 * @param map - 삭제할 파일코드
+	 */
+	public void deleteDetailFile(HashMap<String, String> map);
 
 
 
