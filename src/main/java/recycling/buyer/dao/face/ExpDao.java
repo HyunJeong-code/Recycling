@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
-import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -88,27 +86,10 @@ public interface ExpDao {
 	 */
 	public List<ExpSch> getExpSchList(String expCode);
 
-	/**
-	 * schNo가 일치하는 체험일정
-	 * 
-	 * @param schNo - 체험일정번호
-	 * @return expSch
-	 */
 	public ExpSch getExpSch(int schNo);
 
-	/**
-	 * 체험 예약결제정보 DB 삽입
-	 * 
-	 * @param expRes - 체험 예약 정보
-	 */
 	public void insertExpRes(ExpRes expRes);
 
-	/**
-	 * 체험 일정 번호가 일치하는 인원수 update
-	 * 
-	 * @param schNo - 체험 일정 번호
-	 * @param resCnt - 인원수
-	 */
 	public void updateExpSchCnt(Map<String, Object> params);
 
 	/**

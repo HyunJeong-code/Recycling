@@ -55,6 +55,15 @@ $(function(){
                 </a>
             </div>
             <div class="nav-ul">
+           	 	<ul>
+                    <li><a href="/buyer/logout">로그아웃</a></li>
+                    <li><a href="/buyer/mypage/myboard">마이페이지</a></li>
+                    <li><a href="/buyer/mypage/cart">장바구니</a></li>
+                <ul>
+                    <li><a href="">로그인</a></li>
+                    <li><a href="">회원가입</a></li>
+                    <li><a href="">장바구니</a></li>
+                </ul>
             	<sec:authorize access="isAnonymous()">
 	                <ul>
 	                    <li><a href="/buyer/login">로그인</a></li>
@@ -69,11 +78,15 @@ $(function(){
 	                    </li>
 	                </ul>
             	</sec:authorize>
+
             </div>
         </div>
         <div class="container">
             <div>
                 <div class="select-page">
+
+                    <a href="/buyer/main"><button>buyer</button></a><a href="/seller/main"><button class="selected">seller</button></a>
+                    <button class="selected">buyer</button><button>seller</button>
                     <button class="selected"><a href="/buyer/main">Buyer</a></button><button><a href="/seller/main">Seller</a></button>
                 </div>
             </div>

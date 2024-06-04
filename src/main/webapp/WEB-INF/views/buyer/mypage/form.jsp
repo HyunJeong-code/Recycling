@@ -16,7 +16,7 @@
 		<div class="section">
 			<button><a href="/buyer/mypage/otoform">일대일 문의</a></button>
 			<button><a href="/buyer/mypage/qnaform">판매자 문의</a></button>
-		</div> <!-- section End -->		
+		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->
 

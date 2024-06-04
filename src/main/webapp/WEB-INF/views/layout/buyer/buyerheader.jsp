@@ -20,32 +20,49 @@ $(function(){
 		url : '/buyer/buyerheader',
 		dataType: 'json',
 		success: function(res) {
-			console.log("res : " + JSON.stringify(res));
-			console.log("res : " + JSON.stringify(res).length);
-			console.log("res : " + typeof(JSON.stringify(res)));
 			
-			var none = "<div id='info'>공지사항이 없습니다.</div>";
+// 			$("#ntcBanner").html(res[0].RNUM)
+// 			$("#ntcBanner").html(res[0].NTC_CODE)
+// 			$("#ntcBanner").html(res[0].TITLE)
+
+// 			var html = "" + res[0]["RNUM"] + " " + res[0]["NTC_CODE"] + " " + res[0]["TITLE"]
+// 			$("#ntcBanner").html(html)
 			
-			var ntcList = JSON.stringify(res);
-			console.log("ntcList : " + ntcList);
-			console.log("ntcList[0] : " + typeof(ntcList));
-			
-			
-			if(ntcList.length == 0) {
-				$("#ntcBanner").html(none);
-			} else {
+			$("#ntcBanner").append( $("<ul>") )
+			res.forEach(function( val ) {
+// 				console.log(val)
 				
-				var banner = $("#ntc-banner");
-				var ntc = "";
+				$("<li>").html( val.RNUM + " " + val.NTC_CODE + " " + "<a href='/test?no=" + val.NTC_CODE + "'>" + val.TITLE +"</a>" )
+				.appendTo($("#ntcBanner ul"))
+			})
+
+
+// 			console.log("res : " + JSON.stringify(res));
+// 			console.log("res : " + JSON.stringify(res).length);
+// 			console.log("res : " + typeof(JSON.stringify(res)));
+			
+// 			var none = "<div id='info'>공지사항이 없습니다.</div>";
+			
+// 			var ntcList = JSON.stringify(res);
+// 			console.log("ntcList : " + ntcList);
+// 			console.log("ntcList[0] : " + typeof(ntcList));
+			
+			
+// 			if(ntcList.length == 0) {
+// 				$("#ntcBanner").html(none);
+// 			} else {
 				
-				ntc += "<ul>";
-				for(var i = 0; i < ntcList.length; i++) {
-					banner.append(
-							$("<li>").html(ntcList[i].NTC_TITLE)
-						);
-				}
-				ntc += "</ul>";
-			}
+// 				var banner = $("#ntc-banner");
+// 				var ntc = "";
+				
+// 				ntc += "<ul>";
+// 				for(var i = 0; i < ntcList.length; i++) {
+// 					banner.append(
+// 							$("<li>").html(ntcList[i].NTC_TITLE)
+// 						);
+// 				}
+// 				ntc += "</ul>";
+// 			}
 		}
 	})
 	
@@ -86,6 +103,15 @@ $(function(){
 <body>
 	<header class="header">
         <div class="notice-banner" id="ntcBanner">
+        	<c:if test="${ntcSize eq 0 }">
+        		<div class="banner" style="color:white;">공지사항이 없습니다.</div>
+        	</c:if>
+        	
+        	<c:if test="${ntcSize ne 0 }">
+        		<c:forEach var="list" items="${ntcList }">
+        			<div class="info" style="color:white;"><a href="/buyer/help/noticedetail?ntcCode=${list.NTC_CODE }">${list.TITLE }</a></div>
+        		</c:forEach>
+        	</c:if>        	
         </div>
         
         <div class="container">
@@ -120,6 +146,7 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
+                    <button class="selected">Buyer</button><button>Seller</button>
                     <button class="selected"><a href="/buyer/main">Buyer</a></button><button><a href="/seller/main">Seller</a></button>
                 </div>
             </div>

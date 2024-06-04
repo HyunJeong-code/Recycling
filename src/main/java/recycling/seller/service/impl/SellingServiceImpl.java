@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -26,10 +28,12 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.seller.dao.face.SellerDao;
+import recycling.dto.seller.AllPrd;
+import recycling.dto.seller.Exp;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
-import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -50,23 +54,18 @@ public class SellingServiceImpl implements SellingService {
 //	}
 	
 	@Override
-	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging) {
-		return sellingDao.selectAllrcyPrd(upPaging);
+	public List<Prd> selectAllrcyPrd(String sCode) {
+		return sellingDao.selectAllrcyPrd(sCode);
 	}
 	
 	@Override
-	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging) {
-		return sellingDao.selectAllupcyMyOrder(unPaging);
+	public List<MyOrder> selectAllMyOrder(String prdCode) {
+		return sellingDao.selectAllMyOrder(prdCode);
 	}
 	
 	@Override
-	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging) {
-		return sellingDao.selectAllrcyMyOrder(unPaging);
-	}
-	
-	@Override
-	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging) {
-		return sellingDao.selectAllupcyPrd(upPaging);
+	public List<Prd> selectAllupcyPrd(String sCode) {
+		return sellingDao.selectAllupcyPrd(sCode);
 	}
 	
 	@Override
@@ -189,14 +188,12 @@ public class SellingServiceImpl implements SellingService {
 	@Override
 	public int updateMyOrder(MyOrder myOrder) {
 		int res = sellingDao.updateMyOrder(myOrder);
-		if(myOrder.getShipNo() != 0 && myOrder.getShipName() != null) {
+		if(myOrder.getShipNo() != null && myOrder.getShipName() != null) {
 			res *= sellingDao.insertShip(myOrder);
 		}
 		return res;
 	}
 	
-	
-
 	//paging Cnt
 	
 	@Override
@@ -219,10 +216,7 @@ public class SellingServiceImpl implements SellingService {
 		return sellingDao.selectCntAllMyOrder(unPaging);
 	}
 
-	
-
 	//paging Cnt end
-	
 	
 	//exp start
 	@Override
@@ -240,6 +234,25 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllExpSch(PagingAndCtg upPaging) {
 		
 		return sellingDao.selectCntAllExpSch(upPaging);
+	public List<Exp> selectMyExpList(Paging paging) {
+		
+		
+		return sellingDao.selectMyExpList(paging);
+	}
+
+	@Override
+	public Paging getSearchPaging(int curPage, String search) {
+		
+		Paging paging = null;
+		
+		int totalCount = sellingDao.selectCntAll(search);
+		
+		if("".equals(search)) {
+			paging = new Paging(totalCount, curPage, search);
+		} else {
+			paging = new Paging(totalCount, curPage, search);
+		}
+		return paging;
 	}
 
 	@Override
@@ -262,6 +275,25 @@ public class SellingServiceImpl implements SellingService {
 	public List<ExpFile> selectByExpFile(String expCode) {
 		return sellingDao.selectByExpFile(expCode);
 	}
+	
+	@Override
+	public int selectCntAllPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectCntAllPrd(upPaging);
+	}
+	
+	@Override
+	public int selectCntAllOrd(PagingAndCtg unPaging) {
+		return sellingDao.selectCntAllOrd(unPaging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllPrd(upPaging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
+		return sellingDao.selectAllOrd(unPaging);
 
 	@Override
 	public Exp expResDetail(String expCode) {

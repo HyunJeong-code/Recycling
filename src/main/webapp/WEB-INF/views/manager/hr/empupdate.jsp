@@ -9,21 +9,20 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/hr/empupdate.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
 $(function() {
 	// 이미지 클릭 시 파일 선택 창 열기
 	$("#profilePreview").on('click', function() {
-	    $("#mgrfileUpdate").click();
+	    $("#empFileUpdate").click();
 	    console.log(profilePreview)
-	    console.log(expfileUpdate)
+	    console.log(empFileUpdate)
 	    
 	});
 	
 	// 파일 선택 시 미리보기 이미지 업데이트
-	$("#mgrfileUpdate").on('change', function() {
+	$("#empFileUpdate").on('change', function() {
 	    if (this.files && this.files[0]) {
 	        var reader = new FileReader();
 	        reader.onload = function(e) {
@@ -45,8 +44,134 @@ $(function() {
 	    $('#fileNames').text(fileNames.join(', ')); // 이전 파일 이름에 새로운 파일 이름 추가하여 표시
 	    console.log(fileNames)
 	});
-
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
+	// 직접 입력 선택 시 입력 필드 표시
+    $("#inPhone").hide();
+    
+    $("#sPhone").change(function() {
+        if ($("#sPhone").val() === "in") {
+            $("#inPhone").show();      
+            $("#sPhone").hide();    
+        } else {
+            $("#inPhone").hide();               
+            $("#sPhone").show();
+        }
+    });
+    
+    // 전화번호를 분리하여 각 필드에 값 설정
+    var phone = "${view.mgrPhone}";
+    console.log("Full phone number: " + phone); // 전체 전화번호 출력
+    var phoneParts = phone.split("-");
+    
+    if (["010", "011", "017", "016"].includes(phoneParts[0])) {
+        $("#sPhone").val(phoneParts[0]);
+    } else {
+        $("#sPhone").val("in");
+        $("#inPhone").val(phoneParts[0]).show();
+    }
+
+    $("#mPhone").val(phoneParts[1]);
+    
+    $("#lPhone").val(phoneParts[2]);
+    
+
+    // 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
+	$("form").submit(function() {
+<<<<<<< HEAD
+        var sPhone = $("#inPhone").val();
+=======
+        var email1 = $("#inPhone").val();
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
+        var mPhone = $("#mPhone").val();
+        var lPhone = $("#lPhone").val();
+        var fullPhone;
+        
+        // sPhone에서 직접 입력을 선택한 경우
+        if ($("#sPhone").val() === "in") {
+            fullPhone = inPhone + "-" + mPhone + "-" + lPhone;
+        } else {
+            // sPhone에서 직접 입력이 아닌 경우
+            var sPhone = $("#sPhone").val();
+            fullPhone = sPhone + "-" + mPhone + "-" + lPhone;
+        }
+        
+        // 숨겨진 입력 필드에 값 설정
+        $("#mgrPhone").val(fullPhone);
+        console.log("mgrPhone : " + $("#mgrPhone").val()); // 값 확인
+    });
+    
+<<<<<<< HEAD
+	// 직접 입력 선택 시 입력 필드 표시
+	$("#inEmail").hide();
+	
+	$("#Email2").change(function() {
+		if($("#empEmail2").val() === "in") {
+			$("#inEmail").show();
+			$("#empEmail2").hide();
+		} else {
+			$("#inEmail").hide();
+			$("#empEmail2").show();
+		}
+	})
+	
+	// 이메일을 분리하여 각 필드에 값 설정
+    var phone = "${view.mgrEmail}";
+    var phoneParts = phone.split("@");
+    
+    if (["@naver.com", "@gmail.com", "@daum.net"].includes(phoneParts[1])) {
+        $("#empEmail2").val(phoneParts[1]);
+    } else {
+        $("#empEmail1").val("in");
+        $("#empEmail2").val(phoneParts[1]).show();
+    }
+
+    $("#empEmail1").val(phoneParts[0]);
+    $("#empEmail2").val(phoneParts[1]);
+    
+	
+=======
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
+	// 이메일 처리
+	$("form").submit(function() {
+	    var empEmail1 = $("#empEmail1").val();
+	    var empEmail2 = $("#empEmail2").val();
+	    var inEmail = $("#inEmail").val();
+	    var fullEmail;
+	    
+	    // sPhone에서 직접 입력을 선택한 경우
+	    if ($("#empEmail2").val() === "in") {
+	    	fullEmail = empEmail1 + "@" + empEmail2;
+	    } else {
+	        // sPhone에서 직접 입력이 아닌 경우
+	        var inEmail = $("#inEmail").val();
+	        fullEmail = empEmail1 + "@" + empEmail2;
+	    }
+	    
+	    // 숨겨진 입력 필드에 값 설정
+<<<<<<< HEAD
+	    $("#mgrEmail").val(fullEmail);
+=======
+	    $("#empEmail").val(fullEmail);
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
+	});
+
+	//부서
+	$("#update").click(function() {
+		console.log("deptno : " + $("#detpno").val());
+		
+		if($("#detpno").val() === 'CEO') {
+			$("#detpno").val(10);
+		} else if ($("#detpno").val() === '인사팀') {
+			$("#detpno").val(20);
+		} else if($("#detpno").val() === '판매제휴팀') {
+			$("#detpno").val(30);			
+		} else {
+			$("#detpno").val(40);						
+		}
+	})
 	
 })
 
@@ -54,62 +179,6 @@ $(function() {
 var mgrPhone = "${manager.mgrPhone}".split("-");
 console.log("mgrPhone : " + mgrPhone);
 
-if($("#sPhone").val(mgrPhone[0])) {
-	$("#inPhone").hide();
-	$("#sPhone").val(mgrPhone[0]).attr("selected", "selected");
-} else {
-	$("#inPhone").val(mgrPhone[0])
-}
-
-$("#mPhone").val(mgrPhone[1]);
-$("#lPhone").val(mgrPhone[2]);
-
-$("#sPhone").change(function() {
-	if($("#sPhone").val() === "in") {
-		$("#inPhone").show();		
-		$("#sPhone").hide();		
-	} else {
-		$("#inPhone").hide();				
-		$("#sPhone").show();		
-	}		
-})
-
-// 이메일 처리
-var mgrEmail = "${manager.mgrEmail}".split("@");
-console.log("mgrEmail: " + mgrEmail);
-
-$("#mgrEmail").val(mgrEmail[0]);
-
-if($("#mgrEmail2").val("@" + mgrEmail[1])) {
-	$("#inEmail").hide();
-	$("mgrEmail2").val(mgrEmail[1]).attr("selected", "selected");
-} else {
-	$("#inEmail").val(mgrEmail[1]);
-}
-
-$("#mgrEmail2").change(function() {
-	if($("#mgrEmail2").val() === "in") {
-		$("#inEmail").show();
-		$("#mgrEmail2").hide();
-	} else {
-		$("#inEmail").hide();
-		$("#mgrEmail2").show();
-	}
-})
-
-$("#update").click(function() {
-	console.log("deptno : " + $("#detpno").val());
-	
-	if($("#detpno").val() === 'CEO') {
-		$("#detpno").val(10);
-	} else if ($("#detpno").val() === '인사팀') {
-		$("#detpno").val(20);
-	} else if($("#detpno").val() === '판매제휴팀') {
-		$("#detpno").val(30);			
-	} else {
-		$("#detpno").val(40);						
-	}
-})
 </script>
 <style type="text/css">
 /* 전체 기본 설정 */
@@ -244,7 +313,7 @@ input[type="text"], select {
 	margin: 0 auto;
 }
 
-.section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
+.section .mgrPhone_box, .section .empEmail_box, .section .mgrBirth_box,
 	.section .mgrGender_box {
 	margin-bottom: 15px;
 	display: flex;
@@ -322,11 +391,11 @@ button:hover {
 			</div>
 
 			<div class="section">
-				<form action="./empupdate?mgrCode=${view.mgrCode }" method="post">
+				<form action="./empupdate?mgrCode=${view.mgrCode }" method="post" enctype="multipart/form-data">
 					
 					<div class ="section_top">
 							
-					<input type="file" id="mgrfileUpdate" name="mgrfileUpdate" style="display: none;" />
+					<input type="file" id="empFileUpdate" name="empFileUpdate" style="display: none;" />
 					<div class="select_img">
 					    <img alt="없음" id="profilePreview" src="${pageContext.request.contextPath}/upload/${profileList.storedName}" />
 						<input type="hidden" id="mgrFlNo" name="mgrFlNo" value="${profileList.mgrFlNo }"/>
@@ -366,25 +435,49 @@ button:hover {
 					<div class="section_bot_title">사원 정보</div>
 					
 				<div class="section_bot_itembox">
-					<div class="mgrId_box">
-						<label for ="mgrId">아이디</label> 
-						<input type="text" name="mgrId" id="mgrId" value="${view.mgrId }">
-					</div>
+					<c:if test="${not empty view.mgrId}">
+					    <div class="mgrId_box">
+					        <label for="mgrId">아이디</label> 
+					        <input type="text" name="mgrId" id="mgrId" value="${view.mgrId}">
+					    </div>
+					</c:if>
 					
-					<div class="mgrPw_box">
-						<label for ="mgrPw">비밀번호</label> 
-						<input type="text" name="mgrPw" id="mgrPw" value="${view.mgrPw }">
-					</div>
+				<label for="sPhone">핸드폰 번호</label>
+				<div class="phone_box">
+				<select class="sPhone" id="sPhone" name="sPhone">
+					<option value="010">010</option>
+					<option value="011">011</option>
+					<option value="017">017</option>
+					<option value="016">016</option>
+					<option value="in">직접 입력</option>
+				</select>
+	                <input type="text" class="s" id="inPhone" name="inPhone" maxlength="3">
+						<div class="hyphen">-</div>
+	                <input type="text" class="s" id="mPhone" name="mPhone" maxlength="4">
+	                    <div class="hyphen">-</div>
+	                <input type="text" class="s" id="lPhone" name="lPhone" maxlength="4" >
+                </div>
+                <input type="hidden" id="mgrPhone" name="mgrPhone">
+                
+					
+				<label for="empEmail1">이메일</label>	
+				<div class="email_box">
 				
-					<div class="mgrPhone_box">
-						<label for ="mgrPhone">전화번호</label> 
-						<input type="text" name="mgrPhone" id="mgrPhone" value="${view.mgrPhone }">
-					</div>
-					
-					<div class="mgrEmail_box">
-						<label for ="mgrEmail">이메일</label>
-					 	<input type="text" name="mgrEmail" id="mgrEmail" value="${view.mgrEmail }">
-					</div>
+					<input type="text" id="empEmail1" name="empEmail1" required="required">
+			
+					<select class="empEmail2" name="empEmail2" id="empEmail2" required="required">
+						<option value="naver.com">@naver.com</option>
+						<option value="gmail.com">@gmail.com</option>
+						<option value="daum.net">@daum.net</option>
+						<option value="in">직접 입력</option>
+					</select>
+					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
+				</div>
+<<<<<<< HEAD
+				<input type="hidden" id="mgrEmail" name="mgrEmail">
+=======
+				<input type="hidden" id="empEmail" name="empEmail">
+>>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 					
 					<div class="mgrBirth_box">
 						<label for ="mgrBirth">생년월일</label>	
@@ -398,10 +491,10 @@ button:hover {
 					</div>
 
 					<!-- 근로계약서, 등본 등 -->
-					<div>
-						입사서류 파일
-						<a href="./hrdownload?mgrCode=${mgrFile.mgrCode }">${fileList.originName }</a>
-					</div>
+<!-- 					<div> -->
+<!-- 						입사서류 파일 -->
+<%-- 						<a href="./hrdownload?mgrCode=${mgrFile.mgrCode }">${fileList.originName }</a> --%>
+<!-- 					</div> -->
 
 					<!-- 개명, 주소지변경 등 -->
 <!-- 					<div class="bot_document_filebox"> -->

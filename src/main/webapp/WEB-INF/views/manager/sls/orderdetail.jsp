@@ -125,7 +125,7 @@ $(function() {
 			</table>
 			
 			<div>
-				<button type="button"><a href="./sellinglist">목록으로</a></button>
+				<button type="button"><a href="./sellinglist?sCode=${sCode.sCode }">목록으로</a></button>
 				<button >수정하기</button>
 			</div>
 		</form>

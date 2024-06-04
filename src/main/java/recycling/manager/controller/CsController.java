@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.manager.Ans;
+import recycling.dto.manager.ManagerLogin;
 import recycling.manager.service.face.CsService;
+import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Controller
 @RequestMapping("/manager/cs")
@@ -30,42 +35,67 @@ public class CsController {
 	@Autowired
 	private CsService csService;
 	
+	@Autowired
+	private MgrService mgrService;
+	
+	@Autowired 
+	private recycling.page.face.PageService pageService;
+	
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
-	public void main(@RequestParam(defaultValue = "0") int curPage, @RequestParam(defaultValue = "") String search,
-			String category, Paging pagingParam, Model model) {
+	public void main(
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg) {
 
-		Paging paging = new Paging();
-
-		// 페이징 계산
-		paging = csService.getPaging(pagingParam);
-//		logger.info("{}", paging);
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = csService.selectCntAllotoList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		// 게시글 목록 조회
-		List<Oto> list = csService.list(paging);
+		List<Oto> list = csService.list(upPaging);
 //		logger.info("controller list: {}", list);
 
-		model.addAttribute("paging", paging);
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
-
+		model.addAttribute("upUrl", "/manager/cs/main");
+		
 	}
 	
 	// 구매자 리스트
 	@RequestMapping("/buyerlist")
-	public String buyerList(@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search, String category, Paging pagingParam, Model model) {
+	public String buyerList(
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
+			) {
 
-		Paging paging = new Paging();
-
-		// 페이징 계산
-		paging = csService.getPaging(pagingParam);
-//		logger.info("{}", paging);
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = csService.selectCntAllbuyerList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		// 구매자 목록 조회
-		List<Buyer> buyerList = csService.buyerList(paging);
+		List<Buyer> buyerList = csService.buyerList(upPaging);
 
-		model.addAttribute("paging", paging);
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("buyerList", buyerList);
+		model.addAttribute("upUrl", "/manager/cs/buyerlist");
 
 		return "manager/cs/buyerlist";
 
@@ -159,7 +189,6 @@ public class CsController {
 
 //		logger.info("11111111111111{}", comments);
 		
-		
 //		return "manager/cs/ansform";
 		
 	}
@@ -170,9 +199,9 @@ public class CsController {
 	public String insert(String ansCode, String ansContent, String otoCode, HttpSession session) {
 		
 		// 일단 로그인 없어서 mgrCode코드 고정값으로 넣음
-//	    String mgrCode = "MGR0000001";
+	    String mgrCode = "MGR0000001";
 
-	    String mgrCode = (String) session.getAttribute("mgrCode");
+//	    String mgrCode = (String) session.getAttribute("mgrCode");
 	    
 	    logger.info("mgrCode: {}", mgrCode);
 	    
