@@ -31,10 +31,15 @@ public class CsServiceImpl implements CsService {
 //		logger.info("service");
 		return csDao.list(upPaging);
 	}
+	
+	@Override
+	public int selectCntAllotoList(PagingAndCtg upPaging) {
+		return csDao.selectCntAllotoList(upPaging);
+	}
 
 	@Override
-	public int getPaging(PagingAndCtg upPaging) {
-		return csDao.getPaging(upPaging);
+	public int selectCntAllbuyerList(PagingAndCtg upPaging) {
+		return csDao.selectCntAllbuyerList(upPaging);
 	}
 
 	@Override

@@ -29,7 +29,20 @@
 			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
-	
+
+	<!-- 총 판매자 페이징 -->
+	<select id="selectCntAllList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="sellerJoin"/>
+   			)
+		<where>
+			AND (
+				s_code LIKE '%' || #{search } || '%'
+				OR b_code LIKE '%' || #{search } || '%'
+				)
+		</where>
+
 	<!-- 전체조회 페이징[main] -->
 	<select id="upPageSlsMain" resultType="int" parameterType="recycling.util.PagingAndCtg">
    		SELECT count(*) FROM seller
@@ -249,23 +262,6 @@
 		</where>
 	</update>
 	
-	<!-- exp Join expSch resultMap-->
-	<resultMap type="java.util.HashMap" id="expJoin">
-	
-	<result property="expCode" column="exp_code"/>
-	<result property="sCode" column="s_code"/>
-	<result property="expName" column="exp_name"/>
-	<result property="expPrice" column="exp_price"/>
-	<result property="expDetail" column="exp_detail"/>
-	<result property="expHit" column="exp_hit"/>
-	<result property="expDate" column="exp_date"/>
-
-	<result property="schNo" column="sch_no"/>
-	<result property="schDate" column="sch_date"/>
-	<result property="schTime" column="sch_time"/>
-	<result property="schCnt" column="sch_cnt"/>
-	</resultMap>
-	
 	<!-- 체험단 조회 -->
 	<select id="selectAll" resultType="Exp">
 		<include refid="expBoard"/>
@@ -281,7 +277,6 @@
 				<where>
 					AND s_code = #{user }
 					AND prd_out = 'N'
-					AND prd_cnt = 0
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
@@ -301,7 +296,6 @@
 		<where>
 			AND s_code = #{user }
 			AND prd_out = 'N'
-			AND prd_cnt = 0
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'

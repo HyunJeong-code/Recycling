@@ -18,6 +18,30 @@
         </aside>
         <div class="wrap">
             <div class="page">
+				판매자 조회
+			</div>
+			
+			<div class="search">
+				<form action="./main" method="get">
+					<input type="hidden" name="sCtg" value="UP">
+					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+					<button>검색</button>
+				</form>
+			</div>
+			
+            <div class="section">    
+                
+	            <table>
+					<thead>
+						<tr>
+							<th>판매자 코드</th>
+	                        <th>구매자 코드</th>
+	                        <th>가입일</th>
+	                        <th>상세조회</th>
+	                        <th>상품판매조회</th>
+						</tr>
+					</thead>
+
                 <div class="section">    
                     <h1>판매자 리스트</h1>
                     <hr>
@@ -49,7 +73,7 @@
                             <th>상품판매조회</th>
                         </tr>
                     </thead>
-                    
+
                     <tbody>
                         <c:forEach var="seller" items="${main }" varStatus="status">
                         	<!-- sOut상태가 'N' 이면 보여주고 'Y'이면 숨기기 -->
@@ -81,7 +105,6 @@
             <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
         </div>
     </div>
-=======
 	<div class="full">
 		<aside>
 			aaaaa

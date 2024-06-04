@@ -527,5 +527,4 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
-
 }//main

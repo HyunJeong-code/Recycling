@@ -1,7 +1,7 @@
 package recycling.dto.seller;
 
 public class Seller {
-	
+
 	private String sCode;
 	private String bCode;
 	private String accName;
