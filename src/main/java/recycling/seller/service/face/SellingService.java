@@ -260,7 +260,7 @@ public interface SellingService {
 	 * @param file 
 	 * @return
 	 */
-	public int updatePrdFile(String prdCode, MultipartFile profile, MultipartFile file);
+//	public int updatePrdFile(String prdCode, MultipartFile profile, MultipartFile file);
 
 	/**
 	 * 파일 업데이트

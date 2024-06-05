@@ -26,7 +26,6 @@ import com.google.gson.JsonParser;
 
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
-import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.ResSchCnt;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
@@ -96,92 +95,92 @@ public class SellingServiceImpl implements SellingService {
 		return sellingDao.updatePrd(prd);
 	}
 	
-	@Override
-	public int updatePrdFile(String prdCode, MultipartFile profile, MultipartFile file) {
-		//파일이 저장될 경로 - RealPath
-		String storedPath = servletContext.getRealPath("upload");
-				
-		//upload폴더가 존재하지 않으면 생성하기
-		File storedFolder = new File(storedPath);
-		storedFolder.mkdir();
-		
-		int mainRes = 0;
-		int detailRes = 0;
-		
-		if(profile != null) {
-			//프로필 저장이름
-			String profileStoredName = null;
-			File destProfile = null;
-			
-			//저장될 파일명이 중복되지 않도록 반복
-			do {
-				profileStoredName = profile.getOriginalFilename(); //원본 파일명
-				profileStoredName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
-				
-				destProfile = new File( storedFolder, profileStoredName );
-			} while( destProfile.exists() );
-			try {
-				//업로드된 임시 파일을 upload 폴더로 옮기기
-				profile.transferTo(destProfile);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		    //프로필 DB에 저장
-	        PrdFile prdMainFile = new PrdFile();
-	        prdMainFile.setOriginName(profile.getOriginalFilename());
-	        prdMainFile.setStoredName(profileStoredName);
-	        prdMainFile.setPrdCode(prdCode);
-	        prdMainFile.setCtPflNo(600); // document 데이터 1000
-	       
-	        //프로필 삭제
-	        sellingDao.deletePrdFile(prdMainFile);
-	        
-	        //프로필 업로드
-	        mainRes = sellingDao.insertPrdFile(prdMainFile);
-		}
-        //-------------------------------------------------------------
-		if(file != null) {
-			//업로드된 파일이 저장될 이름
-			String storedName = null;
-			
-			//저장될 파일 객체
-			File dest1 = null;
-			
-			//저장될 파일명이 중복되지 않도록 반복
-			do {
-				storedName = file.getOriginalFilename(); //원본 파일명
-				storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
-				
-				dest1 = new File( storedFolder, storedName );
-			} while( dest1.exists() );
-			try {
-				//업로드된 임시 파일을 upload 폴더로 옮기기
-				file.transferTo(dest1);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			//일반파일DB에 기록하기
-			PrdFile prdFile = new PrdFile();
-			prdFile.setOriginName(file.getOriginalFilename() );
-			prdFile.setStoredName(storedName );
-			prdFile.setPrdCode(prdCode);
-			prdFile.setCtPflNo(610);
-			
-	        //프로필 삭제
-	        sellingDao.deletePrdFile(prdFile);
-			
-			//파일 업로드
-			detailRes = sellingDao.insertPrdFile(prdFile);
-		}
-		
-		return mainRes + detailRes;
-	}
+//	@Override
+//	public int updatePrdFile(String prdCode, MultipartFile profile, MultipartFile file) {
+//		//파일이 저장될 경로 - RealPath
+//		String storedPath = servletContext.getRealPath("upload");
+//				
+//		//upload폴더가 존재하지 않으면 생성하기
+//		File storedFolder = new File(storedPath);
+//		storedFolder.mkdir();
+//		
+//		int mainRes = 0;
+//		int detailRes = 0;
+//		
+//		if(profile != null) {
+//			//프로필 저장이름
+//			String profileStoredName = null;
+//			File destProfile = null;
+//			
+//			//저장될 파일명이 중복되지 않도록 반복
+//			do {
+//				profileStoredName = profile.getOriginalFilename(); //원본 파일명
+//				profileStoredName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+//				
+//				destProfile = new File( storedFolder, profileStoredName );
+//			} while( destProfile.exists() );
+//			try {
+//				//업로드된 임시 파일을 upload 폴더로 옮기기
+//				profile.transferTo(destProfile);
+//			} catch (IllegalStateException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//		    //프로필 DB에 저장
+//	        PrdFile prdMainFile = new PrdFile();
+//	        prdMainFile.setOriginName(profile.getOriginalFilename());
+//	        prdMainFile.setStoredName(profileStoredName);
+//	        prdMainFile.setPrdCode(prdCode);
+//	        prdMainFile.setCtPflNo(600); // document 데이터 1000
+//	       
+//	        //프로필 삭제
+//	        sellingDao.deletePrdFile(prdMainFile);
+//	        
+//	        //프로필 업로드
+//	        mainRes = sellingDao.insertPrdFile(prdMainFile);
+//		}
+//        //-------------------------------------------------------------
+//		if(file != null) {
+//			//업로드된 파일이 저장될 이름
+//			String storedName = null;
+//			
+//			//저장될 파일 객체
+//			File dest1 = null;
+//			
+//			//저장될 파일명이 중복되지 않도록 반복
+//			do {
+//				storedName = file.getOriginalFilename(); //원본 파일명
+//				storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+//				
+//				dest1 = new File( storedFolder, storedName );
+//			} while( dest1.exists() );
+//			try {
+//				//업로드된 임시 파일을 upload 폴더로 옮기기
+//				file.transferTo(dest1);
+//			} catch (IllegalStateException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			//일반파일DB에 기록하기
+//			PrdFile prdFile = new PrdFile();
+//			prdFile.setOriginName(file.getOriginalFilename() );
+//			prdFile.setStoredName(storedName );
+//			prdFile.setPrdCode(prdCode);
+//			prdFile.setCtPflNo(610);
+//			
+//	        //프로필 삭제
+//	        sellingDao.deletePrdFile(prdFile);
+//			
+//			//파일 업로드
+//			detailRes = sellingDao.insertPrdFile(prdFile);
+//		}
+//		
+//		return mainRes + detailRes;
+//	}
 	
 	@Override
 	public int updateMainFile(String prdCode, MultipartFile profile) {
@@ -200,7 +199,7 @@ public class SellingServiceImpl implements SellingService {
 		//저장될 파일명이 중복되지 않도록 반복
 		do {
 			profileStoredName = profile.getOriginalFilename(); //원본 파일명
-			profileStoredName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+			profileStoredName = UUID.randomUUID().toString().split("-")[4] + profileStoredName; //UUID추가
 			
 			destProfile = new File( storedFolder, profileStoredName );
 		} while( destProfile.exists() );
@@ -247,7 +246,7 @@ public class SellingServiceImpl implements SellingService {
 		//저장될 파일명이 중복되지 않도록 반복
 		do {
 			storedName = detailFile.getOriginalFilename(); //원본 파일명
-			storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+			storedName = UUID.randomUUID().toString().split("-")[4] + storedName; //UUID추가
 			
 			dest1 = new File( storedFolder, storedName );
 		} while( dest1.exists() );
