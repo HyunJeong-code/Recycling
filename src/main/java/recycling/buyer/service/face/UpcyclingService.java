@@ -33,6 +33,20 @@ public interface UpcyclingService {
 	 */
 	public Seller selectSeller(String getsCode);
 
+	/**
+	 * 판매자 정보 상세조회
+	 * @param getbCode 구매자코드
+	 * @return 판매자 상세 정보
+	 */
+	public Buyer selectBuyerByBCode(String getbCode);
+	
+	/**
+	 * 판매자 거래 횟수 카운트 
+	 * 
+	 * @param	getsCode 프라이머리키인 sCode
+	 */
+	public int selectShipCnt(String getsCode);
+	
 	
 	/**
 	 * 개인 구매자 정보 조회
@@ -72,6 +86,10 @@ public interface UpcyclingService {
 	 * @return
 	 */
 	public int	insertReview(UpcyReview review);
+
+
+	
+
 	
 	
 

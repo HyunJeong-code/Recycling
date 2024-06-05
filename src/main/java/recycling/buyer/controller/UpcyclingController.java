@@ -65,6 +65,8 @@ public class UpcyclingController {
 		}
 		
 		Seller seller = upcyclingService.selectSeller(prd.getsCode());
+		Buyer buyer = upcyclingService.selectBuyerByBCode(seller.getbCode());
+		int shipCnt = upcyclingService.selectShipCnt(prd.getsCode());
 		
 		List<Map<String, Object>> upcyvwlist = upcyclingService.selectRvwList(prdCode);
 		
@@ -77,6 +79,8 @@ public class UpcyclingController {
 		
         model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("shipCnt", shipCnt);
 		
 		return "buyer/upcycling/upcydetail";
 		

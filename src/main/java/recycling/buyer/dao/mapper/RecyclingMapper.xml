@@ -35,16 +35,26 @@
 	        S.S_CODE = #{sCode}
 	</select>
 	
+	<select id="selectBuyerByBCode" resultType="Buyer">
+	    SELECT * FROM BUYER
+	    WHERE B_CODE = #{bCode}
+	</select>
+	
+	<select id="selectShipCnt" resultType="int">
+		SELECT count(*) FROM order_detail OD, prd P
+		<where>
+			AND OD.prd_code = P.prd_code(+)
+			AND P.s_code = #{sCode }
+			AND OD.stt_no = 920
+		</where>
+	</select>
+	
 	<select id="selectQnaList"	resultType="hashmap">
 	    SELECT qst.*, COALESCE(qst_hit, 0) AS qstHit -- qst_hit이 null인 경우 0으로 설정
 	    FROM qst
 	    WHERE PRD_CODE = #{prdCode}
 	</select>
 	
-	<select id="selectBuyerByBCode" resultType="Buyer">
-	    SELECT * FROM buyer
-	    WHERE B_CODE = #{bCode}
-	</select>
 	
 	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
 		SELECT B_Code AS bCode,

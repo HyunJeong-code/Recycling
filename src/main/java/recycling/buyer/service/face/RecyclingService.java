@@ -38,6 +38,20 @@ public interface RecyclingService {
 	 * @return 판매자 정보
 	 */
 	public Seller selectSeller(String getsCode);
+	
+	/**
+	 * 판매자 정보 상세조회
+	 * @param getbCode 구매자코드
+	 * @return 판매자 상세 정보
+	 */
+	public Buyer selectBuyerByBCode(String getbCode);
+	
+	/**
+	 * 판매자 거래 횟수 카운트 
+	 * 
+	 * @param	getsCode 프라이머리키인 sCode
+	 */
+	public int selectShipCnt(String getsCode);
 
 	/**
 	 * QnA 코드 로드
@@ -62,6 +76,8 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int insertOto(Oto oto);
+
+
 
 
 

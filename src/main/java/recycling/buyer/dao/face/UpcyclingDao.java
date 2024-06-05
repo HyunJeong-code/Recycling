@@ -17,6 +17,10 @@ public interface UpcyclingDao {
 	public Prd selectPrd(String prdCode);
 	
 	public Seller selectSeller(String getsCode);
+	
+	public Buyer selectBuyerByBCode(String getbCode);
+
+	public int selectShipCnt(String getsCode);
 
 	public Buyer selectBcode(int bCode);
 
@@ -27,6 +31,10 @@ public interface UpcyclingDao {
 	public Buyer selectBuyerBybId(String bId);
 
 	public int insertReview(UpcyReview review);
+
+
+
+
 
 
 }

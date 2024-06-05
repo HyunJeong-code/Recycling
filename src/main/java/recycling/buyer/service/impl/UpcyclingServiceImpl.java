@@ -52,6 +52,17 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectSeller(getsCode);
 	}
 	
+	@Override
+	public Buyer selectBuyerByBCode(String getbCode) {
+		return upcyclingDao.selectBuyerByBCode(getbCode);
+	}
+
+	
+	@Override
+	public int selectShipCnt(String getsCode) {
+		return upcyclingDao.selectShipCnt(getsCode);
+	}
+	
 
 	@Override
 	public Buyer selectBuyerCode(int bCode) {
@@ -96,6 +107,11 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		
 		return upcyclingDao.selectRvw();
 	}
+
+
+
+
+
 
 
 

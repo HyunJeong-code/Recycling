@@ -328,24 +328,52 @@
 	    // 정렬 버튼 중 '낮은가격순' 활성화
 	    const lowPriceBtn = document.getElementById('lowPrice');
 	    lowPriceBtn.classList.add('active');
-	    lowPriceBtn.style.backgroundColor = '#007bff';
+	    lowPriceBtn.style.backgroundColor = '#4CAF50';
 	    lowPriceBtn.style.color = 'white';
+	    lowPriceBtn.style.fontWeight = 'bold';
+	    
 	
-	    // 카테고리 클릭 시
+	 // 카테고리 클릭 시
 	    categoryItems.forEach((item) => {
 	        item.addEventListener('click', function() {
+	            // 이전에 선택한 정렬 기준 버튼 가져오기
+	            const prevSortButton = document.querySelector('.sortBtn button.active');
+	            
 	            // 모든 카테고리 스타일 초기화
 	            categoryItems.forEach(item => {
 	                item.classList.remove('active');
 	                item.style.fontWeight = 'normal';
 	                item.style.color = '';
 	            });
+	            
 	            // 선택된 카테고리 스타일 변경
 	            this.classList.add('active');
 	            this.style.fontWeight = 'bold';
 	            this.style.color = 'black';
+	            
 	            // 해당 카테고리에 맞는 제품 로드
 	            loadProductsByCategory(this.getAttribute('data-category'));
+	            
+	            // 이전에 선택한 정렬 기준 버튼 활성화 유지
+	            if (prevSortButton) {
+	                prevSortButton.classList.add('active');
+	                prevSortButton.style.backgroundColor = '#4CAF50';
+	                prevSortButton.style.color = 'white';
+	                prevSortButton.style.fontWeight = 'bold';
+	                
+	                // 정렬 함수 호출
+	                sortProducts(prevSortButton.id, this.getAttribute('data-category')); // 이전에 선택한 정렬 기준과 현재 중분류를 전달
+	            } else {
+	                // 이전에 선택한 정렬 기준이 없는 경우, '낮은가격순'으로 설정
+	                const lowPriceBtn = document.getElementById('lowPrice');
+	                lowPriceBtn.classList.add('active');
+	                lowPriceBtn.style.backgroundColor = '#4CAF50';
+	                lowPriceBtn.style.color = 'white';
+	                lowPriceBtn.style.fontWeight = 'bold';
+	                
+	                // 정렬 함수 호출
+	                sortProducts('lowPrice', this.getAttribute('data-category')); // 정렬 함수에 '낮은가격순'과 현재 중분류를 전달
+	            }
 	        });
 	    });
 	
@@ -374,7 +402,7 @@
 	                button.style.fontWeight = 'normal';
 	            });
 	            this.classList.add('active');
-	            this.style.backgroundColor = '#007bff';
+	            this.style.backgroundColor = '#4CAF50';
 	            this.style.color = 'white';
 	            this.style.fontWeight = 'bold';
 	            
