@@ -49,10 +49,20 @@
 		</where>
 	</select>
 	
-	<select id="selectQnaList"	resultType="hashmap">
-	    SELECT qst.*, COALESCE(qst_hit, 0) AS qstHit -- qst_hit이 null인 경우 0으로 설정
-	    FROM qst
-	    WHERE PRD_CODE = #{prdCode}
+	<select id="selectQnaList" resultType="hashmap">
+	    SELECT 
+	        r.RCY_CODE, 
+	        r.B_CODE, 
+	        r.PRD_CODE, 
+	        r.RCY_CMT, 
+	        r.RCY_DATE,
+	        b.B_NAME
+	    FROM 
+	        Rcy r
+	    LEFT JOIN 
+	        Buyer b ON r.B_CODE = b.B_CODE
+	    WHERE 
+	        r.PRD_CODE = #{prdCode}
 	</select>
 	
 	
@@ -72,9 +82,15 @@
 		</where>
 	</select>
 	
-	<insert id="insertOto" parameterType="Oto" useGeneratedKeys="true" keyProperty="otoCode" keyColumn="oto_code">
-		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
-		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})
+	<insert id="insertRcy" parameterType="recycling.dto.buyer.Rcy">
+	    <!-- 시퀀스를 사용하여 RCY_CODE를 생성하여 삽입 -->
+	    <selectKey keyProperty="rcyCode" resultType="String" order="BEFORE">
+	        SELECT 'RCY' || LPAD(#{rcySeq}, 7, '0') AS rcyCode FROM DUAL
+	    </selectKey>
+	    
+	    <!-- 나머지 필드 삽입 -->
+	    INSERT INTO Rcy (RCY_CODE, B_CODE, PRD_CODE, RCY_CMT, RCY_DATE)
+	    VALUES (#{rcyCode}, #{bCode}, #{prdCode}, #{rcyCmt}, #{rcyDate})
 	</insert>
 	
 	

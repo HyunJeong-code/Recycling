@@ -6,6 +6,7 @@ import java.util.Map;
 import recycling.dto.seller.Seller;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
 
 public interface RecyclingService {
@@ -69,13 +70,14 @@ public interface RecyclingService {
 	 */
 	public Buyer selectBuyerDetail(String bId);
 
+
 	/**
 	 * 파일 정보 DB에 삽입
 	 * 
-	 * @param oto
+	 * @param rcy
 	 * @return
 	 */
-	public int insertOto(Oto oto);
+	public int insertRcy(Rcy rcy);
 
 
 

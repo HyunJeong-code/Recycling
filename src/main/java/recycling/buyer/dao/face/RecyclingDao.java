@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
 
 // 재활용품 관련 DB 처리
@@ -42,6 +42,6 @@ public interface RecyclingDao {
 	public Buyer selectBuyerBybId(String bId);
 	
 	
-	public int insertOto(Oto oto);
+	public int insertRcy(Rcy rcy);
 
 }

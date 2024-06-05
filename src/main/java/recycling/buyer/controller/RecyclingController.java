@@ -23,6 +23,7 @@ import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 
@@ -162,7 +163,7 @@ public class RecyclingController {
 	public String writeReview(
 			Authentication authentication,
 			Model model,
-			Oto oto,
+			Rcy rcy,
 			@RequestParam("prdcode") String prdCode
 			) {
 	    logger.info("/buyer/recycling/writeReviewProc [POST]");
@@ -179,12 +180,9 @@ public class RecyclingController {
 	    
 	    Buyer buyer = recyclingService.selectBuyerDetail(buyerLogin.getbId());
 	    
-	    oto.setCtOtoNo(200);
-	    oto.setbCode(buyer.getbCode());
-		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());
-		
-		int res = recyclingService.insertOto(oto);
+
+	    rcy.setbCode(buyer.getbCode());
+		int res = recyclingService.insertRcy(rcy);
 
 	    // 상품 상세 페이지로 리다이렉트
 	    return "redirect:/buyer/recycling/rcydetail?prdcode=" + prdCode;

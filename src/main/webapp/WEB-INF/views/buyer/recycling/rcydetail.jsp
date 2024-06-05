@@ -118,30 +118,44 @@
 	}
 	
 	.review-item {
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-    .review-form {
-        display: flex;
-        flex-direction: column;
-        margin-top: 20px;
-    }
-    .review-form textarea {
-        margin-bottom: 10px;
-        padding: 10px;
-        font-size: 14px;
-    }
-    .review-form button {
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    .review-form button:hover {
-        background-color: #0056b3;
-    }
+	    margin-bottom: 20px;
+	    padding: 10px;
+	    border: 1px solid #ddd;
+	}
+	
+	.review-form {
+	    display: flex;
+	    flex-direction: column;
+	    margin-top: 20px;
+	    text-align: center;
+	}
+	
+	.review-form textarea {
+	    margin-bottom: 10px;
+	    padding: 0px;
+	    font-size: 14px;
+	    width: 100%;
+	}
+	
+	.comment-textarea {
+	    width: 100%;
+	    max-width: 100%; 
+	    min-width: 100%;
+	    padding: 10px; /* 내부 여백 조정 */
+	    font-size: 14px; /* 글자 크기 설정 */
+	}
+	
+	.review-form button {
+	    padding: 10px;
+	    background-color: #007bff;
+	    color: white;
+	    border: none;
+	    cursor: pointer;
+	}
+	
+	.review-form button:hover {
+	    background-color: #0056b3;
+	}
     
         /*------------------------ 퍼온 CSS -------------------------- */
     .page {
@@ -352,22 +366,17 @@
 			<div class="table">
 				<table>
 					<tr>
-						<th class="title">제목</th>
+						<th class="title">질문</th>
 						<th class="ans">답변 여부</th>
 						<th class="writer">작성자</th>
 						<th class="entdate">작성일</th>
-						<th class="hit">조회수</th>
 					</tr>
 					
 					<c:if test="${not empty qna }">
 						<c:forEach var="qnaItem" items="${qna }">
 							<tr>
 								<td class="title">
-								    <c:set var="qstCode" value="${qnaItem.QST_CODE}" />
-								    <c:set var="otoCode" value="OTO${qstCode.substring(3)}" />
-								    <a href="http://localhost:8088/buyer/help/otodetail?otoCode=${otoCode}">
-								        ${qnaItem.QST_TITLE}
-								    </a>
+								        ${qnaItem.RCY_CMT}
 								</td>
 								<td class="ans">
 									<c:if test="${qnaItem.ANS eq '-' }">
@@ -381,10 +390,9 @@
 	
 								<td class="writer">${qnaItem.B_NAME }</td>
 								<td class="entdate">
-									<fmt:parseDate value="${qnaItem.QST_DATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
+									<fmt:parseDate value="${qnaItem.RCY_DATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
 		                   			<fmt:formatDate value="${ENTDATE }" pattern="yyyy-MM-dd"/>
 								</td>
-								<td class="hit">${qnaItem.QST_HIT}</td> <!-- 수정된 부분 -->
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -395,13 +403,17 @@
 						</tr>
 					</c:if>
 				</table>
+				
+				<div class="review-form">
+				    <form action="./writeProc" method="post">
+				        <input type="hidden" name="prdcode" value="${param.prdCode}">
+				        <textarea class="comment-textarea" name="rcyQna" rows="4" placeholder="질문 작성"></textarea> 
+				        <button type="submit">질문 작성</button> 
+				    </form>
+				</div>
+				
 			</div> <!-- section End -->
-			
-			<!-- 상품 문의 글쓰기 버튼 추가 -->
-			<div style="text-align: right; margin-bottom: 10px;">
-				<a href="javascript:void(0);" class="writeBtn" onclick="window.open('/buyer/recycling/write?prdCode=${prd.prdCode}',
-				'newwindow', 'width=800,height=600')">상품 문의 작성</a>
-			</div>
+
 
 		</div>
 		
