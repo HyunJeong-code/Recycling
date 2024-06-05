@@ -1,6 +1,7 @@
 package recycling.buyer.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,11 +132,11 @@ public class RecyclingServiceImpl implements RecyclingService {
 //		return recyclingDao.updateSellerQST(sellerQST);
 //	}
 
-
-	@Override
-	public int  deleteSellerQST(String qstCode) {
-		return recyclingDao.deleteSellerQST(qstCode);
-	}
+//
+//	@Override
+//	public int  deleteSellerQST(String qstCode) {
+//		return recyclingDao.deleteSellerQST(qstCode);
+//	}
 
 
 //	@Override

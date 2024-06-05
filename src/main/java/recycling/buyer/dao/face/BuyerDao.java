@@ -264,6 +264,7 @@ public interface BuyerDao {
 	public int deleteBuyer(String bCode);
 
 	/**
+	 * 
 	 * 판매자 탈퇴
 	 * 
 	 * @param sCode - 판매자 코드
@@ -297,6 +298,29 @@ public interface BuyerDao {
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
 
 	public BuyerRank selectBuyerRank(int rankNo);
-
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param upPaging - 조회할 회원의 bCode
+	 * @return - 조회 List 결과
+	 */
+	public List<MyOrder> buyerDaoselectOrderDetailBybCode(PagingAndCtg upPaging);
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문상세코드
+	 * @return - 주문 상세 내역
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
+	
+	/**
+	 * 거래 변경 사유
+	 * 
+	 * @param change - 거래 변경 DTO
+	 * @return INSERT 결과
+	 */
+	public int insertChange(Change change);
 }
 

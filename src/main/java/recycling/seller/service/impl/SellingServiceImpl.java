@@ -34,6 +34,7 @@ import recycling.dto.seller.Exp;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -194,8 +195,6 @@ public class SellingServiceImpl implements SellingService {
 		return res;
 	}
 	
-	//paging Cnt
-	
 	@Override
 	public int selectCntAllrcyPrd(PagingAndCtg upPaging) {
 		return sellingDao.selectCntAllrcyPrd(upPaging);
@@ -215,8 +214,6 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllMyOrder(PagingAndCtg unPaging) {
 		return sellingDao.selectCntAllMyOrder(unPaging);
 	}
-
-	//paging Cnt end
 	
 	//exp start
 	@Override
@@ -234,25 +231,7 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllExpSch(PagingAndCtg upPaging) {
 		
 		return sellingDao.selectCntAllExpSch(upPaging);
-	public List<Exp> selectMyExpList(Paging paging) {
 		
-		
-		return sellingDao.selectMyExpList(paging);
-	}
-
-	@Override
-	public Paging getSearchPaging(int curPage, String search) {
-		
-		Paging paging = null;
-		
-		int totalCount = sellingDao.selectCntAll(search);
-		
-		if("".equals(search)) {
-			paging = new Paging(totalCount, curPage, search);
-		} else {
-			paging = new Paging(totalCount, curPage, search);
-		}
-		return paging;
 	}
 
 	@Override
@@ -294,6 +273,7 @@ public class SellingServiceImpl implements SellingService {
 	@Override
 	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
 		return sellingDao.selectAllOrd(unPaging);
+	}
 
 	@Override
 	public Exp expResDetail(String expCode) {
@@ -312,8 +292,8 @@ public class SellingServiceImpl implements SellingService {
 
 	@Override
 	public int expResUpdate(List<String> chBox, String actionType) {
-int result = 0;
-		
+		int result = 0;
+				
 		for(int i = 0; i < chBox.size(); i++) {
 			String resCode = chBox.get(i);
 			

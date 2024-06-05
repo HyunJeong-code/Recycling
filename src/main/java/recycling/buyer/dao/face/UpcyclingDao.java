@@ -2,7 +2,11 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -61,5 +65,9 @@ public interface UpcyclingDao {
 	 * @return - 조회결과
 	 */
 	public CartOrder selectCartOrder(String prdCode);
+	
+	public Buyer selectBuyerBybId(String bId);
+
+	public int insertReview(UpcyReview review);
 
 }

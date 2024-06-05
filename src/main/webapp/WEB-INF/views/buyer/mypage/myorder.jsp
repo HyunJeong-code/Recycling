@@ -48,7 +48,6 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	</tbody>
 </table>
 
-<<<<<<< Updated upstream
 	<div class="full">
 		<div class="wrap">
 	
@@ -103,9 +102,6 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			</div>
 		</div>
 	</div>
-=======
-
->>>>>>> Stashed changes
 
 </body>
 </html>

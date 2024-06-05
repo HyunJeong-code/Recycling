@@ -4,15 +4,11 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.manager.Department;
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
-<<<<<<< Updated upstream
-import recycling.dto.seller.ExpFile;
 import recycling.util.PagingAndCtg;
-=======
-import recycling.util.Paging;
->>>>>>> Stashed changes
+
 
 // 인사팀 관련 처리
 
@@ -20,19 +16,19 @@ public interface HrService {
 
 	
 	/**
-	 * 페이징 시스템
+	 * 전체조회[main]
 	 * 
-	 * @param curPage
 	 * @return
 	 */
-	public Paging getPaging(int curPage);
+	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging);
 	
 	/**
-	 * 전체조회
+	 * 전체조회 페이징[main]
 	 * 
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Manager> selectAll();
+	public int selectCntAllHr(PagingAndCtg upPaging);
 	
 	/**
 	 * 세부사항 조회
@@ -89,7 +85,6 @@ public interface HrService {
 	 */
 	public int listDel(List<String> chBox);
 
-<<<<<<< Updated upstream
 	/**
 	 * 세부사항 파일조회
 	 * @param manager 
@@ -114,21 +109,4 @@ public interface HrService {
 	 */
 	public void updateProfileProc(MgrFile mgrfile);
 
-
-	
-
-	
-
-=======
->>>>>>> Stashed changes
-
-
-
-	
-	
-
-	
-
-	
-	
 }

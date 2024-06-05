@@ -10,6 +10,7 @@ import javax.ws.rs.POST;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +30,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
+import recycling.dto.buyer.OrderDetail;
+import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.ResSchCnt;
+import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
+import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.manager.service.face.MgrService;
 import recycling.manager.service.face.SlsService;
@@ -178,11 +184,7 @@ public class SlsController {
 	}
 	
 	@GetMapping("/sellerchk")
-	public String sellerChk(
-			String selChk,
-			String sCode,
-			Model model
-		) {
+	public void sellerChk() {
 		logger.info("/manager/sls/sellerchk [GET]");				
 	}
 	
@@ -341,8 +343,7 @@ public class SlsController {
 		logger.info("list: {}",list);
 		logger.info("sttNo: {}",sttNo);
 		
-		//환불
-		if(sttNo == 980) {
+		if(sttNo == 980 || sttNo == 960) {
 			//토큰 발급
 			String token = sellingService.getToken();
 			
@@ -387,19 +388,16 @@ public class SlsController {
 			
 			model.addAttribute("Msg", successRes + failRes);
 		
-		int res = 0;
-		if(selChk.equals("Y")) {
-			res = slsService.updateSelChk(seller);
-			model.addAttribute("msg", sCode + "판매자 전환 수락에 성공했습니다.");
-			model.addAttribute("url", "/seller/sls/sellerchklist");
-			return "/layout/alert";
 		} else {
-			res = slsService.updateSelChk(seller);
-			model.addAttribute("msg", sCode + "판매자 전환 수락에 거절했습니다.");
-			model.addAttribute("url", "/seller/sls/sellerchklist");
-			
-			return "/layout/alert";
+			for(String orddtCode : list) {
+				OrderDetail ordd = new OrderDetail();
+				ordd.setOrddtCode(orddtCode);
+				ordd.setSttNo(sttNo);
+				int updateRes = sellingService.updateOrderDetail(ordd);
+			}
+			model.addAttribute("Msg", "변경");
 		}
+        return "jsonView";
 		
 	}
 	
@@ -430,13 +428,32 @@ public class SlsController {
 	//체험단 전체조회[explist]
 	@GetMapping("/explist")
 	public String expList(
-			Model model
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
 			) {
-		logger.info("controller explist :[Get]");
 		
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+				
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = slsService.selectCntAllExp(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+	
 		//전체 Exp 조회기능
-		List<Exp> list = slsService.selectAll();
+		List<Exp> list = slsService.selectAllExp(upPaging);
+		
+		
+		//JSP로 보내기
 		model.addAttribute("explist", list);
+		
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/sls/explist"); //jsp 페이징
 		
 		return "/manager/sls/explist";
 	}
@@ -444,33 +461,46 @@ public class SlsController {
 	//세부조회
 	@GetMapping("/expdetail")
 	public void expDetail(
-				@RequestParam("expCode") String expCode
-				, ExpFile expFile
-				, Model model
-				) {
-		
-			//expCode번호와 동일한 expfile 가져오기
-			ExpFile fileimage = slsService.image(expFile);
-			model.addAttribute("fileimage", fileimage);
-			logger.info("expDetail fileimage:{}", fileimage );
-			
-	        
-			//상세조회
-			Exp view = slsService.selectDetail(expCode);
-			model.addAttribute("view", view);
-			logger.info("expDetail view:{}", view );
+			Authentication authentication
+			,@RequestParam("expCode") String expCode
+			, ExpFile expFile
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
+			) {
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+
+		//페이징
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		int upPage = slsService.selectCntAllExpSch(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+        
+		//상세조회
+		Exp view = slsService.selectDetailExp(expCode);
+		model.addAttribute("view", view);
+
+		//예약 스케쥴 조회기능
+		List<ExpSch> schList = slsService.selectAllSch(expCode);
+		model.addAttribute("expSchList", schList);
+
+		//예약된인원 조회
+		List<ResSchCnt> resCnt = slsService.selectByResCnt(expCode);
+		model.addAttribute("resCnt", resCnt);
+
+		//프로필 조회
+		ExpFile profileimage = slsService.expProImage(expFile);
+		model.addAttribute("profileimage", profileimage);
 	
-			//전체 예약 조회기능
-			List<ExpSch> schList = slsService.selectSchAll(expCode);
-			model.addAttribute("expSchList", schList);
-			logger.info("expDetail expSchList:{}", schList );
-			
-			//예약 인원 조회
-			List<ResSchCnt> resCnt =slsService.selectByResCnt(expCode);
-			model.addAttribute("resCnt", resCnt);
-			logger.info("expDetail resCnt:{}", resCnt );
-			
-	}
+		//파일 조회
+		List <ExpFile> fileimage = slsService.expImage(expFile);
+		model.addAttribute("fileImage", fileimage);
+        
+        model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/sls/expdetail?expCode=" + expCode);
+		
+}
 	
 	//판매자 정보조회
 	@GetMapping("/sellerselect")
@@ -496,77 +526,88 @@ public class SlsController {
 			Exp exp
 			, @RequestParam("schTime") List<String> schTime
 			, ExpSch expSch
-			, @RequestParam("file") MultipartFile file
+			, @RequestParam("profile") MultipartFile profile
+			, @RequestParam("file") List<MultipartFile> file
+			, Model model
 			) {
 		
 		slsService.insert(exp, schTime, expSch, profile, file);
 		
-		//test데이터
-//		exp.setsCode("SEL0000001");
-		slsService.insert(exp, schTime, expSch, file);
+		model.addAttribute("msg", "체험일이 등록되었습니다.");
+		model.addAttribute("url", "/manager/sls/explist");
 		
-		return "redirect:./explist";
+		return "/layout/alert";
 
 	}
 	
 	//체험단 수정창
-	@GetMapping("/expupdate")
-	public String expUpdate(
+		@GetMapping("/expupdate")
+		public String expUpdate(
+					Exp exp
+					, Model model
+					, ExpFile expFile
+				) {
+			//수정창 조회
+			Exp update = slsService.expUpdateView(exp);
+			model.addAttribute("update", update);
+			
+			//수정창 파일조회
+			ExpFile profile = slsService.expUpdateProfile(expFile);
+			model.addAttribute("profile",profile);
+			logger.info("expFile:{}",profile);
+			
+			List<ExpFile> file = slsService.expUpdateFile(expFile);
+			model.addAttribute("expFileList",file);
+			logger.info("file:{}",file);
+			
+			return "/manager/sls/expupdate";
+		}
+		
+		//체험단 수정하기
+		@PostMapping("/expupdate")
+		public String updateProc(
 				Exp exp
 				, Model model
-			) {
-		
-		Exp update = slsService.expUpdateView(exp);
-		model.addAttribute("update", update);
-		
-		//exp정보
-		logger.info("controller: update{}",update );
-		return "/manager/sls/expupdate";
-	}
-	
-	//체험단 수정하기
-	@PostMapping("/expupdate")
-	public String updateProc(
-			Exp exp
-			){
-		logger.info("controller: updateProc[Post]");
-		
-		slsService.expUpdateProc(exp);
-
-		logger.info("controller: expfileUpdate{}",expfileUpdate);
-		logger.info("controller: expMultiFileUpdate{}",expMultiFileUpdate);
-
-		//expfile 프로필 업데이트
-		if(expfileUpdate != null && !expfileUpdate.isEmpty()) {
-		
-			ExpFile expfile = new ExpFile();
-			expfile = slsService.updateFile(expfileUpdate, exp);
-			expfile.setExpFlNo(expFlNo);
-			expfile.setExpCode(expCode);
+				, int expFlNo
+				, String expCode
+				, MultipartFile expfileUpdate
+				, List<MultipartFile> expMultiFileUpdate
+				){
+			//수정창 exp 내용 바꾸기
+			slsService.expUpdateProc(exp);
+			logger.info("controller: expfileUpdate{}",expfileUpdate);
+			logger.info("controller: expMultiFileUpdate{}",expMultiFileUpdate);
 			
-			//파일 업데이트
-			slsService.expUpdatefileProc(expfile);
-			logger.info("파일이 없음 : {}",expfile);
-		}else {
-			logger.info("프로필파일이 존재합니다.");
+			//expfile 프로필 업데이트
+			if(expfileUpdate != null && !expfileUpdate.isEmpty()) {
+			
+				ExpFile expfile = new ExpFile();
+				expfile = slsService.updateFile(expfileUpdate, exp);
+				expfile.setExpFlNo(expFlNo);
+				expfile.setExpCode(expCode);
+				
+				//파일 업데이트
+				slsService.expUpdatefileProc(expfile);
+				logger.info("파일이 없음 : {}",expfile);
+			}else {
+				logger.info("프로필파일이 존재합니다.");
+			}
+			
+			logger.info("{}",expMultiFileUpdate);
+			//expfile 파일 업데이트
+			if(expMultiFileUpdate != null && !expMultiFileUpdate.isEmpty()) {
+				slsService.updateMutiFile(expMultiFileUpdate, exp);
+				logger.info("파일이 업데이트 되었습니다");
+				logger.info("expMultiFileUpdate : {}",expMultiFileUpdate);
+			}else {
+				logger.info("파일이 존재합니다.");
+			}
+			
+			model.addAttribute("msg", "체험정보가 변경되었습니다.");
+			model.addAttribute("url", "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode());
+			
+			return "/layout/alert";
 		}
-		
-		logger.info("{}",expMultiFileUpdate);
-		//expfile 파일 업데이트
-		if(expMultiFileUpdate != null && !expMultiFileUpdate.isEmpty()) {
-			slsService.updateMutiFile(expMultiFileUpdate, exp);
-			logger.info("파일이 업데이트 되었습니다");
-			logger.info("expMultiFileUpdate : {}",expMultiFileUpdate);
-		}else {
-			logger.info("파일이 존재합니다.");
-		}
-		logger.info("exp : {}",exp);
-
-		model.addAttribute("msg", "체험정보가 변경되었습니다.");
-		model.addAttribute("url", "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode());
-
-		return "/layout/alert";
-	}
 	
 	// 체험단삭제
 	@PostMapping("/explistdel")	

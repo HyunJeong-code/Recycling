@@ -13,6 +13,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 import recycling.dto.seller.AllPrd;
 import recycling.dto.seller.Exp;
 
@@ -180,8 +181,6 @@ public interface SellingService {
 	 * @return - DELETE 결과
 	 */
 	public int deleteShip(String orddtCode);
-<<<<<<< Updated upstream
-	
 
 	/**
 	 * 주문 상세 조회
@@ -289,23 +288,5 @@ public interface SellingService {
 	public List<ExpRes> expResDetailRes(int schNo);
 
 	public int expResUpdate(List<String> chBox, String actionType);
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-
-
-=======
->>>>>>> Stashed changes
-
 
 }

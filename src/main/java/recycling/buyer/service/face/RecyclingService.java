@@ -1,6 +1,7 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
@@ -16,7 +17,6 @@ public interface RecyclingService {
 	 */
 	public List<Seller> findSeller();
 	
-<<<<<<< Updated upstream
 	/**
 	 * 판매자 코드로 재활용품 조회
 	 * 
@@ -27,10 +27,8 @@ public interface RecyclingService {
 	
 	 /** 제품 DTO에서 리스트를 불러온다
 	List<Seller> findSeller();
-=======
 	// 제품 DTO에서 리스트를 불러온다
 	// List<Seller> findSeller();
->>>>>>> Stashed changes
 	
 	/**
 	 * 제품 DTO에서 리스트를 불러온다
@@ -61,11 +59,9 @@ public interface RecyclingService {
 	 * @param	getsCode 프라이머리키인 sCode
 	 * @return	판매자 상세 정보
 	 */
-<<<<<<< Updated upstream
 	public Seller getSeller(String sCode);
 
 	public List<Map<String, Object>> selectQnaList(String prdCode);
-=======
 //	public SellerProf getSellerProf(String sCode);
 
 	/**
@@ -75,7 +71,6 @@ public interface RecyclingService {
 	 * @return	판매자 문의
 	 */
 //	public SellerQST selectSellerQst(String qstCode);
->>>>>>> Stashed changes
 
 	/**
 	 * 개인 구매자 정보 조회
@@ -91,9 +86,7 @@ public interface RecyclingService {
 	 * @param oto
 	 * @return
 	 */
-<<<<<<< Updated upstream
 	public int insertOto(Oto oto);
-=======
 //	public int insertSellerAnswer(SellerAns sellerAns);
 
 	/**
@@ -112,5 +105,4 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int deleteSellerAnswer(String qnaCode);
->>>>>>> Stashed changes
 }

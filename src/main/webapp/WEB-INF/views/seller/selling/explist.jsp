@@ -243,7 +243,6 @@ table .expName_fix_con{
 
 </head>
 <body>
-<<<<<<< Updated upstream
 	<div class="full">
 		<aside>
 		<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
@@ -303,7 +302,6 @@ table .expName_fix_con{
 			</div>
 	</div>
 </div>
-=======
 <div class="page_box">
 <h1>체험단 조회</h1>
 <hr>
@@ -372,6 +370,5 @@ table .expName_fix_con{
 </table>
 </div>
 <c:import url="/WEB-INF/views/layout/paging.jsp"/>
->>>>>>> Stashed changes
 </body>
 </html>

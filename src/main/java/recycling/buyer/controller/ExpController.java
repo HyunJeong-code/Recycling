@@ -1,10 +1,14 @@
 package recycling.buyer.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +25,12 @@ import recycling.buyer.service.face.ExpService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
 import recycling.page.face.PageService;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 메뉴 - 체험단
@@ -180,7 +184,7 @@ public class ExpController {
 		model.addAttribute("expReviewsSize", expReviews.size());
 		model.addAttribute("isLoggedIn", isLoggedIn);
 	    model.addAttribute("loggedInUser", loggedInUser);
-	    model.addAttribute("buyerProf", buyerProf);
+//	    model.addAttribute("buyerProf", buyerProf);
 //	    model.addAttribute("upPaging", upPaging);
 //	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
 	}
@@ -289,31 +293,6 @@ public class ExpController {
 			HttpSession session
 			) {
 		
-	}
-	
-	
-	//체험단 작성폼
-	@GetMapping("/expresform")
-	public void expResForm(
-			String expCode,
-			Authentication authentication,
-			Model model
-			) {
-		//구매자 로그인 세션 정보
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		Buyer buyer = expService.getBuyerDetail(buyerLogin.getbId());
-		
-		//체험 일정 리스트
-        List<ExpSch> expSchList = expService.getExpSchList(expCode);
-        logger.info("expSchList: {}", expSchList);
-        
-        //체험단 체험비
-        Exp exp = expService.selectByExpCode(expCode);
-        int resPrice = exp.getExpPrice();
-        
-		model.addAttribute("buyer", buyer);
-        model.addAttribute("expSchList", expSchList);
-        model.addAttribute("resPrice", resPrice);
 	}
 	
 	//체험단 작성폼

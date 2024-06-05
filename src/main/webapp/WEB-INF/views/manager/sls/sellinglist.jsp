@@ -111,10 +111,7 @@ $(function() {
 	//송장번호 등록
 	$("#shipCreateBtn").click(function() {
 		var arr = [];
-<<<<<<< HEAD
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
-=======
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 		
 		$('input:checkbox[name=ordCheckList]').each(function () {
 	        if($(this).is(":checked")==true){
@@ -140,10 +137,7 @@ $(function() {
 	
 	// 체크된 상품이 없을 때 알림
 	if(arr.length == 0){
-<<<<<<< HEAD
-=======
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 			alert("선택된 상품이 없습니다.");
 		}else{
 			$.ajax({
@@ -171,11 +165,7 @@ $(function() {
 	//송장 삭제
 	$("#shipDelBtn").click(function() {
 		var arr = [];
-<<<<<<< HEAD
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
-=======
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
-		
 		$('input:checkbox[name=ordCheckList]').each(function () {
 	        if($(this).is(":checked")==true){
 		        if($(this).is(":checked")==true){
@@ -187,10 +177,7 @@ $(function() {
 		
 	// 체크된 상품이 없을 때 알림
 	if(arr.length == 0){
-<<<<<<< HEAD
-=======
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 			alert("선택된 상품이 없습니다.");
 		}else{
 			$.ajax({
@@ -204,11 +191,7 @@ $(function() {
 				, success: function(res) {
 					console.log("AJAX 성공");
 					
-<<<<<<< HEAD
 					location.href="/manager/sls/sellinglist?sCode=" + sCodeInputNo;
-=======
-					location.href="./sellinglist?sCode=" + sCodeInputNo;
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 					
 					alert("송장이 삭제되었습니다.");
 				}

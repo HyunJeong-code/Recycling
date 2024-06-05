@@ -16,12 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.dao.face.MgrDao;
 import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -32,15 +34,6 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
-	//공지사항 전체조회
-	@Override
-	public List<Notice> selectAll() {
-		//ctNtcNo = 2일경우 manager공지사항이므로 2번만 조회
-		List<Notice> selectAllManager = mgrDao.selectAll(2);
-		
-		return selectAllManager;
-	}
-	
 	//공지사항 세부조회
 	@Override
 	public Notice selectDetail(String ntcCode) {
@@ -50,22 +43,6 @@ public class MgrServiceImpl implements MgrService {
 		
 		//세부사항 조회
 		return mgrDao.selectDetail(ntcCode);
-	}
-
-	//페이징 계산기능
-	@Override
-	public Paging selectCntAll(Paging pagingParam) {
-		logger.info("service: selectCntAll");
-		
-		Paging paging = null;
-		
-		//총 게시글 수 조회
-		int totalCount = mgrDao.selectCntAll(pagingParam);
-	    
-		//페이징 계산
-		paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch() );
-		
-		return paging;
 	}
 	
 	@Override
@@ -156,19 +133,6 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDao.insertMgrProf(mgrFile);
 	}
 
-	@Override
-	public List<Notice> selectAll(Paging paging) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ManagerLogin selectByIdPw(Manager manager) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-<<<<<<< Updated upstream
 	//전체사원조회[empList]
 	@Override
 	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging) {
@@ -195,18 +159,6 @@ public class MgrServiceImpl implements MgrService {
 	public int selectCntAllNotice(PagingAndCtg upPaging) {
 		return mgrDao.selectCntAllNotice(upPaging);
 	}
-
-	//공지사항 세부조회
-	@Override
-	public Notice selectDetail(String ntcCode) {
-
-		//조회수 증감
-		mgrDao.hit(ntcCode);
-		
-		//세부사항 조회
-		return mgrDao.selectDetail(ntcCode);
-	}
-
-=======
->>>>>>> Stashed changes
+	
+	
 }

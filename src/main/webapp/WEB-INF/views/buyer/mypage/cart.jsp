@@ -107,8 +107,6 @@
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
 	<div class="full">
-<<<<<<< Updated upstream
-		<div class="wrap">
 			
 			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
 			
@@ -168,7 +166,6 @@
 				</form>
 			</div>
 		</div>
-=======
 		<form action="./pay" method="get" id="ord_form">
 		<table id="cartTable">
 		
@@ -210,7 +207,6 @@
 		
 		</form>
 		
->>>>>>> Stashed changes
 	</div>
 
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>

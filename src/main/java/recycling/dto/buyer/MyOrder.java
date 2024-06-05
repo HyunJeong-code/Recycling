@@ -17,7 +17,7 @@ public class MyOrder {
 	public MyOrder() {}
 
 	public MyOrder(String orddtCode, String ordCode, String prdCode, String ordName, int ordPrice, int ordCnt,
-			int ordSum, int sttNo, String ordDate, String shipName, int shipNo) {
+			int ordSum, int sttNo, String ordDate, String shipName, String shipNo) {
 		super();
 		this.orddtCode = orddtCode;
 		this.ordCode = ordCode;

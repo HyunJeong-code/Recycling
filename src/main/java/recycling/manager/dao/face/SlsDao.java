@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.manager.ResSchCnt;
+import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-
+import recycling.dto.seller.Prd;
 // 판매제휴팀 DB 처리
 import recycling.dto.seller.Seller;
 import recycling.util.PagingAndCtg;
@@ -73,10 +75,26 @@ public interface SlsDao {
 	/**
 	 * 체험단 세부 조회하기
 	 * 
-	 * @param expCode - DTO 객체
+	 * @param upPaging - DTO 객체
 	 * @return
 	 */
-	public Exp selectDetail(String expCode);
+	public Exp selectDetailExp(String expCode);
+	
+	/**
+	 * 체험단 체험일정 조회[expdetail]
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ExpSch> selectAllSch(String expCode);
+	
+	/**
+	 * 체험단 체험일정 조회페이징[expdetail]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllExpSch(PagingAndCtg upPaging);
 
 	/**
 	 * 조회수 증감
@@ -100,14 +118,14 @@ public interface SlsDao {
 	 * @return
 	 */
 	public String selectByExp(Exp exp);
-
+	
 	/**
 	 * 
 	 * 파일 업로드
 	 * 
 	 * @param expFile
 	 */
-	public void fileup(ExpFile expFile);
+	public void expFileUp(ExpFile expFile);
 
 	/**
 	 * 
@@ -424,6 +442,51 @@ public interface SlsDao {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
+	
+	/**
+	 * 업데이트 프로필 조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expUpdateProfile(ExpFile expFile);
 
+	/**
+	 * 업데이트 파일 조회
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpFile> expUpdateFile(ExpFile expFile);
+
+	/**
+	 * 업데이트 프로필 수정하기
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public void expUpdatefileProc(ExpFile expfile);
+
+	/**
+	 * 업데이트 파일 수정하기
+	 * 
+	 * @param expFile
+	 */
+	public void expUpdateMultiFileProc(ExpFile expFile);
+	
+	/**
+	 * 체험 프로필 이미지
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expProImage(ExpFile expFile);
+	
+	/**
+	 * 이미지 업로드 번호조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public List<ExpFile> expImage(ExpFile expFile);
 }
 

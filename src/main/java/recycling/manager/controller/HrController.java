@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
+import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.manager.service.face.HrService;
 import recycling.page.face.PageService;
@@ -36,13 +39,16 @@ public class HrController {
 	//전체 사원조회
 	@GetMapping("/main")
 	public String main(
-			Model model
+			Model model,
+			Authentication authentication,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg
 			) {
 		//매니저 권한 부여
 		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
 		
 		
-	     //페이지 수 계산
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		
@@ -50,8 +56,14 @@ public class HrController {
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		//사원 전체조회
-		List<Manager> select = hrService.selectAll();
+		List<ManagerJoinDe> select = hrService.selectAllHr(upPaging);
+		
+		//JSP로 보내기
 		model.addAttribute("select", select);
+		
+		//페이징
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/hr/main");
 		
 		return "/manager/hr/main";
 	}

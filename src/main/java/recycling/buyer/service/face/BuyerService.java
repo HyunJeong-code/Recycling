@@ -16,6 +16,8 @@ import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 회원 정보 관련
 public interface BuyerService {
@@ -100,12 +102,12 @@ public interface BuyerService {
 	public int insertOrderDetail(OrderDetail orderDetail);
 
 	/**
-	 * 주문 상세 조회
+	 * 주문 상세 리스트 조회
 	 * 
-	 * @param bCode - 조회할 회원의 bCode
+	 * @param upPaging - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
-	public List<MyOrder> selectOrderDetailBybCode(String bCode);
+	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging);
 
 	/**
 	 * 장바구니 수량 변경
@@ -278,5 +280,29 @@ public interface BuyerService {
 	 * @return 처리 결과
 	 */
 	public int deleteSeller(String sCode);
+	
+	/**
+	 * MyOrder paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - paging 결과
+	 */
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문상세코드
+	 * @return - 주문 상세 내역
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
+	
+	/**
+	 * 거래 변경 사유
+	 * 
+	 * @param change - 거래 변경 DTO
+	 * @return INSERT 결과
+	 */
+	public int insertChange(Change change);
 
 }

@@ -98,15 +98,6 @@ public interface UpcyclingService {
 	 */
 	public void deleteReview(String upcyCode);
 
-
-	/**
-	 * 장바구니 추가
-	 * 
-	 * @param cart - cart DTO
-	 * @return - INSERT 결과
-	 */
-	public int insertCart(Cart cart);
-
 	/**
 	 * 구매 상품 정보 조회
 	 * 
@@ -114,6 +105,8 @@ public interface UpcyclingService {
 	 * @return - 조회결과
 	 */
 	public CartOrder selectCartOrder(String prdCode);
+	
+	public int	insertReview(UpcyReview review);
 
 
 }
