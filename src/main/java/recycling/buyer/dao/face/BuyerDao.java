@@ -299,5 +299,5 @@ public interface BuyerDao {
 	 * @return - paging 결과
 	 */
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
-	
+
 }

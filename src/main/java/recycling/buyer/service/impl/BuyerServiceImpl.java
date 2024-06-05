@@ -1,10 +1,12 @@
 package recycling.buyer.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
@@ -196,28 +198,42 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public int updateBuyerProf(MultipartFile buyerProf, String bCode) {
 
-		if (buyerProf.isEmpty()) {
+		if (buyerProf.getSize() <= 0) {
 			
             return 0;
         
 		}
 
-		BuyerProf prof = new BuyerProf();
-        String originalFilename = buyerProf.getOriginalFilename();
-        String storedName = System.currentTimeMillis() + "_" + originalFilename;
-        Path path = Paths.get(servletContext.getRealPath("D:/uploads/") + storedName);
+        String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "D:\\uploads\\";
+        File storedFolder = new File(storedPath);
+        
+        if(!storedFolder.exists()) {
+        	
+        	storedFolder.mkdir();
+        	
+        }
+        
+        String storedName = null;
+        File dest = null;
+        
+        do {
+        	
+        	storedName = buyerProf.getOriginalFilename();
+        	storedName += UUID.randomUUID().toString().split("-")[4];
+        	dest = new File(storedFolder, storedName);
+        	
+        } while (dest.exists());
         
         try {
             
-        	Files.createDirectories(path.getParent());
-            buyerProf.transferTo(path.toFile());
+            buyerProf.transferTo(dest);
             
-            prof.setbCode(bCode);
-            prof.setOriginName(originalFilename);
-            prof.setStoredName(storedName);
+        } catch (IllegalStateException e) {
+        	
+        	e.printStackTrace();
+        	
+        	return 0;
             
-            return buyerDao.updateBuyerProf(prof);
-        
         } catch (IOException e) {
         
         	e.printStackTrace();
@@ -225,37 +241,56 @@ public class BuyerServiceImpl implements BuyerService {
         	return 0;
         
         }
+        
+        BuyerProf prof = new BuyerProf();
+        
+        prof.setbCode(bCode);
+        prof.setOriginName(buyerProf.getOriginalFilename());
+        prof.setStoredName(storedName);
+        
+        return buyerDao.updateBuyerProf(prof);
 	
 	}
 	
 	@Override
 	public int updateCmpFile(MultipartFile cmpFile, String bCode) {
 		
-		if (cmpFile.isEmpty()) {
+		if (cmpFile.getSize() <= 0) {
 			
 	        return 0;
 	    
 		}
+		
+		String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "D:\\uploads\\";
+	    File storedFolder = new File(storedPath);
 
-	    CmpFile file = new CmpFile();
-	    String originalFilename = cmpFile.getOriginalFilename();
-	    String storedName = System.currentTimeMillis() + "_" + originalFilename;
-	    Path path = Paths.get(servletContext.getRealPath("D:/uploads/") + storedName);
-
+	    if (!storedFolder.exists()) {
+	    	
+	        storedFolder.mkdir();
+	    
+	    }
+	    
+	    String storedName = null;
+	    File dest = null;
+	    
+	    do {
+	    	
+	        storedName = cmpFile.getOriginalFilename();
+	        storedName += UUID.randomUUID().toString().split("-")[4];
+	        dest = new File(storedFolder, storedName);
+	    
+	    } while (dest.exists());
+	    
 	    try {
 
-	    	Files.createDirectories(path.getParent());
-	        cmpFile.transferTo(path.toFile());
+	        cmpFile.transferTo(dest);
 
-	        Cmp cmp = buyerDao.getCmpDetail(bCode);
-
-	        file.setCmpNo(cmp.getCmpNo());
-	        file.setOriginName(originalFilename);
-	        file.setStoredName(storedName);
-
-
-	        return buyerDao.updateCmpFile(file);
-	    
+	    } catch (IllegalStateException e) {
+	    	
+	    	e.printStackTrace();
+	    	
+	    	return 0;
+	        
 	    } catch (IOException e) {
 	    
 	    	e.printStackTrace();
@@ -263,7 +298,16 @@ public class BuyerServiceImpl implements BuyerService {
 	    	return 0;
 	    
 	    }
+	    
+	    CmpFile file = new CmpFile();
+	    Cmp cmp = buyerDao.getCmpDetail(bCode);
+	    
+	    file.setCmpNo(cmp.getCmpNo());
+        file.setOriginName(cmpFile.getOriginalFilename());
+        file.setStoredName(storedName);
 		
+        return buyerDao.updateCmpFile(file);
+        
 	}
 
 	@Override

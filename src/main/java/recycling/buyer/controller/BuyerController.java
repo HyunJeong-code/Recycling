@@ -1,5 +1,6 @@
 package recycling.buyer.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,6 +12,10 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -405,9 +410,13 @@ public class BuyerController {
 
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
-	public String myMain(Model model) {
+	public String myMain(Authentication authentication, Model model) {
 
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
 		logger.info("/buyer/mypage/mymain [GET]");
+		
+		model.addAttribute("buyerLogin", buyerLogin);
 
 		return "/buyer/mypage/mymain";
 
@@ -494,6 +503,7 @@ public class BuyerController {
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("buyerRank", buyerRank);
 		model.addAttribute("buyerProf", buyerProf);
+		model.addAttribute("buyerLogin", buyerLogin);
 
 		return "/buyer/mypage/mypagepri";
 
@@ -534,6 +544,7 @@ public class BuyerController {
 		model.addAttribute("cmp", cmp);
 		model.addAttribute("buyerProf", buyerProf);
 		model.addAttribute("cmpFile", cmpFile);
+		model.addAttribute("buyerLogin", buyerLogin);
 
 		return "/buyer/mypage/mypagecmp";
 
@@ -795,7 +806,7 @@ public class BuyerController {
 			@RequestParam(value = "adSms", required = false, defaultValue = "N") String adSms,
 			@RequestParam(value = "adEmail", required = false, defaultValue = "N") String adEmail,
 			@RequestParam(value = "emailNum", required = false) Integer emailNum,
-			@RequestParam("cmpProf") MultipartFile cmpProf, 
+			@RequestParam("buyerProf") MultipartFile buyerProf, 
 			@RequestParam("cmpFile") MultipartFile cmpFile,
 			@RequestParam("bPhone1") String bPhone1,
 	        @RequestParam("bPhone2") String bPhone2,
@@ -858,9 +869,9 @@ public class BuyerController {
 		}
 
 		// 프로필 이미지 업데이트
-		if (!cmpProf.isEmpty()) {
+		if (!buyerProf.isEmpty()) {
 
-			int result = buyerService.updateBuyerProf(cmpProf, buyerLogin.getbCode());
+			int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
 
 			if (result == 0) {
 
@@ -905,7 +916,7 @@ public class BuyerController {
 		}
 
 		model.addAttribute("msg", "기업 정보가 수정되었습니다.");
-		model.addAttribute("url", "/buyer/mypage/mydetailpri");
+		model.addAttribute("url", "/buyer/mypage/mydetailcmp");
 
 		return "layout/alert";
 
@@ -1047,11 +1058,15 @@ public class BuyerController {
 
 	// 회원 탈퇴
 	@GetMapping("/outbuyer")
-	public String outBuyer(Authentication authentication, Model model) {
-
+	public String outBuyer(
+			Authentication authentication,
+			Model model) {
+		
 		logger.info("/buyer/mypage/outbuyer [GET]");
 
-		if (authentication == null) {
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+		if (buyerLogin == null) {
 
 			model.addAttribute("msg", "로그인 해주세요.");
 			model.addAttribute("url", "/buyer/login");
@@ -1068,9 +1083,11 @@ public class BuyerController {
 	        return "/layout/alert";
 	    
 		}
+		
+		model.addAttribute("buyerLogin", buyerLogin);
 
 		return "/buyer/mypage/outbuyer";
-
+		
 	}
 
 	// 회원 탈퇴 처리

@@ -84,9 +84,14 @@ th {
 					<tr>
 						<td>프로필 이미지</td>
 						<td>
-							<c:if test="${buyerProf != null}">
-        						<img src="${pageContext.request.contextPath }/resources/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
-    						</c:if>
+							<c:choose>
+								<c:when test="${buyerProf != null }">
+        							<img src="file:///D:/uploads/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
+    							</c:when>
+    							<c:otherwise>
+    								<img src="${pageContext.request.contextPath }/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
+    							</c:otherwise>
+    						</c:choose>
 						</td>
 					</tr>
 					<tr>
@@ -100,9 +105,14 @@ th {
 					<tr>
 						<td>사업자 등록증</td>
 						<td>
-							<c:if test="${not empty cmpFile}">
-    							<img src="${pageContext.request.contextPath }/resources/cmpfile/${cmpFile.storedName }" alt="사업자 등록증" style="width: 100px; height: 100px;">
-							</c:if>
+							<c:choose>
+								<c:when test="${buyerProf != null }">
+        							<img src="${pageContext.request.contextPath }/resources/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
+    							</c:when>
+    							<c:otherwise>
+    								<img src="${pageContext.request.contextPath }/resources/cmpfile/${cmpFile.storedName }" alt="사업자 등록증" style="width: 100px; height: 100px;">
+    							</c:otherwise>
+    						</c:choose>
 						</td>
 					</tr>
 				</table>
