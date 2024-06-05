@@ -61,6 +61,7 @@
 					</tbody>
 				</table>
 			</div>
+			<br>
 			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 		</div>
 	</div>

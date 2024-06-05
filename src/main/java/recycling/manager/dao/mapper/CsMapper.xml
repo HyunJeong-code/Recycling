@@ -6,7 +6,7 @@
 <mapper namespace="recycling.manager.dao.face.CsDao">
 
 	<!-- 문의 sql 아이디 -->
-	<sql id="selectAll">
+	<sql id="selectOtoList">
 		SELECT
 			oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email, oto_date, oto_hit
 		FROM OTO
@@ -21,7 +21,7 @@
 	<select id="list" resultType="Oto">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
-				<include refid="selectAll" />
+				<include refid="selectOtoList" />
 				ORDER BY oto_code DESC
 			) B
 		)
@@ -30,12 +30,19 @@
 		</where>
 	</select>
 	
-	<!-- 페이징 -->
-	<select id="getPaging" resultType="int" parameterType="recycling.util.PagingAndCtg">
-		SELECT count(*) FROM(
-			<include refid="selectAll"/>
-			<include refid="selectBuyerList"/>
-		)
+	<!-- 문의글 페이징 -->
+	<select id="selectCntAllotoList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="selectOtoList"/>
+   			)
+		<where>
+			AND (
+				oto_code LIKE '%' || #{search } || '%'
+				OR oto_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY oto_code DESC
 	</select>
 	
 	<!-- 구매자 목록 -->
@@ -57,11 +64,19 @@
 		<where>B_CODE = #{bCode}</where>
 	</select>
 	
-	<select id="getBuyer" parameterType="String" resultType="Buyer">
-		<include refid="selectBuyerList"/>
+	<!-- 구매자 페이징 -->
+	<select id="selectCntAllbuyerList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="selectBuyerList"/>
+   			)
 		<where>
-			AND b_code = #{bCode }
+			AND (
+				b_code LIKE '%' || #{search } || '%'
+				OR b_name LIKE '%' || #{search } || '%'
+				)
 		</where>
+		ORDER BY b_code DESC
 	</select>
 
 	<!-- 구매자 수정 -->	
@@ -75,6 +90,14 @@
 		</where>
 	</update>
 	
+	<!-- 구매자 수정 -->
+	<select id="getBuyer" parameterType="String" resultType="Buyer">
+		<include refid="selectBuyerList"/>
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</select>
+	
 	<!-- 구매자 삭제 -->
 	<update id="buyerDel" parameterType="Buyer">
 		UPDATE BUYER
@@ -87,7 +110,7 @@
 	
 	<!-- 문의글 상세조회 -->
 	<select id="ansForm" resultType="Oto" parameterType="Oto">
-		<include refid="selectAll" />
+		<include refid="selectOtoList" />
 		<where>OTO_CODE = #{otoCode }</where>
 	</select>
 	

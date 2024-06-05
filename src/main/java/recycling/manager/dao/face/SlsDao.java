@@ -40,9 +40,10 @@ public interface SlsDao {
 	/**
 	 * 페이징
 	 * 
+	 * @param upPaging
 	 * @return
 	 */
-	public int getPaging(PagingAndCtg upPaging);
+	public int selectCntAllList(PagingAndCtg upPaging);
 	
 	/**
 	 * 체험단 전체 조회하기[expList]

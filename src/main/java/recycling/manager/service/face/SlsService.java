@@ -23,7 +23,7 @@ public interface SlsService {
 	/**
 	 * 판매자 목록
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
 	public List<Seller> main(PagingAndCtg upPaging);
@@ -31,10 +31,10 @@ public interface SlsService {
 	/**
 	 * 페이징
 	 * 
-	 * @param pagingParam
+	 * @param upPaging
 	 * @return
 	 */
-	public int getPaging(PagingAndCtg upPaging);
+	public int selectCntAllList(PagingAndCtg upPaging);
 
 	/**
 	 * 판매자 전환 요청 전체 목록

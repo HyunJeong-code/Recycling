@@ -28,6 +28,16 @@
 		JOIN order_stt os ON od.stt_no = os.stt_no
 	</sql>
 	
+	<!--  seller join buyer -->
+	<sql id="sellerJoin">
+		SELECT
+		    s.s_code, s.b_code, s.acc_name, s.acc_bank, s.acc_no
+		    , s.s_postcode, s.s_addr, s.s_detail, s.s_entdate, s.s_chk
+		    , s.s_out, s.s_out_date
+		FROM Seller s
+		JOIN Buyer b ON s.b_code = b.b_code
+	</sql>
+	
 	<!-- 판매자 목록 -->
 	<select id="main" resultType="Seller" parameterType="recycling.util.Paging">
 		SELECT * FROM (
@@ -42,10 +52,18 @@
 	</select>
 	
 	<!-- 총 판매자 페이징 -->
-	<select id="getPaging" resultType="int" parameterType="recycling.util.PagingAndCtg">
-		SELECT count(*) FROM(
-			<include refid="selectSellerList"/>
-		)
+	<select id="selectCntAllList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="sellerJoin"/>
+   			)
+		<where>
+			AND (
+				s_code LIKE '%' || #{search } || '%'
+				OR b_code LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY s_code DESC
 	</select>
 
 	<!-- 체험단 조회구조[exp]  -->
