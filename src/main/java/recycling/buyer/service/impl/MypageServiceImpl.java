@@ -207,7 +207,7 @@ public class MypageServiceImpl implements MypageService {
         return result;
         
 	}
-	
+
 	@Override
 	public int selectAllCnt(PagingAndCtg paging) {
 		return mypageDao.selectAllCnt(paging);

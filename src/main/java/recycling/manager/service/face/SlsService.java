@@ -358,7 +358,7 @@ public interface SlsService {
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
+//	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 
 	/**
 	 * 판매자 상품 조회[페이징]

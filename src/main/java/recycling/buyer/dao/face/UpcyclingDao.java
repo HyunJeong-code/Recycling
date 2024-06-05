@@ -70,4 +70,8 @@ public interface UpcyclingDao {
 
 	public int insertReview(UpcyReview review);
 
+	public int insertReview(UpcyReview review);
+
+	public Buyer selectBuyerBybId(String bId);
+
 }

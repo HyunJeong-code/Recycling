@@ -156,6 +156,12 @@ th {
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    text-align: center;
 }
 .button-group {
 	text-align: center;
@@ -225,10 +231,18 @@ th {
 								<th colspan="2">개인 정보 수정</th>
 							</tr>
 							<tr>
-								<td>프로필 선택</td>
+								<td>프로필</td>
 								<td>
-									<img src="${pageContext.request.contextPath}/resources/image/${buyerProf.storedName}" alt="프로필 이미지" style="width: 100px; height: 100px;"><br>
-									<input type="file" id="buyerProf" name="buyerProf">
+									<c:choose>
+										<c:when test="${buyerProf != null }">
+											<img src="${pageContext.request.contextPath}/resources/image/${buyerProf.storedName}" alt="프로필 이미지" style="width: 100px; height: 100px;"><br>
+										</c:when>
+										<c:otherwise>
+											<img src="${pageContext.request.contextPath}/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;"><br>
+										</c:otherwise>
+									</c:choose>
+									<label for="buyerProf" class="custom-file-upload">프로필 선택</label>
+									<input type="file" id="buyerProf" name="buyerProf" style="display: none;">
 								</td>
 							</tr>
 							<tr>

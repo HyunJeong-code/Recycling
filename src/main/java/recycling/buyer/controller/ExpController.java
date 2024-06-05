@@ -184,7 +184,9 @@ public class ExpController {
 		model.addAttribute("expReviewsSize", expReviews.size());
 		model.addAttribute("isLoggedIn", isLoggedIn);
 	    model.addAttribute("loggedInUser", loggedInUser);
-		
+//	    model.addAttribute("buyerProf", buyerProf);
+//	    model.addAttribute("upPaging", upPaging);
+//	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
 	}
 	
 	@PostMapping("/expdetail")

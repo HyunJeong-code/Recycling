@@ -22,7 +22,6 @@
 		, #{ordFee})
 	</insert>
 	
-<<<<<<< Updated upstream
 	<select id="selectAllCart" parameterType="recycling.util.PagingAndCtg" resultType="CartOrder">
 		SELECT *
 		FROM (
@@ -42,19 +41,6 @@
 		<where>
 			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
-=======
-	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
-		SELECT
-			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
-		FROM
-			cart c, prd p, prd_file pf
-		<where>
-			AND c.PRD_CODE =p.PRD_CODE
-			AND p.PRD_CODE = pf.PRD_CODE
-			AND B_CODE = #{bCode}
-		</where>
-		ORDER BY C_CODE
->>>>>>> Stashed changes
 	</select>
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
@@ -64,7 +50,7 @@
 			cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE = p.PRD_CODE
-			AND p.PRD_CODE = pf.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE(+)
 			AND C_CODE = #{cCode}
 		</where>
 		ORDER BY C_CODE
@@ -117,7 +103,6 @@
 		)
 	</insert>
 	
-<<<<<<< Updated upstream
 	<select id="buyerDaoselectOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
 		SELECT *
 		FROM (
@@ -144,13 +129,6 @@
 	
 	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
 		SELECT * FROM order_detail
-=======
-	<select id="buyerDaoselectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
-		SELECT 
-			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
-		FROM 
-			order_detail od, orders o
->>>>>>> Stashed changes
 		<where>
 			AND o.ord_code = od.ord_code
 			AND o.b_code = #{bCode}
@@ -322,7 +300,7 @@
     	</where>
     </update>
     
-    <!--  -->
+    <!-- 기본 배송지로 설정 -->
     <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -332,7 +310,7 @@
     	</where>
     </select>
     
-    <!--  -->
+    <!-- 주소코드로 주소 가져오기 -->
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -349,19 +327,13 @@
     </update>
     
 	<!-- 판매자 탈퇴 -->
-    <delete id="deleteSeller" parameterType="string">
+    <update id="deleteSeller" parameterType="string">
     	UPDATE Seller
     	SET
     		S_Out = 'Y',
     		S_Out_Date = SYSDATE
     	WHERE S_Code = #{sCode }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
     </update>
-    
-=======
-    </delete>
->>>>>>> TEST
     
     <select id="selectCntAllCart" parameterType="recycling.util.PagingAndCtg" resultType="int">
     	SELECT count(*) FROM
@@ -388,11 +360,6 @@
 		ORDER BY orddt_code DESC
     </select>
     
-<<<<<<< HEAD
-=======
-    </delete>
->>>>>>> Stashed changes
-=======
     <insert id="insertChange" parameterType="Change">
 		INSERT INTO change
 		VALUES(
@@ -403,5 +370,4 @@
 			, sysdate
 		)
 	</insert>
->>>>>>> TEST
 </mapper>

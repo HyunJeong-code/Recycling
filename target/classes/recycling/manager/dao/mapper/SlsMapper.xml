@@ -9,10 +9,7 @@
 	<sql id="selectSellerList">
 		SELECT * FROM SELLER
 	</sql>
-<<<<<<< HEAD
-=======
-	
->>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
+
 	<!-- 판매자정보 -->
 	<sql id="SellOrderJoin">
 			SELECT 
@@ -31,7 +28,7 @@
 		JOIN order_stt os ON od.stt_no = os.stt_no
 	</sql>
 	
-	<!--  manager join department -->
+	<!--  seller join buyer -->
 	<sql id="sellerJoin">
 		SELECT
 		    s.s_code, s.b_code, s.acc_name, s.acc_bank, s.acc_no
@@ -295,13 +292,6 @@
 				<where>
 					AND s_code = #{user }
 					AND prd_out = 'N'
-<<<<<<< HEAD
-<<<<<<< HEAD
-					AND prd_cnt = 0
-=======
->>>>>>> TEST
-=======
->>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
