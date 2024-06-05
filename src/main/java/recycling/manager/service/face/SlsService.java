@@ -445,7 +445,7 @@ public interface SlsService {
 	public void deleteDetailFile(HashMap<String, String> map);
 
 	/**
-	 * 멀티업로드 파일 넣기
+	 * 멀티업로드 파일 ㄴ
 	 * @param expCode
 	 * @param detailFile
 	 * @return

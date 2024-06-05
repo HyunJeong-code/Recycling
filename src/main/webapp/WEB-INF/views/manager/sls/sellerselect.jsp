@@ -81,8 +81,6 @@ table tr:hover {
 </style>
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-
 
 	<div class="section">
 		<table>

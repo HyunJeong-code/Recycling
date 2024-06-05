@@ -70,7 +70,6 @@ function setThumbnail2(event) {
         
         $(id1).val('');
         
-        
 
         var reader = new FileReader();
 

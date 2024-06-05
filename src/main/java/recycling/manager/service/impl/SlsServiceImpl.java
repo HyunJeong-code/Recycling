@@ -138,7 +138,7 @@ public class SlsServiceImpl implements SlsService {
 			, List<String> schTime
 			, ExpSch expSch
 			, MultipartFile profile
-			, List<MultipartFile> files
+			, List<MultipartFile> file
 			) {
 	
 		//게시판 글쓰기
@@ -176,7 +176,7 @@ public class SlsServiceImpl implements SlsService {
 	    }
 
 	    // 메인 파일 저장
-	    for (MultipartFile mainFile : files) {
+	    for (MultipartFile mainFile : file) {
 	        String storedName = saveFile(mainFile, storedFolder);
 	        if (storedName != null) {
 	        	logger.info("service mainFile : {}", mainFile);

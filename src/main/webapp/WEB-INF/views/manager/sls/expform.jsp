@@ -6,8 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/sls/expform.css">
 
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -23,7 +21,8 @@ function setThumbnail(event) {
     var fileInput = event.target;
     var files = fileInput.files;
     var container = document.querySelector("div#image_container");
-
+	console.log(files)
+    
     // 이미지 컨테이너의 모든 자식 요소를 삭제합니다.
     while (container.firstChild) {
         container.removeChild(container.firstChild);
@@ -46,27 +45,54 @@ function setThumbnail(event) {
     }
 }
 
-
 function setThumbnail2(event) {
     var fileInput = event.target;
     var files = fileInput.files;
     var container = document.querySelector("div#image_container2");
-
+    var formData = new FormData();
+    
+    // 파일이 선택되었는지 확인하고, 선택된 파일이 있다면 이미지를 추가합니다.
     for (var i = 0; i < files.length; i++) {
-        var fileName = files[i].name;
-        var img = document.createElement("img");
-        img.setAttribute("src", "");
-        img.setAttribute("class", "col-lg-6");
-        container.appendChild(img);
+        var reader = new FileReader();
 
-        var div = document.createElement("div");
-        div.innerText = fileName;
-        container.appendChild(div);
+        // 선택한 파일의 각각을 읽어와서 이미지로 표시합니다.
+        reader.onload = (function(file) {
+            return function(event) {
+                var img = document.createElement("img");
+                img.setAttribute("src", event.target.result);
+                img.setAttribute("class", "col-lg-6");
+                container.appendChild(img);
+            };
+        })(files[i]);
+
+        // 파일을 읽어옵니다.
+        reader.readAsDataURL(files[i]);
+        
     }
+    
+    for (var i = 0; i < files.length; i++) {
+        formData.append('files', files[i]); // 'files'는 서버에서 해당 파일을 식별하기 위한 키값입니다.
+    }
+    
+    $.ajax({
+        url: "/manager/sls/expform",
+        type: 'POST',
+        data: formData,
+        processData: false, // FormData 객체를 전송할 때 jQuery가 데이터를 처리하지 않도록 설정
+        contentType: false, // 컨텐츠 타입을 false로 설정하여 jQuery가 데이터를 전송할 때 content-type 헤더를 설정
+        success: function(response) {
+            console.log('파일 업로드 성공');
+            // 성공적으로 파일 업로드가 완료되었을 때 실행할 코드 작성
+        },
+        error: function(xhr, status, error) {
+            console.error('파일 업로드 실패', error);
+            // 파일 업로드에 실패했을 때 실행할 코드 작성
+        }
+    });
+    
 }
 
-
-$(document).ready(function() {
+$(function() {
 	
 	// applyBtn 함수 정의
 	function applyBtn() {
