@@ -41,7 +41,10 @@
 	                        <th>상품판매조회</th>
 						</tr>
 					</thead>
+<<<<<<< HEAD
 
+=======
+>>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
                 <div class="section">    
                     <h1>판매자 리스트</h1>
                     <hr>
@@ -106,9 +109,12 @@
         </div>
     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> TEST
+=======
+>>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
 	<div class="full">
 		<aside>
 			aaaaa

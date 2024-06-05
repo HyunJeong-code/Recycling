@@ -9,6 +9,10 @@
 	<sql id="selectSellerList">
 		SELECT * FROM SELLER
 	</sql>
+<<<<<<< HEAD
+=======
+	
+>>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
 	<!-- 판매자정보 -->
 	<sql id="SellOrderJoin">
 			SELECT 
@@ -292,9 +296,12 @@
 					AND s_code = #{user }
 					AND prd_out = 'N'
 <<<<<<< HEAD
+<<<<<<< HEAD
 					AND prd_cnt = 0
 =======
 >>>>>>> TEST
+=======
+>>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'

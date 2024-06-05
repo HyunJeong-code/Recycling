@@ -214,6 +214,10 @@ public class SlsController {
 		logger.info("/manager/sls/seller [GET]");
 		logger.info("/manager/sls/seller [sCode] : {}",sCode);
 		
+<<<<<<< HEAD
+=======
+		
+>>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
         // 문의글 페이지 수 계산
   		PagingAndCtg upPaging = new PagingAndCtg();
   		PagingAndCtg unPaging = new PagingAndCtg();
