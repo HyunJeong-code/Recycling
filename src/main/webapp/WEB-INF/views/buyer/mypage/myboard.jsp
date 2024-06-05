@@ -39,6 +39,7 @@ $(function() {
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
+	
 		<div class="page">
 			<h3>내가 쓴 게시글 조회</h3>
 		</div>
@@ -125,7 +126,7 @@ $(function() {
 									<a href="/buyer/mypage/otodetail?otoCode=${qna.CODE }">${qna.TITLE }</a>
 								</c:if>
 								<c:if test="${qna.CTG eq 'QST' }">
-									<a href="/buyer/help/qstdetail?qstCode=${qna.CODE }">${qna.TITLE }</a>
+									<a href="/buyer/mypage/qnadetail?qstCode=${qna.CODE }">${qna.TITLE }</a>
 								</c:if>
 							</td>
 							
@@ -228,6 +229,6 @@ $(function() {
 		</div> <!-- section End -->
 	</div>
 </div>
-<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+
 </body>
 </html>

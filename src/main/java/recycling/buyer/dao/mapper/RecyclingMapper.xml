@@ -42,6 +42,7 @@
 	</select>
 	
 	<select id="selectSeller" resultType="Seller">
+<<<<<<< Updated upstream
 	    SELECT 
 	    S.S_CODE, S.B_CODE, S.ACC_NAME, S.ACC_BANK, S.ACC_NO, 
 	    S.S_POSTCODE, S.S_ADDR, S.S_DETAIL, S.S_ENTDATE, 
@@ -62,6 +63,16 @@
 	    SELECT * FROM buyer
 	    WHERE B_CODE = #{bCode}
 	</select>
+=======
+		SELECT * FROM SELLER
+		WHERE S_CODE = #{sCode}
+	</select>
+	
+<!-- 	<select id="selectSellerProfByCode" resultType="SellerProf"> -->
+<!-- 		SELECT * FROM SELLER_PROF -->
+<!-- 		WHERE S_CODE = #{sCode} -->
+<!-- 	</select> -->
+>>>>>>> Stashed changes
 	
 	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
 		SELECT B_Code AS bCode,

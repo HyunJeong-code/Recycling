@@ -1,7 +1,6 @@
 package recycling.buyer.dao.face;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -24,11 +23,11 @@ public interface UpcyclingDao {
 
 	public Buyer selectBcode(int bCode);
 
-	public List<Map<String, Object>> selectRvwList(String prdCode);
+	public List<UpcyReview> selectRvwList(String prdCode);
 
 	public UpcyReview selectRvw();
 
-	public void insertReview(Map<String, Object> reviewData);
+	public void insertReview(@Param("rvwContent") String rvwContent, @Param("prdCode") String prdCode, @Param("buyer") Buyer buyer);
 
 	public void updateReview(@Param("upcyCode") String upcyCode, @Param("upcyContent") String upcyContent);
 
@@ -66,5 +65,9 @@ public interface UpcyclingDao {
 	 * @return - 조회결과
 	 */
 	public CartOrder selectCartOrder(String prdCode);
+
+	public int insertReview(UpcyReview review);
+
+	public Buyer selectBuyerBybId(String bId);
 
 }

@@ -329,88 +329,50 @@ $(function() {
 
 	})//btn_reserve_wait
 
-	/* 체험시간별 인원변경 */
-		$("#cnt_change_update").change(function() {
-					var parentRow = $(this).closest('tr');
-					var schCntInput = parentRow.find('.expCode').text();
-					var schCntInputNo = parseInt(parentRow.find('.schNo').val());
-			
-			$.ajax({
-				type: "post"
-				, url: "./cntchangeupdate"
-				, data: {
-					
-					expCode : schCntInput
-					, schNo : schCntInputNo
-					, schCnt : $(this).val()
-				}
-				, dataType : "json"
-				, success: function(res) {
-					console.log("AJAX 성공");
+	//예약관리 삭제기능
+	$("#btn_reserve_cancel").click(function() {
 
-		            if (res.success) {
-		                alert("인원이 변경되었습니다.");
-		                console.log("succes")
-		            	/* 원래페이지로 이동 */
-						location.href = "./expresdetail?expCode=" + schCntInput + "&schNo=" + schCntInputNo;
-		            } else {
-		                alert("변경이 불가능합니다. 예약된 인원보다 적은 값을 입력하세요.");
-		            	console.log("fail")
-		            }
-				
-					
-				}
-				, error: function() {
-					console.log("AJAX 실패");
-				}
-			})
-		}) // cnt_change_update
+		var len = $("input[name=chkBox]:checked").length;
+		var chk = new Array();
 
-		//예약관리 삭제기능
-		$("#btn_reserve_cancel").click(function() {
-
-			var len = $("input[name=chkBox]:checked").length;
-			var chk = new Array();
-
-			$("input:checkbox[name=chkBox]").each(function() {
-				if ($(this).is(":checked") == true) {
-					chk.push($(this).attr('id'));
-				}
-			})
-
-			console.log(len);
-			console.log(chk);
-
-			if (len == 0) {
-				alert("삭제할 게시물 선택해주세요.");
-			} else {
-				$.ajax({
-					url : "./expresdetaillistdel",
-					type : "post",
-					data : {
-						chBox : chk
-					},
-					success : function(res) {
-						if (res <= 0) {
-							alert("삭제 실패");
-						} else {
-							alert("삭제 성공");
-							location.reload();
-						}
-					},
-					error : function() {
-						console.log("error");
-					}
-				})
+		$("input:checkbox[name=chkBox]").each(function() {
+			if ($(this).is(":checked") == true) {
+				chk.push($(this).attr('id'));
 			}
+		})
 
-		})//btn_reserve_cancel
-		
-		
+		console.log(len);
+		console.log(chk);
+
+		if (len == 0) {
+			alert("삭제할 게시물 선택해주세요.");
+		} else {
+			$.ajax({
+				url : "./expresdetaillistdel",
+				type : "post",
+				data : {
+					chBox : chk
+				},
+				success : function(res) {
+					if (res <= 0) {
+						alert("삭제 실패");
+					} else {
+						alert("삭제 성공");
+						location.reload();
+					}
+				},
+				error : function() {
+					console.log("error");
+				}
+			})
+		}
+
+	})//btn_reserve_cancel
 })
 </script>
 </head>
 <body>
+<<<<<<< Updated upstream
     <div class="full">
     	<aside>
 			<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
@@ -423,6 +385,8 @@ $(function() {
             </div>
         
             <div class="section">
+=======
+>>>>>>> Stashed changes
 
 <table>
 	
@@ -450,7 +414,7 @@ $(function() {
                 </td>
                 <td>${expSch.schTime }</td>
                 <td>
-                	<input type="text" name="schCnt" value="${expSch.schCnt }" id="cnt_change_update"> 
+                	<input type="text" name="schCnt" value="${expSch.schCnt }" id="cnt_change_update" readonly> 
                 	<input type="hidden" name="schNo" value="${expSch.schNo }" class ="schNo"> 
                 </td>
                 
@@ -485,10 +449,15 @@ $(function() {
 	<tbody>
 	<tr>
 		<td>예약 관리</td>
+<<<<<<< Updated upstream
 		<td><button id = "btn_reserve_complete">예약완료</button></td>
 		<td><button id = "btn_reserve_wait">예약대기</button></td>
 		<td><button id = "btn_reserve_cancel">예약취소</button></td>
 	</tr>
+=======
+		<td><button>예약완료</button></td>
+		<td><button>예약취소</button></td>
+>>>>>>> Stashed changes
 	</tbody>
 </table>
 
@@ -505,11 +474,8 @@ $(function() {
             <th>전화번호</th>
             <th>이메일</th>
             <th>예약인원</th>
-            
-            
             <th>예약일</th>
             <th>상태</th>
-            <th>예약변경</th>
         </tr>
     </thead>
 	<tbody>
@@ -536,27 +502,22 @@ $(function() {
 						</c:when>
 					</c:choose>
 				</td>
-				<td>
-				
-					<c:choose>
-						<c:when test="${res.resCnf eq 'N' }">
-							<a href="./changeexpres?expCode=${exp.expCode}&schNo=${expSch.schNo }&resCode=${res.resCode }"><button>예약변경</button></a>
-						</c:when>
-						<c:when test="${res.resCnf eq 'Y' }">
-							변경불가
-						</c:when>
-					</c:choose>
-				
-				</td>
             </tr>
             </c:forEach>
     </tbody>
 </table>
             </div>
+            <div class="btn_bot_box">
+				<a href="./expdetail?expCode=${exp.expCode }"><button class="btn">상세 보기로</button></a>
+			</div>
             <c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
         </div>
     </div>
 
+<<<<<<< Updated upstream
 
+=======
+<c:import url="/WEB-INF/views/layout/paging.jsp"/>
+>>>>>>> Stashed changes
 </body>
 </html>

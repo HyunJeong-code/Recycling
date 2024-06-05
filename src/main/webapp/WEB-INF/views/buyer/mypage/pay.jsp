@@ -72,6 +72,7 @@
                     $('.modal').modal('hide');
 
                 }
+            // }).open()
             }).embed(postcodeWrap)
 
             //--------------------------------------------------------------
@@ -106,7 +107,6 @@
                 
             }
         });
-    	
         
     }) //$ end
     
@@ -156,6 +156,7 @@
 	    
 	    console.log(cartList);
 	    
+
         function requestPay(){
         	//order_form
         	var isRight = true;
@@ -320,7 +321,7 @@
                     </c:choose>
                     <br>
                 </c:forEach>
-                <label>직접입력</label>
+                <label for>직접입력</label>
                 <input type="radio" name="adr" value="-1">
 
             </div>
@@ -374,9 +375,9 @@
         </div>
 
         <div id="payOption">
-            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
-            <label>토스페이</label><input type="radio" id="tosspay" name="payOption" value="tosspay"></label>
-            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
+            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" checked="checked"></label>
+            <label>토스페이</label><input type="radio" id="tosspay" name="payOption"></label>
+            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption"></label>
         </div>
 
         <button type="button" id="btnPay" onclick="requestPay();">결제하기</button>

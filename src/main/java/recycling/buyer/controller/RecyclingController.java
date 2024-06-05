@@ -25,13 +25,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import recycling.buyer.service.face.BuyerService;
 import recycling.buyer.service.face.RecyclingService;
+
 import recycling.buyer.service.face.UpcyclingService;
+
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoFile;
+
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 
@@ -51,9 +55,9 @@ public class RecyclingController {
 	@GetMapping("/main")
 	public String rcyMain(Model model) {
 		logger.info("/buyer/recycling/main [GET]");
-
-		List<Prd> list = recyclingService.selectPrdList();
-
+		
+		List<Prd> list = recyclingService.getPrdList();
+		
 		model.addAttribute("list", list);
 
 		return "buyer/recycling/main";
