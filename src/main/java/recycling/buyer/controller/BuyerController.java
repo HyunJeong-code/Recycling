@@ -937,7 +937,6 @@ public class BuyerController {
 
 		}
 		
-		// abababababab
 		if (authentication == null || session.getAttribute("authenticated") == null) {
 	        
 			model.addAttribute("msg", "비밀번호를 인증해주세요.");

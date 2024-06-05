@@ -204,7 +204,7 @@ public class BuyerServiceImpl implements BuyerService {
         
 		}
 
-        String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "D:\\uploads\\";
+        String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "file:///D:/uploads/";
         File storedFolder = new File(storedPath);
         
         if(!storedFolder.exists()) {
@@ -261,7 +261,7 @@ public class BuyerServiceImpl implements BuyerService {
 	    
 		}
 		
-		String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "D:\\uploads\\";
+		String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "file:///D:/uploads/";
 	    File storedFolder = new File(storedPath);
 
 	    if (!storedFolder.exists()) {
