@@ -18,29 +18,6 @@ import recycling.util.PagingAndCtg;
 
 public interface HelpDao {
 
-	/**
-	 * 전체 페이징 조회
-	 * 
-	 * @return 총 페이지 수
-	 */
-	public int selectPageAll();
-
-	
-	/**
-	 * 자주 묻는 질문 전체 조회
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 자주 묻는 질문 List
-	 */
-	public List<Faq> selectAllFaq(Paging paging);
-
-	/**
-	 * 자주 묻는 질문 분류 조회
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 질문 분류 List
-	 */
-	public List<FaqCt> selectAllCtFaq(Paging paging);
 
 	/**
 	 * 공지사항 구매자 판매자 분류 조회
@@ -164,16 +141,6 @@ public interface HelpDao {
 	 */
 	public List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging);
 
-
-	/**
-	 * ct_otono 값에 해당하는 1:1문의글 분류 
-	 * 
-	 * @param params - ctOtoNo
-	 * @return 선택한 분류 1:1문의글 List
-	 */
-	public List<Map<String, Object>> selectByCtOto(Map<String, Object> params);
-
-
 	/**
 	 * oto 분류 코드
 	 * 
@@ -181,6 +148,55 @@ public interface HelpDao {
 	 * @return 
 	 */
 	public Ans selectAnsByOtoCode(String otoCode);
+
+	/**
+	 * 자주 묻는 질문 페이징
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return paging
+	 */
+	public int selectCntAllFaq(PagingAndCtg upPaging);
+
+
+	/**
+	 * 자주 묻는 질문 전체 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 자주 묻는 질문 List
+	 */
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
+
+	/**
+	 * 자주 묻는 질문 분류 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return 질문 분류 List
+	 */
+	public List<FaqCt> selectAllCtFaq();
+
+	/**
+	 * 자주 묻는 질문 분류별 페이징
+	 * 
+	 * @param params - 페이징 정보 객체
+	 * @return paging
+	 */
+	public int selectCntFaqByCt(Map<String, Object> params);
+
+
+	/**
+	 * 자주 묻는 질문 분류별 리스트 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return list
+	 */
+	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
+
+	public List<Notice> selectByCategory(int i, PagingAndCtg upPaging);
+
+	public int selectCntAllNoticeList(PagingAndCtg upPaging);
+
+	public List<Notice> selectByCategory(Map<String, Object> params);
+
 
 
 

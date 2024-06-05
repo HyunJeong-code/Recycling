@@ -32,7 +32,6 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
 import recycling.page.face.PageService;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 메뉴 - 체험단
@@ -201,13 +200,6 @@ public class ExpController {
 	        Authentication authentication,
 	        Model model
 	        ) {
-	    
-	    // 로그인 여부 확인
-	    if (authentication == null || !authentication.isAuthenticated()) {
-	        model.addAttribute("msg", "로그인 후 이용해주세요.");
-	        model.addAttribute("url", "/buyer/login");
-	        return "/layout/alert";
-	    }
 	    
 	    // 후기 작성 가능한 조건 확인
 	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();

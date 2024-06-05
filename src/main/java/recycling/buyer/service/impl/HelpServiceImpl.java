@@ -36,26 +36,6 @@ public class HelpServiceImpl implements HelpService {
 	@Autowired private HelpDao helpDao;
 	@Autowired private ServletContext servletContext;
 	
-	@Override
-	public Paging getPaging(int curPage) {
-		
-		int totalCount = helpDao.selectPageAll();
-		
-		Paging paging = new Paging(totalCount, curPage);
-		
-		return paging;
-	}
-
-	@Override
-	public List<Faq> selectAllFaq(Paging paging) {
-		
-		return helpDao.selectAllFaq(paging);
-	}
-
-	@Override
-	public List<FaqCt> selectAllCtFaq(Paging paging) {
-		return helpDao.selectAllCtFaq(paging);
-	}
 
 	@Override
 	public List<Notice> selectNoticeSeller() {
@@ -184,18 +164,57 @@ public class HelpServiceImpl implements HelpService {
     }
 
 
-	@Override
-	public List<Map<String, Object>> selectByCtOto(Map<String, Object> params) {
-		return helpDao.selectByCtOto(params);
-	}
 
 	@Override
 	public Ans selectAnsByOtoCode(String otoCode) {
 		return helpDao.selectAnsByOtoCode(otoCode);
 	}
 
+	@Override
+	public int selectCntAllFaq(PagingAndCtg upPaging) {
+		return helpDao.selectCntAllFaq(upPaging);
+	}
 
+	@Override
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging) {
+		return helpDao.selectAllFaq(upPaging);
+	}
 
+	@Override
+	public List<FaqCt> selectAllCtFaq() {
+		return helpDao.selectAllCtFaq();
+	}
+
+	@Override
+	public int selectCntFaqByCt(Map<String, Object> params) {
+		return helpDao.selectCntFaqByCt(params);
+	}
+
+	@Override
+	public List<Faq> selectFaqByCt(PagingAndCtg upPaging) {
+		return helpDao.selectFaqByCt(upPaging);
+	}
+
+	
+	
+	
+	@Override
+	public List<Notice> selectNoticeSeller(Map<String, Object> params) {
+		
+		return helpDao.selectByCategory(params);
+	}
+
+	@Override
+	public List<Notice> selectNoticeBuyer(Map<String, Object> params) {
+		
+		return helpDao.selectByCategory(params);
+	}
+
+	@Override
+	public int selectCntAllNoticeList(PagingAndCtg upPaging) {
+		
+		return helpDao.selectCntAllNoticeList(upPaging);
+	}
 
 
 }
