@@ -174,12 +174,28 @@ public interface HelpDao {
 	 */
 	public List<FaqCt> selectAllCtFaq();
 
+	/**
+	 * 자주 묻는 질문 분류별 페이징
+	 * 
+	 * @param params - 페이징 정보 객체
+	 * @return paging
+	 */
 	public int selectCntFaqByCt(Map<String, Object> params);
 
 
-	public int selectCntFaqByCt(PagingAndCtg upPaging);
-
+	/**
+	 * 자주 묻는 질문 분류별 리스트 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return list
+	 */
 	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
+
+	public List<Notice> selectByCategory(int i, PagingAndCtg upPaging);
+
+	public int selectCntAllNoticeList(PagingAndCtg upPaging);
+
+	public List<Notice> selectByCategory(Map<String, Object> params);
 
 
 

@@ -113,30 +113,59 @@ public class HelpController {
 	public void noticeList(
 			@RequestParam(name = "ct_ntcno", defaultValue = "buyers") String ctNtcNo,
 			Model model,
-			@RequestParam(defaultValue = "0")int curPage, 
+			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
 			Authentication authentication
 			) {
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		boolean isSeller = false;
 		
-		if (buyerLogin != null) {
-            Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
-            isSeller = helpService.chkSeller(buyer.getbCode());
-        }
+		if(authentication != null && authentication.isAuthenticated()) {
+			BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+			
+			if (buyerLogin != null) {
+				Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
+				isSeller = helpService.chkSeller(buyer.getbCode());
+			}
+			
+		}
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
+									
+		int upPage = helpService.selectCntAllNoticeList(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+		
 		
 		List<Notice> noticeList;
-
-        // 판매자일 경우에만 공지사항 분류 선택 가능하도록 설정
+		Map<String, Object> params = new HashMap<>();
+		params.put("ctNtcNo", ctNtcNo);
+		params.put("upPaging", upPaging);
+		
+		logger.info("ctNtcNo : {}" ,ctNtcNo);
 		
 		if (isSeller && "sellers".equals(ctNtcNo)) {
-            noticeList = helpService.selectNoticeSeller();
-        } else {
-            noticeList = helpService.selectNoticeBuyer();
-        }
+			upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+			noticeList = helpService.selectNoticeSeller(params);
+			logger.info("noticeList : {}" ,noticeList);
+			
+		} else {
+			upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+			noticeList = helpService.selectNoticeBuyer(params);
+			logger.info("noticeList : {}" ,noticeList);
+
+		}
+		
+		
+		
         model.addAttribute("noticeList", noticeList);
         model.addAttribute("isSeller", isSeller);
         model.addAttribute("ctNtcNo", ctNtcNo);
+        model.addAttribute("upPaging", upPaging);
+        model.addAttribute("upUrl", "/buyer/help/noticelist");
 	}
 	
 	@GetMapping("/noticedetail")

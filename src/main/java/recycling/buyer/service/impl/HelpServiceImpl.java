@@ -191,15 +191,30 @@ public class HelpServiceImpl implements HelpService {
 	}
 
 	@Override
-	public int selectCntFaqByCt(PagingAndCtg upPaging) {
-		return helpDao.selectCntFaqByCt(upPaging);
-	}
-	
-	@Override
 	public List<Faq> selectFaqByCt(PagingAndCtg upPaging) {
 		return helpDao.selectFaqByCt(upPaging);
 	}
 
+	
+	
+	
+	@Override
+	public List<Notice> selectNoticeSeller(Map<String, Object> params) {
+		
+		return helpDao.selectByCategory(params);
+	}
+
+	@Override
+	public List<Notice> selectNoticeBuyer(Map<String, Object> params) {
+		
+		return helpDao.selectByCategory(params);
+	}
+
+	@Override
+	public int selectCntAllNoticeList(PagingAndCtg upPaging) {
+		
+		return helpDao.selectCntAllNoticeList(upPaging);
+	}
 
 
 }

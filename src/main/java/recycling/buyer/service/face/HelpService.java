@@ -13,7 +13,6 @@ import recycling.dto.manager.Ans;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 public interface HelpService {
@@ -158,19 +157,38 @@ public interface HelpService {
 	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
 
 	/**
-	 * 자주 묻는 질문 분류 조회
+	 * 자주 묻는 질문 분류 리스트
 	 * 
 	 * @param upPaging - 페이징 정보 객체
 	 * @return 질문 분류 List
 	 */
 	public List<FaqCt> selectAllCtFaq();
 
-	
+	/**
+	 * 자주 묻는 질문 분류별 페이징
+	 * 
+	 * @param params - 페이징 정보 객체
+	 * @return paging
+	 */
 	public int selectCntFaqByCt(Map<String, Object> params);
 
-	public int selectCntFaqByCt(PagingAndCtg upPaging);
 
+	/**
+	 * 자주 묻는 질문 분류별 리스트 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return list
+	 */
 	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
+
+	
+	
+	public List<Notice> selectNoticeSeller(Map<String, Object> params);
+
+	public List<Notice> selectNoticeBuyer(Map<String, Object> params);
+
+	public int selectCntAllNoticeList(PagingAndCtg upPaging);
+
 
 
 
