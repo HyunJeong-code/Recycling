@@ -9,10 +9,7 @@
 	<sql id="selectSellerList">
 		SELECT * FROM SELLER
 	</sql>
-<<<<<<< HEAD
-=======
 	
->>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
 	<!-- 판매자정보 -->
 	<sql id="SellOrderJoin">
 			SELECT 
@@ -295,13 +292,6 @@
 				<where>
 					AND s_code = #{user }
 					AND prd_out = 'N'
-<<<<<<< HEAD
-<<<<<<< HEAD
-					AND prd_cnt = 0
-=======
->>>>>>> TEST
-=======
->>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
@@ -407,15 +397,6 @@
 		ORDER BY exp_code DESC
 	</select>
 	
-	<!-- 체험단 세부 조회[expdetail] -->
-	<select id="selectDetailExp" resultType="Exp" parameterType="String" >
-		<include refid="expBoard"/>
-		<where>
-			exp_code= #{expCode}
-		</where>
-	</select>
-
-	
 	<!-- 체험단 스케쥴 조회[expdetail] -->
 	<select id="selectAllSch" resultType="ExpSch" parameterType="String">
 		<include refid="expSchBoard"/>
@@ -427,14 +408,6 @@
 		<include refid="expBoard"/>
 		<where>exp_code = #{expCode }</where>
 		
-	</select>
-	
-	<!-- 체혐 스케쥴 예약된 인원 조회 -->
-	<select id="selectByResCnt" resultType="ResSchCnt" parameterType="String">
-		SELECT s.sch_no, s.exp_code, s.sch_date, s.sch_time, s.sch_cnt, r.res_cnt
-			FROM exp_sch s
-			JOIN exp_res r ON s.sch_no = r.sch_no
-	WHERE s.exp_code = #{expCode}
 	</select>
 	
 	<!-- 체험단 스케쥴 프로필조회 -->
@@ -811,9 +784,4 @@
 		ORDER BY sch_no DESC
 	</select>
 	
-	<!-- 체험단 스케쥴 조회[expdetail] -->
-	<select id="selectAllSch" resultType="ExpSch" parameterType="String">
-		<include refid="expSchBoard"/>
-		<where>exp_code = #{expCode }</where>
-	</select>
 </mapper>

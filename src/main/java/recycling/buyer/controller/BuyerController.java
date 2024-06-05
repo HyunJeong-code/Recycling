@@ -1,14 +1,11 @@
 package recycling.buyer.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,16 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,23 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.BuyerService;
-
-import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.BuyerProf;
-import recycling.dto.buyer.Cart;
-import recycling.dto.buyer.CartOrder;
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
-import recycling.page.face.PageService;
-import recycling.dto.seller.Change;
-import recycling.page.face.PageService;
-import recycling.seller.service.face.SellingService;
-import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
@@ -61,11 +38,10 @@ import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
-
-
-import recycling.dto.buyer.MyOrder;
-import recycling.dto.buyer.OrderDetail;
-import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.page.face.PageService;
+import recycling.seller.service.face.SellingService;
+import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 회원 정보 관련
 @Controller
@@ -953,47 +929,6 @@ public class BuyerController {
         
         return "/buyer/mypage/myaddr";
 		
-	}
-	
-	// 배송지 관리 페이지 (등록, 수정, 삭제) 처리
-	@PostMapping("/myaddr")
-	public String myAddrProc(
-			Authentication authentication,
-			@RequestParam("action") String action, 
-			@RequestParam(value = "adrCode", required = false) String adrCode,
-			@RequestParam(value = "adrName", required = false) String adrName, 
-			@RequestParam(value = "adrPhone", required = false) String adrPhone, 
-			@RequestParam(value = "adrPostcode", required = false) String adrPostcode, 
-			@RequestParam(value = "adrAddr", required = false) String adrAddr, 
-			@RequestParam(value = "adrDetail", required = false) String adrDetail,
-			Model model
-			) {
-		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-			model.addAttribute("msg", "로그인 해주세요.");
-			model.addAttribute("url", "/buyer/login");
-
-			return "/layout/alert";
-		}
-		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-			
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
-		}
-
-		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(buyerLogin.getbCode());
-
-		model.addAttribute("buyerAdrList", buyerAdrList);
-		model.addAttribute("buyerLogin", buyerLogin);
-
-		return "/buyer/mypage/myaddr";
-
 	}
 
 	// 배송지 관리 페이지 (등록, 수정, 삭제) 처리

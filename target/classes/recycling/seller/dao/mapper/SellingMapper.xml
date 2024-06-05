@@ -51,15 +51,6 @@
 		ORDER BY prd_code DESC
 	</select>
 	
-	<select id="selectAllupcyPrd" parameterType="String" resultType="Prd">
-		SELECT * FROM prd
-		<where>
-			AND s_code = #{sCode}
-			AND ct_pno = 1
-		</where>
-		ORDER BY prd_code DESC
-	</select>
-	
 	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
 		SELECT 
 			*
@@ -349,9 +340,6 @@
 		    ) P
 		)
 	</select>
-	
-<<<<<<< HEAD
-=======
 	<!-- 체험 예약페이지 정보 조회 -->
 	<select id="expResDetail" resultType="Exp" parameterType="String">
 		SELECT * FROM exp
@@ -393,7 +381,6 @@
 	    <where>res_code = #{resCode }</where>
 	</update>
 	
->>>>>>> TEST
 	<select id="selectCntAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
 		SELECT count(*) FROM (
 			SELECT rownum no, ODD.* FROM (
