@@ -1,6 +1,10 @@
 package recycling.seller.service.face;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
@@ -11,6 +15,7 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 import recycling.dto.seller.AllPrd;
@@ -19,7 +24,6 @@ import recycling.dto.seller.Exp;
 // 상품-판매 관련 처리
 
 public interface SellingService {
-
 
 	/**
 	 * sCode가 올린 체험단 전체조회
@@ -82,34 +86,26 @@ public interface SellingService {
 	/**
 	 * sCode와 일치하는 모든 rcyPrd 조회
 	 * 
-	 * @param upPaging - 조회할 sCode
+	 * @param sCode - 조회할 sCode
 	 * @return - 모든 rcyPrd 리스트
 	 */
-	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging);
+	public List<Prd> selectAllrcyPrd(String sCode);
 
 	/**
-	 * prdCode와 일치하는 upcy orders 조회
+	 * prdCode와 일치하는 모든 orders 조회
 	 * 
-	 * @param unPaging - 조회할 prdCode
+	 * @param prdCode - 조회할 prdCode
 	 * @return - 모든 orders 리스트
 	 */
-	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging);
-	
-	/**
-	 * prdCode와 일치하는 rcy orders 조회
-	 * 
-	 * @param unPaging - 조회할 prdCode
-	 * @return - 모든 orders 리스트
-	 */
-	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging);
+	public List<MyOrder> selectAllMyOrder(String prdCode);
 
 	/**
 	 * sCode와 일치하는 모든 upcyPrd 조회
 	 * 
-	 * @param upPaging - 조회할 sCode
+	 * @param sCode - 조회할 sCode
 	 * @return - 모든 upcyPrd 리스트
 	 */
-	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging);
+	public List<Prd> selectAllupcyPrd(String sCode);
 
 	/**
 	 * prdCode와 일치하는 Prd 삭제
@@ -239,6 +235,108 @@ public interface SellingService {
 	 * @return
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
+	
+	/**
+	 * 판매자 전체 상품 개수 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllPrd(PagingAndCtg upPaging);
+	
+	/**
+	 * 판매자 전체 주문 개수 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllOrd(PagingAndCtg unPaging);
+	
+	/**
+	 * 판매자 전체 상품 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 상품 리스트
+	 */
+	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging);
+
+	/**
+	 * 판매자 전체 주문 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 주문 리스트
+	 */
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
+
+	/**
+	 * 체험정보
+	 * 
+	 * @param expRes
+	 * @return
+	 */
+	public Exp expResDetail(String expCode);
+
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+
+	/**
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes(int schNo);
+
+	public int expResUpdate(List<String> chBox, String actionType);
+
+	/**
+	 * PRD 파일 조회 
+	 * 
+	 * @param prdCode - 조회할 prdCode
+	 * @return - 파일 조회 결과
+	 */
+	public List<PrdFile> selectPrdFile(String prdCode);
+	
+	/**
+	 * 파일 업데이트
+	 * @param prdCode 
+	 * 
+	 * @param profile - 업데이트할 파일
+	 * @param file 
+	 * @return
+	 */
+	public int updatePrdFile(String prdCode, MultipartFile profile, MultipartFile file);
+
+	/**
+	 * 파일 업데이트
+	 * 
+	 * @param prdCode - 업데이트할 상품코드
+	 * @param profile - 업데이트할 파일
+	 * @return
+	 */
+	public int updateMainFile(String prdCode, MultipartFile profile);
+
+	/**
+	 * 파일 업데이트
+	 * 
+	 * @param prdCode - 업데이트할 상품코드
+	 * @param profile - 업데이트할 파일
+	 * @return
+	 */
+	public int updateDetailFile(String prdCode, MultipartFile detailFile);
+
+	/**
+	 * 상세 파일 삭제
+	 * 
+	 * @param map - 삭제할 파일코드
+	 */
+	public void deleteDetailFile(HashMap<String, String> map);
+
 
 	
 

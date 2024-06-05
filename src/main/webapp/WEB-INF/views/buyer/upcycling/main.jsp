@@ -40,7 +40,7 @@
 	.mainBanner {
 		width: 100%;
 		max-width: 1000px;
-		height: 350px;
+		height: 650px;
 		border: 1px solid black;
 		overflow: hidden;
 		display: flex;
@@ -70,6 +70,7 @@
 
 	.bannerInfo {
 		width: 100%;
+		margin: 0 auto;
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
@@ -128,7 +129,7 @@
 		gap: 10px;
 		background-color: #d1d1d1;
 		padding: 3px;
-		justify-content: center;
+		justify-content: flex-start;
 	}
 
 	.categoryMid {
@@ -228,10 +229,6 @@
 	
 	<div class="mainContainer">
 		<div class="mainBanner">
-			<div class="btnArea">
-				<button class="bannerBtn" id="newPrdBtn">신규 상품</button>
-				<button class="bannerBtn" id="popPrdBtn">인기 상품</button>
-			</div>
 			<div class="bannerInfo">
 				<!-- 신규 상품  -->
 				<div class="bannerContent" id="newPrd1">
@@ -253,42 +250,41 @@
 					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
 					<p class="bannerTitle">신규 상품 4</p>
 					<p class="bannerPrice">10,000원</p>
-					</div>
-					<!-- 인기 상품  -->
-					<div class="bannerContent" id="popPrd1" style="display: none;">
+				</div>
+				<hr>
+				<!-- 인기 상품  -->
+				<div class="bannerContent" id="popPrd1">
 						<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
 						<p class="bannerTitle">인기 상품 1</p>
 						<p class="bannerPrice">10,000원</p>
-					</div>
-					<div class="bannerContent" id="popPrd2" style="display: none;">
-						<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-						<p class="bannerTitle">인기 상품 2</p>
-						<p class="bannerPrice">10,000원</p>
-					</div>
-					<div class="bannerContent" id="popPrd3" style="display: none;">
-						<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-						<p class="bannerTitle">인기 상품 3</p>
-						<p class="bannerPrice">10,000원</p>
-					</div>
-					<div class="bannerContent" id="popPrd4" style="display: none;">
-						<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-						<p class="bannerTitle">인기 상품 4</p>
-						<p class="bannerPrice">10,000원</p>
-					</div>
+				</div>
+				<div class="bannerContent" id="popPrd2">
+					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
+					<p class="bannerTitle">인기 상품 2</p>
+					<p class="bannerPrice">10,000원</p>
+				</div>
+				<div class="bannerContent" id="popPrd3">
+					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
+					<p class="bannerTitle">인기 상품 3</p>
+					<p class="bannerPrice">10,000원</p>
+				</div>
+				<div class="bannerContent" id="popPrd4">
+					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
+					<p class="bannerTitle">인기 상품 4</p>
+					<p class="bannerPrice">10,000원</p>
 				</div>
 			</div>
+		</div>
 		<div class="categoryContainer">
 				<div class="categoryBig"><strong>업사이클</strong></div>
 				<div class="categoryBox">
 					<div class="categoryMid">전체</div>
-					<div class="categoryMid">문구/오피스</div>
-					<div class="categoryMid">완구/취미</div>
-					<div class="categoryMid">의류</div>
-					<div class="categoryMid">주방용품</div>
-					<div class="categoryMid">생활용품</div>
-					<div class="categoryMid">스포츠/레저</div>
-					<div class="categoryMid">자동차용품</div>
-					<div class="categoryMid">반려동물용품</div>
+					<div class="categoryMid">플라스틱</div>
+					<div class="categoryMid">유리</div>
+					<div class="categoryMid">천</div>
+					<div class="categoryMid">캔</div>
+					<div class="categoryMid">종이</div>
+					<div class="categoryMid">기타</div>
 				</div>
 			</div>
 		<div class="sortBtn">
@@ -331,9 +327,9 @@
 	
 	<div class="spacer"></div>
 	
-	<footer>
+<%-- 	<footer>
 		<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/> 
-	</footer>
+	</footer> --%>
 	
 </body>
 
@@ -368,33 +364,7 @@
 	        lowPriceBtn.style.backgroundColor = '#007bff';
 	        lowPriceBtn.style.color = 'white';
 	
-	        // 신규 상품 버튼 클릭 시
-	        newPrdBtn.addEventListener('click', function() {
-	            newPrds.forEach(prd => {
-	                prd.style.display = 'block';
-	            });
-	            popPrds.forEach(prd => {
-	                prd.style.display = 'none';
-	            });
-	            newPrdBtn.style.backgroundColor = '#007bff';
-	            newPrdBtn.style.color = 'white';
-	            popPrdBtn.style.backgroundColor = '';
-	            popPrdBtn.style.color = '';
-	        });
-	
-	        // 인기 상품 버튼 클릭 시
-	        popPrdBtn.addEventListener('click', function() {
-	            newPrds.forEach(prd => {
-	                prd.style.display = 'none';
-	            });
-	            popPrds.forEach(prd => {
-	                prd.style.display = 'block';
-	            });
-	            newPrdBtn.style.backgroundColor = '';
-	            newPrdBtn.style.color = '';
-	            popPrdBtn.style.backgroundColor = '#007bff';
-	            popPrdBtn.style.color = 'white';
-	        });
+	        
 	
 	        // 카테고리 클릭 시
 	        categoryItems.forEach(item => {

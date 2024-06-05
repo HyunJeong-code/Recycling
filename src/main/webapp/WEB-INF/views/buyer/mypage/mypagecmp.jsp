@@ -68,9 +68,6 @@ th {
 
 </head>
 <body>
-
-	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
-
 	<div class="full">
 		<div class="wrap">
 		
@@ -119,8 +116,5 @@ th {
 			</div>
 		</div>
 	</div>
-	
-	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
-	
 </body>
 </html>

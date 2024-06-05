@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>개인 회원가입</title>
-<link rel="stylesheet" href="../../../resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/common.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
@@ -86,9 +86,9 @@ $(function() {
 	// 이메일
 	$("#bEmail").blur(function() {
 		if($("#bEmail").val() == '') {
-			$("#email").css("display", "block");	
+			$("#email2").css("display", "block");	
 		} else {
-			$("#email").css("display", "none");
+			$("#email2").css("display", "none");
 		}
 	})
 	
@@ -282,12 +282,12 @@ function execDaumPostcode() {
 				<div id="chkId" style="display:none; color:red;">아이디는 영어소문자와 숫자로 8자리 ~ 15자리로 입력 필요</div>
 				
 				<label for="bPw">비밀번호</label>
-				<input type="text" id="bPw" name="bPw"><br>
+				<input type="password" id="bPw" name="bPw"><br>
 				<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
 				<div id="chkPw" style="display:none; color:red;">대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요</div>
 				
 				<label for="newPw">비밀번호 확인</label>
-				<input type="text" id="newPw" name="newPw"><br>
+				<input type="password" id="newPw" name="newPw"><br>
 				<div id="cfmPw" style="display:none; color:red;">비밀번호 확인은 필수입니다.</div>
 				<div id="okPw" style="display:none; color:green;">비밀번호가 일치합니다.</div>
 				<div id="noPw" style="display:none; color:red;">비밀번호가 일치하지 않습니다.</div>
@@ -304,7 +304,7 @@ function execDaumPostcode() {
 					</select>
 					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
 					<input type="button" id="btnEmail" value="이메일 인증"><br>
-					<div id="email" style="display:none; color:red;">이메일은 필수입니다.</div>				
+					<div id="email2" style="display:none; color:red;">이메일은 필수입니다.</div>				
 				</div>
 				
 				<div id="emailChk" style="display: none;">

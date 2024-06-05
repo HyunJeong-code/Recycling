@@ -3,12 +3,9 @@ package recycling.manager.dao.face;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.manager.ResSchCnt;
-import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -30,19 +27,35 @@ public interface SlsDao {
 	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging);
 	
 	/**
-	 * 판매자 조회
+	 * 체험단 전체 조회하기
 	 * 
-	 * @param paging
+	 * @return - List<Exp>
+	 */
+	public List<Exp> selectAll();
+	
+	/**
+	 * 체험단 체험일정 조회하기
+	 * @param expCode 
+	 * 
 	 * @return
 	 */
-	public List<Seller> main(Paging paging);
+	public List<ExpSch> selectSchAll(String expCode);
+
+	/**
+	 * 판매자 조회
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public List<Seller> main(PagingAndCtg upPaging);
 
 	/**
 	 * 페이징
 	 * 
+	 * @param upPaging
 	 * @return
 	 */
-	public int getPaging();
+	public int upPageSlsMain(PagingAndCtg upPaging);
 	
 	/**
 	 * 체험단 전체 조회하기[expList]
@@ -62,37 +75,18 @@ public interface SlsDao {
 	/**
 	 * 체험단 세부 조회하기
 	 * 
-	 * @param upPaging - DTO 객체
+	 * @param expCode - DTO 객체
 	 * @return
 	 */
-	public Exp selectDetailExp(String expCode);
-	
-	/**
-	 * 체험단 체험일정 조회[expdetail]
-	 * @param expCode 
-	 * 
-	 * @return
-	 */
-	public List<ExpSch> selectAllSch(String expCode);
-	
-	/**
-	 * 체험단 체험일정 조회페이징[expdetail]
-	 * 
-	 * @param upPaging
-	 * @return
-	 */
-	public int selectCntAllExpSch(PagingAndCtg upPaging);
+	public Exp selectDetail(String expCode);
 
 	/**
-	 * 체혐 스케쥴 예약된 인원 조회
-	 * @param schNo 
-	 * @param schNo 
-	 * @param expCode 
-	 * 
-	 * @return
+	 * 조회수 증감
+	 * [관리자 - 미구현]
+	 * @param exp - DTO 객체
 	 */
-	public List<ResSchCnt> selectByResCnt(String expCode);
-	
+//	public void hit(Exp exp);
+
 	/**
 	 * 
 	 * 체험단 등록
@@ -101,32 +95,6 @@ public interface SlsDao {
 	 */
 	public void insert(Exp exp);
 
-	/**
-	 * 파일 저장
-	 * 
-	 * @param main
-	 * @param exp
-	 * @return
-	 */
-	public ExpFile expSaveFile(MultipartFile main, Exp exp);
-
-	/**
-	 * 썸네일 삽입
-	 * 
-	 * @param expMain
-	 * @return
-	 */
-	public int expInsertFileMain(ExpFile expMain);
-
-	/**
-	 * 상품 상세 삽입
-	 * 
-	 * @param expFile
-	 * @return
-	 */
-	public int expInsertFileDetail(ExpFile expFile);
-	
-	
 	/**
 	 * 
 	 * 게시판 번호 가져오기
@@ -141,8 +109,8 @@ public interface SlsDao {
 	 * 
 	 * @param expFile
 	 */
-	public void expFileUp(ExpFile expFile);
-	
+	public void fileup(ExpFile expFile);
+
 	/**
 	 * 
 	 * 체험 일정 업로드
@@ -217,19 +185,12 @@ public interface SlsDao {
 	public int expListDel(String expCode);
 
 	/**
-	 * 체험 프로필 이미지
-	 * @param expFile
-	 * @return
-	 */
-	public ExpFile expProImage(ExpFile expFile);
-	
-	/**
 	 * 이미지 업로드 번호조회
 	 * 
 	 * @param expFile
 	 * @return
 	 */
-	public List<ExpFile> expImage(ExpFile expFile);
+	public ExpFile image(ExpFile expFile);
 
 	/**
 	 * 예약 확정버튼에 따른 예약변경
@@ -252,6 +213,16 @@ public interface SlsDao {
 	 * @return
 	 */
 	public ExpSch selectExpSchbySchNo(int schNo);
+
+	/**
+	 * 체험 예약, 인원 조인
+	 * @param schNo 
+	 * @param schNo 
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ResSchCnt> selectByResCnt(String expCode);
 
 	/**
 	 * 체험단 예약인원 예약변경창 조회하기
@@ -359,38 +330,7 @@ public interface SlsDao {
 	 * @return
 	 */
 	public int getResCntBySchNo(String schNo);
-
-	/**
-	 * 업데이트 프로필 조회
-	 * 
-	 * @param expFile
-	 * @return
-	 */
-	public ExpFile expUpdateProfile(ExpFile expFile);
-
-	/**
-	 * 업데이트 파일 조회
-	 * 
-	 * @param expCode
-	 * @return
-	 */
-	public List<ExpFile> expUpdateFile(ExpFile expFile);
-
-	/**
-	 * 업데이트 프로필 수정하기
-	 * 
-	 * @param expCode
-	 * @return
-	 */
-	public void expUpdatefileProc(ExpFile expfile);
-
-	/**
-	 * 업데이트 파일 수정하기
-	 * 
-	 * @param expFile
-	 */
-	public void expUpdateMultiFileProc(ExpFile expFile);
-
+	
 	/**
 	 * 판매자 전환 수락/거절
 	 * @param seller - 판매자 정보 및 수락/거절 여부
@@ -404,7 +344,7 @@ public interface SlsDao {
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
+//	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 	
 	/**
 	 * 판매자 상품 조회[페이징]
@@ -420,7 +360,7 @@ public interface SlsDao {
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging);
+//	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
 
 	/**
 	 * 판매자 판매 조회[페이징]
@@ -435,14 +375,15 @@ public interface SlsDao {
 	 * @param getsCode 
 	 * @return
 	 */
-	public List<Map<String, Object>> sellerAllSeller(String getsCode);
+	public Map<String, Object> sellerAllSeller(Seller seller);
 
 	/**
 	 * 판매자 전환 신청 리스트 페이징
+	 * @param paging 
 	 * 
 	 * @return 총 게시물 수
 	 */
-	public int selectCntSeller();
+	public int selectCntSeller(PagingAndCtg paging);
 	
 	/**
 	 * 판매자 탈퇴 처리
@@ -483,4 +424,6 @@ public interface SlsDao {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
+
 }
+

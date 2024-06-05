@@ -1,4 +1,7 @@
+<<<<<<< Updated upstream
 <style type="text/css">
+=======
+>>>>>>> Stashed changes
 /* 전체 기본 설정 */
 * {
 	margin: 0;
@@ -35,6 +38,7 @@ aside {
 	width: 300px;
 	background-color: #f1f1f1;
 	border-right: 1px solid #ddd;
+	padding: 20px;
 	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -227,5 +231,8 @@ table .expName_fix{
 table .expName_fix_con{
 	text-align: left;	
 }
+<<<<<<< Updated upstream
 
 </style>
+=======
+>>>>>>> Stashed changes
