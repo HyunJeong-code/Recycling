@@ -16,11 +16,11 @@
         $(".sub_menu").hide();
 
         //사이드바 하위메뉴 슬라이드
-        $('#main_menu > li > a').mouseover(function(){
-            $(this).next($('.snd_menu')).slideDown(500);
+        $('#main_menu > li').mouseover(function(){
+            $(this).children('a').next($('.snd_menu')).stop().slideDown(500);
         })
-        $('#main_menu > li > a').mouseleave(function(){
-            $(this).next($('.snd_menu')).slideUp(300);
+        $('#main_menu > li').mouseleave(function(){
+            $(this).children('a').next($('.snd_menu')).stop().slideUp(300);
         })
         
         // 마우스오버 색 변경

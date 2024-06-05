@@ -25,6 +25,27 @@
 		JOIN Department d ON m.deptno = d.deptno
 	</sql>
 
+	<!--  manager join department resultMap-->	
+	<resultMap type="java.util.HashMap" id="mgrJoin">
+<<<<<<< HEAD
+=======
+	
+	<result property="mgrCode" column="mgr_code"/>
+	<result property="deptno" column="deptno"/>
+	<result property="mgrId" column="mgr_id"/>
+	<result property="mgrPw" column="mgr_pw"/>
+	<result property="mgrName" column="mgr_name"/>
+	<result property="mgrPhone" column="mgr_phone"/>
+	<result property="mgrEmail" column="mgr_email"/>
+	<result property="mgrBirth" column="mgr_birth"/>
+	<result property="mgrGender" column="mgr_gender"/>
+	<result property="mgrEntDate" column="mgr_entDate"/>
+	<result property="mgrOut" column="mgr_out"/>
+	<result property="mgrOutDate" column="mgr_out_date"/>
+
+	<result property="dName" column="dName"/>
+	</resultMap>
+
 	<!-- 전체조회[main] -->	
 	<select id="selectAllHr" resultType="ManagerJoinDe" parameterType="recycling.util.PagingAndCtg">	
 		SELECT *
@@ -44,16 +65,27 @@
 			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
+>>>>>>> TEST
 	
-	<!-- 전체조회 페이징[main] -->
-	<select id="selectCntAllHr" resultType="int" parameterType="recycling.util.PagingAndCtg">
-   		SELECT count(*) FROM manager
-		<where>
-			AND (
-				mgr_code LIKE '%' || #{search } || '%'
-				OR mgr_name LIKE '%' || #{search } || '%'
-				)
-		</where>
+	<result property="mgrCode" column="mgr_code"/>
+	<result property="deptno" column="deptno"/>
+	<result property="mgrId" column="mgr_id"/>
+	<result property="mgrPw" column="mgr_pw"/>
+	<result property="mgrName" column="mgr_name"/>
+	<result property="mgrPhone" column="mgr_phone"/>
+	<result property="mgrEmail" column="mgr_email"/>
+	<result property="mgrBirth" column="mgr_birth"/>
+	<result property="mgrGender" column="mgr_gender"/>
+	<result property="mgrEntDate" column="mgr_entDate"/>
+	<result property="mgrOut" column="mgr_out"/>
+	<result property="mgrOutDate" column="mgr_out_date"/>
+
+	<result property="dName" column="dName"/>
+	</resultMap>
+
+	<!-- 조회 -->	
+	<select id="selectAll" resultMap="mgrJoin">
+		<include refid="mgrJoinDep"/>
 		ORDER BY mgr_code DESC
 	</select>
 	
@@ -63,26 +95,12 @@
 		WHERE mgr_code = #{mgrCode }
 	</select>
 
-	<!-- 세부사항 프로필조회 -->
-	<select id="mgrProFileList" resultType="MgrFile" parameterType="MgrFile">
-		SELECT
-			mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name
-		FROM Mgr_File
-		<where>
-			AND mgr_code = #{mgrCode }
-			AND ct_mflno = 1000
-		</where>
-	</select>
-
 	<!-- 세부사항 파일조회 -->
 	<select id="mgrFileList" resultType="MgrFile" parameterType="MgrFile">
 		SELECT
 			mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name
 		FROM Mgr_File
-		<where>
-			AND mgr_code = #{mgrCode }
-			AND ct_mflno = 1010
-		</where>
+		WHERE mgr_code = #{mgrCode }
 	</select>
 	
 	<!-- 데이터 삽입 -->
@@ -102,7 +120,7 @@
 			#{mgrCode }, #{deptno }
 			, #{mgrName }, #{mgrPhone }
 			, #{mgrEmail }, #{mgrBirth }
-			, #{mgrGender }, sysdate
+			, #{mgrGender }, #{mgrEntDate }
 		)
 	</insert>
 	
@@ -135,9 +153,8 @@
 	<!-- 업데이트 -->
 	<update id="hrUpdate" parameterType="Manager">
 		UPDATE Manager SET
+		mgr_code = #{mgrCode }
 		, deptno = #{deptno }
-		, mgr_id = #{mgrId }
-		, mgr_pw = #{mgrPw }
 		, mgr_name = #{mgrName }
 		, mgr_phone = #{mgrPhone }
 		, mgr_email = #{mgrEmail }

@@ -22,6 +22,7 @@
 		, #{ordFee})
 	</insert>
 	
+<<<<<<< Updated upstream
 	<select id="selectAllCart" parameterType="recycling.util.PagingAndCtg" resultType="CartOrder">
 		SELECT *
 		FROM (
@@ -41,6 +42,19 @@
 		<where>
 			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
+=======
+	<select id="selectAllCart" parameterType="String" resultType="CartOrder">
+		SELECT
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+		FROM
+			cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE =p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE
+			AND B_CODE = #{bCode}
+		</where>
+		ORDER BY C_CODE
+>>>>>>> Stashed changes
 	</select>
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
@@ -103,6 +117,7 @@
 		)
 	</insert>
 	
+<<<<<<< Updated upstream
 	<select id="buyerDaoselectOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
 		SELECT *
 		FROM (
@@ -129,21 +144,18 @@
 	
 	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
 		SELECT * FROM order_detail
+=======
+	<select id="buyerDaoselectOrderDetailBybCode" parameterType="String" resultType="MyOrder">
+		SELECT 
+			ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+		FROM 
+			order_detail od, orders o
+>>>>>>> Stashed changes
 		<where>
-			AND orddt_code = #{orddtCode}
+			AND o.ord_code = od.ord_code
+			AND o.b_code = #{bCode}
 		</where>
 	</select>
-	
-	<insert id="insertChange" parameterType="Change">
-		INSERT INTO change
-		VALUES(
-			'CHG' || lpad(cart_seq.nextval, '7', 0)
-			, #{orddtCode}
-			, #{ctChgNo}
-			, #{chgDt}
-			, sysdate
-		)
-	</insert>
 	
 	<update id="updatecCnt" parameterType="Cart">
 		UPDATE cart
@@ -310,7 +322,7 @@
     	</where>
     </update>
     
-    <!-- 기본 배송지 조회 -->
+    <!--  -->
     <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -320,7 +332,7 @@
     	</where>
     </select>
     
-    <!-- Adr_Code로 배송지 정보 조회 -->
+    <!--  -->
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -337,14 +349,19 @@
     </update>
     
 	<!-- 판매자 탈퇴 -->
-    <update id="deleteSeller" parameterType="string">
+    <delete id="deleteSeller" parameterType="string">
     	UPDATE Seller
     	SET
     		S_Out = 'Y',
     		S_Out_Date = SYSDATE
     	WHERE S_Code = #{sCode }
+<<<<<<< HEAD
+<<<<<<< Updated upstream
     </update>
     
+=======
+    </delete>
+>>>>>>> TEST
     
     <select id="selectCntAllCart" parameterType="recycling.util.PagingAndCtg" resultType="int">
     	SELECT count(*) FROM
@@ -371,4 +388,20 @@
 		ORDER BY orddt_code DESC
     </select>
     
+<<<<<<< HEAD
+=======
+    </delete>
+>>>>>>> Stashed changes
+=======
+    <insert id="insertChange" parameterType="Change">
+		INSERT INTO change
+		VALUES(
+			'CHG' || lpad(cart_seq.nextval, '7', 0)
+			, #{orddtCode}
+			, #{ctChgNo}
+			, #{chgDt}
+			, sysdate
+		)
+	</insert>
+>>>>>>> TEST
 </mapper>

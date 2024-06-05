@@ -84,10 +84,12 @@ public class PagingAndCtg {
 				+ ", totalPage=" + totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage="
 				+ endPage + ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", user=" + user + "]";
 	}
+	
 
 	public void setCurPage(int curPage) {
 		this.curPage = curPage;
 	}
+
 
 	public int getTotalCount() {
 		return totalCount;

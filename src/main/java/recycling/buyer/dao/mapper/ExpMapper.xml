@@ -9,62 +9,69 @@
 	SELECT * FROM Exp
 	</sql>
 	
-	<select id="selectAllExp" parameterType="recycling.util.Paging" resultType="Exp">
-		SELECT * FROM (
-			SELECT rownum rnum, E.* FROM (
-				<include refid="selectExp"/>
-				<where>
-					AND exp_name LIKE '%' || #{search } || '%' 
-						OR exp_code LIKE '%' || #{search } || '%' 
-				</where>
-				ORDER BY exp_code
-			) E
-		)
+	<select id="selectCntAllExpList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM exp 
 		<where>
-			AND rnum BETWEEN #{startNo} AND #{endNo}
+			AND (
+				exp_code LIKE '%' || #{search } || '%'
+				OR exp_name LIKE '%' || #{search } || '%'
+				)
 		</where>
+		ORDER BY exp_code DESC
 	</select>
 	
-	<select id="selectCntAll" parameterType="string" resultType="int">
-		SELECT count(*) FROM Exp
-		<where>
-			AND exp_name LIKE '%' || #{key } || '%' 
-				OR exp_code LIKE '%' || #{search } || '%'
-		</where>
-		ORDER BY exp_date DESC
-	</select>
-	
-<!-- 	최신 체험단 조회 -->
-	<select id="selectRecentExp" parameterType="recycling.util.Paging" resultType="exp">
+	<select id="selectAllExp" parameterType="recycling.util.PagingAndCtg" resultType="exp">
         SELECT * FROM (
-            SELECT rownum rnum, E.* FROM (
+            SELECT rownum no, E.* FROM (
                 <include refid="selectExp"/>
                 <where>
-                    AND exp_name LIKE '%' || #{search} || '%' 
-                        OR exp_code LIKE '%' || #{search} || '%' 
+                    AND (
+						exp_name LIKE '%' || #{search } || '%' 
+						OR exp_code LIKE '%' || #{search } || '%' 
+						)
+                </where>
+            ) E
+        )
+        <where>
+            AND no BETWEEN #{startNo} AND #{endNo}
+        </where>
+    </select>
+    
+<!-- 	최신 체험단 조회 -->
+	<select id="selectRecentExp" parameterType="recycling.util.PagingAndCtg" resultType="exp">
+        SELECT * FROM (
+            SELECT rownum no, E.* FROM (
+                <include refid="selectExp"/>
+                <where>
+                    AND (
+						exp_name LIKE '%' || #{search } || '%' 
+						OR exp_code LIKE '%' || #{search } || '%' 
+						)
                 </where>
                 ORDER BY exp_date DESC
             ) E
         )
         <where>
-            AND rnum BETWEEN #{startNo} AND #{endNo}
+            AND no BETWEEN #{startNo} AND #{endNo}
         </where>
     </select>
 
     <!-- 인기 체험단 조회 -->
-    <select id="selectPopularExp" parameterType="recycling.util.Paging" resultType="exp">
+    <select id="selectPopularExp" parameterType="recycling.util.PagingAndCtg" resultType="exp">
         SELECT * FROM (
-            SELECT rownum rnum, E.* FROM (
+            SELECT rownum no, E.* FROM (
                 <include refid="selectExp"/>
                 <where>
-                    AND exp_name LIKE '%' || #{search} || '%' 
-                        OR exp_code LIKE '%' || #{search} || '%' 
+                    AND (
+						exp_name LIKE '%' || #{search } || '%' 
+						OR exp_code LIKE '%' || #{search } || '%' 
+						)
                 </where>
                 ORDER BY exp_hit DESC
             ) E
         )
         <where>
-            AND rnum BETWEEN #{startNo} AND #{endNo}
+            AND no BETWEEN #{startNo} AND #{endNo}
         </where>
     </select>
 
@@ -205,6 +212,8 @@
 	    SET sch_cnt = sch_cnt - #{resCnt}
 	    WHERE sch_no = #{schNo}
 	</update>
+<<<<<<< HEAD
+=======
 	
 	<select id="selectByResCode" resultType="ExpRes" parameterType="string">
 		SELECT * FROM exp_res
@@ -213,6 +222,43 @@
 		</where>
 	</select>
 	
+<!-- 	체험단 후기 -->
+<!-- 	<select id="selectCntRvwList" parameterType="map" resultType="int"> -->
+<!-- 		SELECT count(*)  -->
+<!--     FROM exp_review er -->
+<!--     LEFT JOIN buyer b ON er.b_code = b.b_code -->
+<!--     <where> -->
+<!--         AND er.exp_code = #{expCode} -->
+<!--         AND ( -->
+<!--             er.rvw_code LIKE '%' || #{search} || '%' -->
+<!--             OR er.rvw_content LIKE '%' || #{search} || '%' -->
+<!--         ) -->
+<!--     </where> -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="selectRvwByExp" resultType="map" parameterType="map"> -->
+<!-- 		SELECT *  -->
+<!--     FROM ( -->
+<!--         SELECT rownum no, E.*  -->
+<!--         FROM ( -->
+<!--             SELECT er.rvw_code, er.b_code, er.exp_code, er.rvw_grade, er.rvw_content, er.rvw_date, b.b_id AS buyerId -->
+<!--             FROM exp_review er -->
+<!--             JOIN buyer b ON er.b_code = b.b_code -->
+<!--             <where> -->
+<!--                 AND er.exp_code = #{expCode} -->
+<!--                 AND ( -->
+<!--                     er.rvw_code LIKE '%' || #{search} || '%' -->
+<!--                     OR er.rvw_content LIKE '%' || #{search} || '%' -->
+<!--                 ) -->
+<!--             </where> -->
+<!--             ORDER BY er.rvw_date DESC -->
+<!--         ) E -->
+<!--     ) -->
+<!--     <where> -->
+<!--         AND no BETWEEN #{startNo} AND #{endNo} -->
+<!--     </where> -->
+<!-- 	</select> -->
+
 	<select id="selectRvwByExp" resultType="map" parameterType="string">
 		SELECT er.rvw_code, er.b_code, er.exp_code, er.rvw_grade, er.rvw_content, er.rvw_date, b.b_id AS buyerId
         FROM exp_review er
@@ -243,5 +289,6 @@
     		AND b_code = #{bCode}
     	</where>
     </select>
+>>>>>>> TEST
 
 </mapper>

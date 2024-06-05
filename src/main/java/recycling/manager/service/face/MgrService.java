@@ -9,6 +9,7 @@ import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
+import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 
@@ -16,6 +17,14 @@ import recycling.util.PagingAndCtg;
 
 public interface MgrService {
 	
+
+	/**
+	 * 공지사항 세부조회
+	 * 
+	 * @param notice - Notice
+	 * @return
+	 */
+	public Notice selectDetail(String ntcCode);
 	
 	/**
 	 * 비밀번호 암호화, 핸드폰 번호, 이메일 합치기
@@ -63,8 +72,6 @@ public interface MgrService {
 	 */
 	public int insertMgrProf(MgrFile mgrFile);
 
-	ManagerLogin selectByIdPw(Manager manager);
-	
 	/**
 	 * 전체사원조회[empList]
 	 * 
@@ -95,13 +102,5 @@ public interface MgrService {
 	 * @return
 	 */
 	public int selectCntAllNotice(PagingAndCtg upPaging);
-
-	/**
-	 * 공지사항 세부조회
-	 * 
-	 * @param notice
-	 * @return
-	 */
-	public Notice selectDetail(String ntcCode);
 
 }

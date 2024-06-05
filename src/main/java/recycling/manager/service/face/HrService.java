@@ -7,27 +7,20 @@ import org.springframework.web.multipart.MultipartFile;
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
-import recycling.dto.seller.ExpFile;
 import recycling.util.PagingAndCtg;
+import recycling.util.Paging;
+
 
 // 인사팀 관련 처리
 
 public interface HrService {
-
+	
 	/**
 	 * 전체조회[main]
 	 * 
 	 * @return
 	 */
 	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging);
-	
-	/**
-	 * 전체조회 페이징[main]
-	 * 
-	 * @param upPaging
-	 * @return
-	 */
-	public int selectCntAllHr(PagingAndCtg upPaging);
 	
 	/**
 	 * 세부사항 조회
@@ -37,13 +30,6 @@ public interface HrService {
 	 */
 	public Manager selectDetail(Manager manager);
 
-	/**
-	 * 세부사항 프로필 조회
-	 * @param mgrFile
-	 * @return
-	 */
-	public MgrFile mgrProFileList(MgrFile mgrFile);
-	
 	/**
 	 * 세부사항 파일조회
 	 * @param manager 
@@ -65,7 +51,7 @@ public interface HrService {
 	 * 
 	 * @param manager - DTO 정보
 	 */
-	public void insert(Manager manager,MultipartFile profile, MultipartFile file);
+	public void insert(Manager manager, MultipartFile file);
 
 	/**
 	 * 회원정보 업데이트항목 조회
@@ -114,20 +100,13 @@ public interface HrService {
 	 * @param mgrfile
 	 */
 	public void updateProfileProc(MgrFile mgrfile);
-
-
 	
+	/**
+	 * 전체조회 페이징[main]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllHr(PagingAndCtg upPaging);
 
-	
-
-
-
-
-	
-	
-
-	
-
-	
-	
 }

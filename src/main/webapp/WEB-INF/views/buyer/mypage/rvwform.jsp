@@ -58,6 +58,10 @@
 		</div>
 		
 		<div class="section">
+<<<<<<< HEAD
+			<form action="./rvwform" method="post">
+				
+=======
 			<form action="./rvwform" method="post" id="rvw">
 				<span class="text-bold">별점을 선택해주세요</span>
 				<fieldset>
@@ -79,6 +83,7 @@
 				
 				<button>등록하기</button>
 				<button><a href="">취소하기</a></button>
+>>>>>>> TEST
 			</form>
 		</div> <!-- section End -->		
 	</div> <!-- wrap End -->
