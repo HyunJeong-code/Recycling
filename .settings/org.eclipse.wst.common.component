@@ -1,89 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-<<<<<<< HEAD
-     
-    
-    <wb-module deploy-name="sample">
-                                                
-        
-=======
- 
-    <wb-module deploy-name="c-1.0.0-BUILD-SNAPSHOT">
-                                        
->>>>>>> TEST
-        
-        
-        
+            
+    	<wb-module deploy-name="Recycling">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
-<<<<<<< HEAD
-                                        		
-        
-=======
-                                		
->>>>>>> TEST
-        
-        
-        
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-<<<<<<< HEAD
-                                        		
-        
-=======
-                                		
->>>>>>> TEST
-        
-        
-        
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-<<<<<<< HEAD
-                                        		
-        
-=======
-                                		
->>>>>>> TEST
-        
-        
-        
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-<<<<<<< HEAD
-                                
-        
-        
-        
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
-                             
-        
-        
-        
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-test-sources/test-annotations"/>
-                                
-        
-        
+         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
+         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-test-sources/test-annotations"/>
         <property name="java-output-path" value="target/classes"/>
-        <property name="context-root" value="sample"/>
-                            
-    
-    
+         <property name="context-root" value="/Recycling"/>
     </wb-module>
-                                  
-
-=======
-                        
-        
-        
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
-                     
-        
-        
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-test-sources/test-annotations"/>
-                        
-        
-        <property name="java-output-path" value="target/classes"/>
-        <property name="context-root" value="/"/>
-                    
-    
-    </wb-module>
-                              
->>>>>>> TEST
-
-
-</project-modules>
+  </project-modules>

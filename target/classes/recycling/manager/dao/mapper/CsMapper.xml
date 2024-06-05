@@ -30,14 +30,6 @@
 		</where>
 	</select>
 	
-<<<<<<< HEAD
-	<!-- 페이징 -->
-	<select id="getPaging" resultType="int" parameterType="recycling.util.PagingAndCtg">
-		SELECT count(*) FROM(
-			<include refid="selectAll"/>
-			<include refid="selectBuyerList"/>
-		)
-=======
 	<!-- 문의글 페이징 -->
 	<select id="selectCntAllotoList" resultType="int" parameterType="recycling.util.PagingAndCtg">
    		SELECT count(*)
@@ -51,7 +43,6 @@
 				)
 		</where>
 		ORDER BY oto_code DESC
->>>>>>> TEST
 	</select>
 	
 	<!-- 구매자 목록 -->
