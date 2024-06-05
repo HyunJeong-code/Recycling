@@ -198,13 +198,6 @@ public class ExpController {
 	        Model model
 	        ) {
 	    
-	    // 로그인 여부 확인
-	    if (authentication == null || !authentication.isAuthenticated()) {
-	        model.addAttribute("msg", "로그인 후 이용해주세요.");
-	        model.addAttribute("url", "/buyer/login");
-	        return "/layout/alert";
-	    }
-	    
 	    // 후기 작성 가능한 조건 확인
 	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 	    String bCode = buyerLogin.getbCode();

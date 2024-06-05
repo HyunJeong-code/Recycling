@@ -141,16 +141,6 @@ public interface HelpDao {
 	 */
 	public List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging);
 
-
-	/**
-	 * ct_otono 값에 해당하는 1:1문의글 분류 
-	 * 
-	 * @param params - ctOtoNo
-	 * @return 선택한 분류 1:1문의글 List
-	 */
-	public List<Map<String, Object>> selectByCtOto(Map<String, Object> params);
-
-
 	/**
 	 * oto 분류 코드
 	 * 
@@ -182,7 +172,14 @@ public interface HelpDao {
 	 * @param upPaging - 페이징 정보 객체
 	 * @return 질문 분류 List
 	 */
-	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging);
+	public List<FaqCt> selectAllCtFaq();
+
+	public int selectCntFaqByCt(Map<String, Object> params);
+
+
+	public int selectCntFaqByCt(PagingAndCtg upPaging);
+
+	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
 
 
 

@@ -164,10 +164,6 @@ public class HelpServiceImpl implements HelpService {
     }
 
 
-	@Override
-	public List<Map<String, Object>> selectByCtOto(Map<String, Object> params) {
-		return helpDao.selectByCtOto(params);
-	}
 
 	@Override
 	public Ans selectAnsByOtoCode(String otoCode) {
@@ -185,11 +181,24 @@ public class HelpServiceImpl implements HelpService {
 	}
 
 	@Override
-	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging) {
-		return helpDao.selectAllCtFaq(upPaging);
+	public List<FaqCt> selectAllCtFaq() {
+		return helpDao.selectAllCtFaq();
 	}
 
+	@Override
+	public int selectCntFaqByCt(Map<String, Object> params) {
+		return helpDao.selectCntFaqByCt(params);
+	}
 
+	@Override
+	public int selectCntFaqByCt(PagingAndCtg upPaging) {
+		return helpDao.selectCntFaqByCt(upPaging);
+	}
+	
+	@Override
+	public List<Faq> selectFaqByCt(PagingAndCtg upPaging) {
+		return helpDao.selectFaqByCt(upPaging);
+	}
 
 
 

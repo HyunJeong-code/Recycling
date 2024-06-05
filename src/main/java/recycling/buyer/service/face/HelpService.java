@@ -132,13 +132,6 @@ public interface HelpService {
 	List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging);
 
 
-	/**
-	 * oto 분류 코드
-	 * 
-	 * @param params - otoCtNo
-	 * @return 
-	 */
-	public List<Map<String, Object>> selectByCtOto(Map<String, Object> params);
 
 	/**
 	 * otoCode 와 일치하는 답변
@@ -170,7 +163,15 @@ public interface HelpService {
 	 * @param upPaging - 페이징 정보 객체
 	 * @return 질문 분류 List
 	 */
-	public List<FaqCt> selectAllCtFaq(PagingAndCtg upPaging);
+	public List<FaqCt> selectAllCtFaq();
+
+	
+	public int selectCntFaqByCt(Map<String, Object> params);
+
+	public int selectCntFaqByCt(PagingAndCtg upPaging);
+
+	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
+
 
 
 

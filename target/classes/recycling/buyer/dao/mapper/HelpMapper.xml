@@ -4,54 +4,66 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.HelpDao">
-
 	
-<!-- 	<select id="selectAllFaq" parameterType="recycling.util.Paging" resultType="Faq"> -->
-<!-- 	SELECT * FROM ( -->
-<!-- 			SELECT rownum rnum, B.* FROM ( -->
-<!-- 				SELECT F.*, C.ct_faqname -->
-<!-- 				FROM Faq F -->
-<!-- 				JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno -->
-<!-- 				ORDER BY F.faq_no -->
-<!-- 			) B -->
-<!-- 		) -->
-<!-- 		<where> -->
-<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
-<!-- 		</where> -->
-<!-- 	</select> -->
-
+<!-- 	자주 묻는 질문 -->
 	<select id="selectCntAllFaq" resultType="int" parameterType="recycling.util.PagingAndCtg">
-		SELECT count(*) FROM faq
-		<where>
-			AND (
-				faq_no LIKE '%' || #{search } || '%'
-				OR faq_title LIKE '%' || #{search } || '%'
-				)
-		</where>
-		ORDER BY faq_no DESC
+		SELECT count(*) 
+    FROM faq F
+    JOIN faq_ct C ON F.ct_faqno = C.ct_faqno
+    <where>
+    	AND F.ct_faqno &gt; TO_NUMBER(#{search })
+    </where>
+    
 	</select>
 
 	<select id="selectAllFaq" parameterType="recycling.util.PagingAndCtg" resultType="Faq">
-			SELECT * FROM (
-        SELECT rownum AS no, F.* FROM (
-            SELECT F.*, C.ct_faqname
-            FROM Faq F
-            JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno
-            <where>
-           		 C.ct_faqno = #{search}
-           	</where>
-            ORDER BY F.faq_no
-        ) F
-    )
-    <where>
-    	AND no BETWEEN #{startNo} AND #{endNo}
-    </where>
+		SELECT * FROM (
+			SELECT rownum no, E.* FROM (
+				SELECT F.*, C.ct_faqname
+				FROM faq F
+				JOIN faq_ct C ON F.ct_faqno = C.ct_faqno
+				<where>
+    				AND F.ct_faqno &gt; TO_NUMBER(#{search })
+    			</where>
+				ORDER BY F.faq_no
+			) E
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
 	<select id="selectAllCtFaq" resultType="FaqCt">
 		SELECT * FROM Faq_ct
 	</select>
 	
+	<select id="selectCntFaqByCt" parameterType="map" resultType="int">
+    SELECT count(*) FROM faq F
+    JOIN faq_ct C ON F.ct_faqno = C.ct_faqno
+    <where>
+    	AND F.ct_faqno = TO_NUMBER(#{search })
+    </where>
+</select>
+
+<select id="selectFaqByCt" parameterType="recycling.util.PagingAndCtg" resultType="Faq">
+    SELECT * FROM (
+        SELECT rownum AS no, E.* FROM (
+            SELECT F.*, C.ct_faqname
+            FROM Faq F
+            JOIN Faq_ct C ON F.ct_faqno = C.ct_faqno
+            <where>
+            	AND F.ct_faqno = TO_NUMBER(#{search })
+            </where>
+            ORDER BY F.faq_no
+        ) E
+    )
+    WHERE no BETWEEN #{startNo} AND #{endNo}
+</select>
+	<!-- 	자주 묻는 질문 -->
+	
+	
+	
+<!-- 	공지사항 -->
 	<select id="selectByCategory" resultType="Notice" parameterType="int">
 	    SELECT * FROM Notice
 	    <where>
@@ -81,6 +93,10 @@
 		</where>
 	</update>
 	
+	<!-- 	공지사항 -->
+	
+	
+<!-- 	1:1문의 -->
 	<insert id="insertOto" parameterType="Oto" useGeneratedKeys="true" keyProperty="otoCode" keyColumn="oto_code">
 		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
 		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})
@@ -114,9 +130,6 @@
         no BETWEEN #{startNo} AND #{endNo}
 </select>
 
-
-
-	
 	<select id="selectCntAllOtoList" parameterType="recycling.util.PagingAndCtg" resultType="int">
     SELECT count(*) 
     FROM 
@@ -128,42 +141,9 @@
         OR O.oto_content LIKE '%' || #{search} || '%')
 </select>
 
-
-
-	
 	<select id="selectAllOtoCt" resultType="OtoCt">
 		select * from oto_ct
 	</select>
-	
-	<select id="selectByCtOto" resultType="map" parameterType="map">
-    SELECT * FROM (
-        SELECT rownum no, OTO.* FROM (
-            SELECT 
-                O.oto_code AS otoCode, 
-                O.ct_otono AS ctOtoNo, 
-                O.oto_title AS otoTitle, 
-                O.oto_content AS otoContent, 
-                O.oto_name AS otoName, 
-                O.oto_date AS otoDate, 
-                O.oto_hit AS otoHit,
-                NVL(A.ans_code, '-') AS ansStatus
-            FROM 
-                oto O
-            LEFT JOIN 
-                ans A ON O.oto_code = A.oto_code
-            WHERE 
-                O.ct_otono = #{ctOtoNo}
-            AND 
-                (O.oto_title LIKE '%' || #{upPaging.search} || '%'
-                OR O.oto_content LIKE '%' || #{upPaging.search} || '%')
-            ORDER BY 
-                O.oto_date DESC
-        ) OTO
-    )
-    WHERE 
-        no BETWEEN #{upPaging.startNo} AND #{upPaging.endNo}
-</select>
-
 	
 	<select id="getAllOct" resultType="OtoCt">
 		SELECT * FROM Oto_Ct
@@ -218,5 +198,7 @@
 			AND oto_code = #{otoCode}
 		</where>
 	</select>
+	
+	<!-- 	1:1문의 -->
 	
 </mapper>

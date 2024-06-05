@@ -2,8 +2,6 @@ package recycling.manager.dao.face;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.MgrFile;
 

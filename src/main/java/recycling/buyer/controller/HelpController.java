@@ -41,39 +41,73 @@ public class HelpController {
 	@Autowired private HelpService helpService;
 	@Autowired private PageService pageService;
 	
-	
 	@GetMapping("/main")
 	public void main(
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg,
-			Model model
-//			Authentication authentication,
-//			Buyer buyer
-			) {
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		logger.info("buyerLogin : {}", buyerLogin);
+	        @RequestParam(defaultValue = "0") int curPage,
+	        @RequestParam(defaultValue = "0") String search,
+	        @RequestParam(defaultValue = "UP") String sCtg,
+	        Model model,
+	        @RequestParam(defaultValue = "0") int ctFaqno
+	        ) {
 		
-		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageAll(curPage, sCtg, search);
-									
-		int upPage = helpService.selectCntAllFaq(upPaging);
-		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		logger.info("search : {}", search);
+		logger.info("sCtg : {}", sCtg);
 		
-		logger.info("upPaging : {}", upPaging);
-		
-		//자주 묻는 질문 전체 리스트
-		List<Faq> list = helpService.selectAllFaq(upPaging);
-		
-		//자주 묻는 질문 분류 리스트
-		List<FaqCt> faqCtlist = helpService.selectAllCtFaq(upPaging);
-		
-		model.addAttribute("upPaging", upPaging);
-		model.addAttribute("list", list);
-		model.addAttribute("faqCtlist", faqCtlist);
-		model.addAttribute("upUrl", "/buyer/help/main");
-		
+	    PagingAndCtg upPaging = new PagingAndCtg();
+	    upPaging = pageService.upPageAll(curPage, sCtg, search);
+	    logger.info("paging : {}", upPaging);
+
+	    // 전체 또는 특정 분류의 자주 묻는 질문 개수 조회
+	    int upPage;
+	    List<Faq> list = new ArrayList<>();
+
+	    if (search.equals("0")) {
+//	    	//자주 묻는 질문 전체 리스트 조회
+	    	logger.info("전체");
+	        upPage = helpService.selectCntAllFaq(upPaging);
+	        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), "0");
+	        
+	        list = helpService.selectAllFaq(upPaging);
+	    } else {
+	    	//자주 묻는 질문 분류별 리스트 조회
+	    	logger.info("분류");
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("search", search); // search에 ctFaqNo를 사용
+	        params.put("upPaging", upPaging);
+	        logger.info("params : {} ", params);
+	        upPage = helpService.selectCntFaqByCt(params);
+	        
+	        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), search);
+	        logger.info("**paging : {}", upPaging);
+	        list = helpService.selectFaqByCt(upPaging);
+	    }
+	    
+
+	    logger.info("upPaging : {}", upPaging);
+	    logger.info("search : {}", search);
+	    logger.info("list : {}", list);
+	    
+	    if (list == null) {
+	        logger.info("list is null");
+	    } else if (list.isEmpty()) {
+	        logger.info("list is empty");
+	    } else {
+	        logger.info("list size : {}", list.size());
+	        for (Faq faq : list) {
+	            logger.info("Faq: {}", faq);
+	        }
+	    }
+
+	    // 자주 묻는 질문 분류 리스트
+	    List<FaqCt> faqCtlist = helpService.selectAllCtFaq();
+
+	    model.addAttribute("upPaging", upPaging);
+	    model.addAttribute("list", list);
+	    model.addAttribute("faqCtlist", faqCtlist);
+	    model.addAttribute("ctFaqno", ctFaqno);
+	    model.addAttribute("upUrl", "/buyer/help/main");
 	}
+
 	
 	@GetMapping("/noticelist")
 	public void noticeList(
@@ -91,7 +125,6 @@ public class HelpController {
             isSeller = helpService.chkSeller(buyer.getbCode());
         }
 		
-//		Paging paging = helpService.getSearchPaging(curPage, search);
 		List<Notice> noticeList;
 
         // 판매자일 경우에만 공지사항 분류 선택 가능하도록 설정
@@ -104,7 +137,6 @@ public class HelpController {
         model.addAttribute("noticeList", noticeList);
         model.addAttribute("isSeller", isSeller);
         model.addAttribute("ctNtcNo", ctNtcNo);
-//        model.addAttribute("paging", paging);
 	}
 	
 	@GetMapping("/noticedetail")
@@ -124,8 +156,7 @@ public class HelpController {
 			Model model,
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg,
-			@RequestParam(defaultValue = "0") int ct_otono
+			@RequestParam(defaultValue = "") String sCtg
 			) {
 		
 		PagingAndCtg upPaging = new PagingAndCtg();
@@ -138,23 +169,9 @@ public class HelpController {
 		
 		List<Map<String, Object>> list;
 		
-//		if (ct_otono == 0) {
-//	        list = helpService.selectAllOto(upPaging);
-//	    } else {
-//	        list = helpService.selectByCtOto(Integer.toString(ct_otono),upPaging);
-//	    }
-		
-		if (ct_otono == 0) {
-	        list = helpService.selectAllOto(upPaging);
-	    } else {
-	        Map<String, Object> params = new HashMap<>();
-	        params.put("ctOtoNo", ct_otono);
-	        params.put("upPaging", upPaging);
-	        list = helpService.selectByCtOto(params);
-	    }
+	    list = helpService.selectAllOto(upPaging);
 		
 		List<OtoCt> ctlist = helpService.selectAllOtoCt();
-		
 		
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
@@ -172,23 +189,21 @@ public class HelpController {
 		
 		List<OtoCt> oct = helpService.getAllOct();
 		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+		if (authentication == null || !(authentication.getPrincipal() instanceof BuyerLogin)) {
+		    model.addAttribute("msg", "로그인 후 이용해주세요");
+		    model.addAttribute("url", "/buyer/login");
+		    return "/layout/alert";
 		}
-		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin: {}", buyerLogin);
+		
+		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());		
-		
-		
+		oto.setOtoEmail(buyer.getbEmail());	
 		model.addAttribute("buyer", buyer);
+		
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct", oct);
 		
@@ -207,14 +222,6 @@ public class HelpController {
 		//회원 로그인 세션 정보
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
-		}
-		
 		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
 		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));

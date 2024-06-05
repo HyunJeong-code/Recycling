@@ -63,7 +63,7 @@ public class SlsController {
 			, @RequestParam(defaultValue = "0") int curPage
 			, @RequestParam(defaultValue = "") String search
 			, @RequestParam(defaultValue = "") String sCtg
-			, String prdCode) {
+			) {
 
 		//매니저 권한 부여
 		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
@@ -72,15 +72,8 @@ public class SlsController {
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		
-		int upPage = slsService.selectCntAllList(upPaging);
+		int upPage = slsService.upPageSlsMain(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-
-//		//페이지 수 계산
-//		PagingAndCtg upPaging = new PagingAndCtg();
-//		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
-//		
-//		int upPage = slsService.upPageSlsMain(upPaging);
-//        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
         
         
 		// 판매자 목록 조회
@@ -197,34 +190,36 @@ public class SlsController {
 //		logger.info("/manager/sls/sellerchk [GET]");				
 //	}
 	
-//	@GetMapping("/sellinglist")
-//	public void sellinglist(
-//			Authentication authentication
-//			, Model model
-//			, Seller seller
-//			, @RequestParam(defaultValue = "0") int curPage
-//			, @RequestParam(defaultValue = "") String search
-//			, @RequestParam(defaultValue = "") String sCtg
-//			, String sCode
-//			) {
-//		logger.info("/manager/sls/sellerchk [GET]");
-//		
-//        // 문의글 페이지 수 계산
-//  		PagingAndCtg upPaging = new PagingAndCtg();
-//  		PagingAndCtg unPaging = new PagingAndCtg();
-//         
-//        upPaging = pageService.upPageSeller(curPage, sCtg, search, sCode);
-//        unPaging = pageService.unPageSeller(curPage, sCtg, search, sCode);
-//        
-//		//판매자 조회
-//		Map<String, Object> selList = slsService.sellerAllSeller(seller);
-//		model.addAttribute("selList", selList);
-//		
-//		
-//		//상단페이징[상품 조회]
-//		int upPage = slsService.selectCntAllPrdList(upPaging);
-//        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-//        upPaging.setUser(sCode);
+	@GetMapping("/sellinglist")
+	public void sellinglist(
+			Authentication authentication
+			, Model model
+			, Seller seller
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
+			, String sCode
+			) {
+		logger.info("/manager/sls/seller [GET]");
+		logger.info("/manager/sls/seller [sCode] : {}",sCode);
+		
+		
+        // 문의글 페이지 수 계산
+  		PagingAndCtg upPaging = new PagingAndCtg();
+  		PagingAndCtg unPaging = new PagingAndCtg();
+         
+        upPaging = pageService.upPageSeller(curPage, sCtg, search, sCode);
+        unPaging = pageService.unPageSeller(curPage, sCtg, search, sCode);
+        
+		//판매자 조회
+		Map<String, Object> selList = slsService.sellerAllSeller(seller);
+		model.addAttribute("selList", selList);
+		
+		
+		//상단페이징[상품 조회]
+		int upPage = slsService.selectCntAllPrdList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+        upPaging.setUser(sCode);
   		
 //		//상품 조회[상단]
 //		List<SellerOrderJoin> prdList = slsService.selectAllPrdList(upPaging);
@@ -241,67 +236,67 @@ public class SlsController {
 //		List<MyOrder> olist = slsService.selectAllSellList(unPaging);
 //		model.addAttribute("olist", olist);
 		
-//		//삭제된 상품을 제외한 상품 리스트
-//		List<SellerOrderJoin> nplist = new ArrayList<SellerOrderJoin>();
-//		
-//		for(SellerOrderJoin prd : prdList) {
-//			String prdOut = prd.getPrdOut();
-//			
-//			logger.info("{}",prdOut);
-//			
-//			if("N".equals(prdOut)) {
-//				nplist.add(prd);
-//			}
-//		}
-//		
-//		
-//		model.addAttribute("plist", nplist);
-//		model.addAttribute("olist", olist);
-//		
-//		logger.info("11111111111111111{}",sCode);
-//		model.addAttribute("upPaging", upPaging);
-//		model.addAttribute("upUrl", "/manager/sls/sellinglist?sCode=" + sCode);
-//		model.addAttribute("unPaging", unPaging);
-//		model.addAttribute("unUrl", "/manager/sls/sellinglist?sCode=" + sCode);
-//		
-//	}
+		//삭제된 상품을 제외한 상품 리스트
+		List<SellerOrderJoin> nplist = new ArrayList<SellerOrderJoin>();
+		
+		for(SellerOrderJoin prd : prdList) {
+			String prdOut = prd.getPrdOut();
+			
+			logger.info("{}",prdOut);
+			
+			if("N".equals(prdOut)) {
+				nplist.add(prd);
+			}
+		}
+		
+		
+		model.addAttribute("plist", nplist);
+		model.addAttribute("olist", olist);
+		
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/sls/sellinglist?sCode=" + sCode + "&");
+		model.addAttribute("unPaging", unPaging);
+		model.addAttribute("unUrl", "/manager/sls/sellinglist?sCode=" + sCode + "&");
+		
+	}
 	
-//	//상품 세부사항
-//	@GetMapping("/prddetail")
-//	public void prdDetail(
-//			String prdCode
-//			, Model model) {
-//		
-//		Prd prd = slsService.selectDetailPrd(prdCode);
-//		logger.info("prdDetail prd :{}", prd);
-//				
-//		model.addAttribute("prd", prd);
-//	}
-//	
-//	//리사이클링 상품수정
-//	@RequestMapping("/reprdupdate")
-//	public String reprdUpdate(
-//			Prd prd
-//			,Model model) {
-//		
-//		int res = slsService.slsPrdUpdate(prd);
-//		logger.info("upcyUpdate : {}",prd);
-//		
-//		model.addAttribute("msg", "상품이 수정되었습니다.");
-//		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
-//		return "/layout/alert";
-//	}
-//	//업사이클링 상품수정
-//	@RequestMapping("/upprdupdate")
-//	public String upprdUpdate(Prd prd,Model model) {
-//		
-//		int res = slsService.slsPrdUpdate(prd);
-//		logger.info("upcyUpdate : {}",prd);
-//		
-//		model.addAttribute("msg", "상품이 수정되었습니다.");
-//		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
-//		return "/layout/alert";
-//	}
+	//상품 세부사항
+	@GetMapping("/prddetail")
+	public void prdDetail(
+			String prdCode
+			, Model model) {
+		
+		Prd prd = slsService.selectDetailPrd(prdCode);
+		logger.info("prdDetail prd :{}", prd);
+				
+		model.addAttribute("prd", prd);
+	}
+	
+	//리사이클링 상품수정
+	@RequestMapping("/reprdupdate")
+	public String reprdUpdate(
+			Prd prd
+			,Model model) {
+		
+		int res = slsService.slsPrdUpdate(prd);
+		logger.info("upcyUpdate : {}",prd);
+		
+		model.addAttribute("msg", "상품이 수정되었습니다.");
+		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
+		return "/layout/alert";
+	}
+	
+	//업사이클링 상품수정
+	@RequestMapping("/upprdupdate")
+	public String upprdUpdate(Prd prd,Model model) {
+		
+		int res = slsService.slsPrdUpdate(prd);
+		logger.info("upcyUpdate : {}",prd);
+		
+		model.addAttribute("msg", "상품이 수정되었습니다.");
+		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
+		return "/layout/alert";
+	}
 	
 	//상품삭제
 	@RequestMapping("/prddel")
@@ -344,73 +339,73 @@ public class SlsController {
 		return "/layout/alert";
 	}
 	
-////	주문 상태 변경[완성x]
-//	@GetMapping("/changeorder")
-//    public String changeOrder(@RequestParam(value = "arr[]") List<String> list, int sttNo, Model model) {
-//		logger.info("list: {}",list);
-//		logger.info("sttNo: {}",sttNo);
-//		
-//		//환불
-//		if(sttNo == 980) {
-//			//토큰 발급
-//			String token = sellingService.getToken();
-//			
-//			
-//			String successRes = "";
-//			String failRes = "";
-//			//반복 취소
-//			for(String orddtCode : list) {
-//				
-//				//OrderDetail 조회
-//				OrderDetail order = sellingService.selectByorddtCode(orddtCode); 
-//				logger.info("order: {}",order);
-//				
-//				//주문 취소(환불)
-//				int res = sellingService.cencelpay(order, token);
-//				
-//				if(res == 1) {
-//					OrderDetail ordd = new OrderDetail();
-//					ordd.setOrddtCode(orddtCode);
-//					ordd.setSttNo(sttNo);
-//					int updateRes = sellingService.updateOrderDetail(ordd);
-//					if(successRes != "") {
-//						successRes += ", ";					
-//					}
-//					successRes += orddtCode;
-//		        	
-//				} else {
-//					if(failRes != "") {
-//						failRes += ", ";					
-//					}
-//					failRes += orddtCode;
-//				}
-//			}
-//			
-//			if(successRes != "") {
-//				successRes += "환불 완료";
-//			}
-//			
-//			if(failRes != "") {
-//				failRes += "환불 실패";					
-//			}
-//			
-//			model.addAttribute("Msg", successRes + failRes);
-//		
-//		int res = 0;
-//		if(selChk.equals("Y")) {
-//			res = slsService.updateSelChk(seller);
-//			model.addAttribute("msg", sCode + "판매자 전환 수락에 성공했습니다.");
-//			model.addAttribute("url", "/seller/sls/sellerchklist");
-//			return "/layout/alert";
-//		} else {
-//			res = slsService.updateSelChk(seller);
-//			model.addAttribute("msg", sCode + "판매자 전환 수락에 거절했습니다.");
-//			model.addAttribute("url", "/seller/sls/sellerchklist");
-//			
-//			return "/layout/alert";
-//		}
-//		
-//	}
+//	주문 상태 변경
+	@GetMapping("/changeorder")
+    public String changeOrder(@RequestParam(value = "arr[]") List<String> list, int sttNo, Model model) {
+		logger.info("list: {}",list);
+		logger.info("sttNo: {}",sttNo);
+		
+		//환불
+		if(sttNo == 980) {
+			//토큰 발급
+			String token = sellingService.getToken();
+			
+			
+			String successRes = "";
+			String failRes = "";
+			//반복 취소
+			for(String orddtCode : list) {
+				
+				//OrderDetail 조회
+				OrderDetail order = sellingService.selectByorddtCode(orddtCode); 
+				logger.info("order: {}",order);
+				
+				//주문 취소(환불)
+				int res = sellingService.cencelpay(order, token);
+				
+				if(res == 1) {
+					OrderDetail ordd = new OrderDetail();
+					ordd.setOrddtCode(orddtCode);
+					ordd.setSttNo(sttNo);
+					int updateRes = sellingService.updateOrderDetail(ordd);
+					if(successRes != "") {
+						successRes += ", ";					
+					}
+					successRes += orddtCode;
+		        	
+				} else {
+					if(failRes != "") {
+						failRes += ", ";					
+					}
+					failRes += orddtCode;
+				}
+			}
+			
+			if(successRes != "") {
+				successRes += "환불 완료";
+			}
+			
+			if(failRes != "") {
+				failRes += "환불 실패";					
+			}
+			
+			model.addAttribute("Msg", successRes + failRes);
+		
+		int res = 0;
+		if(selChk.equals("Y")) {
+			res = slsService.updateSelChk(seller);
+			model.addAttribute("msg", sCode + "판매자 전환 수락에 성공했습니다.");
+			model.addAttribute("url", "/seller/sls/sellerchklist");
+			return "/layout/alert";
+		} else {
+			res = slsService.updateSelChk(seller);
+			model.addAttribute("msg", sCode + "판매자 전환 수락에 거절했습니다.");
+			model.addAttribute("url", "/seller/sls/sellerchklist");
+			
+			return "/layout/alert";
+		}
+		
+	}
 	
 	//송장등록
 	@PostMapping("/prdShipform")
@@ -427,29 +422,28 @@ public class SlsController {
 	}
 	
 	//송장삭제
-	@GetMapping("/delship")
+	@PostMapping("/shipdel")
 	public String delShip(String orddtCode, Model model) {
 		int res = sellingService.deleteShip(orddtCode);
 		
-		
-		model.addAttribute("msg", "송장이 삭제되었습니다.");
-		model.addAttribute("url", "/manager/sls/sellinglist");
-		return "/layout/alert";
+//		model.addAttribute("msg", "송장이 삭제되었습니다.");
+//		model.addAttribute("url", "/manager/sls/sellinglist");
+		return "jsonView";
 	}
-	
-//	//체험단 전체조회[explist]
-//	@GetMapping("/explist")
-//	public String expList(
-//			Model model
-//			) {
-//		logger.info("controller explist :[Get]");
-//		
-//		//전체 Exp 조회기능
-//		List<Exp> list = slsService.selectAll();
-//		model.addAttribute("explist", list);
-//		
-//		return "/manager/sls/explist";
-//	}
+		
+	//체험단 전체조회[explist]
+	@GetMapping("/explist")
+	public String expList(
+			Model model
+			) {
+		logger.info("controller explist :[Get]");
+		
+		//전체 Exp 조회기능
+		List<Exp> list = slsService.selectAll();
+		model.addAttribute("explist", list);
+		
+		return "/manager/sls/explist";
+	}
 	
 //	//세부조회
 //	@GetMapping("/expdetail")
