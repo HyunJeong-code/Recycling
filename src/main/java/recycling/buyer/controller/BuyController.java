@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.BuyService;
+import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
@@ -47,13 +48,15 @@ public class BuyController {
 			) {
 		logger.info("/buyer/main [GET]");
 		
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		logger.info("buyerLogin : {}", buyerLogin);
+		List<Map<String, Object>> expPrd = buyService.selectExp();
+		List<Map<String, Object>> rcyPrd = buyService.selectRcy();
+		List<Map<String, Object>> upcyPrd = buyService.selectUpcy();
 		
-//		List<Map<String, Object>> ntcList = buyService.selectNtc();
-//		logger.info("ntcList : {}", ntcList);
-//		
-//		model.addAttribute("ntcList", ntcList);
+		logger.info("Rcy : {}", rcyPrd);
+		logger.info("Upcy : {}", upcyPrd);
+		
+		model.addAttribute("rcy", rcyPrd);
+		model.addAttribute("upcy", upcyPrd);
 		
 	}
 	
@@ -396,20 +399,18 @@ public class BuyController {
 	}
 	
 	@GetMapping("/buyerheader")
-	public void buyerHeader(
-			Model model,
-			Authentication authentication
+	@ResponseBody
+	public List<Map<String, Object>> buyerHeader(
+			Model model
 			) {
 		logger.info("/buyer/buyerheader [GET]");
 		
-		logger.info("auth : ", authentication);
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		logger.info("buyerLogin : {}", buyerLogin);
-		
 		List<Map<String, Object>> ntcList = buyService.selectNtc();
 		logger.info("ntcList : {}", ntcList);
+		logger.info("ntcList : {}", ntcList == null);
 		
-		model.addAttribute("ntc", ntcList);
+		return ntcList; 
+//		return null;
 	}
 	
 	@GetMapping("/mainsearch")

@@ -65,8 +65,8 @@
 		<security:csrf disabled="true"/>
 		
 		<!-- 각 페이지 권한 설정 -->
-		<security:intercept-url pattern="/seller/sellerinfo" access="hasRole('ROLE_BUYER')"/>		
-		<security:intercept-url pattern="/seller/main" access="hasRole('ROLE_SELLER')"/>
+		<security:intercept-url pattern="/seller/sellerinfo" access="hasAnyRole('ROLE_BUYER')"/>		
+		<security:intercept-url pattern="/seller/main" access="hasAnyRole('ROLE_BUYER', 'ROLE_SELLER')"/>
 		<security:intercept-url pattern="/seller/**" access="hasRole('ROLE_SELLER')"/>
 		
 <!-- 		<security:http-basic entry-point-ref="BuyLoginService"/> -->

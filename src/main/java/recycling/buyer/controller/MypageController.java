@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -82,5 +83,30 @@ public class MypageController {
 		model.addAttribute("unUrl", "/buyer/mypage/myboard");
 		
 		model.addAttribute("sCtg", sCtg);
+	}
+	
+	@GetMapping("/rvwform")
+	public void rvwForm(
+				Authentication authentication
+			) {
+		logger.info("/buyer/mypage/rvwform [GET]");
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyer : {}", buyerLogin);
+//		logger.info("code : {}", code);
+		
+		
+	}
+	
+	@PostMapping("/rvwform")
+	public void rvwFormProc(
+				Authentication authentication
+			) {
+		logger.info("/buyer/mypage/rvwform [GET]");
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyer : {}", buyerLogin);
+//		logger.info("code : {}", code);
+		
 	}
 }
