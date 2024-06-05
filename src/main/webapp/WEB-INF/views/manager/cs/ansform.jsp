@@ -60,23 +60,29 @@
 			    <div id="comList">
 			        <c:if test="${not empty comments}">
 			            <table class="table">
-			                <c:forEach var="list" items="${comments}">
-			                    <tr>
-			                        <th>답글 내용</th>
-			                        <td colspan="2">${list.ansContent}</td>
-			                    </tr>
-			                    <tr>
-			                        <th>작성일</th>
-			                        <td>
-			                            <fmt:parseDate value="${list.ansDate}" var="ansDate" pattern="yyyy-MM-dd" />
-			                            <fmt:formatDate value="${ansDate}" pattern="yyyy-MM-dd" />
-			                        </td>
-			                    </tr>
-			                    <tr>
-			                        <td colspan="3"><hr></td>
-			                    </tr>
-			                </c:forEach>
-			            </table>
+						    <thead>
+						        <tr>
+						            <th class="content-column">답글</th>
+						            <th class="author-column">작성자</th>
+						            <th class="date-column">작성일</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						        <c:forEach var="list" items="${comments}">
+						            <tr>
+						                <td class="content-column">${list.ansContent}</td>
+						                <td class="author-column">관리자</td>
+						                <td class="date-column">
+						                    <fmt:parseDate value="${list.ansDate}" var="ansDate" pattern="yyyy-MM-dd" />
+						                    <fmt:formatDate value="${ansDate}" pattern="yyyy-MM-dd" />
+						                </td>
+						            </tr>
+						            <tr>
+						                <td colspan="3"><hr></td>
+						            </tr>
+						        </c:forEach>
+						    </tbody>
+						</table>
 			        </c:if>
 			        
 			        <c:if test="${empty comments}">
