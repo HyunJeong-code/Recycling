@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 스프링 시큐리티 관리 제외 -->
+	<security:http pattern="/**/*.css" security="none"/>
+	<security:http pattern="/**/*.js" security="none"/>
+	<security:http pattern="/image/*" security="none"/>
+	
+	<!-- @Secured 사용 설정 -->
+	<security:global-method-security secured-annotations="enabled"/>
+	
+	<!-- @PreAuthorize와 @PostAuthorize 사용 설정 -->
+<!-- 	<security:global-method-security pre-post-annotations="enabled" /> -->
+	
+	<!-- @AuthenticationPrincipal 사용 설정 -->
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+				<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
+	
+	<!-- 스프링 시큐리티 구매자 로그인 설정 -->
+	<security:http pattern="/buyer/**" auto-config="true" use-expressions="true" authentication-manager-ref="buyerAuthManager">
+		<security:csrf disabled="true"/>
+		
+		<!-- 각 페이지 권한 설정 -->
+		<security:intercept-url pattern="/buyer/mypage/**" access="hasRole('ROLE_BUYER')"/>
+		<security:intercept-url pattern="/buyer/**" access="permitAll()"/>
+
+<!-- 		<security:http-basic entry-point-ref="BuyLoginService"/> -->
+		
+		<!-- 사용자(구매자, 판매자) 로그인 설정 -->
+		<security:form-login login-page="/buyer/login"
+			username-parameter="bId" password-parameter="bPw"
+			login-processing-url="/buyer/login" default-target-url="/buyer/main"
+			authentication-failure-url="/buyer/loginfail"
+			always-use-default-target="true"
+		/>
+		
+		<!-- 사용자(구매자, 판매자) 로그아웃 설정 -->
+		<security:logout invalidate-session="true"
+			logout-url="/buyer/logout" logout-success-url="/buyer/main"
+		/>
+		
+		<!-- 중복 세션 관리 -->
+		<security:session-management>
+			<security:concurrency-control
+				max-sessions="1"
+				error-if-maximum-exceeded="true"
+				expired-url="/buyer/loginduplicate"
+			/>
+		</security:session-management>
+		
+	</security:http>
+	
+	<!-- 스프링 시큐리티 판매자 로그인 설정 -->
+	<security:http pattern="/seller/**" auto-config="true" use-expressions="true" authentication-manager-ref="buyerAuthManager">
+		<security:csrf disabled="true"/>
+		
+		<!-- 각 페이지 권한 설정 -->
+		<security:intercept-url pattern="/seller/sellerinfo" access="hasAnyRole('ROLE_BUYER')"/>		
+		<security:intercept-url pattern="/seller/main" access="hasAnyRole('ROLE_BUYER', 'ROLE_SELLER')"/>
+		<security:intercept-url pattern="/seller/**" access="hasRole('ROLE_SELLER')"/>
+		
+<!-- 		<security:http-basic entry-point-ref="BuyLoginService"/> -->
+		
+		<!-- 사용자(구매자, 판매자) 로그인 설정 -->
+		<security:form-login login-page="/buyer/login"
+			username-parameter="bId" password-parameter="bPw"
+			login-processing-url="/buyer/login" default-target-url="/buyer/main"
+			authentication-failure-url="/buyer/loginfail"
+			always-use-default-target="true"
+		/>
+		
+		<!-- 사용자(구매자, 판매자) 로그아웃 설정 -->
+		<security:logout invalidate-session="true"
+			logout-url="/buyer/logout" logout-success-url="/buyer/main"
+		/>
+		
+		<!-- 중복 세션 관리 -->
+		<security:session-management>
+			<security:concurrency-control
+				max-sessions="1"
+				error-if-maximum-exceeded="true"
+				expired-url="/buyer/loginduplicate"
+			/>
+		</security:session-management>
+	</security:http>
+	
+	<!-- 스프링 시큐리티 관리자 로그인 설정 -->
+	<security:http pattern="/manager/**" auto-config="true" use-expressions="true" authentication-manager-ref="managerAuthManager" >
+	<security:csrf disabled="true"/>
+	
+		<security:intercept-url pattern="/manager/main" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/join" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/EmailAuth" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/login" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/**" access="hasRole('ROLE_MANAGER')"/>
+		
+<!-- 		<security:http-basic entry-point-ref="MgrLoginService"/> -->
+		
+		<!-- 관리자 로그인 설정 -->
+		<security:form-login login-page="/manager/login"
+			username-parameter="mgrId" password-parameter="mgrPw"
+			login-processing-url="/manager/login" default-target-url="/manager/main"
+			authentication-failure-url="/manager/loginfail"
+		/>
+		
+		<!-- 관리자 로그아웃 설정 -->
+		<security:logout invalidate-session="true"
+			logout-url="/manager/logout" logout-success-url="/manager/main"/>
+			
+		<!-- 중복 세션 관리 -->
+		<security:session-management>
+			<security:concurrency-control
+				max-sessions="1"
+				error-if-maximum-exceeded="true"
+				expired-url="/manager/loginduplicate"
+			/>
+		</security:session-management>
+	</security:http>
+	
+	<!-- 비밀번호 암호화 -->
+	<bean id="bcryptPasswordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+	<!-- 구매자, 판매자 로그인 처리 -->
+	<bean id="BuyLoginService" class="recycling.buyer.service.impl.BuyLoginServiceImpl" />
+	<security:authentication-manager id="buyerAuthManager">
+		<security:authentication-provider user-service-ref="BuyLoginService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>		
+	</security:authentication-manager>
+	
+	<!-- 관리자 로그인 처리 -->
+	<bean id="MgrLoginService" class="recycling.manager.service.impl.MgrLoginServiceImpl" />
+	<security:authentication-manager id="managerAuthManager">
+		<security:authentication-provider user-service-ref="MgrLoginService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+</beans>

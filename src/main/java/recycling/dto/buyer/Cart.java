@@ -5,12 +5,12 @@ public class Cart {
 	private String cCode;
 	private String prdCode;
 	private String bCode;
-	private String cCnt;
+	private int cCnt;
 	private String cDate;
 	
 	public Cart() {}
 
-	public Cart(String cCode, String prdCode, String bCode, String cCnt, String cDate) {
+	public Cart(String cCode, String prdCode, String bCode, int cCnt, String cDate) {
 		this.cCode = cCode;
 		this.prdCode = prdCode;
 		this.bCode = bCode;
@@ -48,11 +48,11 @@ public class Cart {
 		this.bCode = bCode;
 	}
 
-	public String getcCnt() {
+	public int getcCnt() {
 		return cCnt;
 	}
 
-	public void setcCnt(String cCnt) {
+	public void setcCnt(int cCnt) {
 		this.cCnt = cCnt;
 	}
 

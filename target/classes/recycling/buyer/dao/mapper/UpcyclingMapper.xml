@@ -4,4 +4,90 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.UpcyclingDao">
+
+	<select id="selectPrdList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 1
+	    AND NOT PRD_CNT = 0
+	</select>
+	
+	<select id="selectPrd" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectSeller" resultType="Seller">
+	    SELECT 
+	    S.S_CODE, S.B_CODE, S.ACC_NAME, S.ACC_BANK, S.ACC_NO, 
+	    S.S_POSTCODE, S.S_ADDR, S.S_DETAIL, S.S_ENTDATE, 
+	    S.S_CHK, S.S_OUT, S.S_OUT_DATE
+	    FROM 
+	        SELLER S
+	    WHERE 
+	        S.S_CODE = #{sCode}
+	</select>
+	
+	<select id="selectListCntAll" resultType="Prd">
+        SELECT COUNT(*) FROM Prd
+    </select>
+    
+	<select id="selectRvwList"	resultType="hashmap">
+		SELECT * FROM upcy_review
+		WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+    
+	<select id="selectRvw" parameterType="String" resultType="UpcyReview">
+		SELECT * FROM upcy_review 
+		WHERE UPCY_CODE  = #{upcyCode} 
+	</select> 
+
+    <insert id="insertReview" parameterType="map">
+        INSERT INTO upcy_table (B_CODE, PRD_CODE, UPCY_CONTENT, UPCY_GRADE, UPCY_DATE)
+        VALUES (#{bCode}, #{prdCode}, #{upcyContent}, #{upcyGrade}, SYSDATE)
+    </insert>
+
+	<update id="updateReview" parameterType="map">
+        UPDATE upcy_review 
+        SET RVW_TITLE = #{rvwTitle}, RVW_CONTENT = #{rvwContent}, RVW_GRADE = #{rvwGrade}
+        WHERE RVW_CODE = #{rvwCode}
+    </update>
+    
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM Review
+        WHERE RVW_CODE = #{rvwCode}
+    </delete>
+    
+    <select id="selectcCnt" parameterType="Cart" resultType="Integer">
+	    SELECT c_cnt FROM cart
+	    <where>
+	        AND b_code = #{bCode}
+	        AND PRD_CODE = #{prdCode}
+        </where>
+    </select>
+    
+    <update id="updatecCnt" parameterType="Cart">
+    	UPDATE cart
+		SET c_cnt = #{cCnt}
+		<where>
+			AND prd_code = #{prdCode}
+		</where>
+    </update>
+    
+    <insert id="insertCart" parameterType="Cart">
+    	INSERT INTO cart
+    	VALUES ('CART' || lpad(cart_seq.nextval, '6', 0), #{prdCode}, #{bCode}, #{cCnt}, sysdate)
+    </insert>
+    
+    <select id="selectCartOrder" parameterType="String" resultType="CartOrder">
+    	SELECT
+		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, stored_name
+		FROM
+		    prd p, prd_file pf
+			<where>
+			 	AND p.PRD_CODE = pf.PRD_CODE(+)
+		     	AND p.PRD_CODE = #{prdCode}
+	     	</where>
+    </select>
+    
 </mapper>

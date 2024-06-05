@@ -11,7 +11,7 @@
 		<property name="username" value="admin"/>
 		<property name="password" value="Kdw123456789"/>
 	</bean>
-	
+
 	<!-- 마이바티스 수행 객체 설정 (SqlSession) -->
 	<bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	
@@ -35,7 +35,7 @@
 		</property>
 		
 		<property name="typeAliasesPackage">
-				<value>**.dto</value>
+			<value>**.dto</value>
 		</property>
 	</bean>
 	
@@ -44,7 +44,28 @@
 	</bean>
 	
 	<!-- 트랜잭션 매니저 -->
-	<bean id="transectionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
+	
+	<!-- 이메일 인증 관련(네이버) -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com"/>
+		<property name="port" value="465"/>
+		<property name="username" value="tptkd__777"/>
+		<property name="password" value="qawsedrf13579!"/>
+		
+		<!-- 보안 연결(SSL) 관련 설정 -->
+		<property name="javaMailProperties">
+			<props>
+		      <prop key="mail.smtp.auth">true</prop>
+		      <prop key="mail.smtp.starttls.enable">true</prop>
+		      <prop key="mail.smtps.checkserveridentity">true</prop>
+		      <prop key="mail.smtps.ssl.trust">*</prop>
+		      <prop key="mail.debug">true</prop>
+		      <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+		     </props>
+		</property>
+	</bean>
+	
 </beans>
