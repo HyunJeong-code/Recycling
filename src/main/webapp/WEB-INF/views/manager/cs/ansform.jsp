@@ -31,9 +31,8 @@
                 success: function(res) {
                     console.log("success");
                     console.log("res: ", res);
-                    if (res > 0) {
-                        location.reload();
-                    }
+                    
+                    location.reload();
                 },
                 error: function() {
                     console.log("error");

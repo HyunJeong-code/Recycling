@@ -19,7 +19,7 @@
 		</aside>
 		<div class="wrap">
 			<div class="page">
-				게시글 목록
+				문의글 목록
 			</div>
 			
 			<div class="search">
