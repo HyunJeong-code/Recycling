@@ -7,6 +7,7 @@ import recycling.dto.buyer.Oto;
 import recycling.dto.manager.Ans;
 import recycling.dto.manager.Manager;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 구매 CS팀 관련 처리
 public interface CsService {
@@ -14,10 +15,10 @@ public interface CsService {
 	/**
 	 * 문의 목록
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Oto> list(Paging paging);
+	public List<Oto> list(PagingAndCtg upPaging);
 
 	/**
 	 * 페이징
@@ -25,15 +26,15 @@ public interface CsService {
 	 * @param pagingParam
 	 * @return
 	 */
-	public Paging getPaging(Paging pagingParam);
+	public int getPaging(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 목록
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Buyer> buyerList(Paging paging);
+	public List<Buyer> buyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 상세

@@ -15,8 +15,6 @@
 		// 해당 상품의 ctPdtNo 선택
 		$("#ctPdtNo option:eq(${prd.ctPdtNo})").attr("selected", "selected");
 		
-		
-		
 		//input 빈값 체크
         $("#btnUpdate").click(function(){
             var isRight = true;
@@ -49,9 +47,7 @@
 
     <div class="full">
         <div class="wrap">
-            <div class="page">
-            
-            </div>
+            <c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
         
             <div class="section">
             	<h3>${prd.prdName }</h3>

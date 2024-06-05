@@ -3,11 +3,11 @@ package recycling.dto.seller;
 public class OrderStt {
 	
 	private int sttNo;
-	private String sttName;
+	private int sttName;
 	
 	public OrderStt() {}
 
-	public OrderStt(int sttNo, String sttName) {
+	public OrderStt(int sttNo, int sttName) {
 		this.sttNo = sttNo;
 		this.sttName = sttName;
 	}
@@ -25,11 +25,11 @@ public class OrderStt {
 		this.sttNo = sttNo;
 	}
 
-	public String getSttName() {
+	public int getSttName() {
 		return sttName;
 	}
 
-	public void setSttName(String sttName) {
+	public void setSttName(int sttName) {
 		this.sttName = sttName;
 	}
 }

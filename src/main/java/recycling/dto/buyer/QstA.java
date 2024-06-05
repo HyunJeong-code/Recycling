@@ -11,12 +11,12 @@ public class QstA {
 	private String qstEmail;
 	private String qstDate;
 	private int qstHit;
-	private String qnaCode;
+	private int qstA;
 	
 	public QstA() {}
 
 	public QstA(String qstCode, int ctQstNo, String prdCode, String bCode, String qstTitle, String qstContent,
-			String qstName, String qstEmail, String qstDate, int qstHit, String qnaCode) {
+			String qstName, String qstEmail, String qstDate, int qstHit, int qstA) {
 		super();
 		this.qstCode = qstCode;
 		this.ctQstNo = ctQstNo;
@@ -28,14 +28,14 @@ public class QstA {
 		this.qstEmail = qstEmail;
 		this.qstDate = qstDate;
 		this.qstHit = qstHit;
-		this.qnaCode = qnaCode;
+		this.qstA = qstA;
 	}
 
 	@Override
 	public String toString() {
 		return "QstA [qstCode=" + qstCode + ", ctQstNo=" + ctQstNo + ", prdCode=" + prdCode + ", bCode=" + bCode
 				+ ", qstTitle=" + qstTitle + ", qstContent=" + qstContent + ", qstName=" + qstName + ", qstEmail="
-				+ qstEmail + ", qstDate=" + qstDate + ", qstHit=" + qstHit + ", qnaCode=" + qnaCode + "]";
+				+ qstEmail + ", qstDate=" + qstDate + ", qstHit=" + qstHit + ", qstA=" + qstA + "]";
 	}
 
 	public String getQstCode() {
@@ -118,11 +118,11 @@ public class QstA {
 		this.qstHit = qstHit;
 	}
 
-	public String getQnaCode() {
-		return qnaCode;
+	public int getQstA() {
+		return qstA;
 	}
 
-	public void setQnaCode(String qnaCode) {
-		this.qnaCode = qnaCode;
+	public void setQstA(int qstA) {
+		this.qstA = qstA;
 	}
 }
