@@ -36,13 +36,24 @@ public class HrController {
 	//전체 사원조회
 	@GetMapping("/main")
 	public String main(
+<<<<<<< HEAD
 			Model model
+=======
+			Model model,
+			Authentication authentication,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg
+>>>>>>> TEST
 			) {
 		//매니저 권한 부여
 		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
 		
 		
+<<<<<<< HEAD
 	     //페이지 수 계산
+=======
+>>>>>>> TEST
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		

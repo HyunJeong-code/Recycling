@@ -7,17 +7,31 @@ import org.springframework.web.multipart.MultipartFile;
 import recycling.dto.manager.Department;
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.MgrFile;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 import recycling.dto.seller.ExpFile;
+=======
+>>>>>>> TEST
 import recycling.util.PagingAndCtg;
 =======
 import recycling.util.Paging;
 >>>>>>> Stashed changes
 
+
 // 인사팀 관련 처리
 
 public interface HrService {
 
+<<<<<<< HEAD
+=======
+	
+	/**
+	 * 전체조회[main]
+	 * 
+	 * @return
+	 */
+	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging);
+>>>>>>> TEST
 	
 	/**
 	 * 페이징 시스템
@@ -114,6 +128,7 @@ public interface HrService {
 	 */
 	public void updateProfileProc(MgrFile mgrfile);
 
+<<<<<<< HEAD
 
 	
 
@@ -131,4 +146,6 @@ public interface HrService {
 
 	
 	
+=======
+>>>>>>> TEST
 }

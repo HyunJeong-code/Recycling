@@ -34,6 +34,7 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 	
+<<<<<<< HEAD
 	//공지사항 전체조회
 	@Override
 	public List<Notice> selectAll() {
@@ -57,6 +58,17 @@ public class MgrServiceImpl implements MgrService {
 		paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch() );
 		
 		return paging;
+=======
+	//공지사항 세부조회
+	@Override
+	public Notice selectDetail(String ntcCode) {
+
+		//조회수 증감
+		mgrDao.hit(ntcCode);
+		
+		//세부사항 조회
+		return mgrDao.selectDetail(ntcCode);
+>>>>>>> TEST
 	}
 	
 	@Override
@@ -147,6 +159,7 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDao.insertMgrProf(mgrFile);
 	}
 
+<<<<<<< HEAD
 	@Override
 	public List<Notice> selectAll(Paging paging) {
 		// TODO Auto-generated method stub
@@ -159,6 +172,8 @@ public class MgrServiceImpl implements MgrService {
 		return null;
 	}
 	
+=======
+>>>>>>> TEST
 	//전체사원조회[empList]
 	@Override
 	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging) {
@@ -185,16 +200,6 @@ public class MgrServiceImpl implements MgrService {
 	public int selectCntAllNotice(PagingAndCtg upPaging) {
 		return mgrDao.selectCntAllNotice(upPaging);
 	}
-
-	//공지사항 세부조회
-	@Override
-	public Notice selectDetail(String ntcCode) {
-
-		//조회수 증감
-		mgrDao.hit(ntcCode);
-		
-		//세부사항 조회
-		return mgrDao.selectDetail(ntcCode);
-	}
-
+	
+	
 }

@@ -20,6 +20,36 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 
 <h1>주문목록</h1>
 <hr>
+<<<<<<< HEAD
+=======
+
+<table border="1">
+	<thead>
+		<tr>
+			<th>주문번호</th>
+			<th>상품 이름</th>
+			<th>가격</th>
+			<th>개수</th>
+			<th>총금액</th>
+			<th>배송 상태</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="list" items="${list }">
+			<tr>
+		 		<td>${list.orddtCode }</td>
+		 		<td>${list.ordName }</td>
+		 		<td>${list.ordPrice }</td>
+		 		<td>${list.ordCnt }</td>
+		 		<td>${list.ordSum }</td>
+		 		<td>
+		 			<script>document.write(sttList[${list.sttNo}])</script>
+		 		</td>
+		 	</tr>
+		</c:forEach>
+	</tbody>
+</table>
+>>>>>>> TEST
 
 <table border="1">
 	<thead>

@@ -355,9 +355,13 @@
     		S_Out = 'Y',
     		S_Out_Date = SYSDATE
     	WHERE S_Code = #{sCode }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     </update>
     
+=======
+    </delete>
+>>>>>>> TEST
     
     <select id="selectCntAllCart" parameterType="recycling.util.PagingAndCtg" resultType="int">
     	SELECT count(*) FROM
@@ -384,7 +388,20 @@
 		ORDER BY orddt_code DESC
     </select>
     
+<<<<<<< HEAD
 =======
     </delete>
 >>>>>>> Stashed changes
+=======
+    <insert id="insertChange" parameterType="Change">
+		INSERT INTO change
+		VALUES(
+			'CHG' || lpad(cart_seq.nextval, '7', 0)
+			, #{orddtCode}
+			, #{ctChgNo}
+			, #{chgDt}
+			, sysdate
+		)
+	</insert>
+>>>>>>> TEST
 </mapper>

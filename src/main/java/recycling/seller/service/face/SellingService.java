@@ -180,8 +180,11 @@ public interface SellingService {
 	 * @return - DELETE 결과
 	 */
 	public int deleteShip(String orddtCode);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	
+=======
+>>>>>>> TEST
 
 	/**
 	 * 주문 상세 조회
@@ -231,6 +234,7 @@ public interface SellingService {
 	 * @return
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
+<<<<<<< HEAD
 	
 	/**
 	 * 판매자 전체 상품 개수 조회
@@ -264,22 +268,70 @@ public interface SellingService {
 	 */
 	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
 
+=======
+>>>>>>> TEST
 	
-
+	/**
+	 * 판매자 전체 상품 개수 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllPrd(PagingAndCtg upPaging);
 	
-
+	/**
+	 * 판매자 전체 주문 개수 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllOrd(PagingAndCtg unPaging);
 	
+	/**
+	 * 판매자 전체 상품 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 상품 리스트
+	 */
+	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging);
 
+	/**
+	 * 판매자 전체 주문 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 주문 리스트
+	 */
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
 
+	/**
+	 * 체험정보
+	 * 
+	 * @param expRes
+	 * @return
+	 */
+	public Exp expResDetail(String expCode);
 
-	
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
 
-	
-
-
-
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
+=======
+	/**
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes(int schNo);
+>>>>>>> TEST
 
+	public int expResUpdate(List<String> chBox, String actionType);
 
 }

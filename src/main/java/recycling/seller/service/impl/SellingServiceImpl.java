@@ -194,8 +194,11 @@ public class SellingServiceImpl implements SellingService {
 		return res;
 	}
 	
+<<<<<<< HEAD
 	//paging Cnt
 	
+=======
+>>>>>>> TEST
 	@Override
 	public int selectCntAllrcyPrd(PagingAndCtg upPaging) {
 		return sellingDao.selectCntAllrcyPrd(upPaging);
@@ -215,8 +218,11 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllMyOrder(PagingAndCtg unPaging) {
 		return sellingDao.selectCntAllMyOrder(unPaging);
 	}
+<<<<<<< HEAD
 
 	//paging Cnt end
+=======
+>>>>>>> TEST
 	
 	//exp start
 	@Override
@@ -234,6 +240,7 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllExpSch(PagingAndCtg upPaging) {
 		
 		return sellingDao.selectCntAllExpSch(upPaging);
+<<<<<<< HEAD
 	public List<Exp> selectMyExpList(Paging paging) {
 		
 		
@@ -253,6 +260,9 @@ public class SellingServiceImpl implements SellingService {
 			paging = new Paging(totalCount, curPage, search);
 		}
 		return paging;
+=======
+		
+>>>>>>> TEST
 	}
 
 	@Override
@@ -295,4 +305,43 @@ public class SellingServiceImpl implements SellingService {
 	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
 		return sellingDao.selectAllOrd(unPaging);
 	}
+<<<<<<< HEAD
+=======
+
+	@Override
+	public Exp expResDetail(String expCode) {
+		return sellingDao.expResDetail(expCode);
+	}
+
+	@Override
+	public ExpSch selectExpSchbySchNo(int schNo) {
+		return sellingDao.selectExpSchbySchNo(schNo);
+	}
+
+	@Override
+	public List<ExpRes> expResDetailRes(int schNo) {
+		return sellingDao.expResDetailRes(schNo);
+	}
+
+	@Override
+	public int expResUpdate(List<String> chBox, String actionType) {
+		int result = 0;
+				
+		for(int i = 0; i < chBox.size(); i++) {
+			String resCode = chBox.get(i);
+			
+	        if ("complete".equals(actionType)) {
+	        	 // 예약완료 메서드 호출
+	            result += sellingDao.expResCnf(resCode);
+	   
+	        } else if ("cancel".equals(actionType)) {
+	        
+	        	// 예약취소 메서드 호출
+	            result += sellingDao.expResCnl(resCode); 
+	        }
+		}
+		
+		return result;
+	}
+>>>>>>> TEST
 }

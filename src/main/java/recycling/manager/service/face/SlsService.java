@@ -13,7 +13,6 @@ import recycling.dto.seller.ExpSch;
 
 
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 판매제휴팀 관련 처리
@@ -75,6 +74,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public int selectCntAllExpSch(PagingAndCtg upPaging);
+<<<<<<< HEAD
 
 	/**
 	 * 체혐 스케쥴 예약된 인원 조회
@@ -86,6 +86,8 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<ResSchCnt> selectByResCnt(String expCode);
+=======
+>>>>>>> TEST
 
 	/**
 	 * 체험단 등록
@@ -444,5 +446,23 @@ public interface SlsService {
 	 * @return
 	 */
 	public int upPageSlsMain(PagingAndCtg upPaging);
+<<<<<<< HEAD
+=======
+	
+	/**
+	 * 체험 프로필 이미지
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expProImage(ExpFile expFile);
+	
+	/**
+	 * 이미지 업로드 번호조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public List<ExpFile> expImage(ExpFile expFile);
+>>>>>>> TEST
 	
 }

@@ -45,7 +45,13 @@ import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+<<<<<<< HEAD
 import recycling.page.face.PageService;
+=======
+import recycling.dto.seller.Change;
+import recycling.page.face.PageService;
+import recycling.seller.service.face.SellingService;
+>>>>>>> TEST
 import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
@@ -75,6 +81,7 @@ public class BuyerController {
 	@Autowired HttpSession session;
 	@Autowired private JavaMailSenderImpl mailSender;
 	@Autowired private PageService pageService;
+	@Autowired private SellingService sellingService;
 	
 	@GetMapping("/cart")
 	public void cart(Authentication authentication, Model model, HttpSession session) {
@@ -315,20 +322,111 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/myorderdetail")
+<<<<<<< HEAD
 	public void myOrderDetail() {
 
+=======
+	public void myOrderDetail(String orddtCode, Model model) {
+		OrderDetail orderDetail = buyerService.selectByorddtCode(orddtCode);
+		Orders order = buyerService.selectByordCode(orderDetail.getOrdCode());
+		
+		logger.info("orderDetail: {}",orderDetail);
+		logger.info("order: {}",order);
+		
+		model.addAttribute("orderDetail", orderDetail);
+		model.addAttribute("order", order);
+	}
+	
+	@PostMapping("/chageorder")
+	public String chageOrder(OrderDetail orderDetail, Model model) {
+		logger.info("orerDetail: {}",orderDetail);
+		
+		int sttNo = orderDetail.getSttNo();
+		
+		if(sttNo == 980) {
+			//토큰 발급
+			String token = sellingService.getToken();
+			
+			String orddtCode = orderDetail.getOrddtCode();
+			
+			String successRes = "";
+			String failRes = "";
+				
+			//OrderDetail 조회
+			OrderDetail order = sellingService.selectByorddtCode(orddtCode); 
+			logger.info("order: {}",order);
+			
+			//주문 취소(환불)
+			int res = sellingService.cencelpay(order, token);
+			
+			if(res == 1) {
+				OrderDetail ordd = new OrderDetail();
+				ordd.setOrddtCode(orddtCode);
+				ordd.setSttNo(sttNo);
+				int updateRes = sellingService.updateOrderDetail(ordd);
+				if(successRes != "") {
+					successRes += ", ";					
+				}
+				successRes += orddtCode;
+	        	
+			} else {
+				if(failRes != "") {
+					failRes += ", ";					
+				}
+				failRes += orddtCode;
+			}
+			
+			
+			if(successRes != "") {
+				successRes += "환불 완료";
+			}
+			
+			if(failRes != "") {
+				failRes += "환불 실패";					
+			}
+			
+			model.addAttribute("Msg", successRes + failRes);
+		
+		} else {
+			int updateRes = sellingService.updateOrderDetail(orderDetail);
+			
+			model.addAttribute("Msg", "변경");
+		}
+		
+		return "jsonView";
+	}
+	
+	@PostMapping("/changeOrderCt")
+	public String changeOrderCt(OrderDetail orderDetail, Change change) {
+		logger.info("orderDetail : {}", orderDetail);
+		logger.info("change: {}", change);
+		
+		int updateRes = sellingService.updateOrderDetail(orderDetail);
+		
+		//orddtCode 추가
+		change.setOrdCode(orderDetail.getOrddtCode());
+		
+		int insertRes = buyerService.insertChange(change);
+		
+		return "redirect:/buyer/mypage/myorder";
+>>>>>>> TEST
 	}
 	
 	@GetMapping("/myorderchk")
 	public void myOrderChk() {
-
+		
+		
+		
 	}
 	
+<<<<<<< HEAD
 	@GetMapping("/changeorder")
 	public void changeOrder() {
 
 	}
 
+=======
+>>>>>>> TEST
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
 	public String myMain(
@@ -579,7 +677,12 @@ public class BuyerController {
 		
 	}
 	
+<<<<<<< HEAD
 // 회원 정보 변경 처리 (개인)
+=======
+	
+	// 회원 정보 변경 처리 (개인)
+>>>>>>> TEST
 	@PostMapping("/mydetailpri")
 	public String myDetailPriProc(
 		Authentication authentication, Buyer buyer,
@@ -843,6 +946,10 @@ public class BuyerController {
 
 	}
 	
+<<<<<<< HEAD
+=======
+	
+>>>>>>> TEST
 	// 배송지 관리 페이지 (등록, 수정, 삭제)
 	@GetMapping("/myaddr")
 	public String myAddr(
@@ -885,14 +992,31 @@ public class BuyerController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
         if (buyerLogin == null) {
+<<<<<<< HEAD
         	model.addAttribute("msg", "로그인 해주세요.");
         	model.addAttribute("url", "/buyer/login");
         	
         	return "/layout/alert";        	
         }
+=======
+
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("url", "/buyer/login");
+
+			return "/layout/alert";
+>>>>>>> TEST
 
 		if (authentication == null || session.getAttribute("authenticated") == null) {
 	        
+			model.addAttribute("msg", "비밀번호를 인증해주세요.");
+	        model.addAttribute("url", "/buyer/mypage/mymain");
+	        
+	        return "/layout/alert";
+	    
+		}
+		
+		if (authentication == null || session.getAttribute("authenticated") == null) {
+			
 			model.addAttribute("msg", "비밀번호를 인증해주세요.");
 	        model.addAttribute("url", "/buyer/mypage/mymain");
 	        
@@ -1014,7 +1138,12 @@ public class BuyerController {
 	@GetMapping("/outbuyer")
 	public String outBuyer(
 			Authentication authentication,
+<<<<<<< HEAD
 			Model model) {
+=======
+			Model model
+			) {
+>>>>>>> TEST
 		
 		logger.info("/buyer/mypage/outbuyer [GET]");
 

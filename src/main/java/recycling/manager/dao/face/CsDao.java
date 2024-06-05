@@ -21,11 +21,24 @@ public interface CsDao {
 	public List<Oto> list(PagingAndCtg upPaging);
 	
 	/**
-	 * 총 게시글 조회
+	 * 문의글 페이징
 	 * 
+	 * @param upPaging
 	 * @return
 	 */
+<<<<<<< HEAD
 	public int getPaging(PagingAndCtg upPaging);
+=======
+	public int selectCntAllotoList(PagingAndCtg upPaging);
+	
+	/**
+	 * 구매자 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllbuyerList(PagingAndCtg upPaging);
+>>>>>>> TEST
 
 	/**
 	 * 모든 구매자 조회
@@ -51,6 +64,12 @@ public interface CsDao {
 	 */
 	public void buyerUpdate(Buyer buyer);
 	
+	/**
+	 * 구매자 수정
+	 * 
+	 * @param bCode
+	 * @return
+	 */
 	public Buyer getBuyer(String bCode);
 	
 	/**

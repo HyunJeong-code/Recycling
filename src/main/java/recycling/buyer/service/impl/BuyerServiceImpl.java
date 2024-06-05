@@ -99,8 +99,13 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
+<<<<<<< HEAD
 	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
 		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
+=======
+	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging) {
+		return buyerDao.buyerDaoselectOrderDetailBybCode(upPaging);
+>>>>>>> TEST
 	}
 
 	@Override
@@ -324,5 +329,23 @@ public class BuyerServiceImpl implements BuyerService {
 	public int changePw(BuyerLogin buyerLogin) {
 		return buyerDao.changePw(buyerLogin);
 	}
+<<<<<<< HEAD
+=======
+	
+	@Override
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging) {
+		return buyerDao.selectCntOrderDetailBybCode(upPaging);
+	}
+	
+	@Override
+	public OrderDetail selectByorddtCode(String orddtCode) {
+		return buyerDao.selectByorddtCode(orddtCode);
+	}
+	
+	@Override
+	public int insertChange(Change change) {
+		return buyerDao.insertChange(change);
+	}
+>>>>>>> TEST
 
 }

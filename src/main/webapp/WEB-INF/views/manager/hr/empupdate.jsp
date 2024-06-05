@@ -76,6 +76,10 @@ $(function() {
 
     // 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
 	$("form").submit(function() {
+<<<<<<< HEAD
+=======
+        var sPhone = $("#inPhone").val();
+>>>>>>> TEST
         var email1 = $("#inPhone").val();
         var mPhone = $("#mPhone").val();
         var lPhone = $("#lPhone").val();
@@ -95,6 +99,37 @@ $(function() {
         console.log("mgrPhone : " + $("#mgrPhone").val()); // 값 확인
     });
     
+<<<<<<< HEAD
+=======
+	// 직접 입력 선택 시 입력 필드 표시
+	$("#inEmail").hide();
+	
+	$("#Email2").change(function() {
+		if($("#empEmail2").val() === "in") {
+			$("#inEmail").show();
+			$("#empEmail2").hide();
+		} else {
+			$("#inEmail").hide();
+			$("#empEmail2").show();
+		}
+	})
+	
+	// 이메일을 분리하여 각 필드에 값 설정
+    var phone = "${view.mgrEmail}";
+    var phoneParts = phone.split("@");
+    
+    if (["@naver.com", "@gmail.com", "@daum.net"].includes(phoneParts[1])) {
+        $("#empEmail2").val(phoneParts[1]);
+    } else {
+        $("#empEmail1").val("in");
+        $("#empEmail2").val(phoneParts[1]).show();
+    }
+
+    $("#empEmail1").val(phoneParts[0]);
+    $("#empEmail2").val(phoneParts[1]);
+    
+	
+>>>>>>> TEST
 	// 이메일 처리
 	$("form").submit(function() {
 	    var empEmail1 = $("#empEmail1").val();
@@ -112,6 +147,10 @@ $(function() {
 	    }
 	    
 	    // 숨겨진 입력 필드에 값 설정
+<<<<<<< HEAD
+=======
+	    $("#mgrEmail").val(fullEmail);
+>>>>>>> TEST
 	    $("#empEmail").val(fullEmail);
 	});
 

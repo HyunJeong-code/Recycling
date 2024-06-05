@@ -100,12 +100,21 @@ public interface BuyerService {
 	public int insertOrderDetail(OrderDetail orderDetail);
 
 	/**
+<<<<<<< HEAD
 	 * 주문 상세 조회
 	 * 
 	 * @param bCode - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
 	public List<MyOrder> selectOrderDetailBybCode(String bCode);
+=======
+	 * 주문 상세 리스트 조회
+	 * 
+	 * @param upPaging - 조회할 회원의 bCode
+	 * @return - 조회 List 결과
+	 */
+	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging);
+>>>>>>> TEST
 
 	/**
 	 * 장바구니 수량 변경
@@ -278,5 +287,32 @@ public interface BuyerService {
 	 * @return 처리 결과
 	 */
 	public int deleteSeller(String sCode);
+<<<<<<< HEAD
+=======
+	
+	/**
+	 * MyOrder paging
+	 * 
+	 * @param upPaging - paging
+	 * @return - paging 결과
+	 */
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문상세코드
+	 * @return - 주문 상세 내역
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
+	
+	/**
+	 * 거래 변경 사유
+	 * 
+	 * @param change - 거래 변경 DTO
+	 * @return INSERT 결과
+	 */
+	public int insertChange(Change change);
+>>>>>>> TEST
 
 }

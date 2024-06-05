@@ -9,12 +9,17 @@ import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.util.Paging;
+<<<<<<< HEAD
+=======
+import recycling.util.PagingAndCtg;
+>>>>>>> TEST
 
 
 // 메인 페이지 관련 처리
 
 public interface MgrService {
 	
+<<<<<<< HEAD
 	/**
 	 * 공지사항 전체 조회하기 + 페이징 시스템
 	 * @param paging - 페이징 객체
@@ -22,6 +27,8 @@ public interface MgrService {
 	 * @return - List<Notice>
 	 */
 	public List<Notice> selectAll();
+=======
+>>>>>>> TEST
 
 	/**
 	 * 공지사항 세부조회
@@ -30,6 +37,7 @@ public interface MgrService {
 	 * @return
 	 */
 	public Notice selectDetail(String ntcCode);
+<<<<<<< HEAD
 
 	/**
 	 * 페이징 계산 시스템
@@ -39,6 +47,8 @@ public interface MgrService {
 	 * @return
 	 */
 	public Paging selectCntAll(Paging pagingParam);
+=======
+>>>>>>> TEST
 	
 	/**
 	 * 비밀번호 암호화, 핸드폰 번호, 이메일 합치기
@@ -86,8 +96,42 @@ public interface MgrService {
 	 */
 	public int insertMgrProf(MgrFile mgrFile);
 
+<<<<<<< HEAD
 	public ManagerLogin selectByIdPw(Manager manager);
 
 	public List<Notice> selectAll(Paging paging);
 	
+=======
+	/**
+	 * 전체사원조회[empList]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging);
+	
+	/**
+	 * 전체사원조회 페이징[empList]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllempList(PagingAndCtg upPaging);
+	
+	/**
+	 * 공지사항 관리자조회[noticeist]
+	 * 
+	 * @return  List<Notice>
+	 */
+	public List<Notice> selectAllNotice(PagingAndCtg upPaging);
+
+	/**
+	 * 공지사항 관리자조회 페이징[noticelist]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllNotice(PagingAndCtg upPaging);
+
+>>>>>>> TEST
 }

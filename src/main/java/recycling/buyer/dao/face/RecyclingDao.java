@@ -52,7 +52,11 @@ public interface RecyclingDao {
 	public Buyer selectBuyerBybId(String bId);
 	
 	public int insertOto(Oto oto);
+<<<<<<< HEAD
 =======
+=======
+	
+>>>>>>> TEST
 //	public SellerQST selectSellerQST(String qstCode);
 
 //	public int insertSellerQST(SellerQST sellerQST);
@@ -68,6 +72,9 @@ public interface RecyclingDao {
 //	public int updateSellerAnswer(SellerAns sellerAns);
 
 	public int deleteSellerAnswer(String qnaCode);
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> TEST
 
 }

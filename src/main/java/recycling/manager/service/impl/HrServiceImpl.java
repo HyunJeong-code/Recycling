@@ -19,6 +19,10 @@ import recycling.dto.manager.MgrFile;
 import recycling.manager.dao.face.HrDao;
 import recycling.manager.service.face.HrService;
 import recycling.util.Paging;
+<<<<<<< HEAD
+=======
+import recycling.util.PagingAndCtg;
+>>>>>>> TEST
 
 @Service
 @Transactional
@@ -51,6 +55,15 @@ public class HrServiceImpl implements HrService {
 	    return hrDao.selectAll();
 	}
 
+<<<<<<< HEAD
+=======
+	//전체조회 페이징[main]
+	@Override
+	public int selectCntAllHr(PagingAndCtg upPaging) {
+		return hrDao.selectCntAllHr(upPaging);
+	}
+
+>>>>>>> TEST
 	//사원정보 상세조회
 	@Override
 	public Manager selectDetail(Manager manager) {

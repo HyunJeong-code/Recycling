@@ -528,5 +528,20 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
+<<<<<<< HEAD
 
+=======
+	
+	//디테일 프로필 조회
+	@Override
+	public ExpFile expProImage(ExpFile expFile) {
+		return slsDao.expProImage(expFile);
+	}
+	
+	//디테일부분 파일 조회
+	@Override
+	public List<ExpFile> expImage(ExpFile expFile) {
+		return slsDao.expImage(expFile);
+	}
+>>>>>>> TEST
 }//main

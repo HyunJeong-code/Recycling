@@ -161,7 +161,11 @@ th {
 	text-align: center;
 	margin-top: 20px;
 }
+<<<<<<< HEAD
 .button-group input {
+=======
+.button-group button {
+>>>>>>> TEST
     margin-right: 10px;
     padding: 10px 20px;
     background-color: #0066cc;
@@ -170,6 +174,7 @@ th {
     border-radius: 4px;
     cursor: pointer;
 }
+<<<<<<< HEAD
 .button-group input[type="button"] {
     background-color: #ccc;
 }
@@ -177,6 +182,18 @@ th {
     background-color: #005bb5;
 }
 .button-group input[type="button"]:hover {
+=======
+.button-group button[type="btnLeft"] {
+    background-color: #0066cc;
+}
+.button-group button[type="btn"]:hover {
+    background-color: #005bb5;
+}
+.button-group button[type="btn"] {
+    background-color: #ccc;
+}
+.button-group button[type="btn"]:hover {
+>>>>>>> TEST
     background-color: #bbb;
 }
 </style>
@@ -275,8 +292,8 @@ th {
 							</tr>
 						</table>
 						<div class="button-group">
-							<input type="submit" value="수정하기">
-							<input type="button" value="취소하기" onclick="cancelUpdate()">
+							<button type="btnLeft">수정하기</button>
+							<button type="btn" onclick="cancelUpdate()">취소하기</button>
 						</div>
 					</div>
 					

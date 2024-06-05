@@ -211,8 +211,11 @@ public class MypageServiceImpl implements MypageService {
         return result;
         
 	}
+<<<<<<< HEAD
 
 }
+=======
+>>>>>>> TEST
 	
 	@Override
 	public int selectAllCnt(PagingAndCtg paging) {

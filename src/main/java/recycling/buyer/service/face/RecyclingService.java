@@ -27,10 +27,15 @@ public interface RecyclingService {
 	
 	 /** 제품 DTO에서 리스트를 불러온다
 	List<Seller> findSeller();
+<<<<<<< HEAD
 =======
 	// 제품 DTO에서 리스트를 불러온다
 	// List<Seller> findSeller();
 >>>>>>> Stashed changes
+=======
+	// 제품 DTO에서 리스트를 불러온다
+	// List<Seller> findSeller();
+>>>>>>> TEST
 	
 	/**
 	 * 제품 DTO에서 리스트를 불러온다
@@ -65,7 +70,10 @@ public interface RecyclingService {
 	public Seller getSeller(String sCode);
 
 	public List<Map<String, Object>> selectQnaList(String prdCode);
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> TEST
 //	public SellerProf getSellerProf(String sCode);
 
 	/**
@@ -75,7 +83,10 @@ public interface RecyclingService {
 	 * @return	판매자 문의
 	 */
 //	public SellerQST selectSellerQst(String qstCode);
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> TEST
 
 	/**
 	 * 개인 구매자 정보 조회
@@ -93,7 +104,10 @@ public interface RecyclingService {
 	 */
 <<<<<<< Updated upstream
 	public int insertOto(Oto oto);
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> TEST
 //	public int insertSellerAnswer(SellerAns sellerAns);
 
 	/**
@@ -112,5 +126,8 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int deleteSellerAnswer(String qnaCode);
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> TEST
 }

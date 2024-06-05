@@ -109,13 +109,11 @@
     background-color: #f5f5f5;
 }
 
-
 </style>
 
 <script type="text/javascript">
-
-function toggleAnswer(ctFaqNo) {
-    var answerBox = ctFaqNo.querySelector('.FAQ_table_list_AnsBox');
+function toggleAnswer(ctFaqno) {
+    var answerBox = ctFaqno.querySelector('.FAQ_table_list_AnsBox');
     if (answerBox.style.display === 'none' || answerBox.style.display === '') {
         answerBox.style.display = 'block';
     } else {
@@ -125,16 +123,10 @@ function toggleAnswer(ctFaqNo) {
 
 $(document).ready(function(){
     $(".FAQ_CT_button").click(function(){
-        var ctFaqNo = $(this).val(); // 클릭한 버튼의 분류 번호 가져오기
-        
-        // 모든 FAQ 리스트 숨기기
-        $(".FAQ_table_list").hide();
-        
-        // 클릭한 버튼의 분류에 해당하는 FAQ 리스트만 보이도록 처리
-        $(".FAQ_table_list[data-ctFaqNo='" + ctFaqNo + "']").show();
+        var ctFaqno = $(this).val(); // 클릭한 버튼의 분류 번호 가져오기
+        window.location.href = "/buyer/help/main?curPage=1&search=" + ctFaqno + "&sCtg=UP"; // 분류 클릭 시 분류 번호를 포함한 URL로 이동
     });
 });
-
 </script>
 </head>
 <body>
@@ -177,14 +169,14 @@ $(document).ready(function(){
 	<h2>FAQ 자주 묻는 질문</h2>
 	
 	<nav class="FAQ_CT">
-			<button type="button" class="FAQ_CT_button " value="3000" >회원</button>
-            <button type="button" class="FAQ_CT_button " value="3010" >결제</button>
-            <button type="button" class="FAQ_CT_button " value="3020" >예약</button>
-            <button type="button" class="FAQ_CT_button " value="3030" >재활용품</button>
-            <button type="button" class="FAQ_CT_button " value="3040" >업사이클링</button>
-            <button type="button" class="FAQ_CT_button " value="3050" >체험단</button>
-            <button type="button" class="FAQ_CT_button " value="3060" >세척</button>
-            <button type="button" class="FAQ_CT_button " value="3070" >기타</button>
+			<button type="button" class="FAQ_CT_button" value="3000">회원</button>
+            <button type="button" class="FAQ_CT_button" value="3010">결제</button>
+            <button type="button" class="FAQ_CT_button" value="3020">예약</button>
+            <button type="button" class="FAQ_CT_button" value="3030">재활용품</button>
+            <button type="button" class="FAQ_CT_button" value="3040">업사이클링</button>
+            <button type="button" class="FAQ_CT_button" value="3050">체험단</button>
+            <button type="button" class="FAQ_CT_button" value="3060">세척</button>
+            <button type="button" class="FAQ_CT_button" value="3070">기타</button>
 	</nav>
 
 </div>
@@ -195,43 +187,35 @@ $(document).ready(function(){
 		<p class="FAQ_table_title">제목</p>
 	</div>
 	
-		<% 
-            List<Faq> list = (List<Faq>) request.getAttribute("list");// Controller에서 전달된 질문 목록
-            List<FaqCt> faqCtlist = (List<FaqCt>) request.getAttribute("faqCtlist");
-            for (Faq faq : list) {
-   		%>
-   		
-<!-- 	<div> css 수정해야됨 -->
-	
-	<div class="FAQ_table_list" onclick="toggleAnswer(this)" data-ctFaqNo="<%= faq.getCtFaqno() %>">
-		<em class="FAQ_list_ct">
-		<%
-		for (FaqCt faqCt : faqCtlist) {
-			if(faq.getCtFaqno() == faqCt.getCtFaqno()){
-				out.print(faqCt.getCtFaqname());
-				break;
-			}
-		}
-		%>
-		</em>
-		<p class="FAQ_list_title"><%= faq.getFaqTitle() %></p>
-		<div class="FAQ_table_list_box">
-			<div class="FAQ_table_list_AnsBox" style="display: none;">
-				<em class="FAQ_table_list_Ans">답변</em>
+	<c:forEach var="faq" items="${list}">
+		<div class="FAQ_table_list" onclick="toggleAnswer(this)" data-ctFaqno="${faq.ctFaqno}">
+			<em class="FAQ_list_ct">
+				<c:forEach var="faqCt" items="${faqCtlist}">
+					<c:if test="${faq.ctFaqno == faqCt.ctFaqno}">
+						${faqCt.ctFaqname}
+					</c:if>
+				</c:forEach>
+			</em>
+			<p class="FAQ_list_title">${faq.faqTitle}</p>
+			<div class="FAQ_table_list_box">
+				<div class="FAQ_table_list_AnsBox" style="display: none;">
+					<em class="FAQ_table_list_Ans">답변</em>
 					<div class="FAQ_table_list_contents">
-	    				<p><%= faq.getFaqAns() %></p>
-	                </div>
-	        </div>
-        </div>
-	</div>
-<!-- 	</div> -->
-                <%
-            }
-        %>
+						<p>${faq.faqAns}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</c:forEach>
+<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 </div>
 <c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </div>
+<<<<<<< HEAD
 
 
+=======
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+>>>>>>> TEST
 </body>
 </html>
