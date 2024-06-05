@@ -44,7 +44,6 @@ import recycling.seller.service.face.SellingService;
 import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 회원 정보 관련
-
 @Controller
 @RequestMapping("/buyer/mypage")
 public class BuyerController {

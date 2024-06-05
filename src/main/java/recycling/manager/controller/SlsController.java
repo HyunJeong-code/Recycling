@@ -28,6 +28,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
+import recycling.manager.service.face.MgrService;
 import recycling.manager.service.face.SlsService;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
@@ -43,26 +44,33 @@ public class SlsController {
 	@Autowired HttpSession session;
 	@Autowired private recycling.page.face.PageService pageService;
 	@Autowired private SellingService sellingService;
+	@Autowired private MgrService mgrService;
 	
 	// 문의글 메인 페이지
 	@RequestMapping("/main")
 	public void main(
-			@RequestParam(defaultValue = "0") int curPage
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
 			, @RequestParam(defaultValue = "") String search
-			, String category, Paging pagingParam, Model model
+			, @RequestParam(defaultValue = "") String sCtg
 			, String prdCode) {
 
-		Paging paging = new Paging();
-
-		// 페이징 계산
-		paging = slsService.getPaging(pagingParam);
-//		logger.info("{}", paging);
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = slsService.selectCntAllList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		// 판매자 목록 조회
-		List<Seller> main = slsService.main(paging);
+		List<Seller> main = slsService.main(upPaging);
 //		logger.info("controller list: {}", list);
 
-		model.addAttribute("paging", paging);
+		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("main", main);
 		
 	}
@@ -648,6 +656,5 @@ public class SlsController {
 		return "jsonView";
 	
 	}
-	
 	
 }
