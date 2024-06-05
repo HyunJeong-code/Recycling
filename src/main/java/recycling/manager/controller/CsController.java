@@ -182,6 +182,7 @@ public class CsController {
 			return "Manager code not found in session.";
 		}
 		
+		// 답변 작성 시 로그인한 아이디로 매니저 코드 삽입됨
 		String mgrCode1 = managerLogin.getMgrCode();
 
 		try {

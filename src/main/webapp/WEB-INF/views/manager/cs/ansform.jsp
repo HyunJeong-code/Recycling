@@ -48,6 +48,7 @@
 	<div class="full">
 	    <aside>
 	    </aside>
+	    
 	    <div class="wrap">
 	        <div class="page">문의글 상세</div>
 	        <div class="section">
