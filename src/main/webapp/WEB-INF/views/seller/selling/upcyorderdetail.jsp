@@ -38,7 +38,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				<form action="./upcyorderupdate" method="post">
 					<input name="orddtCode" value="${order.orddtCode }" style="display:none">
 					<input name="ordCode" value="${order.ordCode }" style="display:none">
-					<table>
+					<table class="view-table">
 						<tr>
 							<td>주문번호</td>
 							<td>${order.orddtCode }</td>

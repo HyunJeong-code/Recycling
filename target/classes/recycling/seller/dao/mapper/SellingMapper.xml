@@ -157,7 +157,7 @@
 		<where>
 			AND prd_code = #{prdCode}
 			AND ct_pflno = 610
-        	AND prd_flno NOT IN (${prdFlNo})
+       		AND prd_flno NOT IN (${prdFlNo})
 		</where>
 	</delete>
 	

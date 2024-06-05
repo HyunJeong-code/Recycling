@@ -200,11 +200,17 @@ public class SellingController {
 	public String upcyUpdate(Prd prd
 			, @RequestParam("profile") MultipartFile profile
 			, @RequestParam("file") List<MultipartFile> file
-			, @RequestParam("fileId") List<Integer> fileId) {
+			, @RequestParam(value = "fileId", required = false) List<Integer> fileId) {
+	    if (fileId == null) {
+	        fileId = new ArrayList<>();
+	    }
+		
 		logger.info("{}", prd);
 		logger.info("profile: {}", profile);		
 		logger.info("file: {}", file);
 		logger.info("fileId: {}", fileId);
+		
+
 		
 		String prdCode = prd.getPrdCode();
 		
@@ -245,7 +251,9 @@ public class SellingController {
 			
 			
 			//파일 삭제
-	        sellingService.deleteDetailFile(map);
+			if(map.get(prdFlNo) != null && !map.get(prdFlNo).isEmpty()) {
+				sellingService.deleteDetailFile(map);
+			}
 			for(MultipartFile detailFile : tempFiles) {
 				logger.info("detailFile: {}", detailFile);
 				int detailRes = sellingService.updateDetailFile(prdCode, detailFile);

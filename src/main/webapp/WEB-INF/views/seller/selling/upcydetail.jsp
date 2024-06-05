@@ -13,105 +13,37 @@
 <script type="text/javascript">
 
 
-//파일 미리보기
-function setThumbnail(event, i) {
-    var fileInput = event.target;
-    var files = fileInput.files;
-    var container = document.querySelector("div#image_container"+i);
-
-    // 이미지 컨테이너의 모든 자식 요소를 삭제합니다.
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
-    
-
-
-    // 파일이 선택되었는지 확인하고, 선택된 파일이 있다면 이미지를 추가합니다.
-    if (files && files.length > 0) {
-    	
-        /* var id = "#file"+i;
-        
-        
-        var input = document.createElement("input");
-        input.setAttribute("value", $(id).attr("class"));
-        input.setAttribute("hidden","hidden");
-        input.setAttribute("name","fileId");
-        container.appendChild(input);
-        
-        var id1 = "#before"+i;
-        
-        $(id1).val(''); */
-        
-        //<input value="${files[1].prdFlNo }" id="before1" name="beforeFile" hidden="" >
-        
-
-        var reader = new FileReader();
-
-        // 선택한 파일의 첫 번째 파일을 읽어옵니다.
-        reader.readAsDataURL(files[0]);
-
-        // 파일이 로드될 때마다 실행될 onload 함수를 설정합니다.
-        reader.onload = function(event) {
-        	//$("#mainImg").attr("src",event.target.result);
-            var img = document.createElement("img");
-            img.setAttribute("src", event.target.result);
-            img.setAttribute("class", "col-lg-6");
-            container.appendChild(img);
-        };
-    }
-}
-
-
-function setThumbnail2(event) {
-    var fileInput = event.target;
-    var files = fileInput.files;
-    var container = document.querySelector("div#image_container2");
-    
-    // 이미지 컨테이너의 모든 자식 요소를 삭제합니다.
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
-    
-    // 파일이 선택되었는지 확인하고, 선택된 파일이 있다면 이미지를 추가합니다.
-    if (files && files.length > 0) {
-        var reader = new FileReader();
-
-        // 선택한 파일의 첫 번째 파일을 읽어옵니다.
-        reader.readAsDataURL(files[0]);
-
-        // 파일이 로드될 때마다 실행될 onload 함수를 설정합니다.
-        reader.onload = function(event) {
-        	//$("#mainImg").attr("src",event.target.result);
-            var img = document.createElement("img");
-            img.setAttribute("src", event.target.result);
-            img.setAttribute("class", "col-lg-6");
-            container.appendChild(img);
-        };
-    }
-    
-    for (var i = 0; i < files.length; i++) {
-    	var reader = new FileReader();
-    	
-        // 선택한 파일의 i 번째 파일을 읽어옵니다.
-        reader.readAsDataURL(files[i]);
-        
-        if($(this).attr("id"))
-        reader.onload = function(event) {
-            var img = document.createElement("img");
-            img.setAttribute("src", event.target.result);
-            container.appendChild(img);
-        };
-    	
-/*         var img = document.createElement("img");
-        img.setAttribute("src", event.target.result);
-        img.setAttribute("class", "col-lg-6");
-        container.appendChild(img); */
-        
-    	var div = document.createElement("div");
-        div.innerText = fileName;
-        container.appendChild(div);
-    }
-}
+	//파일 미리보기
+	function setThumbnail(event, i) {
+	    var fileInput = event.target;
+	    var files = fileInput.files;
+	    var container = document.querySelector("div#image_container"+i);
+	
+	    // 이미지 컨테이너의 모든 자식 요소를 삭제합니다.
+	    while (container.firstChild) {
+	        container.removeChild(container.firstChild);
+	    }
+	    
+	
+	
+	    // 파일이 선택되었는지 확인하고, 선택된 파일이 있다면 이미지를 추가합니다.
+	    if (files && files.length > 0) {
+	    
+	        var reader = new FileReader();
+	
+	        // 선택한 파일의 첫 번째 파일을 읽어옵니다.
+	        reader.readAsDataURL(files[0]);
+	
+	        // 파일이 로드될 때마다 실행될 onload 함수를 설정합니다.
+	        reader.onload = function(event) {
+	        	//$("#mainImg").attr("src",event.target.result);
+	            var img = document.createElement("img");
+	            img.setAttribute("src", event.target.result);
+	            img.setAttribute("class", "col-lg-6");
+	            container.appendChild(img);
+	        };
+	    }
+	}
 
 	$(function() {
 		// 해당 상품의 ctPdtNo 선택
@@ -151,10 +83,10 @@ function setThumbnail2(event) {
         <div class="wrap">
             <c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
         
-            <div class="section">
-            	<h3>${prd.prdName }</h3>
+            <div class="main-section">
+            	<h3>상품 상세</h3>
             	<form action="./cyupdate?prdCode=${prd.prdCode}" id="detailForm" method="post" enctype="multipart/form-data">
-	            	<table>
+	            	<table class="view-table">
 	            		<tr>
 	            			<td>상품코드</td>
 	            			<td>${prd.prdCode }</td>
@@ -188,28 +120,23 @@ function setThumbnail2(event) {
 	            			<td>상품 상세</td>
 	            			<td><input type="text" name="prdDetail" value="${prd.prdDetail }" data-name="상품 상세"></td>
 	            		</tr>
-	            		<c:forEach var="file" items="${files }">
-	            			<c:if test="${file.ctPflNo == 600 }">
-		 	            		<tr>
-			            			<td>메인 이미지</td>
-			            			<td>
-			            				<div class="filebox">
-											<input type="file" id="profile" name="profile" onchange="setThumbnail(event,0);" required="required">
-										</div>
-										<div id="image_container0">
-											<img id="mainImg" alt="${prd.prdName }" src="/upload/${file.storedName }">
-										</div>
-			            			</td>
-			            		</tr>
-			            	</c:if>
-		            	</c:forEach>
+	            		<tr>
+	            			<td>메인 이미지</td>
+	            			<td>
+	            				<div class="filebox">
+									<input type="file" id="profile" name="profile" onchange="setThumbnail(event,0);" required="required">
+								</div>
+								<div id="image_container0">
+			            		<c:forEach var="file" items="${files }">
+			            			<c:if test="${file.ctPflNo == 600 }">
+										<img id="mainImg" alt="${prd.prdName }" src="/upload/${file.storedName }">
+					            	</c:if>
+				            	</c:forEach>
+			            		</div>
+		            		</td>
+		            	</tr>
 		            	<tr>
 		            		<td>서브 이미지</td>
-			            	<!-- <div class="filebox">
-								<input multiple="multiple" type="file" id="file1" name="file" onchange="setThumbnail(event,1);"  required="required">
-								<input multiple="multiple" type="file" id="file2" name="file" onchange="setThumbnail(event,2);"  required="required">
-								<input multiple="multiple" type="file" id="file3" name="file" onchange="setThumbnail(event,3);"  required="required">
-							</div> -->
 			            	<c:set var="files" value="${files }"/>
 			            	<c:forEach var="i" begin="1" end="3">
 			            		<td>
