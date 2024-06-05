@@ -204,7 +204,7 @@
 		        <where>
 			        AND OD.prd_code = P.prd_code(+)
 			        AND OD.stt_no = 940
-			        AND P.prd_detail LIKE '%'
+			        AND P.prd_detail LIKE '%' || #{search } || '%'
 		        </where>
 		    ) OD
 		    <where>
@@ -225,10 +225,10 @@
 			        AND ER.sch_no(+) = ES.sch_no 
 	            	AND res_date &lt; sysdate
 		            AND res_cnf = 'N'
-		            AND ER.b_code = #{user };
+		            AND ER.b_code = #{user }
 		            AND (
-		                ER.res_expname = #{search }
-		                OR ES.exp_detail = #{search }
+		                ER.res_expname LIKE '%' || #{search } || '%'
+		                OR ES.exp_detail LIKE '%' || #{search } || '%'
 		            )
 		        </where>
 		        ORDER BY res_date

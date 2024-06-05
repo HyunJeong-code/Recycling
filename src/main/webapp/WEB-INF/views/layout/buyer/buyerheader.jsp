@@ -20,6 +20,23 @@ $(function(){
 		url : '/buyer/buyerheader',
 		dataType: 'json',
 		success: function(res) {
+			
+// 			$("#ntcBanner").html(res[0].RNUM)
+// 			$("#ntcBanner").html(res[0].NTC_CODE)
+// 			$("#ntcBanner").html(res[0].TITLE)
+
+// 			var html = "" + res[0]["RNUM"] + " " + res[0]["NTC_CODE"] + " " + res[0]["TITLE"]
+// 			$("#ntcBanner").html(html)
+			
+			$("#ntcBanner").append( $("<ul>") )
+			res.forEach(function( val ) {
+// 				console.log(val)
+				
+				$("<li>").html( val.RNUM + " " + val.NTC_CODE + " " + "<a href='/test?no=" + val.NTC_CODE + "'>" + val.TITLE +"</a>" )
+				.appendTo($("#ntcBanner ul"))
+			})
+
+
 // 			console.log("res : " + JSON.stringify(res));
 // 			console.log("res : " + JSON.stringify(res).length);
 // 			console.log("res : " + typeof(JSON.stringify(res)));
