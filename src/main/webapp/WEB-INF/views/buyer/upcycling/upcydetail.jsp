@@ -8,138 +8,237 @@
 <title>새상품 업사이클 상품페이지</title>
 <style type="text/css">
 	body {
-		margin: 0;
-		padding: 0;
-		display: flex;
-		justify-content: center;
-	}
-	
-	.container {
-		padding: 20px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 20px;
+		margin: 0;
+		overflow-x: hidden;
 		width: 100%;
-		max-width: 1200px;
+		min-height: 100vh;
+		position: relative;
+	}
+	
+	header, footer {
+	    width: 100%;
+	    flex-shrink: 0;
+	}
+	
+	.mainContainer {
+	    padding: 20px;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    width: 100%;
+	    max-width: 1200px;
 	}
 	
 	.group {
-		width: 200px;
-		margin-bottom: 20px;
-		margin-right: auto;
+	    width: 200px;
+	    margin-bottom: 20px;
+	    margin-right: auto;
 	}
 	
 	.detailUpper {
-		display: flex;
-		width: 100%;
-		max-width: 1200px;
-		margin-bottom: 20px;
-		justify-content: space-between;
+	    display: flex;
+	    width: 100%;
+	    max-width: 1200px;
+	    margin-bottom: 20px;
+	    justify-content: space-between;
 	}
 	
 	.mainThumbnail {
-		width: 500px;
-		height: 500px; /* 고정 높이 */
-		background-color: #f0f0f0; /* 배경색 설정 */
-		margin-bottom: 20px;
-		margin-right: 20px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	    width: 500px;
+	    height: 500px; /* 고정 높이 */
+	    background-color: #f0f0f0; /* 배경색 설정 */
+	    margin-bottom: 20px;
+	    margin-right: 20px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
 	}
 	
 	.mainThumbnail img {
-		max-width: 100%;
-		max-height: 100%;
+	    max-width: 100%;
+	    max-height: 100%;
 	}
 	
 	.prdInfo {
-		flex: 1;
+	    flex: 1;
 	}
 	
 	.buyBtn, .reportBtn {
-		display: inline-block;
-		padding: 10px 20px;
-		margin-right: 10px;
-		background-color: #007bff;
-		color: #fff;
-		text-decoration: none;
-		border-radius: 5px;
+	    display: inline-block;
+	    padding: 10px 20px;
+	    margin-right: 10px;
+	    background-color: #4CAF50;
+	    color: #fff;
+	    text-decoration: none;
+	    border-radius: 5px;
 	}
 	
 	.buyBtn:hover, .reportBtn:hover {
-		background-color: #0056b3;
+	    background-color: #0056b3;
 	}
 	
 	.section {
-		width: 100%;
-		max-width: 1200px;
-		margin-top: 20px;
-		padding: 20px;
-		border: 1px solid #ddd;
+	    width: 100%;
+	    max-width: 1200px;
+	    margin-top: 20px;
+	    padding: 20px;
+	    border: 1px solid #ddd;
 	}
 	
 	.navBar {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-		max-width: 1200px;
-		margin-bottom: 20px;
+	    display: flex;
+	    justify-content: space-between;
+	    width: 100%;
+	    max-width: 1200px;
+	    margin-bottom: 20px;
 	}
 	
 	.navBtn {
-		flex-grow: 1;
-		padding: 10px 20px;
-		cursor: pointer;
-		color: gray;
-		font-weight: normal;
-		border: 1px solid #ddd;
-		border-bottom: 5px solid gray;
-		text-align: center;
-		font-size: 16px;
+	    flex-grow: 1;
+	    padding: 10px 20px;
+	    cursor: pointer;
+	    color: gray;
+	    font-weight: normal;
+	    border: 1px solid #ddd;
+	    border-bottom: 5px solid gray;
+	    text-align: center;
+	    font-size: 16px;
 	}
 	
 	.navBtn.active {
-		color: black;
-		font-weight: bold;
-		border-bottom: 5px solid black;
+	    color: black;
+	    font-weight: bold;
+	    background-color : #CEE741;
+	    border-bottom: 5px solid black;
 	}
 	
 	.review-item {
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-    .review-form {
-        display: flex;
-        flex-direction: column;
-        margin-top: 20px;
-    }
-    .review-form textarea {
-        margin-bottom: 10px;
-        padding: 10px;
-        font-size: 14px;
-    }
-    
-    .comment-textarea {
-		width: 100%;
-		max-width: 100%; 
-		min-width: 100%;
-		padding: 10px; /* 내부 여백 조정 */
-		font-size: 14px; /* 글자 크기 설정 */
+	    margin-bottom: 20px;
+	    padding: 10px;
+	    border: 1px solid #ddd;
 	}
-    
-    .review-form button {
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    .review-form button:hover {
-        background-color: #0056b3;
-    }
+	
+	.review-form {
+	    display: flex;
+	    flex-direction: column;
+	    margin-top: 20px;
+	    text-align: center;
+	}
+	
+	.review-form textarea {
+	    margin-bottom: 10px;
+	    padding: 0px;
+	    font-size: 14px;
+	    width: 100%;
+	}
+	
+	.comment-textarea {
+	    width: 100%;
+	    max-width: 100%; 
+	    min-width: 100%;
+	    padding: 10px; /* 내부 여백 조정 */
+	    font-size: 14px; /* 글자 크기 설정 */
+	}
+	
+	.review-form button {
+	    padding: 10px;
+	    background-color: #007bff;
+	    color: white;
+	    border: none;
+	    cursor: pointer;
+	}
+	
+	.review-form button:hover {
+	    background-color: #0056b3;
+	}
+	
+	/*------------------------ 퍼온 CSS -------------------------- */
+	.page {
+	    border: none;
+	    border-bottom: 3px solid black;
+	    vertical-align: middle;
+	}
+	
+	h3, h4 {
+	    margin: 0;
+	    margin-bottom: 10px;
+	}
+	
+	.chk {
+	    width: 50px;
+	}
+	
+	.ctg {
+	    width: 150px;
+	}
+	
+	.stt {
+	    width: 100px;
+	}
+	
+	.title {
+	    width: 500px;
+	}
+	
+	.ans {
+	    width: 150px;
+	}
+	
+	.entdate {
+	    width: 200px;
+	}
+	
+	.hit {
+	    width: 50px;
+	}
+	
+	.grade {
+	    width: 150px;
+	}
+	
+	.content {
+	    width: 400px;
+	}
+	
+	.none {
+	    width: 900px;
+	}
+	
+	.dropctg {
+	    display: inline;
+	}
+	
+	th {
+	    background-color:#CEE741;
+	}
+	
+	td {
+	    border-bottom: 1px solid black;
+	    text-align: center;
+	}
+	
+	input[type=text] {
+	    border: none;
+	    border-bottom: 1px solid black;
+	}
+	
+	input[type=button] {
+	    width: 100px;
+	    border: none;
+	}
+	
+	button {
+	    width: 100px;
+	    border: none;
+	    background-color:#CEE741;
+	}
+	
+	.section4 table {
+	    width: 850px;
+	}
 	
 	
 </style>
@@ -188,11 +287,18 @@
                 map.setCenter(coords);
             } 
         });
+        
+        
     };
 </script>
 </head>
+
 <body>
-	<div class="container">
+	<header>
+		<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	</header>
+
+	<div class="mainContainer">
 		<div class="group">
 			<p>업사이클링>중분류</p>
 		</div>
@@ -231,12 +337,20 @@
 			<h3>판매자 정보</h3>
 			<div class="seller-info">
 				<div class="seller-section">
-					
 					<%-- <img src="${sellerProf.storedName}" alt="${sellerProf.originName}" class="seller-photo"> --%>
-					<p>아이디: ${sellerProf.sCode}</p>
-					<p>등급: ${sellerProf.tierName}</p>
-					<p>평점: ${sellerProf.sRating}/10</p>
-					<p>총 거래 횟수: ${sellerProf.totalTransaction}</p>
+					<p><b>아이디: </b> ${buyer.bId}</p>
+		            <p><b>회원분류: </b>
+		                <c:choose>
+		                    <c:when test="${buyer.bCtCode eq 'P'}">개인회원</c:when>
+		                    <c:when test="${buyer.bCtCode eq 'C'}">기업회원</c:when>
+		                    <c:otherwise>알 수 없음</c:otherwise>
+		                </c:choose>
+		            </p>
+					<c:if test="${buyer.bCtCode eq 'C'}">
+						<p><b>담당자 연락처: </b> ${buyer.bPhone}</p>
+						<p><b>담당자 이메일: </b> ${buyer.bEmail}</p>
+					</c:if>
+					<p><b>총 거래 횟수: </b> ${shipCnt}</p>
 				</div>
 			</div>
 		</div>
@@ -261,7 +375,7 @@
 				<div class="review-form">
 				    <form action="./upcyrvwformProc" method="post">
 				        <input type="hidden" name="prdcode" value="${param.prdCode}">
-				        <textarea class="comment-textarea" name="upcyContent" rows="4" placeholder="리뷰를 작성하세요"></textarea>
+<!-- 				        <textarea class="comment-textarea" name="upcyContent" rows="4" placeholder="리뷰를 작성하세요"></textarea> 
 				        <label for="upcyGrade">평점:</label>
 				        <select name="upcyGrade">
 				            <option value="1">1점</option>
@@ -270,7 +384,7 @@
 				            <option value="4">4점</option>
 				            <option value="5">5점</option>
 				        </select>
-				        <!-- <button type="submit">리뷰 작성</button> -->
+				        <button type="submit">리뷰 작성</button> -->
 				    </form>
 				</div>
 				

@@ -40,6 +40,10 @@ public interface RecyclingDao {
 	
 //	public SellerProf selectSellerProfByCode(String sCode);
 
+	public Buyer selectBuyerByBCode(String getbCode);
+
+	public int selectShipCnt(String getsCode);
+	
 	public List<Map<String, Object>> selectQnaList(String prdCode);
 	
 	/**
@@ -47,7 +51,6 @@ public interface RecyclingDao {
 	 * @param bCode 구매자 코드
 	 * @return bName (구매자 이름)
 	 */
-	public Buyer selectBuyerByBCode(String bCode);
 
 	public Buyer selectBuyerBybId(String bId);
 	

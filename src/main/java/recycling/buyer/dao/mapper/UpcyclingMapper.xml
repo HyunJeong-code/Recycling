@@ -21,10 +21,20 @@
 		WHERE S_CODE = #{sCode}
 	</select>
 	
-<!-- 	<select id="selectSellerProf" resultType="SellerProf"> -->
-<!-- 		SELECT * FROM SELLER_PROF -->
-<!-- 		WHERE S_CODE = #{sCode} -->
-<!-- 	</select> -->
+	<select id="selectBuyerByBCode" resultType="Buyer">
+	    SELECT * FROM BUYER
+	    WHERE B_CODE = #{bCode}
+	</select>
+	
+	<select id="selectShipCnt" resultType="int">
+		SELECT count(*) FROM order_detail OD, prd P
+		<where>
+			AND OD.prd_code = P.prd_code(+)
+			AND P.s_code = #{sCode }
+			AND OD.stt_no = 920
+		</where>
+	</select>
+	
 
 	<select id="selectListCntAll" resultType="Prd">
         SELECT COUNT(*) FROM Prd

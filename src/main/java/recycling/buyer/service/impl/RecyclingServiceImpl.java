@@ -69,6 +69,16 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 	
 	@Override
+	public Buyer selectBuyerByBCode(String getbCode) {
+		return recyclingDao.selectBuyerByBCode(getbCode);
+	}
+
+	@Override
+	public int selectShipCnt(String getsCode) {
+		return recyclingDao.selectShipCnt(getsCode);
+	}
+	
+	@Override
 	public List<Map<String, Object>> selectQnaList(String prdCode) {
 		
 		List<Map<String, Object>> qnaList = recyclingDao.selectQnaList(prdCode);
@@ -104,6 +114,8 @@ public class RecyclingServiceImpl implements RecyclingService {
 	public int insertOto(Oto oto) {
 		return recyclingDao.insertOto(oto);
 	}
+
+
 	
 //	@Override
 //	public SellerProf getSellerProf(String sCode) {

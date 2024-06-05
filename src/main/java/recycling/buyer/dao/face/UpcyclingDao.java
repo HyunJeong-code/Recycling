@@ -20,6 +20,10 @@ public interface UpcyclingDao {
 	public Prd selectPrd(String prdCode);
 	
 	public Seller selectSeller(String getsCode);
+	
+	public Buyer selectBuyerByBCode(String getbCode);
+
+	public int selectShipCnt(String getsCode);
 
 	public Buyer selectBcode(int bCode);
 

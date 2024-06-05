@@ -9,13 +9,22 @@
 <title>새상품 재활용품 상품페이지</title>
 <style type="text/css">
 	body {
-		margin: 0;
-		padding: 0;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		margin: 0;
+		overflow-x: hidden;
+		width: 100%;
+		min-height: 100vh;
+		position: relative;
 	}
 	
-	.container {
+	header, footer {
+        width: 100%;
+        flex-shrink: 0;
+    }
+	
+	.mainContainer {
 		padding: 20px;
 		display: flex;
 		flex-direction: column;
@@ -63,7 +72,7 @@
 		display: inline-block;
 		padding: 10px 20px;
 		margin-right: 10px;
-		background-color: #007bff;
+		background-color: #4CAF50;
 		color: #fff;
 		text-decoration: none;
 		border-radius: 5px;
@@ -102,9 +111,10 @@
 	}
 	
 	.navBtn.active {
-		color: black;
-		font-weight: bold;
-		border-bottom: 5px solid black;
+	    color: black;
+	    font-weight: bold;
+	    background-color : #CEE741;
+	    border-bottom: 5px solid black;
 	}
 	
 	.review-item {
@@ -268,8 +278,12 @@
     };
 </script>
 </head>
+	<header>
+		<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	</header>
 <body>
-	<div class="container">
+
+	<div class="mainContainer">
 		<div class="group">
 			<p>재활용품>중분류</p>
 		</div>
@@ -309,10 +323,19 @@
 				<div class="seller-section">
 					
 					<%-- <img src="${seller.storedName}" alt="${seller.originName}" class="seller-photo"> --%>
-					<p>아이디: ${seller.sCode}</p>
-					<p>등급: ${seller.sTier}</p>
-					<p>평점: ${seller.sRating}/10</p>
-					<p>총 거래 횟수: ${seller.totalTransaction}</p>
+					<p><b>아이디: </b> ${buyer.bId}</p>
+		            <p><b>회원분류: </b>
+		                <c:choose>
+		                    <c:when test="${buyer.bCtCode eq 'P'}">개인회원</c:when>
+		                    <c:when test="${buyer.bCtCode eq 'C'}">기업회원</c:when>
+		                    <c:otherwise>알 수 없음</c:otherwise>
+		                </c:choose>
+		            </p>
+					<c:if test="${buyer.bCtCode eq 'C'}">
+						<p><b>담당자 연락처: </b> ${buyer.bPhone}</p>
+						<p><b>담당자 이메일: </b> ${buyer.bEmail}</p>
+					</c:if>
+					<p><b>총 거래 횟수: </b> ${shipCnt}</p>
 				</div>
 			</div>
 		</div>

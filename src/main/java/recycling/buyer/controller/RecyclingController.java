@@ -116,11 +116,8 @@ public class RecyclingController {
 		}
 
 		Seller seller = recyclingService.selectSeller(prd.getsCode());
-//		SellerProf sellerProf = recyclingService.getSellerProf(prd.getsCode());
-
-		model.addAttribute("prd", prd);
-		model.addAttribute("seller", seller);
-//		model.addAttribute("sellerProf", sellerProf);
+		Buyer buyer = recyclingService.selectBuyerByBCode(seller.getbCode());
+		int shipCnt = recyclingService.selectShipCnt(prd.getsCode());
 
 		List<Map<String, Object>> qna = recyclingService.selectQnaList(prdCode);
 
@@ -133,7 +130,9 @@ public class RecyclingController {
 
 		model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
-
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("shipCnt", shipCnt);
+		
 		return "buyer/recycling/rcydetail";
 	}
 

@@ -70,12 +70,13 @@ public class UpcyclingController {
 		}
 		
 		Seller seller = upcyclingService.selectSeller(prd.getsCode());
-//		SellerProf sellerProf = upcyclingService.selectSellerProf(prd.getsCode());
+		Buyer buyer = upcyclingService.selectBuyerByBCode(seller.getbCode());
+		int shipCnt = upcyclingService.selectShipCnt(prd.getsCode());
 		
 		model.addAttribute("prd", prd);
 		model.addAttribute("seller", seller);
-//		model.addAttribute("sellerProf", sellerProf);
-		
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("shipCnt", shipCnt);
 		
 		return "buyer/upcycling/upcydetail";
 		

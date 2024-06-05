@@ -56,6 +56,18 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public Seller selectSeller(String getsCode) {
 		return upcyclingDao.selectSeller(getsCode);
 	}
+	
+	@Override
+	public Buyer selectBuyerByBCode(String getbCode) {
+		return upcyclingDao.selectBuyerByBCode(getbCode);
+	}
+
+	
+	@Override
+	public int selectShipCnt(String getsCode) {
+		return upcyclingDao.selectShipCnt(getsCode);
+	}
+	
 
 //	@Override
 //	public SellerProf selectSellerProf(String sCode) {
@@ -125,6 +137,11 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		upcyclingDao.deleteReview(upcyCode);
 		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
 	}
+
+
+
+
+
 
 
 	
