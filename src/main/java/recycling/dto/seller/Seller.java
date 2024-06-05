@@ -15,13 +15,7 @@ public class Seller {
 	private String sOut;
 	private String sOutDate;
 	
-<<<<<<< HEAD
-	public Seller() {}		
-=======
-
-	public Seller() {
-	}
->>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
+	public Seller() {}
 
 	public Seller(String sCode, String bCode, String accName, String accBank, String accNo, String sPostcode,
 			String sAddr, String sDetail, String sEntDate, String sChk, String sOut, String sOutDate) {

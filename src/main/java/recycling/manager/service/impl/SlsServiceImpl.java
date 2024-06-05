@@ -499,7 +499,6 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
-<<<<<<< HEAD
 	
 	//디테일 프로필 조회
 	@Override
@@ -536,7 +535,5 @@ public class SlsServiceImpl implements SlsService {
 	public List<ExpSch> selectAllSch(String expCode) {
 		return slsDao.selectAllSch(expCode);
 	}
-=======
 
->>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
 }//main
