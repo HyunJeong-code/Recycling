@@ -1,5 +1,6 @@
 package recycling.manager.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -485,5 +486,20 @@ public interface SlsDao {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
+	
+	/**
+	 * 멀티업로드 전 파일삭제
+	 * @param map
+	 */
+	public void deleteDetailFile(HashMap<String, String> map);
+	
+	/**
+	 * 멀티업로드 파일 넣기
+	 * @param expCode
+	 * @param detailFile
+	 * @return
+	 */
+	public int insertPrdFile(ExpFile expFile);
+
 
 }

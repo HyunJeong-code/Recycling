@@ -1,5 +1,6 @@
 package recycling.manager.service.face;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -436,6 +437,20 @@ public interface SlsService {
 
 
 	public int upPageSlsMain(PagingAndCtg upPaging);
+
+	/**
+	 * 멀티업로드 전 파일삭제
+	 * @param map
+	 */
+	public void deleteDetailFile(HashMap<String, String> map);
+
+	/**
+	 * 멀티업로드 파일 넣기
+	 * @param expCode
+	 * @param detailFile
+	 * @return
+	 */
+	public int updateDetailFile(String expCode, MultipartFile detailFile);
 
 	
 }

@@ -2,6 +2,9 @@ package recycling.seller.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import io.vavr.collection.HashMap;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
@@ -240,19 +243,8 @@ public interface SellingService {
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
 
-	
 
 	
-
-	
-
-
-
-	
-
-	
-
-
 
 
 
