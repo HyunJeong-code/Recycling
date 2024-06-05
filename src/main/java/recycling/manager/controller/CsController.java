@@ -57,11 +57,7 @@ public class CsController {
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		
-<<<<<<< HEAD
-		int upPage = mgrService.selectCntAllempList(upPaging);
-=======
 		int upPage = csService.selectCntAllotoList(upPaging);
->>>>>>> TEST
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		// 게시글 목록 조회
@@ -71,11 +67,6 @@ public class CsController {
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
 		model.addAttribute("upUrl", "/manager/cs/main");
-<<<<<<< HEAD
-
-=======
-		
->>>>>>> TEST
 	}
 	
 	// 구매자 리스트
@@ -95,11 +86,7 @@ public class CsController {
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		
-<<<<<<< HEAD
-		int upPage = mgrService.selectCntAllempList(upPaging);
-=======
 		int upPage = csService.selectCntAllbuyerList(upPaging);
->>>>>>> TEST
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 		// 구매자 목록 조회

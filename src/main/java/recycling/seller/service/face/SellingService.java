@@ -3,7 +3,6 @@ package recycling.seller.service.face;
 import java.util.List;
 import java.util.Map;
 
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -12,9 +11,7 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
-import recycling.util.Paging;
-import recycling.dto.seller.AllPrd;
-import recycling.dto.seller.Exp;
+import recycling.util.PagingAndCtg;
 
 // 상품-판매 관련 처리
 
@@ -180,11 +177,6 @@ public interface SellingService {
 	 * @return - DELETE 결과
 	 */
 	public int deleteShip(String orddtCode);
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-	
-=======
->>>>>>> TEST
 
 	/**
 	 * 주문 상세 조회
@@ -234,42 +226,6 @@ public interface SellingService {
 	 * @return
 	 */
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
-<<<<<<< HEAD
-	
-	/**
-	 * 판매자 전체 상품 개수 조회
-	 * 
-	 * @param upPaging - 판매자 정보, 검색어
-	 * @return 개수
-	 */
-	public int selectCntAllPrd(PagingAndCtg upPaging);
-	
-	/**
-	 * 판매자 전체 주문 개수 조회
-	 * 
-	 * @param upPaging - 판매자 정보, 검색어
-	 * @return 개수
-	 */
-	public int selectCntAllOrd(PagingAndCtg unPaging);
-	
-	/**
-	 * 판매자 전체 상품 조회
-	 * 
-	 * @param upPaging - 판매자 정보, 검색어
-	 * @return 상품 리스트
-	 */
-	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging);
-
-	/**
-	 * 판매자 전체 주문 조회
-	 * 
-	 * @param upPaging - 판매자 정보, 검색어
-	 * @return 주문 리스트
-	 */
-	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
-
-=======
->>>>>>> TEST
 	
 	/**
 	 * 판매자 전체 상품 개수 조회
@@ -319,10 +275,6 @@ public interface SellingService {
 	 */
 	public ExpSch selectExpSchbySchNo(int schNo);
 
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-=======
 	/**
 	 * 체험예약 정보
 	 * 
@@ -330,7 +282,6 @@ public interface SellingService {
 	 * @return
 	 */
 	public List<ExpRes> expResDetailRes(int schNo);
->>>>>>> TEST
 
 	public int expResUpdate(List<String> chBox, String actionType);
 

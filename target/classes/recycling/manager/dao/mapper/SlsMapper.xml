@@ -9,9 +9,6 @@
 	<sql id="selectSellerList">
 		SELECT * FROM SELLER
 	</sql>
-	
-<<<<<<< HEAD
-=======
 	<!-- 판매자정보 -->
 	<sql id="SellOrderJoin">
 			SELECT 
@@ -40,7 +37,6 @@
 		JOIN Buyer b ON s.b_code = b.b_code
 	</sql>
 	
->>>>>>> TEST
 	<!-- 판매자 목록 -->
 	<select id="main" resultType="Seller" parameterType="recycling.util.Paging">
 			SELECT *
@@ -318,10 +314,6 @@
 		<where>
 			AND s_code = #{user }
 			AND prd_out = 'N'
-<<<<<<< HEAD
-			AND prd_cnt = 0
-=======
->>>>>>> TEST
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -560,6 +552,14 @@
 		<where> exp_code = #{expCode }</where>
 	</delete>
 	
+	<!-- 체험단 세부 조회[expdetail] -->
+	<select id="selectDetailExp" resultType="Exp" parameterType="String" >
+		<include refid="expBoard"/>
+		<where>
+			exp_code= #{expCode}
+		</where>
+	</select>
+	
 	<!-- 체험단 리스트 파일삭제 -->
 	<delete id="expFileListDel" parameterType="int">
 		DELETE FROM exp_file
@@ -791,5 +791,22 @@
 		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
+	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
+	<select id="selectCntAllExpSch" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM exp_Sch
+		<where>
+			AND (
+				exp_code LIKE '%' || #{search} || '%'
+				AND sch_no LIKE '%' || #{search } || '%'
+				)
+			AND exp_code = #{user }
+		</where>
+		ORDER BY sch_no DESC
+	</select>
 	
+	<!-- 체험단 스케쥴 조회[expdetail] -->
+	<select id="selectAllSch" resultType="ExpSch" parameterType="String">
+		<include refid="expSchBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
 </mapper>

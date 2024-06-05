@@ -1,6 +1,7 @@
 package recycling.buyer.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
@@ -39,7 +40,6 @@ public interface RecyclingDao {
 	
 //	public SellerProf selectSellerProfByCode(String sCode);
 
-<<<<<<< Updated upstream
 	public List<Map<String, Object>> selectQnaList(String prdCode);
 	
 	/**
@@ -52,11 +52,7 @@ public interface RecyclingDao {
 	public Buyer selectBuyerBybId(String bId);
 	
 	public int insertOto(Oto oto);
-<<<<<<< HEAD
-=======
-=======
-	
->>>>>>> TEST
+
 //	public SellerQST selectSellerQST(String qstCode);
 
 //	public int insertSellerQST(SellerQST sellerQST);
@@ -72,9 +68,5 @@ public interface RecyclingDao {
 //	public int updateSellerAnswer(SellerAns sellerAns);
 
 	public int deleteSellerAnswer(String qnaCode);
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> TEST
 
 }

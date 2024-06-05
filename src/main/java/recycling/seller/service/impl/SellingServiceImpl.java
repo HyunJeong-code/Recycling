@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -28,12 +27,9 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
-import recycling.seller.dao.face.SellerDao;
-import recycling.dto.seller.AllPrd;
-import recycling.dto.seller.Exp;
 import recycling.seller.dao.face.SellingDao;
 import recycling.seller.service.face.SellingService;
-import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -194,11 +190,6 @@ public class SellingServiceImpl implements SellingService {
 		return res;
 	}
 	
-<<<<<<< HEAD
-	//paging Cnt
-	
-=======
->>>>>>> TEST
 	@Override
 	public int selectCntAllrcyPrd(PagingAndCtg upPaging) {
 		return sellingDao.selectCntAllrcyPrd(upPaging);
@@ -218,11 +209,6 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllMyOrder(PagingAndCtg unPaging) {
 		return sellingDao.selectCntAllMyOrder(unPaging);
 	}
-<<<<<<< HEAD
-
-	//paging Cnt end
-=======
->>>>>>> TEST
 	
 	//exp start
 	@Override
@@ -240,29 +226,6 @@ public class SellingServiceImpl implements SellingService {
 	public int selectCntAllExpSch(PagingAndCtg upPaging) {
 		
 		return sellingDao.selectCntAllExpSch(upPaging);
-<<<<<<< HEAD
-	public List<Exp> selectMyExpList(Paging paging) {
-		
-		
-		return sellingDao.selectMyExpList(paging);
-	}
-
-	@Override
-	public Paging getSearchPaging(int curPage, String search) {
-		
-		Paging paging = null;
-		
-		int totalCount = sellingDao.selectCntAll(search);
-		
-		if("".equals(search)) {
-			paging = new Paging(totalCount, curPage, search);
-		} else {
-			paging = new Paging(totalCount, curPage, search);
-		}
-		return paging;
-=======
-		
->>>>>>> TEST
 	}
 
 	@Override
@@ -305,8 +268,6 @@ public class SellingServiceImpl implements SellingService {
 	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
 		return sellingDao.selectAllOrd(unPaging);
 	}
-<<<<<<< HEAD
-=======
 
 	@Override
 	public Exp expResDetail(String expCode) {
@@ -343,5 +304,4 @@ public class SellingServiceImpl implements SellingService {
 		
 		return result;
 	}
->>>>>>> TEST
 }

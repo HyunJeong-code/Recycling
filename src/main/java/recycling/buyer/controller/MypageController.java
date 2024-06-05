@@ -107,27 +107,14 @@ public class MypageController {
 		logger.info("buyerLogin : {}", buyerLogin);
 		
 		// 문의글 페이지 수 계산
-<<<<<<< HEAD
-		PagingAndCtg paging = new PagingAndCtg();
-		paging.setSearch(search);
-		paging.setUser(buyerLogin.getbCode());
-=======
 		PagingAndCtg paging = pageService.upPageBuyer(curPage, sCtg, search, buyerLogin.getbCode());
->>>>>>> TEST
 		
 		int page = mypageService.selectAllCnt(paging);
 		paging = new PagingAndCtg(page, curPage, search);
 		paging.setUser(buyerLogin.getbCode());
 		
 		List<Map<String, Object>> list = mypageService.selectAll(paging);
-<<<<<<< HEAD
 		
-		
-=======
->>>>>>> TEST
-		
-		
-
 	}
 	
 	@PostMapping("/rvwform")

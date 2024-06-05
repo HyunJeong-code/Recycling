@@ -18,24 +18,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
-<<<<<<< HEAD
-import recycling.dto.manager.MgrFile;
-import recycling.dto.manager.Notice;
-import recycling.manager.service.face.MgrService;
-import recycling.util.Paging;
-=======
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
 import recycling.page.face.PageService;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
->>>>>>> TEST
 
 // 관리자 메인 페이지 + 로그인, 회원가입 + 사원 전체 조회, 공지사항
 
@@ -46,10 +39,7 @@ public class MgrController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private MgrService mgrService;
 	@Autowired private JavaMailSenderImpl mailSender;
-<<<<<<< HEAD
-=======
 	@Autowired private PageService pageService;
->>>>>>> TEST
 	
 	@GetMapping("/main")
 	public String main(
@@ -160,28 +150,6 @@ public class MgrController {
 	//공지사항 전체조회
 	@GetMapping("/noticelist")
 	public void noticeList(
-<<<<<<< HEAD
-			Model model
-			) {
-		//관리자 공지사항 전체조회
-		List<Notice> mgrNoticeList = mgrService.selectAll();
-		model.addAttribute("notice", mgrNoticeList);
-		logger.info("controller: noticeList[GET]");
-		
-		
-		Paging pagingParam = null;
-		//페이징 계산, 검색기능
-//		Paging paging = mgrService.selectCntAll(pagingParam);
-		
-		//전체 조회기능
-		List<Notice> list = mgrService.selectAll();
-		
-		//JSP로 보내기
-//		model.addAttribute("paging", paging);
-		model.addAttribute("notice", list);
-		
-		logger.info("controller: noticelist : {}", list);
-=======
 			Authentication authentication
 			, Model model
 			, @RequestParam(defaultValue = "0") int curPage
@@ -208,7 +176,6 @@ public class MgrController {
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("upUrl", "/manager/noticelist"); //jsp 페이징
 		
->>>>>>> TEST
 	}
 	
 	@GetMapping("findid")

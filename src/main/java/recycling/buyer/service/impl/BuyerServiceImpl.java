@@ -24,6 +24,8 @@ import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
@@ -99,13 +101,9 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-<<<<<<< HEAD
-	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
-		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
-=======
+
 	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging) {
 		return buyerDao.buyerDaoselectOrderDetailBybCode(upPaging);
->>>>>>> TEST
 	}
 
 	@Override
@@ -329,8 +327,6 @@ public class BuyerServiceImpl implements BuyerService {
 	public int changePw(BuyerLogin buyerLogin) {
 		return buyerDao.changePw(buyerLogin);
 	}
-<<<<<<< HEAD
-=======
 	
 	@Override
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging) {
@@ -346,6 +342,10 @@ public class BuyerServiceImpl implements BuyerService {
 	public int insertChange(Change change) {
 		return buyerDao.insertChange(change);
 	}
->>>>>>> TEST
+	
+	@Override
+	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
+		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
+	}
 
 }

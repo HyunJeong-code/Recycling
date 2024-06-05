@@ -15,12 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import recycling.buyer.dao.face.ExpDao;
 import recycling.buyer.service.face.ExpService;
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 @Service
@@ -94,8 +95,6 @@ public class ExpServiceImpl implements ExpService {
         params.put("resCnt", resCnt);
 		expDao.updateExpSchCnt(params);
 	}
-<<<<<<< HEAD
-=======
 
 	@Override
 	public ExpRes selectByResCode(String resCode) {
@@ -172,6 +171,5 @@ public class ExpServiceImpl implements ExpService {
 //}
 
 	
->>>>>>> TEST
 	
 }

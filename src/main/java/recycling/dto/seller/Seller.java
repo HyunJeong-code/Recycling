@@ -135,8 +135,4 @@ public class Seller {
 	public void setsOutDate(String sOutDate) {
 		this.sOutDate = sOutDate;
 	}
-<<<<<<< HEAD
-=======
-	
->>>>>>> TEST
 }

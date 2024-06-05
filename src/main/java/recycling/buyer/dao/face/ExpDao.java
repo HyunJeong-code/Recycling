@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 체험단 관련 DB 처리
@@ -92,8 +93,6 @@ public interface ExpDao {
 
 	public void updateExpSchCnt(Map<String, Object> params);
 
-<<<<<<< HEAD
-=======
 	/**
 	 * 예약코드가 일치하는 결제정보
 	 * 
@@ -181,5 +180,4 @@ public interface ExpDao {
 //
 //	public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params);
 
->>>>>>> TEST
 }

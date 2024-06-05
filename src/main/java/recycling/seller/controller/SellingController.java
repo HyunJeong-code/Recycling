@@ -28,12 +28,10 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.page.face.PageService;
 import recycling.seller.service.face.SellingService;
 import recycling.util.Paging;
-<<<<<<< HEAD
-=======
 import recycling.util.PagingAndCtg;
->>>>>>> TEST
 import recycling.util.Range;
 
 // 상품-판매 관리
@@ -426,18 +424,13 @@ public class SellingController {
 		Exp expView = sellingService.expResDetail(expCode);
 		model.addAttribute("exp", expView);
 		
-<<<<<<< HEAD
-		model.addAttribute("exp", exp);
-=======
 		//체험예약 조회
 		ExpSch expSch = sellingService.selectExpSchbySchNo(schNo);
 		model.addAttribute("expSch", expSch);
 		
 		List<ExpRes> resList = sellingService.expResDetailRes(schNo);
 		model.addAttribute("resList", resList);
-
 		
->>>>>>> TEST
 	}
 	
 	// 체험단 예약 확정,취소 변경

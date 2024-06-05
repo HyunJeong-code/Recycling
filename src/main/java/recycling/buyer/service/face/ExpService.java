@@ -1,14 +1,16 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 public interface ExpService {
@@ -82,8 +84,6 @@ public interface ExpService {
 
 	public void updateExpSchCnt(int schNo, int resCnt);
 
-<<<<<<< HEAD
-=======
 	/**
 	 * 예약코드가 일치하는 결제정보
 	 * 
@@ -172,9 +172,4 @@ public interface ExpService {
 //	public int selectCntRvwList(PagingAndCtg upPaging, String expCode);
 
 //	public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params);
-
-
-	
-
->>>>>>> TEST
 }

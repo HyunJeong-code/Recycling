@@ -26,9 +26,6 @@ public interface CsDao {
 	 * @param upPaging
 	 * @return
 	 */
-<<<<<<< HEAD
-	public int getPaging(PagingAndCtg upPaging);
-=======
 	public int selectCntAllotoList(PagingAndCtg upPaging);
 	
 	/**
@@ -38,7 +35,6 @@ public interface CsDao {
 	 * @return
 	 */
 	public int selectCntAllbuyerList(PagingAndCtg upPaging);
->>>>>>> TEST
 
 	/**
 	 * 모든 구매자 조회

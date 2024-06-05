@@ -3,14 +3,12 @@ package recycling.manager.dao.face;
 import java.util.List;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.util.Paging;
-<<<<<<< HEAD
-=======
 import recycling.util.PagingAndCtg;
->>>>>>> TEST
 
 //메인 페이지 DB 처리(로그인, 회원가입, 전체 사원 조회 등)
 
@@ -79,10 +77,6 @@ public interface MgrDao {
 
 	public ManagerLogin selectByIdPw(Manager manager);
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
->>>>>>> TEST
 	/**
 	 * 공지사항 조회하기 페이징
 	 * 
@@ -92,26 +86,6 @@ public interface MgrDao {
 	public int selectCntAllNotice(PagingAndCtg upPaging);
 
 	/**
-<<<<<<< HEAD
-	 * 공지사항 세부조회
-	 * 
-	 * @param notice
-	 * @return
-	 */
-	public Notice selectDetail(String ntcCode);
-
-	
-	/**
-	 * 조회수 증감
-	 * 
-	 * @param ntcCode
-	 */
-	public void hit(String ntcCode);
-
-=======
-	
->>>>>>> Stashed changes
-=======
 	 * 전체사원조회[empList]
 	 * 
 	 * @param upPaging
@@ -133,5 +107,4 @@ public interface MgrDao {
 	 * @return  List<Notice>
 	 */
 	public List<Notice> selectAllNotice(PagingAndCtg upPaging);
->>>>>>> TEST
 }

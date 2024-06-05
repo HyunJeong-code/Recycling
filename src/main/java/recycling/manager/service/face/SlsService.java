@@ -6,12 +6,13 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.manager.ResSchCnt;
+import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-
-
+import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.util.PagingAndCtg;
 
@@ -74,20 +75,6 @@ public interface SlsService {
 	 * @return
 	 */
 	public int selectCntAllExpSch(PagingAndCtg upPaging);
-<<<<<<< HEAD
-
-	/**
-	 * 체혐 스케쥴 예약된 인원 조회
-	 * 
-	 * @param schNo
-	 * @param schNo
-	 * @param expCode
-	 * 
-	 * @return
-	 */
-	public List<ResSchCnt> selectByResCnt(String expCode);
-=======
->>>>>>> TEST
 
 	/**
 	 * 체험단 등록
@@ -446,8 +433,6 @@ public interface SlsService {
 	 * @return
 	 */
 	public int upPageSlsMain(PagingAndCtg upPaging);
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * 체험 프로필 이미지
@@ -463,6 +448,5 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<ExpFile> expImage(ExpFile expFile);
->>>>>>> TEST
-	
+
 }

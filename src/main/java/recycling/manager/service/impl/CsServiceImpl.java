@@ -30,13 +30,6 @@ public class CsServiceImpl implements CsService {
 	public List<Oto> list(PagingAndCtg upPaging) {
 //		logger.info("service");
 		return csDao.list(upPaging);
-<<<<<<< HEAD
-	}
-
-	@Override
-	public int getPaging(PagingAndCtg upPaging) {
-		return csDao.getPaging(upPaging);
-=======
 	}
 	
 	@Override
@@ -47,7 +40,6 @@ public class CsServiceImpl implements CsService {
 	@Override
 	public int selectCntAllbuyerList(PagingAndCtg upPaging) {
 		return csDao.selectCntAllbuyerList(upPaging);
->>>>>>> TEST
 	}
 
 	@Override

@@ -1,10 +1,14 @@
 package recycling.buyer.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +25,7 @@ import recycling.buyer.service.face.ExpService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
@@ -96,15 +101,11 @@ public class ExpController {
 			String expCode,
 			Model model,
 			String sCode,
-<<<<<<< HEAD
-			String bCode
-=======
 			String bCode,
 			Authentication authentication,
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
 			@RequestParam(defaultValue = "") String sCtg
->>>>>>> TEST
 			) {
 		
 		Exp exp = expService.selectByExpCode(expCode);
@@ -137,11 +138,6 @@ public class ExpController {
 			selType = "기업";
 		}
 		
-<<<<<<< HEAD
-		//체험단 후기
-		
-		
-=======
 		//체험단 후기
 		
 //		PagingAndCtg upPaging = new PagingAndCtg();
@@ -176,7 +172,6 @@ public class ExpController {
 	        BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 	        loggedInUser = expService.getBuyerDetail(buyerLogin.getbId());
 	    }
->>>>>>> TEST
 		
 		model.addAttribute("exp", exp);
 		model.addAttribute("expFiles", expFiles);
@@ -185,43 +180,11 @@ public class ExpController {
 		model.addAttribute("selType", selType);
 		model.addAttribute("main", main);
 		model.addAttribute("detail", detail);
-<<<<<<< HEAD
-		
-	}
-	
-	
-	//체험단 작성폼
-	@GetMapping("/expresform")
-	public void expResForm(
-			String expCode,
-			Authentication authentication,
-			Model model
-			) {
-		//구매자 로그인 세션 정보
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		Buyer buyer = expService.getBuyerDetail(buyerLogin.getbId());
-		
-		//체험 일정 리스트
-        List<ExpSch> expSchList = expService.getExpSchList(expCode);
-        logger.info("expSchList: {}", expSchList);
-        
-        //체험단 체험비
-        Exp exp = expService.selectByExpCode(expCode);
-        int resPrice = exp.getExpPrice();
-        
-		model.addAttribute("buyer", buyer);
-        model.addAttribute("expSchList", expSchList);
-        model.addAttribute("resPrice", resPrice);
-	}
-	
-=======
 		model.addAttribute("expReviews", expReviews);
 		model.addAttribute("expReviewsSize", expReviews.size());
 		model.addAttribute("isLoggedIn", isLoggedIn);
 	    model.addAttribute("loggedInUser", loggedInUser);
-//	    model.addAttribute("buyerProf", buyerProf);
-//	    model.addAttribute("upPaging", upPaging);
-//	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
+		
 	}
 	
 	@PostMapping("/expdetail")
@@ -330,7 +293,6 @@ public class ExpController {
 		
 	}
 	
->>>>>>> TEST
 	//체험단 작성폼
 	@PostMapping("/expresform")
 	public String expResFormProc(

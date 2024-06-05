@@ -9,13 +9,15 @@ import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
-import recycling.dto.buyer.Cmp;
-import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
 
 // 마이페이지 - 회원 정보 관련
 public interface BuyerService {
@@ -100,21 +102,20 @@ public interface BuyerService {
 	public int insertOrderDetail(OrderDetail orderDetail);
 
 	/**
-<<<<<<< HEAD
 	 * 주문 상세 조회
 	 * 
 	 * @param bCode - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
 	public List<MyOrder> selectOrderDetailBybCode(String bCode);
-=======
+	
+	/**
 	 * 주문 상세 리스트 조회
 	 * 
 	 * @param upPaging - 조회할 회원의 bCode
 	 * @return - 조회 List 결과
 	 */
 	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging);
->>>>>>> TEST
 
 	/**
 	 * 장바구니 수량 변경
@@ -287,8 +288,6 @@ public interface BuyerService {
 	 * @return 처리 결과
 	 */
 	public int deleteSeller(String sCode);
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * MyOrder paging
@@ -313,6 +312,5 @@ public interface BuyerService {
 	 * @return INSERT 결과
 	 */
 	public int insertChange(Change change);
->>>>>>> TEST
 
 }

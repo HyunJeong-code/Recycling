@@ -264,11 +264,6 @@ public interface BuyerDao {
 	public int deleteBuyer(String bCode);
 
 	/**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-	 * 
->>>>>>> TEST
 	 * 판매자 탈퇴
 	 * 
 	 * @param sCode - 판매자 코드
@@ -277,21 +272,12 @@ public interface BuyerDao {
 	public int deleteSeller(String sCode);
 	
 	/**
-
-<<<<<<< HEAD
-=======
->>>>>>> parent of e17d21e (fix BuyerDao.java)
-=======
->>>>>>> TEST
 	 * 판매자 찾기
 	 * 
 	 * @param sCode
 	 * @return
 	 */
 	public List<Seller> findSeller(String sCode);
-	public int deleteSeller(String sCode);
-
-	public BuyerRank selectBuyerRank(int rankNo);
 
 	/**
 	 * Cart paging
@@ -310,10 +296,6 @@ public interface BuyerDao {
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
 
 	public BuyerRank selectBuyerRank(int rankNo);
-<<<<<<< HEAD
-
-=======
-	
 	/**
 	 * 주문 상세 조회
 	 * 
@@ -337,6 +319,5 @@ public interface BuyerDao {
 	 * @return INSERT 결과
 	 */
 	public int insertChange(Change change);
->>>>>>> TEST
 }
 

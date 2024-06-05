@@ -45,13 +45,10 @@ import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
-<<<<<<< HEAD
 import recycling.page.face.PageService;
-=======
 import recycling.dto.seller.Change;
 import recycling.page.face.PageService;
 import recycling.seller.service.face.SellingService;
->>>>>>> TEST
 import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
@@ -260,7 +257,11 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/myorder")
-	public void myOrder(Model model, Authentication authentication) {
+	public void myOrder(Model model, Authentication authentication,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg
+			) {
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
@@ -322,10 +323,6 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/myorderdetail")
-<<<<<<< HEAD
-	public void myOrderDetail() {
-
-=======
 	public void myOrderDetail(String orddtCode, Model model) {
 		OrderDetail orderDetail = buyerService.selectByorddtCode(orddtCode);
 		Orders order = buyerService.selectByordCode(orderDetail.getOrdCode());
@@ -409,7 +406,6 @@ public class BuyerController {
 		int insertRes = buyerService.insertChange(change);
 		
 		return "redirect:/buyer/mypage/myorder";
->>>>>>> TEST
 	}
 	
 	@GetMapping("/myorderchk")
@@ -419,14 +415,6 @@ public class BuyerController {
 		
 	}
 	
-<<<<<<< HEAD
-	@GetMapping("/changeorder")
-	public void changeOrder() {
-
-	}
-
-=======
->>>>>>> TEST
 	// 회원 정보 관리 메인 (비밀번호 입력)
 	@GetMapping("/mymain")
 	public String myMain(
@@ -677,12 +665,7 @@ public class BuyerController {
 		
 	}
 	
-<<<<<<< HEAD
-// 회원 정보 변경 처리 (개인)
-=======
-	
 	// 회원 정보 변경 처리 (개인)
->>>>>>> TEST
 	@PostMapping("/mydetailpri")
 	public String myDetailPriProc(
 		Authentication authentication, Buyer buyer,
@@ -839,6 +822,7 @@ public class BuyerController {
 	        @RequestParam(value = "emailNum", required = false) Integer emailNum,
 	        @RequestParam("cmpProf") MultipartFile cmpProf,
             @RequestParam("cmpFile") MultipartFile cmpFile,
+    		@RequestParam("fullEmail") String fullEmail,
 			Model model
 			) {
 		
@@ -945,11 +929,7 @@ public class BuyerController {
 		return "layout/alert";
 
 	}
-	
-<<<<<<< HEAD
-=======
-	
->>>>>>> TEST
+
 	// 배송지 관리 페이지 (등록, 수정, 삭제)
 	@GetMapping("/myaddr")
 	public String myAddr(
@@ -991,28 +971,11 @@ public class BuyerController {
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
-        if (buyerLogin == null) {
-<<<<<<< HEAD
-        	model.addAttribute("msg", "로그인 해주세요.");
-        	model.addAttribute("url", "/buyer/login");
-        	
-        	return "/layout/alert";        	
-        }
-=======
-
+		if (authentication == null || session.getAttribute("authenticated") == null) {
 			model.addAttribute("msg", "로그인 해주세요.");
 			model.addAttribute("url", "/buyer/login");
 
 			return "/layout/alert";
->>>>>>> TEST
-
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
 		}
 		
 		if (authentication == null || session.getAttribute("authenticated") == null) {
@@ -1138,12 +1101,8 @@ public class BuyerController {
 	@GetMapping("/outbuyer")
 	public String outBuyer(
 			Authentication authentication,
-<<<<<<< HEAD
-			Model model) {
-=======
 			Model model
 			) {
->>>>>>> TEST
 		
 		logger.info("/buyer/mypage/outbuyer [GET]");
 

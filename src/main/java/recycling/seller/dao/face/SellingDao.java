@@ -3,7 +3,6 @@ package recycling.seller.dao.face;
 import java.util.List;
 import java.util.Map;
 
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -13,8 +12,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.util.Paging;
-import recycling.dto.seller.AllPrd;
-import recycling.dto.seller.Exp;
+import recycling.util.PagingAndCtg;
 
 // 상품-판매 관련 DB
 
@@ -233,8 +231,6 @@ public interface SellingDao {
 	 * @return 개수
 	 */
 	public int selectCntAllOrd(PagingAndCtg unPaging);
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * 체험정보
@@ -273,7 +269,6 @@ public interface SellingDao {
 	 * @param chBox
 	 */
 	public int expResCnl(String resCode);
->>>>>>> TEST
 
 	/**
 	 * 판매자 전체 상품 조회
@@ -284,17 +279,6 @@ public interface SellingDao {
 	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging);
 
 	/**
-<<<<<<< HEAD
-=======
-	 * 판매자 전체 상품 조회
-	 * 
-	 * @param upPaging - 판매자 정보, 검색어
-	 * @return 상품 리스트
-	 */
-	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging);
-
-	/**
->>>>>>> TEST
 	 * 판매자 전체 주문 조회
 	 * 
 	 * @param upPaging - 판매자 정보, 검색어
