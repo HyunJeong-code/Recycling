@@ -11,9 +11,9 @@
 <c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 <div class="full">
 		<div class="wrap">
-			<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
+			<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>	
+			<div class="main-section">
 			
-			<div class="">
 			<div class="page">
 				<h3>상품 관리</h3>
 			</div>

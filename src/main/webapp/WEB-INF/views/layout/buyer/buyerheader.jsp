@@ -14,28 +14,22 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 $(function(){
-
-	$.ajax({
-		type: 'get',
-		url : '/buyer/buyerheader',
-		dataType: 'json',
-		success: function(res) {
-			
-// 			$("#ntcBanner").html(res[0].RNUM)
-// 			$("#ntcBanner").html(res[0].NTC_CODE)
-// 			$("#ntcBanner").html(res[0].TITLE)
-
-// 			var html = "" + res[0]["RNUM"] + " " + res[0]["NTC_CODE"] + " " + res[0]["TITLE"]
-// 			$("#ntcBanner").html(html)
-			
-			$("#ntcBanner").append( $("<ul>") )
-			res.forEach(function( val ) {
-// 				console.log(val)
+// 	setInterval(() => 
+// 		$.ajax({
+// 			type: 'get',
+// 			url : '/buyer/buyerheader',
+// 			dataType: 'json',
+// 			success: function(res) {
 				
-				$("<li>").html( val.RNUM + " " + val.NTC_CODE + " " + "<a href='/test?no=" + val.NTC_CODE + "'>" + val.TITLE +"</a>" )
-				.appendTo($("#ntcBanner ul"))
-			})
-
+	// 			$("#ntcBanner").html(res[0].RNUM)
+	// 			$("#ntcBanner").html(res[0].NTC_CODE)
+	// 			$("#ntcBanner").html(res[0].TITLE)
+	
+	// 			var html = "" + res[0]["RNUM"] + " " + res[0]["NTC_CODE"] + " " + res[0]["TITLE"]
+	// 			$("#ntcBanner").html(html)
+				
+// 				$("<div>").html( res[0].RNUM + " " + res[0].NTC_CODE + " " + "<a href='/buyer/hepl/noticedetail?ntcCode=" + res[0].NTC_CODE + "'>" + val.TITLE +"</a>" )
+// 				.appendTo($("#ntcBanner"))					
 
 // 			console.log("res : " + JSON.stringify(res));
 // 			console.log("res : " + JSON.stringify(res).length);
@@ -63,9 +57,8 @@ $(function(){
 // 				}
 // 				ntc += "</ul>";
 // 			}
-		}
-	})
-	
+// 		});
+// 	, 5000);
     var header = $('.header');
     var headerOffset = header.offset().top;
 
@@ -103,15 +96,6 @@ $(function(){
 <body>
 	<header class="header">
         <div class="notice-banner" id="ntcBanner">
-        	<c:if test="${ntcSize eq 0 }">
-        		<div class="banner" style="color:white;">공지사항이 없습니다.</div>
-        	</c:if>
-        	
-        	<c:if test="${ntcSize ne 0 }">
-        		<c:forEach var="list" items="${ntcList }">
-        			<div class="info" style="color:white;"><a href="/buyer/help/noticedetail?ntcCode=${list.NTC_CODE }">${list.TITLE }</a></div>
-        		</c:forEach>
-        	</c:if>        	
         </div>
         
         <div class="container">
