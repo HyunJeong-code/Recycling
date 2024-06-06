@@ -225,7 +225,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					</form>
 				</div>
 				
-				<table border="1">
+				<table class="s-table">
 				    <thead>
 				        <tr>
 				            <th></th>
@@ -287,7 +287,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					<button id="shipCreateBtn">송장 직접입력</button>
 					<button id="shipDelBtn">송장 삭제</button>
 				</div>
-				<table border="1">
+				<table class="s-table">
 					<thead>
 						<tr>
 							<th></th>
@@ -332,12 +332,14 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					 			</c:if>
 					 		</td>
 					 		<td>
-					 			<c:if test="${ord.shipNo != 0}">
-					 				${ord.shipNo }
-					 			</c:if>
-					 			<c:if test="${ord.shipNo == 0}">
-					 				<input type="text" name="shipNo">
-					 			</c:if>
+					 			<c:choose>
+						 			<c:when test="${ord.shipNo != null && ord.shipNo != ''}">
+						 				${ord.shipNo }
+						 			</c:when>
+						 			<c:otherwise>
+						 				<input type="text" name="shipNo">
+						 			</c:otherwise>
+					 			</c:choose>
 					 		</td>
 					 	</tr>
 					</c:forEach>

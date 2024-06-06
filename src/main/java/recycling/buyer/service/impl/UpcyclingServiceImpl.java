@@ -100,18 +100,18 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectRvw();
 	}
 
-	@Override
-	public void insertReview(String upcyContent, String prdCode, Buyer buyer) {
-		UpcyReview upcyReview = new UpcyReview();
-		upcyReview.setUpcyCode(UUID.randomUUID().toString());
-		upcyReview.setbCode(buyer.getbCode());
-		upcyReview.setPrdCode(prdCode);
-		upcyReview.setUpcyGrade(0);
-		upcyReview.setUpcyContent(upcyContent);
-		
-		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
-		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
-	}
+//	@Override
+//	public void insertReview(String upcyContent, String prdCode, Buyer buyer) {
+//		UpcyReview upcyReview = new UpcyReview();
+//		upcyReview.setUpcyCode(UUID.randomUUID().toString());
+//		upcyReview.setbCode(buyer.getbCode());
+//		upcyReview.setPrdCode(prdCode);
+//		upcyReview.setUpcyGrade(0);
+//		upcyReview.setUpcyContent(upcyContent);
+//		
+//		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
+//		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
+//	}
 
 	@Override
 	public void updateReview(String upcyCode, String upcyContent) {
@@ -131,6 +131,12 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	@Override
 	public CartOrder selectCartOrder(String prdCode) {
 		return upcyclingDao.selectCartOrder(prdCode);
+	}
+
+	@Override
+	public int insertCart(Cart cart) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

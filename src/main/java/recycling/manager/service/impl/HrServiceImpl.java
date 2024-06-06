@@ -224,6 +224,15 @@ public class HrServiceImpl implements HrService {
 	}
 
 
+	@Override
+	public int selectCntAllHr(PagingAndCtg upPaging) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+
 	
 
 

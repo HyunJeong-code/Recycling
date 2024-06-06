@@ -212,8 +212,6 @@
 	    SET sch_cnt = sch_cnt - #{resCnt}
 	    WHERE sch_no = #{schNo}
 	</update>
-<<<<<<< HEAD
-=======
 	
 	<select id="selectByResCode" resultType="ExpRes" parameterType="string">
 		SELECT * FROM exp_res
@@ -289,6 +287,5 @@
     		AND b_code = #{bCode}
     	</where>
     </select>
->>>>>>> TEST
 
 </mapper>

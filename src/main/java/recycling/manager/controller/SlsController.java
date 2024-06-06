@@ -231,20 +231,20 @@ public class SlsController {
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
         upPaging.setUser(sCode);
   		
-		//상품 조회[상단]
-		List<SellerOrderJoin> prdList = slsService.selectAllPrdList(upPaging);
-		model.addAttribute("prdList", prdList);
+//		//상품 조회[상단]
+//		List<SellerOrderJoin> prdList = slsService.selectAllPrdList(upPaging);
+//		model.addAttribute("prdList", prdList);
 		
 		//하단페이징[판매 조회]
-  		int unPage = slsService.selectCntAllSellList(unPaging);
-  		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
+//  		int unPage = slsService.selectCntAllSellList(unPaging);
+//  		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
          
-  		logger.info("unPaging : {}", unPaging);
-  		unPaging.setUser(sCode);
+//  		logger.info("unPaging : {}", unPaging);
+//  		unPaging.setUser(sCode);
 		
-		//판매 조회[하단]
-		List<MyOrder> olist = slsService.selectAllSellList(unPaging);
-		model.addAttribute("olist", olist);
+//		//판매 조회[하단]
+//		List<MyOrder> olist = slsService.selectAllSellList(unPaging);
+//		model.addAttribute("olist", olist);
 		
 		//삭제된 상품을 제외한 상품 리스트
 		List<SellerOrderJoin> nplist = new ArrayList<SellerOrderJoin>();
@@ -270,42 +270,42 @@ public class SlsController {
 		
 	}
 	
-	//상품 세부사항
-	@GetMapping("/prddetail")
-	public void prdDetail(
-			String prdCode
-			, Model model) {
-		
-		Prd prd = slsService.selectDetailPrd(prdCode);
-		logger.info("prdDetail prd :{}", prd);
-				
-		model.addAttribute("prd", prd);
-	}
-	
-	//리사이클링 상품수정
-	@RequestMapping("/reprdupdate")
-	public String reprdUpdate(
-			Prd prd
-			,Model model) {
-		
-		int res = slsService.slsPrdUpdate(prd);
-		logger.info("upcyUpdate : {}",prd);
-		
-		model.addAttribute("msg", "상품이 수정되었습니다.");
-		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
-		return "/layout/alert";
-	}
-	//업사이클링 상품수정
-	@RequestMapping("/upprdupdate")
-	public String upprdUpdate(Prd prd,Model model) {
-		
-		int res = slsService.slsPrdUpdate(prd);
-		logger.info("upcyUpdate : {}",prd);
-		
-		model.addAttribute("msg", "상품이 수정되었습니다.");
-		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
-		return "/layout/alert";
-	}
+//	//상품 세부사항
+//	@GetMapping("/prddetail")
+//	public void prdDetail(
+//			String prdCode
+//			, Model model) {
+//		
+//		Prd prd = slsService.selectDetailPrd(prdCode);
+//		logger.info("prdDetail prd :{}", prd);
+//				
+//		model.addAttribute("prd", prd);
+//	}
+//	
+//	//리사이클링 상품수정
+//	@RequestMapping("/reprdupdate")
+//	public String reprdUpdate(
+//			Prd prd
+//			,Model model) {
+//		
+//		int res = slsService.slsPrdUpdate(prd);
+//		logger.info("upcyUpdate : {}",prd);
+//		
+//		model.addAttribute("msg", "상품이 수정되었습니다.");
+//		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
+//		return "/layout/alert";
+//	}
+//	//업사이클링 상품수정
+//	@RequestMapping("/upprdupdate")
+//	public String upprdUpdate(Prd prd,Model model) {
+//		
+//		int res = slsService.slsPrdUpdate(prd);
+//		logger.info("upcyUpdate : {}",prd);
+//		
+//		model.addAttribute("msg", "상품이 수정되었습니다.");
+//		model.addAttribute("url", "/manager/sls/sellinglist?sCode=" + prd.getsCode());
+//		return "/layout/alert";
+//	}
 	
 	//상품삭제
 	@RequestMapping("/prddel")
@@ -320,21 +320,21 @@ public class SlsController {
 		return "jsonView";
 	}
 	
-	//주문 상세정보
-	@GetMapping("/orderdetail")
-	public void orderDetail(
-			String orddtCode
-			, Model model
-			){
-		
-		MyOrder myOrder = slsService.orderdetailPrd(orddtCode);
-		
-		model.addAttribute("order", myOrder);
-		
-		model.addAttribute("msg", "주문정보가 수정되었습니다.");
-		model.addAttribute("url", "/manager/sls/sellinglist");
-		
-	}
+//	//주문 상세정보
+//	@GetMapping("/orderdetail")
+//	public void orderDetail(
+//			String orddtCode
+//			, Model model
+//			){
+//		
+//		MyOrder myOrder = slsService.orderdetailPrd(orddtCode);
+//		
+//		model.addAttribute("order", myOrder);
+//		
+//		model.addAttribute("msg", "주문정보가 수정되었습니다.");
+//		model.addAttribute("url", "/manager/sls/sellinglist");
+//		
+//	}
 	
 	//주문 정보 변경
 	@PostMapping("/orderupdate")
@@ -765,4 +765,5 @@ public class SlsController {
 	        return "jsonView";
 	
 	}
+	
 }

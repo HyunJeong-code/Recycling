@@ -158,63 +158,79 @@
 	    
 
         function requestPay(){
-        	var payOption = $("input:radio[name=payOption]:checked").attr("id");
-            IMP.request_pay({
-            pg: payOption, // PG사
-            pay_method: "card", //결제 수단 (필수)
-            merchant_uid: 'ORD' + new Date().getTime(),   // 주문번호
-            name: prdName,             // 주문 상품 이름
-            amount: prdAmount,                        // 결제 금액 (필수)
-
-            buyer_name: $("#ordName").val(), 		// 주문자 정보들                   
-            buyer_tel: $("#ordPhone").val(),
-            buyer_addr: $("#ordAddr").val(),
-            buyer_postcode: $("#ordPostcode").val()
-            }, function (rsp) { // callback
-                //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-                
-                console.log(rsp)
-                
-                //결제 성공시
-                if(rsp.success){
-                	//$("#order_form").submit();
-                	
-                	$.ajax({
-            			type: "post"
-            			, url: "./pay"
-            			, data: {
-            				ordCode: rsp.merchant_uid,
-            				ordPay: rsp.pay_method,
-            				sendName: $("#ordName").val(),
-            				sendPhone: $("#ordPhone").val(),
-            				ordPostcode: $("#ordPostcode").val(),
-            				ordAddr: $("#ordAddr").val(),
-            				ordDetail: $("#ordDetail").val(),
-            				ordMemo: $("#ordMemo").val(),
-            				ordSum: prdAmount,
-            				ordFee: ordFee,
-            				cartList: cartList
-            			}
-            			, dataType : "Json"
-            			, success: function(res) {
-            				console.log("AJAX 성공");
-            				
-            				//window.location.replace("./payinfo");
-            				//window.location.replace("./payinfo?ordCode=${order.ordCode }");
-            		        window.location.href = "./payinfo?ordCode=" + res.order.ordCode;
-
-            			}
-            			, error: function() {
-            				console.log("AJAX 실패");
-            			}
-            	})
-                //결제 실패시
-                } else {
-                	alert("결제실패");
-                	console.log("결제실패"+rsp)
+        	//order_form
+        	var isRight = true;
+            $("#orderForm").find("input[type=text]").each(function(index, item){
+                // 아무값없이 띄어쓰기만 있을 때도 빈 값으로 체크되도록 trim() 함수 호출
+                if ($(this).val().trim() == '' && $(this).attr('id') != "ordMemo") {
+                    alert($(this).attr("data-name")+" 항목을 입력하세요.");
+                    isRight = false;
+                    return false;
                 }
-
             });
+            
+            //값이 전부 있으면 결제
+            if (!isRight) {
+            	return false;
+            } else {
+	        	var payOption = $("input:radio[name=payOption]:checked").attr("id");
+	        	var payMethod = $("input:radio[name=payOption]:checked").val();
+	            IMP.request_pay({
+	            pg: payOption, // PG사
+	            pay_method: payMethod, //결제 수단 (필수)
+	            merchant_uid: 'ORD' + new Date().getTime(),   // 주문번호
+	            name: prdName,             // 주문 상품 이름
+	            amount: prdAmount,                        // 결제 금액 (필수)
+	
+	            buyer_name: $("#ordName").val(), 		// 주문자 정보들                   
+	            buyer_tel: $("#ordPhone").val(),
+	            buyer_addr: $("#ordAddr").val(),
+	            buyer_postcode: $("#ordPostcode").val()
+	            }, function (rsp) { // callback
+	                //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+	                
+	                console.log(rsp)
+	                
+	                //결제 성공시
+	                if(rsp.success){
+	                	
+	                	$.ajax({
+	            			type: "post"
+	            			, url: "./pay"
+	            			, data: {
+	            				ordCode: rsp.merchant_uid,
+	            				ordPay: rsp.pay_method,
+	            				sendName: $("#ordName").val(),
+	            				sendPhone: $("#ordPhone").val(),
+	            				ordPostcode: $("#ordPostcode").val(),
+	            				ordAddr: $("#ordAddr").val(),
+	            				ordDetail: $("#ordDetail").val(),
+	            				ordMemo: $("#ordMemo").val(),
+	            				ordSum: prdAmount,
+	            				ordFee: ordFee,
+	            				cartList: cartList
+	            			}
+	            			, dataType : "Json"
+	            			, success: function(res) {
+	            				console.log("AJAX 성공");
+	            				
+	            				//window.location.replace("./payinfo");
+	            				//window.location.replace("./payinfo?ordCode=${order.ordCode }");
+	            		        window.location.href = "./payinfo?ordCode=" + res.order.ordCode;
+	
+	            			}
+	            			, error: function() {
+	            				console.log("AJAX 실패");
+	            			}
+	            	})
+	                //결제 실패시
+	                } else {
+	                	alert("결제실패");
+	                	console.log("결제실패"+rsp)
+	                }
+
+            	});
+            }
         }
     
     </script>
@@ -248,7 +264,9 @@
 			<tbody>
 				<c:forEach var="cart" items="${clist }">
 					<tr>
-				 		<td>${cart.storedName }</td>
+				 		<td>
+				 			<img alt="${cart.prdName }" src="/upload/${cart.storedName }">
+				 		</td>
 				 		<td>${cart.prdName }</td>
 				 		<td>${cart.price }</td>
 				 		<td>${cart.prdFee }</td>
@@ -310,29 +328,29 @@
 
             <div class="order-info">
                 <div>
-                    <form id="order_form" action="./pay" method="post">
+                    <form id="orderForm" action="./pay" method="post">
                         <div class="form-group">
                             <label for="ordName">받는 사람</label>
-                            <input type="text" name="ordName" id="ordName" value="${buyeradr[0].adrName }">
+                            <input type="text" name="ordName" id="ordName" value="${buyeradr[0].adrName }" data-name="받는 사람">
                         </div>
                         <div class="form-group">
                             <label for="ordPhone">연락처</label>
-                            <input type="text" name="ordPhone" id="ordPhone" value="${buyeradr[0].adrPhone }">
+                            <input type="text" name="ordPhone" id="ordPhone" value="${buyeradr[0].adrPhone }" data-name="연락처">
                         </div>
                         <!-- 클릭시 주소 모달창 활성화 -->
                         
                         <div class="form-group">
                             <label for="ordPostcode">우편 번호</label>
-                            <input type="text" name="ordPostcode" id="ordPostcode" value="${buyeradr[0].adrPostcode }">
+                            <input type="text" name="ordPostcode" id="ordPostcode" value="${buyeradr[0].adrPostcode }"  data-name="우편번호">
                             <button type="button" id="btnPostcode" data-bs-toggle="modal" data-bs-target="#exampleModal">주소 찾기</button>
                         </div>
                         <div class="form-group">
                             <label for="ordAddr">배송 주소</label>
-                            <input type="text" name="ordAddr" id="ordAddr" value="${buyeradr[0].adrAddr }">
+                            <input type="text" name="ordAddr" id="ordAddr" value="${buyeradr[0].adrAddr }" data-name="배송 주소">
                         </div>
                         <div class="form-group">
                             <label for="ordPostcode">상세 주소</label>
-                            <input type="text" name="ordDetail" id="ordDetail" value="${buyeradr[0].adrDetail }">
+                            <input type="text" name="ordDetail" id="ordDetail" value="${buyeradr[0].adrDetail }"  data-name="상세 주소">
                         </div>
                         <div class="form-group">
                             <label for="ordMemo">메모</label>

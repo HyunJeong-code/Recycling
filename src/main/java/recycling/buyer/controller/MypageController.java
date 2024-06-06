@@ -147,42 +147,42 @@ public class MypageController {
 		
 	}
 	
-	// 1:1 문의 작성 페이지
-	@GetMapping("/otoform")
-	public String otoform(
-			Authentication authentication,
-			Oto oto,
-			Model model
-			) {
-		
-		logger.info("/buyer/mypage/otoform [GET]");
-		
-		List<OtoCt> oct = mypageService.getAllOct();
-		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/mypage/myboard";
-			
-		}
-		
-		Buyer buyer = mypageService.getBuyerDetail(buyerLogin.getbId());
-		
-		oto.setbCode(buyer.getbCode());
-		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());
-		
-		model.addAttribute("buyer", buyer);
-		model.addAttribute("oto", oto);
-		model.addAttribute("oct", oct);
-		
-		return "/buyer/mypage/otoform";
-		
-	}
-	
+//	// 1:1 문의 작성 페이지
+//	@GetMapping("/otoform")
+//	public String otoform(
+//			Authentication authentication,
+//			Oto oto,
+//			Model model
+//			) {
+//		
+//		logger.info("/buyer/mypage/otoform [GET]");
+//		
+//		List<OtoCt> oct = mypageService.getAllOct();
+//		
+//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+//		
+//		if(buyerLogin == null) {
+//			
+//			model.addAttribute("error", "로그인 해주세요.");
+//			
+//			return "redirect:/buyer/mypage/myboard";
+//			
+//		}
+//		
+//		Buyer buyer = mypageService.getBuyerDetail(buyerLogin.getbId());
+//		
+//		oto.setbCode(buyer.getbCode());
+//		oto.setOtoName(buyer.getbName());
+//		oto.setOtoEmail(buyer.getbEmail());
+//		
+//		model.addAttribute("buyer", buyer);
+//		model.addAttribute("oto", oto);
+//		model.addAttribute("oct", oct);
+//		
+//		return "/buyer/mypage/otoform";
+//		
+//	}
+//	
 //	// 1:1 문의 작성 처리
 //	@PostMapping("/otoform")
 //	public String otoFormProc(

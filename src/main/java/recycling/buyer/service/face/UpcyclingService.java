@@ -81,7 +81,7 @@ public interface UpcyclingService {
 	 * @param prdCode 
 	 * @param buyer 작성자 로그인 정보
 	 */
-	public void insertReview(String rvwContent, String prdCode, Buyer buyer);
+//	public void insertReview(String rvwContent, String prdCode, Buyer buyer);
 
 	/**
 	 * 리뷰 업데이트 메소드
@@ -115,6 +115,8 @@ public interface UpcyclingService {
 	public CartOrder selectCartOrder(String prdCode);
 	
 	public int	insertReview(UpcyReview review);
+
+	public int insertReview(UpcyReview review);
 
 
 }

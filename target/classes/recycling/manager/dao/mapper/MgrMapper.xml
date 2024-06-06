@@ -4,7 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.manager.dao.face.MgrDao">
-<<<<<<< HEAD
 
 	<select id="selectById" parameterType="string" resultType="ManagerLogin">
 		SELECT mgr_code, deptno, mgr_id, mgr_pw, mgr_out 
@@ -13,7 +12,6 @@
 			AND mgr_id = #{username }
 		</where>
 	</select>
-=======
 	
 	<!--  manager join department -->
 	<sql id="mgrJoinDep">
@@ -36,7 +34,6 @@
 	    , ntc_date
 	FROM notice
 	</sql>
->>>>>>> TEST
 	
 	<select id="selectByManager" parameterType="Manager" resultType="int">
 		SELECT count(*)
@@ -72,33 +69,6 @@
 		)
 	</insert>
 	
-<<<<<<< HEAD
-	<!-- 공지사항 기본 조회구조  -->
-	<sql id="noticeBoard">
-	SELECT 
-    	ntc_code
-	    , CT_ntcno
-	    , ntc_title
-	    , ntc_content
-	    , ntc_hit
-	    , ntc_date
-	FROM notice
-	</sql>
-=======
-	<!-- 카테고리 + 검색기능 구조  -->
-	<sql id="noitceSearch">
-    <if test="search != null and search != ''">
-		<choose>
-			<when test="category == 'title'">
-				<where>ntc_title LIKE '%${search }%'</where>
-			</when>
-			<when test="category == 'content'">
-				<where>ntc_content LIKE '%${search }%'</where>
-			</when>
-		</choose>
-	</if>
-	</sql>
-	
 	<!-- 전체조회[empList] -->
 	<select id="selectAllempList" resultType="ManagerJoinDe" parameterType="recycling.util.PagingAndCtg">	
 		SELECT *
@@ -118,7 +88,6 @@
 			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>	
->>>>>>> TEST
 	
 	<!-- 카테고리 + 검색기능 구조  -->
 	<sql id="noitceSearch">

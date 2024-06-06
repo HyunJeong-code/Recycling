@@ -86,9 +86,9 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			
 			<div class="main-section">
 			
-				<h1>주문목록</h1>
-				<hr>
-				
+				<div class="page-header">
+					<h3>주문목록</h3>
+				</div>
 				<div class="search">
 					<form action="./myorder" method="get">
 						<input type="hidden" name="sCtg" value="UP">
@@ -97,7 +97,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					</form>
 				</div>
 				
-				<table>
+				<table class="b-table">
 					<thead>
 						<tr>
 							<th>주문번호</th>

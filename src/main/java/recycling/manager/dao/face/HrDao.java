@@ -103,4 +103,5 @@ public interface HrDao {
 	 * @param mgrFile
 	 */
 	public void updateProfileProc(MgrFile mgrFile);
+
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,6 +51,7 @@ public class RecyclingController {
     @Autowired private BuyerService buyerService;
     @Autowired private UpcyclingService upcyclingService;
 	
+
 	@GetMapping("/main")
 	public String rcyMain(Model model) {
 		logger.info("/buyer/recycling/main [GET]");
@@ -89,12 +91,6 @@ public class RecyclingController {
 
 		model.addAttribute("gpsList", gpsList);
 		model.addAttribute("location", location);
-
-//        logger.info("11111111111111{}", gpsList);
-//        logger.info("11111111111111{}", location);
-
-		// 디비에 값을 불러오는게 아닌 직접 jsp에 주소 입력한것
-//        return "buyer/recycling/findseller_origin";
 
 		return "buyer/recycling/findseller";
 

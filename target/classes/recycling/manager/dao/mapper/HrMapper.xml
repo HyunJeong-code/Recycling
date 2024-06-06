@@ -27,9 +27,6 @@
 
 	<!--  manager join department resultMap-->	
 	<resultMap type="java.util.HashMap" id="mgrJoin">
-<<<<<<< HEAD
-=======
-	
 	<result property="mgrCode" column="mgr_code"/>
 	<result property="deptno" column="deptno"/>
 	<result property="mgrId" column="mgr_id"/>
@@ -42,7 +39,6 @@
 	<result property="mgrEntDate" column="mgr_entDate"/>
 	<result property="mgrOut" column="mgr_out"/>
 	<result property="mgrOutDate" column="mgr_out_date"/>
-
 	<result property="dName" column="dName"/>
 	</resultMap>
 
@@ -65,23 +61,6 @@
 			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
->>>>>>> TEST
-	
-	<result property="mgrCode" column="mgr_code"/>
-	<result property="deptno" column="deptno"/>
-	<result property="mgrId" column="mgr_id"/>
-	<result property="mgrPw" column="mgr_pw"/>
-	<result property="mgrName" column="mgr_name"/>
-	<result property="mgrPhone" column="mgr_phone"/>
-	<result property="mgrEmail" column="mgr_email"/>
-	<result property="mgrBirth" column="mgr_birth"/>
-	<result property="mgrGender" column="mgr_gender"/>
-	<result property="mgrEntDate" column="mgr_entDate"/>
-	<result property="mgrOut" column="mgr_out"/>
-	<result property="mgrOutDate" column="mgr_out_date"/>
-
-	<result property="dName" column="dName"/>
-	</resultMap>
 
 	<!-- 조회 -->	
 	<select id="selectAll" resultMap="mgrJoin">

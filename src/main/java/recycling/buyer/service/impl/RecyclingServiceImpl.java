@@ -132,10 +132,12 @@ public class RecyclingServiceImpl implements RecyclingService {
 //		return recyclingDao.updateSellerQST(sellerQST);
 //	}
 
+
 //	@Override
 //	public int  deleteSellerQST(String qstCode) {
 //		return recyclingDao.deleteSellerQST(qstCode);
 //	}
+
 
 //	@Override
 //	public int insertSellerAnswer(SellerAns sellerAns) {
