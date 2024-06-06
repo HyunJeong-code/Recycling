@@ -121,12 +121,6 @@ function toggleAnswer(ctFaqno) {
     }
 }
 
-$(document).ready(function(){
-    $(".FAQ_CT_button").click(function(){
-        var ctFaqno = $(this).val(); // 클릭한 버튼의 분류 번호 가져오기
-        window.location.href = "/buyer/help/main?curPage=1&search=" + ctFaqno + "&sCtg=UP"; // 분류 클릭 시 분류 번호를 포함한 URL로 이동
-    });
-});
 </script>
 </head>
 <body>
@@ -161,23 +155,21 @@ $(document).ready(function(){
 			<a href="/buyer/mypage/myboard" class="cs_menu_a">내 질문</a>
 			<a href="./main" class="cs_menu_a">자주 묻는 질문</a><br><br>
 	</nav>
-	
-	
-</div>
-
+		
 <div class="FAQ_Content">
 	<h2>FAQ 자주 묻는 질문</h2>
 	
 	<nav class="FAQ_CT">
-			<button type="button" class="FAQ_CT_button" value="3000">회원</button>
-            <button type="button" class="FAQ_CT_button" value="3010">결제</button>
-            <button type="button" class="FAQ_CT_button" value="3020">예약</button>
-            <button type="button" class="FAQ_CT_button" value="3030">재활용품</button>
-            <button type="button" class="FAQ_CT_button" value="3040">업사이클링</button>
-            <button type="button" class="FAQ_CT_button" value="3050">체험단</button>
-            <button type="button" class="FAQ_CT_button" value="3060">세척</button>
-            <button type="button" class="FAQ_CT_button" value="3070">기타</button>
+			<button type="button" class="FAQ_CT_button" value="3000"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3000&sCtg=UP">회원</a></button>
+            <button type="button" class="FAQ_CT_button" value="3010"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3010&sCtg=UP">결제</a></button>
+            <button type="button" class="FAQ_CT_button" value="3020"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3020&sCtg=UP">예약</a></button>
+            <button type="button" class="FAQ_CT_button" value="3030"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3030&sCtg=UP">재활용품</a></button>
+            <button type="button" class="FAQ_CT_button" value="3040"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">업사이클링</a></button>
+            <button type="button" class="FAQ_CT_button" value="3050"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">체험단</a></button>
+            <button type="button" class="FAQ_CT_button" value="3060"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">세척</a></button>
+            <button type="button" class="FAQ_CT_button" value="3070"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">기타</a></button>
 	</nav>
+	
 
 </div>
 
