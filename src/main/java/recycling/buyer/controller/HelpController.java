@@ -108,65 +108,57 @@ public class HelpController {
 	    model.addAttribute("upUrl", "/buyer/help/main");
 	}
 
-	
 	@GetMapping("/noticelist")
 	public void noticeList(
-			@RequestParam(name = "ct_ntcno", defaultValue = "buyers") String ctNtcNo,
-			Model model,
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg,
-			Authentication authentication
-			) {
-		boolean isSeller = false;
-		
-		if(authentication != null && authentication.isAuthenticated()) {
-			BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-			
-			if (buyerLogin != null) {
-				Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
-				isSeller = helpService.chkSeller(buyer.getbCode());
-			}
-			
-		}
-		
-		//페이지 수 계산
-		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageAll(curPage, sCtg, search);
-									
-		int upPage = helpService.selectCntAllNoticeList(upPaging);
-		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-		
-		logger.info("upPaging : {}", upPaging);
-		
-		
-		List<Notice> noticeList;
-		Map<String, Object> params = new HashMap<>();
-		params.put("ctNtcNo", ctNtcNo);
-		params.put("upPaging", upPaging);
-		
-		logger.info("ctNtcNo : {}" ,ctNtcNo);
-		
-		if (isSeller && "sellers".equals(ctNtcNo)) {
-			upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-			noticeList = helpService.selectNoticeSeller(params);
-			logger.info("noticeList : {}" ,noticeList);
-			
-		} else {
-			upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-			noticeList = helpService.selectNoticeBuyer(params);
-			logger.info("noticeList : {}" ,noticeList);
+	        @RequestParam(defaultValue = "0") int curPage,
+	        @RequestParam(defaultValue = "") String search,
+	        @RequestParam(defaultValue = "") String sCtg,
+	        Model model,
+	        Authentication authentication
+	) {
+	    boolean isSeller = false;
 
-		}
-		
-		
-		
-        model.addAttribute("noticeList", noticeList);
-        model.addAttribute("isSeller", isSeller);
-        model.addAttribute("ctNtcNo", ctNtcNo);
-        model.addAttribute("upPaging", upPaging);
-        model.addAttribute("upUrl", "/buyer/help/noticelist");
+	    if (authentication != null && authentication.isAuthenticated()) {
+	        BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+
+	        if (buyerLogin != null) {
+	            Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
+	            isSeller = helpService.chkSeller(buyer.getbCode());
+	            logger.info("isSeller : {}", isSeller);
+	        }
+	    }
+
+	    // 페이지 수 계산
+	    PagingAndCtg upPaging = new PagingAndCtg();
+	    upPaging = pageService.upPageAll(curPage, sCtg, search);
+
+	    int upPage = helpService.selectCntAllNoticeList(upPaging, isSeller);
+	    upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+
+	    logger.info("upPaging : {}", upPaging);
+
+	    List<Notice> noticeList;
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("isSeller", isSeller);
+	    params.put("search", search);
+	    params.put("startNo", upPaging.getStartNo());
+	    params.put("endNo", upPaging.getEndNo());
+
+	    if (isSeller) {
+	        // 판매자라면 구매자 + 판매자 공지사항 조회
+	        noticeList = helpService.selectNoticeForSeller(params);
+	    } else {
+	        // 비로그인 및 구매자는 구매자 공지사항만 조회
+	        noticeList = helpService.selectNoticeForBuyer(params);
+	    }
+
+	    model.addAttribute("noticeList", noticeList);
+	    model.addAttribute("isSeller", isSeller);
+	    model.addAttribute("upPaging", upPaging);
+	    model.addAttribute("upUrl", "/buyer/help/noticelist");
 	}
+
+	
 	
 	@GetMapping("/noticedetail")
 	public void noticeDetail(

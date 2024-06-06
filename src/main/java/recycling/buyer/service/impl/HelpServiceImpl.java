@@ -2,6 +2,7 @@ package recycling.buyer.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -37,26 +38,7 @@ public class HelpServiceImpl implements HelpService {
 	@Autowired private ServletContext servletContext;
 	
 
-	@Override
-	public List<Notice> selectNoticeSeller() {
-		List<Notice> sellerNotices = helpDao.selectByCategory(1);
-		
-		return sellerNotices;
-	}
-
-	@Override
-	public List<Notice> selectNoticeBuyer() {
-		List<Notice> buyerNotices = helpDao.selectByCategory(0);
-		
-		return buyerNotices;
-	}
-
-	@Override
-	public Notice selectByNotice(String ntcCode) {
-		helpDao.updateNtcHit(ntcCode);
-		
-		return helpDao.selectByNotice(ntcCode);
-	}
+	
 
 	@Override
 	public int insertOto(Oto oto) {
@@ -146,11 +128,6 @@ public class HelpServiceImpl implements HelpService {
 		return helpDao.getOtoFiles(otoCode);
 	}
 
-	@Override
-	public boolean chkSeller(String bCode) {
-		
-		return helpDao.chkSeller(bCode) > 0;
-	}
 
 	@Override
 	public int selectCntAllOtoList(PagingAndCtg upPaging) {
@@ -195,26 +172,36 @@ public class HelpServiceImpl implements HelpService {
 		return helpDao.selectFaqByCt(upPaging);
 	}
 
-	
-	
+
+	@Override
+	public boolean chkSeller(String bCode) {
+		
+		return helpDao.chkSeller(bCode) > 0;
+	}
 	
 	@Override
-	public List<Notice> selectNoticeSeller(Map<String, Object> params) {
-		
-		return helpDao.selectByCategory(params);
+	public List<Notice> selectNoticeForSeller(Map<String, Object> params) {
+		return helpDao.selectNoticeForSeller(params);
 	}
 
 	@Override
-	public List<Notice> selectNoticeBuyer(Map<String, Object> params) {
-		
-		return helpDao.selectByCategory(params);
+	public List<Notice> selectNoticeForBuyer(Map<String, Object> params) {
+		return helpDao.selectNoticeForBuyer(params);
 	}
 
 	@Override
-	public int selectCntAllNoticeList(PagingAndCtg upPaging) {
-		
-		return helpDao.selectCntAllNoticeList(upPaging);
+	public int selectCntAllNoticeList(PagingAndCtg upPaging, boolean isSeller) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("isSeller", isSeller);
+	    params.put("search", upPaging.getSearch());
+	    return helpDao.selectCntAllNoticeList(params);
 	}
 
 
+	@Override
+	public Notice selectByNotice(String ntcCode) {
+		helpDao.updateNtcHit(ntcCode);
+		
+		return helpDao.selectByNotice(ntcCode);
+	}
 }

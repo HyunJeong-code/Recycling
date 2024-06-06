@@ -424,5 +424,6 @@ table tr:hover {
 			<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 		</div>
 	</div>	
+	</div>
 </body>
 </html>

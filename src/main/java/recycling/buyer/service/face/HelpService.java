@@ -18,27 +18,7 @@ import recycling.util.PagingAndCtg;
 public interface HelpService {
 
 
-	/**
-	 * 판매자 전용 공지사항 전체 조회
-	 * 
-	 * @return 공지사항 List
-	 */
-	public List<Notice> selectNoticeSeller();
-
-	/**
-	 * default값 구매자로, 기본 공지사항 전체 조회
-	 * 
-	 * @return 공지사항 List 
-	 */
-	public List<Notice> selectNoticeBuyer();
-
-	/**
-	 * 공지사항 상세조회
-	 * 
-	 * @param ntcCode - 공지사항 코드
-	 * @return 공지사항 상세내용
-	 */
-	public Notice selectByNotice(String ntcCode);
+	
 
 	/**
 	 * 1:1문의 게시글 작성을 위한 객체
@@ -103,16 +83,6 @@ public interface HelpService {
 	 * @return otoCode와 일치하는 게시글의 파일 List view
 	 */
 	public List<OtoFile> getOtoFiles(String otoCode);
-
-
-
-	/**
-	 * 판매자 여부 확인
-	 * 
-	 * @param bCode - 구매자 코드
-	 * @return 0 : 실패, 1 : 성공
-	 */
-	public boolean chkSeller(String bCode);
 
 	/**
 	 * oto paging
@@ -182,17 +152,27 @@ public interface HelpService {
 	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
 
 	
-	
-	public List<Notice> selectNoticeSeller(Map<String, Object> params);
+	public List<Notice> selectNoticeForSeller(Map<String, Object> params);
 
-	public List<Notice> selectNoticeBuyer(Map<String, Object> params);
+	public List<Notice> selectNoticeForBuyer(Map<String, Object> params);
 
-	public int selectCntAllNoticeList(PagingAndCtg upPaging);
+	public int selectCntAllNoticeList(PagingAndCtg upPaging, boolean isSeller);
 
+	/**
+	 * 판매자 여부 확인
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public boolean chkSeller(String bCode);
 
-
-
-
+	/**
+	 * 공지사항 상세조회
+	 * 
+	 * @param ntcCode - 공지사항 코드
+	 * @return 공지사항 상세내용
+	 */
+	public Notice selectByNotice(String ntcCode);
 
 
 	
