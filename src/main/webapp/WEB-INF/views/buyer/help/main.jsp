@@ -209,13 +209,7 @@ $(document).ready(function(){
 	</c:forEach>
 <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 </div>
-<c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </div>
-<<<<<<< HEAD
-
-
-=======
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
->>>>>>> TEST
 </body>
 </html>

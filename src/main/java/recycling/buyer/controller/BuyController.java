@@ -52,39 +52,36 @@ public class BuyController {
 		
 		logger.info("ctg : {}", ctg);
 		
-		List<Map<String, Object>> expPrd = null;
-		List<Map<String, Object>> rcyPrd = null;
-		List<Map<String, Object>> upcyPrd = null;
+		List<Map<String, Object>> expHit = null;
+		List<Map<String, Object>> rcyHit = null;
+		List<Map<String, Object>> upcyHit = null;
 		
-		if(ctg.equals("")) {
-			expPrd = buyService.selectExp();
-			rcyPrd = buyService.selectRcy();
-			upcyPrd = buyService.selectUpcy();			
-		} else {
-			switch(ctg) {
-			case "exphit" :
-				break;
-			case "expnew" :
-				break;
-			case "rcyhit" : 
-				break;
-			case "rcynew" :
-				break;
-			case "upcyhit" : 
-				break;
-			case "upcynew" :
-				break;
-			}			
-		}
+		List<Map<String, Object>> expNew = null;
+		List<Map<String, Object>> rcyNew = null;
+		List<Map<String, Object>> upcyNew = null;
 		
+		expHit = buyService.selectExpHit();
+		rcyHit = buyService.selectRcyHit();
+		upcyHit = buyService.selectUpcyHit();		
 		
-		logger.info("expPrd : {}", expPrd);
-		logger.info("Rcy : {}", rcyPrd);
-		logger.info("Upcy : {}", upcyPrd);
+		expNew = buyService.selectExpNew();
+		rcyNew = buyService.selectRcyNew();
+		upcyNew = buyService.selectUpcyNew();
+	
+		logger.info("expPrd : {}", expHit);
+		logger.info("Rcy : {}", rcyHit);
+		logger.info("Upcy : {}", upcyHit);
 		
-		model.addAttribute("exp", expPrd);
-		model.addAttribute("rcy", rcyPrd);
-		model.addAttribute("upcy", upcyPrd);
+		logger.info("expPrd : {}", expNew);
+		logger.info("Rcy : {}", rcyNew);
+		logger.info("Upcy : {}", upcyNew);
+		
+		model.addAttribute("expHit", expHit);
+		model.addAttribute("rcyHit", rcyHit);
+		model.addAttribute("upcyHit", upcyHit);
+		model.addAttribute("expNew", expNew);
+		model.addAttribute("rcyNew", rcyNew);
+		model.addAttribute("upcyNew", upcyNew);
 		
 	}
 	

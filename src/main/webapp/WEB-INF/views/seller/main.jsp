@@ -7,15 +7,17 @@
 <head>
 <meta charset="UTF-8">
 <title>새활용 판매자 페이지</title>
+<style type="text/css">
+
+</style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
-		<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
-			
-		<div class="">
-			<div class="page">
+		<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>	
+		<div class="main-section">
+			<div class="page-header">
 				<h3>간단 통계</h3>
 			</div>
 			
@@ -156,11 +158,6 @@
 			</div>
 		</div>
 	</div>
-</c:if>
-
-<c:if test="">
-</c:if>
-
 </div>
 <c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 </body>

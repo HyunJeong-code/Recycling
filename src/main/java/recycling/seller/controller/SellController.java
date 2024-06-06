@@ -43,9 +43,41 @@ public class SellController {
 		logger.info("/seller/main [GET]");
   
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		logger.info("{}", auth.getAuthorities());
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("seller : {}", buyerLogin);
-		  
+		
+		logger.info("auth != null : {}", auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SELLER")));
+		// 판매자인 경우
+		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SELLER"))) {
+			logger.info("판매자");
+			return "/seller/main";
+		} else {
+			// 판매자가 아닌 경우
+//	    	  s_chk = null
+			if(buyerLogin.getsCode() == null) {
+				logger.info("신청 필요");
+				return "/seller/sellerinfo";	
+			} else if(buyerLogin.getsCode() != null && buyerLogin.getsChk() == null) {
+				logger.info("이미 신청");
+				model.addAttribute("msg", "담당자가 검토 중입니다. 추가 서류 요청이 있을 수 있으니, 문자/메일 확인을 수시로 부탁드립니다.");
+				model.addAttribute("url", "/buyer/main");
+				return "/layout/alert";
+			} else if(buyerLogin.getsCode() != null && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
+				logger.info("판매자 탈퇴");
+				model.addAttribute("msg", "탈퇴한 판매자 입니다. 재가입은 고객센터에 문의 부탁드립니다.");
+				model.addAttribute("url", "/buyer/main");
+			} else if(buyerLogin.getsCode() != null && buyerLogin.getsChk().equals("N")) {
+				// 판매자 신청은 했으나 허가 되지 않은 경우	    		  
+				//	    	  s_chk='N'
+				logger.info("판매자 거절");
+				model.addAttribute("msg", "판매자 신청이 거절되었습니다. \n 정보 보충 후 재신청 바랍니다. \n 자세한 사유는 판매관리팀 번호로 문의 바랍니다. \n 000-0000-0000 으로 연락바랍니다. \n 해당 메시지는 1번만 노출되고 노출되지 않습니다.");
+				model.addAttribute("url", "/buyer/main");
+				int res = sellService.deleteSeller(buyerLogin);
+				return "/layout/alert";
+			}
+		}
+		
 		int prdCnt = sellService.selectPrdCnt(buyerLogin);
 		int payCnt = sellService.selectPayCnt(buyerLogin);
 		int shipCnt = sellService.selectShipCnt(buyerLogin);
@@ -88,29 +120,9 @@ public class SellController {
         model.addAttribute("QnaList", QnaList);
         model.addAttribute("QnaSize", QnaList.size());
         model.addAttribute("unPaging", unPaging);
-  
-		// 판매자인 경우
-		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SELLER"))) {
-			return "/seller/main";
-		} else {
-			// 판매자가 아닌 경우
-//	    	  s_chk = null
-			if(buyerLogin.getsCode() == null && buyerLogin.getsChk() == null) {
-				return "/seller/sellerinfo";	
-			} else if(buyerLogin.getsChk() == null && buyerLogin.getsCode() != null) {
-				model.addAttribute("msg", "담당자가 검토 중입니다. 추가 서류 요청이 있을 수 있으니, 문자/메일 확인을 수시로 부탁드립니다.");
-				model.addAttribute("url", "/buyer/main");
-				return "/layout/alert";
-			} else if(buyerLogin.getsChk().equals("N")) {
-				// 판매자 신청은 했으나 허가 되지 않은 경우	    		  
-				//	    	  s_chk='N'
-				model.addAttribute("msg", "판매자 신청이 거절되었습니다. \n 정보 보충 후 재신청 바랍니다. \n 자세한 사유는 판매관리팀 번호로 문의 바랍니다. \n 000-0000-0000 으로 연락바랍니다. \n 해당 메시지는 1번만 노출되고 노출되지 않습니다.");
-				model.addAttribute("url", "/buyer/main");
-				int res = sellService.deleteSeller(buyerLogin);
-				return "/layout/alert";
-			}
-		}
 		
+        logger.info("그 외");
+        
 		return "/seller/main";
 	}
 	
