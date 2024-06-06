@@ -4,7 +4,10 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.manager.Ans;
+import recycling.dto.manager.Manager;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 구매CS팀 DB 처리
 public interface CsDao {
@@ -15,22 +18,31 @@ public interface CsDao {
 	 * @param paging
 	 * @return
 	 */
-	public List<Oto> selectAllOto(Paging paging);
+	public List<Oto> list(PagingAndCtg upPaging);
 	
 	/**
-	 * 총 게시글 조회
+	 * 문의글 페이징
 	 * 
+	 * @param upPaging
 	 * @return
 	 */
-	public int selectCntAll();
+	public int selectCntAllotoList(PagingAndCtg upPaging);
+	
+	/**
+	 * 구매자 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllbuyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 모든 구매자 조회
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Buyer> selectAllBuyer(Paging paging);
+	public List<Buyer> buyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 상세 조회
@@ -38,7 +50,7 @@ public interface CsDao {
 	 * @param buyer
 	 * @return
 	 */
-	public Buyer selectByBuyer(Buyer buyer);	
+	public Buyer buyerDetail(Buyer buyer);	
 
 	/**
 	 * 구매자 수정
@@ -46,9 +58,15 @@ public interface CsDao {
 	 * @param buyer
 	 * @return
 	 */
-	public Buyer selectBcode(String bCode);
-
-	public void updateBuyer(Buyer buyer);
+	public void buyerUpdate(Buyer buyer);
+	
+	/**
+	 * 구매자 수정
+	 * 
+	 * @param bCode
+	 * @return
+	 */
+	public Buyer getBuyer(String bCode);
 	
 	/**
 	 * 구매자 삭제
@@ -56,10 +74,36 @@ public interface CsDao {
 	 * @param bCode
 	 * @return 
 	 */
-	public void deleteBuyer(String bCode, String ctBcode, int rankNo);
+	public int buyerDel(Buyer buyer);
 
+	/**
+	 * 문의 내용 상세
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public Oto ansForm(String otoCode);
 
+	/**
+	 * 문의 내용 답글 작성
+	 * @param ans
+	 * @return
+	 */
+	public void ansFormInsert(Ans ans);
 
-	//public void deleteBuyer(String bCode);
+	/**
+	 * 문의글 삭제
+	 * 
+	 * @param otoCode
+	 */
+	public void otoDel(String otoCode);
+
+	/**
+	 * 답글 목록
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public List<Ans> viewCom(String otoCode);
 
 }

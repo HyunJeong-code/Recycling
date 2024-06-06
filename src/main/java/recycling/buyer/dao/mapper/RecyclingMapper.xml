@@ -4,4 +4,88 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.RecyclingDao">
+
+	<!-- 판매자 찾기 -->
+	<select id="findSeller" parameterType="String" resultType="Seller">
+	    SELECT S_CODE, B_CODE, ACC_NAME, ACC_BANK, ACC_NO, S_POSTCODE, S_ADDR, S_DETAIL, S_ENTDATE, S_CHK, S_OUT, S_OUT_DATE
+	    FROM SELLER
+	    <!-- <where>
+	    	AND S_CODE = #{sCode }
+	    </where> -->
+	</select>
+	
+	<!-- 판매자 코드로 재활용품 조회 -->
+    <select id="findRcyBySellerCode" parameterType="String" resultType="Prd">
+        SELECT *
+        FROM PRD
+        <where>
+	    	AND S_CODE = #{sCode }
+	    </where>
+    </select>
+
+	<!-- 상품 목록 조회 -->
+	<select id="selectPrdList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 0
+	    AND NOT PRD_CNT = 0
+	</select>
+	
+	<select id="selectPrd" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+
+	<!-- 판매자 프로필 조회 -->
+	<select id="selectSellerProfByCode" parameterType="String" resultType="Seller">
+		SELECT * FROM SELLER
+		WHERE S_CODE = #{sCode}
+	</select>
+	
+	<select id="selectSeller" resultType="Seller">
+	    SELECT 
+	    S.S_CODE, S.B_CODE, S.ACC_NAME, S.ACC_BANK, S.ACC_NO, 
+	    S.S_POSTCODE, S.S_ADDR, S.S_DETAIL, S.S_ENTDATE, 
+	    S.S_CHK, S.S_OUT, S.S_OUT_DATE
+	    FROM 
+	        SELLER S
+	    WHERE 
+	        S.S_CODE = #{sCode}
+	</select>
+	
+	<select id="selectQnaList"	resultType="hashmap">
+	    SELECT qst.*, COALESCE(qst_hit, 0) AS qstHit -- qst_hit이 null인 경우 0으로 설정
+	    FROM qst
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectBuyerByBCode" resultType="Buyer">
+	    SELECT * FROM buyer
+	    WHERE B_CODE = #{bCode}
+	</select>
+<!-- 	<select id="selectSellerProfByCode" resultType="SellerProf"> -->
+<!-- 		SELECT * FROM SELLER_PROF -->
+<!-- 		WHERE S_CODE = #{sCode} -->
+<!-- 	</select> -->
+	
+	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT B_Code AS bCode,
+		       B_Ct_Code AS bCtCode,
+		       B_Id AS bId,
+		       B_Pw AS bPw,
+		       B_Name AS bName,
+		       B_Phone AS bPhone,
+		       B_Email AS bEmail,
+		       Ad_Sms AS adSms,
+		       Ad_Email AS adEmail
+		FROM Buyer
+		<where>
+			AND B_Id = #{bId }
+		</where>
+	</select>
+	
+	<insert id="insertOto" parameterType="Oto" useGeneratedKeys="true" keyProperty="otoCode" keyColumn="oto_code">
+		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
+		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})
+	</insert>
+
 </mapper>

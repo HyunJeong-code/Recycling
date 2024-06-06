@@ -4,7 +4,10 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.manager.Ans;
+import recycling.dto.manager.Manager;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 구매 CS팀 관련 처리
 public interface CsService {
@@ -12,26 +15,34 @@ public interface CsService {
 	/**
 	 * 문의 목록
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Oto> list(Paging paging);
+	public List<Oto> list(PagingAndCtg upPaging);
+	
+	/**
+	 * 문의 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllotoList(PagingAndCtg upPaging);
 
 	/**
-	 * 페이징
+	 * 구매자 페이징
 	 * 
-	 * @param pagingParam
+	 * @param upPaging
 	 * @return
 	 */
-	public Paging getPaging(Paging pagingParam);
+	public int selectCntAllbuyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 목록
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Buyer> buyerList(Paging paging);
+	public List<Buyer> buyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 상세
@@ -64,11 +75,42 @@ public interface CsService {
 	 * @param bCode
 	 * @return 
 	 */
-	public void buyerDel(String bCode, String ctBcode, int rankNo);
+	public void buyerDel(Buyer buyer);
 
+	/**
+	 * 문의글 상세조회
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public Oto ansForm(String otoCode);
 
+	/**
+	 * 문의 답변 작성
+	 * 
+	 * @param mgrCode
+	 * @param ansCode
+	 * @param ansContent
+	 * @param otoCode 
+	 * @return
+	 */
+	public void ansFormInsert(String mgrCode, String ansCode, String ansContent, String otoCode);
 
-	
-//	public void buyerDel(String bCode);
+	/**
+	 * 문의글 삭제
+	 * 
+	 * @param otoCode
+	 */
+	public void otoDel(String otoCode);
+
+	/**
+	 * 답변 리스트
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public List<Ans> viewCom(String otoCode);
+
+	public boolean chkNull(List<Ans> comments);
 
 }

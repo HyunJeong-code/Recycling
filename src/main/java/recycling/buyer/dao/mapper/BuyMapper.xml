@@ -14,6 +14,13 @@
 		</where> 
 	</select>
 	
+	<select id="selectCntById" parameterType="string" resultType="int">
+		SELECT count(*) FROM buyer
+		<where>
+			AND b_id = #{bId }
+		</where>
+	</select>
+	
 	<insert id="insertBuyer" parameterType="Buyer" useGeneratedKeys="true" keyProperty="bCode" keyColumn="b_code">
 		INSERT INTO buyer (b_code, b_ct_code, rank_no, b_id, b_pw, b_name, b_phone, b_email, b_entdate, ad_sms, ad_email, b_out, b_out_date)
 		VALUES(
@@ -74,12 +81,26 @@
 	</update>
 	
 	<insert id="insertProf" parameterType="BuyerProf">
-		INSERT INTO buyerprof (b_profno, b_code, origin_name, stored_name)
+		INSERT INTO buyer_prof (b_profno, b_code, origin_name, stored_name)
 		VALUES(
 			buyer_prof_seq.nextval,
 			#{bCode },
 			#{originName },
 			#{storedName }
+		)
+	</insert>
+	
+	<insert id="insertAdr" parameterType="BuyerAdr">
+		INSERT INTO buyer_adr (adr_code, b_code, adr_name, adr_phone, adr_postcode, adr_addr, adr_detail, adr_chk)
+		VALUES (
+			'ADR' || lpad(buyer_adr_seq.nextval, 7, '0'),
+			#{bCode },
+			#{adrName },
+			#{adrPhone },
+			#{adrPostcode },
+			#{adrAddr },
+			#{adrDetail },
+			'Y'
 		)
 	</insert>
 	
@@ -122,4 +143,32 @@
 		</where> 
 	</select>
 	
+	<select id="selectRcy">
+		SELECT P.prd_code PrdCode, P.prd_name PrdName, P.prd_date PrdDate, F.origin_name OriginName, F.stored_name storedName FROM prd P, prd_file F
+		<where>
+			AND P.prd_code = F.prd_code(+)
+			AND F.ct_pflno = 600
+			AND P.ct_pno = 0
+		</where>
+		ORDER BY P.prd_hit DESC, P.prd_date
+	</select>
+	
+	<select id="selectUpcy">
+		SELECT P.prd_code PrdCode, P.prd_name PrdName, P.prd_date PrdDate, F.origin_name OriginName, F.stored_name storedName FROM prd P, prd_file F
+		<where>
+			AND P.prd_code = F.prd_code(+)
+			AND F.ct_pflno = 600
+			AND P.ct_pno = 1
+		</where>
+		ORDER BY P.prd_hit DESC, P.prd_date
+	</select>
+	
+	<select id="selectExp">
+		SELECT E.exp_code expCode, E.exp_name expName, E.exp_date expDate, F.origin_name originName, F.stored_name storedName FROM exp E, exp_file F
+		<where>
+			AND E.exp_code = F.exp_code(+)
+			AND F.ct_pflno = 600
+		</where>
+		ORDER BY E.exp_hit DESC, E.exp_date
+	</select>
 </mapper>

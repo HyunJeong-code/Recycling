@@ -5,25 +5,30 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
-import recycling.dto.manager.Notice;	
+import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
+import recycling.page.face.PageService;
+import recycling.util.PagingAndCtg;
 
 // 관리자 메인 페이지 + 로그인, 회원가입 + 사원 전체 조회, 공지사항
 
@@ -34,10 +39,21 @@ public class MgrController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private MgrService mgrService;
 	@Autowired private JavaMailSenderImpl mailSender;
+	@Autowired private PageService pageService;
 	
 	@GetMapping("/main")
-	public void main(HttpSession session) {
+	public String main(
+			) {
 		logger.info("/manager/main [GET]");
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		logger.info("auth : {}", auth);
+		
+		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"))) {
+			return "/manager/main";
+		} else {
+			return "/manager/login";
+		}
 	}
 	
 	@GetMapping("/join")
@@ -130,30 +146,82 @@ public class MgrController {
 	public void login() {
 		logger.info("/manager/login [GET]");		
 	}
-	
+
 	//공지사항 전체조회
 	@GetMapping("/noticelist")
-	public String noticeList(
-			Model model
+	public void noticeList(
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
 			) {
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = mgrService.selectCntAllNotice(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
 		//관리자 공지사항 전체조회
-		List<Notice> mgrNoticeList = mgrService.selectAll();
-		model.addAttribute("notice", mgrNoticeList);
-		logger.info("controller: noticeList[GET]");
-		
-		
-		Paging pagingParam = null;
-		//페이징 계산, 검색기능
-//		Paging paging = mgrService.selectCntAll(pagingParam);
-		
-		//전체 조회기능
-		List<Notice> list = mgrService.selectAll();
+		List<Notice> mgrNoticeList = mgrService.selectAllNotice(upPaging);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 		
 		//JSP로 보내기
-//		model.addAttribute("paging", paging);
-		model.addAttribute("notice", list);
+		model.addAttribute("notice", mgrNoticeList);
+
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/noticelist"); //jsp 페이징
 		
-		logger.info("controller: noticelist : {}", list);
+	}
+	
+	@GetMapping("findid")
+	public void findId() {
+		logger.info("/manager/findid [GET]");
+	}
+	
+	@PostMapping("findid")
+	public void findIdProc(
+				Model model,
+				Manager manager,
+				String mgrPhone, String mPhone, String lPhone,
+				String mgrEmail, String mgrEamil2
+			) {
+		logger.info("/manager/findid [POST]");
+		
+		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
+		
+		if(manager == null) {
+			
+		} else {
+			
+		}
+	}
+	
+	@GetMapping("/findpw")
+	public void findPw() {
+		logger.info("/manager/findpw [GET]");
+	}
+	
+	@PostMapping("/findpw")
+	public String findPwProc(
+				Model model,
+				Manager manager,
+				String mgrPhone, String mPhone, String lPhone,
+				String mgrEmail, String mgrEamil2
+			) {
+		logger.info("/manager/findpw [POST]");
+		
+		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
+		
+		if(manager == null) {
+			return "";
+		} else {
+			return "";
+		}
 	}
 	
 	//공지사항 상세 조회

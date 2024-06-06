@@ -11,12 +11,13 @@ public class MyOrder {
 	private int ordSum;
 	private int sttNo;
 	private String ordDate;
+	private String shipName;
+	private String shipNo;
 	
 	public MyOrder() {}
 
 	public MyOrder(String orddtCode, String ordCode, String prdCode, String ordName, int ordPrice, int ordCnt,
-			int ordSum, int sttNo, String ordDate) {
-		super();
+			int ordSum, int sttNo, String ordDate, String shipName, String shipNo) {
 		this.orddtCode = orddtCode;
 		this.ordCode = ordCode;
 		this.prdCode = prdCode;
@@ -26,13 +27,15 @@ public class MyOrder {
 		this.ordSum = ordSum;
 		this.sttNo = sttNo;
 		this.ordDate = ordDate;
+		this.shipName = shipName;
+		this.shipNo = shipNo;
 	}
 
 	@Override
 	public String toString() {
 		return "MyOrder [orddtCode=" + orddtCode + ", ordCode=" + ordCode + ", prdCode=" + prdCode + ", ordName="
 				+ ordName + ", ordPrice=" + ordPrice + ", ordCnt=" + ordCnt + ", ordSum=" + ordSum + ", sttNo=" + sttNo
-				+ ", ordDate=" + ordDate + "]";
+				+ ", ordDate=" + ordDate + ", shipName=" + shipName + ", shipNo=" + shipNo + "]";
 	}
 
 	public String getOrddtCode() {
@@ -106,5 +109,20 @@ public class MyOrder {
 	public void setOrdDate(String ordDate) {
 		this.ordDate = ordDate;
 	}
-	
+
+	public String getShipName() {
+		return shipName;
+	}
+
+	public void setShipName(String shipName) {
+		this.shipName = shipName;
+	}
+
+	public String getShipNo() {
+		return shipNo;
+	}
+
+	public void setShipNo(String shipNo) {
+		this.shipNo = shipNo;
+	}
 }

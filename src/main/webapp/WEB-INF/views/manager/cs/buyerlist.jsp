@@ -7,69 +7,69 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-	table, th {
-		text-align: center;
-	}
-	
-	/* 게시글 제목 */
-	td:nth-child(2) {
-		text-align: left;
-	}
-</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/resources/css/manager/cs/list.css">
 </head>
 <body>
 
-	<div class="container">
-	
-		<h1>구매자 리스트</h1>
-		<hr>
-		
-		<table class="table table-striped table-hover table-sm">
-		
-			<colgroup>
-				<col style="width: 10%;">
-				<col style="width: 5%;">
-				<col style="width: 15%;">
-				<col style="width: 10%;">
-				<col style="width: 20%;">
-			</colgroup>
+	<div class="full">
+		<aside>
+		</aside>
+		<div class="wrap">
+			<div class="page">
+				구매자 리스트
+			</div>
 			
-			<thead>
-				<tr>
-					<th>구매자 코드</th>
-					<th>구매자 분류 코드</th>								
-					<th>아이디</th>
-					<th>이름</th>
-					<th>휴대폰</th>
-					<th>이메일</th>
-					<th>등급</th>
-					<th>가입일</th>
-				</tr>
-			</thead>
+			<div class="search">
+				<form action="./buyerlist" method="get">
+					<input type="hidden" name="sCtg" value="UP">
+					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+					<button>검색</button>
+				</form>
+			</div>
 			
-			<tbody>
-				<c:forEach var="buyer" items="${buyerList }">
-					<tr>
-						<td>${buyer.bCode }</td>
-						<td>${buyer.bCtCode }</td>
-						<td>
-							<a href="./buyerdetail?bCode=${buyer.bCode }">${buyer.bId }</a>
-						</td>
-						<td>${buyer.bName }</td>
-						<td>${buyer.bPhone }</td>
-						<td>${buyer.bEmail }</td>
-						<td>${buyer.rankNo }</td>
-						<td>
-							<fmt:parseDate value="${buyer.bEntDate }" var="bEntDate" pattern="yyyy-MM-dd" />
-							<fmt:formatDate value="${bEntDate }" pattern="yyyy-MM-dd" />
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+			<div class="section">	
+				
+				<table>
+					<thead>
+						<tr>
+	                        <th>구매자 코드</th>
+	                        <th>분류</th>
+	                        <th>아이디</th>
+							<th>이름</th>
+	                        <th>상세조회</th>
+						</tr>
+					</thead>
 		
-	</div><!-- .container -->
-	
+					<tbody>
+					    <c:forEach var="buyer" items="${buyerList}">
+						    <c:if test="${buyer.bOut != 'Y'}">
+						        <tr>
+						            <td>${buyer.bCode}</td>
+						            <td>
+						                <c:choose>
+						                    <c:when test="${buyer.bCtCode == 'C'}">기업</c:when>
+						                    <c:when test="${buyer.bCtCode == 'P'}">개인</c:when>
+						                </c:choose>
+						            </td>
+						            <td>${buyer.bId}</td>
+						            <td>${buyer.bName}</td>
+						            <td>                                
+						                <a href="/manager/cs/buyerdetail?bCode=${buyer.bCode}">
+						                   <button class="btn">상세조회</button>
+						               </a>                                   
+						            </td>
+						        </tr>
+						    </c:if>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			<br>
+			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+		</div>
+	</div>
 </body>
 </html>

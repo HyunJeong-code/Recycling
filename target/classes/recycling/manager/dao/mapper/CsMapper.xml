@@ -6,7 +6,7 @@
 <mapper namespace="recycling.manager.dao.face.CsDao">
 
 	<!-- 문의 sql 아이디 -->
-	<sql id="selectAll">
+	<sql id="selectOtoList">
 		SELECT
 			oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email, oto_date, oto_hit
 		FROM OTO
@@ -15,13 +15,13 @@
 	<!-- 구매자 sql 아이디 -->
 	<sql id="selectBuyerList">
 		SELECT * FROM BUYER
-	</sql>	
-
+	</sql>
+	
 	<!-- 문의글 목록 -->
-	<select id="selectAllOto" resultType="Oto" parameterType="recycling.util.Paging">
+	<select id="list" resultType="Oto">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
-				<include refid="selectAll" />
+				<include refid="selectOtoList" />
 				ORDER BY oto_code DESC
 			) B
 		)
@@ -30,15 +30,23 @@
 		</where>
 	</select>
 	
-	<!-- 총 게시글 조회 -->
-	<select id="selectCntAll" resultType="int">
-		SELECT count(*) FROM (
-			<include refid="selectAll" />
-		)
+	<!-- 문의글 페이징 -->
+	<select id="selectCntAllotoList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="selectOtoList"/>
+   			)
+		<where>
+			AND (
+				oto_code LIKE '%' || #{search } || '%'
+				OR oto_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY oto_code DESC
 	</select>
 	
 	<!-- 구매자 목록 -->
-	<select id="selectAllBuyer" resultType="Buyer" parameterType="recycling.util.Paging">
+	<select id="buyerList" resultType="Buyer">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				<include refid="selectBuyerList" />
@@ -51,20 +59,28 @@
 	</select>
 	
 	<!-- 구매자 상세조회 -->
-	<select id="selectByBuyer" resultType="Buyer" parameterType="Buyer">
+	<select id="buyerDetail" resultType="Buyer" parameterType="Buyer">
 		<include refid="selectBuyerList" />
 		<where>B_CODE = #{bCode}</where>
 	</select>
 	
-	<!-- 구매자 수정 -->
-	<select id="selectBcode" parameterType="String" resultType="Buyer">
-		<include refid="selectBuyerList"/>
+	<!-- 구매자 페이징 -->
+	<select id="selectCntAllbuyerList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="selectBuyerList"/>
+   			)
 		<where>
-			AND b_code = #{bCode }
+			AND (
+				b_code LIKE '%' || #{search } || '%'
+				OR b_name LIKE '%' || #{search } || '%'
+				)
 		</where>
+		ORDER BY b_code DESC
 	</select>
-	
-	<update id="updateBuyer" parameterType="Buyer">
+
+	<!-- 구매자 수정 -->	
+	<update id="buyerUpdate" parameterType="Buyer">
 		UPDATE BUYER
 		SET b_name = #{bName },
 			b_phone = #{bPhone },
@@ -74,20 +90,55 @@
 		</where>
 	</update>
 	
+	<!-- 구매자 수정 -->
+	<select id="getBuyer" parameterType="String" resultType="Buyer">
+		<include refid="selectBuyerList"/>
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</select>
+	
 	<!-- 구매자 삭제 -->
-	<delete id="deleteBuyer" parameterType="String">
-		DELETE FROM BUYER
+	<update id="buyerDel" parameterType="Buyer">
+		UPDATE BUYER
+			SET B_OUT = 'Y'			
+			, B_OUT_DATE = sysdate			
 		<where>
-			AND B_CODE = #{bCode }
+			AND b_code = #{bCode }
 		</where>
-		DELETE FROM BUYER_CT
-		<where>
-			AND CT_BCODE = #{ctBcode }
-		</where>
-		DELETE FROM BUYER_RANK
-		<where>
-			AND RANK_NO = #{rankNo }
-		</where>
+	</update>
+	
+	<!-- 문의글 상세조회 -->
+	<select id="ansForm" resultType="Oto" parameterType="Oto">
+		<include refid="selectOtoList" />
+		<where>OTO_CODE = #{otoCode }</where>
+	</select>
+	
+	<!-- 문의글 답변 -->
+	<insert id="ansFormInsert" parameterType="Ans">
+		<selectKey order="BEFORE" keyProperty="ansCode" resultType="String">
+			SELECT 'ANS' || LPAD(qna_seq.nextval, 7, '0') FROM dual
+		</selectKey>
+		INSERT INTO ANS (ANS_CODE, OTO_CODE, MGR_CODE, ANS_CONTENT, ANS_DATE)
+		VALUES(#{ansCode }, #{otoCode }, #{mgrCode }, #{ansContent }, sysdate)
+	</insert>
+	
+	<!-- 문의글 삭제 -->
+	<delete id="otoDel" parameterType="String">
+	    DELETE FROM oto
+	    <where>
+	        oto_code = #{otoCode }
+	    </where>
 	</delete>
+	
+	<!-- 답글 리스트 -->
+	<select id="viewCom" parameterType="String" resultType="Ans">
+		SELECT ANS_CODE, OTO_CODE, MGR_CODE, ANS_CONTENT, ANS_DATE
+		FROM ANS
+		<where>
+			OTO_CODE = #{otoCode }
+		</where>		
+		ORDER BY ANS_DATE DESC
+	</select>
 	
 </mapper>

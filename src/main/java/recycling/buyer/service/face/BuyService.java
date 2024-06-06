@@ -16,14 +16,6 @@ import recycling.dto.buyer.CmpFile;
 
 public interface BuyService {
 	
-	/** 
-	 * 로그인 권한 처리
-	 * 
-	 * @param buyerLogin - 로그인 정보
-	 * @return 권한 정보가 포함된 로그인 정보
-	 */
-	public BuyerLogin chkAuth(BuyerLogin buyerLogin);
-	
 	/**
 	 * 구매자 기본정보 회원가입 처리
 	 * 
@@ -150,6 +142,35 @@ public interface BuyService {
 	 * @return map형태로 번호와 제목
 	 */
 	public List<Map<String, Object>> selectNtc();
+	
+	/**
+	 * 중복된 아이디 찾기
+	 * 
+	 * @param bId - 아이디
+	 * @return 중복된 아이디 개수
+	 */
+	public int selectCntById(String bId);
+
+	/**
+	 * 메인페이지 재활용품 정보
+	 * 
+	 *  @return 재활용품 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectRcy();
+	
+	/**
+	 * 메인페이지 새활용 정보
+	 * 
+	 *  @return 새활용 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectUpcy();
+
+	/**
+	 * 메인페이지 체험단 정보
+	 * 
+	 *  @return 체험단 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectExp();
 
 
 }

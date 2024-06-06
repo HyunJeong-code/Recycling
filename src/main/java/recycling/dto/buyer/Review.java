@@ -2,60 +2,36 @@ package recycling.dto.buyer;
 
 public class Review {
 	
-	private String rvwCode;
-	private int rvwCtNo;
-	private String prdCode;
+	private String code; // 리뷰 코드
 	private String bCode;
-	private String rvwTitle;
-	private String rvwContent;
-	private int rvwGrade;
+	private String ctgCode; // 리뷰 상품 코드
+	private int grade;
+	private String content;
 	private String rvwDate;
-	private int rvwHit;
 	
 	public Review() {}
 
-	public Review(String rvwCode, int rvwCtNo, String prdCode, String bCode, String rvwTitle, String rvwContent,
-			int rvwGrade, String rvwDate, int rvwHit) {
-		this.rvwCode = rvwCode;
-		this.rvwCtNo = rvwCtNo;
-		this.prdCode = prdCode;
+	public Review(String code, String bCode, String ctgCode, int grade, String content, String rvwDate) {
+		this.code = code;
 		this.bCode = bCode;
-		this.rvwTitle = rvwTitle;
-		this.rvwContent = rvwContent;
-		this.rvwGrade = rvwGrade;
+		this.ctgCode = ctgCode;
+		this.grade = grade;
+		this.content = content;
 		this.rvwDate = rvwDate;
-		this.rvwHit = rvwHit;
 	}
 
 	@Override
 	public String toString() {
-		return "Review [rvwCode=" + rvwCode + ", rvwCtNo=" + rvwCtNo + ", prdCode=" + prdCode + ", bCode=" + bCode
-				+ ", rvwTitle=" + rvwTitle + ", rvwContent=" + rvwContent + ", rvwGrade=" + rvwGrade + ", rvwDate="
-				+ rvwDate + ", rvwHit=" + rvwHit + "]";
+		return "Review [code=" + code + ", bCode=" + bCode + ", ctgCode=" + ctgCode + ", grade=" + grade + ", content="
+				+ content + ", rvwDate=" + rvwDate + "]";
 	}
 
-	public String getRvwCode() {
-		return rvwCode;
+	public String getCode() {
+		return code;
 	}
 
-	public void setRvwCode(String rvwCode) {
-		this.rvwCode = rvwCode;
-	}
-
-	public int getRvwCtNo() {
-		return rvwCtNo;
-	}
-
-	public void setRvwCtNo(int rvwCtNo) {
-		this.rvwCtNo = rvwCtNo;
-	}
-
-	public String getPrdCode() {
-		return prdCode;
-	}
-
-	public void setPrdCode(String prdCode) {
-		this.prdCode = prdCode;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getbCode() {
@@ -66,28 +42,28 @@ public class Review {
 		this.bCode = bCode;
 	}
 
-	public String getRvwTitle() {
-		return rvwTitle;
+	public String getCtgCode() {
+		return ctgCode;
 	}
 
-	public void setRvwTitle(String rvwTitle) {
-		this.rvwTitle = rvwTitle;
+	public void setCtgCode(String ctgCode) {
+		this.ctgCode = ctgCode;
 	}
 
-	public String getRvwContent() {
-		return rvwContent;
+	public int getGrade() {
+		return grade;
 	}
 
-	public void setRvwContent(String rvwContent) {
-		this.rvwContent = rvwContent;
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
 
-	public int getRvwGrade() {
-		return rvwGrade;
+	public String getContent() {
+		return content;
 	}
 
-	public void setRvwGrade(int rvwGrade) {
-		this.rvwGrade = rvwGrade;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public String getRvwDate() {
@@ -96,13 +72,5 @@ public class Review {
 
 	public void setRvwDate(String rvwDate) {
 		this.rvwDate = rvwDate;
-	}
-
-	public int getRvwHit() {
-		return rvwHit;
-	}
-
-	public void setRvwHit(int rvwHit) {
-		this.rvwHit = rvwHit;
 	}
 }

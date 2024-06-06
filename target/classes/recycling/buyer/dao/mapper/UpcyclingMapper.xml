@@ -4,4 +4,104 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="recycling.buyer.dao.face.UpcyclingDao">
+
+	<select id="selectPrdList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 1
+	    AND NOT PRD_CNT = 0
+	</select>
+	
+	<select id="selectPrd" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectSeller" resultType="Seller">
+		SELECT * FROM SELLER
+		WHERE S_CODE = #{sCode}
+	</select>
+	
+<!-- 	<select id="selectSellerProf" resultType="SellerProf"> -->
+<!-- 		SELECT * FROM SELLER_PROF -->
+<!-- 		WHERE S_CODE = #{sCode} -->
+<!-- 	</select> -->
+
+	<select id="selectListCntAll" resultType="Prd">
+        SELECT COUNT(*) FROM Prd
+    </select>
+    
+	<select id="selectRvwList"	resultType="hashmap">
+		SELECT * FROM upcy_review
+		WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT B_Code AS bCode,
+		       B_Ct_Code AS bCtCode,
+		       B_Id AS bId,
+		       B_Pw AS bPw,
+		       B_Name AS bName,
+		       B_Phone AS bPhone,
+		       B_Email AS bEmail,
+		       Ad_Sms AS adSms,
+		       Ad_Email AS adEmail
+		FROM Buyer
+		<where>
+			AND B_Id = #{bId }
+		</where>
+	</select>
+    
+     <select id="selectRvw" parameterType="String" resultType="UpcyReview">
+         SELECT * FROM UpcyReview 
+         WHERE UPCY_CODE  = #{upcyCode} 
+     </select> 
+
+	<insert id="insertReview" parameterType="UpcyReview" useGeneratedKeys="true" keyProperty="upcyCode" keyColumn="UPCY_CODE">
+	    INSERT INTO upcy_review (UPCY_CODE, B_CODE, PRD_CODE, UPCY_CONTENT, UPCY_GRADE, UPCY_DATE)
+	    VALUES ('UPCY' || lpad(UPCY_RVW_SEQ.nextval, 6, '0'), #{bCode}, #{prdCode}, #{upcyContent}, #{upcyGrade}, SYSDATE)
+	</insert>
+
+	<update id="updateReview" parameterType="map">
+        UPDATE Review 
+        SET RVW_TITLE = #{rvwTitle}, RVW_CONTENT = #{rvwContent}, RVW_GRADE = #{rvwGrade}
+        WHERE RVW_CODE = #{rvwCode}
+    </update>
+    
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM Review
+        WHERE RVW_CODE = #{rvwCode}
+    </delete>
+    
+    <select id="selectcCnt" parameterType="Cart" resultType="Integer">
+	    SELECT c_cnt FROM cart
+	    <where>
+	        AND b_code = #{bCode}
+	        AND PRD_CODE = #{prdCode}
+        </where>
+    </select>
+    
+    <update id="updatecCnt" parameterType="Cart">
+    	UPDATE cart
+		SET c_cnt = #{cCnt}
+		<where>
+			AND prd_code = #{prdCode}
+		</where>
+    </update>
+    
+    <insert id="insertCart" parameterType="Cart">
+    	INSERT INTO cart
+    	VALUES ('CART' || lpad(cart_seq.nextval, '6', 0), #{prdCode}, #{bCode}, #{cCnt}, sysdate)
+    </insert>
+    
+    <select id="selectCartOrder" parameterType="String" resultType="CartOrder">
+    	SELECT
+		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, stored_name
+		FROM
+		    prd p, prd_file pf
+			<where>
+			 	AND p.PRD_CODE = pf.PRD_CODE(+)
+		     	AND p.PRD_CODE = #{prdCode}
+	     	</where>
+    </select>
+    
 </mapper>
