@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoFile;
 import recycling.dto.manager.Ans;
 import recycling.dto.manager.Manager;
 import recycling.util.Paging;
@@ -105,5 +106,13 @@ public interface CsDao {
 	 * @return
 	 */
 	public List<Ans> viewCom(String otoCode);
+
+	/**
+	 * 파일 리스트
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public List<OtoFile> getOtoFiles(String otoCode);
 
 }

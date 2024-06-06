@@ -28,7 +28,7 @@
 		JOIN order_stt os ON od.stt_no = os.stt_no
 	</sql>
 	
-	<!--  manager join department -->
+	<!--  seller join buyer -->
 	<sql id="sellerJoin">
 		SELECT
 		    s.s_code, s.b_code, s.acc_name, s.acc_bank, s.acc_no

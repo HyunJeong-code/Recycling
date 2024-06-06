@@ -14,9 +14,10 @@
 
 h3 {
 	color: #333;
-	border-bottom: 2px solid #007BFF;
 	padding-bottom: 5px;
 	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
 }
 
 /* 외부 레이아웃 설정 */
@@ -65,6 +66,11 @@ aside {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.section h3 {
+	font-size: 22px;
+	color: #000000;
+}
+
 /* [우]하단 페이지 */
 .btn_bot_style {
 	display: flex;
@@ -72,19 +78,8 @@ aside {
 	margin: 0 0 20px 0;
 }
 
-/* ------------------------------------- */
 /* 상단 */
 /* 검색 */
-.btn_search {
-	float: right;
-}
-
-.search {
-	display: flex;
-	justify-content: flex-end; /* 오른쪽 정렬 */
-	margin-bottom: 10px; /* 폼과 아래 요소들 사이에 간격 추가 */
-}
-
 .search_form_wrap {
 	padding-top: 20px;
 	margin: 0 0 20px 0;
@@ -140,12 +135,15 @@ table {
 
 table td {
 	padding: 9px;
+	font-size: 14px; /* Smaller font size for table data */
+	vertical-align: middle; /* Center align vertically */
 }
 
 table th {
 	color: #168;
 	background: #f0f6f9;
 	text-align: center;
+	font-size: 14px; /* Smaller font size for table headers */
 }
 
 table th, .table td {
@@ -174,6 +172,15 @@ table tr:hover {
 	background-color: #f5f5f5;
 }
 
+/* 테이블 열 폭 조정 */
+.table .content-column {
+	width: 70%;
+}
+
+.table .author-column, .table .date-column {
+	width: 15%;
+}
+
 /* 버튼세팅 */
 .btn_section_detail {
 	padding: 10px 20px;
@@ -183,6 +190,7 @@ table tr:hover {
 	cursor: pointer;
 	border-radius: 4px;
 	cursor: pointer;
+	float: right;
 }
 
 /* 하단 */
@@ -192,58 +200,43 @@ table tr:hover {
 	float: right;
 	margin: 20px 0;
 	justify-content: flex-end;
+	gap: 10px; /* Added gap between buttons */
 }
 
 /* 버튼 세팅 */
 .btn_bot_inform, .btn_bot_del {
 	padding: 10px 20px;
-	background-color: #007bff;
 	color: white;
 	font-size: 16px;
 	cursor: pointer;
 	border-radius: 4px;
 	cursor: pointer;
+	border: none;
 }
 
 .btn_bot_inform {
-	background-color: #4CAF50;
-	color: white;
-}
-
-.btn_bot_inform:hover {
-	background-color: #45a049;
+	background-color: #007bff;
 }
 
 .btn_bot_del {
 	background-color: #f44336;
-	color: white;
-	margin-left: 10px;
 }
 
-.btn_bot_del:hover {
-	background-color: #da190b;
+button[type="submit"],
+.btn_section_detail,
+.btn_bot_inform,
+.btn_bot_del {
+	transition: none; /* Removed hover transition */
 }
 
-button[type="submit"]:hover,
-.btn_section_detail:hover,
-.btn_bot_inform:hover,
-.btn_bot_del:hover {
-	background-color: #0056b3;
-}
-
-/* 버튼 기본 스타일 */
-.btn {
-    padding: 10px 20px;
-    color: #0056b3;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    border: 1px solid transparent; /* 테두리 설정 */
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* 변경 효과 부드럽게 적용 */
-    border-color: #0056b3; /* 호버 시 테두리 색상 변경 */
-}
-
-/* 버튼 호버 스타일 */
-.btn:hover {
-    border-color: #0056b3; /* 호버 시 테두리 색상 변경 */
+/* 답글 작성 칸 */
+textarea#ansContent {
+	width: 100%;
+	height: 150px; /* Increased height */
+	font-size: 16px; /* Increased font size */
+	padding: 10px;
+	margin-top: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: none;
 }

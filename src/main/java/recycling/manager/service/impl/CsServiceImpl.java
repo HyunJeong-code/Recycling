@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoFile;
 import recycling.dto.manager.Ans;
 import recycling.dto.manager.Manager;
 import recycling.manager.dao.face.CsDao;
@@ -103,6 +104,11 @@ public class CsServiceImpl implements CsService {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public List<OtoFile> getOtoFiles(String otoCode) {
+		return csDao.getOtoFiles(otoCode);
 	}
 
 }

@@ -19,14 +19,14 @@
 		</aside>
 		<div class="wrap">
 			<div class="page">
-				게시글 목록
+				문의글 목록
 			</div>
 			
 			<div class="search">
-				<form action="./main" method="get">
+				<form action="./main" method="get" style="display: flex; align-items: center;">
 					<input type="hidden" name="sCtg" value="UP">
-					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-					<button>검색</button>
+					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search-input">
+					<button class="btn_search">검색</button>
 				</form>
 			</div>
 			
@@ -61,6 +61,7 @@
 					</tbody>
 				</table>
 			</div>
+			<br>
 			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 		</div>
 	</div>

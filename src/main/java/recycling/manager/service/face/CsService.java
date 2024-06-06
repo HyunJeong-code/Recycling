@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoFile;
 import recycling.dto.manager.Ans;
 import recycling.dto.manager.Manager;
 import recycling.util.Paging;
@@ -88,13 +89,12 @@ public interface CsService {
 	/**
 	 * 문의 답변 작성
 	 * 
-	 * @param mgrId
+	 * @param mgrCode
 	 * @param ansCode
 	 * @param ansContent
 	 * @param otoCode 
 	 * @return
 	 */
-//	public String ansFormInsert(String mgrId, String ansCode, String ansContent);
 	public void ansFormInsert(String mgrCode, String ansCode, String ansContent, String otoCode);
 
 	/**
@@ -113,5 +113,13 @@ public interface CsService {
 	public List<Ans> viewCom(String otoCode);
 
 	public boolean chkNull(List<Ans> comments);
+
+	/**
+	 * 파일 보기
+	 * 
+	 * @param otoCode
+	 * @return
+	 */
+	public List<OtoFile> getOtoFiles(String otoCode);
 
 }

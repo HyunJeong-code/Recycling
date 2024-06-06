@@ -23,10 +23,10 @@
 			</div>
 			
 			<div class="search">
-				<form action="./buyerlist" method="get">
+				<form action="./buyerlist" method="get" style="display: flex; align-items: center;">
 					<input type="hidden" name="sCtg" value="UP">
 					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-					<button>검색</button>
+					<button class="btn_search">검색</button>
 				</form>
 			</div>
 			
@@ -36,7 +36,7 @@
 					<thead>
 						<tr>
 	                        <th>구매자 코드</th>
-	                        <th>구매자 분류 코드</th>
+	                        <th>분류</th>
 	                        <th>아이디</th>
 							<th>이름</th>
 	                        <th>상세조회</th>
@@ -45,23 +45,29 @@
 		
 					<tbody>
 					    <c:forEach var="buyer" items="${buyerList}">
-					        <c:if test="${buyer.bOut != 'Y'}">
-					            <tr>
-					                <td>${buyer.bCode }</td>
-					                <td>${buyer.bCtCode }</td>
-					                <td>${buyer.bId }</td>
-					                <td>${buyer.bName }</td>
-					                <td>                                
-	                                	<a href="/manager/cs/buyerdetail?bCode=${buyer.bCode }">
-		                                   <button class="btn">상세조회</button>
-		                               </a>                                   
-	                                </td>
-					            </tr>
-					        </c:if>
-					    </c:forEach>
+						    <c:if test="${buyer.bOut != 'Y'}">
+						        <tr>
+						            <td>${buyer.bCode}</td>
+						            <td>
+						                <c:choose>
+						                    <c:when test="${buyer.bCtCode == 'C'}">기업</c:when>
+						                    <c:when test="${buyer.bCtCode == 'P'}">개인</c:when>
+						                </c:choose>
+						            </td>
+						            <td>${buyer.bId}</td>
+						            <td>${buyer.bName}</td>
+						            <td>                                
+						                <a href="/manager/cs/buyerdetail?bCode=${buyer.bCode}">
+						                   <button class="btn">상세조회</button>
+						               </a>                                   
+						            </td>
+						        </tr>
+						    </c:if>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
+			<br>
 			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 		</div>
 	</div>

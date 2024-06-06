@@ -90,6 +90,14 @@
 		</where>
 	</update>
 	
+	<!-- 구매자 수정 -->
+	<select id="getBuyer" parameterType="String" resultType="Buyer">
+		<include refid="selectBuyerList"/>
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</select>
+	
 	<!-- 구매자 삭제 -->
 	<update id="buyerDel" parameterType="Buyer">
 		UPDATE BUYER
@@ -116,11 +124,18 @@
 	</insert>
 	
 	<!-- 문의글 삭제 -->
-	<delete id="otoDel" parameterType="String">
+	<!-- <delete id="otoDel" parameterType="String">
 	    DELETE FROM oto
 	    <where>
 	        oto_code = #{otoCode }
 	    </where>
+	</delete> -->
+	
+	<delete id="otoDel" parameterType="String">	
+		DELETE FROM oto
+		<where> 
+			oto_code = #{otoCode } 
+		</where>
 	</delete>
 	
 	<!-- 답글 리스트 -->
@@ -131,6 +146,14 @@
 			OTO_CODE = #{otoCode }
 		</where>		
 		ORDER BY ANS_DATE DESC
+	</select>
+	
+	<!-- 파일 리스트 -->
+	<select id="getOtoFiles" resultType="OtoFile" parameterType="string">
+		SELECT * FROM oto_file
+		<where>
+			AND oto_code = #{otoCode}
+		</where>
 	</select>
 	
 </mapper>
