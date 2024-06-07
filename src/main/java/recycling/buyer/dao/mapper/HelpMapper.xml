@@ -204,7 +204,7 @@
 		</where>
 	</update>
 	
-	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+	<select id="getBuyerDetail" parameterType="string" resultType="recycling.dto.buyer.Buyer">
 		SELECT B_Code AS bCode,
 		       B_Ct_Code AS bCtCode,
 		       B_Id AS bId,

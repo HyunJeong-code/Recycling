@@ -299,6 +299,78 @@
 		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
+	<select id="selectCntAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+			SELECT rownum no, ODD.* FROM (
+			    SELECT O.ord_code ordCode, OD.orddt_code orddtCode, OD.stt_no sttNo, OD.prd_code prdCode, O.ord_date ordDate, O.ord_name ordName, O.ord_phone ordPhone, OD.ord_sum ordSum, OD.price price, OD.prd_name prdName
+			    FROM orders O, (
+			        SELECT P.prd_code prdCode, P.ct_pno ctPno, P.s_code sCode, OD.ord_code ord_code, OD.orddt_code orddt_code, OD.stt_no stt_no, OD.ord_sum ord_sum, P.prd_name prd_name, P.prd_code prd_code, P.price price
+			        FROM prd P, order_detail OD
+			        <where>
+				        AND P.prd_code = OD.prd_code(+)
+				        AND P.s_code = #{user }
+				        AND (
+				        	P.prd_name LIKE '%' || #{search } || '%'
+				        	OR P.prd_detail LIKE '%' || #{search } || '%'
+				        )
+			        </where> 
+			    ) OD
+			    <where>
+			    	AND O.ord_code = OD.ord_code(+)
+			    	AND sCode = #{user }
+			    </where>
+			    ORDER BY O.ord_date
+			) ODD
+		)
+	</select>
+	
+	<select id="selectAllPrd" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+		    SELECT rownum no, P.* FROM (
+		        SELECT * FROM prd
+		        <where>
+					AND s_code = #{user }
+					AND (
+						prd_name LIKE '%' || #{search } || '%'
+						OR prd_detail LIKE '%' || #{search } || '%'
+					)
+		        </where>
+		        ORDER BY prd_date
+		    ) P
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, ODD.* FROM (
+			    SELECT O.ord_code ordCode, OD.orddt_code orddtCode, OD.stt_no sttNo, OD.prd_code prdCode, O.ord_date ordDate, O.ord_name ordName, O.ord_phone ordPhone, OD.ord_sum ordSum, OD.price price, OD.prd_name prdName 
+			    FROM orders O, (
+			        SELECT P.prd_code prdCode, P.ct_pno ctPno, P.s_code sCode, OD.ord_code ord_code, OD.orddt_code orddt_code, OD.stt_no stt_no, OD.ord_sum ord_sum, P.prd_name prd_name, P.prd_code prd_code, P.price price 
+			        FROM prd P, order_detail OD
+			        <where>
+				        AND P.prd_code = OD.prd_code(+)
+				        AND P.s_code = #{user }
+				        AND (
+				        	P.prd_name LIKE '%' || #{search } || '%'
+				        	OR P.prd_detail LIKE '%' || #{search } || '%'
+				        )
+			        </where> 
+			    ) OD
+			    <where>
+				    AND O.ord_code = OD.ord_code(+)
+				    AND sCode = #{user }
+			    </where>
+			    ORDER BY O.ord_date
+			) ODD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
 	<!-- paging Cnt end -->
 
 	
@@ -465,101 +537,5 @@
 	    <where>res_code = #{resCode }</where>
 	</update>
 	
-	<select id="selectCntAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
-		SELECT count(*) FROM (
-			SELECT rownum no, ODD.* FROM (
-			    SELECT O.ord_code ordCode, OD.orddt_code orddtCode, OD.stt_no sttNo, OD.prd_code prdCode, O.ord_date ordDate, O.ord_name ordName, O.ord_phone ordPhone, OD.ord_sum ordSum, OD.price price, OD.prd_name prdName
-			    FROM orders O, (
-			        SELECT P.prd_code prdCode, P.ct_pno ctPno, P.s_code sCode, OD.ord_code ord_code, OD.orddt_code orddt_code, OD.stt_no stt_no, OD.ord_sum ord_sum, P.prd_name prd_name, P.prd_code prd_code, P.price price
-			        FROM prd P, order_detail OD
-			        <where>
-				        AND P.prd_code = OD.prd_code(+)
-				        AND P.s_code = #{user }
-				        AND (
-				        	P.prd_name LIKE '%' || #{search } || '%'
-				        	OR P.prd_detail LIKE '%' || #{search } || '%'
-				        )
-			        </where> 
-			    ) OD
-			    <where>
-			    	AND O.ord_code = OD.ord_code(+)
-			    	AND sCode = #{user }
-			    </where>
-			    ORDER BY O.ord_date
-			) ODD
-		)
-	</select>
-	
-	<select id="selectAllPrd" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
-		SELECT * FROM (
-		    SELECT rownum no, P.* FROM (
-		        SELECT * FROM prd
-		        <where>
-					AND s_code = #{user }
-					AND (
-						prd_name LIKE '%' || #{search } || '%'
-						OR prd_detail LIKE '%' || #{search } || '%'
-					)
-		        </where>
-		        ORDER BY prd_date
-		    ) P
-		)
-		<where>
-			AND no BETWEEN #{startNo } AND #{endNo }
-		</where>
-	</select>
-	
-	<select id="selectAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
-		SELECT * FROM (
-			SELECT rownum no, ODD.* FROM (
-			    SELECT O.ord_code ordCode, OD.orddt_code orddtCode, OD.stt_no sttNo, OD.prd_code prdCode, O.ord_date ordDate, O.ord_name ordName, O.ord_phone ordPhone, OD.ord_sum ordSum, OD.price price, OD.prd_name prdName 
-			    FROM orders O, (
-			        SELECT P.prd_code prdCode, P.ct_pno ctPno, P.s_code sCode, OD.ord_code ord_code, OD.orddt_code orddt_code, OD.stt_no stt_no, OD.ord_sum ord_sum, P.prd_name prd_name, P.prd_code prd_code, P.price price 
-			        FROM prd P, order_detail OD
-			        <where>
-				        AND P.prd_code = OD.prd_code(+)
-				        AND P.s_code = #{user }
-				        AND (
-				        	P.prd_name LIKE '%' || #{search } || '%'
-				        	OR P.prd_detail LIKE '%' || #{search } || '%'
-				        )
-			        </where> 
-			    ) OD
-			    <where>
-				    AND O.ord_code = OD.ord_code(+)
-				    AND sCode = #{user }
-			    </where>
-			    ORDER BY O.ord_date
-			) ODD
-		)
-		<where>
-			AND no BETWEEN #{startNo } AND #{endNo }
-		</where>
-	</select>
-	
-<!-- 	<select id="selectResList" parameterType="recycling.util.Paging" resultType="ExpRes"> -->
-<!-- 		<bind name="expCode" value="'#{expCode}'"/> -->
-<!-- 		SELECT * FROM ( -->
-<!-- 			SELECT rownum rnum, B.* FROM ( -->
-<!-- 				SELECT er.* -->
-<!-- 				FROM exp_res er -->
-<!-- 				INNER JOIN exp_sch es ON er.SCH_NO = es.SCH_NO -->
-<!-- 				INNER JOIN exp e ON es.exp_code = e.exp_code -->
-<!-- 				WHERE e.exp_code = #{expCode} -->
-<!-- 			) B -->
-<!-- 		) -->
-<!-- 		<where> -->
-<!-- 			AND rnum BETWEEN #{startNo } AND #{endNo } -->
-<!-- 		</where> -->
-<!-- 	</select> -->
-	<select id="selectResList" parameterType="string" resultType="ExpRes">
-		SELECT er.*
-		FROM exp_res er
-		INNER JOIN exp_sch es ON er.sch_no = es.sch_no
-		INNER JOIN exp e ON es.exp_code = e.exp_code
-		<where>
-			AND e.exp_code = #{expCode}
-		</where>
-	</select>
 
 </mapper>
