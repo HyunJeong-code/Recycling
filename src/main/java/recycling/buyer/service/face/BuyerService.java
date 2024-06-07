@@ -40,10 +40,10 @@ public interface BuyerService {
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 session
+	 * @param upPaging - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
-	public List<CartOrder> selectAllCart(String bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging);
 
 	/**
 	 * cCode로 Cart 조회하기
@@ -304,5 +304,13 @@ public interface BuyerService {
 	 * @return INSERT 결과
 	 */
 	public int insertChange(Change change);
+	
+	/**
+	 * 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllCart(PagingAndCtg upPaging);
 
 }

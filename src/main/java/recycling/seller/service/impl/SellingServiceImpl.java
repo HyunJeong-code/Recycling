@@ -61,19 +61,25 @@ public class SellingServiceImpl implements SellingService {
 //	}
 	
 	@Override
-	public List<Prd> selectAllrcyPrd(String sCode) {
-		return sellingDao.selectAllrcyPrd(sCode);
+	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllrcyPrd(upPaging);
 	}
 	
 	@Override
-	public List<MyOrder> selectAllMyOrder(String prdCode) {
-		return sellingDao.selectAllMyOrder(prdCode);
+	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging) {
+		return sellingDao.selectAllupcyMyOrder(unPaging);
 	}
 	
 	@Override
-	public List<Prd> selectAllupcyPrd(String sCode) {
-		return sellingDao.selectAllupcyPrd(sCode);
+	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging) {
+		return sellingDao.selectAllrcyMyOrder(unPaging);
 	}
+	
+	@Override
+	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllupcyPrd(upPaging);
+	}
+	
 	
 	@Override
 	public int deletePrd(String prdCode) {

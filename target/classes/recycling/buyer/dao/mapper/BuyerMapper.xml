@@ -131,10 +131,21 @@
 	
 	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
 		SELECT * FROM order_detail
-			<where>
-				AND orddt_code = #{orddtCode }
-			</where>
+		<where>
+			AND orddt_code = #{orddtCode}
+		</where>
 	</select>
+	
+	<insert id="insertChange" parameterType="Change">
+		INSERT INTO change
+		VALUES(
+			'CHG' || lpad(cart_seq.nextval, '7', 0)
+			, #{orddtCode}
+			, #{ctChgNo}
+			, #{chgDt}
+			, sysdate
+		)
+	</insert>
 	
 	<update id="updatecCnt" parameterType="Cart">
 		UPDATE cart
@@ -360,15 +371,5 @@
 		</where>
 		ORDER BY orddt_code DESC
     </select>
-    
-    <insert id="insertChange" parameterType="Change">
-		INSERT INTO change
-		VALUES(
-			'CHG' || lpad(cart_seq.nextval, '7', 0)
-			, #{orddtCode}
-			, #{ctChgNo}
-			, #{chgDt}
-			, sysdate
-		)
-	</insert>
+
 </mapper>
