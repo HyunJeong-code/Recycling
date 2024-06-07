@@ -123,7 +123,7 @@
 								<div id="image_container0">
 			            		<c:forEach var="file" items="${files }">
 			            			<c:if test="${file.ctPflNo == 600 }">
-										<img id="mainImg" alt="${prd.prdName }" src="/upload/${file.storedName }">
+										<img id="mainImg" alt="${prd.prdName }" src="/resources/image/${file.originName }">
 					            	</c:if>
 				            	</c:forEach>
 			            		</div>
@@ -139,7 +139,7 @@
 					            	<div id="image_container${i}">
 					            		<c:if test="${not empty files[i] }">
 				            				<input value="${files[i].prdFlNo }" name="fileId" hidden="hidden">
-					            			<img alt="${prd.prdName }" src="/upload/${files[i].storedName }">
+					            			<img alt="${prd.prdName }" src="/resources/image/${files[i].originName }">
 					            		</c:if>
 					            	</div>
 				            	</td>

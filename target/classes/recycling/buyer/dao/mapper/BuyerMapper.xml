@@ -28,7 +28,7 @@
 		FROM (
 			SELECT rownum no, PRD.* FROM (
 				SELECT
-					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
 				FROM
 					cart c, prd p, prd_file pf
 				<where>
@@ -46,7 +46,7 @@
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
 		SELECT
-			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
 		FROM
 			cart c, prd p, prd_file pf
 		<where>

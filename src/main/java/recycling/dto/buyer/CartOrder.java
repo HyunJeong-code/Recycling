@@ -9,12 +9,13 @@ public class CartOrder {
 	private String prdName;
 	private int price;
 	private int prdFee;
+	private String originName;
 	private String storedName;
 	
 	public CartOrder() {}
 
 	public CartOrder(String cCode, String sCode, String prdCode, int cCnt, String prdName, int price, int prdFee,
-			String storedName) {
+			String originName, String storedName) {
 		super();
 		this.cCode = cCode;
 		this.sCode = sCode;
@@ -23,14 +24,15 @@ public class CartOrder {
 		this.prdName = prdName;
 		this.price = price;
 		this.prdFee = prdFee;
+		this.originName = originName;
 		this.storedName = storedName;
 	}
 
 	@Override
 	public String toString() {
 		return "CartOrder [cCode=" + cCode + ", sCode=" + sCode + ", prdCode=" + prdCode + ", cCnt=" + cCnt
-				+ ", prdName=" + prdName + ", price=" + price + ", prdFee=" + prdFee + ", storedName=" + storedName
-				+ "]";
+				+ ", prdName=" + prdName + ", price=" + price + ", prdFee=" + prdFee + ", originName=" + originName
+				+ ", storedName=" + storedName + "]";
 	}
 
 	public String getcCode() {
@@ -89,6 +91,14 @@ public class CartOrder {
 		this.prdFee = prdFee;
 	}
 
+	public String getOriginName() {
+		return originName;
+	}
+
+	public void setOriginName(String originName) {
+		this.originName = originName;
+	}
+
 	public String getStoredName() {
 		return storedName;
 	}
@@ -96,5 +106,4 @@ public class CartOrder {
 	public void setStoredName(String storedName) {
 		this.storedName = storedName;
 	}
-
 }
