@@ -81,6 +81,41 @@ public interface SellingService {
 	 */
 	public List<ExpFile> selectByExpFile(String expCode);
 
+	/**
+	 * 체험정보
+	 * 
+	 * @param expRes
+	 * @return
+	 */
+	public Exp expResDetail(String expCode);
+
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+	
+	/**
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes(int schNo);
+
+	
+	/**
+	 * 예약 확정, 취소버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 * @param actionType
+	 * @return
+	 */
+	public int expResUpdate(List<String> chBox, String actionType);
+	
+//	--------------------------exp END-------------------------------
 	
 	/**
 	 * sCode와 일치하는 모든 rcyPrd 조회
@@ -275,31 +310,6 @@ public interface SellingService {
 	 */
 	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
 
-	/**
-	 * 체험정보
-	 * 
-	 * @param expRes
-	 * @return
-	 */
-	public Exp expResDetail(String expCode);
-
-	/**
-	 * 체험 예약 조회
-	 * 
-	 * @param schNo - 체험 일정번호로 조회
-	 * @return
-	 */
-	public ExpSch selectExpSchbySchNo(int schNo);
-
-	/**
-	 * 체험예약 정보
-	 * 
-	 * @param expCode
-	 * @return
-	 */
-	public List<ExpRes> expResDetailRes(int schNo);
-
-	public int expResUpdate(List<String> chBox, String actionType);
 
 	/**
 	 * PRD 파일 조회 
