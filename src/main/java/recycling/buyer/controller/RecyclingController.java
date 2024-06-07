@@ -66,7 +66,7 @@ public class RecyclingController {
 	    
 	    // 각각의 상품에 대한 썸네일 파일명을 매퍼를 통해 가져옴
 	    for (Prd prd : list) {
-	        List<String> prdImageThumList = recyclingService.selectPrdImageThum(prd.getPrdCode());
+	        List<String> prdImageThumList = recyclingService.selectPrdImageThums(prd.getPrdCode());
 	        if (!prdImageThumList.isEmpty()) {
 	            prdImageThumNames.add(prdImageThumList.get(0));
 	        } else {
@@ -74,7 +74,7 @@ public class RecyclingController {
 	        }
 	    }
 	    for (Prd prd : latestList) {
-	        List<String> latestPrdImageThumList = recyclingService.selectLatestPrdImageThum(prd.getPrdCode());
+	        List<String> latestPrdImageThumList = recyclingService.selectLatestPrdImageThums(prd.getPrdCode());
 	        if (!latestPrdImageThumList.isEmpty()) {
 	            latestPrdImageThumNames.add(latestPrdImageThumList.get(0));
 	        } else {
@@ -82,7 +82,7 @@ public class RecyclingController {
 	        }
 	    }
 	    for (Prd prd : hitList) {
-	        List<String> hitPrdImageThumList = recyclingService.selectHitPrdImageThum(prd.getPrdCode());
+	        List<String> hitPrdImageThumList = recyclingService.selectHitPrdImageThums(prd.getPrdCode());
 	        if (!hitPrdImageThumList.isEmpty()) {
 	            hitPrdImageThumNames.add(hitPrdImageThumList.get(0));
 	        } else {
@@ -139,67 +139,63 @@ public class RecyclingController {
 	}
 
 	@GetMapping("/rcydetail")
-	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, Authentication authentication) {
-		logger.info("/rcydetail [GET] - prdCode: {}", prdCode);
+	public String rcyDetail(@RequestParam("prdCode") String prdCode, Model model, Authentication authentication) {
+	    logger.info("/rcydetail [GET] - prdCode: {}", prdCode);
 
-		if (authentication != null && authentication.isAuthenticated()) {
-			// 세션이 존재하면 로그인 정보를 출력
-			BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-			logger.info("상세페이지 조회 - 로그인 되어 있음, BuyerLogin 정보: {}", buyerLogin);
-		} else {
-			// 세션이 존재하지 않으면 비로그인 상태임을 안내
-			logger.info("상세페이지 조회 - 비로그인 상태입니다.");
-		}
-
-		Prd prd = recyclingService.view(prdCode);
-
-		if (prd == null) {
-			return "buyer/recycling/noneprd";
-		}
-
-		Seller seller = recyclingService.selectSeller(prd.getsCode());
-		Buyer buyer = recyclingService.selectBuyerByBCode(seller.getbCode());
-		int shipCnt = recyclingService.selectShipCnt(prd.getsCode());
-		
-		//상품 썸네일 파일명 로드
-	    
-
-	    List<String> prdImageThumNames = recyclingService.selectPrdImageThum(prdCode);
-	    if (!prdImageThumNames.isEmpty()) {
-	    	prdImageThumNames.add(prdImageThumNames.get(0));
+	    if (authentication != null && authentication.isAuthenticated()) {
+	        // 세션이 존재하면 로그인 정보를 출력
+	        BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	        logger.info("상세페이지 조회 - 로그인 되어 있음, BuyerLogin 정보: {}", buyerLogin);
 	    } else {
-	    	prdImageThumNames.add("error_400px.png"); // 기본 에러 이미지
+	        // 세션이 존재하지 않으면 비로그인 상태임을 안내
+	        logger.info("상세페이지 조회 - 비로그인 상태입니다.");
 	    }
+
+	    Prd prd = recyclingService.view(prdCode);
+
+	    if (prd == null) {
+	        return "buyer/recycling/noneprd";
+	    }
+
+	    Seller seller = recyclingService.selectSeller(prd.getsCode());
+	    Buyer buyer = recyclingService.selectBuyerByBCode(seller.getbCode());
+	    int shipCnt = recyclingService.selectShipCnt(prd.getsCode());
 	    
-	    List<String> prdImageDetailNames = recyclingService.selectPrdImageDetail(prdCode);
-	    if (!prdImageDetailNames.isEmpty()) {
-	    	prdImageDetailNames.add(prdImageDetailNames.get(0));
+
+	    // 상품 썸네일 파일명 로드
+	    String prdImageThumName = recyclingService.selectPrdImageThum(prdCode);
+	    if (prdImageThumName == null) {
+	        prdImageThumName = "error_400px.png"; // 기본 에러 이미지
+	    }
+	    logger.info("썸네일 이미지 파일명: {}", prdImageThumName);
+	    
+	    // 상세 이미지 파일명 로드
+	    String prdImageDetailName = recyclingService.selectPrdImageDetail(prdCode);
+	    if (prdImageDetailName == null) {
+	        prdImageDetailName = "error_860px.png"; // 기본 에러 이미지
+	    }
+	    logger.info("상세 이미지 파일명: {}", prdImageDetailName);
+
+	    model.addAttribute("prd", prd);
+	    model.addAttribute("prdImageThumName", prdImageThumName);
+	    model.addAttribute("prdImageDetailName", prdImageDetailName);
+	    model.addAttribute("seller", seller);
+
+	    List<Map<String, Object>> qna = recyclingService.selectQnaList(prdCode);
+
+	    if (qna == null || qna.isEmpty()) {
+	        model.addAttribute("qnaMessage", "QnA가 존재하지 않습니다.");
 	    } else {
-	    	prdImageDetailNames.add("error_400px.png"); // 기본 에러 이미지
+	        model.addAttribute("qna", qna);
+	        model.addAttribute("qnaSize", qna.size());
 	    }
-	    
 
-		model.addAttribute("prd", prd);
-		model.addAttribute("prdImageThumNames", prdImageThumNames);
-		model.addAttribute("prdImageDetailNames", prdImageDetailNames);
-		model.addAttribute("seller", seller);
+	    model.addAttribute("prd", prd);
+	    model.addAttribute("seller", seller);
+	    model.addAttribute("buyer", buyer);
+	    model.addAttribute("shipCnt", shipCnt);
 
-		List<Map<String, Object>> qna = recyclingService.selectQnaList(prdCode);
-
-		if (qna == null || qna.isEmpty()) {
-			model.addAttribute("qnaMessage", "QnA가 존재하지 않습니다.");
-		} else {
-			model.addAttribute("qna", qna);
-			model.addAttribute("qnaSize", qna.size());
-		}
-
-		model.addAttribute("prd", prd);
-		model.addAttribute("seller", seller);
-		model.addAttribute("buyer", buyer);
-		model.addAttribute("shipCnt", shipCnt);
-		
-
-		return "buyer/recycling/rcydetail";
+	    return "buyer/recycling/rcydetail";
 	}
 
 	@GetMapping("/rcycmt")
