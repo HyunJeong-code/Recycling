@@ -57,54 +57,71 @@ public class BuyerController {
 	@Autowired private SellingService sellingService;
 	
 	@GetMapping("/cart")
-	public void cart(Authentication authentication, Model model, HttpSession session) {
-		
+	public void cart(Authentication authentication, Model model,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg) {
+
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-     logger.info("buyerLogin : {}", buyerLogin);
+		logger.info("buyerLogin : {}", buyerLogin);
 		
-		String bCode = buyerLogin.getbCode();
-		
-		//해당 session의 Cart List 정보
-		List<CartOrder> bf_list = buyerService.selectAllCart(bCode);
-		
-		//재고 부족 알림 메시지
+        // 문의글 페이지 수 계산
+  		PagingAndCtg upPaging = new PagingAndCtg();
+  		
+  		upPaging = pageService.upPageBuyer(curPage, sCtg, search, buyerLogin.getbCode());
+
+  		int upPage = buyerService.selectCntAllCart(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+        
+  		logger.info("upPaging : {}", upPaging);
+  		upPaging.setUser(buyerLogin.getbCode());
+  		
+  		
+        
+		// 해당 session의 Cart List 정보
+		List<CartOrder> bf_list = buyerService.selectAllCart(upPaging);
+
+		// 재고 부족 알림 메시지
 		String msg = "";
-		
-		//현재 상품 재고과 장바구니에 담긴 상품 수량 확인
-		for(CartOrder e : bf_list) {
+
+		// 현재 상품 재고과 장바구니에 담긴 상품 수량 확인
+		for (CartOrder e : bf_list) {
 			Integer count = buyerService.selectPrdCnt(e.getPrdCode());
 			logger.info("prd count : {}", count);
 			logger.info("cart count : {}", e.getcCnt());
-					
-			
-			//재고가 부족할시 장바구니에서 DELETE
-			if(count < e.getcCnt()) {
-				
-				//처음이 아닐때 컴마 추가
-				if(msg != "") {
+
+			// 재고가 부족할시 장바구니에서 DELETE
+			if (count < e.getcCnt()) {
+
+				// 처음이 아닐때 컴마 추가
+				if (msg != "") {
 					msg += ", ";
 				}
 				//
 				msg += e.getPrdName();
-				
+
 				logger.info("{} 상품의 재고가 부족합니다", e.getPrdName());
 				int res = buyerService.deleteCart(e.getcCode());
-				
+
 			}
 		}
-		
-		//msg가 빈칸이 아닐시 메시지 추가
-		if(msg != "") {
+
+		// msg가 빈칸이 아닐시 메시지 추가
+		if (msg != "") {
 			msg += " 상품의 수량이 부족하여 장바구니에서 제외되었습니다.";
 		}
-		
-		List<CartOrder> list = buyerService.selectAllCart(bCode);
-		
-		//logger.info("{}",msg);
-		//logger.info("{}", list);
-		
+
+		List<CartOrder> list = buyerService.selectAllCart(upPaging);
+
+		// logger.info("{}",msg);
+		// logger.info("{}", list);
+
 		model.addAttribute("list", list);
 		model.addAttribute("msg", msg);
+		
+		//paging
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/buyer/mypage/cart");
 	}
 	
 	@PostMapping("/cartupdate")
@@ -233,14 +250,13 @@ public class BuyerController {
 	}
 	
 	@GetMapping("/myorder")
-	public void myOrder(Model model, Authentication authentication,
+	public void myOrder(Authentication authentication, Model model,
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg
-			) {
-		
+			@RequestParam(defaultValue = "") String sCtg) {
+
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-        logger.info("buyerLogin : {}", buyerLogin);
+		logger.info("buyerLogin : {}", buyerLogin);
 		
 		
 		
@@ -260,6 +276,21 @@ public class BuyerController {
 		List<MyOrder> list = buyerService.selectOrderDetailBybCode(upPaging);
 
 		model.addAttribute("list", list);
+		
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/buyer/mypage/myorder");
+	}
+	
+	@GetMapping("/myorderdetail")
+	public void myOrderDetail(String orddtCode, Model model) {
+		OrderDetail orderDetail = buyerService.selectByorddtCode(orddtCode);
+		Orders order = buyerService.selectByordCode(orderDetail.getOrdCode());
+		
+		logger.info("orderDetail: {}",orderDetail);
+		logger.info("order: {}",order);
+		
+		model.addAttribute("orderDetail", orderDetail);
+		model.addAttribute("order", order);
 	}
 	
 	@PostMapping("/EmailAuth")
