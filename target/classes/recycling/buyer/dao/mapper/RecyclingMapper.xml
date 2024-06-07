@@ -14,9 +14,47 @@
 	    </where> -->
 	</select>
 
+	<!-- 상품리스트 로드 -->
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE CT_PNO = 0
+	</select>
+	
+	<select id="selectLatestList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 0
+	    ORDER BY PRD_DATE DESC
+	</select>
+	
+	<select id="selectHitList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 0
+	    ORDER BY PRD_HIT DESC
+	</select>
+	
+	<select id="selectPrdImage" resultType="PrdFile">
+		SELECT * FROM Prd_File
+		WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectLatestPrdImage" resultType="PrdFile">
+	    SELECT * FROM Prd_File
+	    WHERE PRD_CODE IN (
+	        SELECT PRD_CODE
+	        FROM Prd
+	        ORDER BY PRD_DATE DESC
+	        FETCH FIRST 4 ROWS ONLY
+	    )
+	</select>
+	
+	<select id="selectHitPrdImage" resultType="PrdFile">
+	    SELECT * FROM Prd_File
+	    WHERE PRD_CODE IN (
+	        SELECT PRD_CODE
+	        FROM Prd
+	        ORDER BY PRD_HIT DESC
+	        FETCH FIRST 4 ROWS ONLY
+	    )
 	</select>
 	
 	<select id="selectPrd" resultType="Prd">
@@ -83,14 +121,14 @@
 	</select>
 	
 	<insert id="insertRcy" parameterType="recycling.dto.buyer.Rcy">
-	    <!-- 시퀀스를 사용하여 RCY_CODE를 생성하여 삽입 -->
+	    <!-- 시퀀스 값을 가져와서 rcyCode에 할당 -->
 	    <selectKey keyProperty="rcyCode" resultType="String" order="BEFORE">
-	        SELECT 'RCY' || LPAD(#{rcySeq}, 7, '0') AS rcyCode FROM DUAL
+	        SELECT 'RCY' || LPAD(RCY_SEQ.NEXTVAL, 7, '0') AS rcyCode FROM DUAL
 	    </selectKey>
 	    
 	    <!-- 나머지 필드 삽입 -->
 	    INSERT INTO Rcy (RCY_CODE, B_CODE, PRD_CODE, RCY_CMT, RCY_DATE)
-	    VALUES (#{rcyCode}, #{bCode}, #{prdCode}, #{rcyCmt}, #{rcyDate})
+	    VALUES (#{rcyCode}, #{bCode}, #{prdCode}, #{rcyCmt}, SYSDATE)
 	</insert>
 	
 	

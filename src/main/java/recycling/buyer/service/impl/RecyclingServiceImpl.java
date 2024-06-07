@@ -13,8 +13,8 @@ import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Seller;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Rcy;
-import recycling.dto.seller.Cmt;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 
 @Service
 public class RecyclingServiceImpl implements RecyclingService {
@@ -40,6 +40,32 @@ public class RecyclingServiceImpl implements RecyclingService {
 		
 		return prdList;
 	}
+	
+	@Override
+	public List<Prd> selectLatestList() {
+		return recyclingDao.selectLatestList();
+	}
+
+	@Override
+	public List<Prd> selectHitList() {
+		return recyclingDao.selectHitList();
+	}
+	
+	@Override
+	public List<PrdFile> selectPrdImage() {
+		return recyclingDao.selectPrdImage();
+	}
+
+	@Override
+	public List<PrdFile> selectLatestPrdImage() {
+		return recyclingDao.selectLatestPrdImage();
+	}
+
+	@Override
+	public List<PrdFile> selectHitPrdImage() {
+		return recyclingDao.selectHitPrdImage();
+	}
+
 
 	
 	@Override
@@ -104,8 +130,12 @@ public class RecyclingServiceImpl implements RecyclingService {
 
 	@Override
 	public int insertRcy(Rcy rcy) {
+		logger.info("Inserting Rcy: {}", rcy);
 		return recyclingDao.insertRcy(rcy);
 	}
+
+
+
 
 
 

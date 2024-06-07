@@ -5,9 +5,9 @@ import java.util.Map;
 
 import recycling.dto.seller.Seller;
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 
 public interface RecyclingService {
 	
@@ -23,6 +23,38 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public List<Prd> selectPrdList();
+	
+	/**
+	 * 최신 상품부터 조회
+	 * @return
+	 */
+	public List<Prd> selectLatestList();
+
+	/**
+	 * 조회수가 많은 상품부터 조회
+	 * @return
+	 */
+	public List<Prd> selectHitList();
+	
+	/**
+	 * 상품별 할당된 이미지 로드
+	 * @return
+	 */
+	public List<PrdFile> selectPrdImage();
+
+	/**
+	 * 최신순 상품리스트 이미지 로드
+	 * @return
+	 */
+	public List<PrdFile> selectLatestPrdImage();
+
+	/**
+	 * 조회순 상품리스트 이미지 로드
+	 * @return
+	 */
+	public List<PrdFile> selectHitPrdImage();
+
+	
 
 	/**
 	 * 제품번호를 기준으로 불러오면서 제품 정보를 불러온다
@@ -78,6 +110,9 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int insertRcy(Rcy rcy);
+
+
+
 
 
 

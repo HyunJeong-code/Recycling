@@ -71,17 +71,16 @@
 		width: 100%;
 		margin: 0 auto;
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		flex-wrap: wrap;
 	}
 
 	.bannerContent {
 		width: 220px;
-		padding: 10px;
-		margin-bottom: 20px;
+		padding: 12px;
+		margin-bottom: 10px;
 		background-color: #f8f9fa;
-		text-align: left;
-		display: flex;
+		text-align: center;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
@@ -228,49 +227,23 @@
 	<div class="mainContainer">
 		<div class="mainBanner">
 			<div class="bannerInfo">
-				<!-- 신규 상품  -->
-				<div class="bannerContent" id="newPrd1">
-					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
-					<p class="bannerTitle">신규 상품 1</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="newPrd2">
-					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
-					<p class="bannerTitle">신규 상품 2</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="newPrd3">
-					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
-					<p class="bannerTitle">신규 상품 3</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="newPrd4">
-					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
-					<p class="bannerTitle">신규 상품 4</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<hr>
-				<!-- 인기 상품  -->
-				<div class="bannerContent" id="popPrd1">
-						<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-						<p class="bannerTitle">인기 상품 1</p>
-						<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="popPrd2">
-					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-					<p class="bannerTitle">인기 상품 2</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="popPrd3">
-					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-					<p class="bannerTitle">인기 상품 3</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="popPrd4">
-					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-					<p class="bannerTitle">인기 상품 4</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
+		        <!-- 최신 상품 -->
+		        <c:forEach var="prd" items="${latestList}">
+		            <div class="bannerContent">
+		                <img src="${pageContext.request.contextPath}/resources/img/empthy_400px.png">
+		                <p class="bannerTitle">${prd.prdName}</p>
+		                <p class="bannerPrice">${prd.price}원</p>
+		            </div>
+		        </c:forEach>
+		        <hr>
+		        <!-- 인기 상품 -->
+		        <c:forEach var="prd" items="${HitList}">
+		            <div class="bannerContent">
+		                <img src="${pageContext.request.contextPath}/resources/img/empthy_400px.png">
+		                <p class="bannerTitle">${prd.prdName}</p>
+		                <p class="bannerPrice">${prd.price}원</p>
+		            </div>
+		        </c:forEach>
 			</div>
 		</div>
 		<div class="categoryContainer">

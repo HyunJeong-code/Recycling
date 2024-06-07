@@ -22,9 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.dto.seller.Seller;
 
 // 메뉴 - 재활용품
@@ -40,9 +40,24 @@ public class RecyclingController {
 	public String rcyMain(Model model) {
 		logger.info("/buyer/recycling/main [GET]");
 		
+		//상품 정보 로드
 		List<Prd> list = recyclingService.selectPrdList();
+		List<Prd> latestList = recyclingService.selectLatestList();
+		List<Prd> HitList = recyclingService.selectHitList();
+		
+		//상품 이미지 로드
+		List<PrdFile> prdImage = recyclingService.selectPrdImage();
+		List<PrdFile> latestPrdImage = recyclingService.selectLatestPrdImage();
+		List<PrdFile> hitPrdImage = recyclingService.selectHitPrdImage();
+		
 		
 		model.addAttribute("list", list);
+		model.addAttribute("latestList", latestList);
+		model.addAttribute("HitList", HitList);
+		
+		model.addAttribute("prdImage", prdImage);
+		model.addAttribute("latestPrdImage", latestPrdImage);
+		model.addAttribute("hitPrdImage", hitPrdImage);
 		
 		return "buyer/recycling/main";
 	}
@@ -135,54 +150,37 @@ public class RecyclingController {
 		return "buyer/recycling/rcycmt";
 	}
 	
-	@GetMapping("/write")
-	public String writeReviewForm(
-			@RequestParam("prdCode") String prdCode,
-			Authentication authentication,
-	        Model model) {
-		logger.info("/buyer/recycling/write [GET]");
-		
-		
-		// 로그인 확인
-	    if (authentication == null || !authentication.isAuthenticated()) {
-	        // 비로그인 상태인 경우 로그인 페이지로 리다이렉트
-	        return "redirect:/buyer/login";
-	    }
-	    
-	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-	    
-	    Buyer buyer = recyclingService.selectBuyerDetail(buyerLogin.getbId());
-	    model.addAttribute("buyer", buyer);
-
-	    // 후기 작성 폼으로 이동
-	    return "buyer/recycling/writeReview";
-	}
 	
 	
 	@PostMapping("/writeProc")
 	public String writeReview(
-			Authentication authentication,
-			Model model,
-			Rcy rcy,
-			@RequestParam("prdcode") String prdCode
-			) {
+	        Authentication authentication,
+	        Model model,
+	        Rcy rcy,
+	        @RequestParam("prdcode") String prdCode // 상품 코드를 직접 전달받음
+	        ) {
 	    logger.info("/buyer/recycling/writeReviewProc [POST]");
 
 	    // 세션에서 로그인 정보 가져오기
 	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
 	    // 로그인 확인
-		if(buyerLogin == null) {
-					
-			model.addAttribute("error", "로그인 해주세요.");
-			return "redirect:/buyer/login";
-		}
+	    if(buyerLogin == null) {
+	                
+	        model.addAttribute("error", "로그인 해주세요.");
+	        return "redirect:/buyer/login";
+	    }
 	    
 	    Buyer buyer = recyclingService.selectBuyerDetail(buyerLogin.getbId());
 	    
 
 	    rcy.setbCode(buyer.getbCode());
-		int res = recyclingService.insertRcy(rcy);
+	    
+	    // PRD_CODE 설정
+	    rcy.setPrdCode(prdCode);
+	    //날짜 초기화 및 설정
+	    
+	    int res = recyclingService.insertRcy(rcy);
 
 	    // 상품 상세 페이지로 리다이렉트
 	    return "redirect:/buyer/recycling/rcydetail?prdcode=" + prdCode;
