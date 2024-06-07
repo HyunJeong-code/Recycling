@@ -22,6 +22,7 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
@@ -162,7 +163,28 @@ public class UpcyclingController {
 		 return "redirect:/buyer/upcycling/upcydetail?prdcode=" + prdCode;
 	 }
 	 
-	
+   @GetMapping("/cart")
+   public String cart(Authentication authentication
+          , Cart cart
+          , Model model
+          , boolean isCart) {
+       
+       BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
+      
+        //cart에 bcode 추가
+        cart.setbCode(buyerLogin.getbCode());
+       
+       if(isCart) {
+          int res = upcyclingService.updatecCnt(cart);
+       }   else {
+          int res = upcyclingService.insertCart(cart);
+       }
+       
+       model.addAttribute("msg", "장바구니에 추가되었습니다.");
+       model.addAttribute("url", "/buyer/upcycling/main");
+       return "/layout/alert";
+   }
 	 
 	 @GetMapping("/pay")
 	 public String pay(

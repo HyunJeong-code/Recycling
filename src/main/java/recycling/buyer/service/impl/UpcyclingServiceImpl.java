@@ -126,8 +126,6 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
 	}
 
-
-	
 	@Override
 	public CartOrder selectCartOrder(String prdCode) {
 		return upcyclingDao.selectCartOrder(prdCode);

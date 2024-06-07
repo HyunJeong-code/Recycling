@@ -114,6 +114,8 @@ public interface UpcyclingService {
 	 */
 	public CartOrder selectCartOrder(String prdCode);
 
+	public int insertReview(UpcyReview review);
+
 
 
 }

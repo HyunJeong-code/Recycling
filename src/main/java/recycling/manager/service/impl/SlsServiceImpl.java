@@ -39,29 +39,6 @@ public class SlsServiceImpl implements SlsService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private SlsDao slsDao;
 	
-	//파일 저장소
-	private String saveFile(MultipartFile file, File storedFolder) {
-	    logger.info("SERVICE : SAVEFILE[GET]");
-		if (file.isEmpty()) {
-	        return null;
-	    }
-
-	    String storedName;
-	    File dest;
-	    do {
-	        storedName = UUID.randomUUID().toString().split("-")[4] + "_" + file.getOriginalFilename();
-	        dest = new File(storedFolder, storedName);
-	    } while (dest.exists());
-
-	    try {
-	        file.transferTo(dest);
-	        return storedName;
-	    } catch (IllegalStateException | IOException e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	}
-	
 	@Override
 	public List<Seller> main(PagingAndCtg upPaging) {
 		return slsDao.main(upPaging);

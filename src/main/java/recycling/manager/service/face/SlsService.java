@@ -464,6 +464,4 @@ public interface SlsService {
 	 */
 	public List<ExpFile> expImage(ExpFile expFile);
 
-	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
-
 }
