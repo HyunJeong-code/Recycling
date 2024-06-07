@@ -51,7 +51,7 @@ public interface HrService {
 	 * 
 	 * @param manager - DTO 정보
 	 */
-	public void insert(Manager manager, MultipartFile file);
+	public void insert(Manager manager,MultipartFile profile, MultipartFile file);
 
 	/**
 	 * 회원정보 업데이트항목 조회
@@ -86,7 +86,14 @@ public interface HrService {
 	public MgrFile mgrFileUpdateList(MgrFile mgrFile);
 
 	/**
-	 * 업데이트 파일 가져오기
+	 * 세부사항 프로필 조회
+	 * @param mgrFile
+	 * @return
+	 */
+	public MgrFile mgrProFileList(MgrFile mgrFile);
+	
+	/**
+	 * 업데이트 파일 가져오기[삭제]
 	 * 
 	 * @param empFileUpdate
 	 * @param manager
@@ -108,5 +115,7 @@ public interface HrService {
 	 * @return
 	 */
 	public int selectCntAllHr(PagingAndCtg upPaging);
+
+
 
 }

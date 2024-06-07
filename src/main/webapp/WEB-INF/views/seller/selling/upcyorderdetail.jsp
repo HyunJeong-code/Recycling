@@ -72,21 +72,21 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 							</td>
 						</tr>
 						<tr>
-							<td>배송지</td>
+							<td>우편번호</td>
 							<td>
 								<input type="text" name="ordPostcode" value="${order.ordPostcode }">
 							</td>
 						</tr>
 						<tr>
-							<td></td>
+							<td>배송지</td>
 							<td>
-								<input type="text" name="ordAddr" value="${order.ordAddr }">
+								<input type="text" name="ordAddr" class="long-text" value="${order.ordAddr }">
 							</td>
 						</tr>
 						<tr>
-							<td></td>
+							<td>상세주소</td>
 							<td>
-								<input type="text" name="ordDetail" value="${order.ordDetail }">
+								<input type="text" name="ordDetail" class="long-text" value="${order.ordDetail }">
 							</td>
 						</tr>
 						<tr>
@@ -130,8 +130,8 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					</table>
 					
 					<div>
-						<button type="button"><a href="./upcylist">목록으로</a></button>
-						<button >수정하기</button>
+						<a href="./upcylist"><button type="button" class="btn">목록으로</button></a>
+						<button class="btn btnRight">수정하기</button>
 					</div>
 				</form>
 			</div>

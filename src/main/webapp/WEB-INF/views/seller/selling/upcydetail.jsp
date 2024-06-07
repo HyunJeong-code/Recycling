@@ -118,7 +118,10 @@
 	            		</tr>
 	            		<tr>
 	            			<td>상품 상세</td>
-	            			<td><input type="text" name="prdDetail" value="${prd.prdDetail }" data-name="상품 상세"></td>
+	            			<td colspan="3">
+	            				<textarea name="prdDetail" value="" rows="" cols=""  data-name="상품 상세">${prd.prdDetail }</textarea>
+	            				<%-- <input type="text" name="prdDetail" value="${prd.prdDetail }" data-name="상품 상세"> --%>
+	            			</td>
 	            		</tr>
 	            		<tr>
 	            			<td>메인 이미지</td>
@@ -129,7 +132,7 @@
 								<div id="image_container0">
 			            		<c:forEach var="file" items="${files }">
 			            			<c:if test="${file.ctPflNo == 600 }">
-										<img id="mainImg" alt="${prd.prdName }" src="/upload/${file.storedName }">
+										<img id="mainImg" alt="${prd.prdName }" src="/resources/image/${file.originName }">
 					            	</c:if>
 				            	</c:forEach>
 			            		</div>
@@ -145,16 +148,16 @@
 					            	<div id="image_container${i}">
 					            		<c:if test="${not empty files[i] }">
 				            				<input value="${files[i].prdFlNo }" name="fileId" hidden="hidden">
-					            			<img alt="${prd.prdName }" src="/upload/${files[i].storedName }">
+					            			<img alt="${prd.prdName }" src="/resources/image/${files[i].originName }">
 					            		</c:if>
 					            	</div>
 				            	</td>
 			            	</c:forEach>
 		            	</tr>
 		           	</table>
-		           	<button type="button"><a href="./upcylist">목록</a></button>
-		           	<button type="button" id="btnUpdate">수정하기</button>
-		           	<button type="button"><a href="./upcydel?prdCode=${prd.prdCode}">삭제하기</a></button>
+		           	<a href="./upcylist"><button type="button" class="btn">목록</button></a>
+		           	<button type="button" class="btn btnRight" id="btnUpdate">수정하기</button>
+		           	<a href="./upcydel?prdCode=${prd.prdCode}"><button type="button" class="btn btnDel">삭제하기</button></a>
 	           	</form>
             </div>
         </div>

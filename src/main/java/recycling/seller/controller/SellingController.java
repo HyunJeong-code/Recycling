@@ -481,15 +481,23 @@ public class SellingController {
 		//페이징
 		PagingAndCtg upPaging = new PagingAndCtg();
 		upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
-		int upPage = sellingService.selectCntAllExpSch(upPaging);
+		int upPage = sellingService.selectCntAllExpSch(upPaging, expCode);
 		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
+		logger.info("upPaging : {}", upPaging);
+		
 		//상세 보기
 		Exp exp = sellingService.selectByExp(expCode);
 		model.addAttribute("exp", exp);
 		
+		Map<String, Object> params = new HashMap<>();
+	    params.put("expCode", expCode);
+	    params.put("upPaging", upPaging);
+	    params.put("startNo", upPaging.getStartNo());
+	    params.put("endNo", upPaging.getEndNo());
+	    
 		//예약 스케쥴 조회기능
-		List<ExpSch> schList = sellingService.selectAllSch(expCode);
+		List<ExpSch> schList = sellingService.selectAllSch(params);
 		model.addAttribute("expSchList", schList);
 		logger.info("schList: {}", schList);
 		
@@ -499,6 +507,8 @@ public class SellingController {
 		
 		//첨부파일 main=썸네일, detail=상세이미지
 		List<ExpFile> expFiles = sellingService.selectByExpFile(expCode);
+		
+		
 		
 		ExpFile main = null;
 		List<ExpFile> detail = new ArrayList<>();

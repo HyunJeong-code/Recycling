@@ -415,7 +415,7 @@ table tr:hover {
 					</c:forEach>
 				</tbody>
 			</table>
-			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+			<c:import url="/WEB-INF/views/layout/upperdetailpaging.jsp"/>
 		</div>
 			
 			<div class="btn_bot_box">
