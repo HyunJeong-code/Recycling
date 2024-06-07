@@ -14,55 +14,57 @@
 </head>
 <body>
 
-	<div class="full">
-		<aside>
-		</aside>
-		<div class="wrap">
-			<div class="page">
-				문의글 목록
-			</div>
-			
-			<div class="search">
-				<form action="./main" method="get" style="display: flex; align-items: center;">
-					<input type="hidden" name="sCtg" value="UP">
-					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search-input">
-					<button class="btn_search">검색</button>
-				</form>
-			</div>
-			
-			<div class="section">
-				<table>
-					<thead>
-						<tr>
-							<th>문의코드</th>
-							<th>제목</th>
-							<th>이름</th>
-							<th>조회수</th>
-							<th>작성일</th>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<c:forEach var="oto" items="${list }">
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
+			<div class="wrap">
+				<div class="page">
+					문의글 목록
+				</div>
+				
+				<div class="search">
+					<form action="./main" method="get" style="display: flex; align-items: center;">
+						<input type="hidden" name="sCtg" value="UP">
+						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search-input">
+						<button class="btn_search">검색</button>
+					</form>
+				</div>
+				
+				<div class="section">
+					<table>
+						<thead>
 							<tr>
-								<td>${oto.otoCode }</td>
-								<td>
-									<a href="./ansform?otoCode=${oto.otoCode }">${oto.otoTitle }</a>
-									<%-- <a href="./ansform?otoCode=${oto.otoCode }&ansCode=${comments.ansCode }">${oto.otoTitle }</a> --%>
-								</td>
-								<td>${oto.otoName }</td>
-								<td>${oto.otoHit }</td>
-								<td>
-									<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd" />
-									<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd" />
-								</td>
+								<th>문의코드</th>
+								<th>제목</th>
+								<th>이름</th>
+								<th>조회수</th>
+								<th>작성일</th>
 							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+						</thead>
+						
+						<tbody>
+							<c:forEach var="oto" items="${list }">
+								<tr>
+									<td>${oto.otoCode }</td>
+									<td>
+										<a href="./ansform?otoCode=${oto.otoCode }">${oto.otoTitle }</a>
+										<%-- <a href="./ansform?otoCode=${oto.otoCode }&ansCode=${comments.ansCode }">${oto.otoTitle }</a> --%>
+									</td>
+									<td>${oto.otoName }</td>
+									<td>${oto.otoHit }</td>
+									<td>
+										<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd" />
+										<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd" />
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+				<br>
+				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 			</div>
-			<br>
-			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 		</div>
 	</div>
 </body>

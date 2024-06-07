@@ -44,7 +44,7 @@
 	<select id="selectPrdImageThums" resultType="String">
 	    SELECT ORIGIN_NAME 
 	    FROM Prd_File 
-	    WHERE PRD_CODE = '#{prdCode}' 
+	    WHERE PRD_CODE = #{prdCode}
 	    AND CT_PFLNO = 600
 	</select>
 	
