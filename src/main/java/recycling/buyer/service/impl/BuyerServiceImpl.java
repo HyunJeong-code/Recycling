@@ -386,10 +386,4 @@ public class BuyerServiceImpl implements BuyerService {
 	public int insertChange(Change change) {
 		return buyerDao.insertChange(change);
 	}
-	
-	@Override
-	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
-		return buyerDao.buyerDaoselectOrderDetailBybCode(bCode);
-	}
-
 }

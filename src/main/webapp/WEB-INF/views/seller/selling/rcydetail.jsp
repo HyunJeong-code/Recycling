@@ -83,7 +83,7 @@
         
             <div class="main-section">
             	<h3>상품 상세</h3>
-            	<form action="./cyupdate?prdCode=${prd.prdCode}" id="detailForm" method="post" enctype="multipart/form-data">
+            	<form action="./cyupdate?prdCode=${prd.prdCode}&ctPno=0" id="detailForm" method="post" enctype="multipart/form-data">
             		<table class="view-table">
 	            		<tr>
 	            			<td>상품코드</td>

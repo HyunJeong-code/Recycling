@@ -168,8 +168,11 @@ public class SellingController {
 	public void rcyDetail(String prdCode, Model model) {
 		Prd prd = sellingService.selectByprdCode(prdCode);
 		
-		List<PrdFile> file = sellingService.selectPrdFile(prdCode);
+		List<PrdFile> files = sellingService.selectPrdFile(prdCode);
 		
+		logger.info("files: {}", files);
+		
+		model.addAttribute("files", files);
 		model.addAttribute("prd", prd);
 	}
 	
@@ -261,7 +264,7 @@ public class SellingController {
 			
 			
 			//파일 삭제
-			if(map.get(prdFlNo) != null && !map.get(prdFlNo).isEmpty()) {
+			if(map.get(prdFlNo) != null && !(map.get(prdFlNo)).isEmpty()) {
 				sellingService.deleteDetailFile(map);
 			}
 			for(MultipartFile detailFile : tempFiles) {
@@ -270,7 +273,11 @@ public class SellingController {
 			}
 		}
 		
-		return "redirect:/seller/selling/upcylist";
+		if(prd.getCtPno() == 0) {
+			return "redirect:/seller/selling/rcylist";
+		} else {
+			return "redirect:/seller/selling/upcylist";
+		}
 	}
 	
 	@GetMapping("/updatestt")
