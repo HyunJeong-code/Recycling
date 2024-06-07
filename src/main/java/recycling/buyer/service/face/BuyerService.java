@@ -196,7 +196,7 @@ public interface BuyerService {
 	 * @param buyerProf - 업데이트 할 프로필 정보
 	 * @return 업데이트 결과
 	 */
-	public int updateBuyerProf(MultipartFile buyerProf, String bCode);
+	public BuyerProf updateBuyerProf(MultipartFile buyerProf, String bCode);
 	
 	/**
 	 * 사업자 등록증 업데이트
@@ -205,7 +205,7 @@ public interface BuyerService {
 	 * @param bCode - 구매자 코드
 	 * @return 업데이트 결과
 	 */
-	public int updateCmpFile(MultipartFile cmpFile, String bCode);
+	public CmpFile updateCmpFile(MultipartFile cmpFile, String bCode);
 	
 	/**
 	 * 구매자의 모든 배송지 정보

@@ -715,11 +715,11 @@ public class BuyerController {
 		
 		// 프로필 이미지 업데이트
 		if (!buyerProf.isEmpty()) {
-		
-			int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
-		
-			if (result == 0) {
-		
+
+			BuyerProf updateProf = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
+
+			if (updateProf == null) {
+
 				model.addAttribute("error", "프로필 이미지 저장 실패");
 		
 				return "redirect:/buyer/mypage/mydetailpri";
@@ -866,10 +866,10 @@ public class BuyerController {
 		// 프로필 이미지 업데이트
 		if (!buyerProf.isEmpty()) {
 
-			int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
+			BuyerProf updateProf = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
 
-			if (result == 0) {
-	        
+			if (updateProf == null) {
+
 				model.addAttribute("error", "프로필 이미지 저장 실패");
 	            
 				return "redirect:/buyer/mypage/mydetailcmp";
@@ -880,11 +880,11 @@ public class BuyerController {
 		
 	    // 사업자 등록증 업데이트
 		if (!cmpFile.isEmpty()) {
-	        
-			int result = buyerService.updateCmpFile(cmpFile, buyerLogin.getbCode());
-	        
-			if (result == 0) {
-	        
+
+			CmpFile updateFile = buyerService.updateCmpFile(cmpFile, buyerLogin.getbCode());
+
+			if (updateFile == null) {
+
 				model.addAttribute("error", "사업자 등록증 저장 실패");
 	            
 				return "redirect:/buyer/mypage/mydetailcmp";
