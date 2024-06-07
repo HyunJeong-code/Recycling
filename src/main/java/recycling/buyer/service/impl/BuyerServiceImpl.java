@@ -204,7 +204,7 @@ public class BuyerServiceImpl implements BuyerService {
         
 		}
 
-        String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "file:///D:/uploads/";
+        String storedPath = "D:/uploads/profiles/";
         File storedFolder = new File(storedPath);
         
         if(!storedFolder.exists()) {
@@ -219,7 +219,7 @@ public class BuyerServiceImpl implements BuyerService {
         do {
         	
         	storedName = buyerProf.getOriginalFilename();
-        	storedName += UUID.randomUUID().toString().split("-")[4];
+            storedName += UUID.randomUUID().toString().split("-")[4];
         	dest = new File(storedFolder, storedName);
         	
         } while (dest.exists());
@@ -261,7 +261,7 @@ public class BuyerServiceImpl implements BuyerService {
 	    
 		}
 		
-		String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "file:///D:/uploads/";
+		String storedPath = "D:/uploads/cmpfiles/";
 	    File storedFolder = new File(storedPath);
 
 	    if (!storedFolder.exists()) {
@@ -275,7 +275,7 @@ public class BuyerServiceImpl implements BuyerService {
 	    
 	    do {
 	    	
-	        storedName = cmpFile.getOriginalFilename();
+	    	storedName = cmpFile.getOriginalFilename();
 	        storedName += UUID.randomUUID().toString().split("-")[4];
 	        dest = new File(storedFolder, storedName);
 	    

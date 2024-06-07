@@ -86,7 +86,7 @@ th {
 						<td>
 							<c:choose>
 								<c:when test="${buyerProf != null }">
-        							<img src="file:///D:/uploads/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
+        							<img src="${pageContext.request.contextPath}/buyer/mypage/profile/${buyerProf.storedName}" alt="프로필 이미지" style="width: 100px; height: 100px;">
     							</c:when>
     							<c:otherwise>
     								<img src="${pageContext.request.contextPath }/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
@@ -107,10 +107,10 @@ th {
 						<td>
 							<c:choose>
 								<c:when test="${buyerProf != null }">
-        							<img src="${pageContext.request.contextPath }/resources/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
+        							<img src="${pageContext.request.contextPath}/buyer/mypage/cmpfile/${cmpFile.storedName}" alt="사업자 등록증" style="width: 100px; height: 100px;">
     							</c:when>
     							<c:otherwise>
-    								<img src="${pageContext.request.contextPath }/resources/cmpfile/${cmpFile.storedName }" alt="사업자 등록증" style="width: 100px; height: 100px;">
+    								<img src="${pageContext.request.contextPath }/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
     							</c:otherwise>
     						</c:choose>
 						</td>

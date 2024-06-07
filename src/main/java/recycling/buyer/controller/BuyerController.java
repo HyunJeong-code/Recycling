@@ -1,12 +1,19 @@
 package recycling.buyer.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -24,6 +31,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -470,6 +478,49 @@ public class BuyerController {
 
 	}
 
+	// 프로필 이미지 제공
+    @GetMapping("/buyer/mypage/profile/{filename}")
+    public void serveProfileImage(@PathVariable String filename, HttpServletResponse response) {
+        Path file = Paths.get("D:/uploads/profiles").resolve(filename);
+        serveImage(file, response);
+    }
+
+    // 사업자 등록증 이미지 제공
+    @GetMapping("/buyer/mypage/cmpfile/{filename}")
+    public void serveCmpFileImage(@PathVariable String filename, HttpServletResponse response) {
+        Path file = Paths.get("D:/uploads/cmpfiles").resolve(filename);
+        serveImage(file, response);
+    }
+
+    // 이미지 가져오기
+    public void serveImage(Path file, HttpServletResponse response) {
+        if (Files.exists(file)) {
+            String mimeType = null;
+            try {
+                mimeType = Files.probeContentType(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (mimeType == null) {
+                mimeType = "application/octet-stream";
+            }
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getFileName().toString() + "\"");
+            try (InputStream inputStream = Files.newInputStream(file);
+                 OutputStream outputStream = response.getOutputStream()) {
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+    }
+	
 	// 개인 마이페이지 메인화면
 	@GetMapping("/mypagepri")
 	public String myPagePri(Authentication authentication, Model model) {
