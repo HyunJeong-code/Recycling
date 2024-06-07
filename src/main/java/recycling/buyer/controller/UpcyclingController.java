@@ -222,11 +222,6 @@ public class UpcyclingController {
 		 //배송지 주소 가져오기
 		 List<BuyerAdr> buyeradr = buyerService.selectBybCode(bCode); 
 		 
-		 cartOrder.setcCnt(1);
-		 cartOrder.setPrdName("test");
-		 cartOrder.setPrdFee(0);
-		 cartOrder.setPrice(1);
-		 
 		 logger.info("buyer : {}", buyeradr);
 		
 		 model.addAttribute("buyer", buyer);
@@ -256,6 +251,15 @@ public class UpcyclingController {
 		
 		 //주문 INSERT
 		 int res = buyerService.insertOrder(order);
+		 
+		 //cartOrder 객체로 prd 수량 차감
+		 CartOrder cart = new CartOrder();
+		 
+		 cart.setcCnt(orderDetail.getOrdCnt());
+		 cart.setPrdCode(orderDetail.getPrdCode());
+		 
+		 //수량 차감
+		 int updateRes = buyerService.updatePrdCnt(cart);
 		
 		 //prdCode
 		 String prdCode = orderDetail.getPrdCode();
@@ -278,6 +282,59 @@ public class UpcyclingController {
 		
 		 return "jsonView";
 	}
+	 
+	 @GetMapping("/payinfo")
+	 public void payInfo(String ordCode, Model model) {
+	 logger.info("{}",ordCode);
+
+	 Orders order = buyerService.selectByordCode(ordCode);
+
+	 model.addAttribute("order", order);
+	 }
+
+	 @GetMapping("/cartchk")
+	 public String cartChk(Authentication authentication
+	  , Cart cart
+	  , Model model) {
+	  BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	      logger.info("buyerLogin : {}", buyerLogin);
+	      
+	      //cart에 bcode 추가
+	      cart.setbCode(buyerLogin.getbCode());
+	      
+	      Integer cCnt = upcyclingService.selectcCnt(cart);
+	      
+	      logger.info("{}",cCnt);
+	      
+	      model.addAttribute("cCnt", cCnt);
+	      
+	      return "jsonView";
+	 }
+
+	 @GetMapping("/cart")
+	 public String cart(Authentication authentication
+	  , Cart cart
+	  , Model model
+	  , boolean isCart) {
+	  
+	  BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	      logger.info("buyerLogin : {}", buyerLogin);
+
+	      //cart에 bcode 추가
+	      cart.setbCode(buyerLogin.getbCode());
+	  
+	  if(isCart) {
+	  int res = upcyclingService.updatecCnt(cart);
+	  } else {
+	  int res = upcyclingService.insertCart(cart);
+	  }
+	  
+	  model.addAttribute("msg", "장바구니에 추가되었습니다.");
+	  model.addAttribute("url", "/buyer/upcycling/main");
+	  return "/layout/alert";
+	 }
+
+	 }
 	
 	
 }
