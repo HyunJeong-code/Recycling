@@ -222,21 +222,5 @@ public class HrServiceImpl implements HrService {
 	public void updateProfileProc(MgrFile mgrFile) {
 		hrDao.updateProfileProc(mgrFile);
 	}
-
-
-	@Override
-	public int selectCntAllHr(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-
-
-	
-
-
-
-	
 	
 }

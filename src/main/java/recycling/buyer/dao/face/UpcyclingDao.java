@@ -66,10 +66,6 @@ public interface UpcyclingDao {
 	 */
 	public CartOrder selectCartOrder(String prdCode);
 	
-	public Buyer selectBuyerBybId(String bId);
-
-	public int insertReview(UpcyReview review);
-
 	public int insertReview(UpcyReview review);
 
 	public Buyer selectBuyerBybId(String bId);

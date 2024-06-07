@@ -132,11 +132,4 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public CartOrder selectCartOrder(String prdCode) {
 		return upcyclingDao.selectCartOrder(prdCode);
 	}
-
-	@Override
-	public int insertCart(Cart cart) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 }

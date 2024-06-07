@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import recycling.dto.seller.GoogleInfResponse;
-import recycling.dto.seller.GoogleRequest;
-import recycling.dto.seller.GoogleResponse;
+//import recycling.dto.seller.GoogleInfResponse;
+//import recycling.dto.seller.GoogleRequest;
+//import recycling.dto.seller.GoogleResponse;
 
 // 매출 관리
 
@@ -25,11 +25,11 @@ public class SalesController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-    @RequestMapping(value="/api/v1/oauth2/google", method = RequestMethod.POST)
-    public String loginUrlGoogle(){
-        String reqUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + googleClientId
-                + "&redirect_uri=http://localhost:8080/api/v1/oauth2/google&response_type=code&scope=email%20profile%20openid&access_type=offline";
-        return reqUrl;
-    }	
+//    @RequestMapping(value="/api/v1/oauth2/google", method = RequestMethod.POST)
+//    public String loginUrlGoogle(){
+//        String reqUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + googleClientId
+//                + "&redirect_uri=http://localhost:8080/api/v1/oauth2/google&response_type=code&scope=email%20profile%20openid&access_type=offline";
+//        return reqUrl;
+//    }	
 }
 

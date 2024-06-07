@@ -536,49 +536,6 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectAllSch(expCode);
 	}
 
-
-	@Override
-	public List<Exp> selectAllExp(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public int selectCntAllExp(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public Exp selectDetailExp(String expCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List<ExpSch> selectAllSch(String expCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public int selectCntAllExpSch(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile profile, List<MultipartFile> file) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	@Override
 	public ExpFile expUpdateProfile(ExpFile expFile) {
 		// TODO Auto-generated method stub
@@ -619,10 +576,5 @@ public class SlsServiceImpl implements SlsService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
-
-	
 
 }//main

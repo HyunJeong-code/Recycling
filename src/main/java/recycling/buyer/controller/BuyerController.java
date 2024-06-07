@@ -726,9 +726,10 @@ public class BuyerController {
 		
 				model.addAttribute("error", "프로필 이미지 저장 실패");
 		
-		return "redirect:/buyer/mypage/mydetailpri";
+				return "redirect:/buyer/mypage/mydetailpri";
 		
-			}
+			}		
+		}
 		
 		// 전화번호 설정
 		String bPhone = bPhone1 + "-" + bPhone2 + "-" + bPhone3;
@@ -746,28 +747,11 @@ public class BuyerController {
 
 		}
 	
-	// 전화번호 설정
-	String bPhone = bPhone1 + "-" + bPhone2 + "-" + bPhone3;
-	buyer.setbPhone(bPhone);
-	
-	int updateResult = buyerService.updateBuyerDetail(buyer);
-	
-	if (updateResult == 0) {
-	
-		logger.info("업데이트 실패: {}", buyer);
-	
-	model.addAttribute("error", "업데이트 실패");
-	
-	return "redirect:/buyer/mypage/mydetailpri";
-	
-	}
-	
-	model.addAttribute("msg", "개인 정보가 수정되었습니다.");
-	model.addAttribute("url", "/buyer/mypage/mydetailpri");
-	
-	return "/layout/alert";
+		model.addAttribute("msg", "개인 정보가 수정되었습니다.");
+		model.addAttribute("url", "/buyer/mypage/mydetailpri");
 
-}
+		return "/layout/alert";
+	}
 	
 	// 회원 정보 변경 (기업)
 	@GetMapping("/mydetailcmp")
