@@ -38,13 +38,6 @@ public interface SellingDao {
 	 */
 	public int selectCntAllexpList(PagingAndCtg upPaging);
 	
-	/**
-	 * 체험단 체험일정 조회 페이징
-	 * 
-	 * @param upPaging - paging
-	 * @return paging 결과
-	 */
-	public int selectCntAllExpSch(PagingAndCtg upPaging);
 
 	/**
 	 * expcode와 일치하는 체험단 조회
@@ -54,14 +47,6 @@ public interface SellingDao {
 	 */
 	public Exp selectByExp(String expCode);
 	
-	/**
-	 * expCode와 일치하는 체험단 일정 조회
-	 * 
-	 * @param expCode - 체험코드
-	 * @return expSch 체험일정 List
-	 */
-	public List<ExpSch> selectAllSch(String expCode);
-
 	/**
 	 * 체험 스케쥴 예약된 인원 조회
 	 * 
@@ -325,4 +310,21 @@ public interface SellingDao {
 	 * @return 주문 리스트
 	 */
 	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
+
+	/**
+	 * expCode와 일치하는 체험단 일정 조회
+	 * 
+	 * @param params - expCode
+	 * @return expSch
+	 */
+	public List<ExpSch> selectAllSch(Map<String, Object> params);
+
+	
+	/**
+	 * 체험단 체험일정 조회 페이징
+	 * 
+	 * @param params - paging, expCode
+	 * @return paging 결과
+	 */
+	public int selectCntAllExpSch(Map<String, Object> params);
 }

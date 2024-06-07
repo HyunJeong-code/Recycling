@@ -28,7 +28,7 @@
 		FROM (
 			SELECT rownum no, PRD.* FROM (
 				SELECT
-					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
 				FROM
 					cart c, prd p, prd_file pf
 				<where>
@@ -46,7 +46,7 @@
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
 		SELECT
-			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
 		FROM
 			cart c, prd p, prd_file pf
 		<where>
@@ -312,7 +312,7 @@
     	</where>
     </update>
     
-    <!-- 기본 배송지로 설정 -->
+    <!-- 기본 배송지 조회 -->
     <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -322,7 +322,7 @@
     	</where>
     </select>
     
-    <!-- 주소코드로 주소 가져오기 -->
+    <!-- Adr_Code로 배송지 정보 조회 -->
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
