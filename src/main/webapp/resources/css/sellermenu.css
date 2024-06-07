@@ -30,6 +30,13 @@
 	margin: 0 0 15px 10px;
 }
 
+.main-section .s-table {
+    width: 100%;
+    border-top: 2px solid #333;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
 .main-section .s-table input{
     border: 1px solid #7b7b7b;
     border-radius: 8px;

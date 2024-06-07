@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
+import recycling.dto.buyer.QstFile;
+import recycling.dto.buyer.QstFile;
 import recycling.dto.seller.Qna;
 import recycling.page.face.PageService;
 import recycling.seller.service.face.QnaService;
@@ -79,7 +81,10 @@ public class QnaController {
 	public void qnaForm(String qstCode, Model model) {
 		Qst qst = qnaService.selectQstByqstCode(qstCode);
 		
+		QstFile img = qnaService.selectQstFile(qstCode);
+		
 		model.addAttribute("qst", qst);
+		model.addAttribute("img", img);
 	}
 	
 	
@@ -89,7 +94,7 @@ public class QnaController {
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
-		
+        
 		String sCode = buyerLogin.getsCode();
 		
 		qna.setsCode(sCode);
@@ -103,8 +108,11 @@ public class QnaController {
 		
 		Qna qna = qnaService.selectQnaByqstCode(qstCode);
 		
+		QstFile img = qnaService.selectQstFile(qstCode);
+		
 		model.addAttribute("qna", qna);
 		model.addAttribute("qst", qst);
+		model.addAttribute("img", img);
 	}
 	
 	@PostMapping("/qnaupdate")

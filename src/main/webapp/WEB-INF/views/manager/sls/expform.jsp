@@ -18,7 +18,6 @@
 <script type="text/javascript">
 //파일 미리보기
 function setThumbnail(event) {
-<<<<<<< HEAD
     var fileInput = event.target;
     var files = fileInput.files;
     var container = document.querySelector("div#image_container");
@@ -28,7 +27,6 @@ function setThumbnail(event) {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
-=======
 	var reader = new FileReader()
 
 	reader.onload = function(event) {
@@ -37,12 +35,10 @@ function setThumbnail(event) {
 		img.setAttribute("class", "col-lg-6")
 		document.querySelector("div#image_container").appendChild(img)
 	}
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 
 	reader.readAsDataURL(event.target.files[0]);
 }
 
-<<<<<<< HEAD
 function setThumbnail2(event) {
     var fileInput = event.target;
     var files = fileInput.files;
@@ -91,9 +87,7 @@ function setThumbnail2(event) {
 }
 
 $(function() {
-=======
-$(document).ready(function() {
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
+	$(document).ready(function() {
 	
 				// applyBtn 함수 정의
 				function applyBtn() {
@@ -601,10 +595,10 @@ label {
 </head>
 <body>
 
-	<div class="full">
-			<aside>
-				왼쪽
-			</aside>
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
 				<h1>체험단 등록</h1>
@@ -767,6 +761,6 @@ label {
 			</div>
 		</div>
 	</div>
-
+</div>
 </body>
 </html>

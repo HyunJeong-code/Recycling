@@ -13,8 +13,9 @@ import recycling.buyer.dao.face.RecyclingDao;
 import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Seller;
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 
 @Service
 @Transactional
@@ -34,16 +35,47 @@ public class RecyclingServiceImpl implements RecyclingService {
     }
 	
 	@Override
-	public List<Prd> getPrdList() {
+	public List<Prd> selectPrdList() {
 		
 		List<Prd> prdList = recyclingDao.selectPrdList();
-		logger.info("getPrdList() - prdList size: {}", prdList.size());
+		logger.info("selectPrdList() - prdList size: {}", prdList.size());
 		for(Prd prd : prdList) {
-	        logger.info("getPrdList() - Prd: {}", prd);
+	        logger.info("selectPrdList() - Prd: {}", prd);
 	    }
 		
 		return prdList;
 	}
+	
+	@Override
+	public List<Prd> selectLatestList() {
+		return recyclingDao.selectLatestList();
+	}
+
+	@Override
+	public List<Prd> selectHitList() {
+		return recyclingDao.selectHitList();
+	}
+
+    @Override
+    public List<String> selectPrdImageThum(String prdCode) {
+        return recyclingDao.selectPrdImageThum(prdCode);
+    }
+
+    @Override
+    public List<String> selectLatestPrdImageThum(String prdCode) {
+        return recyclingDao.selectLatestPrdImageThum(prdCode);
+    }
+
+    @Override
+    public List<String> selectHitPrdImageThum(String prdCode) {
+        return recyclingDao.selectHitPrdImageThum(prdCode);
+    }
+    
+	@Override
+	public List<String> selectPrdImageDetail(String prdCode) {
+		return recyclingDao.selectPrdImageDetail(prdCode);
+	}
+
 
 	@Override
 	public Prd view(String prdCode) {
@@ -69,19 +101,29 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 	
 	@Override
+	public Buyer selectBuyerByBCode(String getbCode) {
+		return recyclingDao.selectBuyerByBCode(getbCode);
+	}
+
+	@Override
+	public int selectShipCnt(String getsCode) {
+		return recyclingDao.selectShipCnt(getsCode);
+	}
+	
+	@Override
 	public List<Map<String, Object>> selectQnaList(String prdCode) {
-		
-		List<Map<String, Object>> qnaList = recyclingDao.selectQnaList(prdCode);
+	    
+	    List<Map<String, Object>> qnaList = recyclingDao.selectQnaList(prdCode);
 	    if (qnaList != null && !qnaList.isEmpty()) {
 	        logger.info("selectQnaList() - qna list found for product code: {}", prdCode);
 	        for (Map<String, Object> qna : qnaList) {
-	        	String bCode = (String) qna.get("B_CODE");
-	        	Buyer buyer = recyclingDao.selectBuyerByBCode(bCode);
-	        	
+	            String bCode = (String) qna.get("B_CODE");
+	            Buyer buyer = recyclingDao.selectBuyerByBCode(bCode);
+	            
 	            if (buyer != null) {
-	            	qna.put("B_NAME", buyer.getbName());
+	                qna.put("B_NAME", buyer.getbName());
 	            } else {
-	            	qna.put("B_NAME", "Unknown");
+	                qna.put("B_NAME", "Unknown");
 	            }
 	            
 	            logger.info("selectQnaList() - qna: {}", qna);
@@ -89,9 +131,8 @@ public class RecyclingServiceImpl implements RecyclingService {
 	    } else {
 	        logger.info("selectQnaList() - No QnA found for product code: {}", prdCode);
 	    }
-		
-//		return recyclingDao.selectQnaList(prdCode);
-		return qnaList;
+	    
+	    return qnaList; // 수정된 qnaList를 반환
 	}
 
 	
@@ -101,60 +142,16 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 
 	@Override
-	public int insertOto(Oto oto) {
-		return recyclingDao.insertOto(oto);
+	public int insertRcy(Rcy rcy) {
+		logger.info("Inserting Rcy: {}", rcy);
+		return recyclingDao.insertRcy(rcy);
 	}
-	
-//	@Override
-//	public SellerProf getSellerProf(String sCode) {
-//		return recyclingDao.selectSellerProfByCode(sCode);
-//	}
-//
-//
-//	@Override
-//	public SellerQST selectSellerQst(String qstCode) {
-//		return recyclingDao.selectSellerQST(qstCode);
-//	}
-//
-//	@Override
-//	public List<SellerAns> selectSellerAnswers(String qstCode) {
-//		return recyclingDao.selectSellerAnswers(qstCode);
-//	}
-//
-//	@Override
-//	public int insertSellerQST(SellerQST sellerQST) {
-//		return recyclingDao.insertSellerQST(sellerQST);
-//	}
 
 
-//	@Override
-//	public int updateSellerQST(SellerQST sellerQST) {
-//		return recyclingDao.updateSellerQST(sellerQST);
-//	}
 
 
-//	@Override
-//	public int  deleteSellerQST(String qstCode) {
-//		return recyclingDao.deleteSellerQST(qstCode);
-//	}
 
 
-//	@Override
-//	public int insertSellerAnswer(SellerAns sellerAns) {
-//		return recyclingDao.insertSellerAnswer(sellerAns);
-//	}
-//
-//
-//	@Override
-//	public int updateSellerAnswer(SellerAns sellerAns) {
-//		return recyclingDao.updateSellerAnswer(sellerAns);
-//	}
-
-
-	@Override
-	public int deleteSellerAnswer(String qnaCode) {
-		return recyclingDao.deleteSellerAnswer(qnaCode);
-	}
 
 }
 

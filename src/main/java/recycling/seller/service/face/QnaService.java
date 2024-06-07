@@ -4,6 +4,7 @@ import java.util.List;
 
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
+import recycling.dto.buyer.QstFile;
 import recycling.dto.seller.Qna;
 import recycling.util.PagingAndCtg;
 
@@ -82,6 +83,14 @@ public interface QnaService {
 	 * @return - paging 결과
 	 */
 	public int selectCntQstAllBysCode(PagingAndCtg unPaging);
+
+	/**
+	 * qst 이미지 조회
+	 * 
+	 * @param qstCode - 조회할 코드
+	 * @return - 이미지
+	 */
+	public QstFile selectQstFile(String qstCode);
 
 
 

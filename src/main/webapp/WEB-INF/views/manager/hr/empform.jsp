@@ -108,12 +108,14 @@ $(function() {
 
 /* 외부 레이아웃 설정 */
 .full {
-	width: 1200px;
-	border: 1px solid #ccc;
-	margin: 0 auto;
-	display: flex;
-	border-radius: 8px;
-	overflow: hidden;
+    width: 1200px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    display: flex;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 aside {
@@ -148,6 +150,8 @@ aside {
 	float: right;
 	margin: 0 0 20px 0;
 }
+
+
 
 /* ------------------------------------- */
 
@@ -292,11 +296,11 @@ label {
 
 </head>
 <body>
-	<div class="full">
-		<aside>
-			옆에
-		</aside>
-		<div class="wrap">
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
+			<div class="wrap">
 
 			<div class="page">
 				<h3>사원 등록</h3>
@@ -308,15 +312,11 @@ label {
 
 				<label>사원증</label>
 				<div class="filebox">
-					<input class="upload_name" type="file" id="mgrProf" name="mgrProf" required="required">
-					<label for="mgrProf">파일찾기</label>
+				    <input class="profile_name" placeholder="선택된 파일 없음" disabled>
+				    <input type="file" id="profile" name="profile" required="required">
+				    <label for="profile">파일찾기</label>
 				</div>
-		
-				<label for="mgrCode">사원 번호</label>
-                <div>
-                	<input type="text" id="mgrCode" name="mgrCode" required="required">
-                </div>
-				
+	
                 <label for="deptno">부서</label>
                 <div>
 	                <select class="deptno" id="deptno" name="deptno" required="required">
@@ -346,6 +346,7 @@ label {
 	                    <div class="hyphen">-</div>
 	                <input type="text" class="s" id="lPhone" name="lPhone" maxlength="4">
                 </div>
+                <input type="hidden" id="mgrPhone" name="mgrPhone">
 				
 				<label for="mgrBirth">생년월일</label>
 				<div>
@@ -360,29 +361,34 @@ label {
 					</select>
 				</div>
 
-				<label for="mgrEmail">이메일</label>	
+				<label for="mgrEmail1">이메일</label>	
 				<div class="email_box">
 				
-					<input type="text" id="mgrEmail" name="mgrEmail" required="required">
+					<input type="text" id="mgrEmail1" name="mgrEmail1" required="required">
 			
 					<select class="mgrEmail2" name="mgrEmail2" id="mgrEmail2" required="required">
-						<option>@naver.com</option>
-						<option>@gmail.com</option>
-						<option>@daum.net</option>
+						<option value="naver.com">@naver.com</option>
+						<option value="gmail.com">@gmail.com</option>
+						<option value="daum.net">@daum.net</option>
 						<option value="in">직접 입력</option>
 					</select>
-			</div>
-						<div>
-							<label for ="file">파일 업로드</td></label>
-							<input type="file" id="file" name="file" required="required">
-						</div>
+					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
+				</div>
+				<input type="hidden" id="mgrEmail" name="mgrEmail">
 
-					<div class ="btn_inform">
-						<button class="btn_bot_join">등록하기</button>
-					</div>
+				<label>일반 파일</label>
+				<div class="filebox">
+					<input class="upload_name" placeholder="선택된 파일 없음" disabled>
+					<input type="file" id="file" name="file" required="required">
+				<label for="file">파일찾기</label>
+				</div>
+
+				<div class ="btn_inform">
+					<button class="btn_bot_join">등록하기</button>
+				</div>
 				</form>
 			</div><!-- section -->
-			</div>
+		</div><!-- wrap -->
 		</div>
 	</div>
 

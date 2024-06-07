@@ -418,10 +418,10 @@ table .expName_fix{
 
 </head>
 <body>
-    <div class="full">
-    	<aside>
-    	
-    	</aside>
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
         <div class="wrap">
             <div class="page">
 	            <h1>체험단 예약 관리</h1>
@@ -562,7 +562,7 @@ table .expName_fix{
             </div>
         </div>
     </div>
-
+</div>
 
 </body>
 </html>
