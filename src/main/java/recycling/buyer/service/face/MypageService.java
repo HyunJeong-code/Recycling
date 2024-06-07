@@ -94,31 +94,6 @@ public interface MypageService {
 	 * @return 개인 구매자 정보
 	 */
 	public Buyer getBuyerDetail(String bId);
-
-//	/**
-//	 * 1:1 문의 게시글 작성을 위한 객체
-//	 * 
-//	 * @param oto - 1:1 문의글
-//	 * @return
-//	 */
-//	public int insertOto(Oto oto);
-//
-//	/**
-//	 * 파일 저장
-//	 * 
-//	 * @param mult - 저장할 파일
-//	 * @param oto - 1:1 문의 정보
-//	 * @return null: 실패, else: 성공
-//	 */
-//	public OtoFile saveFile(MultipartFile file, Oto oto);
-//
-//	/**
-//	 * 1:1 문의 업로드 한 파일 보여주기
-//	 * 
-//	 * @param otoFile - 파일 정보
-//	 * @return 0: 실패, 1: 성공
-//	 */
-//	public int insertOtoFiles(OtoFile otoFile);
 	
 	/**
 	 * 1:1 문의 삭제
@@ -150,14 +125,6 @@ public interface MypageService {
 	 * @return 조회된 Qna 객체
 	 */
 	public Qna getQnaByqstCode(String qstCode);
-
-//	/**
-//	 * Qna 작성
-//	 * 
-//	 * @param qna - 작성할 Qna 객체
-//	 * @return 삽입 결과
-//	 */
-//	public int insertQna(Qna qna);
 
 	/**
 	 * Qna 삭제

@@ -278,6 +278,20 @@ public class BuyerServiceImpl implements BuyerService {
         return file;
         
 	}
+	
+	@Override
+	public int updateBuyerProfMapper(BuyerProf updateProf) {
+		
+		return buyerDao.updateBuyerProf(updateProf);
+	
+	}
+	
+	@Override
+	public int updateCmpFileMapper(CmpFile cmpFile) {
+		
+		return buyerDao.updateCmpFile(cmpFile);
+		
+	}
 
 	@Override
 	public List<BuyerAdr> getBuyerAdr(String bCode) {
