@@ -178,34 +178,6 @@ public class CsController {
 
 	}
 	
-//	// 구매자 수정
-//	@GetMapping("/buyerupdate")
-//	public void buyerUpdate(String bCode, Model model) {
-////		logger.info("{}", bCode);
-//		Buyer buyer = csService.getBuyer(bCode);
-//		model.addAttribute("buyer", buyer);
-//	}
-//
-//	@PostMapping("/buyerupdate")
-//	public String buyerUpdaterForm(String bName, String bPhone, String bEmail, String bCode, Model model) {
-//
-//		Buyer buyer = new Buyer();
-//		buyer.setbName(bName);
-//		buyer.setbPhone(bPhone);
-//		buyer.setbEmail(bEmail);
-//		buyer.setbCode(bCode);
-//
-////		logger.info("{}", buyer);
-//
-//		csService.buyerUpdate(buyer);
-//
-//		buyer = csService.getBuyer(bCode);
-//
-//		model.addAttribute("buyer", buyer);
-//
-//		return "manager/cs/buyerdetail";
-//	}
-
 	// 구매자 삭제
 	@GetMapping("/buyerdel")
 	public String buyerDel(String bOut, String bOutDate, String bCode, Model model) {
@@ -217,7 +189,7 @@ public class CsController {
 
 		csService.buyerDel(buyer);
 
-		buyer = csService.getBuyer1(bCode);
+		buyer = csService.getBuyer(bCode);
 
 		model.addAttribute("buyer", buyer);
 

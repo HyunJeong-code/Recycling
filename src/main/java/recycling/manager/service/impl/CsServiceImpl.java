@@ -81,15 +81,71 @@ public class CsServiceImpl implements CsService {
 		return csDao.buyerRankDetail(buyerRank);
 	}
 	
-//	@Override
-//	public Buyer getBuyer(String bCode) {
-//		return csDao.getBuyer(bCode);
-//	}
-//
-//	@Override
-//	public void buyerUpdate(Buyer buyer) {
-//		csDao.buyerUpdate(buyer);
-//	}
+	@Override
+	public Buyer csUpdateView(Buyer buyer) {
+		return csDao.csUpdateView(buyer);
+	}
+
+	@Override
+	public void csUpdate(Buyer buyer) {
+		csDao.csUpdate(buyer);
+	}
+
+	@Override
+	public BuyerProf updateProFileGet(MultipartFile buyerFileUpdate, Buyer buyer) {
+		
+		String bCode = buyer.getbCode();
+
+		String storedPath = servletContext.getRealPath("upload");
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		String profileStoredName = null;
+		File destProfile = null;
+		
+		//저장될 파일명이 중복되지 않도록 반복
+		do {
+			profileStoredName = buyerFileUpdate.getOriginalFilename(); //원본 파일명
+			profileStoredName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+			
+			destProfile = new File( storedFolder, profileStoredName );
+		} while( destProfile.exists() );
+		try {
+			//업로드된 임시 파일을 upload 폴더로 옮기기
+			buyerFileUpdate.transferTo(destProfile);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	    //프로필 DB에 저장
+		BuyerProf buyerProfdetail = new BuyerProf();
+		buyerProfdetail.setOriginName(buyerFileUpdate.getOriginalFilename());
+		buyerProfdetail.setStoredName(profileStoredName);
+		buyerProfdetail.setbCode(bCode);
+		
+        return buyerProfdetail;
+	}
+
+	@Override
+	public void updateProfileProc(BuyerProf buyerProf) {
+		csDao.updateProfileProc(buyerProf);
+	}
+
+	@Override
+	public Buyer getBuyer(String bCode) {
+		return csDao.getBuyer(bCode);
+	}
+
+	@Override
+	public BuyerAdr buyerAdrUpdate(BuyerAdr buyerAdr) {
+		return csDao.buyerAdrUpdate(buyerAdr);
+	}
+
+	@Override
+	public void csUpdateAdr(BuyerAdr buyerAdr) {
+		csDao.csUpdateAdr(buyerAdr);
+	}
 
 	@Override
 	public void buyerDel(Buyer buyer) {
@@ -152,72 +208,6 @@ public class CsServiceImpl implements CsService {
 	@Override
 	public BuyerProf buyerFileUpdate(BuyerProf buyerProf) {
 		return csDao.buyerFileUpdate(buyerProf);
-	}
-
-	@Override
-	public Buyer csUpdateView(Buyer buyer) {
-		return csDao.csUpdateView(buyer);
-	}
-
-	@Override
-	public void csUpdate(Buyer buyer) {
-		csDao.csUpdate(buyer);
-	}
-
-	@Override
-	public BuyerProf updateProFileGet(MultipartFile buyerFileUpdate, Buyer buyer) {
-		
-		String bCode = buyer.getbCode();
-
-		String storedPath = servletContext.getRealPath("upload");
-		File storedFolder = new File(storedPath);
-		storedFolder.mkdir();
-		String profileStoredName = null;
-		File destProfile = null;
-		
-		//저장될 파일명이 중복되지 않도록 반복
-		do {
-			profileStoredName = buyerFileUpdate.getOriginalFilename(); //원본 파일명
-			profileStoredName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
-			
-			destProfile = new File( storedFolder, profileStoredName );
-		} while( destProfile.exists() );
-		try {
-			//업로드된 임시 파일을 upload 폴더로 옮기기
-			buyerFileUpdate.transferTo(destProfile);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	    //프로필 DB에 저장
-		BuyerProf buyerProfdetail = new BuyerProf();
-		buyerProfdetail.setOriginName(buyerFileUpdate.getOriginalFilename());
-		buyerProfdetail.setStoredName(profileStoredName);
-		buyerProfdetail.setbCode(bCode);
-		
-        return buyerProfdetail;
-	}
-
-	@Override
-	public void updateProfileProc(BuyerProf buyerProf) {
-		csDao.updateProfileProc(buyerProf);
-	}
-
-	@Override
-	public Buyer getBuyer1(String bCode) {
-		return csDao.getBuyer1(bCode);
-	}
-
-	@Override
-	public BuyerAdr buyerAdrUpdate(BuyerAdr buyerAdr) {
-		return csDao.buyerAdrUpdate(buyerAdr);
-	}
-
-	@Override
-	public void csUpdateAdr(BuyerAdr buyerAdr) {
-		csDao.csUpdateAdr(buyerAdr);
 	}
 
 }

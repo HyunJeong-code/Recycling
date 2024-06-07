@@ -2,6 +2,8 @@ package recycling.manager.dao.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerProf;
@@ -81,20 +83,58 @@ public interface CsDao {
 	public BuyerRank buyerRankDetail(BuyerRank buyerRank);
 
 	/**
-	 * 구매자 수정
+	 * 구매자 프로필 사진 업데이트
+	 * 
+	 * @param buyerProf
+	 * @return
+	 */
+	public BuyerProf buyerFileUpdate(BuyerProf buyerProf);
+
+	/**
+	 * 구매자 업데이트 정보 조회
 	 * 
 	 * @param buyer
 	 * @return
 	 */
-//	public void buyerUpdate(Buyer buyer);
-	
+	public Buyer csUpdateView(Buyer buyer);
+
 	/**
-	 * 구매자 수정
+	 * 구매자 업데이트
 	 * 
-	 * @param bCode
+	 * @param buyer
+	 */
+	public void csUpdate(Buyer buyer);
+
+	/**
+	 * 구매자 프로필 사진
+	 * 
+	 * @param buyerFileUpdate
+	 * @param buyer
 	 * @return
 	 */
-//	public Buyer getBuyer(String bCode);
+	public BuyerProf updateProFileGet(MultipartFile buyerFileUpdate, Buyer buyer);
+
+	/**
+	 * 구매자 프로필 사진 업데이트
+	 * 
+	 * @param buyerProf
+	 */
+	public void updateProfileProc(BuyerProf buyerProf);
+
+	/**
+	 * 구매자 주소 업데이트 조회
+	 * 
+	 * @param buyerAdr
+	 * @return
+	 */
+	public BuyerAdr buyerAdrUpdate(BuyerAdr buyerAdr);
+
+	/**
+	 * 구매자 주소 업데이트
+	 * 
+	 * @param buyerAdr
+	 */
+	public void csUpdateAdr(BuyerAdr buyerAdr);
 	
 	/**
 	 * 구매자 삭제
@@ -103,6 +143,14 @@ public interface CsDao {
 	 * @return 
 	 */
 	public int buyerDel(Buyer buyer);
+	
+	/**
+	 * 구매자 리스트 삭제 도우미
+	 * 
+	 * @param bCode
+	 * @return
+	 */
+	public Buyer getBuyer(String bCode);
 
 	/**
 	 * 문의 내용 상세
@@ -155,19 +203,5 @@ public interface CsDao {
 	 * @return
 	 */
 	public List<OtoFile> getOtoFiles(String otoCode);
-
-	public BuyerProf buyerFileUpdate(BuyerProf buyerProf);
-
-	public Buyer csUpdateView(Buyer buyer);
-
-	public void csUpdate(Buyer buyer);
-
-	public void updateProfileProc(BuyerProf buyerProf);
-
-	public Buyer getBuyer1(String bCode);
-
-	public BuyerAdr buyerAdrUpdate(BuyerAdr buyerAdr);
-
-	public void csUpdateAdr(BuyerAdr buyerAdr);
 
 }
