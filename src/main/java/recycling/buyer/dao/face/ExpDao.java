@@ -11,7 +11,6 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 체험단 관련 DB 처리
@@ -89,7 +88,7 @@ public interface ExpDao {
 	public List<ExpSch> getExpSchList(String expCode);
 
 	/**
-	 * schNo가 일치하는 체험일정
+	 * 체험단 일정 조회
 	 * 
 	 * @param schNo - 체험일정번호
 	 * @return expSch
@@ -97,16 +96,16 @@ public interface ExpDao {
 	public ExpSch getExpSch(int schNo);
 
 	/**
-	 * 체험 예약결제정보 DB 삽입
+	 * 체험단 예약 정보 db 삽입
 	 * 
-	 * @param expRes - 체험 예약 정보
+	 * @param expRes - 예약정보
 	 */
 	public void insertExpRes(ExpRes expRes);
 
 	/**
-	 * 체험 일정 번호가 일치하는 인원수 update
+	 * 체험단 일정 예약가능인원 수정
 	 * 
-	 * @param schNo - 체험 일정 번호
+	 * @param schNo - 예약일정번호
 	 * @param resCnt - 인원수
 	 */
 	public void updateExpSchCnt(Map<String, Object> params);
@@ -176,30 +175,21 @@ public interface ExpDao {
 	 */
 	public List<Exp> selectAllExp(PagingAndCtg upPaging);
 
+
 	/**
 	 * expCode가 일치하는 후기 리스트
 	 * 
-	 * @param expCode - 체험코드
-	 * @param upPaging - paging
-	 * @return expReview
+	 * @param params - expCode, paging
+	 * @return expReviews
 	 */
-	public List<Map<String, Object>> selectRvwByExp(String expCode);
-//	public List<Map<String, Object>> selectRvwByExp(String expCode, PagingAndCtg upPaging);
-
-	/**
-	 * expCode가 일치하는 후기 리스트 페이징 
-	 * 
-	 * @param upPaging - paging
-	 * @return paging
-	 */
-	public int selectCntRvwList(PagingAndCtg upPaging);
-
-	public int selectCntRvwList(PagingAndCtg upPaging, String expCode);
-
-//	public int selectCntRvwList(PagingAndCtg upPaging, String expCode);
-//
 	public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params);
 
+	/**
+	 * expCode가 일치하는 후기 리스트 페이징
+	 * 
+	 * @param params - paging, expCode
+	 * @return paging
+	 */
 	public int selectCntRvwList(Map<String, Object> params);
 
 }

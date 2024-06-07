@@ -68,7 +68,7 @@ public class HelpServiceImpl implements HelpService {
 
 	@Override
 	public Buyer getBuyerDetail(String bId) {
-		return helpDao.selectBuyerBybId(bId);
+		return helpDao.getBuyerDetail(bId);
 	}
 
 	@Override

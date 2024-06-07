@@ -43,4 +43,135 @@
 			AND s_code = #{sCode }
 		</where>
 	</delete>
+	
+	<select id="selectPrdCnt" parameterType="BuyerLogin" resultType="int">
+		SELECT count(*) FROM prd
+		<where>
+			AND s_code = #{sCode }
+		</where>
+	</select>
+	
+	<select id="selectPayCnt" parameterType="BuyerLogin" resultType="int">
+		SELECT count(*) FROM order_detail OD, prd P
+		<where>
+			AND OD.prd_code = P.prd_code(+)
+			AND P.s_code = #{sCode }
+			AND OD.stt_no = 900
+		</where>
+	</select>
+	
+	<select id="selectShipCnt" parameterType="BuyerLogin" resultType="int">
+		SELECT count(*) FROM order_detail OD, prd P
+		<where>
+			AND OD.prd_code = P.prd_code(+)
+			AND P.s_code = #{sCode }
+			AND OD.stt_no = 920
+		</where>
+	</select>
+	
+	<select id="selectCntAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+			SELECT rownum no, ODD.* FROM (
+			    SELECT O.ord_code ordCode, OD.orddt_code orddtCode, OD.stt_no sttNo, OD.prd_code prdCode, O.ord_date ordDate, O.ord_name ordName, O.ord_phone ordPhone, OD.ord_sum ordSum, OD.price price, OD.prd_name prdName 
+			    FROM orders O, (
+			        SELECT P.prd_code prdCode, P.ct_pno ctPno, P.s_code sCode, OD.ord_code ord_code, OD.orddt_code orddt_code, OD.stt_no stt_no, OD.ord_sum ord_sum, P.prd_name prd_name, P.prd_code prd_code, P.price price 
+			        FROM prd P, order_detail OD
+			        <where>
+				        AND P.prd_code = OD.prd_code(+)
+				        AND P.s_code = #{user }
+				        AND (
+				        	P.prd_name LIKE '%' || #{search } || '%'
+				        	OR P.prd_detail LIKE '%' || #{search } || '%'
+				        )
+			        </where> 
+			    ) OD
+			    <where>
+				    AND O.ord_code = OD.ord_code(+)
+				    AND OD.stt_no BETWEEN 900 AND 930
+			    </where>
+			    ORDER BY O.ord_date
+			) ODD
+		)
+	</select>
+	
+	<select id="selectCntAllQna" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+		    SELECT rownum no, QNA.* FROM (
+		        SELECT Q.qst_code qst_code, Q.ct_qstno ct_qstno, Q.qst_title qst_title, Q.qst_name qst_name, Q.qst_date qst_date, A.qna_code qna_code, Q.prd_code prd_code FROM qna A, (
+		            SELECT Q.qst_code, Q.ct_qstno, Q.qst_title, Q.qst_name, Q.qst_date, Q.prd_code, P.s_code FROM qst Q, prd P
+		            <where>
+			            AND Q.prd_code = P.prd_code(+)
+			            AND P.s_code = #{user }
+			            AND (
+			            	Q.qst_title LIKE '%' || #{search } || '%'
+			            	OR Q.qst_content LIKE '%' || #{search } || '%'
+			            )
+		            </where>
+		        ) Q
+		        <where>
+			        AND Q.qst_code = A.qst_code(+)
+		        </where>
+		        ORDER BY Q.qst_date
+		    ) QNA
+		    <where>
+		    	AND qna_code IS NULL
+		    </where>
+		)
+	</select>
+	
+	<select id="selectAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, ODD.* FROM (
+			    SELECT O.ord_code ordCode, OD.orddt_code orddtCode, OD.stt_no sttNo, OD.prd_code prdCode, O.ord_date ordDate, O.ord_name ordName, O.ord_phone ordPhone, OD.ord_sum ordSum, OD.price price, OD.prd_name prdName 
+			    FROM orders O, (
+			        SELECT P.prd_code prdCode, P.ct_pno ctPno, P.s_code sCode, OD.ord_code ord_code, OD.orddt_code orddt_code, OD.stt_no stt_no, OD.ord_sum ord_sum, P.prd_name prd_name, P.prd_code prd_code, P.price price 
+			        FROM prd P, order_detail OD
+			        <where>
+				        AND P.prd_code = OD.prd_code(+)
+				        AND P.s_code = #{user }
+				        AND (
+				        	P.prd_name LIKE '%' || #{search } || '%'
+				        	OR P.prd_detail LIKE '%' || #{search } || '%'
+				        )
+			        </where> 
+			    ) OD
+			    <where>
+				    AND O.ord_code = OD.ord_code(+)
+				    AND OD.stt_no BETWEEN 900 AND 930
+			    </where>
+			    ORDER BY O.ord_date
+			) ODD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectAllQna" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+		    SELECT rownum no, QNA.* FROM (
+		        SELECT Q.qst_code qst_code, Q.ct_qstno ct_qstno, Q.qst_title qst_title, Q.qst_name qst_name, Q.qst_date qst_date, A.qna_code qna_code, Q.prd_code prd_code FROM qna A, (
+		            SELECT Q.qst_code, Q.ct_qstno, Q.qst_title, Q.qst_name, Q.qst_date, Q.prd_code, P.s_code FROM qst Q, prd P
+		            <where>
+			            AND Q.prd_code = P.prd_code(+)
+			            AND P.s_code = #{user }
+			            AND (
+			            	Q.qst_title LIKE '%' || #{search } || '%'
+			            	OR Q.qst_content LIKE '%' || #{search } || '%'
+			            )
+		            </where>
+		        ) Q
+		        <where>
+			        AND Q.qst_code = A.qst_code(+)
+		        </where>
+		        ORDER BY Q.qst_date
+		    ) QNA
+		    <where>
+		    	AND qna_code IS NULL
+		    </where>
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
 </mapper>

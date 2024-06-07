@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
 		<div class="page">
@@ -42,7 +43,8 @@
 			<br>
 			
 			<label for="detail">상품 상세 이미지</label>
-			<input multiple="multiple" type="file" id="detail" name="detail"><br><br>
+			<input multiple="multiple" type="file" id="detail" name="detail">
+			<br><br>
 			
 			<button>등록하기</button>
 			<button><a href="./main">취소하기</a></button>
@@ -50,6 +52,6 @@
 		</div>
 	</div>
 </div>
-
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 </body>
 </html>

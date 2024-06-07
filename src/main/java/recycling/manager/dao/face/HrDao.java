@@ -2,8 +2,6 @@ package recycling.manager.dao.face;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
@@ -37,13 +35,6 @@ public interface HrDao {
 	 */
 	public Manager selectDetail(Manager manager);
 
-	/**
-	 * 세부사항 프로필 조회
-	 * @param mgrFile
-	 * @return
-	 */
-	public MgrFile mgrProFileList(MgrFile mgrFile);
-	
 	/**
 	 * 세부사항 파일조회
 	 * @param manager 
@@ -112,16 +103,5 @@ public interface HrDao {
 	 * @param mgrFile
 	 */
 	public void updateProfileProc(MgrFile mgrFile);
-
-	
-
-	
-
-
-
-
-
-
-
 
 }

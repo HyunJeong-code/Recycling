@@ -406,7 +406,7 @@ a:link, a:visited, a:hover, a:active {
 </style>
 </head>
 <body>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
 		<div class="page">
@@ -546,7 +546,6 @@ a:link, a:visited, a:hover, a:active {
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->
-
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

@@ -1,8 +1,12 @@
 package recycling.seller.service.face;
 
+import java.util.List;
+import java.util.Map;
+
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.seller.Seller;
+import recycling.util.PagingAndCtg;
 
 // 판매자 전환 및 공지사항, 메인 페이지 관련 처리
 
@@ -31,6 +35,62 @@ public interface SellService {
 	 * @return 0 : 실패, 1 : 성공
 	 */
 	public int deleteSeller(BuyerLogin buyerLogin);
+	
+	/**
+	 * 등록 상품 개수
+	 * 
+	 * @param buyerLogin - 판매자 정보
+	 * @return 개수
+	 */
+	public int selectPrdCnt(BuyerLogin buyerLogin);
+
+	/**
+	 * 결제 완료 주문 개수
+	 * 
+	 * @param buyerLogin - 판매자 정보
+	 * @return 개수
+	 */
+	public int selectPayCnt(BuyerLogin buyerLogin);
+
+	/**
+	 * 배송 중 주문 개수
+	 * 
+	 * @param buyerLogin - 판매자 정보
+	 * @return 개수
+	 */
+	public int selectShipCnt(BuyerLogin buyerLogin);
+	
+	/**
+	 * 페이징을 위한 상세 주문 총 개수
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllOrd(PagingAndCtg upPaging);
+
+	/**
+	 * 페이징을 위한 문의글 총 개수
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllQna(PagingAndCtg unPaging);
+	
+	/**
+	 * 상세 주문 리스트
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 주문 리스트
+	 */
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg upPaging);
+
+	/**
+	 * 미답변 문의 리스트
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 미답변 문의 리스트
+	 */
+	public List<Map<String, Object>> selectAllQna(PagingAndCtg unPaging);
 
 
 }

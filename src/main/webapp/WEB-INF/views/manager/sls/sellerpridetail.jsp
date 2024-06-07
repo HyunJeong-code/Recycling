@@ -121,6 +121,7 @@ $(function() {
 </style>
 </head>
 <body>
+<c:import url="/WEB-INF/views//layout/manager/managerheader.jsp"/>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
 <sec:authentication var="managerLogin" property="principal"/>
 <c:if test="${managerLogin.deptno eq 10}">
