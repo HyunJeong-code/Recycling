@@ -103,6 +103,8 @@ function cancelUpdate() {
 </script>
 </head>
 <body>
+   <c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
+   
     <div class="full">
         <div class="wrap">
         <h2>개인 판매자 정보 수정</h2>
@@ -197,8 +199,8 @@ function cancelUpdate() {
                      </tr>
                   </table>
                   <div class="button-group">
-                     <button type="btnLeft">수정하기</button>
-                     <button type="btn" onclick="cancelUpdate()">취소하기</button>
+                     <button type="btn btnRight">수정하기</button>
+                     <button type="btn btnLeft" onclick="cancelUpdate()">취소하기</button>
                   </div>
                </div>
               
@@ -225,4 +227,8 @@ function cancelUpdate() {
         </div>
     </div>
 </body>
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
+
+
+
 </html>
