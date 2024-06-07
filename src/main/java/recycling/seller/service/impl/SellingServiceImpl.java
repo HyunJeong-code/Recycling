@@ -450,21 +450,11 @@ public class SellingServiceImpl implements SellingService {
 	}
 	
 	@Override
-	public int selectCntAllExpSch(PagingAndCtg upPaging) {
-		
-		return sellingDao.selectCntAllExpSch(upPaging);
-	}
-
-	@Override
 	public Exp selectByExp(String expCode) {
 		
 		return sellingDao.selectByExp(expCode);
 	}
 
-	@Override
-	public List<ExpSch> selectAllSch(String expCode) {
-		return sellingDao.selectAllSch(expCode);
-	}
 
 	@Override
 	public List<ResSchCnt> selectByResCnt(String expCode) {
@@ -510,6 +500,21 @@ public class SellingServiceImpl implements SellingService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public List<ExpSch> selectAllSch(Map<String, Object> params) {
+		
+		return sellingDao.selectAllSch(params);
+	}
+
+	@Override
+	public int selectCntAllExpSch(PagingAndCtg upPaging, String expCode) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("expCode", expCode);
+	    params.put("upPaging", upPaging);
+	    
+		return sellingDao.selectCntAllExpSch(params);
 	}
 
 }
