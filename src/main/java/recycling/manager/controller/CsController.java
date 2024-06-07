@@ -16,11 +16,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerProf;
+import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.OtoFile;
 import recycling.dto.manager.Ans;
+import recycling.dto.manager.Manager;
 import recycling.dto.manager.ManagerLogin;
+import recycling.dto.manager.MgrFile;
 import recycling.manager.service.face.CsService;
 import recycling.manager.service.face.MgrService;
 import recycling.util.Paging;
@@ -94,44 +101,83 @@ public class CsController {
 
 	// 구매자 상세
 	@GetMapping("/buyerdetail")
-	public String buyerDetail(Buyer buyer, Model model) {
-
+	public void empDetail(Buyer buyer, BuyerAdr buyerAdr, BuyerProf buyerProf, BuyerRank buyerRank, Model model) {
+	
+		// 세부사항 조회
 		Buyer buyerdetail = csService.buyerDetail(buyer);
-
 		model.addAttribute("buyerdetail", buyerdetail);
-
-		return "manager/cs/buyerdetail";
-
+		
+		// 주소 조회
+		BuyerAdr buyerAdrdetail = csService.buyerAdrDetail(buyerAdr);
+		model.addAttribute("buyerAdrdetail", buyerAdrdetail);
+		
+		// 프로필 사진 조회
+		BuyerProf buyerProfdetail = csService.buyerProfDetail(buyerProf);
+		model.addAttribute("buyerProfdetail", buyerProfdetail);
+		
+		// 등급 조회
+		BuyerRank buyerRankdetail = csService.buyerRankDetail(buyerRank);
+		model.addAttribute("buyerRankdetail", buyerRankdetail);
+		
 	}
-
-	// 구매자 수정
+	
+	// 구매자 정보 업데이트창
 	@GetMapping("/buyerupdate")
-	public void buyerUpdate(String bCode, Model model) {
-//		logger.info("{}", bCode);
-		Buyer buyer = csService.getBuyer(bCode);
-		model.addAttribute("buyer", buyer);
-	}
+	public void buyerUpdate(Buyer buyer, Model model, BuyerProf buyerProf, BuyerAdr buyerAdr, String bCode) {
+		
+		// 주소 조회
+		BuyerAdr buyerAdrdetail = csService.buyerAdrUpdate(buyerAdr);
+		model.addAttribute("buyerAdrdetail", buyerAdrdetail);
+		
+		// 파일 조회
+		BuyerProf buyerProfdetail = csService.buyerFileUpdate(buyerProf);
+		model.addAttribute("buyerProfdetail", buyerProfdetail);
+	
+		// 정보 조회
+		Buyer update = csService.csUpdateView(buyer);
+		model.addAttribute("view", update);
 
+	}
+	
+	// 구매자 정보 업데이트
 	@PostMapping("/buyerupdate")
-	public String buyerUpdaterForm(String bName, String bPhone, String bEmail, String bCode, Model model) {
+	public String updateProc(
+			Buyer buyer
+			, Model model
+			, int bProfNo
+			, String bCode
+			, BuyerAdr buyerAdr
+			, @RequestParam("buyerfileUpdate") MultipartFile buyerFileUpdate
+			) {
+		logger.info("buyerFileUpdate: {}", buyerFileUpdate);
+		
+		csService.csUpdate(buyer);
+		logger.info("csUpdate: {}", buyer);
+		
+		csService.csUpdateAdr(buyerAdr);
+		logger.info("csUpdateAdr: {}", buyerAdr);
+		
+		// buyerfile 프로필 업데이트
+		if(buyerFileUpdate != null && !buyerFileUpdate.isEmpty()) {
+		
+			BuyerProf buyerProf = new BuyerProf();
+			buyerProf = csService.updateProFileGet(buyerFileUpdate, buyer);
+			buyerProf.setbProfNo(bProfNo);
+			buyerProf.setbCode(bCode);
+			
+			// 파일 업데이트
+			csService.updateProfileProc(buyerProf);
+		}else {
+			logger.info("프로필이 존재합니다.");
+		}
+		
+		model.addAttribute("msg", "회원정보가 변경되었습니다.");
+		model.addAttribute("url", "/manager/cs/buyerdetail?bCode=" + bCode);
+		
+		return "/layout/alert";
 
-		Buyer buyer = new Buyer();
-		buyer.setbName(bName);
-		buyer.setbPhone(bPhone);
-		buyer.setbEmail(bEmail);
-		buyer.setbCode(bCode);
-
-//		logger.info("{}", buyer);
-
-		csService.buyerUpdate(buyer);
-
-		buyer = csService.getBuyer(bCode);
-
-		model.addAttribute("buyer", buyer);
-
-		return "manager/cs/buyerdetail";
 	}
-
+	
 	// 구매자 삭제
 	@GetMapping("/buyerdel")
 	public String buyerDel(String bOut, String bOutDate, String bCode, Model model) {
@@ -155,7 +201,10 @@ public class CsController {
 	public void ansForm(String otoCode, String ansCode, Model model, HttpSession session) {
 
 		Oto oto = csService.ansForm(otoCode);
+		List<OtoFile> otoFiles = csService.getOtoFiles(otoCode);
+		
 		model.addAttribute("oto", oto);
+		model.addAttribute("otoFiles",otoFiles);
 
 		// 답글 리스트 불러오기
 		List<Ans> comments = csService.viewCom(otoCode);
@@ -199,7 +248,10 @@ public class CsController {
 	@GetMapping("/otodel")
 	public String otoDel(@RequestParam("otoCode") String otoCode) {
 
-		csService.otoDel(otoCode);
+		csService.otoDelAns(otoCode);
+		csService.otoDelOtoFile(otoCode);
+		csService.otoDelOto(otoCode);
+		
 		return "redirect:/manager/cs/main";
 	}
 
