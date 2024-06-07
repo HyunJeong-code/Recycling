@@ -506,9 +506,4 @@ public class SellingServiceImpl implements SellingService {
 		return result;
 	}
 
-	@Override
-	public int selectCntAllExpSch(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

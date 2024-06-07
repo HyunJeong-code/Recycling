@@ -138,45 +138,29 @@ public class MgrServiceImpl implements MgrService {
 	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging) {
 		return mgrDao.selectAllempList(upPaging);
 	}
+	
 
+	//전체사원조회 페이징[empList]
 	@Override
 	public int selectCntAllempList(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mgrDao.selectCntAllempList(upPaging);
 	}
 	
-//	//전체사원조회[empList]
-//	@Override
-//	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging) {
-//		return mgrDao.selectAllempList(upPaging);
-//	}
-//
-//	//전체사원조회 페이징[empList]
-//	@Override
-//	public int selectCntAllempList(PagingAndCtg upPaging) {
-//		return mgrDao.selectCntAllempList(upPaging);
-//	}
-//	
-//	//공지사항 관리자조회
-//	@Override
-//	public List<Notice> selectAllNotice(PagingAndCtg upPaging) {
-//		//ctNtcNo = 2일경우 manager공지사항이므로 2번만 조회
-//		List<Notice> selectAllManager = mgrDao.selectAllNotice(upPaging);
-//		
-//		return selectAllManager;
-//	}
-//
-//	//공지사항 관리자조회 페이징
-//	@Override
-//	public int selectCntAllNotice(PagingAndCtg upPaging) {
-//		return mgrDao.selectCntAllNotice(upPaging);
-//	}
+	//공지사항 관리자조회
+	@Override
+	public List<Notice> selectAllNotice(PagingAndCtg upPaging) {
+		//ctNtcNo = 2일경우 manager공지사항이므로 2번만 조회
+		List<Notice> selectAllManager = mgrDao.selectAllNotice(upPaging);
+		
+		return selectAllManager;
+	}
+
 
 	//공지사항 관리자조회 페이징
 	@Override
 	public int selectCntAllNotice(PagingAndCtg upPaging) {
 		return mgrDao.selectCntAllNotice(upPaging);
 	}
-	
+
 	
 }

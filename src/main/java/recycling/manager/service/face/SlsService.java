@@ -434,7 +434,6 @@ public interface SlsService {
 	 * @return
 	 */
 	public int upPageSlsMain(PagingAndCtg upPaging);
-<<<<<<< HEAD
 
 	/**
 	 * 멀티업로드 전 파일삭제
@@ -450,9 +449,6 @@ public interface SlsService {
 	 */
 	public int updateDetailFile(String expCode, MultipartFile detailFile);
 
-=======
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
-	
 	/**
 	 * 체험 프로필 이미지
 	 * @param expFile
@@ -467,5 +463,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<ExpFile> expImage(ExpFile expFile);
+
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 
 }

@@ -271,8 +271,8 @@ th {
 							<tr>
 								<td>이메일</td>
 								<td>
-									<input type="text" id="bEmail" name="bEmail" value="${fn:substringBefore(currentBuyer.bEmail, '@')}">
-				                    @ <input type="text" id="emailDomain" name="emailDomain" value="${fn:substringAfter(currentBuyer.bEmail, '@')}">
+<%-- 									<input type="text" id="bEmail" name="bEmail" value="${fn:substringBefore(currentBuyer.bEmail, '@')}"> --%>
+<%-- 				                    @ <input type="text" id="emailDomain" name="emailDomain" value="${fn:substringAfter(currentBuyer.bEmail, '@')}"> --%>
 				                    <select id="emailSelect">
 										<option value="naver.com">naver.com</option>
 				                        <option value="gmail.com">gmail.com</option>

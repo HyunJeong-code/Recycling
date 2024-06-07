@@ -101,13 +101,6 @@ public interface BuyerService {
 	 */
 	public int insertOrderDetail(OrderDetail orderDetail);
 
-	/**
-	 * 주문 상세 조회
-	 * 
-	 * @param bCode - 조회할 회원의 bCode
-	 * @return - 조회 List 결과
-	 */
-	public List<MyOrder> selectOrderDetailBybCode(String bCode);
 	
 	/**
 	 * 주문 상세 리스트 조회

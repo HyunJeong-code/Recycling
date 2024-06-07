@@ -11,10 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -729,6 +725,7 @@ public class BuyerController {
 		return "redirect:/buyer/mypage/mydetailpri";
 		
 			}
+		}
 		
 		// 전화번호 설정
 		String bPhone = bPhone1 + "-" + bPhone2 + "-" + bPhone3;
@@ -746,28 +743,13 @@ public class BuyerController {
 
 		}
 	
-	// 전화번호 설정
-	String bPhone = bPhone1 + "-" + bPhone2 + "-" + bPhone3;
-	buyer.setbPhone(bPhone);
-	
-	int updateResult = buyerService.updateBuyerDetail(buyer);
-	
-	if (updateResult == 0) {
-	
-		logger.info("업데이트 실패: {}", buyer);
-	
-	model.addAttribute("error", "업데이트 실패");
-	
-	return "redirect:/buyer/mypage/mydetailpri";
-	
-	}
 	
 	model.addAttribute("msg", "개인 정보가 수정되었습니다.");
 	model.addAttribute("url", "/buyer/mypage/mydetailpri");
 	
 	return "/layout/alert";
 
-}
+	}
 	
 	// 회원 정보 변경 (기업)
 	@GetMapping("/mydetailcmp")

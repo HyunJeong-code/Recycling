@@ -333,17 +333,17 @@ public class SlsServiceImpl implements SlsService {
 	}
 
 	//업데이트 프로필 조회하기
-//	@Override
-//	public ExpFile expUpdateProfile(ExpFile expFile) {
-//		logger.info("service expcode: {}",expFile);
-//		return slsDao.expUpdateProfile(expFile);
-//	}
+	@Override
+	public ExpFile expUpdateProfile(ExpFile expFile) {
+		logger.info("service expcode: {}",expFile);
+		return slsDao.expUpdateProfile(expFile);
+	}
 
 	//업데이트 파일 조회하기
-//	@Override
-//	public List<ExpFile> expUpdateFile(ExpFile expFile) {
-//		return slsDao.expUpdateFile(expFile);
-//	}
+	@Override
+	public List<ExpFile> expUpdateFile(ExpFile expFile) {
+		return slsDao.expUpdateFile(expFile);
+	}
 
 	//업데이트 파일 인서트
 	@Override
@@ -382,91 +382,91 @@ public class SlsServiceImpl implements SlsService {
 	}
 	
 	//멀티 업데이트 파일 가져오기
-//	@Override
-//	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp) {
-//		logger.info("{}",expMultiFileUpdate);
-//		
-//		
-//	    String storedPath = servletContext.getRealPath("upload");
-//	    File storedFolder = new File(storedPath);
-//	    if (!storedFolder.exists()) {
-//	        storedFolder.mkdir();
-//	    }
-//	    String expCode = exp.getExpCode();
-//	    logger.info("expCode 22222{}",expCode);
-//	    List<ExpFile> expFiles = new ArrayList<>();
-//	    logger.info("1111111111service : {}", expFiles);
-//	    
-//
-//	    // 메인 파일 저장
-//	    for (MultipartFile mainFile : expMultiFileUpdate) {
-//	        String storedName = saveFile(mainFile, storedFolder);
-//	        if (storedName != null) {
-//	        	logger.info("service : {}", mainFile);
-//	            ExpFile expFile = new ExpFile();
-//	            expFile.setOriginName(mainFile.getOriginalFilename());
-//	            expFile.setStoredName(storedName);
-//	            expFile.setExpCode(expCode);
-//	            expFile.setCtPflNo(610);
-//	            expFiles.add(expFile);
-//	            logger.info("service : {}", expFile);
-//	        }
-//	    }
-//	    
-//	    for (ExpFile expFile : expFiles) {
-//	        slsDao.expUpdateMultiFileProc(expFile);
-//	        logger.info("exp fileup service : {}", expFile);
-//	    }
-//	    
-//	}
+	@Override
+	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp) {
+		logger.info("{}",expMultiFileUpdate);
+		
+		
+	    String storedPath = servletContext.getRealPath("upload");
+	    File storedFolder = new File(storedPath);
+	    if (!storedFolder.exists()) {
+	        storedFolder.mkdir();
+	    }
+	    String expCode = exp.getExpCode();
+	    logger.info("expCode 22222{}",expCode);
+	    List<ExpFile> expFiles = new ArrayList<>();
+	    logger.info("1111111111service : {}", expFiles);
+	    
+
+	    // 메인 파일 저장
+	    for (MultipartFile mainFile : expMultiFileUpdate) {
+	        String storedName = saveFile(mainFile, storedFolder);
+	        if (storedName != null) {
+	        	logger.info("service : {}", mainFile);
+	            ExpFile expFile = new ExpFile();
+	            expFile.setOriginName(mainFile.getOriginalFilename());
+	            expFile.setStoredName(storedName);
+	            expFile.setExpCode(expCode);
+	            expFile.setCtPflNo(610);
+	            expFiles.add(expFile);
+	            logger.info("service : {}", expFile);
+	        }
+	    }
+	    
+	    for (ExpFile expFile : expFiles) {
+	        slsDao.expUpdateMultiFileProc(expFile);
+	        logger.info("exp fileup service : {}", expFile);
+	    }
+	    
+	}
 
 	
 	//업데이트 수정하기
-//	@Override
-//	public void expUpdatefileProc(ExpFile expfile) {
-//		slsDao.expUpdatefileProc(expfile);
-//	}
+	@Override
+	public void expUpdatefileProc(ExpFile expfile) {
+		slsDao.expUpdatefileProc(expfile);
+	}
 
-//	//파일 저장소
-//	private String saveFile(MultipartFile file, File storedFolder) {
-//	    logger.info("SERVICE : SAVEFILE[GET]");
-//		if (file.isEmpty()) {
-//	        return null;
-//	    }
-//
-//	    String storedName;
-//	    File dest;
-//	    do {
-//	        storedName = UUID.randomUUID().toString().split("-")[4] + "_" + file.getOriginalFilename();
-//	        dest = new File(storedFolder, storedName);
-//	    } while (dest.exists());
-//
-//	    try {
-//	        file.transferTo(dest);
-//	        return storedName;
-//	    } catch (IllegalStateException | IOException e) {
-//	        e.printStackTrace();
-//	        return null;
-//	    }
-//	}
+	//파일 저장소
+	private String saveFile(MultipartFile file, File storedFolder) {
+	    logger.info("SERVICE : SAVEFILE[GET]");
+		if (file.isEmpty()) {
+	        return null;
+	    }
+
+	    String storedName;
+	    File dest;
+	    do {
+	        storedName = UUID.randomUUID().toString().split("-")[4] + "_" + file.getOriginalFilename();
+	        dest = new File(storedFolder, storedName);
+	    } while (dest.exists());
+
+	    try {
+	        file.transferTo(dest);
+	        return storedName;
+	    } catch (IllegalStateException | IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 
 	//판매자 상품 조회
-//	@Override
-//	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging) {
-//		return slsDao.selectAllPrdList(upPaging);
-//	}
+	@Override
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging) {
+		return slsDao.selectAllPrdList(upPaging);
+	}
 
-	//판매자 상품 조회 페이징
-//	@Override
-//	public int selectCntAllPrdList(PagingAndCtg upPaging) {
-//		return slsDao.selectCntAllPrdList(upPaging);
-//	}
+//	판매자 상품 조회 페이징
+	@Override
+	public int selectCntAllPrdList(PagingAndCtg upPaging) {
+		return slsDao.selectCntAllPrdList(upPaging);
+	}
 	
 	//판매자 판매 조회
-//	@Override
-//	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging) {
-//		return slsDao.selectAllSellList(unPaging);
-//	}
+	@Override
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging) {
+		return slsDao.selectAllSellList(unPaging);
+	}
 
 	//판매자 판매조회 페이징
 	@Override
@@ -501,7 +501,6 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
-<<<<<<< HEAD
 
 	//멀티파일 업데이트 전 삭제
 	@Override
@@ -555,7 +554,6 @@ public class SlsServiceImpl implements SlsService {
 	      
 	      return detailRes;
 	   }
-=======
 	
 	//디테일 프로필 조회
 	@Override
@@ -594,93 +592,12 @@ public class SlsServiceImpl implements SlsService {
 	}
 
 
-	@Override
-	public List<Exp> selectAllExp(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
-	@Override
-	public int selectCntAllExp(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public Exp selectDetailExp(String expCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List<ExpSch> selectAllSch(String expCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public int selectCntAllExpSch(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public void insert(Exp exp, List<String> schTime, ExpSch expSch, MultipartFile profile, List<MultipartFile> file) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public ExpFile expUpdateProfile(ExpFile expFile) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List<ExpFile> expUpdateFile(ExpFile expFile) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void expUpdatefileProc(ExpFile expfile) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void updateMutiFile(List<MultipartFile> expMultiFileUpdate, Exp exp) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public int selectCntAllPrdList(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 
 
 	
 
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 }//main

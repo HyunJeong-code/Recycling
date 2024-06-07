@@ -772,7 +772,6 @@
 		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
-<<<<<<< HEAD
 	<delete id="deletePrdFile" parameterType="PrdFile">
       DELETE FROM prd_file
       <where>
@@ -800,7 +799,6 @@
 	    	(#{expFlNo}, #{expCode}, #{ctPflNo}, #{originName}, #{storedName})
 	</insert>
    
-=======
 	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
 	<select id="selectCntAllExpSch" resultType="int" parameterType="recycling.util.PagingAndCtg">
    		SELECT count(*) FROM exp_Sch
@@ -813,6 +811,5 @@
 		</where>
 		ORDER BY sch_no DESC
 	</select>
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 	
 </mapper>
