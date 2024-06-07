@@ -62,7 +62,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 						 			<script>document.write(sttList[${list.sttNo}])</script>
 						 		</td>
 						 		<td>
-						 			<button><a href="./myorderdetail?orddtCode=${list.orddtCode }">주문확인</a></button>
+						 			<a href="./myorderdetail?orddtCode=${list.orddtCode }"><button class="">주문확인</button></a>
 						 		</td>
 						 	</tr>
 						</c:forEach>
