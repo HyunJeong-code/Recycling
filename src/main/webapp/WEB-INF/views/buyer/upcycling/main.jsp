@@ -39,11 +39,7 @@
 
 	.mainBanner {
 		max-width: 1000px;
-<<<<<<< HEAD
 		height: 650px;
-=======
-		height: 620px;
->>>>>>> TEST
 		border: 1px solid black;
 		overflow: hidden;
 		display: flex;
@@ -280,15 +276,6 @@
 		<div class="categoryContainer">
 				<div class="categoryBig"><strong>업사이클</strong></div>
 				<div class="categoryBox">
-<<<<<<< HEAD
-					<div class="categoryMid">전체</div>
-					<div class="categoryMid">플라스틱</div>
-					<div class="categoryMid">유리</div>
-					<div class="categoryMid">천</div>
-					<div class="categoryMid">캔</div>
-					<div class="categoryMid">종이</div>
-					<div class="categoryMid">기타</div>
-=======
 				    <div class="categoryMid" data-category="all">전체</div>
 				    <div class="categoryMid" data-category="0">플라스틱</div>
 				    <div class="categoryMid" data-category="1">유리</div>
@@ -296,7 +283,6 @@
 				    <div class="categoryMid" data-category="3">캔</div>
 				    <div class="categoryMid" data-category="4">천</div>
 				    <div class="categoryMid" data-category="5">기타</div>
->>>>>>> TEST
 				</div>
 			</div>
 		<div class="sortBtn">
@@ -328,12 +314,6 @@
 	</div>
 	
 	<div class="spacer"></div>
-	
-<<<<<<< HEAD
-<%-- 	<footer>
-=======
-<%--  	<footer>
->>>>>>> TEST
 		<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/> 
 	</footer> --%>
 	
