@@ -2,7 +2,6 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
@@ -30,12 +29,6 @@ public interface UpcyclingDao {
 	public List<UpcyReview> selectRvwList(String prdCode);
 
 	public UpcyReview selectRvw();
-
-	public void insertReview(@Param("rvwContent") String rvwContent, @Param("prdCode") String prdCode, @Param("buyer") Buyer buyer);
-
-	public void updateReview(@Param("upcyCode") String upcyCode, @Param("upcyContent") String upcyContent);
-
-	public void deleteReview(String upcyCode);
 
 	/**
 	 * 장바구니 상품 갯수 조회
@@ -73,13 +66,5 @@ public interface UpcyclingDao {
 
 	public int insertReview(UpcyReview review);
 
-<<<<<<< HEAD
-
-
-
-
 
 }
-=======
-}
->>>>>>> main

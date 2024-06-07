@@ -304,7 +304,8 @@
 		
 		<div class="detailUpper">
 			<div class="mainThumbnail">
-				<img src="./resources/img/popular_400px.png">
+				<img src="${pageContext.request.contextPath}/resources/image/${prdImageThumNames[status.index]}"
+					onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
 			</div>
 			
 			<div class="prdInfo">
@@ -328,7 +329,8 @@
 		
 		<div id="section1" class="section">
 			<h3>상품상세</h3>
-			<p>상품상세 이미지</p>
+			<img src="${pageContext.request.contextPath}/resources/image/${prdImageDetailNames[status.index]}"
+				onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_860px.png';">
 		</div>
 		
 		<div id="section2" class="section">

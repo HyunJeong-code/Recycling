@@ -54,7 +54,6 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public Seller selectSeller(String getsCode) {
 		return upcyclingDao.selectSeller(getsCode);
 	}
-<<<<<<< HEAD
 	
 	@Override
 	public Buyer selectBuyerByBCode(String getbCode) {
@@ -67,13 +66,6 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectShipCnt(getsCode);
 	}
 	
-=======
->>>>>>> main
-
-//	@Override
-//	public SellerProf selectSellerProf(String sCode) {
-//		return upcyclingDao.selectSellerProf(sCode);
-//	}
 	
 	@Override
 	public Buyer selectBuyerCode(int bCode) {
@@ -113,44 +105,10 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectRvw();
 	}
 
-//	@Override
-//	public void insertReview(String upcyContent, String prdCode, Buyer buyer) {
-//		UpcyReview upcyReview = new UpcyReview();
-//		upcyReview.setUpcyCode(UUID.randomUUID().toString());
-//		upcyReview.setbCode(buyer.getbCode());
-//		upcyReview.setPrdCode(prdCode);
-//		upcyReview.setUpcyGrade(0);
-//		upcyReview.setUpcyContent(upcyContent);
-//		
-//		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
-//		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
-//	}
 
-	@Override
-	public void updateReview(String upcyCode, String upcyContent) {
-		upcyclingDao.updateReview(upcyCode, upcyContent);
-		logger.info("updateReview() - UpcyReview updated: upcyCode={}, upcyContent={}", upcyCode, upcyContent);
-	}
-
-	@Override
-	public void deleteReview(String upcyCode) {
-		upcyclingDao.deleteReview(upcyCode);
-		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
-	}
-
-<<<<<<< HEAD
-
-
-
-
-
-
-=======
-	@Override
 	public Integer selectcCnt(Cart cart) {
 		return upcyclingDao.selectcCnt(cart);
 	}
->>>>>>> main
 	
 	@Override
 	public int updatecCnt(Cart cart) {

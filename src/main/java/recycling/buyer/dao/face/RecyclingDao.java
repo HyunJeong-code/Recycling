@@ -23,8 +23,6 @@ public interface RecyclingDao {
 	 */
 	public List<Seller> findSeller();
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * 판매자 코드로 재활용품 조회
 	 * 
@@ -33,23 +31,21 @@ public interface RecyclingDao {
 	 */
 	public List<Prd> findRcyBySellerCode(String sCode);
 	
->>>>>>> main
 	public List<Prd> selectPrdList();
 	public List<Prd> selectLatestList();
 	public List<Prd> selectHitList();
 	
-	public List<PrdFile> selectPrdImage();
-	public List<PrdFile> selectLatestPrdImage();
-	public List<PrdFile> selectHitPrdImage();
+	public List<String> selectPrdImageThum(String prdCode);
+	public List<String> selectLatestPrdImageThum(String prdCode);
+	public List<String> selectHitPrdImageThum(String prdCode);
 
 	public Prd selectPrd(String prdCode);
+	public List<String> selectPrdImageDetail(String prdCode);
 
 	public Seller selectSellerProfByCode(String sCode);
 
 	public Seller selectSeller(String getsCode);
 	
-//	public SellerProf selectSellerProfByCode(String sCode);
-
 	public Buyer selectBuyerByBCode(String getbCode);
 
 	public int selectShipCnt(String getsCode);
@@ -64,30 +60,12 @@ public interface RecyclingDao {
 
 	public Buyer selectBuyerBybId(String bId);
 	
-<<<<<<< HEAD
 	
 	public int insertRcy(Rcy rcy);
 
+	
 
 
-=======
-	public int insertOto(Oto oto);
->>>>>>> main
 
-//	public SellerQST selectSellerQST(String qstCode);
-
-//	public int insertSellerQST(SellerQST sellerQST);
-
-//	public int updateSellerQST(SellerQST sellerQST);
-
-	public int deleteSellerQST(String qstCode);
-
-//	public List<SellerAns> selectSellerAnswers(String qstCode);
-
-//	public int insertSellerAnswer(SellerAns sellerAns);
-
-//	public int updateSellerAnswer(SellerAns sellerAns);
-
-	public int deleteSellerAnswer(String qnaCode);
 
 }

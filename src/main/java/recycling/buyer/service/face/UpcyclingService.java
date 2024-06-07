@@ -34,7 +34,6 @@ public interface UpcyclingService {
 	 */
 	public Seller selectSeller(String getsCode);
 
-<<<<<<< HEAD
 	/**
 	 * 판매자 정보 상세조회
 	 * @param getbCode 구매자코드
@@ -49,16 +48,6 @@ public interface UpcyclingService {
 	 */
 	public int selectShipCnt(String getsCode);
 	
-=======
-
-	/**
-	 * 판매자 상세 프로필을 가져오는 코드
-	 * 
-	 * @param	getsCode 프라이머리키인 sCode
-	 * @return	판매자 상세 정보
-	 */
-//	public SellerProf selectSellerProf(String sCode);
->>>>>>> main
 	
 	/**
 	 * 개인 구매자 정보 조회
@@ -98,32 +87,7 @@ public interface UpcyclingService {
 	 * @param prdCode 
 	 * @param buyer 작성자 로그인 정보
 	 */
-<<<<<<< HEAD
 	public int	insertReview(UpcyReview review);
-
-
-	
-
-	
-	
-=======
-//	public void insertReview(String rvwContent, String prdCode, Buyer buyer);
->>>>>>> main
-
-	/**
-	 * 리뷰 업데이트 메소드
-	 * 
-	 * @param rvwCode 리뷰코드
-	 * @param rvwContent 리뷰내용
-	 */
-	public void updateReview(String upcyCode, String upcyContent);
-
-	/**
-	 * 리뷰 삭제 메소드
-	 * 
-	 * @param rvwCode 리뷰코드
-	 */
-	public void deleteReview(String upcyCode);
 
 	/**
 	 * 장바구니 상품 갯수 조회
@@ -157,7 +121,6 @@ public interface UpcyclingService {
 	 */
 	public CartOrder selectCartOrder(String prdCode);
 
-	public int insertReview(UpcyReview review);
 
 
 

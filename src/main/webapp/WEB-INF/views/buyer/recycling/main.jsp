@@ -25,8 +25,6 @@
     }
     
     
-
-
 	.mainContainer {
 		flex: 1;
 		overflow-y: auto;
@@ -39,13 +37,14 @@
 
 	.mainBanner {
 		max-width: 1000px;
-		height: 620px;
+		height: auto; /* 높이 자동으로 설정 */
 		border: 1px solid black;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding-top: 20px;
+		padding-bottom: 20px; /* 하단 패딩 추가 */
 		background-color: #f8f9fa;
 	}
 
@@ -71,16 +70,18 @@
 		width: 100%;
 		margin: 0 auto;
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		flex-wrap: wrap;
+		justify-content: center; /* 가운데 정렬 */
 	}
 
 	.bannerContent {
 		width: 220px;
-		padding: 12px;
-		margin-bottom: 10px;
+		padding: 10px;
+		margin-bottom: 20px;
 		background-color: #f8f9fa;
-		text-align: center;
+		text-align: left;
+		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
@@ -226,25 +227,30 @@
 
 	<div class="mainContainer">
 		<div class="mainBanner">
-			<div class="bannerInfo">
-		        <!-- 최신 상품 -->
-		        <c:forEach var="prd" items="${latestList}">
-		            <div class="bannerContent">
-		                <img src="${pageContext.request.contextPath}/resources/img/empthy_400px.png">
-		                <p class="bannerTitle">${prd.prdName}</p>
-		                <p class="bannerPrice">${prd.price}원</p>
-		            </div>
-		        </c:forEach>
-		        <hr>
-		        <!-- 인기 상품 -->
-		        <c:forEach var="prd" items="${HitList}">
-		            <div class="bannerContent">
-		                <img src="${pageContext.request.contextPath}/resources/img/empthy_400px.png">
-		                <p class="bannerTitle">${prd.prdName}</p>
-		                <p class="bannerPrice">${prd.price}원</p>
-		            </div>
-		        </c:forEach>
-			</div>
+			<h3>최신 상품</h3>
+		    <div class="bannerInfo">
+				<c:forEach var="prd" items="${latestList}" varStatus="status">
+					<c:if test="${status.index < 4}">
+						<div class="bannerContent">
+							<img src="${pageContext.request.contextPath}/resources/image/${latestPrdImageThumNames[status.index]}" 
+								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
+							<p class="bannerTitle">${prd.prdName}</p>
+							<p class="bannerPrice">${prd.price}원</p>
+		                    </div>
+		                </c:if>
+				</c:forEach>
+		            
+				<c:forEach var="prd" items="${HitList}" varStatus="status">
+					<c:if test="${status.index < 4}">
+						<div class="bannerContent">
+							<img src="${pageContext.request.contextPath}/resources/image/${hitPrdImageThumNames[status.index]}" 
+								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
+							<p class="bannerTitle">${prd.prdName}</p>
+							<p class="bannerPrice">${prd.price}원</p>
+						</div>
+					</c:if>
+				</c:forEach>
+		    </div>
 		</div>
 		<div class="categoryContainer">
 				<div class="categoryBig"><strong>재활용품</strong></div>
@@ -267,19 +273,11 @@
 		
 		<div class="prdContainer">
 			<div class="prdList">
-				<!-- 테스트용 상품 리스트 -->
-<%-- 				<c:forEach var="index" begin="1" end="32">
-					<div class="prd" style="display: ${index <= 16 ? 'flex' : 'none'};">
-						<img src="${pageContext.request.contextPath}/resources/img/product_${index}.jpg">
-						<p class="prdTitle">Proddddddddddddddddduct ${index}</p>
-						<p class="prdPrice">30,000원</p>
-					</div>
-                </c:forEach> --%>
-                
 				<c:forEach var="prd" items="${list}">
 				    <div class="prd" data-ct-pdt-no="${prd.ctPdtNo}">
 				        <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdcode=${prd.prdCode}">
-				            <img src="${pageContext.request.contextPath}/resources/img/product_${prd.prdCode}.jpg">
+				            <img src="${pageContext.request.contextPath}/resources/image/${prdImageThumNames[status.index]}"
+								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
                             <p class="prdTitle">${prd.prdName}</p>
                             <p class="prdPrice">${prd.price}원</p>
 				        </a>

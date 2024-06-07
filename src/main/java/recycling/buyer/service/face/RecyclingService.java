@@ -6,11 +6,8 @@ import java.util.Map;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
-<<<<<<< HEAD
 import recycling.dto.seller.PrdFile;
-=======
 import recycling.dto.seller.Seller;
->>>>>>> main
 
 public interface RecyclingService {
 	
@@ -41,7 +38,6 @@ public interface RecyclingService {
 	 * 
 	 * @return
 	 */
-<<<<<<< HEAD
 	public List<Prd> selectPrdList();
 	
 	/**
@@ -57,27 +53,24 @@ public interface RecyclingService {
 	public List<Prd> selectHitList();
 	
 	/**
-	 * 상품별 할당된 이미지 로드
+	 * 상품별 할당된 이미지 썸네일 로드
 	 * @return
 	 */
-	public List<PrdFile> selectPrdImage();
+	public List<String> selectPrdImageThum(String prdCode);
 
 	/**
-	 * 최신순 상품리스트 이미지 로드
+	 * 최신순 상품리스트 이미지 썸네일 로드
 	 * @return
 	 */
-	public List<PrdFile> selectLatestPrdImage();
+	public List<String> selectLatestPrdImageThum(String prdCode);
 
 	/**
-	 * 조회순 상품리스트 이미지 로드
+	 * 조회순 상품리스트 이미지 썸네일 로드
 	 * @return
 	 */
-	public List<PrdFile> selectHitPrdImage();
+	public List<String> selectHitPrdImageThum(String prdCode);
 
 	
-=======
-	public List<Prd> getPrdList();
->>>>>>> main
 
 	/**
 	 * 제품번호를 기준으로 불러오면서 제품 정보를 불러온다
@@ -86,6 +79,13 @@ public interface RecyclingService {
 	 * @return 제품번호의 상세페이지
 	 */
 	public Prd view(String prdCode);
+	
+	/**
+	 * 제품번호를 기준으로 상품 상세이미지 로드
+	 * @param prdCode
+	 * @return
+	 */
+	public List<String> selectPrdImageDetail(String prdCode);
 	
 	/**
 	 * 판매자 기본 정보 로드
@@ -118,15 +118,7 @@ public interface RecyclingService {
 	public Seller getSeller(String sCode);
 
 	public List<Map<String, Object>> selectQnaList(String prdCode);
-//	public SellerProf getSellerProf(String sCode);
 
-	/**
-	 * 판매자 문의 코드를 통해서 판매자 문의 불러오기
-	 * 
-	 * @param qstCode	문의 코드
-	 * @return	판매자 문의
-	 */
-//	public SellerQST selectSellerQst(String qstCode);
 
 	/**
 	 * 개인 구매자 정보 조회
@@ -143,32 +135,14 @@ public interface RecyclingService {
 	 * @param rcy
 	 * @return
 	 */
-<<<<<<< HEAD
 	public int insertRcy(Rcy rcy);
 
-
-
-
-
-=======
-	public int insertOto(Oto oto);
-//	public int insertSellerAnswer(SellerAns sellerAns);
->>>>>>> main
-
-	/**
-	 * 판매자 문의 답변 수정
-	 * 
-	 * @param sellerAns
-	 * @return
-	 */
-//	public int updateSellerAnswer(SellerAns sellerAns);
+	
 
 	
-	/**
-	 * 판매자 문의 답변 삭제
-	 * 
-	 * @param qnaCode
-	 * @return
-	 */
-	public int deleteSellerAnswer(String qnaCode);
+
+	
+
+	
+
 }
