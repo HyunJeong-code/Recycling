@@ -99,6 +99,22 @@ public interface UpcyclingService {
 	public void deleteReview(String upcyCode);
 
 	/**
+	 * 장바구니 상품 갯수 조회
+	 * 
+	 * @param cart - cart DTO
+	 * @return - cCnt
+	 */
+	public Integer selectcCnt(Cart cart);
+
+	/**
+	 * 장바구니 수량 업데이트
+	 * 
+	 * @param cart - cart DTO
+	 * @return - UPDATE 결과
+	 */
+	public int updatecCnt(Cart cart);
+	
+	/**
 	 * 장바구니 추가
 	 * 
 	 * @param cart - cart DTO

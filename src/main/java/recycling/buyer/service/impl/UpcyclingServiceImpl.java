@@ -1,8 +1,6 @@
 package recycling.buyer.service.impl;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,6 +121,21 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public void deleteReview(String upcyCode) {
 		upcyclingDao.deleteReview(upcyCode);
 		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
+	}
+
+	@Override
+	public Integer selectcCnt(Cart cart) {
+		return upcyclingDao.selectcCnt(cart);
+	}
+	
+	@Override
+	public int updatecCnt(Cart cart) {
+		return upcyclingDao.updatecCnt(cart);
+	}
+	
+	@Override
+	public int insertCart(Cart cart) {
+		return upcyclingDao.insertCart(cart);
 	}
 
 	@Override
