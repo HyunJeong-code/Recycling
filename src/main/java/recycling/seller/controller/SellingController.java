@@ -1,12 +1,11 @@
 package recycling.seller.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
-
-import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.manager.ResSchCnt;
@@ -33,6 +33,7 @@ import recycling.dto.seller.PrdFile;
 import recycling.page.face.PageService;
 import recycling.seller.service.face.SellingService;
 import recycling.util.PagingAndCtg;
+import recycling.util.Range;
 
 // 상품-판매 관리
 
@@ -44,101 +45,111 @@ public class SellingController {
 	@Autowired private SellingService sellingService;
 	@Autowired private PageService pageService;
 	
-	
-	@GetMapping("/rcylist")
-	public void rcyList(Authentication authentication, Model model,
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg) {
+	@GetMapping("/main")
+	public void main(
+				Authentication authentication,
+				@RequestParam(defaultValue = "0") int curPage,
+				@RequestParam(defaultValue = "") String search,
+				@RequestParam(defaultValue = "") String sCtg,
+				Model model
+			) {
+		logger.info("/seller/selling/main [GET]");
+		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
         
         // 문의글 페이지 수 계산
   		PagingAndCtg upPaging = new PagingAndCtg();
   		PagingAndCtg unPaging = new PagingAndCtg();
-         
-        upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+        
+  		upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
         unPaging = pageService.unPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
-         
-        int upPage = sellingService.selectCntAllrcyPrd(upPaging);
+  		
+        int upPage = sellingService.selectCntAllPrd(upPaging);
+        int unPage = sellingService.selectCntAllOrd(unPaging);
+        
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-         
-  		logger.info("upPaging : {}", upPaging);
-  		upPaging.setUser(buyerLogin.getsCode());
-  		
-  		
-  		int unPage = sellingService.selectCntAllrcyMyOrder(unPaging);
-  		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
-         
-  		logger.info("unPaging : {}", unPaging);
-  		unPaging.setUser(buyerLogin.getsCode());
+        upPaging.setUser(buyerLogin.getsCode());
+        unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
+        unPaging.setUser(buyerLogin.getsCode());
+        
+        List<Map<String, Object>> prdList = sellingService.selectAllPrd(upPaging);
+        List<Map<String, Object>> ordList = sellingService.selectAllOrd(unPaging);
+        
+        logger.info("prdList : {}", prdList);
+        logger.info("ordList : {}", ordList);
+        
+        model.addAttribute("prdList", prdList);
+        model.addAttribute("prdSize", prdList.size());
+        model.addAttribute("upPaging", upPaging);
+        
+        model.addAttribute("ordList", ordList);
+        model.addAttribute("ordSize", ordList.size());
+        model.addAttribute("unPaging", unPaging);
+        
+    }
+	
+	@GetMapping("/rcylist")
+	public void rcyList(Authentication authentication, Model model) {
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
 		
+		String sCode = buyerLogin.getsCode();
 		
 		//로그인 되어있는 아이디의 재활용 판매 상품 조회
-		List<Prd> plist = sellingService.selectAllrcyPrd(upPaging);
+		List<Prd> plist = sellingService.selectAllrcyPrd(sCode);
 		
 		//주문 리스트
-		List<MyOrder> olist = sellingService.selectAllrcyMyOrder(unPaging);
+		List<MyOrder> olist = new ArrayList<MyOrder>();
 		
-		logger.info("{}",plist);
+		//조회된 상품의 주문 리스트 조회
+		for(Prd prd : plist) {
+			String prdCode = prd.getPrdCode();
+			
+			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
+			
+			for(MyOrder mo : list) {
+				olist.add(mo);
+			}
+		}
 		
 		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
-		
-		model.addAttribute("upPaging", upPaging);
-		model.addAttribute("upUrl", "/seller/selling/rcylist");
-		model.addAttribute("unPaging", unPaging);
-		model.addAttribute("unUrl", "/seller/selling/rcylist");
 	}
 	
 	@GetMapping("/upcylist")
-	public void upcyList(Authentication authentication, Model model,
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg) {
+	public void upcyList(Authentication authentication, Model model) {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
-
-        // 문의글 페이지 수 계산
- 		PagingAndCtg upPaging = new PagingAndCtg();
- 		PagingAndCtg unPaging = new PagingAndCtg();
-        
-        upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
-        unPaging = pageService.unPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
-        
-        int upPage = sellingService.selectCntAllupcyPrd(upPaging);
-        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-        
- 		logger.info("upPaging : {}", upPaging);
- 		upPaging.setUser(buyerLogin.getsCode());
- 		
- 		
- 		int unPage = sellingService.selectCntAllMyOrder(unPaging);
- 		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
-        
- 		logger.info("unPaging : {}", unPaging);
- 		unPaging.setUser(buyerLogin.getsCode());
- 		
+		
+		String sCode = buyerLogin.getsCode();
 		
 		//로그인 되어있는 아이디의 재활용 판매 상품 조회
-		List<Prd> plist = sellingService.selectAllupcyPrd(upPaging);
-		
-		logger.info("{}",upPaging);
+		List<Prd> plist = sellingService.selectAllupcyPrd(sCode);
 		
 		//주문 리스트
-		List<MyOrder> olist = sellingService.selectAllupcyMyOrder(unPaging);
+		List<MyOrder> olist = new ArrayList<MyOrder>();
 		
+		//조회된 상품의 주문 리스트 조회
+		for(Prd prd : plist) {
+			String prdCode = prd.getPrdCode();
+			
+			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
+			
+			for(MyOrder mo : list) {
+				olist.add(mo);
+			}
+		}
+		
+		
+		//내림차순 정렬
+		Collections.sort(olist, new Range());
 		
 		logger.info("olist: {}",olist);
 		logger.info("nplist: {}",plist);
 		
 		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
-		
-		model.addAttribute("upPaging", upPaging);
-		model.addAttribute("upUrl", "/seller/selling/upcylist");
-		model.addAttribute("unPaging", unPaging);
-		model.addAttribute("unUrl", "/seller/selling/upcylist");
 	}
 	
 	@GetMapping("/upcydetail")
@@ -355,7 +366,7 @@ public class SellingController {
 		
 	    return "jsonView"; 
 	}
-	
+
 	@GetMapping("/upcyorderdetail")
 	public void upcyOrderDetail(String orddtCode, Model model) {
 		
@@ -385,17 +396,6 @@ public class SellingController {
 		return "/layout/alert";
 	}
 	
-
-	@GetMapping("/main")
-	public void main(HttpSession session, Model model) {
-		logger.info("/seller/selling/main [GET]");
-		
-		BuyerLogin seller = (BuyerLogin) session.getAttribute("buyers");
-		logger.info("seller : {}", seller);
-		
-//		List<AllPrd> allPrd = sellingService.selectAllPrd(seller);
-	}
-	
 	//판매자 체험 조회
 	@GetMapping("/explist")
 	public void expList(
@@ -403,7 +403,6 @@ public class SellingController {
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
 			@RequestParam(defaultValue = "") String sCtg,
-			HttpSession session,
 			Authentication authentication,
 			Exp exp
 			) {
@@ -487,18 +486,35 @@ public class SellingController {
 	}
 	
 	
+	//체험단 예약관리
 	@GetMapping("/expresdetail")
 	public void expResDetail(
 			Model model,
-			@RequestParam(defaultValue = "0") int curPage,
-			@RequestParam String expCode
-			
+			String expCode,
+			int schNo
 			) {
 		
-		Exp exp = sellingService.selectByExp(expCode);
+		//체험단 조회
+		Exp expView = sellingService.expResDetail(expCode);
+		model.addAttribute("exp", expView);
 		
-		model.addAttribute("exp", exp);
-
+		//체험예약 조회
+		ExpSch expSch = sellingService.selectExpSchbySchNo(schNo);
+		model.addAttribute("expSch", expSch);
+		
+		List<ExpRes> resList = sellingService.expResDetailRes(schNo);
+		model.addAttribute("resList", resList);
 		
 	}
+	
+	// 체험단 예약 확정,취소 변경
+		@PostMapping("/expresupdate")
+		public String expresupdate(@RequestParam("chBox[]") List<String> chBox, @RequestParam String actionType) {
+			
+			sellingService.expResUpdate(chBox, actionType);
+			
+			return "jsonView";
+		}
+	
+	
 }

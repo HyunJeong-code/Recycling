@@ -14,41 +14,51 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 $(function(){
-
-	$.ajax({
-		type: 'get',
-		url : '/buyer/buyerheader',
-		dataType: 'json',
-		success: function(res) {
-			console.log("res : " + JSON.stringify(res));
-			console.log("res : " + JSON.stringify(res).length);
-			console.log("res : " + typeof(JSON.stringify(res)));
-			
-			var none = "<div id='info'>공지사항이 없습니다.</div>";
-			
-			var ntcList = JSON.stringify(res);
-			console.log("ntcList : " + ntcList);
-			console.log("ntcList[0] : " + typeof(ntcList));
-			
-			
-			if(ntcList.length == 0) {
-				$("#ntcBanner").html(none);
-			} else {
+// 	setInterval(() => 
+// 		$.ajax({
+// 			type: 'get',
+// 			url : '/buyer/buyerheader',
+// 			dataType: 'json',
+// 			success: function(res) {
 				
-				var banner = $("#ntc-banner");
-				var ntc = "";
-				
-				ntc += "<ul>";
-				for(var i = 0; i < ntcList.length; i++) {
-					banner.append(
-							$("<li>").html(ntcList[i].NTC_TITLE)
-						);
-				}
-				ntc += "</ul>";
-			}
-		}
-	})
+	// 			$("#ntcBanner").html(res[0].RNUM)
+	// 			$("#ntcBanner").html(res[0].NTC_CODE)
+	// 			$("#ntcBanner").html(res[0].TITLE)
 	
+	// 			var html = "" + res[0]["RNUM"] + " " + res[0]["NTC_CODE"] + " " + res[0]["TITLE"]
+	// 			$("#ntcBanner").html(html)
+				
+// 				$("<div>").html( res[0].RNUM + " " + res[0].NTC_CODE + " " + "<a href='/buyer/hepl/noticedetail?ntcCode=" + res[0].NTC_CODE + "'>" + val.TITLE +"</a>" )
+// 				.appendTo($("#ntcBanner"))					
+
+// 			console.log("res : " + JSON.stringify(res));
+// 			console.log("res : " + JSON.stringify(res).length);
+// 			console.log("res : " + typeof(JSON.stringify(res)));
+			
+// 			var none = "<div id='info'>공지사항이 없습니다.</div>";
+			
+// 			var ntcList = JSON.stringify(res);
+// 			console.log("ntcList : " + ntcList);
+// 			console.log("ntcList[0] : " + typeof(ntcList));
+			
+			
+// 			if(ntcList.length == 0) {
+// 				$("#ntcBanner").html(none);
+// 			} else {
+				
+// 				var banner = $("#ntc-banner");
+// 				var ntc = "";
+				
+// 				ntc += "<ul>";
+// 				for(var i = 0; i < ntcList.length; i++) {
+// 					banner.append(
+// 							$("<li>").html(ntcList[i].NTC_TITLE)
+// 						);
+// 				}
+// 				ntc += "</ul>";
+// 			}
+// 		});
+// 	, 5000);
     var header = $('.header');
     var headerOffset = header.offset().top;
 
@@ -120,6 +130,7 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
+                    <button class="selected">Buyer</button><button>Seller</button>
                     <button class="selected"><a href="/buyer/main">Buyer</a></button><button><a href="/seller/main">Seller</a></button>
                 </div>
             </div>

@@ -97,12 +97,7 @@ body {
 </style>
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
 	<div class="full">
-		<aside>
-			<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-			<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-		</aside>
 		<div class="wrap">
 			<div class="page">
 				<h1>체험 수정하기</h1>
@@ -132,7 +127,7 @@ body {
 				</div>
 				
 				<div>
-					<label>예약일</label><input type="text" name="schDate" value="${update.schDate }">
+					<label>예약일</label><input type="date" name="schDate" value="${update.schDate }">
 				</div>
 				
 				<div>

@@ -72,6 +72,7 @@
                     $('.modal').modal('hide');
 
                 }
+            // }).open()
             }).embed(postcodeWrap)
 
             //--------------------------------------------------------------
@@ -106,7 +107,6 @@
                 
             }
         });
-    	
         
     }) //$ end
     
@@ -157,6 +157,7 @@
 	    
 	    console.log(cartList);
 	    
+
         function requestPay(){
         	//order_form
         	var isRight = true;
@@ -321,7 +322,7 @@
                     </c:choose>
                     <br>
                 </c:forEach>
-                <label>직접입력</label>
+                <label for>직접입력</label>
                 <input type="radio" name="adr" value="-1">
 
             </div>

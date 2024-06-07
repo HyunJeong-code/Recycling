@@ -1,7 +1,6 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
-import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
@@ -35,21 +34,38 @@ public interface UpcyclingService {
 	 */
 	public Seller selectSeller(String getsCode);
 
+
 	/**
-	 * 구매자 정보 로드
+	 * 판매자 상세 프로필을 가져오는 코드
 	 * 
-	 * @param bCode 구매자 코드
-	 * @return 구매자 정보
+	 * @param	getsCode 프라이머리키인 sCode
+	 * @return	판매자 상세 정보
+	 */
+//	public SellerProf selectSellerProf(String sCode);
+	
+	/**
+	 * 개인 구매자 정보 조회
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
 	 */
 	public Buyer selectBuyerCode(int bCode);
+	
+	/**
+	 * 구매
+	 * 
+	 * @param getbId
+	 * @return
+	 */
+	public Buyer selectBuyerDetail(String getbId);
 
 	/**
 	 * 리뷰 DTO 로드
-	 * @param prdCode 제품번호
+	 * @param prdCode 
 	 * 
-	 * @return 제품번호에 맞는 리뷰
+	 * @return
 	 */
-	public List<Map<String, Object>> selectRvwList(String prdCode);
+	public List<UpcyReview> selectRvwList(String prdCode);
 
 	/**
 	 * 리뷰 상세 조회
@@ -59,16 +75,14 @@ public interface UpcyclingService {
 	public UpcyReview selectRvw(String upcyCode);
 
 	/**
-	 * 리뷰 작성
+	 * 리뷰 등록
 	 * 
-	 * @param upcyContent 리뷰 내용
-	 * @param prdCode 제품고유코드
-	 * @param bCode buyerLogin 로그인 정보에 필요한 프라이머리키
-	 * @param upcyGrade 상품 평점
+	 * @param rvwContent 리뷰 내용
+	 * @param prdCode 
+	 * @param buyer 작성자 로그인 정보
 	 */
-	public void insertReview(String upcyContent, String prdCode, String bCode, int upcyGrade);
+//	public void insertReview(String rvwContent, String prdCode, Buyer buyer);
 
-	
 	/**
 	 * 리뷰 업데이트 메소드
 	 * 
@@ -85,22 +99,6 @@ public interface UpcyclingService {
 	public void deleteReview(String upcyCode);
 
 	/**
-	 * 장바구니 상품 갯수 조회
-	 * 
-	 * @param cart - cart DTO
-	 * @return - cCnt
-	 */
-	public Integer selectcCnt(Cart cart);
-
-	/**
-	 * 장바구니 수량 업데이트
-	 * 
-	 * @param cart - cart DTO
-	 * @return - UPDATE 결과
-	 */
-	public int updatecCnt(Cart cart);
-	
-	/**
 	 * 장바구니 추가
 	 * 
 	 * @param cart - cart DTO
@@ -115,6 +113,9 @@ public interface UpcyclingService {
 	 * @return - 조회결과
 	 */
 	public CartOrder selectCartOrder(String prdCode);
+
+	public int insertReview(UpcyReview review);
+
 
 
 }

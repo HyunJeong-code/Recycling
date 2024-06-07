@@ -62,6 +62,10 @@
 	    SELECT * FROM buyer
 	    WHERE B_CODE = #{bCode}
 	</select>
+<!-- 	<select id="selectSellerProfByCode" resultType="SellerProf"> -->
+<!-- 		SELECT * FROM SELLER_PROF -->
+<!-- 		WHERE S_CODE = #{sCode} -->
+<!-- 	</select> -->
 	
 	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
 		SELECT B_Code AS bCode,

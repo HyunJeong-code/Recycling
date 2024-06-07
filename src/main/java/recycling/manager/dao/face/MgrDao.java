@@ -7,6 +7,7 @@ import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
+import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 //메인 페이지 DB 처리(로그인, 회원가입, 전체 사원 조회 등)
@@ -21,6 +22,37 @@ public interface MgrDao {
 	 */
 	public ManagerLogin selectById(String username);
 
+	/**
+	 * 관리자 공지사항 전체조회
+	 *  
+	 * @param i - 매니저 카테고리 2번만 가져오기
+	 * @return
+	 */
+	public List<Notice> selectAll(int i);
+
+	/**
+	 * 관리자 공지사항 세부조회 
+	 * 
+	 * @param ntcCode
+	 * @return
+	 */
+	public Notice selectDetail(String ntcCode);
+
+	/**
+	 * 조회수 증감
+	 * 
+	 * @param ntcCode
+	 */
+	public void hit(String ntcCode);
+
+	/**
+	 * 페이징 기능 + 검색기능
+	 * 
+	 * @param pagingParam
+	 * @return - DTO 객체 페이징
+	 */
+	public int selectCntAll(Paging pagingParam);
+	
 	/**
 	 * 회원 가입을 위해 인사 등록이 되어있는지 확인
 	 * 
@@ -44,7 +76,15 @@ public interface MgrDao {
 	public int insertMgrProf(MgrFile mgrFile);
 
 	public ManagerLogin selectByIdPw(Manager manager);
-	
+
+	/**
+	 * 공지사항 조회하기 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllNotice(PagingAndCtg upPaging);
+
 	/**
 	 * 전체사원조회[empList]
 	 * 
@@ -62,34 +102,9 @@ public interface MgrDao {
 	public int selectCntAllempList(PagingAndCtg upPaging);
 	
 	/**
-	 * 공지사항 조회하기
+	 * 공지사항 관리자조회[noticeist]
 	 * 
 	 * @return  List<Notice>
 	 */
 	public List<Notice> selectAllNotice(PagingAndCtg upPaging);
-
-	/**
-	 * 공지사항 조회하기 페이징
-	 * 
-	 * @param upPaging
-	 * @return
-	 */
-	public int selectCntAllNotice(PagingAndCtg upPaging);
-
-	/**
-	 * 공지사항 세부조회
-	 * 
-	 * @param notice
-	 * @return
-	 */
-	public Notice selectDetail(String ntcCode);
-
-	
-	/**
-	 * 조회수 증감
-	 * 
-	 * @param ntcCode
-	 */
-	public void hit(String ntcCode);
-
 }

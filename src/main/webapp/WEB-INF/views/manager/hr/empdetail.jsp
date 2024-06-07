@@ -7,18 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/hr/empdetail.css">
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function() {
-    // 전화번호를 형식에 맞게 변환하는 함수[DB 변경으로 안씀]
-//     function formatPhoneNumber(phoneNumber) {
-//         phoneNumber = phoneNumber.replace(/\D/g, ''); // 숫자 이외의 문자 제거
-//         return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'); // 형식에 맞게 번호 변환
-//     }
+	//전화번호를 형식에 맞게 변환하는 함수[DB 변경으로 안씀]
+    function formatPhoneNumber(phoneNumber) {
+        phoneNumber = phoneNumber.replace(/\D/g, ''); // 숫자 이외의 문자 제거
+        return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'); // 형식에 맞게 번호 변환
+    }
 
     // 전화번호 요소 선택 후 형식 변환
     var phoneNumberElement = $('.mgrPhone_box div');
@@ -241,7 +238,11 @@ button:hover {
 
 			<div class="section">
 				<div class ="section_top">
+<<<<<<< Updated upstream
 					<img alt=""src="${pageContext.request.contextPath}/upload/${profileList.storedName}">
+=======
+					<img alt="" src="">
+>>>>>>> Stashed changes
 					
 				<div class="section_top_privacy">
 					<div class="mgrCode_box">
