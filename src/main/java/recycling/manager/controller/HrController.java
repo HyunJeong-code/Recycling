@@ -147,7 +147,7 @@ public class HrController {
 		
 		//파일조회
 		MgrFile file = hrService.mgrFileList(mgrFile);
-		model.addAttribute("fileList", fileList);
+		model.addAttribute("file", file);
 		logger.info("file:{}", file );
 		
 		//정보 조회
