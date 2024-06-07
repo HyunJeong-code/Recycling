@@ -772,6 +772,35 @@
 		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
+<<<<<<< HEAD
+	<delete id="deletePrdFile" parameterType="PrdFile">
+      DELETE FROM prd_file
+      <where>
+         AND prd_code = #{prdCode}
+         AND ct_pflno = #{ctPflNo}
+      </where>
+   </delete>
+   
+   <delete id="deleteDetailFile" parameterType="HashMap">
+      DELETE FROM exp_file
+      <where>
+         AND exp_code = #{expCode}
+         AND ct_pflno = 610
+           AND exp_flno NOT IN (${expFlNo})
+      </where>
+   </delete>
+
+   <insert id="insertPrdFile" parameterType="ExpFile">
+	    <selectKey order="BEFORE" keyProperty="expFlNo" resultType="int">
+	        SELECT EXP_FILE_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_File 
+	    	(exp_flNo, exp_code, ct_pflNo, origin_name, stored_name )
+	    VALUES
+	    	(#{expFlNo}, #{expCode}, #{ctPflNo}, #{originName}, #{storedName})
+	</insert>
+   
+=======
 	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
 	<select id="selectCntAllExpSch" resultType="int" parameterType="recycling.util.PagingAndCtg">
    		SELECT count(*) FROM exp_Sch
@@ -784,5 +813,6 @@
 		</where>
 		ORDER BY sch_no DESC
 	</select>
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 	
 </mapper>

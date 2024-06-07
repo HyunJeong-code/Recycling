@@ -82,7 +82,10 @@ table tr:hover {
 </style>
 </head>
 <body>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 
 	<div class="section">
 		<table>
