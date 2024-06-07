@@ -111,15 +111,20 @@
 #main_menu a {
     display: block; /* 중요 */
     text-decoration: none;
-    color: #616161;
+    color: #000;
     text-align: center;
 }
 #main_menu .snd_menu li a { background: #efefef; }
 #main_menu .trd_menu { background: #ddd; }
 #main_menu .sub_menu { display: none; } /* 서브메뉴들 숨김 */
 
-.selec { background: #c45; color: #efefef; }
+.selec {
+	background: #4CAF50;
+}
 
+#main_menu > .selec > a {
+	color: #fff !important;
+}
 
 .view-table {
     width: 100%;

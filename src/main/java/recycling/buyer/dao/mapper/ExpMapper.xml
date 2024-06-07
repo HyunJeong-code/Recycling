@@ -221,48 +221,35 @@
 	</select>
 	
 <!-- 	체험단 후기 -->
-<!-- 	<select id="selectCntRvwList" parameterType="map" resultType="int"> -->
-<!-- 		SELECT count(*)  -->
-<!--     FROM exp_review er -->
-<!--     LEFT JOIN buyer b ON er.b_code = b.b_code -->
-<!--     <where> -->
-<!--         AND er.exp_code = #{expCode} -->
-<!--         AND ( -->
-<!--             er.rvw_code LIKE '%' || #{search} || '%' -->
-<!--             OR er.rvw_content LIKE '%' || #{search} || '%' -->
-<!--         ) -->
-<!--     </where> -->
-<!-- 	</select> -->
-	
-<!-- 	<select id="selectRvwByExp" resultType="map" parameterType="map"> -->
-<!-- 		SELECT *  -->
-<!--     FROM ( -->
-<!--         SELECT rownum no, E.*  -->
-<!--         FROM ( -->
-<!--             SELECT er.rvw_code, er.b_code, er.exp_code, er.rvw_grade, er.rvw_content, er.rvw_date, b.b_id AS buyerId -->
-<!--             FROM exp_review er -->
-<!--             JOIN buyer b ON er.b_code = b.b_code -->
-<!--             <where> -->
-<!--                 AND er.exp_code = #{expCode} -->
-<!--                 AND ( -->
-<!--                     er.rvw_code LIKE '%' || #{search} || '%' -->
-<!--                     OR er.rvw_content LIKE '%' || #{search} || '%' -->
-<!--                 ) -->
-<!--             </where> -->
-<!--             ORDER BY er.rvw_date DESC -->
-<!--         ) E -->
-<!--     ) -->
-<!--     <where> -->
-<!--         AND no BETWEEN #{startNo} AND #{endNo} -->
-<!--     </where> -->
-<!-- 	</select> -->
-
-	<select id="selectRvwByExp" resultType="map" parameterType="string">
-		SELECT er.rvw_code, er.b_code, er.exp_code, er.rvw_grade, er.rvw_content, er.rvw_date, b.b_id AS buyerId
-        FROM exp_review er
-        JOIN buyer b ON er.b_code = b.b_code
-        WHERE er.exp_code = #{expCode}
+	<select id="selectCntRvwList" parameterType="map" resultType="int">
+		SELECT count(*) FROM exp_review er
+		LEFT JOIN buyer b ON er.b_code = b.b_code
+		<where>
+				AND er.exp_code = #{expCode}
+		</where>
 	</select>
+	
+	<select id="selectRvwByExp" resultType="map" parameterType="map">
+		SELECT * FROM (
+        SELECT rownum no, E.* FROM (
+            SELECT er.rvw_code, er.b_code, er.exp_code, er.rvw_grade, er.rvw_content, er.rvw_date, b.b_id AS buyerId
+            FROM exp_review er
+            JOIN buyer b ON er.b_code = b.b_code
+            <where>
+                AND er.exp_code = #{expCode}
+                AND (
+                    er.rvw_code LIKE '%' || #{search} || '%'
+                    OR er.rvw_content LIKE '%' || #{search} || '%'
+                )
+            </where>
+            ORDER BY er.rvw_date DESC
+        ) E
+    )
+    <where>
+        AND no BETWEEN #{startNo} AND #{endNo}
+    </where>
+	</select>
+
 	
 	<select id="selectByBuyerChk" resultType="ExpRes" parameterType="map">
 		SELECT * FROM exp_res

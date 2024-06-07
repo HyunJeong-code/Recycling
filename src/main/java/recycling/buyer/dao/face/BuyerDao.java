@@ -34,10 +34,10 @@ public interface BuyerDao {
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 session
+	 * @param upPaging - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
-	public List<CartOrder> selectAllCart(String bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging);
 
 	/**
 	 * cCode로 Cart 조회하기
@@ -94,6 +94,30 @@ public interface BuyerDao {
 	 * @return - INSERT 결과
 	 */
 	public int insertOrderDetail(OrderDetail orderDetail);
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param upPaging - 조회할 회원의 bCode
+	 * @return - 조회 List 결과
+	 */
+	public List<MyOrder> buyerDaoselectOrderDetailBybCode(PagingAndCtg upPaging);
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문상세코드
+	 * @return - 주문 상세 내역
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
+
+	/**
+	 * 거래 변경 사유
+	 * 
+	 * @param change - 거래 변경 DTO
+	 * @return INSERT 결과
+	 */
+	public int insertChange(Change change);
 
 	/**
 	 * 장바구니 수량 변경
@@ -288,28 +312,6 @@ public interface BuyerDao {
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
 
 	public BuyerRank selectBuyerRank(int rankNo);
-	/**
-	 * 주문 상세 조회
-	 * 
-	 * @param upPaging - 조회할 회원의 bCode
-	 * @return - 조회 List 결과
-	 */
-	public List<MyOrder> buyerDaoselectOrderDetailBybCode(PagingAndCtg upPaging);
-	
-	/**
-	 * 주문 상세 조회
-	 * 
-	 * @param orddtCode - 조회할 주문상세코드
-	 * @return - 주문 상세 내역
-	 */
-	public OrderDetail selectByorddtCode(String orddtCode);
-	
-	/**
-	 * 거래 변경 사유
-	 * 
-	 * @param change - 거래 변경 DTO
-	 * @return INSERT 결과
-	 */
-	public int insertChange(Change change);
+
 }
 

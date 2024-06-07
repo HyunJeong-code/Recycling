@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import recycling.buyer.service.face.ExpService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
@@ -123,6 +124,7 @@ public class ExpController {
 	        	detail.add(file);
 	        }
 	    }
+		logger.info("expFiles : {}", expFiles);
 		
 		//판매자 상세정보
 		sCode = exp.getsCode();
@@ -138,30 +140,24 @@ public class ExpController {
 			selType = "기업";
 		}
 		
-		//체험단 후기
-		
-//		PagingAndCtg upPaging = new PagingAndCtg();
-//		upPaging = pageService.upPageAll(curPage, sCtg, search);
-//		
-//		upPaging.setSearch(search);
-//		
-//		int upPage = expService.selectCntRvwList(upPaging, expCode);
-//		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-//		
-//		logger.info("upPaging : {}", upPaging);
-//		
-////		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode, upPaging);
-//		
-//		Map<String, Object> params = new HashMap<>();
-//	    params.put("expCode", expCode);
-//	    params.put("search", search);
-//	    
-//		List<Map<String, Object>> expReviews = expService.selectRvwByExp(params);
-//		logger.info("RVW : {}", expReviews);
-//		logger.info("RVW : {}", expReviews.size());
+		BuyerProf buyerProf = expService.getBuyerProf(bCode);
 		
 		//체험단 후기
-		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode);
+		
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
+		
+		int upPage = expService.selectCntRvwList(upPaging, expCode);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+		
+		Map<String, Object> params = new HashMap<>();
+	    params.put("expCode", expCode);
+	    params.put("startNo", upPaging.getStartNo());
+	    params.put("endNo", upPaging.getEndNo());
+
+	    List<Map<String, Object>> expReviews = expService.selectRvwByExp(params);
 		logger.info("RVW : {}", expReviews);
 		logger.info("RVW : {}", expReviews.size());
 		
@@ -184,9 +180,9 @@ public class ExpController {
 		model.addAttribute("expReviewsSize", expReviews.size());
 		model.addAttribute("isLoggedIn", isLoggedIn);
 	    model.addAttribute("loggedInUser", loggedInUser);
-//	    model.addAttribute("buyerProf", buyerProf);
-//	    model.addAttribute("upPaging", upPaging);
-//	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
+	    model.addAttribute("buyerProf", buyerProf);
+	    model.addAttribute("upPaging", upPaging);
+	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
 	}
 	
 	@PostMapping("/expdetail")
@@ -286,81 +282,73 @@ public class ExpController {
 			HttpSession session
 			) {
 		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+        logger.info("buyerLogin : {}", buyerLogin);
+        
+        String bCode = buyerLogin.getbCode();
+        
+        buyer = expService.getBuyerDetail(buyerLogin.getbId());
+        
+        
 	}
 	
-	//체험단 작성폼
-	@PostMapping("/expresform")
-	public String expResFormProc(
+	@PostMapping("/pay")
+	public String payProc(
 	        Authentication authentication,
-	        Buyer buyer,
+	        ExpRes expRes,
 	        int schNo,
-	        int resCnt,
-	        String resDate,
-	        String resTime,
 	        Model model
 	        ) {
-		
-	    //구매자 로그인 세션 정보
+
+	    logger.info("expRes : {}", expRes);
+	    
 	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 	    logger.info("buyerLogin : {}", buyerLogin);
-	    
+
 	    if (buyerLogin == null) {
-	        model.addAttribute("error", "로그인 해주세요.");
-	        return "redirect:/buyer/login";
+	        model.addAttribute("msg", "로그인 후 이용해주세요.");
+	        model.addAttribute("url", "/buyer/login");
 	    }
-	    
-	    buyer = expService.getBuyerDetail(buyerLogin.getbId());
-	    
-	    //체험 일정번호 일치하는 인원수
-	    ExpSch expSch = expService.getExpSch(schNo);
-	    
-	    if (expSch.getSchCnt() < resCnt) {
-	        model.addAttribute("error", "예약 가능한 인원수를 초과했습니다.");
-	        return "buyer/exp/expresform";
-	    }
-	    
-	    //체험 예약 시 총 가격
-	    Exp exp = expService.selectByExpCode(expSch.getExpCode());
-	    int resPrice = exp.getExpPrice();
-	    int resSum = resCnt * resPrice;
-	    
-	    //체험예약
-	    ExpRes expRes = new ExpRes();
-	    expRes.setbCode(buyer.getbCode());
-	    expRes.setSchNo(expSch.getSchNo());
-	    expRes.setResName(buyer.getbName());
-	    expRes.setResPhone(buyer.getbPhone());
-	    expRes.setResEmail(buyer.getbEmail());
-	    expRes.setResExpName(exp.getExpName());
-	    expRes.setResCnt(resCnt);
-	    expRes.setResPrice(resPrice);
-	    expRes.setResSum(resSum);
-	    expRes.setResDate(expSch.getSchDate());
-	    expRes.setResTime(expSch.getSchTime());
-	    
-	    String res_pay = "Card";
+
+	    Buyer buyer = expService.getBuyerDetail(buyerLogin.getbId());
+
 	    String res_cnf = "N";
 	    String res_cnl = "N";
-	    String res_dt = "Test data for reservation 1";
+	    String res_dt = null;
 	    
-	    expRes.setResPay(res_pay);
+	    ExpSch expSch = expService.getExpSch(schNo);
+	    Exp exp = expService.selectByExpCode(expSch.getExpCode());
+	    
+	    expRes.setbCode(buyer.getbCode());
+	    expRes.setResExpName(exp.getExpName());
+	    expRes.setResDate(expSch.getSchDate());
+	    expRes.setResTime(expSch.getSchTime());
 	    expRes.setResCnf(res_cnf);
 	    expRes.setResCnl(res_cnl);
 	    expRes.setResDt(res_dt);
 	    
 	    logger.info("expRes : {}", expRes);
-	    
-	    //db삽입, 인원수 update
-	    expService.insertExpRes(expRes);
-	    expService.updateExpSchCnt(schNo, resCnt);
-	    
-	    model.addAttribute("expRes", expRes);
-	    model.addAttribute("buyer", buyer);
-	    model.addAttribute("exp", exp);
-	    model.addAttribute("resSum", resSum);
-	    model.addAttribute("resPrice", resPrice); // resPrice를 모델에 추가
 
-	    return "redirect:/buyer/exp/main";
+	    // db삽입, 인원수 update
+	    expService.insertExpRes(expRes);
+	    expService.updateExpSchCnt(expRes.getSchNo(), expRes.getResCnt());
+
+	    model.addAttribute("expRes", expRes);
+	    return "jsonView";
 	}
+	
+	@GetMapping("/payinfo")
+	public void payInfo(
+			@RequestParam("resCode") String resCode,
+			Model model
+			) {
+		logger.info("{}", resCode);
+		
+		ExpRes expRes = expService.selectByResCode(resCode);
+		
+		model.addAttribute("expRes", expRes);
+		
+	}
+
 
 }

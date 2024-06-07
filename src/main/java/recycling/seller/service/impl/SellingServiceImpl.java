@@ -61,19 +61,25 @@ public class SellingServiceImpl implements SellingService {
 //	}
 	
 	@Override
-	public List<Prd> selectAllrcyPrd(String sCode) {
-		return sellingDao.selectAllrcyPrd(sCode);
+	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllrcyPrd(upPaging);
 	}
 	
 	@Override
-	public List<MyOrder> selectAllMyOrder(String prdCode) {
-		return sellingDao.selectAllMyOrder(prdCode);
+	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging) {
+		return sellingDao.selectAllupcyMyOrder(unPaging);
 	}
 	
 	@Override
-	public List<Prd> selectAllupcyPrd(String sCode) {
-		return sellingDao.selectAllupcyPrd(sCode);
+	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging) {
+		return sellingDao.selectAllrcyMyOrder(unPaging);
 	}
+	
+	@Override
+	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllupcyPrd(upPaging);
+	}
+	
 	
 	@Override
 	public int deletePrd(String prdCode) {
@@ -410,7 +416,28 @@ public class SellingServiceImpl implements SellingService {
 		return sellingDao.selectCntAllMyOrder(unPaging);
 	}
 	
-	//exp start
+	@Override
+	public int selectCntAllPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectCntAllPrd(upPaging);
+	}
+	
+	@Override
+	public int selectCntAllOrd(PagingAndCtg unPaging) {
+		return sellingDao.selectCntAllOrd(unPaging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging) {
+		return sellingDao.selectAllPrd(upPaging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
+		return sellingDao.selectAllOrd(unPaging);
+	}
+	
+	
+	//-------------------exp start-------------------------
 	@Override
 	public List<Exp> selectMyExpList(PagingAndCtg upPaging) {
 		return sellingDao.selectMyExpList(upPaging);
@@ -449,26 +476,6 @@ public class SellingServiceImpl implements SellingService {
 		return sellingDao.selectByExpFile(expCode);
 	}
 	
-	@Override
-	public int selectCntAllPrd(PagingAndCtg upPaging) {
-		return sellingDao.selectCntAllPrd(upPaging);
-	}
-	
-	@Override
-	public int selectCntAllOrd(PagingAndCtg unPaging) {
-		return sellingDao.selectCntAllOrd(unPaging);
-	}
-	
-	@Override
-	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging) {
-		return sellingDao.selectAllPrd(upPaging);
-	}
-	
-	@Override
-	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging) {
-		return sellingDao.selectAllOrd(unPaging);
-	}
-
 	@Override
 	public Exp expResDetail(String expCode) {
 		return sellingDao.expResDetail(expCode);
