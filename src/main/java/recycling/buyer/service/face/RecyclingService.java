@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.Oto;
+import recycling.dto.buyer.Rcy;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.dto.seller.Seller;
 
 public interface RecyclingService {
@@ -37,7 +38,39 @@ public interface RecyclingService {
 	 * 
 	 * @return
 	 */
-	public List<Prd> getPrdList();
+	public List<Prd> selectPrdList();
+	
+	/**
+	 * 최신 상품부터 조회
+	 * @return
+	 */
+	public List<Prd> selectLatestList();
+
+	/**
+	 * 조회수가 많은 상품부터 조회
+	 * @return
+	 */
+	public List<Prd> selectHitList();
+	
+	/**
+	 * 상품별 할당된 이미지 썸네일 로드
+	 * @return
+	 */
+	public List<String> selectPrdImageThum(String prdCode);
+
+	/**
+	 * 최신순 상품리스트 이미지 썸네일 로드
+	 * @return
+	 */
+	public List<String> selectLatestPrdImageThum(String prdCode);
+
+	/**
+	 * 조회순 상품리스트 이미지 썸네일 로드
+	 * @return
+	 */
+	public List<String> selectHitPrdImageThum(String prdCode);
+
+	
 
 	/**
 	 * 제품번호를 기준으로 불러오면서 제품 정보를 불러온다
@@ -48,12 +81,33 @@ public interface RecyclingService {
 	public Prd view(String prdCode);
 	
 	/**
+	 * 제품번호를 기준으로 상품 상세이미지 로드
+	 * @param prdCode
+	 * @return
+	 */
+	public List<String> selectPrdImageDetail(String prdCode);
+	
+	/**
 	 * 판매자 기본 정보 로드
 	 * 
 	 * @param getsCode 판매자 코드
 	 * @return 판매자 정보
 	 */
 	public Seller selectSeller(String getsCode);
+	
+	/**
+	 * 판매자 정보 상세조회
+	 * @param getbCode 구매자코드
+	 * @return 판매자 상세 정보
+	 */
+	public Buyer selectBuyerByBCode(String getbCode);
+	
+	/**
+	 * 판매자 거래 횟수 카운트 
+	 * 
+	 * @param	getsCode 프라이머리키인 sCode
+	 */
+	public int selectShipCnt(String getsCode);
 
 	/**
 	 * 판매자 상세 프로필을 가져오는 코드
@@ -64,15 +118,7 @@ public interface RecyclingService {
 	public Seller getSeller(String sCode);
 
 	public List<Map<String, Object>> selectQnaList(String prdCode);
-//	public SellerProf getSellerProf(String sCode);
 
-	/**
-	 * 판매자 문의 코드를 통해서 판매자 문의 불러오기
-	 * 
-	 * @param qstCode	문의 코드
-	 * @return	판매자 문의
-	 */
-//	public SellerQST selectSellerQst(String qstCode);
 
 	/**
 	 * 개인 구매자 정보 조회
@@ -82,29 +128,21 @@ public interface RecyclingService {
 	 */
 	public Buyer selectBuyerDetail(String bId);
 
+
 	/**
 	 * 파일 정보 DB에 삽입
 	 * 
-	 * @param oto
+	 * @param rcy
 	 * @return
 	 */
-	public int insertOto(Oto oto);
-//	public int insertSellerAnswer(SellerAns sellerAns);
-
-	/**
-	 * 판매자 문의 답변 수정
-	 * 
-	 * @param sellerAns
-	 * @return
-	 */
-//	public int updateSellerAnswer(SellerAns sellerAns);
+	public int insertRcy(Rcy rcy);
 
 	
-	/**
-	 * 판매자 문의 답변 삭제
-	 * 
-	 * @param qnaCode
-	 * @return
-	 */
-	public int deleteSellerAnswer(String qnaCode);
+
+	
+
+	
+
+	
+
 }
