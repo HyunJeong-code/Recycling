@@ -74,12 +74,14 @@ div .buyerCt input[type='radio']:checked {
 	display: inline-block;
 	width: 50px;
 	height: 50px;
+	vertical-align: middle;
 }
 
 .section #buyer label {
 	display: inline-block;
 	width: 200px;
 	height: 50px;
+	vertical-align: middle;
 }
 
 .section #bId {
@@ -102,14 +104,14 @@ div .buyerCt input[type='radio']:checked {
 	position: absolute;
 	width: 200px;
 	height: 30px;
-	left: 600px;	
+	left: 850px;	
 } 
 
 #pw {
 	position: absolute;
 	width: 200px;
 	height: 30px;
-	left: 600px;	
+	left: 850px;	
 }
 
 .btn {
