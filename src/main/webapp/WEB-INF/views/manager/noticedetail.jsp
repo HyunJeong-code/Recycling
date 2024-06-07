@@ -8,71 +8,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>게시판</title>
-<style>
-body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #f5f5f5;
-	color: #333;
-}
-
-.full {
-	width: 100%;
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 20px;
-}
-
-.wrap {
-	border: 1px solid #ddd;
-	padding: 20px;
-	background-color: #fff;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-}
-
-.page {
-	text-align: center;
-	margin-bottom: 20px;
-}
-
-h1 {
-	margin: 0;
-	padding-bottom: 10px;
-	font-size: 2em;
-}
-
-hr {
-	border: none;
-	height: 1px;
-	background-color: #ddd;
-	margin-bottom: 20px;
-}
-
-.section {
-	border-top: 1px solid #ddd;
-	padding-top: 20px;
-}
-
-.noticeTable {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-.noticeTable th, .noticeTable td {
-	border: 1px solid #ddd;
-	padding: 10px;
-	text-align: left;
-}
-
-.noticeTable th {
-	background-color: #f2f2f2;
-	font-weight: bold;
-}
-
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
+<style type="text/css">
 #noticeContent {
-	margin-top: 20px;
+	margin: 20px 0;
 	padding: 10px;
 	background-color: #f9f9f9;
 	border: 1px solid #ddd;
@@ -85,7 +25,18 @@ hr {
     text-align: center;
 }
 
+/* 버튼 효과 */
+.btn{
+	text-align: center;
+	margin : 0 auto;
+}
+
+.section{
+	margin-top: 20px
+}
+
 </style>
+
 <script type="text/javascript">
 function cancelUpdate() {
 	
@@ -102,7 +53,7 @@ function cancelUpdate() {
 		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
-				<h1>공지사항</h1>
+				공지사항
 				<hr>
 			</div>
 			
@@ -139,7 +90,7 @@ function cancelUpdate() {
 			<div></div>
 			<div id="noticeContent">${view.ntcContent}</div>
 			
-			<button type="button" onclick="cancelUpdate()">돌아가기</button>
+			<button type="button" class ="btn btnLeft" onclick="cancelUpdate()">돌아가기</button>
 			
 		</div>
 	</div>
