@@ -8,136 +8,234 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-    color: #333;
+/* 전체 기본 설정 */
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	box-sizing: border-box;
+	font: inherit;
+	font-size: 100%;
+	line-height: 1.5;
+	color: #333;
 }
 
+h3 {
+	color: #333;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+}
+
+/* 외부 레이아웃 설정 */
 .full {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+	width: 1200px;
+	border: 1px solid #ccc;
+	margin: 0 auto;
+	display: flex;
+	background-color: #f9f9f9;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+aside {
+	width: 300px;
+	background-color: #f1f1f1;
+	border-right: 1px solid #ddd;
+	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 .wrap {
-    width: 80%;
-    max-width: 1200px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-radius: 8px;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
 }
 
+/* 상단 페이지 */
 .page {
-    text-align: center;
-    margin-bottom: 20px;
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
 }
 
-h1 {
-    font-size: 2em;
-    margin-bottom: 10px;
+/* [우]중단 페이지 */
+.section {
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-hr {
-    border: none;
-    height: 1px;
-    background-color: #ddd;
-    margin-bottom: 20px;
+/* [우]하단 페이지 */
+.btn_bot_style {
+	display: flex;
+	float: right;
+	margin: 0 0 20px 0;
 }
 
-/* Notice Search Form */
-#noticeSearch {
-    margin-bottom: 20px;
-    text-align: center;
+/* ------------------------------------- */
+/* 상단 */
+/* 검색 */
+.search_form_wrap {
+	padding-top: 20px;
+	margin: 0 0 20px 0;
+	display: flex;
+	border-top: 3px solid #d8d8d8;
+	flex-direction: row-reverse;
+}
+/* 검색창 */
+.search_form {
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+	border-radius: 5px;
 }
 
-#noticeSearch form {
-    display: inline-block;
+.search_form button[type="submit"] {
+	padding: 6px 15px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px; /* 버튼 둥글게 */
+	cursor: pointer;
+	transition: background-color 0.3s ease;
 }
 
-#category {
-    padding: 5px;
-    margin-right: 10px;
+.search_form button[type="submit"]:hover {
+	background-color: #0056b3;
 }
 
-#search {
-    padding: 5px;
-    width: 200px;
-}
-
+/* 버튼 */
 button[type="submit"] {
-    padding: 6px 12px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+	padding: 6px 12px;
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+	background-color: #0056b3;
 }
 
-/* Notice Table */
-.section {
-    margin-top: 20px;
-}
-
+/* 본문 */
+/* 테이블 세팅 */
 table {
-    width: 100%;
-    border-collapse: collapse;
+	border-collapse: collapse;
+	border-top: 3px solid #168;
+	width: 100%;
+	text-align: center;
 }
 
-thead {
-    background-color: #007BFF;
-    color: #fff;
+table td {
+	padding: 9px;
 }
 
-th, td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
+table th {
+	color: #168;
+	background: #f0f6f9;
+	text-align: center;
 }
 
-th {
-    font-weight: bold;
+table th, .table td {
+	padding: 10px;
+	border: 1px solid #ddd;
 }
 
-td a {
-    color: #007BFF;
-    text-decoration: none;
+table th:first-child, .table td:first-child {
+	border-left: 0;
 }
 
-td a:hover {
-    text-decoration: underline;
+table th:last-child, .table td:last-child {
+	border-right: 0;
 }
 
-/* Paging Styles */
-.paging {
-    text-align: center;
-    margin-top: 20px;
+table tr td:first-child {
+	text-align: center;
 }
 
-.paging a {
-    display: inline-block;
-    padding: 6px 12px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    color: #007BFF;
-    text-decoration: none;
+table caption {
+	caption-side: bottom;
+	display: none;
 }
 
-.paging a:hover {
-    background-color: #f1f1f1;
+table tr:hover {
+  background-color: #f5f5f5;
+}
+
+
+/* 버튼세팅 */
+.btn_section_detail {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+/* 하단 */
+.btn_bot_wrap {
+	padding-top: 10 px;
+	display: flex;
+	float: right;
+	margin:20px 0;
+	justify-content: flex-end
+}
+
+/* 버튼 세팅 */
+.btn_bot_inform, .btn_bot_del {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.btn_bot_inform {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.btn_bot_inform:hover {
+	background-color: #45a049;
+}
+
+.btn_bot_del {
+	background-color: #f44336;
+	color: white;
+	margin-left: 10px;
+}
+
+.btn_bot_del:hover {
+	background-color: #da190b;
+}
+
+button[type="submit"]:hover,
+.btn_section_detail:hover,
+.btn_bot_inform:hover,
+.btn_bot_del:hover {
+  background-color: #0056b3;
 }
 </style>
 </head>
 <body>
-    <div class="full">
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
         <div class="wrap">
             
             <div class="page">
@@ -145,20 +243,23 @@ td a:hover {
             <hr>
             </div>
      
-    <div id="noticeSearch">
-	<form action="./noticelist" method="get">
-		<select id="noticeList_category" name="category">
-			<option value="title">제목</option>
-			<option value="content">내용</option>
-		</select>
-		
-		<input type="text" id="search" name="search"  placeholder="검색어를 입력하세요">
-        <button type="submit">검색하기</button>
-	</form>
-    </div>
+			<div class="search">
+				<form action="./noticelist" method="get">
+					<input type="hidden" name="sCtg" value="UP">
+					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+					<button>검색</button>
+				</form>
+			</div>
 	
             <div class="section">
             <table border = "1">
+				<colgroup>
+					<col width="20%" />
+					<col width="50%" />
+					<col width="10%" />
+					<col width="20%" />
+				</colgroup>
+
 				<thead>
 					<tr>
 						<th>번호</th>
@@ -183,20 +284,14 @@ td a:hover {
 					</c:forEach>
 				</tbody>
 			</table>
+<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
                 
             </div>
 
         </div><!-- wrap -->
-    </div><!-- full -->
+    	</div><!-- full -->
+    </div>
 </body>
 
-<c:choose>
-	<c:when test="${paging.search != null}">
-		<c:import url="/WEB-INF/views/layout/manager/noticePagingSearch.jsp" />
-	</c:when>
-	<c:otherwise>
-		<c:import url="/WEB-INF/views/layout/manager/noticePaging.jsp" />
-	</c:otherwise>
-</c:choose>
 
 </html>

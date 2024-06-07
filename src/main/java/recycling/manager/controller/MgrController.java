@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
@@ -147,6 +149,38 @@ public class MgrController {
 		logger.info("/manager/login [GET]");		
 	}
 
+	//전체 사원조회
+	@GetMapping("/emplist")
+	public String empList(
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
+			) {
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
+		
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = mgrService.selectCntAllempList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		//사원 전체조회
+		List<ManagerJoinDe> select = mgrService.selectAllempList(upPaging);
+		
+		//JSP로 보내기
+		model.addAttribute("select", select);
+		
+		//페이징
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/emplist");
+		
+		return "/manager/emplist";
+	}
+	
 	//공지사항 전체조회
 	@GetMapping("/noticelist")
 	public void noticeList(
