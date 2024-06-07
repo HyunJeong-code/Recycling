@@ -15,48 +15,6 @@ $(function() {
 	// 직접 입력 선택 시 입력 필드 표시
 	$("#inEmail").hide();
 	
-<<<<<<< HEAD
-    // 직접 입력 선택 시 입력 필드 표시
-    $("#inPhone").hide();
-    
-    $("#sPhone").change(function() {
-        if ($("#sPhone").val() === "in") {
-            $("#inPhone").show();      
-            $("#sPhone").hide();    
-        } else {
-            $("#inPhone").hide();               
-            $("#sPhone").show();
-        }
-    });
-
-    // 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
-	$("form").submit(function() {
-	        var email1 = $("#inPhone").val();
-	        var mPhone = $("#mPhone").val();
-	        var lPhone = $("#lPhone").val();
-	        var fullPhone;
-	        
-	        // sPhone에서 직접 입력을 선택한 경우
-	        if ($("#sPhone").val() === "in") {
-	            fullPhone = inPhone + "-" + mPhone + "-" + lPhone;
-	        } else {
-	            // sPhone에서 직접 입력이 아닌 경우
-	            var sPhone = $("#sPhone").val();
-	            fullPhone = sPhone + "-" + mPhone + "-" + lPhone;
-	        }
-	        
-	        // 숨겨진 입력 필드에 값 설정
-	        $("#mgrPhone").val(fullPhone);
-	        console.log("mgrPhone : " + $("#mgrPhone").val()); // 값 확인
-	    });
-
-
-
-	// 직접 입력 선택 시 입력 필드 표시
-	$("#inEmail").hide();
-	
-=======
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 	$("#mgrEmail2").change(function() {
 		if($("#mgrEmail2").val() === "in") {
 			$("#inEmail").show();
@@ -68,26 +26,6 @@ $(function() {
 	})
 		
 	// 폼 제출 시 이메일 합쳐서 숨겨진 입력 필드에 설정
-<<<<<<< HEAD
-    $("form").submit(function() {
-        var mgrEmail1 = $("#mgrEmail1").val();
-        var mgrEmail2 = $("#mgrEmail2").val();
-        var inEmail = $("#inEmail").val();
-        var fullEmail;
-        
-        // sPhone에서 직접 입력을 선택한 경우
-        if ($("#mgrEmail2").val() === "in") {
-        	fullEmail = mgrEmail1 + "@" + mgrEmail2;
-        } else {
-            // sPhone에서 직접 입력이 아닌 경우
-            var inEmail = $("#inEmail").val();
-            fullEmail = mgrEmail1 + "@" + mgrEmail2;
-        }
-        
-        // 숨겨진 입력 필드에 값 설정
-        $("#mgrEmail").val(fullEmail);
-    });
-=======
 	$("form").submit(function() {
 	    var mgrEmail1 = $("#mgrEmail1").val();
 	    var mgrEmail2 = $("#mgrEmail2").val();
@@ -106,7 +44,6 @@ $(function() {
 	    // 숨겨진 입력 필드에 값 설정
 	    $("#mgrEmail").val(fullEmail);
 	});
->>>>>>> 1a105613bac586f7c7d270b1012083796f08e22b
 	
 	
 	// 일반 파일 이름 표시
@@ -120,9 +57,40 @@ $(function() {
 	    $('.profile_name').val(profileName);
 	});
 	
-})//end
+	$("#inPhone").hide();
+	
+	$("#sPhone").change(function() {
+		if($("#sPhone").val() === "in") {
+			$("#inPhone").show();		
+			$("#sPhone").hide();		
+		} else {
+			$("#inPhone").hide();				
+			$("#sPhone").show();		
+		}		
+	})
 
-
+	// 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
+	$("form").submit(function() {
+	        var email1 = $("#inPhone").val();
+	        var mPhone = $("#mPhone").val();
+	        var lPhone = $("#lPhone").val();
+	        var fullPhone;
+	        
+	        // sPhone에서 직접 입력을 선택한 경우
+	        if ($("#sPhone").val() === "in") {
+	            fullPhone = inPhone + "-" + mPhone + "-" + lPhone;
+	        } else {
+	            // sPhone에서 직접 입력이 아닌 경우
+	            var sPhone = $("#sPhone").val();
+	            fullPhone = sPhone + "-" + mPhone + "-" + lPhone;
+	        }
+	        
+	        // 숨겨진 입력 필드에 값 설정
+	        $("#mgrPhone").val(fullPhone);
+	        console.log("mgrPhone : " + $("#mgrPhone").val()); // 값 확인
+	});
+	
+}) // End Jquery
 </script>
 <style type="text/css">
 /* 전체 기본 설정 */
@@ -340,11 +308,15 @@ label {
 
 				<label>사원증</label>
 				<div class="filebox">
-				    <input class="profile_name" placeholder="선택된 파일 없음" disabled>
-				    <input type="file" id="profile" name="profile" required="required">
-				    <label for="profile">파일찾기</label>
+					<input class="upload_name" type="file" id="mgrProf" name="mgrProf" required="required">
+					<label for="mgrProf">파일찾기</label>
 				</div>
-	
+		
+				<label for="mgrCode">사원 번호</label>
+                <div>
+                	<input type="text" id="mgrCode" name="mgrCode" required="required">
+                </div>
+				
                 <label for="deptno">부서</label>
                 <div>
 	                <select class="deptno" id="deptno" name="deptno" required="required">
@@ -374,7 +346,6 @@ label {
 	                    <div class="hyphen">-</div>
 	                <input type="text" class="s" id="lPhone" name="lPhone" maxlength="4">
                 </div>
-                <input type="hidden" id="mgrPhone" name="mgrPhone">
 				
 				<label for="mgrBirth">생년월일</label>
 				<div>
@@ -389,35 +360,31 @@ label {
 					</select>
 				</div>
 
-				<label for="mgrEmail1">이메일</label>	
+				<label for="mgrEmail">이메일</label>	
 				<div class="email_box">
 				
-					<input type="text" id="mgrEmail1" name="mgrEmail1" required="required">
+					<input type="text" id="mgrEmail" name="mgrEmail" required="required">
 			
 					<select class="mgrEmail2" name="mgrEmail2" id="mgrEmail2" required="required">
-						<option value="naver.com">@naver.com</option>
-						<option value="gmail.com">@gmail.com</option>
-						<option value="daum.net">@daum.net</option>
+						<option>@naver.com</option>
+						<option>@gmail.com</option>
+						<option>@daum.net</option>
 						<option value="in">직접 입력</option>
 					</select>
-					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
-				</div>
-				<input type="hidden" id="mgrEmail" name="mgrEmail">
+			</div>
+						<div>
+							<label for ="file">파일 업로드</td></label>
+							<input type="file" id="file" name="file" required="required">
+						</div>
 
-				<label>일반 파일</label>
-				<div class="filebox">
-					<input class="upload_name" placeholder="선택된 파일 없음" disabled>
-					<input type="file" id="file" name="file" required="required">
-				<label for="file">파일찾기</label>
-				</div>
-
-				<div class ="btn_inform">
-					<button class="btn_bot_join">등록하기</button>
-				</div>
+					<div class ="btn_inform">
+						<button class="btn_bot_join">등록하기</button>
+					</div>
 				</form>
 			</div><!-- section -->
-		</div><!-- wrap -->
-	</div><!-- full -->
+			</div>
+		</div>
+	</div>
 
 
 </body>

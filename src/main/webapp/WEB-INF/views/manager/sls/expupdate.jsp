@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<<<<<<< HEAD
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/sls/expupdate.css">
@@ -165,6 +166,8 @@ $(function() {
 	 
 })
 </script>
+=======
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 <style type="text/css">
 /* 전체 기본 설정 */
 * {
@@ -475,10 +478,6 @@ table tr:hover {
 </head>
 <body>
 	<div class="full">
-		<aside>
-			<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-			<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-		</aside>
 		<div class="wrap">
 			<div class="page">
 				<h1>체험 수정하기</h1>
@@ -486,8 +485,9 @@ table tr:hover {
 			</div>
 
 			<div class="section">
-				<form action="./expupdate?expCode=${update.expCode }" method="post" enctype="multipart/form-data">
+				<form action="./expupdate?expCode=${update.expCode }" method="post">
 
+<<<<<<< HEAD
 					<label>프로필 이미지</label>
 					<input type="file" id="expfileUpdate" name="expfileUpdate" style="display: none;" />
 					<div class="select_img">
@@ -536,6 +536,24 @@ table tr:hover {
 						<button type="submit">수정하기</button>
 					</div>
 				
+=======
+				<div>
+					<label>체험제목</label> <input type="text" name="expName" value="${update.expName}">
+				</div>
+
+				<div>
+					<label>참가비용</label> <input type="text" name="expPrice" value="${update.expPrice}">원
+				</div>
+
+				<div>
+					<label>체험설명</label>
+					<textarea name="expDetail">${update.expDetail}</textarea>
+				</div>
+
+				<div>
+					<button type="submit">수정완료</button>
+				</div>
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 				</form>
 
 				<div>

@@ -111,7 +111,14 @@ $(function() {
 	//송장번호 등록
 	$("#shipCreateBtn").click(function() {
 		var arr = [];
+<<<<<<< HEAD
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
+=======
+<<<<<<< HEAD
+=======
+		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
+>>>>>>> TEST
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 		
 		$('input:checkbox[name=ordCheckList]').each(function () {
 	        if($(this).is(":checked")==true){
@@ -165,8 +172,15 @@ $(function() {
 	//송장 삭제
 	$("#shipDelBtn").click(function() {
 		var arr = [];
+<<<<<<< HEAD
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
+=======
+<<<<<<< HEAD
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 		
+=======
+		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
+>>>>>>> TEST
 		$('input:checkbox[name=ordCheckList]').each(function () {
 	        if($(this).is(":checked")==true){
 		        if($(this).is(":checked")==true){
@@ -179,8 +193,12 @@ $(function() {
 	// 체크된 상품이 없을 때 알림
 	if(arr.length == 0){
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
+<<<<<<< HEAD
 
 		alert("선택된 상품이 없습니다.");
+=======
+			alert("선택된 상품이 없습니다.");
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 		}else{
 			$.ajax({
 				type: "post"
@@ -193,7 +211,15 @@ $(function() {
 				, success: function(res) {
 					console.log("AJAX 성공");
 					
+<<<<<<< HEAD
 					location.href="/manager/sls/sellinglist?sCode=" + sCodeInputNo;
+=======
+<<<<<<< HEAD
+					location.href="./sellinglist?sCode=" + sCodeInputNo;
+=======
+					location.href="/manager/sls/sellinglist?sCode=" + sCodeInputNo;
+>>>>>>> TEST
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 					
 					alert("송장이 삭제되었습니다.");
 				}

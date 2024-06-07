@@ -95,5 +95,6 @@ $(function() {
 		</div>
 	</div>
 </div>
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

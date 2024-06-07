@@ -90,6 +90,14 @@
 		</where>
 	</update>
 	
+	<!-- 구매자 수정 -->
+	<select id="getBuyer" parameterType="String" resultType="Buyer">
+		<include refid="selectBuyerList"/>
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</select>
+	
 	<!-- 구매자 삭제 -->
 	<update id="buyerDel" parameterType="Buyer">
 		UPDATE BUYER

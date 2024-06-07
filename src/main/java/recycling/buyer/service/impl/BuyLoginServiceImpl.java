@@ -23,7 +23,6 @@ public class BuyLoginServiceImpl implements UserDetailsService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyDao buyDao;
 	
-	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.info("LoginService.loadUserByUsername()");
@@ -47,19 +46,33 @@ public class BuyLoginServiceImpl implements UserDetailsService {
 		logger.info("LoginService.chkAuth()");
 		
 		Collection<SimpleGrantedAuthority> auth = null;
-		if (buyerLogin.getbOut().equals("N") && buyerLogin.getsCode() == null) {
+		auth = new ArrayList<SimpleGrantedAuthority>();
+		
+		if(buyerLogin.getbOut().equals("N")) {
+			// 구매자 미탈퇴
+			
+			if(buyerLogin.getsCode() == null) {
+				auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));
+				
+			} else if(buyerLogin.getsChk().equals("Y")) {
+				
+				if(buyerLogin.getsOut().equals("N")) {
+					// 판매자 미탈퇴
+					auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
+					auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));
+				} else {
+					// 판매자 탈퇴
+					auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));
+				}
+				
+			} else {
+				// 판매자 신청 거절
+				auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));
+			}
+		} else {
+			// 구매자 탈퇴
 			auth = new ArrayList<SimpleGrantedAuthority>();
-			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
-		} else if(buyerLogin.getbOut().equals("N") && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
-			auth = new ArrayList<SimpleGrantedAuthority>();
-			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
-			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
-		} else if (buyerLogin.getbOut().equals("Y") && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
-			auth = new ArrayList<SimpleGrantedAuthority>();
-			auth.add(new SimpleGrantedAuthority("ROLE_SELLER"));
-		} else if (buyerLogin.getbOut().equals("N") && buyerLogin.getsChk().equals("N") && buyerLogin.getsOut().equals("N")) {
-			auth = new ArrayList<SimpleGrantedAuthority>();
-			auth.add(new SimpleGrantedAuthority("ROLE_BUYER"));			
+			auth.add(new SimpleGrantedAuthority(null));
 		}
 		
 		buyerLogin.setAuth(auth);

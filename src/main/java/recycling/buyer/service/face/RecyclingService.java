@@ -27,13 +27,17 @@ public interface RecyclingService {
 	
 	 /** 제품 DTO에서 리스트를 불러온다
 	List<Seller> findSeller();
+	// 제품 DTO에서 리스트를 불러온다
+	// List<Seller> findSeller();
+	// 제품 DTO에서 리스트를 불러온다
+	// List<Seller> findSeller();
 	
 	/**
 	 * 제품 DTO에서 리스트를 불러온다
 	 * 
 	 * @return
 	 */
-	public List<Prd> selectPrdList();
+	public List<Prd> getPrdList();
 
 	/**
 	 * 제품번호를 기준으로 불러오면서 제품 정보를 불러온다
@@ -52,14 +56,23 @@ public interface RecyclingService {
 	public Seller selectSeller(String getsCode);
 
 	/**
-	 * QnA 코드 로드
+	 * 판매자 상세 프로필을 가져오는 코드
 	 * 
-	 * @param prdCode 로드에 필요한 제품 코드
-	 * @return QnA
+	 * @param	getsCode 프라이머리키인 sCode
+	 * @return	판매자 상세 정보
 	 */
 	public Seller getSeller(String sCode);
 
 	public List<Map<String, Object>> selectQnaList(String prdCode);
+//	public SellerProf getSellerProf(String sCode);
+
+	/**
+	 * 판매자 문의 코드를 통해서 판매자 문의 불러오기
+	 * 
+	 * @param qstCode	문의 코드
+	 * @return	판매자 문의
+	 */
+//	public SellerQST selectSellerQst(String qstCode);
 
 	/**
 	 * 개인 구매자 정보 조회
@@ -76,4 +89,22 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int insertOto(Oto oto);
+//	public int insertSellerAnswer(SellerAns sellerAns);
+
+	/**
+	 * 판매자 문의 답변 수정
+	 * 
+	 * @param sellerAns
+	 * @return
+	 */
+//	public int updateSellerAnswer(SellerAns sellerAns);
+
+	
+	/**
+	 * 판매자 문의 답변 삭제
+	 * 
+	 * @param qnaCode
+	 * @return
+	 */
+	public int deleteSellerAnswer(String qnaCode);
 }

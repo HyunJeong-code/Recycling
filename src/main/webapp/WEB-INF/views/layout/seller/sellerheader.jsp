@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +9,7 @@
 <title>Insert title here</title>
 <!-- header css -->
 <link rel="stylesheet" href="/resources/css/header.css">
-
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
-
 <script type="text/javascript">
 $(function(){
 	
@@ -53,26 +53,28 @@ $(function(){
                 </a>
             </div>
             <div class="nav-ul">
-           	 	<ul>
-                    <li><a href="/buyer/logout">로그아웃</a></li>
-                    <li><a href="/buyer/mypage/myboard">마이페이지</a></li>
-                    <li><a href="/buyer/mypage/cart">장바구니</a></li>
-                </ul>
+            	<sec:authorize access="isAnonymous()">
+	                <ul>
+	                    <li><a href="/buyer/login">로그인</a></li>
+	                    <li><a href="/buyer/join">회원가입</a></li>
+	                </ul>
+            	</sec:authorize>
+            	<sec:authorize access="hasRole('ROLE_SELLER')">
+            	 	<ul>
+	                    <li><a href="/buyer/logout">로그아웃</a></li>
+	                    <li><a href="/buyer/mypage/myboard">마이페이지</a></li>
+	                    <li><a href="/buyer/mypage/cart">장바구니</a>
+	                    </li>
+	                </ul>
+            	</sec:authorize>
+
             </div>
         </div>
         <div class="container">
             <div>
                 <div class="select-page">
-                    <a href="/buyer/main"><button>buyer</button></a><a href="/seller/main"><button class="selected">seller</button></a>
+                    <button class="selected"><a href="/buyer/main">Buyer</a></button><button><a href="/seller/main">Seller</a></button>
                 </div>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
-                <button type="submit">
-                    <span class="sch_send">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                </button>
             </div>
         </div>
     </header>

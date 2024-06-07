@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
@@ -51,7 +50,7 @@ public class HrController {
 		
 	     //페이지 수 계산
 		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+//		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		
 		int upPage = hrService.selectCntAllHr(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
@@ -81,11 +80,6 @@ public class HrController {
 		Manager view = hrService.selectDetail(manager);
 		model.addAttribute("view", view);
 		logger.info("view:{}", view );
-		
-		//프로필 조회
-		MgrFile profileList = hrService.mgrProFileList(mgrFile);
-		model.addAttribute("profileList", profileList);
-		logger.info("profileList:{}", profileList );
 		
 		//파일 조회
 		MgrFile fileList = hrService.mgrFileList(mgrFile);
@@ -117,18 +111,13 @@ public class HrController {
 	@PostMapping("/empform")
 	public String empFormProc(
 			Manager manager
-			, Model model
-			, @RequestParam("profile") MultipartFile profile
-			, @RequestParam("file") MultipartFile file
+			,@RequestParam("file") MultipartFile file
 			) {
 		logger.info("controller: empform[Post]");
 		
-		hrService.insert(manager,profile, file);
+		hrService.insert(manager, file);
 		
-		model.addAttribute("msg", "사원 정보가 입력되었습니다.");
-		model.addAttribute("url", "/manager/hr/main");
-		
-		return "/layout/alert";
+		return "redirect:./empform";
 	}
 
 	//사원정보 업데이트창

@@ -19,10 +19,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.service.face.BuyService;
+import recycling.buyer.service.face.BuyerService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
@@ -43,17 +45,43 @@ public class BuyController {
 	@GetMapping("/main")
 	public void main(
 //			Authentication authentication,
+			@RequestParam(defaultValue = "") String ctg,
 			Model model
 			) {
 		logger.info("/buyer/main [GET]");
 		
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		logger.info("buyerLogin : {}", buyerLogin);
+		logger.info("ctg : {}", ctg);
 		
-//		List<Map<String, Object>> ntcList = buyService.selectNtc();
-//		logger.info("ntcList : {}", ntcList);
-//		
-//		model.addAttribute("ntcList", ntcList);
+		List<Map<String, Object>> expHit = null;
+		List<Map<String, Object>> rcyHit = null;
+		List<Map<String, Object>> upcyHit = null;
+		
+		List<Map<String, Object>> expNew = null;
+		List<Map<String, Object>> rcyNew = null;
+		List<Map<String, Object>> upcyNew = null;
+		
+		expHit = buyService.selectExpHit();
+		rcyHit = buyService.selectRcyHit();
+		upcyHit = buyService.selectUpcyHit();		
+		
+		expNew = buyService.selectExpNew();
+		rcyNew = buyService.selectRcyNew();
+		upcyNew = buyService.selectUpcyNew();
+	
+		logger.info("expPrd : {}", expHit);
+		logger.info("Rcy : {}", rcyHit);
+		logger.info("Upcy : {}", upcyHit);
+		
+		logger.info("expPrd : {}", expNew);
+		logger.info("Rcy : {}", rcyNew);
+		logger.info("Upcy : {}", upcyNew);
+		
+		model.addAttribute("expHit", expHit);
+		model.addAttribute("rcyHit", rcyHit);
+		model.addAttribute("upcyHit", upcyHit);
+		model.addAttribute("expNew", expNew);
+		model.addAttribute("rcyNew", rcyNew);
+		model.addAttribute("upcyNew", upcyNew);
 		
 	}
 	
@@ -137,7 +165,7 @@ public class BuyController {
 		}
 		
 		// 프로필 삽입
-		if(!buyerProf.getOriginalFilename().equals("")) {
+		if(!buyerProf.isEmpty()) {
 			BuyerProf prof = buyService.fileSave(buyer, buyerProf);
 			if(prof != null) {
 				resProf = buyService.insertProf(prof);
@@ -155,7 +183,7 @@ public class BuyController {
 		}
 		
 		
-		if(buyerProf.getOriginalFilename().equals("") || buyerAdr.getAdrPostcode().equals("")) {
+		if(buyerProf.isEmpty() || buyerAdr.getAdrPostcode().equals("")) {
 			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
 			model.addAttribute("url", "/buyer/login");
 			return "/layout/alert";
@@ -278,23 +306,6 @@ public class BuyController {
 		logger.info("/buyer/login [GET]");
 	}
 	
-//	@PostMapping("/login")
-//	public String loginProc(Buyer buyer, HttpSession session) {
-//		logger.info("/buyer/login [POST]");
-//		
-//		logger.info("login : {}", buyer);
-//		
-//		BuyerLogin buyers = buyService.selectBybIdbPw(buyer);
-//		
-//		if(buyers != null && buyers.getbOut().equals("N")) {
-//			session.setAttribute("buyers", buyers);
-//			return "redirect:./main";
-//		} else {
-//			session.invalidate();
-//			return "redirect:./loginfail";
-//		}
-//	}
-	
 	@GetMapping("/loginfail")
 	public void loginFail() {
 		logger.info("/buyer/loginfail [GET]");
@@ -396,20 +407,20 @@ public class BuyController {
 	}
 	
 	@GetMapping("/buyerheader")
-	public void buyerHeader(
-			Model model,
-			Authentication authentication
+	@ResponseBody
+	public List<Map<String, Object>> buyerHeader(
+			Model model
 			) {
 		logger.info("/buyer/buyerheader [GET]");
-		
-		logger.info("auth : ", authentication);
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		logger.info("buyerLogin : {}", buyerLogin);
 		
 		List<Map<String, Object>> ntcList = buyService.selectNtc();
 		logger.info("ntcList : {}", ntcList);
 		
-		model.addAttribute("ntc", ntcList);
+		model.addAttribute("ntcList", ntcList);
+		model.addAttribute("ntcSize", ntcList.size());
+		
+		return ntcList; 
+//		return null;
 	}
 	
 	@GetMapping("/mainsearch")
