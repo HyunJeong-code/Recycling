@@ -196,22 +196,17 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public int updateBuyerProf(MultipartFile buyerProf, String bCode) {
+	public BuyerProf updateBuyerProf(MultipartFile buyerProf, String bCode) {
 
 		if (buyerProf.getSize() <= 0) {
 			
-            return 0;
+            return null;
         
 		}
 
-        String storedPath = "D:/uploads/profiles/";
+        String storedPath = servletContext.getRealPath("upload");
         File storedFolder = new File(storedPath);
-        
-        if(!storedFolder.exists()) {
-        	
-        	storedFolder.mkdir();
-        	
-        }
+        storedFolder.mkdir();
         
         String storedName = null;
         File dest = null;
@@ -232,14 +227,10 @@ public class BuyerServiceImpl implements BuyerService {
         	
         	e.printStackTrace();
         	
-        	return 0;
-            
         } catch (IOException e) {
         
         	e.printStackTrace();
             
-        	return 0;
-        
         }
         
         BuyerProf prof = new BuyerProf();
@@ -248,27 +239,22 @@ public class BuyerServiceImpl implements BuyerService {
         prof.setOriginName(buyerProf.getOriginalFilename());
         prof.setStoredName(storedName);
         
-        return buyerDao.updateBuyerProf(prof);
+        return prof;
 	
 	}
 	
 	@Override
-	public int updateCmpFile(MultipartFile cmpFile, String bCode) {
+	public CmpFile updateCmpFile(MultipartFile cmpFile, String bCode) {
 		
 		if (cmpFile.getSize() <= 0) {
 			
-	        return 0;
+	        return null;
 	    
 		}
 		
-		String storedPath = "D:/uploads/cmpfiles/";
+		String storedPath = servletContext.getRealPath("upload");
 	    File storedFolder = new File(storedPath);
-
-	    if (!storedFolder.exists()) {
-	    	
-	        storedFolder.mkdir();
-	    
-	    }
+	    storedFolder.mkdir();
 	    
 	    String storedName = null;
 	    File dest = null;
@@ -289,14 +275,10 @@ public class BuyerServiceImpl implements BuyerService {
 	    	
 	    	e.printStackTrace();
 	    	
-	    	return 0;
-	        
 	    } catch (IOException e) {
 	    
 	    	e.printStackTrace();
 	        
-	    	return 0;
-	    
 	    }
 	    
 	    CmpFile file = new CmpFile();
@@ -306,7 +288,7 @@ public class BuyerServiceImpl implements BuyerService {
         file.setOriginName(cmpFile.getOriginalFilename());
         file.setStoredName(storedName);
 		
-        return buyerDao.updateCmpFile(file);
+        return file;
         
 	}
 

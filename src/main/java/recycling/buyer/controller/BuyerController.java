@@ -478,49 +478,6 @@ public class BuyerController {
 
 	}
 
-	// 프로필 이미지 제공
-    @GetMapping("/buyer/mypage/profile/{filename}")
-    public void serveProfileImage(@PathVariable String filename, HttpServletResponse response) {
-        Path file = Paths.get("D:/uploads/profiles").resolve(filename);
-        serveImage(file, response);
-    }
-
-    // 사업자 등록증 이미지 제공
-    @GetMapping("/buyer/mypage/cmpfile/{filename}")
-    public void serveCmpFileImage(@PathVariable String filename, HttpServletResponse response) {
-        Path file = Paths.get("D:/uploads/cmpfiles").resolve(filename);
-        serveImage(file, response);
-    }
-
-    // 이미지 가져오기
-    public void serveImage(Path file, HttpServletResponse response) {
-        if (Files.exists(file)) {
-            String mimeType = null;
-            try {
-                mimeType = Files.probeContentType(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (mimeType == null) {
-                mimeType = "application/octet-stream";
-            }
-            response.setContentType(mimeType);
-            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getFileName().toString() + "\"");
-            try (InputStream inputStream = Files.newInputStream(file);
-                 OutputStream outputStream = response.getOutputStream()) {
-                byte[] buffer = new byte[8192];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        }
-    }
-	
 	// 개인 마이페이지 메인화면
 	@GetMapping("/mypagepri")
 	public String myPagePri(Authentication authentication, Model model) {
@@ -772,9 +729,9 @@ public class BuyerController {
 		// 프로필 이미지 업데이트
 		if (!buyerProf.isEmpty()) {
 
-			int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
+			BuyerProf updateProf = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
 
-			if (result == 0) {
+			if (updateProf == null) {
 
 				model.addAttribute("error", "프로필 이미지 저장 실패");
 
@@ -922,9 +879,9 @@ public class BuyerController {
 		// 프로필 이미지 업데이트
 		if (!buyerProf.isEmpty()) {
 
-			int result = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
+			BuyerProf updateProf = buyerService.updateBuyerProf(buyerProf, buyerLogin.getbCode());
 
-			if (result == 0) {
+			if (updateProf == null) {
 
 				model.addAttribute("error", "프로필 이미지 저장 실패");
 
@@ -937,9 +894,9 @@ public class BuyerController {
 		// 사업자 등록증 업데이트
 		if (!cmpFile.isEmpty()) {
 
-			int result = buyerService.updateCmpFile(cmpFile, buyerLogin.getbCode());
+			CmpFile updateFile = buyerService.updateCmpFile(cmpFile, buyerLogin.getbCode());
 
-			if (result == 0) {
+			if (updateFile == null) {
 
 				model.addAttribute("error", "사업자 등록증 저장 실패");
 
