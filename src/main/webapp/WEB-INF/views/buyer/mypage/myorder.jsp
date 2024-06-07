@@ -93,7 +93,11 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					<form action="./myorder" method="get">
 						<input type="hidden" name="sCtg" value="UP">
 						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-						<button>검색</button>
+						<button>
+		                    <span class="sch_send">
+		                        <i class="fa-solid fa-magnifying-glass"></i>
+		                    </span>
+						</button>
 					</form>
 				</div>
 				
