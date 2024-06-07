@@ -80,7 +80,6 @@ public class SlsController {
 		
 	}
 	
-	
 	@GetMapping("/sellerdetail")
 	public void sellerDetail() {
 		logger.info("/manager/sls/sellerdetail [GET]");
@@ -554,52 +553,6 @@ public class SlsController {
 		
 		return "/layout/alert";
 
-	}
-	
-	//체험단 수정창
-		@GetMapping("/expupdate")
-		public String expUpdate(
-					Exp exp
-					, Model model
-					, ExpFile expFile
-				) {
-			//수정창 조회
-			Exp update = slsService.expUpdateView(exp);
-			model.addAttribute("update", update);
-			
-			//수정창 파일조회
-			ExpFile profile = slsService.expUpdateProfile(expFile);
-			model.addAttribute("profile",profile);
-			logger.info("expFile:{}",profile);
-			
-			List<ExpFile> file = slsService.expUpdateFile(expFile);
-			model.addAttribute("expFileList",file);
-			logger.info("file:{}",file);
-			
-			return "/manager/sls/expupdate";
-		}
-		
-		//체험단 수정하기
-		@PostMapping("/expupdate")
-		public String updateProc(
-				Exp exp
-				, Model model
-				, ExpFile expFile
-			) {
-		//수정창 조회
-		Exp update = slsService.expUpdateView(exp);
-		model.addAttribute("update", update);
-		
-		//수정창 파일조회
-		ExpFile profile = slsService.expUpdateProfile(expFile);
-		model.addAttribute("profile",profile);
-		logger.info("expFile:{}",profile);
-		
-		List<ExpFile> file = slsService.expUpdateFile(expFile);
-		model.addAttribute("files",file);
-		logger.info("file:{}",file);
-		
-		return "/manager/sls/expupdate";
 	}
 	
 	@PostMapping("/expupdate")
