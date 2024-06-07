@@ -119,7 +119,6 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		logger.info("updateReview() - UpcyReview updated: upcyCode={}, upcyContent={}", upcyCode, upcyContent);
 	}
 
-	
 	@Override
 	public void deleteReview(String upcyCode) {
 		upcyclingDao.deleteReview(upcyCode);

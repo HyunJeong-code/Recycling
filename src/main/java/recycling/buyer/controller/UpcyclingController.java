@@ -48,7 +48,6 @@ public class UpcyclingController {
 		return "buyer/upcycling/main";
 	}
 	
-	
 	@GetMapping("/upcydetail")
 	public String  upcyDetail(
 			@RequestParam("prdcode") String prdCode,
@@ -82,8 +81,6 @@ public class UpcyclingController {
 		
 	}
 	
-	
-	
 	@GetMapping("/upcyvwlist")
 	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
 		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
@@ -94,9 +91,7 @@ public class UpcyclingController {
 		
 		return "buyer/upcycling/upcyvwlist";
 	}
-	
-	
-	
+
 	 @GetMapping("/upcyrvwform")
 	 public String upcyrvwform(
 			 @RequestParam("prdCode") String prdCode,
