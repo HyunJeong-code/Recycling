@@ -345,7 +345,7 @@ public interface SlsDao {
 	 * 
 	 * @return
 	 */
-//	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 	
 	/**
 	 * 판매자 상품 조회[페이징]
@@ -443,9 +443,7 @@ public interface SlsDao {
 	 */
 	public int insertPrdFile(ExpFile expFile);
 
-
-}
-=======
+	/**
 	 * 업데이트 프로필 조회
 	 * 
 	 * @param expFile
@@ -509,5 +507,3 @@ public interface SlsDao {
 	 */
 	public List<ExpSch> selectAllSch(String expCode);
 }
-
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2

@@ -39,11 +39,33 @@ public class SlsServiceImpl implements SlsService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private SlsDao slsDao;
 	
+	//파일 저장소
+	private String saveFile(MultipartFile file, File storedFolder) {
+	    logger.info("SERVICE : SAVEFILE[GET]");
+		if (file.isEmpty()) {
+	        return null;
+	    }
+
+	    String storedName;
+	    File dest;
+	    do {
+	        storedName = UUID.randomUUID().toString().split("-")[4] + "_" + file.getOriginalFilename();
+	        dest = new File(storedFolder, storedName);
+	    } while (dest.exists());
+
+	    try {
+	        file.transferTo(dest);
+	        return storedName;
+	    } catch (IllegalStateException | IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	
 	@Override
 	public List<Seller> main(PagingAndCtg upPaging) {
 		return slsDao.main(upPaging);
 	}
-
 
 	@Override
 	public int upPageSlsMain(PagingAndCtg upPaging) {
@@ -450,11 +472,11 @@ public class SlsServiceImpl implements SlsService {
 //	    }
 //	}
 
-	//판매자 상품 조회
-//	@Override
-//	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging) {
-//		return slsDao.selectAllPrdList(upPaging);
-//	}
+	// 판매자 상품 조회
+	@Override
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging) {
+		return slsDao.selectAllPrdList(upPaging);
+	}
 
 	//판매자 상품 조회 페이징
 //	@Override
@@ -501,7 +523,6 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
-<<<<<<< HEAD
 
 	//멀티파일 업데이트 전 삭제
 	@Override
@@ -555,7 +576,6 @@ public class SlsServiceImpl implements SlsService {
 	      
 	      return detailRes;
 	   }
-=======
 	
 	//디테일 프로필 조회
 	@Override
@@ -634,13 +654,4 @@ public class SlsServiceImpl implements SlsService {
 		return null;
 	}
 
-<<<<<<< HEAD
-=======
-
-
-
-	
-
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
->>>>>>> 5eb7e13281519412e0bbc52d3a59af56e71fb6f8
 }//main

@@ -6,10 +6,6 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import io.vavr.collection.HashMap;
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -19,10 +15,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.PrdFile;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
-import recycling.dto.seller.AllPrd;
-import recycling.dto.seller.Exp;
 
 // 상품-판매 관련 처리
 
@@ -339,11 +332,5 @@ public interface SellingService {
 	 * @param map - 삭제할 파일코드
 	 */
 	public void deleteDetailFile(HashMap<String, String> map);
-
-
-
-	
-
-
 
 }
