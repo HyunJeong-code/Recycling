@@ -203,6 +203,7 @@ function checkLoginAndRedirect(url) {
                 <th>작성일</th>
             </tr>
 
+		<div>
             <c:if test="${not empty expReviews}">
                 <c:forEach var="expReview" items="${expReviews}">
                     <tr>
@@ -233,6 +234,9 @@ function checkLoginAndRedirect(url) {
                     <td colspan="5" class="none">작성한 문의글이 없습니다.</td>
                 </tr>
             </c:if>
+            <hr>
+		</div>
+		
         </table>
         <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
     </div>
