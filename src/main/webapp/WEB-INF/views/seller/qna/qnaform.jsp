@@ -43,14 +43,8 @@ $(function() {
 	<div class="full">
 	
 		<h1>고객 문의사항 답변 등록</h1>
-		<hr>
 		
-		<div>
-			<div><img alt="" src=""></div>
-			<div>${qst.qstCode }</div>
-		</div>
-		
-		<table>
+		<table class="view-table">
 			<tr>
 				<td>문의 분류</td>
 				<td id="ctQst"></td>
@@ -63,17 +57,18 @@ $(function() {
 				<td>문의 내용</td>
 				<td>${qst.qstContent }</td>
 			</tr>
-		</table>
-		
-		<table>
+			<tr>
+				<td>문의 이미지</td>
+				<td><img alt="문의 이미지" src="/resources/image/${img.originName }"></td>
+			</tr>
 			<tr>
 				<td>답변 내용</td>
 				<td><textarea id="qnaContent" name="qnaContent"></textarea></td>
 			</tr>
 		</table>
 		
-		<button id="qnaBtn">등록하기</button>
-		<button><a href="./main">목록</a></button>
+		<a href="./main"><button class="btn">목록</button></a>
+		<button id="qnaBtn" class="btn btnRight">등록하기</button>
 	</div>
 
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>

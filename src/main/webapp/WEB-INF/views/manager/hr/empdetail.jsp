@@ -226,10 +226,10 @@ button:hover {
 </head>
 <body>
 
-	<div class="full">
-	<aside>
-		왼쪽
-	</aside>
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
 				<h1>사원 상세조회</h1>
@@ -238,7 +238,7 @@ button:hover {
 
 			<div class="section">
 				<div class ="section_top">
-					<img alt=""src="${pageContext.request.contextPath}/upload/${profileList.storedName}">
+					<img alt=""src="/upload/${profileList.storedName}">
 					
 				<div class="section_top_privacy">
 					<div class="mgrCode_box">
@@ -309,7 +309,7 @@ button:hover {
 			</div>
 		</div>
 	</div>
-
+</div>
 
 
 </body>

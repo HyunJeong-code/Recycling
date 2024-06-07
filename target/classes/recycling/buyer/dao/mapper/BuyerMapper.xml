@@ -28,7 +28,7 @@
 		FROM (
 			SELECT rownum no, PRD.* FROM (
 				SELECT
-					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
 				FROM
 					cart c, prd p, prd_file pf
 				<where>
@@ -46,7 +46,7 @@
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
 		SELECT
-			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
 		FROM
 			cart c, prd p, prd_file pf
 		<where>
@@ -131,10 +131,21 @@
 	
 	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
 		SELECT * FROM order_detail
-			<where>
-				AND orddt_code = #{orddtCode }
-			</where>
+		<where>
+			AND orddt_code = #{orddtCode}
+		</where>
 	</select>
+	
+	<insert id="insertChange" parameterType="Change">
+		INSERT INTO change
+		VALUES(
+			'CHG' || lpad(cart_seq.nextval, '7', 0)
+			, #{orddtCode}
+			, #{ctChgNo}
+			, #{chgDt}
+			, sysdate
+		)
+	</insert>
 	
 	<update id="updatecCnt" parameterType="Cart">
 		UPDATE cart
@@ -360,15 +371,5 @@
 		</where>
 		ORDER BY orddt_code DESC
     </select>
-    
-    <insert id="insertChange" parameterType="Change">
-		INSERT INTO change
-		VALUES(
-			'CHG' || lpad(cart_seq.nextval, '7', 0)
-			, #{orddtCode}
-			, #{ctChgNo}
-			, #{chgDt}
-			, sysdate
-		)
-	</insert>
+
 </mapper>

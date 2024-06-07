@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
+import recycling.dto.buyer.QstFile;
 import recycling.dto.seller.Qna;
 import recycling.seller.dao.face.QnaDao;
 import recycling.seller.service.face.QnaService;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -22,13 +24,13 @@ public class QnaServiceImpl implements QnaService {
 	@Autowired QnaDao qnaDao;
 	
 	@Override
-	public List<QstA> selectBysCode(String sCode) {
-		return qnaDao.selecBysCode(sCode);/**
-		 * qnaCode가 일치하는 qna 삭제
-		 * 
-		 * @param qnaCode - 삭제하는 qnaCode 
-		 * @return - DELETE 결과
-		 */
+	public List<QstA> selectQstBysCode(PagingAndCtg upPaging) {
+		return qnaDao.selectQstBysCode(upPaging);
+	}
+	
+	@Override
+	public List<QstA> selectQstAllBysCode(PagingAndCtg unPaging) {
+		return qnaDao.selectQstAllBysCode(unPaging);
 	}
 	
 	@Override
@@ -54,5 +56,21 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	public int deleteQna(String qnaCode) {
 		return qnaDao.deleteQna(qnaCode);
+	}
+
+	@Override
+	public int selectCntQstBysCode(PagingAndCtg upPaging) {
+		logger.info("service");
+		return qnaDao.selectCntQstBysCode(upPaging);
+	}
+
+	@Override
+	public int selectCntQstAllBysCode(PagingAndCtg unPaging) {
+		return qnaDao.selectCntQstAllBysCode(unPaging);
+	}
+	
+	@Override
+	public QstFile selectQstFile(String qstCode) {
+		return qnaDao.selectQstFile(qstCode);
 	}
 }

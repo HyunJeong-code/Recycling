@@ -11,7 +11,6 @@ import recycling.dto.manager.Ans;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 고객 센터 관련 DB 처리
@@ -49,13 +48,6 @@ public interface HelpDao {
 	 */
 	public List<OtoCt> selectAllOtoCt();
 
-	/**
-	 * 1:1문의 게시글 전체 조회
-	 * 
-	 * @return 1:1문의 DTO를 가진 List
-	 */
-	public List<Oto> selectAllOto();
-
 
 	/**
 	 * 1:1문의 작성 폼에 분류 선택 기능
@@ -88,7 +80,7 @@ public interface HelpDao {
 	 * @param bId - 구매자 아이디
 	 * @return 개인 구매자 정보
 	 */
-	public Buyer selectBuyerBybId(String bId);
+	public Buyer getBuyerDetail(String bId);
 
 
 	/**
@@ -184,13 +176,29 @@ public interface HelpDao {
 	 */
 	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
 
-	public List<Notice> selectByCategory(int i, PagingAndCtg upPaging);
 
-
+	/**
+	 * isSelller 가 true면 판매자 + 구매자 공지사항 조회
+	 * 
+	 * @param params - isSeller, ct_nctno
+	 * @return noticeList
+	 */
 	public List<Notice> selectNoticeForSeller(Map<String, Object> params);
 
+	/**
+	 * isSelller 가 false면 판매자 + 구매자 공지사항 조회
+	 * 
+	 * @param params - isSeller, ct_nctno
+	 * @return noticeList
+	 */
 	public List<Notice> selectNoticeForBuyer(Map<String, Object> params);
 
+	/**
+	 * 공지사항 페이징 개수 조회
+	 * 
+	 * @param params - 페이징 객체, ct_nctno
+	 * @return paging
+	 */
 	public int selectCntAllNoticeList(Map<String, Object> params);
 
 

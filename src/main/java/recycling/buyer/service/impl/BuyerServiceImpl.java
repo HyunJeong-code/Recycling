@@ -48,10 +48,10 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public List<CartOrder> selectAllCart(String bCode) {
-		List<CartOrder> list = buyerDao.selectAllCart(bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging) {
+		List<CartOrder> list = buyerDao.selectAllCart(upPaging);
 		
-		logger.info("bCode: {}", bCode);
+		logger.info("bCode: {}", upPaging);
 		logger.info("list: {}", list);
 		
 		
@@ -100,7 +100,6 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-
 	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging) {
 		return buyerDao.buyerDaoselectOrderDetailBybCode(upPaging);
 	}
@@ -366,11 +365,6 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging) {
-		return buyerDao.selectCntOrderDetailBybCode(upPaging);
-	}
-	
-	@Override
 	public OrderDetail selectByorddtCode(String orddtCode) {
 		return buyerDao.selectByorddtCode(orddtCode);
 	}
@@ -379,5 +373,18 @@ public class BuyerServiceImpl implements BuyerService {
 	public int insertChange(Change change) {
 		return buyerDao.insertChange(change);
 	}
+	
+	//paging cnt
+	@Override
+	public int selectCntAllCart(PagingAndCtg upPaging) {
+		return buyerDao.selectCntAllCart(upPaging);
+	}
+	
+	@Override
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging) {
+		return buyerDao.selectCntOrderDetailBybCode(upPaging);
+	}
+	
+	//paging cnt end
 	
 }

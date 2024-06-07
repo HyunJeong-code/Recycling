@@ -37,9 +37,10 @@ $(function() {
 </head>
 <body>
 
-	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
-
-	<div class="full">
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 
 		<form action="./orderupdate" method="post">
 			<input name="orddtCode" value="${order.orddtCode }" style="display:none">
@@ -142,9 +143,8 @@ $(function() {
 		</form>
 	</div>
 
+</div>
 
-
-	<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 	
 </body>
 </html>

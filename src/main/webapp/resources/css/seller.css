@@ -1,44 +1,388 @@
 @charset "UTF-8";
-
-.full {
-	width: 1200px;
-	margin: 0 auto;
+a {
+    text-decoration: none;
+    color: #000; /* 텍스트 색상 */
 }
 
-button {
-    border: none;
-    width: 100px;
+li {
+    list-style: none;
 }
 
-input[type="button"] {
-    border: none;
-    width: 100px;
+.notice-banner {
+    width: 100%;
+    height: 40px;
+    background-color: #000;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
 }
 
-input[type="text"] {
-	border: none;
-	border-bottom: 1px solid black;
+.notice-banner a {
+    font-size: 15px;
+    font-weight: 700;
+    margin: auto;
+    color: #fff;
 }
 
-.s {
-	width: 100px;
+.header {
+    background-color: #f1f1f1;
+    color: #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 99;
 }
 
-.m {
-	width: 200px;
+.header.fixed {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
-.l {
-	width: 300px;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-ul ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+
+.nav-ul ul li a {
+    color: #333; /* 텍스트 색상 */
+    font-size: 13px;
+    text-decoration: none;
+    margin: 5px;
+}
+
+.nav-ul ul li a:hover {
+    text-decoration: underline;
+}
+
+.logo {
+    margin_top: 15px;
+}
+
+.text-logo {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.select-page button {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 5px 20px;
+    border: 1px solid #eee;
+    border-radius: 0;
+}
+
+.select-page a {
+   cursor: pointer;	
+}
+ 
+
+.select-page .selected {
+    background-color: #2D9BF0;
+    color: #fff;
+}
+
+.select-page a .selected {
+	color: #fff !important;
+}
+
+.select-page a:hover button {
+	background-color: #ccc;
+}
+
+.select-page a:hover .selected {
+	background-color: #2D9BF0;
+}
+
+.search-bar {
+    display: flex;
+    flex: 1;
+    max-width: 300px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-bar button {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #2D9BF0;
+    background-color: #2D9BF0;
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar .cartBtn {
+    font-size: 18px;
+    margin: auto 10px;
+}
+
+.search-bar button:hover {
+    background-color: #45A049;
+}
+
+.header-buttons .button {
+    color: #2D9BF0;
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 10px 20px;
+    border: 1px solid #2D9BF0;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.header-buttons .button:hover {
+    background-color: #2D9BF0;
+    color: #fff;
+}
+
+.menu {
+    width: 1200px;
+    padding-top: 20px;
+}
+
+.menu ul li, .sub-wrap ul li {
+    width: 140px;
+    text-align: center;
+}
+
+.menu .menu-ul li:first-child {
+    width: 50px;
+}
+
+.menu .menu-ul li {
+    padding-bottom: 15px;
+}
+
+.menu .menu-ul .selected {
+    border-bottom: 3px solid #2D9BF0;
+}
+
+.menu .menu-ul li:hover {
+    border-bottom: 3px solid #2D9BF0;
+}
+
+.menu .menu-ul li a:hover {
+    text-decoration: none;
+}
+
+.menu .menu-ul li a {
+    color: #333;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sub-wrap {
+	display: none;
+    width: 1160px;
+    margin: 0 auto;
+    position: absolute;
+    background-color: #f1f1f1;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99;
+}
+
+.sub-wrap ul:first-child li {
+    width: 50px;
+}
+
+.sub-wrap ul {
+    display:block;
+}
+
+.sub-wrap ul li {
+    margin: 15px 0;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sub-wrap ul li a:hover {
+    text-decoration: none;
+    color : #2D9BF0;
+}
+
+.menu > ul {
+    display: flex; align-items: center; justify-content: space-around; height: 100%;
+}
+
+.sub-wrap {
+    display: flex;
+    justify-content: space-around;
+}
+
+.sub-wrap li {
+}
+
+.menu {
+    width: 1200px;
+    padding-top: 20px;
+    position: relative; /* 이 줄을 추가합니다 */
+}
+
+
+.btnBox {
+	margin: 20px auto;
+	display: flex;
+	justify-content: space-around;
 }
 
 .btn {
-	background-color: #ccc;
-    color: black;
+    outline: 0;
+    border: none;
+    transition: all 0.2s ;
+   	width: 90px;
+   	height: 32px;
+    background-color: #878787;
+    border-radius: 5px;
+   	color: white;
+   	font-size: 15px;
+}
+
+.btn:hover {
+    background-color: #9e9e9e;
+    color: fff;
+    box-shadow: 0px 0px 0px 2px rgba(192, 194, 250,0.7);
 }
 
 .btnLeft {
-    background-color: #2D9BF0;
-    color: white;
+    background-color: #878787;
 }
 
+.btnLeft:hover {
+    background-color: #9e9e9e;
+}
+
+.btnRight {
+    background-color: #2D9BF0;
+}
+
+.btnRight:hover {
+    background-color:#58c05c;
+}
+
+.btnDel {
+    background-color: #db2525;
+}
+
+.btnDel:hover {
+    background-color: #f13535;
+}
+
+.n-table {
+    font-size: 13px;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.n-table a {
+    color: #333;
+    display: inline-block;
+    line-height: 1.4;
+    word-break: break-all;
+    vertical-align: middle;
+}
+
+.n-table a:hover {
+    text-decoration: underline;
+}
+
+.n-table th {
+    text-align: center;
+}
+
+.n-table th, .n-table td {
+    padding: 14px 0;
+}
+
+.n-table tbody td {
+    border-top: 1px solid #e7e7e7;
+    text-align: center;
+}
+
+.n-table tbody th {
+    padding-left: 28px;
+    padding-right: 14px;
+    border-top: 1px solid #e7e7e7;
+    text-align: left;
+}
+
+.view-table {
+    width: 100%;
+    border-top: 2px solid #000000;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.view-table tr {
+    height: 46px;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.view-table tr td:first-child {
+    background-color: #f5f5f5;
+    padding-right: 20px;
+    width: 150px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.view-table tr td:nth-child(2) {
+    text-align: left;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #333;
+}
+
+.view-table tr td input[type="radio"] {
+	margin: 0 20px 0 10px;
+}
+
+.search input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    font-size: 12px;
+    width: 200px;
+}
+
+.search button {
+	padding: 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    border: 1px solid #2D9BF0;
+    background-color: #2D9BF0;
+    color: #fff;
+}
+
+.search button:hover {
+	background-color:#58c05c;
+}

@@ -90,66 +90,99 @@ public class SellingController {
     }
 	
 	@GetMapping("/rcylist")
-	public void rcyList(Authentication authentication, Model model) {
+	public void rcyList(Authentication authentication, Model model,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg) {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
+        
+        // 문의글 페이지 수 계산
+  		PagingAndCtg upPaging = new PagingAndCtg();
+  		PagingAndCtg unPaging = new PagingAndCtg();
+         
+        upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+        unPaging = pageService.unPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+         
+        int upPage = sellingService.selectCntAllrcyPrd(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+         
+  		logger.info("upPaging : {}", upPaging);
+  		upPaging.setUser(buyerLogin.getsCode());
+  		
+  		
+  		int unPage = sellingService.selectCntAllrcyMyOrder(unPaging);
+  		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
+         
+  		logger.info("unPaging : {}", unPaging);
+  		unPaging.setUser(buyerLogin.getsCode());
 		
-		String sCode = buyerLogin.getsCode();
 		
 		//로그인 되어있는 아이디의 재활용 판매 상품 조회
-		List<Prd> plist = sellingService.selectAllrcyPrd(sCode);
+		List<Prd> plist = sellingService.selectAllrcyPrd(upPaging);
 		
 		//주문 리스트
-		List<MyOrder> olist = new ArrayList<MyOrder>();
+		List<MyOrder> olist = sellingService.selectAllrcyMyOrder(unPaging);
 		
-		//조회된 상품의 주문 리스트 조회
-		for(Prd prd : plist) {
-			String prdCode = prd.getPrdCode();
-			
-			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
-			
-			for(MyOrder mo : list) {
-				olist.add(mo);
-			}
-		}
+		logger.info("{}",plist);
 		
 		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
+		
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/seller/selling/rcylist");
+		model.addAttribute("unPaging", unPaging);
+		model.addAttribute("unUrl", "/seller/selling/rcylist");
 	}
 	
 	@GetMapping("/upcylist")
-	public void upcyList(Authentication authentication, Model model) {
+	public void upcyList(Authentication authentication, Model model,
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg) {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
-		
-		String sCode = buyerLogin.getsCode();
+
+        // 문의글 페이지 수 계산
+ 		PagingAndCtg upPaging = new PagingAndCtg();
+ 		PagingAndCtg unPaging = new PagingAndCtg();
+        
+        upPaging = pageService.upPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+        unPaging = pageService.unPageSeller(curPage, sCtg, search, buyerLogin.getsCode());
+        
+        int upPage = sellingService.selectCntAllupcyPrd(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+        
+ 		logger.info("upPaging : {}", upPaging);
+ 		upPaging.setUser(buyerLogin.getsCode());
+ 		
+ 		
+ 		int unPage = sellingService.selectCntAllMyOrder(unPaging);
+ 		unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
+        
+ 		logger.info("unPaging : {}", unPaging);
+ 		unPaging.setUser(buyerLogin.getsCode());
+ 		
 		
 		//로그인 되어있는 아이디의 재활용 판매 상품 조회
-		List<Prd> plist = sellingService.selectAllupcyPrd(sCode);
+		List<Prd> plist = sellingService.selectAllupcyPrd(upPaging);
+		
+		logger.info("{}",upPaging);
 		
 		//주문 리스트
-		List<MyOrder> olist = new ArrayList<MyOrder>();
+		List<MyOrder> olist = sellingService.selectAllupcyMyOrder(unPaging);
 		
-		//조회된 상품의 주문 리스트 조회
-		for(Prd prd : plist) {
-			String prdCode = prd.getPrdCode();
-			
-			List<MyOrder> list = sellingService.selectAllMyOrder(prdCode);
-			
-			for(MyOrder mo : list) {
-				olist.add(mo);
-			}
-		}
-		
-		
-		//내림차순 정렬
-		Collections.sort(olist, new Range());
 		
 		logger.info("olist: {}",olist);
 		logger.info("nplist: {}",plist);
 		
 		model.addAttribute("plist", plist);
 		model.addAttribute("olist", olist);
+		
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/seller/selling/upcylist");
+		model.addAttribute("unPaging", unPaging);
+		model.addAttribute("unUrl", "/seller/selling/upcylist");
 	}
 	
 	@GetMapping("/upcydetail")

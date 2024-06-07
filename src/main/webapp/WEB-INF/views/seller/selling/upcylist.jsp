@@ -18,7 +18,7 @@
 let pdtList = {0:"플라스틱", 1:"유리", 2:"종이", 3:"캔", 4:"천", 5:"기타"}
 
 let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
-		, 940: "구매 확정", 950: "거래 완료", 960: "환불", 970: "반품", 980: "취소"}
+	, 940: "구매 확정", 950: "거래 완료", 960: "반품", 970: "교환", 980: "취소"}
 
 
 
@@ -276,16 +276,16 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					</form>
 				</div>
 				
-				<div>
-					<button class="updateSttBtn" id="900">결제 완료</button>
-					<button class="updateSttBtn" id="910">배송 준비 중</button>
-					<button class="updateSttBtn" id="920">배송중</button>
-					<button class="updateSttBtn" id="930">배송완료</button>
-					<button class="updateSttBtn" id="940">구매 확정</button>
-					<button class="updateSttBtn" id="960">반품</button>
-					<button class="updateSttBtn" id="980">취소</button>
-					<button id="shipCreateBtn">송장 직접입력</button>
-					<button id="shipDelBtn">송장 삭제</button>
+				<div style="margin-bottom: 10px">
+					<button class="updateSttBtn btn" id="900">결제완료</button>
+					<button class="updateSttBtn btn" id="910">배송 준비중</button>
+					<button class="updateSttBtn btn" id="920">배송중</button>
+					<button class="updateSttBtn btn" id="930">배송완료</button>
+					<button class="updateSttBtn btn" id="940">구매 확정</button>
+					<button class="updateSttBtn btn" id="960">반품</button>
+					<button class="updateSttBtn btn" id="980">취소</button>
+					<button id="shipCreateBtn" class="btn">송장입력</button>
+					<button id="shipDelBtn" class="btn">송장삭제</button>
 				</div>
 				<table class="s-table">
 					<thead>

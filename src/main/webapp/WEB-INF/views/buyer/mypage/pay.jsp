@@ -142,7 +142,7 @@
 	    	
 	    	ordFee += prdFee;
 	        
-	    	prdAmount += clist[i].price * clist[i].cCnt + ordFee;
+	    	prdAmount += clist[i].price * clist[i].cCnt + prdFee;
 	    	
 	    	sCodeList.push(clist[i].sCode);
 	    	cartList.push(clist[i].cCode);
@@ -151,7 +151,7 @@
 	    console.log(prdName);
 	    $(function(){
 	    	$("#prdAmount").html(prdAmount);	    	
-	    	$("#ordFee").html(ordFee);	    	
+	    	$("#ordFee").html(ordFee);
 	    });
 	    console.log(prdAmount);
 	    
@@ -266,7 +266,7 @@
 				<c:forEach var="cart" items="${clist }">
 					<tr>
 				 		<td>
-				 			<img alt="${cart.prdName }" src="/upload/${cart.storedName }">
+				 			<img alt="${cart.prdName }" src="/resources/image/${cart.originName }">
 				 		</td>
 				 		<td>${cart.prdName }</td>
 				 		<td>${cart.price }</td>
@@ -401,7 +401,7 @@
         <div class="modal-dialog">
             <div class="modal-content" style="display: table;">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">주소 찾기</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

@@ -180,9 +180,9 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					</form>
 				</div>
 				
-				<div>
-					<button class="updateSttBtn" id="900">대기중</button>
-					<button class="updateSttBtn" id="950">거래 완료</button>
+				<div style="margin-bottom: 10px">
+					<button class="updateSttBtn btn" id="900">대기중</button>
+					<button class="updateSttBtn btn" id="950">거래 완료</button>
 				</div>
 				<table class="s-table">
 					<thead>
