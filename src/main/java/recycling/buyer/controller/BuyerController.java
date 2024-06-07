@@ -328,18 +328,7 @@ public class BuyerController {
 		
 		return chkNum;
 	}
-	
-	@GetMapping("/myorderdetail")
-	public void myOrderDetail(String orddtCode, Model model) {
-		OrderDetail orderDetail = buyerService.selectByorddtCode(orddtCode);
-		Orders order = buyerService.selectByordCode(orderDetail.getOrdCode());
-		
-		logger.info("orderDetail: {}",orderDetail);
-		logger.info("order: {}",order);
-		
-		model.addAttribute("orderDetail", orderDetail);
-		model.addAttribute("order", order);
-	}
+
 	
 	@PostMapping("/chageorder")
 	public String chageOrder(OrderDetail orderDetail, Model model) {
