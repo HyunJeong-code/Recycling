@@ -99,7 +99,7 @@
 									<c:if test="${select.mgrOut eq 'N'}">
 									<tr>
 										<td><input type="checkbox" id="${select.mgrCode }"name="chkBox"></td>
-										<td>${select.dName }</td>
+										<td>${select.deptno }</td>
 										<td>${select.mgrName }</td>
 										<td>${select.mgrCode }</td>
 										<td>${select.mgrPhone }</td>
