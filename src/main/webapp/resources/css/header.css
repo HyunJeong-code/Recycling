@@ -262,7 +262,7 @@ ol, ul {
     border: none;
     transition: all 0.2s ;
    	width: 90px;
-   	height: 32px;
+   	height: 36px;
     background-color: #878787;
     border-radius: 5px;
    	color: white;
@@ -375,6 +375,26 @@ ol, ul {
     transition: background-color 0.3s ease;
 }
 
+.b-table input[type="text"], .b-table input[type="number"], .b-table select, .s-table input[type="text"], .s-table input[type="number"], .s-table select {
+    border: 1px solid #7b7b7b;
+    border-radius: 8px;
+    padding: 4px 9px;
+    font-size: 13px;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.view-table textarea {
+    border: 1px solid #7b7b7b;
+    border-radius: 8px;
+    padding: 4px 9px;
+    font-size: 13px;
+    outline: none;
+    transition: background-color 0.3s ease;
+    width:95%;
+    height:100px
+}
+
 
 .view-table input[type="text"]:focus, .view-table input[type="number"]:focus {
     background-color: #f1f1f1;
@@ -385,6 +405,11 @@ ol, ul {
 	margin: 0 20px 0 10px;
 }
 
+.search {
+	margin: 10px 0;
+	display: flex;
+}
+
 .search input {
     padding: 8px;
     border: 1px solid #ccc;
@@ -392,6 +417,7 @@ ol, ul {
     outline: none;
     font-size: 12px;
     width: 200px;
+    display: inline-block;
 }
 
 .search button {
@@ -401,6 +427,7 @@ ol, ul {
     border: 1px solid #4CAF50;
     background-color: #4CAF50;
     color: #fff;
+    display: inline-block;
 }
 
 .search button:hover {
@@ -411,4 +438,8 @@ ol, ul {
 	display: flex;
 	justify-content: space-around;
 	margin-bottom: 20px;
+}
+
+.long-text {
+	width: 300px;
 }

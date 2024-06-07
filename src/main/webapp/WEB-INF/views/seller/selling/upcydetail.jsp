@@ -118,7 +118,10 @@
 	            		</tr>
 	            		<tr>
 	            			<td>상품 상세</td>
-	            			<td><input type="text" name="prdDetail" value="${prd.prdDetail }" data-name="상품 상세"></td>
+	            			<td colspan="3">
+	            				<textarea name="prdDetail" value="" rows="" cols=""  data-name="상품 상세">${prd.prdDetail }</textarea>
+	            				<%-- <input type="text" name="prdDetail" value="${prd.prdDetail }" data-name="상품 상세"> --%>
+	            			</td>
 	            		</tr>
 	            		<tr>
 	            			<td>메인 이미지</td>
@@ -152,9 +155,9 @@
 			            	</c:forEach>
 		            	</tr>
 		           	</table>
-		           	<button type="button"><a href="./upcylist">목록</a></button>
-		           	<button type="button" id="btnUpdate">수정하기</button>
-		           	<button type="button"><a href="./upcydel?prdCode=${prd.prdCode}">삭제하기</a></button>
+		           	<a href="./upcylist"><button type="button" class="btn">목록</button></a>
+		           	<button type="button" class="btn btnRight" id="btnUpdate">수정하기</button>
+		           	<a href="./upcydel?prdCode=${prd.prdCode}"><button type="button" class="btn btnDel">삭제하기</button></a>
 	           	</form>
             </div>
         </div>
