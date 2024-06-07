@@ -64,12 +64,75 @@
 	
 	
 <!-- 	공지사항 -->
-	<select id="selectByCategory" resultType="Notice" parameterType="int">
-	    SELECT * FROM Notice
-	    <where>
-	    	AND ct_ntcno = #{ctNtcNo}
-	    </where>
-	</select>
+<!-- 	<select id="selectByCategory" resultType="Notice" parameterType="int"> -->
+<!-- 	    SELECT * FROM Notice -->
+<!-- 	    <where> -->
+<!-- 	    	AND ct_ntcno = #{ctNtcNo} -->
+<!-- 	    </where> -->
+<!-- 	</select> -->
+
+	<select id="selectNoticeForSeller" resultType="Notice" parameterType="map">
+    SELECT * FROM (
+        SELECT rownum AS no, N.* FROM (
+            SELECT * FROM notice
+            WHERE ct_ntcno IN (0, 1)
+            AND (
+                ntc_title LIKE '%' || #{search} || '%'
+                OR ntc_content LIKE '%' || #{search} || '%'
+            )
+            ORDER BY ntc_date DESC
+        ) N
+    )
+    WHERE no BETWEEN #{startNo} AND #{endNo}
+</select>
+	
+<!-- 	<select id="selectNoticeBuyer" resultType="Notice" parameterType="map"> -->
+<!-- 		SELECT * FROM ( -->
+<!--             SELECT rownum no, N.* FROM ( -->
+<!--                 SELECT * FROM notice -->
+<!-- 				<where> -->
+<!-- 					AND ( -->
+<!-- 		                ntc_title LIKE '%' || #{search} || '%' -->
+<!-- 		                OR ntc_content LIKE '%' || #{search} || '%' -->
+<!-- 		            ) -->
+<!-- 				</where> -->
+<!-- 				ORDER BY ntc_date DESC -->
+<!--             ) N -->
+<!--         ) -->
+<!--         <where> -->
+<!--             AND no BETWEEN #{startNo} AND #{endNo} -->
+<!--         </where> -->
+<!-- 	</select> -->
+	
+	<select id="selectNoticeForBuyer" resultType="Notice" parameterType="map">
+    SELECT * FROM (
+        SELECT rownum AS no, N.* FROM (
+            SELECT * FROM notice
+            WHERE ct_ntcno = 0
+            AND (
+                ntc_title LIKE '%' || #{search} || '%'
+                OR ntc_content LIKE '%' || #{search} || '%'
+            )
+            ORDER BY ntc_date DESC
+        ) N
+    )
+    WHERE no BETWEEN #{startNo} AND #{endNo}
+</select>
+	
+	<select id="selectCntAllNoticeList" resultType="int" parameterType="map">
+    SELECT count(*) FROM notice
+    WHERE 
+    <if test="isSeller">
+        ct_ntcno IN (0, 1)
+    </if>
+    <if test="!isSeller">
+        ct_ntcno = 0
+    </if>
+    AND (
+        ntc_title LIKE '%' || #{search} || '%'
+        OR ntc_content LIKE '%' || #{search} || '%'
+    )
+</select>
 	
 	<select id="chkSeller" resultType="int" parameterType="string">
 		SELECT COUNT(*) FROM seller

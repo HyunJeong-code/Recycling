@@ -13,7 +13,6 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <style type="text/css">
-<<<<<<< Updated upstream
 /* 전체 기본 설정 */
 * {
    margin: 0;
@@ -27,63 +26,6 @@
    color: #333;
    text-align: center;
 }
-=======
-body {
-             font-family: Arial, sans-serif; 
-             width: 700px;
-             margin:200px;
-        }
-        h1 {
-            color: #333;
-        }
-        .detail-container {
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        .detail-container label {
-            font-weight: bold;
-        }
-        .detail-container input[type="text"]{
-        	width: 50%;
-            padding: 5px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-        
-        .detail-container textarea {
-            width: 80%;
-            padding: 5px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-        .detail-container textarea {
-            resize: none;
-            height: 200px;
-        }
-        
-        .detail-container select {
-            width: 30%;
-            padding: 5px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-        
-        .detail-container img {
-            max-width: 100%;
-            margin-top: 10px;
-        }
->>>>>>> Stashed changes
 
 /* 외부 레이아웃 설정 */
 .full {
@@ -377,44 +319,6 @@ table tr:hover {
 </style>
 </head>
 <body>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-	<div class="full">
-		<aside>
-			<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
-		</aside>
-		<div class="wrap">
-			<div class="page">
-				<h1>체험 상세조회</h1>
-				<hr>
-			</div>
-		
-		<div class="section">
-			<label>프로필 이미지</label>
-			<div>
-				<img src="/upload/${main.storedName}" alt="${main.originName}">
-			</div>
-			
-			<div class="top_section_con">
-				<div class="expName">
-					<label>체험제목</label>
-					<div>${exp.expName}</div>
-				</div>
-				
-				<div class="expPrice">
-					<label>참가비용</label>
-					<div>${exp.expPrice}</div>
-				</div>
-				
-				<div class="expDetail">
-					<label>체험설명</label>
-					<textarea readonly onclick="this.blur()" >${exp.expDetail}</textarea>
-				</div>
-			</div>
-		<label>체험상세 이미지</label>
-		<div>
-			<c:forEach var="file" items="${detail}">
-=======
    <div class="full">
       <aside>
          <c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
@@ -450,7 +354,6 @@ table tr:hover {
       <label>체험상세 이미지</label>
       <div>
          <c:forEach var="file" items="${detail}">
->>>>>>> TEST
                 <c:choose>
                     <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') || file.originName.endsWith('.PNG')}">
                         <img src="/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;">
@@ -460,7 +363,6 @@ table tr:hover {
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-<<<<<<< HEAD
 		</div>
 		
 		<div class="section">
@@ -524,103 +426,6 @@ table tr:hover {
 			<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 		</div>
 	</div>	
-=======
-<h1>체험 상세조회</h1>
-<hr>
-
-<div class="detail-container">
-<label>체험제목</label>
-<input type="text" value="${exp.expName}" readonly onclick="this.blur()" >
-</div>
-
-<div class="detail-container">
-<label>참가비용</label>
-<input type="text" value="${exp.expPrice}" readonly onclick="this.blur()"> 원
-</div>
-
-<div class="detail-container">
-<label>모집 인원</label>
-<select readonly onclick="this.blur()">
-    <option value="${schCnt}">${schCnt}명</option>
-</select>
-</div>
-
-<div class="detail-container">
-<label>체험설명</label>
-<textarea readonly onclick="this.blur()" >${exp.expDetail}</textarea>
-</div>
-
-
-
-<div>
-	<button type="button"><a href="./explist">목록</a></button>
-</div>
-
->>>>>>> Stashed changes
-=======
       </div>
-      
-      <div class="section">
-         <table>
-            <thead>
-               <tr>
-                  <th>모집날짜</th>
-                  <th>시간</th>
-                  <th>신청한인원</th>
-                  <th>등록가능인원</th>
-                  <th>예약관리</th>
-                  <th>상태</th>
-               </tr>
-            </thead>
-            <tbody>
-            <!-- 합계 합산 -->
-   
-               <c:forEach var="expSchList" items="${expSchList}">
-                  <tr>
-                     <td>
-                     
-                        <fmt:parseDate value="${expSchList.schDate}" var="schDate" pattern="yyyy-MM-dd" />
-                        <fmt:formatDate value="${schDate}" pattern="yyyy-MM-dd" />
-                     </td>
-                     <td>${expSchList.schTime}</td>
-               
-                     <!-- 예약인원 합계계산 -->
-                     <c:set var="totalResCnt" value="0" />
-                     <c:forEach var="resCnt" items="${resCnt}">
-                        <c:if test="${expSchList.schNo == resCnt.schNo}">
-                           <c:set var="totalResCnt" value="${totalResCnt + resCnt.resCnt}" />
-                        </c:if>
-                     </c:forEach>
-                     <td class ="totalResCnt">${totalResCnt }</td>
-               
-                     <td>${expSchList.schCnt}</td>
-                     <td>
-                        <c:choose>
-                               <c:when test="${expSchList.schCnt == totalResCnt }">
-                                  모집마감
-                               </c:when>
-                               <c:when test="${expSchList.schCnt > totalResCnt }">
-                                  모집중
-                               </c:when>
-                               <c:when test="${expSchList.schCnt < totalResCnt }">
-                                  에러
-                               </c:when>
-                            </c:choose>
-                     </td>
-                     <td><a href="./expresdetail?expCode=${expSchList.expCode}&schNo=${expSchList.schNo }"><button class="btn">예약관리</button></a></td>
-                  </tr>
-               </c:forEach>
-            </tbody>
-         </table>
-         <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-      </div>
-         
-         <div class="btn_bot_box">
-            <a href="./explist"><button class="btn" type="button">목록으로</button></a>
-         </div>
-         <c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
-      </div>
-   </div>   
->>>>>>> TEST
 </body>
 </html>

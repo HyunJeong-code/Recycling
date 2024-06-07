@@ -19,13 +19,6 @@ import recycling.util.PagingAndCtg;
 public interface HelpDao {
 
 
-	/**
-	 * 공지사항 구매자 판매자 분류 조회
-	 * 
-	 * @param i - 0은 구매자, 1은 판매자
-	 * @return 선택한 분류에 맞는 공지사항 List
-	 */
-	public List<Notice> selectByCategory(int i);
 
 	/**
 	 * 공지사항 상세조회
@@ -174,12 +167,31 @@ public interface HelpDao {
 	 */
 	public List<FaqCt> selectAllCtFaq();
 
+	/**
+	 * 자주 묻는 질문 분류별 페이징
+	 * 
+	 * @param params - 페이징 정보 객체
+	 * @return paging
+	 */
 	public int selectCntFaqByCt(Map<String, Object> params);
 
 
-	public int selectCntFaqByCt(PagingAndCtg upPaging);
-
+	/**
+	 * 자주 묻는 질문 분류별 리스트 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return list
+	 */
 	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
+
+	public List<Notice> selectByCategory(int i, PagingAndCtg upPaging);
+
+
+	public List<Notice> selectNoticeForSeller(Map<String, Object> params);
+
+	public List<Notice> selectNoticeForBuyer(Map<String, Object> params);
+
+	public int selectCntAllNoticeList(Map<String, Object> params);
 
 
 
