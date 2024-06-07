@@ -86,22 +86,6 @@ public interface MypageDao {
 	 */
 	public Buyer getBuyerDetail(String bId);
 
-//	/**
-//	 * 1:1 문의 게시글 작성을 위한 객체
-//	 * 
-//	 * @param oto - 1:1 문의글
-//	 * @return
-//	 */
-//	public int insertOto(Oto oto);
-//
-//	/**
-//	 * 파일 정보 DB에 삽입
-//	 * 
-//	 * @param otoFile - 파일 정보
-//	 * @return 0: 실패, 1: 성공
-//	 */
-//	public int insertOtoFiles(OtoFile otoFile);
-	
 	/**
 	 * 1:1 문의 삭제
 	 * 
@@ -140,14 +124,6 @@ public interface MypageDao {
 	 * @return 조회된 Qna 객체
 	 */
 	public Qna getQnaByqstCode(String qstCode);
-
-//	/**
-//	 * Qna 작성
-//	 * 
-//	 * @param qna - 작성할 Qna 객체
-//	 * @return 삽입 결과
-//	 */
-//	public int insertQna(Qna qna);
 
 	/**
 	 * Qst 삭제

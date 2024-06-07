@@ -124,5 +124,10 @@
 				)
 	    </where>
 	</select>
+	
+	<select id="selectQstFile" parameterType="String" resultType="QstFile">
+		SELECT * FROM qst_file
+		WHERE qst_code = #{qstCode}
+	</select>
 
 </mapper>

@@ -7,8 +7,236 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<style type="text/css">
+/* 전체 기본 설정 */
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	box-sizing: border-box;
+	font: inherit;
+	font-size: 100%;
+	line-height: 1.5;
+	color: #333;
+}
+
+h3 {
+	color: #333;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+}
+
+/* 외부 레이아웃 설정 */
+.full {
+	width: 1200px;
+	border: 1px solid #ccc;
+	margin: 0 auto;
+	display: flex;
+	background-color: #f9f9f9;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+aside {
+	width: 300px;
+	background-color: #f1f1f1;
+	border-right: 1px solid #ddd;
+	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.wrap {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+}
+
+/* 상단 페이지 */
+.page {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
+}
+
+/* [우]중단 페이지 */
+.section {
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* [우]하단 페이지 */
+.btn_bot_style {
+	display: flex;
+	float: right;
+	margin: 0 0 20px 0;
+}
+
+/* ------------------------------------- */
+/* 상단 */
+/* 검색 */
+.search_form_wrap {
+	padding-top: 20px;
+	margin: 0 0 20px 0;
+	display: flex;
+	border-top: 3px solid #d8d8d8;
+	flex-direction: row-reverse;
+}
+/* 검색창 */
+.search_form {
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+	border-radius: 5px;
+}
+
+.search_form button[type="submit"] {
+	padding: 6px 15px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px; /* 버튼 둥글게 */
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.search_form button[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+/* 버튼 */
+button[type="submit"] {
+	padding: 6px 12px;
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+/* 본문 */
+/* 테이블 세팅 */
+table {
+	border-collapse: collapse;
+	border-top: 3px solid #168;
+	width: 100%;
+	text-align: center;
+}
+
+table td {
+	padding: 9px;
+}
+
+table th {
+	color: #168;
+	background: #f0f6f9;
+	text-align: center;
+}
+
+table th, .table td {
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+table th:first-child, .table td:first-child {
+	border-left: 0;
+}
+
+table th:last-child, .table td:last-child {
+	border-right: 0;
+}
+
+table tr td:first-child {
+	text-align: center;
+}
+
+table caption {
+	caption-side: bottom;
+	display: none;
+}
+
+table tr:hover {
+  background-color: #f5f5f5;
+}
+
+
+/* 버튼세팅 */
+.btn_section_detail {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+/* 하단 */
+.btn_bot_wrap {
+	padding-top: 10 px;
+	display: flex;
+	float: right;
+	margin:20px 0;
+	justify-content: flex-end
+}
+
+/* 버튼 세팅 */
+.btn_bot_inform, .btn_bot_del {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.btn_bot_inform {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.btn_bot_inform:hover {
+	background-color: #45a049;
+}
+
+.btn_bot_del {
+	background-color: #f44336;
+	color: white;
+	margin-left: 10px;
+}
+
+.btn_bot_del:hover {
+	background-color: #da190b;
+}
+
+button[type="submit"]:hover,
+.btn_section_detail:hover,
+.btn_bot_inform:hover,
+.btn_bot_del:hover {
+  background-color: #0056b3;
+}
+
+.section #del_btn{
+	float: right;
+}
+
+</style>
+
 <script type="text/javascript">
 let pdtList = {0:"플라스틱", 1:"유리", 2:"종이", 3:"캔", 4:"천", 5:"기타"}
 
@@ -111,14 +339,7 @@ $(function() {
 	//송장번호 등록
 	$("#shipCreateBtn").click(function() {
 		var arr = [];
-<<<<<<< HEAD
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
-=======
-<<<<<<< HEAD
-=======
-		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
->>>>>>> TEST
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 		
 		$('input:checkbox[name=ordCheckList]').each(function () {
 	        if($(this).is(":checked")==true){
@@ -172,15 +393,7 @@ $(function() {
 	//송장 삭제
 	$("#shipDelBtn").click(function() {
 		var arr = [];
-<<<<<<< HEAD
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
-=======
-<<<<<<< HEAD
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
-		
-=======
-		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
->>>>>>> TEST
 		$('input:checkbox[name=ordCheckList]').each(function () {
 	        if($(this).is(":checked")==true){
 		        if($(this).is(":checked")==true){
@@ -193,13 +406,9 @@ $(function() {
 	// 체크된 상품이 없을 때 알림
 	if(arr.length == 0){
 		var sCodeInputNo = $(this).closest('div').children('.sCode').val();
-<<<<<<< HEAD
-
-		alert("선택된 상품이 없습니다.");
-=======
 			alert("선택된 상품이 없습니다.");
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
-		}else{
+
+	}else{
 			$.ajax({
 				type: "post"
 				, url: "./delship"
@@ -211,15 +420,7 @@ $(function() {
 				, success: function(res) {
 					console.log("AJAX 성공");
 					
-<<<<<<< HEAD
 					location.href="/manager/sls/sellinglist?sCode=" + sCodeInputNo;
-=======
-<<<<<<< HEAD
-					location.href="./sellinglist?sCode=" + sCodeInputNo;
-=======
-					location.href="/manager/sls/sellinglist?sCode=" + sCodeInputNo;
->>>>>>> TEST
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 					
 					alert("송장이 삭제되었습니다.");
 				}
@@ -239,8 +440,10 @@ $(function() {
 </script>
 </head>
 <body>
-	<div class="full">
-		<aside>확인</aside>
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 
 		<div class="wrap">
 			<div class="page">전체 상품 판매관리</div>
@@ -327,18 +530,17 @@ $(function() {
 									</c:choose></td>
 								<td>${prdList.price }</td>
 
-								<td><a
-									href="/manager/sls/prddetail?prdCode=${prdList.prdCode }">
-										<button class="btn">상세조회</button>
-								</a></td>
+								<td><a href="/manager/sls/prddetail?prdCode=${prdList.prdCode }"><button class="btn">상세조회</button></a></td>
 
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 				
-				<button id="del_btn">삭제하기</button>
 				<c:import url="/WEB-INF/views/layout/upperpaging.jsp" />
+				<div>
+					<button id="del_btn">삭제하기</button>
+				</div>
 
 
 
@@ -416,4 +618,5 @@ $(function() {
 		<!-- wrap -->
 	</div>
 	<!-- full -->
+	</div>
 </html>

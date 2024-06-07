@@ -145,7 +145,7 @@
 										</td>
 								 		<td>${cart.cCode }</td>
 								 		<td>
-								 			<img alt="${cart.prdName }" src="/upload/${cart.storedName }">
+								 			<img alt="${cart.prdName }" src="/resources/image/${cart.originName }">
 								 		</td>
 								 		<td>${cart.prdName }</td>
 								 		<td>${cart.price }</td>

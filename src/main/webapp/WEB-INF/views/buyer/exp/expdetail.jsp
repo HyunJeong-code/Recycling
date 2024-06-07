@@ -234,12 +234,11 @@ function checkLoginAndRedirect(url) {
                     <td colspan="5" class="none">작성한 문의글이 없습니다.</td>
                 </tr>
             </c:if>
-            <hr>
 		</div>
 		
         </table>
-        <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
     </div>
+        <c:import url="/WEB-INF/views/layout/upperdetailpaging.jsp"/>
 
     <div>
         <button class="btn" type="button"><a href="./main">메인으로</a></button>

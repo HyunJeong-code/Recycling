@@ -81,6 +81,11 @@ public class HrController {
 		model.addAttribute("view", view);
 		logger.info("view:{}", view );
 		
+		//프로필 조회
+		MgrFile profileList = hrService.mgrProFileList(mgrFile);
+		model.addAttribute("profileList", profileList);
+		logger.info("profileList:{}", profileList );
+		
 		//파일 조회
 		MgrFile fileList = hrService.mgrFileList(mgrFile);
 		model.addAttribute("fileList", fileList);
@@ -111,13 +116,18 @@ public class HrController {
 	@PostMapping("/empform")
 	public String empFormProc(
 			Manager manager
-			,@RequestParam("file") MultipartFile file
+			, Model model
+			, @RequestParam("profile") MultipartFile profile
+			, @RequestParam("file") MultipartFile file
 			) {
 		logger.info("controller: empform[Post]");
 		
-		hrService.insert(manager, file);
+		hrService.insert(manager,profile, file);
 		
-		return "redirect:./empform";
+		model.addAttribute("msg", "사원 정보가 입력되었습니다.");
+		model.addAttribute("url", "/manager/hr/main");
+		
+		return "/layout/alert";
 	}
 
 	//사원정보 업데이트창
@@ -130,11 +140,16 @@ public class HrController {
 		logger.info("controller: empupdate[Get]");
 		
 		
-		//파일 조회
-		MgrFile profileList = hrService.mgrFileUpdateList(mgrFile);
-		model.addAttribute("profileList", profileList);
-		logger.info("controller: empupdate[Get]{}",profileList);
-	
+		//프로필 조회
+		MgrFile fileList = hrService.mgrFileUpdateList(mgrFile);
+		model.addAttribute("profileList", fileList);
+		logger.info("controller: empupdate[Get]{}",fileList);
+		
+		//파일조회
+		MgrFile file = hrService.mgrFileList(mgrFile);
+		model.addAttribute("file", file);
+		logger.info("file:{}", file );
+		
 		//정보 조회
 		Manager update = hrService.hrUpdateView(manager);
 		model.addAttribute("view", update);

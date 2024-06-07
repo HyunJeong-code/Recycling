@@ -128,6 +128,7 @@ public class MypageController {
 //		logger.info("code : {}", code);
 		
 	}
+	
 	// 1:1 문의 상세 조회
 	@GetMapping("/otodetail")
 	public void otoDetail(
@@ -146,127 +147,6 @@ public class MypageController {
 		model.addAttribute("otoFiles",otoFiles);
 		
 	}
-	
-//	// 1:1 문의 작성 페이지
-//	@GetMapping("/otoform")
-//	public String otoform(
-//			Authentication authentication,
-//			Oto oto,
-//			Model model
-//			) {
-//		
-//		logger.info("/buyer/mypage/otoform [GET]");
-//		
-//		List<OtoCt> oct = mypageService.getAllOct();
-//		
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		
-//		if(buyerLogin == null) {
-//			
-//			model.addAttribute("error", "로그인 해주세요.");
-//			
-//			return "redirect:/buyer/mypage/myboard";
-//			
-//		}
-//		
-//		Buyer buyer = mypageService.getBuyerDetail(buyerLogin.getbId());
-//		
-//		oto.setbCode(buyer.getbCode());
-//		oto.setOtoName(buyer.getbName());
-//		oto.setOtoEmail(buyer.getbEmail());
-//		
-//		model.addAttribute("buyer", buyer);
-//		model.addAttribute("oto", oto);
-//		model.addAttribute("oct", oct);
-//		
-//		return "/buyer/mypage/otoform";
-//		
-//	}
-//	
-//	// 1:1 문의 작성 처리
-//	@PostMapping("/otoform")
-//	public String otoFormProc(
-//			Authentication authentication,
-//			Oto oto,
-//			@RequestParam("ct_otono") String ctOtoNo,
-//			@RequestParam("detail") List<MultipartFile> detail,
-//			Model model
-//			) {
-//		
-//		logger.info("/buyer/mypage/otoform [POST]");
-//		
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		
-//		if(buyerLogin == null) {
-//			
-//			model.addAttribute("error", "로그인 해주세요.");
-//			
-//			return "redirect:/buyer/login";
-//			
-//		}
-//		
-//		Buyer buyer = mypageService.getBuyerDetail(buyerLogin.getbId());
-//		
-//		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));
-//		oto.setbCode(buyer.getbCode());
-//		oto.setOtoName(buyer.getbName());
-//		oto.setOtoEmail(buyer.getbEmail());
-//		
-//		model.addAttribute("buyer", buyer);
-//		model.addAttribute("oto", oto);
-//		
-//		int res = mypageService.insertOto(oto);
-//		
-//		if(res > 0) {
-//			
-//			if(detail != null && !detail.isEmpty()) {
-//				
-//				List<OtoFile> otoFiles = new ArrayList<>();
-//				
-//				for(MultipartFile mult : detail) {
-//					
-//					OtoFile otoFile = mypageService.saveFile(mult, oto);
-//					
-//					if(otoFile != null) {
-//						
-//						otoFile.setOtoCode(oto.getOtoCode());
-//						otoFiles.add(otoFile);
-//						
-//					}
-//					
-//				}
-//				
-//				int resDetail = 0;
-//				
-//				for(OtoFile otoFile : otoFiles) {
-//					
-//					otoFile.setOtoCode(oto.getOtoCode());
-//					resDetail += mypageService.insertOtoFiles(otoFile);
-//					
-//				}
-//				
-//				if(resDetail == otoFiles.size()) {
-//					
-//					logger.info("파일 저장 성공");
-//					
-//				} else {
-//					
-//					logger.info("파일 저장 실패");
-//					
-//				}
-//		
-//			}
-//			
-//		} else {
-//			
-//			logger.info("등록 실패");
-//			
-//		}
-//		
-//		return "redirect:/buyer/mypage/myboard";
-//		
-//		
-//	}
 	
 	// 1:1 문의 삭제
 	@PostMapping("/otodel")
@@ -306,77 +186,6 @@ public class MypageController {
 		model.addAttribute("qct", qct);
 		
 	}
-	
-//	// 판매자 문의 작성
-//	@GetMapping("/qnaform")
-//	public String qnaForm(
-//			Authentication authentication,
-//			@RequestParam("qstCode") String qstCode,
-//			Model model
-//			) {
-//		
-//		logger.info("/buyer/mypage/qnaform [GET]");
-//		
-//		Qst qst = mypageService.getQstByqstCode(qstCode);
-//		
-//		model.addAttribute("qst", qst);
-//		
-//		return "/buyer/mypage/qnaform";
-//		
-//	}
-//	
-//	// 판매자 문의 작성
-//	@PostMapping("/qnaform")
-//	public String qnaFormProc(
-//			Authentication authentication,
-//			@RequestParam("qstCode") String qstCode,
-//			@RequestParam("qnaContent") String qnaContent,
-//			Model model
-//			) {
-//		
-//		logger.info("/buyer/mypage/qnaform [POST]");
-//		logger.info("qstCode: {}, qnaContent: {}", qstCode, qnaContent);
-//		
-//		if(qnaContent == null || qnaContent.trim().isEmpty()) {
-//			
-//			logger.info("qnaContent is null or empty");
-//			
-//			return "redirect:/buyer/mypage/qnadetail?qstCode=" + qstCode;
-//			
-//		}
-//		
-//		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-//		
-//		if(buyerLogin == null) {
-//			
-//			model.addAttribute("error", "로그인 해주세요.");
-//			
-//			return "redirect:/buyer/login";
-//			
-//		}
-//		
-//		Qna qna = new Qna();
-//		
-//		qna.setQstCode(qstCode);
-//		qna.setsCode(buyerLogin.getsCode());
-//		qna.setQnaContent(qnaContent);
-//		
-//		int res = mypageService.insertQna(qna);
-//		logger.info("insertQna result: {}", res);
-//		
-//		if(res > 0) {
-//			
-//			logger.info("답변 삽입 성공");
-//			
-//		} else {
-//			
-//			logger.info("답변 삽입 실패");
-//			
-//		}
-//		
-//		return "redirect:/buyer/mypage/myboard";
-//		
-//	}
 	
 	// 판매자 문의 삭제
 	@PostMapping("/qnadel")

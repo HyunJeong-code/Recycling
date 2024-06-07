@@ -35,12 +35,13 @@ public interface RecyclingDao {
 	public List<Prd> selectLatestList();
 	public List<Prd> selectHitList();
 	
-	public List<String> selectPrdImageThum(String prdCode);
-	public List<String> selectLatestPrdImageThum(String prdCode);
-	public List<String> selectHitPrdImageThum(String prdCode);
+	public List<String> selectPrdImageThums(String prdCode);
+	public List<String> selectLatestPrdImageThums(String prdCode);
+	public List<String> selectHitPrdImageThums(String prdCode);
 
 	public Prd selectPrd(String prdCode);
-	public List<String> selectPrdImageDetail(String prdCode);
+	public String selectPrdImageThum(String prdCode);
+	public String selectPrdImageDetail(String prdCode);
 
 	public Seller selectSellerProfByCode(String sCode);
 

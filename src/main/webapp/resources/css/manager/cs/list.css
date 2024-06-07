@@ -75,6 +75,16 @@ aside {
 /* ------------------------------------- */
 /* 상단 */
 /* 검색 */
+.btn_search {
+	float: right;
+}
+
+.search {
+	display: flex;
+	justify-content: flex-end; /* 오른쪽 정렬 */
+	margin-bottom: 10px; /* 폼과 아래 요소들 사이에 간격 추가 */
+}
+
 .search_form_wrap {
 	padding-top: 20px;
 	margin: 0 0 20px 0;
