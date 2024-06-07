@@ -153,8 +153,6 @@ th {
     margin-top: 10px;
     font-weight: bold;
 }
-<<<<<<< HEAD
-=======
 .button-group button {
     margin-right: 10px;
     padding: 10px 20px;
@@ -170,7 +168,6 @@ th {
 .button-group button[type="btn"]:hover {
     background-color: #005bb5;
 }
->>>>>>> TEST
 </style>
 
 </head>

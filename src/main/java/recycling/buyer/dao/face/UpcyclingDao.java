@@ -33,7 +33,6 @@ public interface UpcyclingDao {
 
 	public void deleteReview(String upcyCode);
 
-	
 	/**
 	 * 장바구니 상품 갯수 조회
 	 * 
@@ -69,6 +68,5 @@ public interface UpcyclingDao {
 	public Buyer selectBuyerBybId(String bId);
 
 	public int insertReview(UpcyReview review);
-
 
 }

@@ -2,9 +2,6 @@ package recycling.buyer.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -195,7 +192,7 @@ public class BuyerServiceImpl implements BuyerService {
         
 		}
 
-        String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "D:\\uploads\\";
+        String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "file:///D:/uploads/";
         File storedFolder = new File(storedPath);
         
         if(!storedFolder.exists()) {
@@ -252,7 +249,7 @@ public class BuyerServiceImpl implements BuyerService {
 	    
 		}
 		
-		String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "D:\\uploads\\";
+		String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "file:///D:/uploads/";
 	    File storedFolder = new File(storedPath);
 
 	    if (!storedFolder.exists()) {
@@ -387,5 +384,4 @@ public class BuyerServiceImpl implements BuyerService {
 		return buyerDao.insertChange(change);
 	}
 	
-
 }

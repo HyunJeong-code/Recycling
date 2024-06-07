@@ -113,8 +113,8 @@ public interface UpcyclingService {
 	 * @return - 조회결과
 	 */
 	public CartOrder selectCartOrder(String prdCode);
-	
-	public int	insertReview(UpcyReview review);
+
+	public int insertReview(UpcyReview review);
 
 
 

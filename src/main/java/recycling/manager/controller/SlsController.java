@@ -31,7 +31,6 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.Prd;
 import recycling.dto.seller.PrdFile;
 import recycling.dto.seller.Seller;
 import recycling.manager.service.face.MgrService;
@@ -204,32 +203,32 @@ public class SlsController {
 	}
 	
 	@GetMapping("/sellinglist")
-	public void sellinglist(
-			Authentication authentication
-			, Model model
-			, Seller seller
-			, @RequestParam(defaultValue = "0") int curPage
-			, @RequestParam(defaultValue = "") String search
-			, @RequestParam(defaultValue = "") String sCtg
-			, String sCode
-			) {
-		logger.info("/manager/sls/seller [GET]");
-		logger.info("/manager/sls/seller [sCode] : {}",sCode);
-		
+   public void sellinglist(
+         Authentication authentication
+         , Model model
+         , Seller seller
+         , @RequestParam(defaultValue = "0") int curPage
+         , @RequestParam(defaultValue = "") String search
+         , @RequestParam(defaultValue = "") String sCtg
+         , String sCode
+         ) {
+      logger.info("/manager/sls/seller [GET]");
+      logger.info("/manager/sls/seller [sCode] : {}",sCode);
+      
         // 문의글 페이지 수 계산
-  		PagingAndCtg upPaging = new PagingAndCtg();
-  		PagingAndCtg unPaging = new PagingAndCtg();
+        PagingAndCtg upPaging = new PagingAndCtg();
+        PagingAndCtg unPaging = new PagingAndCtg();
          
         upPaging = pageService.upPageSeller(curPage, sCtg, search, sCode);
         unPaging = pageService.unPageSeller(curPage, sCtg, search, sCode);
         
-		//판매자 조회
-		Map<String, Object> selList = slsService.sellerAllSeller(seller);
-		model.addAttribute("selList", selList);
-		
-		
-		//상단페이징[상품 조회]
-		int upPage = slsService.selectCntAllPrdList(upPaging);
+      //판매자 조회
+      Map<String, Object> selList = slsService.sellerAllSeller(seller);
+      model.addAttribute("selList", selList);
+      
+      
+      //상단페이징[상품 조회]
+      int upPage = slsService.selectCntAllPrdList(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
         upPaging.setUser(sCode);
   		
@@ -555,6 +554,29 @@ public class SlsController {
 
 	}
 	
+	//체험단 수정창
+	@GetMapping("/expupdate")
+	public String expUpdate(
+				Exp exp
+				, Model model
+				, ExpFile expFile
+			) {
+		//수정창 조회
+		Exp update = slsService.expUpdateView(exp);
+		model.addAttribute("update", update);
+		
+		//수정창 파일조회
+		ExpFile profile = slsService.expUpdateProfile(expFile);
+		model.addAttribute("profile",profile);
+		logger.info("expFile:{}",profile);
+		
+		List<ExpFile> file = slsService.expUpdateFile(expFile);
+		model.addAttribute("expFileList",file);
+		logger.info("file:{}",file);
+		
+		return "/manager/sls/expupdate";
+	}
+		
 	@PostMapping("/expupdate")
 	public String updateProc(
 			Exp exp
@@ -783,6 +805,5 @@ public class SlsController {
 	        return "jsonView";
 	
 	}
-	
 	
 }

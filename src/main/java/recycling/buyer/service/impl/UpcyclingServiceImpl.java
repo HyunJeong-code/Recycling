@@ -119,24 +119,14 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		logger.info("updateReview() - UpcyReview updated: upcyCode={}, upcyContent={}", upcyCode, upcyContent);
 	}
 
-	
 	@Override
 	public void deleteReview(String upcyCode) {
 		upcyclingDao.deleteReview(upcyCode);
 		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
 	}
 
-
-	
 	@Override
 	public CartOrder selectCartOrder(String prdCode) {
 		return upcyclingDao.selectCartOrder(prdCode);
 	}
-
-	@Override
-	public int insertCart(Cart cart) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 }

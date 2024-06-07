@@ -155,7 +155,6 @@ public class MgrServiceImpl implements MgrService {
 		return selectAllManager;
 	}
 
-
 	//공지사항 관리자조회 페이징
 	@Override
 	public int selectCntAllNotice(PagingAndCtg upPaging) {

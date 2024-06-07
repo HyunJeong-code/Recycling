@@ -44,7 +44,6 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.main(upPaging);
 	}
 
-
 	@Override
 	public int upPageSlsMain(PagingAndCtg upPaging) {
 		return slsDao.upPageSlsMain(upPaging);
@@ -590,14 +589,5 @@ public class SlsServiceImpl implements SlsService {
 	public List<ExpSch> selectAllSch(String expCode) {
 		return slsDao.selectAllSch(expCode);
 	}
-
-
-
-
-
-
-
-
-	
 
 }//main

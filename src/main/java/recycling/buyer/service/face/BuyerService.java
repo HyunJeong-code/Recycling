@@ -100,7 +100,6 @@ public interface BuyerService {
 	 * @return - INSERT 결과
 	 */
 	public int insertOrderDetail(OrderDetail orderDetail);
-
 	
 	/**
 	 * 주문 상세 리스트 조회

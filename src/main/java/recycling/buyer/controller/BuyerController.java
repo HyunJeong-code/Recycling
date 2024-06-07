@@ -722,9 +722,9 @@ public class BuyerController {
 		
 				model.addAttribute("error", "프로필 이미지 저장 실패");
 		
-		return "redirect:/buyer/mypage/mydetailpri";
+				return "redirect:/buyer/mypage/mydetailpri";
 		
-			}
+			}		
 		}
 		
 		// 전화번호 설정
@@ -742,7 +742,6 @@ public class BuyerController {
 			return "redirect:/buyer/mypage/mydetailpri";
 
 		}
-	
 	
 	model.addAttribute("msg", "개인 정보가 수정되었습니다.");
 	model.addAttribute("url", "/buyer/mypage/mydetailpri");

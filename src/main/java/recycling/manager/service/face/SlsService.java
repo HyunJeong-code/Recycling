@@ -359,7 +359,7 @@ public interface SlsService {
 	 * 
 	 * @return
 	 */
-//	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 
 	/**
 	 * 판매자 상품 조회[페이징]
@@ -448,7 +448,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public int updateDetailFile(String expCode, MultipartFile detailFile);
-
+	
 	/**
 	 * 체험 프로필 이미지
 	 * @param expFile
@@ -463,7 +463,5 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<ExpFile> expImage(ExpFile expFile);
-
-	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 
 }

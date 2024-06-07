@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream:src/main/webapp/WEB-INF/views/manager/emplist.jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,12 +8,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+ 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <style type="text/css">
-=======
->>>>>>> Stashed changes:src/main/webapp/resources/css/manager/hr/main.css
 /* 전체 기본 설정 */
 * {
 	margin: 0;
@@ -51,7 +49,6 @@ aside {
 	width: 300px;
 	background-color: #f1f1f1;
 	border-right: 1px solid #ddd;
-	padding: 20px;
 	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -236,7 +233,6 @@ button[type="submit"]:hover,
 .btn_bot_inform:hover,
 .btn_bot_del:hover {
   background-color: #0056b3;
-<<<<<<< Updated upstream:src/main/webapp/WEB-INF/views/manager/emplist.jsp
 }
 </style>
 
@@ -282,7 +278,6 @@ button[type="submit"]:hover,
 		})
 	})
 </script>
-
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
@@ -333,9 +328,5 @@ button[type="submit"]:hover,
 			</div><!-- wrap -->
 		</div><!-- full -->
 	</div>
-
 </body>
 </html>
-=======
-}
->>>>>>> Stashed changes:src/main/webapp/resources/css/manager/hr/main.css

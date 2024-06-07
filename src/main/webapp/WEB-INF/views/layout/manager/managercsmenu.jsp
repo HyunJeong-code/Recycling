@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../../../resources/css/manager/cs/csdetail.css">
+<!-- <link rel="stylesheet" href="../../../resources/css/manager/cs/csdetail.css"> -->
 <style type="text/css">
 .width-menu {
 	width: 300px;
@@ -19,9 +19,20 @@ table {
 </style>
 </head>
 <body>
-<div class="width-menu">
-    <nav class="menu cs">
-        <table class="all">
+<div class="sidebar">
+    <nav class="sidebar-nav">
+    	<ul>
+    		<li><a href="/manager/emplist">사원 정보</a></li>
+    		<li><a href="/manager/emplist">전체 사원 조회</a></li>
+    		<li><a href="/manager/cs/main">구매자 관리</a></li>
+    		<li><a href="/manager/cs/buyerlist">구매자 정보 조회</a></li>
+    		<li><a href="/manager/cs/main">구매자 문의글 조회</a></li>
+    		<li><a href="/manager/mgr/main">관리자 정보 관리</a></li>
+    		<li><a href="/manager/mgr/changepw">비밀번호 변경</a></li>
+    		<li><a href="/manager/mgr/mgrdetail">관리자 정보 수정</a></li>
+    		<li><a href="/manager/noticelist">공지사항</a></li>
+    	</ul>
+        <!-- <table class="all">
             <tr>
                 <th><a href="/manager/emplist">사원 정보</a></th>
             </tr>
@@ -52,7 +63,7 @@ table {
             <tr>
                 <th><a href="/manager/noticelist">공지사항</a></th>
             </tr>
-        </table>
+        </table> -->
     </nav>
 </div>
 

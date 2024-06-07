@@ -18,10 +18,7 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.PrdFile;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
-import recycling.dto.seller.AllPrd;
-import recycling.dto.seller.Exp;
 
 // 상품-판매 관련 처리
 
@@ -312,7 +309,7 @@ public interface SellingService {
 	 * @param file 
 	 * @return
 	 */
-	public int updatePrdFile(String prdCode, MultipartFile profile, MultipartFile file);
+//	public int updatePrdFile(String prdCode, MultipartFile profile, MultipartFile file);
 
 	/**
 	 * 파일 업데이트
@@ -338,11 +335,5 @@ public interface SellingService {
 	 * @param map - 삭제할 파일코드
 	 */
 	public void deleteDetailFile(HashMap<String, String> map);
-
-
-
-	
-
-
 
 }
