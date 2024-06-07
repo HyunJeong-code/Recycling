@@ -14,6 +14,7 @@ public class Seller {
 	private String sChk;
 	private String sOut;
 	private String sOutDate;
+
 	
 	public Seller() {}
 
@@ -31,6 +32,7 @@ public class Seller {
 		this.sChk = sChk;
 		this.sOut = sOut;
 		this.sOutDate = sOutDate;
+
 	}
 
 	@Override
@@ -135,4 +137,6 @@ public class Seller {
 	public void setsOutDate(String sOutDate) {
 		this.sOutDate = sOutDate;
 	}
+
+	
 }
