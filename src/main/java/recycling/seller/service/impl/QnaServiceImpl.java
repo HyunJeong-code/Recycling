@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
+import recycling.dto.buyer.QstFile;
 import recycling.dto.seller.Qna;
 import recycling.seller.dao.face.QnaDao;
 import recycling.seller.service.face.QnaService;
@@ -66,5 +67,10 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	public int selectCntQstAllBysCode(PagingAndCtg unPaging) {
 		return qnaDao.selectCntQstAllBysCode(unPaging);
+	}
+	
+	@Override
+	public QstFile selectQstFile(String qstCode) {
+		return qnaDao.selectQstFile(qstCode);
 	}
 }
