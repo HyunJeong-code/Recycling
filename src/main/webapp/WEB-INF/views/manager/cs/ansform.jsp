@@ -39,6 +39,14 @@
                 }
             });
         });
+
+        $(".btn_bot_del").click(function(event) {
+            event.preventDefault();
+            if (confirm("삭제하시겠습니까?")) {
+                alert("삭제되었습니다");
+                window.location.href = $(this).parent().attr("href");
+            }
+        });
     });
 </script>
 <link rel="stylesheet" href="/resources/css/manager/cs/ansform.css">
