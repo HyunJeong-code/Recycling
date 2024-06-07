@@ -12,7 +12,6 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
-// 판매제휴팀 DB 처리
 import recycling.dto.seller.Seller;
 import recycling.util.PagingAndCtg;
 
@@ -362,7 +361,7 @@ public interface SlsDao {
 	 * 
 	 * @return
 	 */
-//	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
 
 	/**
 	 * 판매자 판매 조회[페이징]
@@ -429,7 +428,6 @@ public interface SlsDao {
 	public MyOrder orderdetailPrd(String orddtCode);
 	
 	/**
-<<<<<<< HEAD
 	 * 멀티업로드 전 파일삭제
 	 * @param map
 	 */
@@ -443,8 +441,7 @@ public interface SlsDao {
 	 */
 	public int insertPrdFile(ExpFile expFile);
 
-	/**
-	 * 업데이트 프로필 조회
+	 /* 업데이트 프로필 조회
 	 * 
 	 * @param expFile
 	 * @return
@@ -507,3 +504,4 @@ public interface SlsDao {
 	 */
 	public List<ExpSch> selectAllSch(String expCode);
 }
+

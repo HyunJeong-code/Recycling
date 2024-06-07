@@ -104,7 +104,7 @@ public interface UpcyclingService {
 	 * @param cart - cart DTO
 	 * @return - INSERT 결과
 	 */
-//	public int insertCart(Cart cart);
+	public int insertCart(Cart cart);
 
 	/**
 	 * 구매 상품 정보 조회
@@ -114,7 +114,6 @@ public interface UpcyclingService {
 	 */
 	public CartOrder selectCartOrder(String prdCode);
 
-	public int insertReview(UpcyReview review);
 
 
 }

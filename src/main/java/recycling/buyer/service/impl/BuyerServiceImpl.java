@@ -383,4 +383,5 @@ public class BuyerServiceImpl implements BuyerService {
 	public int insertChange(Change change) {
 		return buyerDao.insertChange(change);
 	}
+	
 }

@@ -138,19 +138,13 @@ public class MgrServiceImpl implements MgrService {
 	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging) {
 		return mgrDao.selectAllempList(upPaging);
 	}
+	
 
+	//전체사원조회 페이징[empList]
 	@Override
 	public int selectCntAllempList(PagingAndCtg upPaging) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mgrDao.selectCntAllempList(upPaging);
 	}
-
-//
-//	//전체사원조회 페이징[empList]
-//	@Override
-//	public int selectCntAllempList(PagingAndCtg upPaging) {
-//		return mgrDao.selectCntAllempList(upPaging);
-//	}
 	
 	//공지사항 관리자조회
 	@Override
@@ -160,18 +154,12 @@ public class MgrServiceImpl implements MgrService {
 		
 		return selectAllManager;
 	}
-//
-//	//공지사항 관리자조회 페이징
-//	@Override
-//	public int selectCntAllNotice(PagingAndCtg upPaging) {
-//		return mgrDao.selectCntAllNotice(upPaging);
-//	}
 
 	//공지사항 관리자조회 페이징
 	@Override
 	public int selectCntAllNotice(PagingAndCtg upPaging) {
 		return mgrDao.selectCntAllNotice(upPaging);
 	}
-	
+
 	
 }

@@ -448,7 +448,6 @@ public interface SlsService {
 	 * @return
 	 */
 	public int updateDetailFile(String expCode, MultipartFile detailFile);
-
 	
 	/**
 	 * 체험 프로필 이미지
@@ -464,5 +463,7 @@ public interface SlsService {
 	 * @return
 	 */
 	public List<ExpFile> expImage(ExpFile expFile);
+
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
 
 }

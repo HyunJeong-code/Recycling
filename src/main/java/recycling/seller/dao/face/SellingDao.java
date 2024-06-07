@@ -248,9 +248,8 @@ public interface SellingDao {
 	 * @param map - 삭제할 파일코드
 	 */
 	public void deleteDetailFile(HashMap<String, String> map);
-	
-	/**
-	 * 판매자 전체 상품 개수 조회
+
+	 /* 판매자 전체 상품 개수 조회
 	 * 
 	 * @param upPaging - 판매자 정보, 검색어
 	 * @return 개수

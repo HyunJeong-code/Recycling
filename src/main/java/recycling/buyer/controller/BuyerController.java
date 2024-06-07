@@ -11,10 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -747,10 +743,11 @@ public class BuyerController {
 
 		}
 	
-		model.addAttribute("msg", "개인 정보가 수정되었습니다.");
-		model.addAttribute("url", "/buyer/mypage/mydetailpri");
+	model.addAttribute("msg", "개인 정보가 수정되었습니다.");
+	model.addAttribute("url", "/buyer/mypage/mydetailpri");
+	
+	return "/layout/alert";
 
-		return "/layout/alert";
 	}
 	
 	// 회원 정보 변경 (기업)
