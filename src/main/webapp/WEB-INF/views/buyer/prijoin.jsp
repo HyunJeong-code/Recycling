@@ -212,8 +212,22 @@ $(function() {
 			alert("필수 이용약관에 동의해야 가입이 가능합니다.")
 		}
 	})
-	
+		
 }) // End Jquery
+
+function readUrl(input) {
+	if(input.files && input.files[0]) {
+		var reader = new FileReader();
+		
+		reader.onload = function(e) {
+			document.getElementById('preview').src = e.tartget.result;
+		};
+		
+		reader.readAsDataURL(input.file[0]);
+	} else {
+		document.getElementById('priview').src = "";
+	}
+}
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -256,6 +270,77 @@ function execDaumPostcode() {
     }).open();
 }
 </script>
+<style type="text/css">
+div .buyerCt input[type='radio'] {
+/* 	웹킷 브라우저에서 기본 스타일 제거 */
+	-webkit-appearance: none; 
+/*  	 모질라 브라우저에서 기본 스타일 제거  */
+ 	-moz-appearance: none; 
+ 	appearance: none;
+ 	width: 20px;
+ 	height: 20px;
+ 	border: 2px solid black;
+ 	border-radius: 50%;
+ 	outline: none;
+ 	cursor: pointer;
+}
+
+div .buyerCt input[type='radio']:checked {
+	background-color: #4CAF50;
+	border: 3px solid white;
+	box-shadow: 0 0 0 1.6px #4CAF50;
+}
+
+.wrap {
+	text-align: center;
+}
+
+.section #buyerCt label {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+}
+
+.section #buyer label {
+	display: inline-block;
+	width: 200px;
+	height: 50px;
+}
+
+.section #bId {
+	width: 200px;
+	height: 50px;
+	border: none;
+	border-bottom: 1px solid black;
+	position: relative;
+}
+
+.section #bPw {
+	width: 200px;
+	height: 50px;
+	border: none;
+	border-bottom: 1px solid black;
+	position: relative;
+}
+
+#id {
+	position: absolute;
+	width: 200px;
+	height: 30px;
+	left: 600px;	
+} 
+
+#pw {
+	position: absolute;
+	width: 200px;
+	height: 30px;
+	left: 600px;	
+}
+
+.btn {
+	width: 150px;
+}
+</style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
@@ -269,7 +354,8 @@ function execDaumPostcode() {
 			<form action="./prijoin" method="post" enctype="multipart/form-data">
 			<div id="prof">
 				<label for="buyerProf">프로필 사진</label>
-				<input type="file" id="buyerProf" name="buyerProf"><br>
+				<input type="file" id="buyerProf" name="buyerProf" onchange="readUrl(this);"><br>
+				<img id="preview" />
 			</div>
 			
 			<div id="infoBuyer">
@@ -400,8 +486,8 @@ function execDaumPostcode() {
 					</label>
 				</div>
 			</div>
-				<button id="btnJoin">가입하기</button>
-				<button><a href="/buyer/join">취소하기</a></button>			
+				<button id="btnJoin" class="btn btnRight">가입하기</button>
+				<button><a href="/buyer/join" class="btn btnLeft">취소하기</a></button>			
 			</form>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->

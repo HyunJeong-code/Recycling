@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- header css -->
-<link rel="stylesheet" href="/resources/css/header.css">
+<link rel="stylesheet" href="/resources/css/seller.css">
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
 $(function(){

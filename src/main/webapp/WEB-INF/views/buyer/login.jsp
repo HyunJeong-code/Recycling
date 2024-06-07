@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-<link rel="stylesheet" href="/resources/css/buyer.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
@@ -46,6 +45,81 @@ $(function() {
 	})
 })
 </script>
+<style type="text/css">
+div .buyerCt input[type='radio'] {
+/* 	웹킷 브라우저에서 기본 스타일 제거 */
+	-webkit-appearance: none; 
+/*  	 모질라 브라우저에서 기본 스타일 제거  */
+ 	-moz-appearance: none; 
+ 	appearance: none;
+ 	width: 20px;
+ 	height: 20px;
+ 	border: 2px solid black;
+ 	border-radius: 50%;
+ 	outline: none;
+ 	cursor: pointer;
+}
+
+div .buyerCt input[type='radio']:checked {
+	background-color: #4CAF50;
+	border: 3px solid white;
+	box-shadow: 0 0 0 1.6px #4CAF50;
+}
+
+.wrap {
+	text-align: center;
+}
+
+.section #buyerCt label {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+}
+
+.section #buyer label {
+	display: inline-block;
+	width: 200px;
+	height: 50px;
+}
+
+.section #bId {
+	width: 200px;
+	height: 50px;
+	border: none;
+	border-bottom: 1px solid black;
+	position: relative;
+}
+
+.section #bPw {
+	width: 200px;
+	height: 50px;
+	border: none;
+	border-bottom: 1px solid black;
+	position: relative;
+}
+
+#id {
+	position: absolute;
+	width: 200px;
+	height: 30px;
+	left: 600px;	
+} 
+
+#pw {
+	position: absolute;
+	width: 200px;
+	height: 30px;
+	left: 600px;	
+}
+
+.btn {
+	width: 150px;
+}
+
+.u-info {
+	font-size: 12px;
+}
+</style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
@@ -58,7 +132,7 @@ $(function() {
 		<div class="section">
 			<form action="./login" method="post">
 				
-				<div id="buyerCt">
+				<div id="buyerCt" class="buyerCt">
 					<input type="radio" name="bCtCode" id="bCtPri" value="P" checked="checked"> 
 					<label for="bCtPri">개인</label>
 					
@@ -69,18 +143,22 @@ $(function() {
 				<div id="buyer">
 					<label for="bId">ID</label>
 					<input id="bId" name="bId" placeholder="아이디를 입력해주세요."><br>
-					<div id="id" style="display:none; color:red;">아이디는 필수입니다.</div>
+					<div id="id" style="display:none; color:red;" class="u-info">아이디는 필수입니다.</div>
 					
+					<br>
+		
 					<label for="bPw">PW</label>
 					<input id="bPw" name="bPw" placeholder="비밀번호를 입력해주세요."><br>
-					<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
+					<div id="pw" style="display:none; color:red;" class="u-info">비밀번호는 필수입니다.</div>
 					
-					<button id="btnLogin">로그인</button>
+					<br>
+					
+					<button id="btnLogin" class="btn btnRight">로그인</button>
 				</div>
 			</form>
 				
 				<div id="pri" style="display: none;">
-				<button><a href="/buyer/prijoin">개인 일반 회원가입</a></button>
+				<button class="btn"><a href="/buyer/prijoin">개인 일반 회원가입</a></button>
 				
 				<div id="social">
 					<button>네이버 로그인</button>
@@ -90,7 +168,7 @@ $(function() {
 				</div>
 				
 				<div id="cmp" style="display: none;">
-					<button><a href="/buyer/cmpjoin">기업 일반 회원가입</a></button>
+					<button class="btn"><a href="/buyer/cmpjoin">기업 일반 회원가입</a></button>
 				</div>
 		</div>
 	</div>
