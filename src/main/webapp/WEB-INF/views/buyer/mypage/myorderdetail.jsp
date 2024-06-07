@@ -145,7 +145,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 					</tr>
 				</table>
 				
-				<button><a href="/buyer/mypage/myorder">목록</a></button>
+				<a href="/buyer/mypage/myorder"><button class="btn">목록</button></a>
 			</div>
 		</div>
 	

@@ -76,6 +76,14 @@ $(function(){
                     <button class="selected"><a href="/buyer/main">Buyer</a></button><button><a href="/seller/main">Seller</a></button>
                 </div>
             </div>
+            <div class="search-bar">
+                <input type="text" placeholder="검색어를 입력해주세요.">
+                <button type="submit">
+                    <span class="sch_send">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                </button>
+            </div>
         </div>
     </header>
 </body>
