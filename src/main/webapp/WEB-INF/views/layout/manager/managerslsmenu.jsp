@@ -5,11 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<<<<<<< Updated upstream
 <link rel="stylesheet" href="../../../resources/css/manager/cs/csdetail.css">
 <link rel="stylesheet" href="../../../resources/css/manager/sls/explist.css">
-=======
->>>>>>> Stashed changes
 <style type="text/css">
 .width-menu {
 	width: 300px;
