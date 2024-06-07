@@ -76,6 +76,7 @@
 			SELECT rownum no, mgr.* FROM (
 				<include refid="mgrJoinDep"/>
 				<where>
+					AND mgr_out ='N'
 					AND (
 						mgr_code LIKE '%' || #{search } || '%'
 					OR mgr_name LIKE '%' || #{search } || '%'
@@ -89,6 +90,18 @@
 		</where>
 	</select>	
 	
+	<!--  전체조회 페이징[empList]  -->
+	<select id="selectCntAllempList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM(
+		<include refid="mgrJoinDep"/>
+		)
+		<where>
+			AND mgr_out ='N'
+			AND ( mgr_code LIKE '%' || #{search } || '%' OR mgr_name LIKE '%' || #{search } || '%' )
+		</where>
+		ORDER BY mgr_code DESC
+	</select>
+
 	<!-- 카테고리 + 검색기능 구조  -->
 	<sql id="noitceSearch">
     <if test="search != null and search != ''">
@@ -104,19 +117,54 @@
 	</sql>
 	
 	<!-- 공지사항 조회 -->	
-	<select id="selectAll" resultType="Notice" parameterType="int">
-		<include refid="noticeBoard"/>
-	    <where>ct_ntcno = #{ctNtcNo}</where>
-	    ORDER BY ntc_code DESC
-	</select>
+<!-- 	<select id="selectAll" resultType="Notice" parameterType="int"> -->
+<!-- 		<include refid="noticeBoard"/> -->
+<!-- 	    <where>ct_ntcno = #{ctNtcNo}</where> -->
+<!-- 	    ORDER BY ntc_code DESC -->
+<!-- 	</select> -->
 	
 	<!-- 검색 한번에 진행예정-->
-	<select id="selectCntAll" resultType="int" parameterType="recycling.util.Paging">
-		SELECT count(*) FROM (
-		<include refid="noticeBoard" />
-		<include refid="noitceSearch"/>
+<!-- 	<select id="selectCntAll" resultType="int" parameterType="recycling.util.Paging"> -->
+<!-- 		SELECT count(*) FROM ( -->
+<!-- 		<include refid="noticeBoard" /> -->
+<!-- 		<include refid="noitceSearch"/> -->
+<!-- 		) -->
+<!-- 	</select> -->
+
+	<!-- 공지사항 조회 -->	
+	<select id="selectAllNotice" resultType="Notice" parameterType="recycling.util.PagingAndCtg">	
+		SELECT *
+		FROM (
+			SELECT rownum no, nt.* FROM (
+				SELECT * FROM notice
+				<where>
+					AND ct_ntcno = 2
+					AND (
+						ntc_title LIKE '%' || #{search } || '%'
+					OR ntc_content LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY ntc_code DESC
+			) nt
 		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
+	
+	<!-- 공지사항 페이징 -->	
+	<select id="selectCntAllNotice" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM notice
+		<where>
+			AND ct_ntcno = 2
+			AND (
+				ntc_title LIKE '%' || #{search } || '%'
+				OR ntc_content LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY ntc_code DESC
+	</select>
+	
 	
 	<!-- 공지사항 세부 조회 -->
 	<select id="selectDetail" resultType="Notice" parameterType="Notice">

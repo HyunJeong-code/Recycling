@@ -18,7 +18,7 @@
         </aside>
         <div class="wrap">
             <div class="page">
-<<<<<<< HEAD
+
             판매자 조회
          </div>
          
@@ -43,7 +43,6 @@
                   </tr>
                </thead>
                        
-=======
 				판매자 조회
 			</div>
 			
@@ -67,10 +66,7 @@
 	                        <th>상품판매조회</th>
 						</tr>
 					</thead>
-<<<<<<< HEAD
 
-=======
->>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
                 <div class="section">    
                     <h1>판매자 리스트</h1>
                     <hr>
@@ -103,7 +99,6 @@
                         </tr>
                     </thead>
 
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
                     <tbody>
                         <c:forEach var="seller" items="${main }" varStatus="status">
                            <!-- sOut상태가 'N' 이면 보여주고 'Y'이면 숨기기 -->
@@ -135,13 +130,7 @@
             <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
         </div>
     </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> TEST
-=======
->>>>>>> cf3b2559e2be98888183140c0e3fabd0825f47b8
+    
 	<div class="full">
 		<aside>
 			aaaaa
@@ -202,6 +191,7 @@
 			</div>
 		</div>
 	</div>
+	
 <div class="full">
 	<div class="wrap">
 		<div class="page">
