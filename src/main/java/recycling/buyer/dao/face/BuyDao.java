@@ -109,5 +109,48 @@ public interface BuyDao {
 	 * @return 중복된 아이디 개수
 	 */
 	public int selectCntById(String bId);
+	
+	/**
+	 * 메인페이지 재활용품 정보
+	 * 
+	 *  @return 재활용품 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectRcyHit();
+	
+	/**
+	 * 메인페이지 새활용 정보
+	 * 
+	 *  @return 새활용 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectUpcyHit();
+	
+	/**
+	 * 메인페이지 체험단 정보
+	 * 
+	 *  @return 체험단 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectExpHit();
+	
+	/**
+	 * 메인페이지 재활용품 정보
+	 * 
+	 *  @return 재활용품 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectRcyNew();
+	
+	/**
+	 * 메인페이지 새활용 정보
+	 * 
+	 *  @return 새활용 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectUpcyNew();
+	
+	/**
+	 * 메인페이지 체험단 정보
+	 * 
+	 *  @return 체험단 정보와 썸넹리 정보
+	 */
+	public List<Map<String, Object>> selectExpNew();
+
 
 }

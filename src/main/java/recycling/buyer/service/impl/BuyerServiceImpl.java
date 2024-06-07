@@ -2,9 +2,6 @@ package recycling.buyer.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,10 +48,10 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public List<CartOrder> selectAllCart(PagingAndCtg upPaging) {
-		List<CartOrder> list = buyerDao.selectAllCart(upPaging);
+	public List<CartOrder> selectAllCart(String bCode) {
+		List<CartOrder> list = buyerDao.selectAllCart(bCode);
 		
-		logger.info("bCode: {}", upPaging);
+		logger.info("bCode: {}", bCode);
 		logger.info("list: {}", list);
 		
 		
@@ -103,18 +100,9 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
+
 	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging) {
 		return buyerDao.buyerDaoselectOrderDetailBybCode(upPaging);
-	}
-
-	@Override
-	public OrderDetail selectByorddtCode(String orddtCode) {
-		return buyerDao.selectByorddtCode(orddtCode);
-	}
-	
-	@Override
-	public int insertChange(Change change) {
-		return buyerDao.insertChange(change);
 	}
 
 	@Override
@@ -362,20 +350,20 @@ public class BuyerServiceImpl implements BuyerService {
 	public int changePw(BuyerLogin buyerLogin) {
 		return buyerDao.changePw(buyerLogin);
 	}
-
-	
-	
-	//paging cnt
-	@Override
-	public int selectCntAllCart(PagingAndCtg upPaging) {
-		return buyerDao.selectCntAllCart(upPaging);
-	}
 	
 	@Override
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging) {
 		return buyerDao.selectCntOrderDetailBybCode(upPaging);
 	}
 	
-	//paging cnt end
-
+	@Override
+	public OrderDetail selectByorddtCode(String orddtCode) {
+		return buyerDao.selectByorddtCode(orddtCode);
+	}
+	
+	@Override
+	public int insertChange(Change change) {
+		return buyerDao.insertChange(change);
+	}
+	
 }

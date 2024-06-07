@@ -11,6 +11,8 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <title>CS Center</title>
 
 <style type="text/css">
@@ -19,6 +21,9 @@
 	margin: auto;
 }
 
+.page_box {
+	border-bottom: 3px solid #000;
+}
 .FAQ_Content h2 {
 	text-align: center;
 	margin-top: 15px;
@@ -104,13 +109,11 @@
     background-color: #f5f5f5;
 }
 
-
 </style>
 
 <script type="text/javascript">
-
-function toggleAnswer(ctFaqNo) {
-    var answerBox = ctFaqNo.querySelector('.FAQ_table_list_AnsBox');
+function toggleAnswer(ctFaqno) {
+    var answerBox = ctFaqno.querySelector('.FAQ_table_list_AnsBox');
     if (answerBox.style.display === 'none' || answerBox.style.display === '') {
         answerBox.style.display = 'block';
     } else {
@@ -118,26 +121,16 @@ function toggleAnswer(ctFaqNo) {
     }
 }
 
-$(document).ready(function(){
-    $(".FAQ_CT_button").click(function(){
-        var ctFaqNo = $(this).val(); // 클릭한 버튼의 분류 번호 가져오기
-        
-        // 모든 FAQ 리스트 숨기기
-        $(".FAQ_table_list").hide();
-        
-        // 클릭한 버튼의 분류에 해당하는 FAQ 리스트만 보이도록 처리
-        $(".FAQ_table_list[data-ctFaqNo='" + ctFaqNo + "']").show();
-    });
-});
-
 </script>
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
 <div class="wrap">
+<div class="page_box">
 <h2>고객센터</h2>
+</div>
 
+<div class="menu">
 	<div class="cs_center">
 	
 		<div>
@@ -162,21 +155,21 @@ $(document).ready(function(){
 			<a href="/buyer/mypage/myboard" class="cs_menu_a">내 질문</a>
 			<a href="./main" class="cs_menu_a">자주 묻는 질문</a><br><br>
 	</nav>
-	
-	
+		
 <div class="FAQ_Content">
 	<h2>FAQ 자주 묻는 질문</h2>
 	
 	<nav class="FAQ_CT">
-			<button type="button" class="FAQ_CT_button " value="3000" >회원</button>
-            <button type="button" class="FAQ_CT_button " value="3010" >결제</button>
-            <button type="button" class="FAQ_CT_button " value="3020" >예약</button>
-            <button type="button" class="FAQ_CT_button " value="3030" >재활용품</button>
-            <button type="button" class="FAQ_CT_button " value="3040" >업사이클링</button>
-            <button type="button" class="FAQ_CT_button " value="3050" >체험단</button>
-            <button type="button" class="FAQ_CT_button " value="3060" >세척</button>
-            <button type="button" class="FAQ_CT_button " value="3070" >기타</button>
+			<button type="button" class="FAQ_CT_button" value="3000"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3000&sCtg=UP">회원</a></button>
+            <button type="button" class="FAQ_CT_button" value="3010"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3010&sCtg=UP">결제</a></button>
+            <button type="button" class="FAQ_CT_button" value="3020"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3020&sCtg=UP">예약</a></button>
+            <button type="button" class="FAQ_CT_button" value="3030"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3030&sCtg=UP">재활용품</a></button>
+            <button type="button" class="FAQ_CT_button" value="3040"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">업사이클링</a></button>
+            <button type="button" class="FAQ_CT_button" value="3050"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">체험단</a></button>
+            <button type="button" class="FAQ_CT_button" value="3060"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">세척</a></button>
+            <button type="button" class="FAQ_CT_button" value="3070"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">기타</a></button>
 	</nav>
+	
 
 </div>
 
@@ -186,42 +179,29 @@ $(document).ready(function(){
 		<p class="FAQ_table_title">제목</p>
 	</div>
 	
-		<% 
-            List<Faq> list = (List<Faq>) request.getAttribute("list");// Controller에서 전달된 질문 목록
-            List<FaqCt> faqCtlist = (List<FaqCt>) request.getAttribute("faqCtlist");
-            for (Faq faq : list) {
-   		%>
-   		
-<!-- 	<div> css 수정해야됨 -->
-	
-	<div class="FAQ_table_list" onclick="toggleAnswer(this)" data-ctFaqNo="<%= faq.getCtFaqno() %>">
-		<em class="FAQ_list_ct">
-		<%
-		for (FaqCt faqCt : faqCtlist) {
-			if(faq.getCtFaqno() == faqCt.getCtFaqno()){
-				out.print(faqCt.getCtFaqname());
-				break;
-			}
-		}
-		%>
-		</em>
-		<p class="FAQ_list_title"><%= faq.getFaqTitle() %></p>
-		<div class="FAQ_table_list_box">
-			<div class="FAQ_table_list_AnsBox" style="display: none;">
-				<em class="FAQ_table_list_Ans">답변</em>
+	<c:forEach var="faq" items="${list}">
+		<div class="FAQ_table_list" onclick="toggleAnswer(this)" data-ctFaqno="${faq.ctFaqno}">
+			<em class="FAQ_list_ct">
+				<c:forEach var="faqCt" items="${faqCtlist}">
+					<c:if test="${faq.ctFaqno == faqCt.ctFaqno}">
+						${faqCt.ctFaqname}
+					</c:if>
+				</c:forEach>
+			</em>
+			<p class="FAQ_list_title">${faq.faqTitle}</p>
+			<div class="FAQ_table_list_box">
+				<div class="FAQ_table_list_AnsBox" style="display: none;">
+					<em class="FAQ_table_list_Ans">답변</em>
 					<div class="FAQ_table_list_contents">
-	    				<p><%= faq.getFaqAns() %></p>
-	                </div>
-	        </div>
-        </div>
-	</div>
-<!-- 	</div> -->
-                <%
-            }
-        %>
+						<p>${faq.faqAns}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</c:forEach>
+<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 </div>
 </div>
-
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

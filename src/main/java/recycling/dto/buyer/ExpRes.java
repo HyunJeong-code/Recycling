@@ -188,9 +188,4 @@ public class ExpRes {
 	public void setPayDate(String payDate) {
 		this.payDate = payDate;
 	}
-
-	public String getExpCode() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

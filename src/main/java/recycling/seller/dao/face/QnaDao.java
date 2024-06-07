@@ -5,27 +5,18 @@ import java.util.List;
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
 import recycling.dto.seller.Qna;
-import recycling.util.PagingAndCtg;
 
 // 판매자 문의 관련 DB
 
 public interface QnaDao {
 
 	/**
-	 * sCode가 판매중인 prd의 문의 미답변 조회
-	 * 
-	 * @param upPaging - 조회할 sCode
-	 * @return - sCode와 연관된 Qst 객체 리스트
-	 */
-	public List<QstA> selectQstBysCode(PagingAndCtg upPaging);
-	
-	/**
-	 * sCode가 판매중인 prd의 문의 전체 조회
+	 * sCode가 판매중인 prd의 문의 조회
 	 * 
 	 * @param sCode - 조회할 sCode
 	 * @return - sCode와 연관된 Qst 객체 리스트
 	 */
-	public List<QstA> selectQstAllBysCode(PagingAndCtg unPaging);
+	public List<QstA> selecBysCode(String sCode);
 	
 	/**
 	 * qstCode와 일치하는 Qst 조회
@@ -66,23 +57,5 @@ public interface QnaDao {
 	 * @return - DELETE 결과
 	 */
 	public int deleteQna(String qnaCode);
-
-	/**
-	 * qna paging
-	 * 
-	 * @param upPaging - paging
-	 * @return - paging 결과
-	 */
-	public int selectCntQstBysCode(PagingAndCtg upPaging);
-
-	/**
-	 * qna paging
-	 * 
-	 * @param unPaging - paging
-	 * @return - paging 결과
-	 */
-	public int selectCntQstAllBysCode(PagingAndCtg unPaging);
-
-
 
 }

@@ -152,6 +152,7 @@ th {
 				    <input type="hidden" name="qstCode" value="${qst.qstCode}">
 				    <input type="hidden" name="qnaCode" value="${qna.qnaCode}">
 				</form>
+				
 			</div>
 		</div>
 	

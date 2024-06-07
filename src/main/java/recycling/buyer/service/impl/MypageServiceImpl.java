@@ -1,10 +1,7 @@
 package recycling.buyer.service.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
@@ -13,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.MypageDao;
 import recycling.buyer.service.face.MypageService;
@@ -212,4 +208,13 @@ public class MypageServiceImpl implements MypageService {
         
 	}
 
+	@Override
+	public int selectAllCnt(PagingAndCtg paging) {
+		return mypageDao.selectAllCnt(paging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectAll(PagingAndCtg paging) {
+		return mypageDao.selectAll(paging);
+	}
 }

@@ -74,64 +74,80 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
 	<div class="full">
-
-		<table>
-			<tr>
-				<td>주문번호</td>
-				<td>${orderDetail.orddtCode }</td>
-			</tr>
-			<tr>
-				<td>주문일</td>
-				<td>${order.ordDate }</td>
-			</tr>
-			<tr>
-				<td>상품명</td>
-				<td>${orderDetail.ordName }</td>
-			</tr>
-			<tr>
-				<td>수량</td>
-				<td>${orderDetail.ordCnt }</td>
-			</tr>
-			<tr>
-				<td>총금액</td>
-				<td>${orderDetail.ordSum }</td>
-			</tr>
-			<tr>
-				<td>주문자</td>
-				<td>${order.ordName }</td>
-			</tr>
-			<tr>
-				<td>연락처</td>
-				<td>${order.ordPhone }</td>
-			</tr>
-			<tr>
-				<td>배송지</td>
-				<td>${order.ordPostcode }</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>${order.ordAddr }</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>${order.ordDetail }</td>
-			</tr>
-			<tr>
-				<td>메모</td>
-				<td>${order.ordMemo }</td>
-			</tr>
-			<tr>
-				<td>주문상태</td>
-				<td id="sttName"></td>
-			</tr>
-			<tr>
-				<td>주문 변경</td>
-				<td colspan='3' id="changeOrder">
-					<!-- <button type="button" data-bs-toggle="modal" data-bs-target="#exchangeModal">교환하기</button>
-					<button type="button" data-bs-toggle="modal" data-bs-target="#returnModal">반품</button> -->
-				</td>
-			</tr>
-		</table>
+	
+		<div class="wrap">
+		
+			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
+			
+			
+			
+			<div class="main-section">
+			
+				<div class="page-header">
+					<h3>주문상세</h3>
+				</div>
+			
+				<table class="view-table">
+					<tr>
+						<td>주문번호</td>
+						<td>${orderDetail.orddtCode }</td>
+					</tr>
+					<tr>
+						<td>주문일</td>
+						<td>${order.ordDate }</td>
+					</tr>
+					<tr>
+						<td>상품명</td>
+						<td>${orderDetail.ordName }</td>
+					</tr>
+					<tr>
+						<td>수량</td>
+						<td>${orderDetail.ordCnt }</td>
+					</tr>
+					<tr>
+						<td>총금액</td>
+						<td>${orderDetail.ordSum }</td>
+					</tr>
+					<tr>
+						<td>주문자</td>
+						<td>${order.ordName }</td>
+					</tr>
+					<tr>
+						<td>연락처</td>
+						<td>${order.ordPhone }</td>
+					</tr>
+					<tr>
+						<td>배송지</td>
+						<td>${order.ordPostcode }</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>${order.ordAddr }</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>${order.ordDetail }</td>
+					</tr>
+					<tr>
+						<td>메모</td>
+						<td>${order.ordMemo }</td>
+					</tr>
+					<tr>
+						<td>주문상태</td>
+						<td id="sttName"></td>
+					</tr>
+					<tr>
+						<td>주문 변경</td>
+						<td colspan='3' id="changeOrder">
+							<!-- <button type="button" data-bs-toggle="modal" data-bs-target="#exchangeModal">교환하기</button>
+							<button type="button" data-bs-toggle="modal" data-bs-target="#returnModal">반품</button> -->
+						</td>
+					</tr>
+				</table>
+				
+				<a href="/buyer/mypage/myorder"><button class="btn">목록</button></a>
+			</div>
+		</div>
 	
 	</div>
 

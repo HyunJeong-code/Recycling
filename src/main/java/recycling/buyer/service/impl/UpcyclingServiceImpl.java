@@ -1,9 +1,6 @@
 package recycling.buyer.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +12,7 @@ import recycling.buyer.dao.face.UpcyclingDao;
 import recycling.buyer.service.face.UpcyclingService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -57,28 +55,37 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectSeller(getsCode);
 	}
 
+//	@Override
+//	public SellerProf selectSellerProf(String sCode) {
+//		return upcyclingDao.selectSellerProf(sCode);
+//	}
+	
 	@Override
 	public Buyer selectBuyerCode(int bCode) {
 		return upcyclingDao.selectBcode(bCode);
 	}
 	
 	@Override
-	public List<Map<String, Object>> selectRvwList(String prdCode) {
-		
-	    List<Map<String, Object>> reviewList = upcyclingDao.selectRvwList(prdCode);
-	    if (reviewList != null && !reviewList.isEmpty()) {
-	        logger.info("selectRvwList() - Review list found for product code: {}", prdCode);
-	        for (Map<String, Object> review : reviewList) {
-	            logger.info("selectRvwList() - Review: {}", review);
-	        }
-	    } else {
-	        logger.info("selectRvwList() - No review found for product code: {}", prdCode);
-	    }
-		
-		return upcyclingDao.selectRvwList(prdCode);
+	public Buyer selectBuyerDetail(String bId) {
+		return upcyclingDao.selectBuyerBybId(bId);
 	}
 
+	@Override
+	public int insertReview(UpcyReview review) {
+		return upcyclingDao.insertReview(review);
+	}
 	
+	@Override
+	public List<UpcyReview> selectRvwList(String prdCode) {
+		List<UpcyReview> upcyReviewList = upcyclingDao.selectRvwList(prdCode);
+		logger.info("selectRvwList() - upcyReviewList size: {}", upcyReviewList.size());
+		for(UpcyReview upcyReview : upcyReviewList) {
+	        logger.info("selectRvwList() - UpcyReview: {}", upcyReview);
+	    }
+		
+		return upcyReviewList;
+	}
+
 	@Override
 	public UpcyReview selectRvw(String upcyCode) {
 		UpcyReview upcyReview = upcyclingDao.selectRvw();
@@ -91,16 +98,18 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectRvw();
 	}
 
-	
-	@Override
-	public void insertReview(String upcyContent, String prdCode, String bCode, int upcyGrade) {
-		Map<String, Object> reviewData = new HashMap<>();
-		reviewData.put("bCode", bCode);
-		reviewData.put("prdCode", prdCode);
-		reviewData.put("upcyContent", upcyContent);
-		reviewData.put("upcyGrade", upcyGrade);
-        upcyclingDao.insertReview(reviewData);
-	}
+//	@Override
+//	public void insertReview(String upcyContent, String prdCode, Buyer buyer) {
+//		UpcyReview upcyReview = new UpcyReview();
+//		upcyReview.setUpcyCode(UUID.randomUUID().toString());
+//		upcyReview.setbCode(buyer.getbCode());
+//		upcyReview.setPrdCode(prdCode);
+//		upcyReview.setUpcyGrade(0);
+//		upcyReview.setUpcyContent(upcyContent);
+//		
+//		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
+//		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
+//	}
 
 	@Override
 	public void updateReview(String upcyCode, String upcyContent) {
@@ -108,7 +117,6 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		logger.info("updateReview() - UpcyReview updated: upcyCode={}, upcyContent={}", upcyCode, upcyContent);
 	}
 
-	
 	@Override
 	public void deleteReview(String upcyCode) {
 		upcyclingDao.deleteReview(upcyCode);
@@ -129,5 +137,9 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public int insertCart(Cart cart) {
 		return upcyclingDao.insertCart(cart);
 	}
-	
+
+	@Override
+	public CartOrder selectCartOrder(String prdCode) {
+		return upcyclingDao.selectCartOrder(prdCode);
+	}
 }

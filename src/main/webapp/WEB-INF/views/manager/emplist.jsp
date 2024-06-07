@@ -278,55 +278,55 @@ button[type="submit"]:hover,
 		})
 	})
 </script>
-
 </head>
 <body>
-	<div class = "full" >
-		<aside>
-		</aside>
-		<div class="wrap">		
-			<div class="page">
-				전체사원 조회
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
+			<div class="wrap">		
+				<div class="page">
+					전체사원 조회
+				</div>
+			<div class="search">
+				<form action="./emplist" method="get">
+					<input type="hidden" name="sCtg" value="UP">
+					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+					<button>검색</button>
+				</form>
 			</div>
-		<div class="search">
-			<form action="./emplist" method="get">
-				<input type="hidden" name="sCtg" value="UP">
-				<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-				<button>검색</button>
-			</form>
-		</div>
-			
-					<div class = "section">
-						<table>
-							<thead>
-								<tr>
-									<th>부서명</th>
-									<th>이름</th>
-									<th>사원번호</th>
-									<th>핸드폰 번호</th>
-									<th>이메일</th>
-								</tr>
-							</thead>
 				
-							<tbody>
-								<c:forEach var="select" items="${select }" varStatus="status">
-									<!-- mgrOut상태가 'N' 이면 보여주고 'Y'이면 숨기기 -->
-									<c:if test="${select.mgrOut eq 'N'}">
-									<tr>
-										<td>${select.dname }</td>
-										<td>${select.mgrName }</td>
-										<td>${select.mgrCode }</td>
-										<td>${select.mgrPhone }</td>
-										<td>${select.mgrEmail }</td>
-									</tr>
-									</c:if>
-								</c:forEach>
-							</tbody>
-						</table>
-					</div><!-- section -->
-					<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-		</div><!-- wrap -->
-	</div><!-- full -->
-
+			<div class = "section">
+				<table>
+					<thead>
+						<tr>
+							<th>부서명</th>
+							<th>이름</th>
+							<th>사원번호</th>
+							<th>핸드폰 번호</th>
+							<th>이메일</th>
+						</tr>
+					</thead>
+		
+					<tbody>
+						<c:forEach var="select" items="${select }" varStatus="status">
+							<!-- mgrOut상태가 'N' 이면 보여주고 'Y'이면 숨기기 -->
+							<c:if test="${select.mgrOut eq 'N'}">
+							<tr>
+								<td>${select.dname }</td>
+								<td>${select.mgrName }</td>
+								<td>${select.mgrCode }</td>
+								<td>${select.mgrPhone }</td>
+								<td>${select.mgrEmail }</td>
+							</tr>
+							</c:if>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div><!-- section -->
+			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+			</div><!-- wrap -->
+		</div><!-- full -->
+	</div>
 </body>
 </html>

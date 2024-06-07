@@ -40,6 +40,29 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
+<<<<<<< HEAD
+.page {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	height: 100vh;
+	padding-top: 50px;
+	text-align: center;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+label {
+	margin-right: 10px;
+	width: 150px;
+	text-align: right;
+=======
 body {
     background-color: #f4f4f4;
     margin: 0;
@@ -89,14 +112,12 @@ label {
 }
 .button-group button:hover {
     background-color: #005bb5;
+>>>>>>> TEST
 }
 </style>
 
 </head>
 <body>
-
-	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
-
 	<div class="full">
 		<div class="wrap">
 		
