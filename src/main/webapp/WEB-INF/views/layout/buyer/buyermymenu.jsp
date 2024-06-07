@@ -8,6 +8,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<!-- mymenu css -->
+<link rel="stylesheet" href="/resources/css/mymenu.css">
+
 </head>
 <body>
 	<div class="sidebar">

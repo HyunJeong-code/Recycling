@@ -206,6 +206,22 @@ public interface BuyerService {
 	 * @return 업데이트 결과
 	 */
 	public CmpFile updateCmpFile(MultipartFile cmpFile, String bCode);
+
+	/**
+	 * 프로필 이미지 가져오기
+	 * 
+	 * @param updateProf - 업데이트 한 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProfMapper(BuyerProf updateProf);
+
+	/**
+	 * 사업자 등록증 가져오기
+	 * 
+	 * @param updateFile - 업데이트 한 사업자 등록증 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateCmpFileMapper(CmpFile updateFile);
 	
 	/**
 	 * 구매자의 모든 배송지 정보
@@ -249,11 +265,11 @@ public interface BuyerService {
 	public int unsetDefaultAdr(String bCode);	
 	
 	/**
+	 * 기본 배송지 설정
 	 * 
-	 * 
-	 * @param adrCode
-	 * @param bCode
-	 * @return
+	 * @param adrCode - 배송지 코드
+	 * @param bCode - 구매자 코드
+	 * @return 설정된 행 수
 	 */
 	public int setDefaultAdr(String adrCode, String bCode);	
 	
@@ -273,6 +289,7 @@ public interface BuyerService {
 	 */
 
 	public int changePw(BuyerLogin buyerLogin);
+	
 	/**
 	 * 판매자 탈퇴
 	 * 

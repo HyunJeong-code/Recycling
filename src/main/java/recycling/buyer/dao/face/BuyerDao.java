@@ -139,15 +139,15 @@ public interface BuyerDao {
 	 * 구매자 프로필 조회
 	 * 
 	 * @param bCode - 구매자 코드
-	 * @return 조회된 프로필 조회
+	 * @return 조회된 프로필
 	 */
 	public BuyerProf getBuyerProf(String bCode);
 	
 	/**
+	 * 사업자 등록증 조회
 	 * 
-	 * 
-	 * @param cmpNo
-	 * @return
+	 * @param cmpNo - 기업 번호
+	 * @return 조회된 사업자 등록증
 	 */
 	public CmpFile getCmpFile(int cmpNo);
 	
@@ -185,10 +185,10 @@ public interface BuyerDao {
 	public int updateBuyerProf(BuyerProf prof);
 
 	/**
+	 * 사업자 등록증 업데이트
 	 * 
-	 * 
-	 * @param file
-	 * @return
+	 * @param file - 업데이트 할 사업자 등록증 파일
+	 * @return 업데이트 결과
 	 */
 	public int updateCmpFile(CmpFile file);
 	
@@ -287,7 +287,6 @@ public interface BuyerDao {
 	 */
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
 
-	public BuyerRank selectBuyerRank(int rankNo);
 	/**
 	 * 주문 상세 조회
 	 * 
