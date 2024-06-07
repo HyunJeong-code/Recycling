@@ -42,10 +42,10 @@ $(function() {
 				, dataType : "Json"
 				, success: function(res) {
 					console.log("AJAX 성공");
+					alert("상품이 삭제되었습니다.");
 					
 					location.href="./sellinglist?sCode=" + sCodeInputNo;
 					
-					alert("상품이 삭제되었습니다.");
 				}
 				, error: function() {
 					console.log("AJAX 실패");
@@ -184,7 +184,7 @@ $(function() {
 		}else{
 			$.ajax({
 				type: "post"
-				, url: "./shipdel"
+				, url: "./delship"
 				, data: {
 					arr: arr
 					, sCode : sCodeInputNo
@@ -205,6 +205,7 @@ $(function() {
 	    console.log(arr);
 	}); // #shipBtn click end
 	
+
 	
 	
 }); //$ end
@@ -235,8 +236,8 @@ $(function() {
 						<th>이름/상호명</th>
 						<th>연락처</th>
 						<th>이메일</th>
-						<!-- 						<th>전체 주문수</th> -->
-						<!-- 						<th>판매 상품수</th> -->
+<!-- 						<th>전체 주문수</th> -->
+<!-- 						<th>판매 상품수</th> -->
 					</tr>
 
 					<!-- 개인 -->
@@ -253,8 +254,8 @@ $(function() {
 						<th>${selList.B_NAME }</th>
 						<th>${selList.B_PHONE }</th>
 						<th>${selList.B_EMAIL }</th>
-						<%-- 						<th>${selList. }</th> --%>
-						<%-- 						<th>${selList. }</th> --%>
+<%-- 						<th>${selList. }</th> --%>
+<%-- 						<th>${selList. }</th> --%>
 					</tr>
 
 				</table>
@@ -278,8 +279,7 @@ $(function() {
 					<tbody>
 						<c:forEach var="prdList" items="${prdList }">
 							<tr>
-								<td><input type="checkbox" class="checkList"
-									id="${prdList.prdCode }" name="checkList"></td>
+								<td><input type="checkbox" class="checkList" value="${prdList.prdCode }" name="checkList"></td>
 								<td>${prdList.prdCode }</td>
 								<td><c:choose>
 										<c:when test="${prdList.ctPno == 0 }">
@@ -290,8 +290,7 @@ $(function() {
 														</c:when>
 									</c:choose></td>
 								<td><script>document.write(pdtList[${prdList.ctPdtNo}])</script></td>
-								<td><a
-									href="/manager/sls/orderdetail?orddtCode=${prdList.orddtCode}">${prdList.prdName }</a></td>
+								<td>${prdList.prdName }</td>
 								<td><c:choose>
 										<c:when test="${prdList.ctPno == 0 }">
 															1
@@ -362,7 +361,7 @@ $(function() {
 										value="${ordDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 								<td id="sttNo"><script>document.write(sttList[${ord.sttNo}])</script></td>
 								<td><c:if test="${ord.shipName != null}">
-			 				${ord.shipName }
+			 							${ord.shipName }
 			 			</c:if> <c:if test="${ord.shipName == null}">
 										<select name="shipName">
 											<option value="">택배사 선택</option>
@@ -374,7 +373,7 @@ $(function() {
 										</select>
 									</c:if></td>
 								<td><c:if test="${ord.shipNo != 0}">
-			 				${ord.shipNo }
+			 							${ord.shipNo }
 			 			</c:if> <c:if test="${ord.shipNo == 0}">
 										<input type="text" name="shipNo">
 									</c:if></td>

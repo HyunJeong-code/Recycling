@@ -281,7 +281,8 @@ public class SlsController {
 		
 		
 		for(String prdCode : list) {
-			int deleteRes = sellingService.deletePrd(prdCode);  
+			int deleteRes = sellingService.deletePrd(prdCode);
+			logger.info("1111111 : {}",prdCode);
 		}
 		
 		return "jsonView";
@@ -394,7 +395,7 @@ public class SlsController {
 	}
 	
 	//송장삭제
-	@PostMapping("/shipdel")
+	@GetMapping("/delship")
 	public String delShip(String orddtCode, Model model) {
 		int res = sellingService.deleteShip(orddtCode);
 		
