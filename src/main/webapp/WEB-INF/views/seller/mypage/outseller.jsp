@@ -52,6 +52,8 @@ th {
 </style>
 </head>
 <body>
+   <c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
+
 <div class="full">
    <div class="wrap">
       
@@ -92,5 +94,12 @@ th {
    </div> <!-- wrap End -->
 </div> <!-- full End -->
 
+
+
 </body>
+
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
+
+
+
 </html>

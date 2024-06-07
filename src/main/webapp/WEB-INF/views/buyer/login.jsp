@@ -77,42 +77,54 @@ div .buyerCt input[type='radio']:checked {
 	vertical-align: middle;
 }
 
-.section #buyer label {
-	display: inline-block;
-	width: 200px;
-	height: 50px;
-	vertical-align: middle;
+.section #buyer {
+	text-align: center;
 }
 
-.section #bId {
-	width: 200px;
-	height: 50px;
-	border: none;
-	border-bottom: 1px solid black;
-	position: relative;
+.section table {
+	margin : 0 auto;
 }
 
-.section #bPw {
+.section th {
+	width: 200px;
+}
+
+.section input[type="text"] {
 	width: 200px;
 	height: 50px;
 	border: none;
 	border-bottom: 1px solid black;
-	position: relative;
 }
 
-#id {
-	position: absolute;
-	width: 200px;
-	height: 30px;
-	left: 850px;	
-} 
+/* .section #bId { */
+/* 	width: 200px; */
+/* 	height: 50px; */
+/* 	border: none; */
+/* 	border-bottom: 1px solid black; */
+/* 	position: relative; */
+/* } */
 
-#pw {
-	position: absolute;
-	width: 200px;
-	height: 30px;
-	left: 850px;	
-}
+/* .section #bPw { */
+/* 	width: 200px; */
+/* 	height: 50px; */
+/* 	border: none; */
+/* 	border-bottom: 1px solid black; */
+/* 	position: relative; */
+/* } */
+
+/* #id { */
+/* 	position: absolute; */
+/* 	width: 200px; */
+/* 	height: 30px; */
+/* 	left: 850px;	 */
+/* }  */
+
+/* #pw { */
+/* 	position: absolute; */
+/* 	width: 200px; */
+/* 	height: 30px; */
+/* 	left: 850px;	 */
+/* } */
 
 .btn {
 	width: 150px;
@@ -142,21 +154,26 @@ div .buyerCt input[type='radio']:checked {
 					<label for="bCtCmp">기업</label>
 				</div>
 				
-				<div id="buyer">
-					<label for="bId">ID</label>
-					<input id="bId" name="bId" placeholder="아이디를 입력해주세요."><br>
-					<div id="id" style="display:none; color:red;" class="u-info">아이디는 필수입니다.</div>
+				<table>
+					<div id="buyer">
+					<tr>
+						<th><label for="bId">ID</label></th>
+						<td><input id="bId" name="bId" placeholder="아이디를 입력해주세요."></td>
+						<td><div id="id" style="display:none; color:red;" class="u-info">아이디는 필수입니다.</div></td>
+					</tr>
+
+					<tr>			
+						<th><label for="bPw">PW</label></th>
+						<td><input id="bPw" name="bPw" placeholder="비밀번호를 입력해주세요."></td>
+						<td><div id="pw" style="display:none; color:red;" class="u-info">비밀번호는 필수입니다.</div></td>
+					<tr>
 					
-					<br>
-		
-					<label for="bPw">PW</label>
-					<input id="bPw" name="bPw" placeholder="비밀번호를 입력해주세요."><br>
-					<div id="pw" style="display:none; color:red;" class="u-info">비밀번호는 필수입니다.</div>
+					<tr>
+						<td colspan="2"><button id="btnLogin" class="btn btnRight">로그인</button></td>
+					</tr>
 					
-					<br>
-					
-					<button id="btnLogin" class="btn btnRight">로그인</button>
-				</div>
+					</div>
+				</table>
 			</form>
 				
 				<div id="pri" style="display: none;">
