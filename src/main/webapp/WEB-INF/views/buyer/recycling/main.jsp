@@ -25,8 +25,6 @@
     }
     
     
-
-
 	.mainContainer {
 		flex: 1;
 		overflow-y: auto;
@@ -39,13 +37,14 @@
 
 	.mainBanner {
 		max-width: 1000px;
-		height: 620px;
+		height: auto; /* 높이 자동으로 설정 */
 		border: 1px solid black;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding-top: 20px;
+		padding-bottom: 20px; /* 하단 패딩 추가 */
 		background-color: #f8f9fa;
 	}
 
@@ -73,6 +72,7 @@
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
+		justify-content: center; /* 가운데 정렬 */
 	}
 
 	.bannerContent {
@@ -227,51 +227,30 @@
 
 	<div class="mainContainer">
 		<div class="mainBanner">
-			<div class="bannerInfo">
-				<!-- 신규 상품  -->
-				<div class="bannerContent" id="newPrd1">
-					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
-					<p class="bannerTitle">신규 상품 1</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="newPrd2">
-					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
-					<p class="bannerTitle">신규 상품 2</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="newPrd3">
-					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
-					<p class="bannerTitle">신규 상품 3</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="newPrd4">
-					<img src="${pageContext.request.contextPath}/resources/img/empty_400px.png">
-					<p class="bannerTitle">신규 상품 4</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<hr>
-				<!-- 인기 상품  -->
-				<div class="bannerContent" id="popPrd1">
-						<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-						<p class="bannerTitle">인기 상품 1</p>
-						<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="popPrd2">
-					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-					<p class="bannerTitle">인기 상품 2</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="popPrd3">
-					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-					<p class="bannerTitle">인기 상품 3</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-				<div class="bannerContent" id="popPrd4">
-					<img src="${pageContext.request.contextPath}/resources/img/popular_400px.png">
-					<p class="bannerTitle">인기 상품 4</p>
-					<p class="bannerPrice">10,000원</p>
-				</div>
-			</div>
+			<h3>최신 상품</h3>
+		    <div class="bannerInfo">
+				<c:forEach var="prd" items="${latestList}" varStatus="status">
+					<c:if test="${status.index < 4}">
+						<div class="bannerContent">
+							<img src="${pageContext.request.contextPath}/resources/image/${latestPrdImageThumNames[status.index]}" 
+								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
+							<p class="bannerTitle">${prd.prdName}</p>
+							<p class="bannerPrice">${prd.price}원</p>
+		                    </div>
+		                </c:if>
+				</c:forEach>
+		            
+				<c:forEach var="prd" items="${HitList}" varStatus="status">
+					<c:if test="${status.index < 4}">
+						<div class="bannerContent">
+							<img src="${pageContext.request.contextPath}/resources/image/${hitPrdImageThumNames[status.index]}" 
+								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
+							<p class="bannerTitle">${prd.prdName}</p>
+							<p class="bannerPrice">${prd.price}원</p>
+						</div>
+					</c:if>
+				</c:forEach>
+		    </div>
 		</div>
 		<div class="categoryContainer">
 				<div class="categoryBig"><strong>재활용품</strong></div>
@@ -294,19 +273,11 @@
 		
 		<div class="prdContainer">
 			<div class="prdList">
-				<!-- 테스트용 상품 리스트 -->
-<%-- 				<c:forEach var="index" begin="1" end="32">
-					<div class="prd" style="display: ${index <= 16 ? 'flex' : 'none'};">
-						<img src="${pageContext.request.contextPath}/resources/img/product_${index}.jpg">
-						<p class="prdTitle">Proddddddddddddddddduct ${index}</p>
-						<p class="prdPrice">30,000원</p>
-					</div>
-                </c:forEach> --%>
-                
 				<c:forEach var="prd" items="${list}">
 				    <div class="prd" data-ct-pdt-no="${prd.ctPdtNo}">
 				        <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdcode=${prd.prdCode}">
-				            <img src="${pageContext.request.contextPath}/resources/img/product_${prd.prdCode}.jpg">
+				            <img src="${pageContext.request.contextPath}/resources/image/${prdImageThumNames[status.index]}"
+								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
                             <p class="prdTitle">${prd.prdName}</p>
                             <p class="prdPrice">${prd.price}원</p>
 				        </a>
@@ -338,24 +309,52 @@
 	    // 정렬 버튼 중 '낮은가격순' 활성화
 	    const lowPriceBtn = document.getElementById('lowPrice');
 	    lowPriceBtn.classList.add('active');
-	    lowPriceBtn.style.backgroundColor = '#007bff';
+	    lowPriceBtn.style.backgroundColor = '#4CAF50';
 	    lowPriceBtn.style.color = 'white';
+	    lowPriceBtn.style.fontWeight = 'bold';
+	    
 	
-	    // 카테고리 클릭 시
+	 // 카테고리 클릭 시
 	    categoryItems.forEach((item) => {
 	        item.addEventListener('click', function() {
+	            // 이전에 선택한 정렬 기준 버튼 가져오기
+	            const prevSortButton = document.querySelector('.sortBtn button.active');
+	            
 	            // 모든 카테고리 스타일 초기화
 	            categoryItems.forEach(item => {
 	                item.classList.remove('active');
 	                item.style.fontWeight = 'normal';
 	                item.style.color = '';
 	            });
+	            
 	            // 선택된 카테고리 스타일 변경
 	            this.classList.add('active');
 	            this.style.fontWeight = 'bold';
 	            this.style.color = 'black';
+	            
 	            // 해당 카테고리에 맞는 제품 로드
 	            loadProductsByCategory(this.getAttribute('data-category'));
+	            
+	            // 이전에 선택한 정렬 기준 버튼 활성화 유지
+	            if (prevSortButton) {
+	                prevSortButton.classList.add('active');
+	                prevSortButton.style.backgroundColor = '#4CAF50';
+	                prevSortButton.style.color = 'white';
+	                prevSortButton.style.fontWeight = 'bold';
+	                
+	                // 정렬 함수 호출
+	                sortProducts(prevSortButton.id, this.getAttribute('data-category')); // 이전에 선택한 정렬 기준과 현재 중분류를 전달
+	            } else {
+	                // 이전에 선택한 정렬 기준이 없는 경우, '낮은가격순'으로 설정
+	                const lowPriceBtn = document.getElementById('lowPrice');
+	                lowPriceBtn.classList.add('active');
+	                lowPriceBtn.style.backgroundColor = '#4CAF50';
+	                lowPriceBtn.style.color = 'white';
+	                lowPriceBtn.style.fontWeight = 'bold';
+	                
+	                // 정렬 함수 호출
+	                sortProducts('lowPrice', this.getAttribute('data-category')); // 정렬 함수에 '낮은가격순'과 현재 중분류를 전달
+	            }
 	        });
 	    });
 	
@@ -384,7 +383,7 @@
 	                button.style.fontWeight = 'normal';
 	            });
 	            this.classList.add('active');
-	            this.style.backgroundColor = '#007bff';
+	            this.style.backgroundColor = '#4CAF50';
 	            this.style.color = 'white';
 	            this.style.fontWeight = 'bold';
 	            

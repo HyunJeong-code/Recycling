@@ -78,6 +78,44 @@ public interface SellingDao {
 	 * @return file List
 	 */
 	public List<ExpFile> selectByExpFile(String expCode);
+	
+	/**
+	 * 체험정보
+	 * 
+	 * @param expRes
+	 * @return
+	 */
+	public Exp expResDetail(String expCode);
+
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+	
+	/**
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes(int schNo);
+
+	/**
+	 * 예약 확정버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnf(String resCode);
+
+	/**
+	 * 예약 취소버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnl(String resCode);
 
 
 	//---------------exp END---------------------
@@ -85,26 +123,34 @@ public interface SellingDao {
 	/**
 	 * sCode와 일치하는 모든 rcyPrd 조회
 	 * 
-	 * @param sCode - 조회할 sCode
+	 * @param upPaging - 조회할 sCode
 	 * @return - 모든 rcyPrd 리스트
 	 */
-	public List<Prd> selectAllrcyPrd(String sCode);
+	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging);
 
 	/**
-	 * prdCode와 일치하는 모든 orders 조회
+	 * prdCode와 일치하는 upcy orders 조회
 	 * 
-	 * @param prdCode - 조회할 prdCode
+	 * @param unPaging - 조회할 prdCode
 	 * @return - 모든 orders 리스트
 	 */
-	public List<MyOrder> selectAllMyOrder(String prdCode);
+	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging);
+	
+	/**
+	 * prdCode와 일치하는 rcy orders 조회
+	 * 
+	 * @param unPaging - 조회할 prdCode
+	 * @return - 모든 orders 리스트
+	 */
+	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging);
 
 	/**
 	 * sCode와 일치하는 모든 upcyPrd 조회
 	 * 
-	 * @param sCode - 조회할 sCode
+	 * @param upPaging - 조회할 sCode
 	 * @return - 모든 upcyPrd 리스트
 	 */
-	public List<Prd> selectAllupcyPrd(String sCode);
+	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging);
 
 	/**
 	 * prdCode와 일치하는 Prd 삭제
@@ -137,8 +183,6 @@ public interface SellingDao {
 	 * @return - SELECT 결과
 	 */
 	public OrderDetail selectByorddtCode(String orddtCode);
-	
-	public List<ExpRes> selectResList(Paging paging);
 	
 	/**
 	 * 모든 상품과 체험단을 조회
@@ -264,43 +308,7 @@ public interface SellingDao {
 	 */
 	public int selectCntAllOrd(PagingAndCtg unPaging);
 	
-	/**
-	 * 체험정보
-	 * 
-	 * @param expRes
-	 * @return
-	 */
-	public Exp expResDetail(String expCode);
-
-	/**
-	 * 체험 예약 조회
-	 * 
-	 * @param schNo - 체험 일정번호로 조회
-	 * @return
-	 */
-	public ExpSch selectExpSchbySchNo(int schNo);
 	
-	/**
-	 * 체험예약 정보
-	 * 
-	 * @param expCode
-	 * @return
-	 */
-	public List<ExpRes> expResDetailRes(int schNo);
-
-	/**
-	 * 예약 확정버튼에 따른 예약변경
-	 * 
-	 * @param chBox
-	 */
-	public int expResCnf(String resCode);
-
-	/**
-	 * 예약 취소버튼에 따른 예약변경
-	 * 
-	 * @param chBox
-	 */
-	public int expResCnl(String resCode);
 
 	/**
 	 * 판매자 전체 상품 조회

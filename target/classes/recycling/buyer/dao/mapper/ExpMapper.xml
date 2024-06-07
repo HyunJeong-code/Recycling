@@ -250,12 +250,6 @@
     </where>
 	</select>
 
-<!-- 	<select id="selectRvwByExp" resultType="map" parameterType="string"> -->
-<!-- 		SELECT er.rvw_code, er.b_code, er.exp_code, er.rvw_grade, er.rvw_content, er.rvw_date, b.b_id AS buyerId -->
-<!--         FROM exp_review er -->
-<!--         JOIN buyer b ON er.b_code = b.b_code -->
-<!--         WHERE er.exp_code = #{expCode} -->
-<!-- 	</select> -->
 	
 	<select id="selectByBuyerChk" resultType="ExpRes" parameterType="map">
 		SELECT * FROM exp_res
