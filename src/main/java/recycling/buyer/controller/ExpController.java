@@ -106,7 +106,7 @@ public class ExpController {
 			Authentication authentication,
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg
+			@RequestParam(defaultValue = "UP") String sCtg
 			) {
 		
 		Exp exp = expService.selectByExpCode(expCode);
@@ -154,9 +154,10 @@ public class ExpController {
 		
 		Map<String, Object> params = new HashMap<>();
 	    params.put("expCode", expCode);
+	    params.put("upPaging", upPaging);
 	    params.put("startNo", upPaging.getStartNo());
 	    params.put("endNo", upPaging.getEndNo());
-
+	    
 	    List<Map<String, Object>> expReviews = expService.selectRvwByExp(params);
 		logger.info("RVW : {}", expReviews);
 		logger.info("RVW : {}", expReviews.size());
@@ -184,7 +185,6 @@ public class ExpController {
 	    model.addAttribute("upPaging", upPaging);
 	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
 	}
-	
 	@PostMapping("/expdetail")
 	public String expDetailRvw(
 	        @RequestParam String expCode,
