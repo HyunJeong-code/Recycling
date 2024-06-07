@@ -22,6 +22,7 @@ import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.dao.face.MgrDao;
 import recycling.manager.service.face.MgrService;
+import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 @Service
@@ -33,6 +34,17 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
 
+	//공지사항 세부조회
+	@Override
+	public Notice selectDetail(String ntcCode) {
+
+		//조회수 증감
+		mgrDao.hit(ntcCode);
+		
+		//세부사항 조회
+		return mgrDao.selectDetail(ntcCode);
+	}
+	
 	@Override
 	public Manager mgrProc(
 			Manager manager, 
@@ -121,17 +133,12 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDao.insertMgrProf(mgrFile);
 	}
 
-	@Override
-	public ManagerLogin selectByIdPw(Manager manager) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	//전체사원조회[empList]
 	@Override
 	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging) {
 		return mgrDao.selectAllempList(upPaging);
 	}
+	
 
 	//전체사원조회 페이징[empList]
 	@Override
@@ -154,15 +161,5 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDao.selectCntAllNotice(upPaging);
 	}
 
-	//공지사항 세부조회
-	@Override
-	public Notice selectDetail(String ntcCode) {
-
-		//조회수 증감
-		mgrDao.hit(ntcCode);
-		
-		//세부사항 조회
-		return mgrDao.selectDetail(ntcCode);
-	}
-
+	
 }

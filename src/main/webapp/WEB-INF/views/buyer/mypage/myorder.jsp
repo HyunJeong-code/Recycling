@@ -12,14 +12,11 @@
 <script type="text/javascript">
 
 let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
-	, 940: "구매 확정", 950: "거래 완료", 960: "반품", 970: "교환", 980: "취소"}
+		, 940: "구매 확정", 950: "거래 완료", 960: "환불", 970: "반품", 980: "취소"}
 		
 </script>
 </head>
 <body>
-
-	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
-
 	<div class="full">
 		<div class="wrap">
 	
@@ -27,18 +24,22 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			
 			<div class="main-section">
 			
-				<h1>주문목록</h1>
-				<hr>
-				
+				<div class="page-header">
+					<h3>주문목록</h3>
+				</div>
 				<div class="search">
 					<form action="./myorder" method="get">
 						<input type="hidden" name="sCtg" value="UP">
 						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-						<button>검색</button>
+						<button>
+		                    <span class="sch_send">
+		                        <i class="fa-solid fa-magnifying-glass"></i>
+		                    </span>
+						</button>
 					</form>
 				</div>
 				
-				<table>
+				<table class="b-table">
 					<thead>
 						<tr>
 							<th>주문번호</th>
@@ -62,7 +63,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 						 			<script>document.write(sttList[${list.sttNo}])</script>
 						 		</td>
 						 		<td>
-						 			<button><a href="./myorderdetail?orddtCode=${list.orddtCode }">주문확인</a></button>
+						 			<a href="./myorderdetail?orddtCode=${list.orddtCode }"><button class="">주문확인</button></a>
 						 		</td>
 						 	</tr>
 						</c:forEach>
@@ -75,7 +76,5 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		</div>
 	</div>
 
-	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
-	
 </body>
 </html>

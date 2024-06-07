@@ -9,9 +9,7 @@
 <title>Insert title here</title>
 <!-- header css -->
 <link rel="stylesheet" href="/resources/css/header.css">
-
 <script src="https://kit.fontawesome.com/4d3841cf80.js" crossorigin="anonymous"></script>
-
 <script type="text/javascript">
 $(function(){
 	
@@ -69,6 +67,7 @@ $(function(){
 	                    </li>
 	                </ul>
             	</sec:authorize>
+
             </div>
         </div>
         <div class="container">
@@ -78,7 +77,7 @@ $(function(){
                 </div>
             </div>
             <div class="search-bar">
-                <input type="text" placeholder="Search...">
+                <input type="text" placeholder="검색어를 입력해주세요.">
                 <button type="submit">
                     <span class="sch_send">
                         <i class="fa-solid fa-magnifying-glass"></i>

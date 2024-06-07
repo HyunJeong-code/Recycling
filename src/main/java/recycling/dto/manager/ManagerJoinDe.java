@@ -1,7 +1,7 @@
 package recycling.dto.manager;
 
 public class ManagerJoinDe {
-
+	
 	//Manager
 	private String mgrCode;
 	private int deptno;
@@ -15,31 +15,15 @@ public class ManagerJoinDe {
 	private String mgrEntDate;
 	private String mgrOut;
 	private String mgrOutDate;
-	
+	   
 	//Department
 	private String dname;
 	
-	public ManagerJoinDe() {
-	}
-	
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return super.clone();
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerJoinDe [mgrCode=" + mgrCode + ", deptno=" + deptno + ", mgrId=" + mgrId + ", mgrPw=" + mgrPw
-				+ ", mgrName=" + mgrName + ", mgrPhone=" + mgrPhone + ", mgrEmail=" + mgrEmail + ", mgrBirth="
-				+ mgrBirth + ", mgrGender=" + mgrGender + ", mgrEntDate=" + mgrEntDate + ", mgrOut=" + mgrOut
-				+ ", mgrOutDate=" + mgrOutDate + ", dname=" + dname + "]";
-	}
+	public ManagerJoinDe() {}
 
 	public ManagerJoinDe(String mgrCode, int deptno, String mgrId, String mgrPw, String mgrName, String mgrPhone,
 			String mgrEmail, String mgrBirth, String mgrGender, String mgrEntDate, String mgrOut, String mgrOutDate,
 			String dname) {
-		super();
 		this.mgrCode = mgrCode;
 		this.deptno = deptno;
 		this.mgrId = mgrId;
@@ -53,6 +37,14 @@ public class ManagerJoinDe {
 		this.mgrOut = mgrOut;
 		this.mgrOutDate = mgrOutDate;
 		this.dname = dname;
+	}
+
+	@Override
+	public String toString() {
+		return "ManagerJoinDe [mgrCode=" + mgrCode + ", deptno=" + deptno + ", mgrId=" + mgrId + ", mgrPw=" + mgrPw
+				+ ", mgrName=" + mgrName + ", mgrPhone=" + mgrPhone + ", mgrEmail=" + mgrEmail + ", mgrBirth="
+				+ mgrBirth + ", mgrGender=" + mgrGender + ", mgrEntDate=" + mgrEntDate + ", mgrOut=" + mgrOut
+				+ ", mgrOutDate=" + mgrOutDate + ", dname=" + dname + "]";
 	}
 
 	public String getMgrCode() {
@@ -158,5 +150,4 @@ public class ManagerJoinDe {
 	public void setDname(String dname) {
 		this.dname = dname;
 	}
-	
 }

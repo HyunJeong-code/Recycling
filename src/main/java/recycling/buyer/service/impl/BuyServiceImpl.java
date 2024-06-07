@@ -91,9 +91,14 @@ public class BuyServiceImpl implements BuyService {
 		}
 		
 		String storedPath = servletContext.getRealPath("upload");
+//		String storedPath = System.getProperty("user.dir") + "\\src\\main\\webapp\\resources\\image\\";
+//		String storedPath = servletContext.getRealPath("/resources/image");
+		logger.info("path : {}", storedPath);
 		
 		File storedFolder = new File(storedPath);
-		storedFolder.mkdir();
+		if(!storedFolder.exists() ) {
+			storedFolder.mkdir();			
+		}
 		
 		String storedName = null;
 		
@@ -102,7 +107,7 @@ public class BuyServiceImpl implements BuyService {
 		do {
 			storedName = buyerProf.getOriginalFilename(); // 원본 파일명
 			
-			storedName += UUID.randomUUID().toString().split("-")[4]; // UUID 추가
+			storedName = UUID.randomUUID().toString().split("-")[4] + storedName; // UUID 추가
 			logger.info("storedName : {}", storedName);
 			
 			dest = new File(storedFolder, storedName);			
@@ -238,17 +243,32 @@ public class BuyServiceImpl implements BuyService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> selectRcy() {
-		return buyDao.selectRcy();
+	public List<Map<String, Object>> selectRcyHit() {
+		return buyDao.selectRcyHit();
 	}
 	
 	@Override
-	public List<Map<String, Object>> selectUpcy() {
-		return buyDao.selectUpcy();
+	public List<Map<String, Object>> selectUpcyHit() {
+		return buyDao.selectUpcyHit();
 	}
 	
 	@Override
-	public List<Map<String, Object>> selectExp() {
-		return buyDao.selectExp();
+	public List<Map<String, Object>> selectExpHit() {
+		return buyDao.selectExpHit();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectExpNew() {
+		return buyDao.selectExpNew();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectRcyNew() {
+		return buyDao.selectRcyNew();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectUpcyNew() {
+		return buyDao.selectUpcyNew();
 	}
 }
