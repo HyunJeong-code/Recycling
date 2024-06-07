@@ -1,6 +1,7 @@
 package recycling.manager.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.dto.seller.Seller;
 import recycling.manager.service.face.MgrService;
 import recycling.manager.service.face.SlsService;
@@ -76,7 +78,6 @@ public class SlsController {
 		model.addAttribute("main", main);
 		
 	}
-	
 	
 	@GetMapping("/sellerdetail")
 	public void sellerDetail() {
@@ -202,32 +203,32 @@ public class SlsController {
 	}
 	
 	@GetMapping("/sellinglist")
-	public void sellinglist(
-			Authentication authentication
-			, Model model
-			, Seller seller
-			, @RequestParam(defaultValue = "0") int curPage
-			, @RequestParam(defaultValue = "") String search
-			, @RequestParam(defaultValue = "") String sCtg
-			, String sCode
-			) {
-		logger.info("/manager/sls/seller [GET]");
-		logger.info("/manager/sls/seller [sCode] : {}",sCode);
-		
+   public void sellinglist(
+         Authentication authentication
+         , Model model
+         , Seller seller
+         , @RequestParam(defaultValue = "0") int curPage
+         , @RequestParam(defaultValue = "") String search
+         , @RequestParam(defaultValue = "") String sCtg
+         , String sCode
+         ) {
+      logger.info("/manager/sls/seller [GET]");
+      logger.info("/manager/sls/seller [sCode] : {}",sCode);
+      
         // 문의글 페이지 수 계산
-  		PagingAndCtg upPaging = new PagingAndCtg();
-  		PagingAndCtg unPaging = new PagingAndCtg();
+        PagingAndCtg upPaging = new PagingAndCtg();
+        PagingAndCtg unPaging = new PagingAndCtg();
          
         upPaging = pageService.upPageSeller(curPage, sCtg, search, sCode);
         unPaging = pageService.unPageSeller(curPage, sCtg, search, sCode);
         
-		//판매자 조회
-		Map<String, Object> selList = slsService.sellerAllSeller(seller);
-		model.addAttribute("selList", selList);
-		
-		
-		//상단페이징[상품 조회]
-		int upPage = slsService.selectCntAllPrdList(upPaging);
+      //판매자 조회
+      Map<String, Object> selList = slsService.sellerAllSeller(seller);
+      model.addAttribute("selList", selList);
+      
+      
+      //상단페이징[상품 조회]
+      int upPage = slsService.selectCntAllPrdList(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
         upPaging.setUser(sCode);
   		
@@ -314,7 +315,8 @@ public class SlsController {
 		
 		
 		for(String prdCode : list) {
-			int deleteRes = sellingService.deletePrd(prdCode);  
+			int deleteRes = sellingService.deletePrd(prdCode);
+			logger.info("1111111 : {}",prdCode);
 		}
 		
 		return "jsonView";
@@ -348,7 +350,7 @@ public class SlsController {
 		return "/layout/alert";
 	}
 	
-//	주문 상태 변경
+	//	주문 상태 변경
 	@GetMapping("/changeorder")
     public String changeOrder(@RequestParam(value = "arr[]") List<String> list, int sttNo, Model model) {
 		logger.info("list: {}",list);
@@ -427,7 +429,7 @@ public class SlsController {
 	}
 	
 	//송장삭제
-	@PostMapping("/shipdel")
+	@GetMapping("/delship")
 	public String delShip(String orddtCode, Model model) {
 		int res = sellingService.deleteShip(orddtCode);
 		
@@ -553,73 +555,111 @@ public class SlsController {
 	}
 	
 	//체험단 수정창
-		@GetMapping("/expupdate")
-		public String expUpdate(
-					Exp exp
-					, Model model
-					, ExpFile expFile
-				) {
-			//수정창 조회
-			Exp update = slsService.expUpdateView(exp);
-			model.addAttribute("update", update);
-			
-			//수정창 파일조회
-			ExpFile profile = slsService.expUpdateProfile(expFile);
-			model.addAttribute("profile",profile);
-			logger.info("expFile:{}",profile);
-			
-			List<ExpFile> file = slsService.expUpdateFile(expFile);
-			model.addAttribute("expFileList",file);
-			logger.info("file:{}",file);
-			
-			return "/manager/sls/expupdate";
-		}
-		
-		//체험단 수정하기
-		@PostMapping("/expupdate")
-		public String updateProc(
+	@GetMapping("/expupdate")
+	public String expUpdate(
 				Exp exp
 				, Model model
-				, int expFlNo
-				, String expCode
-				, MultipartFile expfileUpdate
-				, List<MultipartFile> expMultiFileUpdate
-				){
-			//수정창 exp 내용 바꾸기
-			slsService.expUpdateProc(exp);
-			logger.info("controller: expfileUpdate{}",expfileUpdate);
-			logger.info("controller: expMultiFileUpdate{}",expMultiFileUpdate);
+				, ExpFile expFile
+			) {
+		//수정창 조회
+		Exp update = slsService.expUpdateView(exp);
+		model.addAttribute("update", update);
+		
+		//수정창 파일조회
+		ExpFile profile = slsService.expUpdateProfile(expFile);
+		model.addAttribute("profile",profile);
+		logger.info("expFile:{}",profile);
+		
+		List<ExpFile> file = slsService.expUpdateFile(expFile);
+		model.addAttribute("expFileList",file);
+		logger.info("file:{}",file);
+		
+		return "/manager/sls/expupdate";
+	}
+		
+	@PostMapping("/expupdate")
+	public String updateProc(
+			Exp exp
+			, Model model
+			, ExpFile expFile
+			, String expCode
+			, @RequestParam("expfileUpdate") MultipartFile expfileUpdate
+			, @RequestParam("file") List<MultipartFile> expMultiFileUpdate
+			, @RequestParam("fileId") List<Integer> fileId
+			){
+		//수정창 exp 내용 바꾸기
+		slsService.expUpdateProc(exp);
+		logger.info("controller: expMultiFileUpdate{}",expMultiFileUpdate);
+		logger.info("controller: fileId{}",fileId);
+		
+		//expfile 프로필 업데이트
+		if(expfileUpdate != null && !expfileUpdate.isEmpty()) {
+		
+			ExpFile expfile = new ExpFile();
+			expfile = slsService.updateFile(expfileUpdate, exp);
+			expfile.setExpFlNo(expFile.getExpFlNo());
+			expfile.setExpCode(expCode);
 			
-			//expfile 프로필 업데이트
-			if(expfileUpdate != null && !expfileUpdate.isEmpty()) {
-			
-				ExpFile expfile = new ExpFile();
-				expfile = slsService.updateFile(expfileUpdate, exp);
-				expfile.setExpFlNo(expFlNo);
-				expfile.setExpCode(expCode);
-				
-				//파일 업데이트
-				slsService.expUpdatefileProc(expfile);
-				logger.info("파일이 없음 : {}",expfile);
-			}else {
-				logger.info("프로필파일이 존재합니다.");
-			}
-			
-			logger.info("{}",expMultiFileUpdate);
-			//expfile 파일 업데이트
-			if(expMultiFileUpdate != null && !expMultiFileUpdate.isEmpty()) {
-				slsService.updateMutiFile(expMultiFileUpdate, exp);
-				logger.info("파일이 업데이트 되었습니다");
-				logger.info("expMultiFileUpdate : {}",expMultiFileUpdate);
-			}else {
-				logger.info("파일이 존재합니다.");
-			}
-			
-			model.addAttribute("msg", "체험정보가 변경되었습니다.");
-			model.addAttribute("url", "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode());
-			
-			return "/layout/alert";
+			//파일 업데이트
+			slsService.expUpdatefileProc(expfile);
+			logger.info("파일을 수정합니다. : {}",expfile);
+		}else {
+			logger.info("프로필파일이 존재합니다.");
 		}
+		
+	      List<MultipartFile> tempFiles = new ArrayList<MultipartFile>();
+	      for(MultipartFile m : expMultiFileUpdate) {
+	         if(m != null && !m.isEmpty() && m.getSize()> 0) {
+	            tempFiles.add(m);
+	         }
+	      }
+		
+	      logger.info("tempFiles: {}", tempFiles);
+	      
+	      HashMap<String, String> map = new HashMap<String,String>();
+	      String expFlNo = "";
+	      for(int i = 0; i < fileId.size(); i++) {
+	         if(i != 0) {
+	            expFlNo += ",";
+	         }
+	         expFlNo += fileId.get(i);
+	      }
+	      map.put("expCode", expCode);
+	      map.put("expFlNo", expFlNo);
+	      
+	      logger.info("map: {}",map);
+	      
+	      if(tempFiles != null && !tempFiles.isEmpty()) {
+	         
+	         PrdFile prdFile = new PrdFile();
+	         prdFile.setPrdCode(expCode);
+	         prdFile.setCtPflNo(610);
+	         
+	         
+	         //파일 삭제
+	           slsService.deleteDetailFile(map);
+	         for(MultipartFile detailFile : tempFiles) {
+	            logger.info("detailFile: {}", detailFile);
+	            int detailRes = slsService.updateDetailFile(expCode, detailFile);
+	         }
+	      }
+		
+		
+		logger.info("{}",expMultiFileUpdate);
+		//expfile 파일 업데이트
+		if(expMultiFileUpdate != null && !expMultiFileUpdate.isEmpty()) {
+			slsService.updateMutiFile(expMultiFileUpdate, exp);
+			logger.info("파일이 업데이트 되었습니다");
+			logger.info("expMultiFileUpdate : {}",expMultiFileUpdate);
+		}else {
+			logger.info("파일이 존재합니다.");
+		}
+		
+		model.addAttribute("msg", "체험정보가 변경되었습니다.");
+		model.addAttribute("url", "redirect:/manager/sls/expdetail?expCode=" + exp.getExpCode());
+		
+		return "/layout/alert";
+	}
 	
 	// 체험단삭제
 	@PostMapping("/explistdel")	
@@ -765,4 +805,5 @@ public class SlsController {
 	        return "jsonView";
 	
 	}
+	
 }

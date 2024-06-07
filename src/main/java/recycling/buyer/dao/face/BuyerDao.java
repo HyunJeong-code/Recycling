@@ -96,14 +96,6 @@ public interface BuyerDao {
 	public int insertOrderDetail(OrderDetail orderDetail);
 
 	/**
-	 * 주문 상세 조회
-	 * 
-	 * @param bCode - 조회할 회원의 bCode
-	 * @return - 조회 List 결과
-	 */
-	public List<MyOrder> buyerDaoselectOrderDetailBybCode(String bCode);
-
-	/**
 	 * 장바구니 수량 변경
 	 * 
 	 * @param cart - 변경될 수량을 담고있는 Cart DTO 

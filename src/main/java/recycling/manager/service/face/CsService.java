@@ -88,13 +88,12 @@ public interface CsService {
 	/**
 	 * 문의 답변 작성
 	 * 
-	 * @param mgrId
+	 * @param mgrCode
 	 * @param ansCode
 	 * @param ansContent
 	 * @param otoCode 
 	 * @return
 	 */
-//	public String ansFormInsert(String mgrId, String ansCode, String ansContent);
 	public void ansFormInsert(String mgrCode, String ansCode, String ansContent, String otoCode);
 
 	/**

@@ -255,19 +255,12 @@ table .expName_fix_con{
 			</div>
 
 			<div class="search">
-				<form action="./explist" method="get">
-					<div class="detailSearch">
-						<select id="detailSearch" name="detailSearch">
-						    <option value="expName">제목</option>
-						    <option value="expCode">상품 번호</option>
-						</select>
-						<div class="search">
-				            <input type="text" name="search" placeholder="검색어를 입력해 주세요" value="${search}">
-				            <button onclick="this.form.submit()" class="btnSrch">검색</button>
-				        </div>
-					</div>
-				</form>
-			</div>
+            <form action="./explist" method="get">
+                <input type="hidden" name="sCtg" value="UP">
+                <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+                <button>검색</button>
+            </form>
+        </div>
 
 			<div class="section">
 			

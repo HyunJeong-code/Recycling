@@ -50,7 +50,7 @@ public class HrController {
 		
 	     //페이지 수 계산
 		PagingAndCtg upPaging = new PagingAndCtg();
-		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+//		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
 		
 		int upPage = hrService.selectCntAllHr(upPaging);
         upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());

@@ -44,35 +44,59 @@ public class HelpController {
 	@GetMapping("/main")
 	public void main(
 	        @RequestParam(defaultValue = "0") int curPage,
-	        @RequestParam(defaultValue = "") String search,
-	        @RequestParam(defaultValue = "") String sCtg,
+	        @RequestParam(defaultValue = "0") String search,
+	        @RequestParam(defaultValue = "UP") String sCtg,
 	        Model model,
 	        @RequestParam(defaultValue = "0") int ctFaqno
 	        ) {
-
+		
+		logger.info("search : {}", search);
+		logger.info("sCtg : {}", sCtg);
+		
 	    PagingAndCtg upPaging = new PagingAndCtg();
 	    upPaging = pageService.upPageAll(curPage, sCtg, search);
+	    logger.info("paging : {}", upPaging);
 
 	    // 전체 또는 특정 분류의 자주 묻는 질문 개수 조회
 	    int upPage;
-	    List<Faq> list;
+	    List<Faq> list = new ArrayList<>();
 
-	    if (ctFaqno == 0) {
+	    if (search.equals("0")) {
+//	    	//자주 묻는 질문 전체 리스트 조회
+	    	logger.info("전체");
 	        upPage = helpService.selectCntAllFaq(upPaging);
+	        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), "0");
+	        
 	        list = helpService.selectAllFaq(upPaging);
 	    } else {
+	    	//자주 묻는 질문 분류별 리스트 조회
+	    	logger.info("분류");
 	        Map<String, Object> params = new HashMap<>();
-	        params.put("search", ctFaqno); // search에 ctFaqNo를 사용
+	        params.put("search", search); // search에 ctFaqNo를 사용
 	        params.put("upPaging", upPaging);
+	        logger.info("params : {} ", params);
 	        upPage = helpService.selectCntFaqByCt(params);
-	        list = helpService.selectFaqByCt(params);
+	        
+	        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), search);
+	        logger.info("**paging : {}", upPaging);
+	        list = helpService.selectFaqByCt(upPaging);
 	    }
 	    
-	    upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
 
 	    logger.info("upPaging : {}", upPaging);
 	    logger.info("search : {}", search);
 	    logger.info("list : {}", list);
+	    
+	    if (list == null) {
+	        logger.info("list is null");
+	    } else if (list.isEmpty()) {
+	        logger.info("list is empty");
+	    } else {
+	        logger.info("list size : {}", list.size());
+	        for (Faq faq : list) {
+	            logger.info("Faq: {}", faq);
+	        }
+	    }
 
 	    // 자주 묻는 질문 분류 리스트
 	    List<FaqCt> faqCtlist = helpService.selectAllCtFaq();
@@ -84,74 +108,57 @@ public class HelpController {
 	    model.addAttribute("upUrl", "/buyer/help/main");
 	}
 
-	
-//	@GetMapping("/main")
-//	public void main(
-//	        @RequestParam(defaultValue = "0") int curPage,
-//	        @RequestParam(defaultValue = "") String search,
-//	        @RequestParam(defaultValue = "") String sCtg,
-//	        @RequestParam(defaultValue = "0") int ctFaqno, // 분류 파라미터 추가
-//	        Model model,
-//	        Authentication authentication
-//	        ) {
-//	    PagingAndCtg upPaging = new PagingAndCtg();
-//	    upPaging = pageService.upPageAll(curPage, sCtg, search);
-//
-//	    upPaging.setSearch(ctFaqno != 0 ? String.valueOf(ctFaqno) : null);
-//	    
-//	    int upPage = helpService.selectCntAllFaq(upPaging);
-//	    
-//	    upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-//
-//	    
-//	    List<Faq> list = helpService.selectAllFaq(upPaging);
-//	    logger.info("upPaging : {}", upPaging);
-//	    logger.info("search : {}", search);
-//	    logger.info("list : {}", list);
-//
-//	    List<FaqCt> faqCtlist = helpService.selectAllCtFaq(upPaging);
-//	    logger.info("faqCtlist : {}", faqCtlist);
-//
-//	    model.addAttribute("upPaging", upPaging);
-//	    model.addAttribute("list", list);
-//	    model.addAttribute("faqCtlist", faqCtlist);
-//	    model.addAttribute("ctFaqno", ctFaqno); // 선택된 분류 유지
-//	    model.addAttribute("upUrl", "/buyer/help/main");
-//	}
-
-
-	
 	@GetMapping("/noticelist")
 	public void noticeList(
-			@RequestParam(name = "ct_ntcno", defaultValue = "buyers") String ctNtcNo,
-			Model model,
-			@RequestParam(defaultValue = "0")int curPage, 
-			@RequestParam(defaultValue = "") String search,
-			Authentication authentication
-			) {
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		boolean isSeller = false;
-		
-		if (buyerLogin != null) {
-            Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
-            isSeller = helpService.chkSeller(buyer.getbCode());
-        }
-		
-//		Paging paging = helpService.getSearchPaging(curPage, search);
-		List<Notice> noticeList;
+	        @RequestParam(defaultValue = "0") int curPage,
+	        @RequestParam(defaultValue = "") String search,
+	        @RequestParam(defaultValue = "") String sCtg,
+	        Model model,
+	        Authentication authentication
+	) {
+	    boolean isSeller = false;
 
-        // 판매자일 경우에만 공지사항 분류 선택 가능하도록 설정
-		
-		if (isSeller && "sellers".equals(ctNtcNo)) {
-            noticeList = helpService.selectNoticeSeller();
-        } else {
-            noticeList = helpService.selectNoticeBuyer();
-        }
-        model.addAttribute("noticeList", noticeList);
-        model.addAttribute("isSeller", isSeller);
-        model.addAttribute("ctNtcNo", ctNtcNo);
-//        model.addAttribute("paging", paging);
+	    if (authentication != null && authentication.isAuthenticated()) {
+	        BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+
+	        if (buyerLogin != null) {
+	            Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
+	            isSeller = helpService.chkSeller(buyer.getbCode());
+	            logger.info("isSeller : {}", isSeller);
+	        }
+	    }
+
+	    // 페이지 수 계산
+	    PagingAndCtg upPaging = new PagingAndCtg();
+	    upPaging = pageService.upPageAll(curPage, sCtg, search);
+
+	    int upPage = helpService.selectCntAllNoticeList(upPaging, isSeller);
+	    upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+
+	    logger.info("upPaging : {}", upPaging);
+
+	    List<Notice> noticeList;
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("isSeller", isSeller);
+	    params.put("search", search);
+	    params.put("startNo", upPaging.getStartNo());
+	    params.put("endNo", upPaging.getEndNo());
+
+	    if (isSeller) {
+	        // 판매자라면 구매자 + 판매자 공지사항 조회
+	        noticeList = helpService.selectNoticeForSeller(params);
+	    } else {
+	        // 비로그인 및 구매자는 구매자 공지사항만 조회
+	        noticeList = helpService.selectNoticeForBuyer(params);
+	    }
+
+	    model.addAttribute("noticeList", noticeList);
+	    model.addAttribute("isSeller", isSeller);
+	    model.addAttribute("upPaging", upPaging);
+	    model.addAttribute("upUrl", "/buyer/help/noticelist");
 	}
+
+	
 	
 	@GetMapping("/noticedetail")
 	public void noticeDetail(
@@ -170,8 +177,7 @@ public class HelpController {
 			Model model,
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg,
-			@RequestParam(defaultValue = "0") int ct_otono
+			@RequestParam(defaultValue = "") String sCtg
 			) {
 		
 		PagingAndCtg upPaging = new PagingAndCtg();
@@ -184,23 +190,9 @@ public class HelpController {
 		
 		List<Map<String, Object>> list;
 		
-//		if (ct_otono == 0) {
-//	        list = helpService.selectAllOto(upPaging);
-//	    } else {
-//	        list = helpService.selectByCtOto(Integer.toString(ct_otono),upPaging);
-//	    }
-		
-		if (ct_otono == 0) {
-	        list = helpService.selectAllOto(upPaging);
-	    } else {
-	        Map<String, Object> params = new HashMap<>();
-	        params.put("ctOtoNo", ct_otono);
-	        params.put("upPaging", upPaging);
-	        list = helpService.selectByCtOto(params);
-	    }
+	    list = helpService.selectAllOto(upPaging);
 		
 		List<OtoCt> ctlist = helpService.selectAllOtoCt();
-		
 		
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("list", list);
@@ -218,23 +210,21 @@ public class HelpController {
 		
 		List<OtoCt> oct = helpService.getAllOct();
 		
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
+		if (authentication == null || !(authentication.getPrincipal() instanceof BuyerLogin)) {
+		    model.addAttribute("msg", "로그인 후 이용해주세요");
+		    model.addAttribute("url", "/buyer/login");
+		    return "/layout/alert";
 		}
-		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin: {}", buyerLogin);
+		
+		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		oto.setbCode(buyer.getbCode());
 		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());		
-		
-		
+		oto.setOtoEmail(buyer.getbEmail());	
 		model.addAttribute("buyer", buyer);
+		
 		model.addAttribute("oto", oto);
 		model.addAttribute("oct", oct);
 		
@@ -253,14 +243,6 @@ public class HelpController {
 		//회원 로그인 세션 정보
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
-		if(buyerLogin == null) {
-			
-			model.addAttribute("error", "로그인 해주세요.");
-			
-			return "redirect:/buyer/login";
-			
-		}
-		
 		Buyer buyer = helpService.getBuyerDetail(buyerLogin.getbId());
 		
 		oto.setCtOtoNo(Integer.parseInt(ctOtoNo));

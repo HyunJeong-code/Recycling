@@ -3,9 +3,9 @@ package recycling.seller.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
@@ -28,9 +29,9 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.page.face.PageService;
 import recycling.seller.service.face.SellingService;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 import recycling.util.Range;
 
@@ -155,6 +156,12 @@ public class SellingController {
 	public void upcyDetail(String prdCode, Model model) {
 		Prd prd = sellingService.selectByprdCode(prdCode);
 		
+		List<PrdFile> files = sellingService.selectPrdFile(prdCode);
+		
+		
+		logger.info("files: {}", files);
+		
+		model.addAttribute("files", files);
 		model.addAttribute("prd", prd);
 	}
 	
@@ -162,6 +169,11 @@ public class SellingController {
 	public void rcyDetail(String prdCode, Model model) {
 		Prd prd = sellingService.selectByprdCode(prdCode);
 		
+		List<PrdFile> files = sellingService.selectPrdFile(prdCode);
+		
+		logger.info("files: {}", files);
+		
+		model.addAttribute("files", files);
 		model.addAttribute("prd", prd);
 	}
 	
@@ -199,12 +211,74 @@ public class SellingController {
 	}
 	
 	@RequestMapping("/cyupdate")
-	public String upcyUpdate(Prd prd) {
+	public String upcyUpdate(Prd prd
+			, @RequestParam("profile") MultipartFile profile
+			, @RequestParam("file") List<MultipartFile> file
+			, @RequestParam(value = "fileId", required = false) List<Integer> fileId) {
+	    if (fileId == null) {
+	        fileId = new ArrayList<>();
+	    }
+		
 		logger.info("{}", prd);
+		logger.info("profile: {}", profile);		
+		logger.info("file: {}", file);
+		logger.info("fileId: {}", fileId);
+		
+
+		
+		String prdCode = prd.getPrdCode();
 		
 		int res = sellingService.updatePrd(prd);
 		
-		return "redirect:/seller/selling/upcylist";
+		
+		if(profile != null && !profile.isEmpty() && profile.getSize()> 0)  {
+			int mainRes = sellingService.updateMainFile(prdCode, profile);
+		}
+		
+		List<MultipartFile> tempFiles = new ArrayList<MultipartFile>();
+		for(MultipartFile m : file) {
+			if(m != null && !m.isEmpty() && m.getSize()> 0) {
+				tempFiles.add(m);
+			}
+		}
+		
+		logger.info("tempFiles: {}", tempFiles);
+		
+		HashMap<String, String> map = new HashMap<String,String>();
+		String prdFlNo = "";
+		for(int i = 0; i < fileId.size(); i++) {
+			if(i != 0) {
+				prdFlNo += ",";
+			}
+			prdFlNo += fileId.get(i);
+		}
+		map.put("prdCode", prdCode);
+		map.put("prdFlNo", prdFlNo);
+		
+		logger.info("map: {}",map);
+		
+		if(tempFiles != null && !tempFiles.isEmpty()) {
+			
+			PrdFile prdFile = new PrdFile();
+			prdFile.setPrdCode(prdCode);
+			prdFile.setCtPflNo(610);
+			
+			
+			//파일 삭제
+			if(map.get(prdFlNo) != null && !(map.get(prdFlNo)).isEmpty()) {
+				sellingService.deleteDetailFile(map);
+			}
+			for(MultipartFile detailFile : tempFiles) {
+				logger.info("detailFile: {}", detailFile);
+				int detailRes = sellingService.updateDetailFile(prdCode, detailFile);
+			}
+		}
+		
+		if(prd.getCtPno() == 0) {
+			return "redirect:/seller/selling/rcylist";
+		} else {
+			return "redirect:/seller/selling/upcylist";
+		}
 	}
 	
 	@GetMapping("/updatestt")

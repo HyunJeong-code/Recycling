@@ -77,9 +77,13 @@ $(function() {
     // 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
 	$("form").submit(function() {
 <<<<<<< HEAD
+        var sPhone = $("#inPhone").val();
+=======
+<<<<<<< HEAD
 =======
         var sPhone = $("#inPhone").val();
 >>>>>>> TEST
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
         var email1 = $("#inPhone").val();
         var mPhone = $("#mPhone").val();
         var lPhone = $("#lPhone").val();
@@ -101,6 +105,9 @@ $(function() {
     
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 	// 직접 입력 선택 시 입력 필드 표시
 	$("#inEmail").hide();
 	
@@ -129,7 +136,10 @@ $(function() {
     $("#empEmail2").val(phoneParts[1]);
     
 	
+<<<<<<< HEAD
+=======
 >>>>>>> TEST
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 	// 이메일 처리
 	$("form").submit(function() {
 	    var empEmail1 = $("#empEmail1").val();
@@ -148,9 +158,13 @@ $(function() {
 	    
 	    // 숨겨진 입력 필드에 값 설정
 <<<<<<< HEAD
+	    $("#mgrEmail").val(fullEmail);
+=======
+<<<<<<< HEAD
 =======
 	    $("#mgrEmail").val(fullEmail);
 >>>>>>> TEST
+>>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 	    $("#empEmail").val(fullEmail);
 	});
 

@@ -1,8 +1,6 @@
 package recycling.buyer.service.impl;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,18 +98,18 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		return upcyclingDao.selectRvw();
 	}
 
-	@Override
-	public void insertReview(String upcyContent, String prdCode, Buyer buyer) {
-		UpcyReview upcyReview = new UpcyReview();
-		upcyReview.setUpcyCode(UUID.randomUUID().toString());
-		upcyReview.setbCode(buyer.getbCode());
-		upcyReview.setPrdCode(prdCode);
-		upcyReview.setUpcyGrade(0);
-		upcyReview.setUpcyContent(upcyContent);
-		
-		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
-		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
-	}
+//	@Override
+//	public void insertReview(String upcyContent, String prdCode, Buyer buyer) {
+//		UpcyReview upcyReview = new UpcyReview();
+//		upcyReview.setUpcyCode(UUID.randomUUID().toString());
+//		upcyReview.setbCode(buyer.getbCode());
+//		upcyReview.setPrdCode(prdCode);
+//		upcyReview.setUpcyGrade(0);
+//		upcyReview.setUpcyContent(upcyContent);
+//		
+//		upcyclingDao.insertReview(upcyContent, prdCode, buyer);
+//		logger.info("insertReview() - UpcyReview inserted: {}", upcyReview);
+//	}
 
 	@Override
 	public void updateReview(String upcyCode, String upcyContent) {
@@ -119,18 +117,29 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 		logger.info("updateReview() - UpcyReview updated: upcyCode={}, upcyContent={}", upcyCode, upcyContent);
 	}
 
-	
 	@Override
 	public void deleteReview(String upcyCode) {
 		upcyclingDao.deleteReview(upcyCode);
 		logger.info("deleteReview() - UpcyReview deleted with upcyCode: {}", upcyCode);
 	}
 
-
+	@Override
+	public Integer selectcCnt(Cart cart) {
+		return upcyclingDao.selectcCnt(cart);
+	}
 	
+	@Override
+	public int updatecCnt(Cart cart) {
+		return upcyclingDao.updatecCnt(cart);
+	}
+	
+	@Override
+	public int insertCart(Cart cart) {
+		return upcyclingDao.insertCart(cart);
+	}
+
 	@Override
 	public CartOrder selectCartOrder(String prdCode) {
 		return upcyclingDao.selectCartOrder(prdCode);
 	}
-	
 }

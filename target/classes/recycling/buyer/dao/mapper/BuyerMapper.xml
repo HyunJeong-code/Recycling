@@ -21,6 +21,7 @@
 		, #{ordSum}
 		, #{ordFee})
 	</insert>
+	
 
 	<select id="selectAllCart" parameterType="recycling.util.PagingAndCtg" resultType="CartOrder">
 		SELECT *
@@ -50,7 +51,7 @@
 			cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE = p.PRD_CODE
-			AND p.PRD_CODE = pf.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE(+)
 			AND C_CODE = #{cCode}
 		</where>
 		ORDER BY C_CODE
@@ -102,6 +103,7 @@
 		    , #{sttNo}
 		)
 	</insert>
+	
 
 	<select id="buyerDaoselectOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
 		SELECT *
@@ -299,7 +301,7 @@
     	</where>
     </update>
     
-    <!--  -->
+    <!-- 기본 배송지로 설정 -->
     <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -309,7 +311,7 @@
     	</where>
     </select>
     
-    <!--  -->
+    <!-- 주소코드로 주소 가져오기 -->
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -326,14 +328,14 @@
     </update>
     
 	<!-- 판매자 탈퇴 -->
-    <delete id="deleteSeller" parameterType="string">
+    <update id="deleteSeller" parameterType="string">
     	UPDATE Seller
     	SET
     		S_Out = 'Y',
     		S_Out_Date = SYSDATE
     	WHERE S_Code = #{sCode }
-    </delete>
-
+    </update>
+    
     <select id="selectCntAllCart" parameterType="recycling.util.PagingAndCtg" resultType="int">
     	SELECT count(*) FROM
 			cart c, prd p, prd_file pf

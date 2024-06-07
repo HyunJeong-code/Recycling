@@ -103,28 +103,6 @@
         <div class="page">
             <h1>1:1 문의 전체 조회</h1>
         </div>
-        <form action="./otolist" method="get">
-            <label for="ct_otono">분류 선택:</label>
-            <select name="ct_otono" id="ct_otono">
-                <option value="0">전체</option>
-                <c:forEach items="${ctlist}" var="otoct">
-                    <option value="${otoct.ctOtoNo}">${otoct.ctOtoName}</option>
-                </c:forEach>
-            </select>
-            <input type="submit" value="검색">
-        </form>
-<!-- <form action="./otolist" method="get"> -->
-<!-- 	        <label for="ct_otono">분류 선택:</label> -->
-<!-- 		        <select name="ct_otono" id="ct_otono"> -->
-<!-- 		            <option value="0">전체</option> -->
-<!-- 		            <option value="210" >upcycling</option> -->
-<!-- 		            <option value="200" >recycling</option> -->
-<!-- 		            <option value="230" >wash</option> -->
-<!-- 		            <option value="220" >exp</option> -->
-<!-- 		            <option value="240" >etc</option> -->
-<!-- 		        </select> -->
-<!-- 	        <input type="submit" value="검색"> -->
-<!-- 	    </form> -->
     
         <div class="search">
             <form action="./otolist" method="get">
@@ -134,9 +112,12 @@
             </form>
         </div>
         
+        
         <div>
             <button class="btn" type="button" style="text-align: right;"><a href="./otoform">작성하기</a></button>
         </div>
+        
+        
         <table border="1" class="table table-hover table-sm" style="width: 800px; border: 2px solid #444444;">
             <colgroup>
                 <col style="width: 10%;">
@@ -166,7 +147,7 @@
                     <c:otherwise>
                         <c:forEach items="${list}" var="oto">
                             <tr>
-                                <td>${oto.OTOCODE}</td>
+                                <td>${oto.NO}</td>
                                 <td>
                                     <c:forEach items="${ctlist}" var="otoct">
                                         <c:if test="${otoct.ctOtoNo eq oto.CTOTONO}">

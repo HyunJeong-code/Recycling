@@ -81,9 +81,14 @@ th {
 					<tr>
 						<td>프로필 이미지</td>
 						<td>
-							<c:if test="${buyerProf != null}">
-        						<img src="${pageContext.request.contextPath }/resources/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
-    						</c:if>
+							<c:choose>
+	                            <c:when test="${buyerProf != null }">
+	                                <img src="${pageContext.request.contextPath }/upload/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
+	                            </c:when>
+	                            <c:otherwise>
+	                                <img src="${pageContext.request.contextPath }/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
+	                            </c:otherwise>
+                        	</c:choose>
 						</td>
 					</tr>
 					<tr>

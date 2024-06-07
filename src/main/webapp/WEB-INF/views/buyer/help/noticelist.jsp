@@ -37,16 +37,13 @@ a {
 <body>
 <div class="wrap">
 <h1>공지사항</h1>
-<form action="./noticelist" method="get">
-        <label for="ct_ntcno">분류 선택:</label>
-        <select name="ct_ntcno" id="ct_ntcno">
-            <option value="buyers" ${ctNtcNo == 'buyers' ? 'selected' : ''}>구매자</option>
-	        <c:if test="${isSeller}">
-	            <option value="sellers" ${ctNtcNo == 'sellers' ? 'selected' : ''}>판매자</option>
-	        </c:if>
-        </select>
-        <input type="submit" value="검색">
-    </form>
+    	<div class="search">
+            <form action="./noticelist" method="get">
+                <input type="hidden" name="sCtg" value="UP">
+                <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+                <button>검색</button>
+            </form>
+     	</div>
     <table border="1" class="table table-hover table-sm" style="width: 1000px; border: 2px solid #444444;">
     
     	<colgroup>
@@ -75,8 +72,7 @@ a {
             </c:forEach>
         </tbody>
     </table>
-    <c:import url="/WEB-INF/views/layout/paging.jsp"/>
-    
+    <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 </div>
 </body>
 </html>

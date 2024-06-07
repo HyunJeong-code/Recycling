@@ -13,33 +13,12 @@ import recycling.dto.manager.Ans;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 public interface HelpService {
 
 
-	/**
-	 * 판매자 전용 공지사항 전체 조회
-	 * 
-	 * @return 공지사항 List
-	 */
-	public List<Notice> selectNoticeSeller();
-
-	/**
-	 * default값 구매자로, 기본 공지사항 전체 조회
-	 * 
-	 * @return 공지사항 List 
-	 */
-	public List<Notice> selectNoticeBuyer();
-
-	/**
-	 * 공지사항 상세조회
-	 * 
-	 * @param ntcCode - 공지사항 코드
-	 * @return 공지사항 상세내용
-	 */
-	public Notice selectByNotice(String ntcCode);
+	
 
 	/**
 	 * 1:1문의 게시글 작성을 위한 객체
@@ -105,16 +84,6 @@ public interface HelpService {
 	 */
 	public List<OtoFile> getOtoFiles(String otoCode);
 
-
-
-	/**
-	 * 판매자 여부 확인
-	 * 
-	 * @param bCode - 구매자 코드
-	 * @return 0 : 실패, 1 : 성공
-	 */
-	public boolean chkSeller(String bCode);
-
 	/**
 	 * oto paging
 	 * 
@@ -132,13 +101,6 @@ public interface HelpService {
 	List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging);
 
 
-	/**
-	 * oto 분류 코드
-	 * 
-	 * @param params - otoCtNo
-	 * @return 
-	 */
-	public List<Map<String, Object>> selectByCtOto(Map<String, Object> params);
 
 	/**
 	 * otoCode 와 일치하는 답변
@@ -165,20 +127,52 @@ public interface HelpService {
 	public List<Faq> selectAllFaq(PagingAndCtg upPaging);
 
 	/**
-	 * 자주 묻는 질문 분류 조회
+	 * 자주 묻는 질문 분류 리스트
 	 * 
 	 * @param upPaging - 페이징 정보 객체
 	 * @return 질문 분류 List
 	 */
 	public List<FaqCt> selectAllCtFaq();
 
+	/**
+	 * 자주 묻는 질문 분류별 페이징
+	 * 
+	 * @param params - 페이징 정보 객체
+	 * @return paging
+	 */
 	public int selectCntFaqByCt(Map<String, Object> params);
 
-	public List<Faq> selectFaqByCt(Map<String, Object> params);
 
+	/**
+	 * 자주 묻는 질문 분류별 리스트 조회
+	 * 
+	 * @param upPaging - 페이징 정보 객체
+	 * @return list
+	 */
+	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
 
+	
+	public List<Notice> selectNoticeForSeller(Map<String, Object> params);
 
+	public List<Notice> selectNoticeForBuyer(Map<String, Object> params);
 
+	public int selectCntAllNoticeList(PagingAndCtg upPaging, boolean isSeller);
+
+	/**
+	 * 판매자 여부 확인
+	 * 
+	 * @param bCode - 구매자 코드
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public boolean chkSeller(String bCode);
+
+	/**
+	 * 공지사항 상세조회
+	 * 
+	 * @param ntcCode - 공지사항 코드
+	 * @return 공지사항 상세내용
+	 */
+	public Notice selectByNotice(String ntcCode);
 
 
 	

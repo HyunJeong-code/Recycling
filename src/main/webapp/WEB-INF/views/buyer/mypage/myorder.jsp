@@ -17,68 +17,6 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 </script>
 </head>
 <body>
-
-<h1>주문목록</h1>
-<hr>
-<<<<<<< HEAD
-=======
-
-<table border="1">
-	<thead>
-		<tr>
-			<th>주문번호</th>
-			<th>상품 이름</th>
-			<th>가격</th>
-			<th>개수</th>
-			<th>총금액</th>
-			<th>배송 상태</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach var="list" items="${list }">
-			<tr>
-		 		<td>${list.orddtCode }</td>
-		 		<td>${list.ordName }</td>
-		 		<td>${list.ordPrice }</td>
-		 		<td>${list.ordCnt }</td>
-		 		<td>${list.ordSum }</td>
-		 		<td>
-		 			<script>document.write(sttList[${list.sttNo}])</script>
-		 		</td>
-		 	</tr>
-		</c:forEach>
-	</tbody>
-</table>
->>>>>>> TEST
-
-<table border="1">
-	<thead>
-		<tr>
-			<th>주문번호</th>
-			<th>상품 이름</th>
-			<th>가격</th>
-			<th>개수</th>
-			<th>총금액</th>
-			<th>배송 상태</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach var="list" items="${list }">
-			<tr>
-		 		<td>${list.orddtCode }</td>
-		 		<td>${list.ordName }</td>
-		 		<td>${list.ordPrice }</td>
-		 		<td>${list.ordCnt }</td>
-		 		<td>${list.ordSum }</td>
-		 		<td>
-		 			<script>document.write(sttList[${list.sttNo}])</script>
-		 		</td>
-		 	</tr>
-		</c:forEach>
-	</tbody>
-</table>
-
-<<<<<<< Updated upstream
 	<div class="full">
 		<div class="wrap">
 	
@@ -86,18 +24,22 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			
 			<div class="main-section">
 			
-				<h1>주문목록</h1>
-				<hr>
-				
+				<div class="page-header">
+					<h3>주문목록</h3>
+				</div>
 				<div class="search">
 					<form action="./myorder" method="get">
 						<input type="hidden" name="sCtg" value="UP">
 						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-						<button>검색</button>
+						<button>
+		                    <span class="sch_send">
+		                        <i class="fa-solid fa-magnifying-glass"></i>
+		                    </span>
+						</button>
 					</form>
 				</div>
 				
-				<table>
+				<table class="b-table">
 					<thead>
 						<tr>
 							<th>주문번호</th>
@@ -121,7 +63,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 						 			<script>document.write(sttList[${list.sttNo}])</script>
 						 		</td>
 						 		<td>
-						 			<button><a href="./myorderdetail?orddtCode=${list.orddtCode }">주문확인</a></button>
+						 			<a href="./myorderdetail?orddtCode=${list.orddtCode }"><button class="">주문확인</button></a>
 						 		</td>
 						 	</tr>
 						</c:forEach>
@@ -133,9 +75,6 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			</div>
 		</div>
 	</div>
-=======
-
->>>>>>> Stashed changes
 
 </body>
 </html>

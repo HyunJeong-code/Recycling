@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import recycling.buyer.service.face.ExpService;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.ExpReview;
 import recycling.dto.seller.Exp;
@@ -123,6 +124,7 @@ public class ExpController {
 	        	detail.add(file);
 	        }
 	    }
+		logger.info("expFiles : {}", expFiles);
 		
 		//판매자 상세정보
 		sCode = exp.getsCode();
@@ -137,31 +139,23 @@ public class ExpController {
 		} else if ("C".equals(buyer.getbCtCode())) {
 			selType = "기업";
 		}
-		
+		BuyerProf buyerProf = expService.getBuyerProf(bCode);
 		//체험단 후기
 		
-//		PagingAndCtg upPaging = new PagingAndCtg();
-//		upPaging = pageService.upPageAll(curPage, sCtg, search);
-//		
-//		upPaging.setSearch(search);
-//		
-//		int upPage = expService.selectCntRvwList(upPaging, expCode);
-//		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-//		
-//		logger.info("upPaging : {}", upPaging);
-//		
-////		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode, upPaging);
-//		
-//		Map<String, Object> params = new HashMap<>();
-//	    params.put("expCode", expCode);
-//	    params.put("search", search);
-//	    
-//		List<Map<String, Object>> expReviews = expService.selectRvwByExp(params);
-//		logger.info("RVW : {}", expReviews);
-//		logger.info("RVW : {}", expReviews.size());
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
 		
-		//체험단 후기
-		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode);
+		int upPage = expService.selectCntRvwList(upPaging, expCode);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+		
+		Map<String, Object> params = new HashMap<>();
+	    params.put("expCode", expCode);
+	    params.put("startNo", upPaging.getStartNo());
+	    params.put("endNo", upPaging.getEndNo());
+
+	    List<Map<String, Object>> expReviews = expService.selectRvwByExp(params);
 		logger.info("RVW : {}", expReviews);
 		logger.info("RVW : {}", expReviews.size());
 		
@@ -184,7 +178,12 @@ public class ExpController {
 		model.addAttribute("expReviewsSize", expReviews.size());
 		model.addAttribute("isLoggedIn", isLoggedIn);
 	    model.addAttribute("loggedInUser", loggedInUser);
-		
+	    model.addAttribute("buyerProf", buyerProf);
+	    model.addAttribute("upPaging", upPaging);
+	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
+//	    model.addAttribute("buyerProf", buyerProf);
+//	    model.addAttribute("upPaging", upPaging);
+//	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
 	}
 	
 	@PostMapping("/expdetail")
@@ -195,13 +194,6 @@ public class ExpController {
 	        Authentication authentication,
 	        Model model
 	        ) {
-	    
-	    // 로그인 여부 확인
-	    if (authentication == null || !authentication.isAuthenticated()) {
-	        model.addAttribute("msg", "로그인 후 이용해주세요.");
-	        model.addAttribute("url", "/buyer/login");
-	        return "/layout/alert";
-	    }
 	    
 	    // 후기 작성 가능한 조건 확인
 	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();

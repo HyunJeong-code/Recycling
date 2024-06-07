@@ -3,6 +3,7 @@ package recycling.manager.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -42,7 +43,6 @@ public class SlsServiceImpl implements SlsService {
 	public List<Seller> main(PagingAndCtg upPaging) {
 		return slsDao.main(upPaging);
 	}
-
 
 	@Override
 	public int upPageSlsMain(PagingAndCtg upPaging) {
@@ -107,7 +107,7 @@ public class SlsServiceImpl implements SlsService {
 			, List<String> schTime
 			, ExpSch expSch
 			, MultipartFile profile
-			, List<MultipartFile> files
+			, List<MultipartFile> file
 			) {
 	
 		//게시판 글쓰기
@@ -135,6 +135,7 @@ public class SlsServiceImpl implements SlsService {
 	    // 프로필 저장
 	    String profileStoredName = saveFile(profile, storedFolder);
 	    if (profileStoredName != null) {
+	    	logger.info("service profile: {}", profile);
 	        ExpFile profileFile = new ExpFile();
 	        profileFile.setOriginName(profile.getOriginalFilename());
 	        profileFile.setStoredName(profileStoredName);
@@ -144,10 +145,10 @@ public class SlsServiceImpl implements SlsService {
 	    }
 
 	    // 메인 파일 저장
-	    for (MultipartFile mainFile : files) {
+	    for (MultipartFile mainFile : file) {
 	        String storedName = saveFile(mainFile, storedFolder);
 	        if (storedName != null) {
-	        	logger.info("service : {}", mainFile);
+	        	logger.info("service mainFile : {}", mainFile);
 	            ExpFile expFile = new ExpFile();
 	            expFile.setOriginName(mainFile.getOriginalFilename());
 	            expFile.setStoredName(storedName);
@@ -454,7 +455,7 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectAllPrdList(upPaging);
 	}
 
-	//판매자 상품 조회 페이징
+//	판매자 상품 조회 페이징
 	@Override
 	public int selectCntAllPrdList(PagingAndCtg upPaging) {
 		return slsDao.selectCntAllPrdList(upPaging);
@@ -499,6 +500,59 @@ public class SlsServiceImpl implements SlsService {
 	public MyOrder orderdetailPrd(String orddtCode) {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
+
+	//멀티파일 업데이트 전 삭제
+	@Override
+	public void deleteDetailFile(HashMap<String, String> map) {
+		slsDao.deleteDetailFile(map);
+	}
+
+	//멀티파일 업데이트 후 삽입
+	@Override
+	public int updateDetailFile(String expCode, MultipartFile detailFile) {
+		//파일이 저장될 경로 - RealPath
+	      String storedPath = servletContext.getRealPath("upload");
+	            
+	      //upload폴더가 존재하지 않으면 생성하기
+	      File storedFolder = new File(storedPath);
+	      storedFolder.mkdir();
+
+	      //업로드된 파일이 저장될 이름
+	      String storedName = null;
+	      
+	      //저장될 파일 객체
+	      File dest1 = null;
+	      
+	      //저장될 파일명이 중복되지 않도록 반복
+	      do {
+	         storedName = detailFile.getOriginalFilename(); //원본 파일명
+	         storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+	         
+	         dest1 = new File( storedFolder, storedName );
+	      } while( dest1.exists() );
+	      try {
+	         //업로드된 임시 파일을 upload 폴더로 옮기기
+	         detailFile.transferTo(dest1);
+	      } catch (IllegalStateException e) {
+	         e.printStackTrace();
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+	      
+	      //일반파일DB에 기록하기
+	      ExpFile expFile = new ExpFile();
+	      expFile.setOriginName(detailFile.getOriginalFilename() );
+	      expFile.setStoredName(storedName);
+	      expFile.setExpCode(expCode);
+	      expFile.setCtPflNo(610);
+	      
+	      logger.info("prdFile: {}",expFile);
+	      
+	      //파일 업로드
+	      int detailRes = slsDao.insertPrdFile(expFile);
+	      
+	      return detailRes;
+	   }
 	
 	//디테일 프로필 조회
 	@Override

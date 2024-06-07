@@ -9,6 +9,7 @@
 	<sql id="selectSellerList">
 		SELECT * FROM SELLER
 	</sql>
+
 	
 	<!-- 판매자정보 -->
 	<sql id="SellOrderJoin">
@@ -28,7 +29,7 @@
 		JOIN order_stt os ON od.stt_no = os.stt_no
 	</sql>
 	
-	<!--  manager join department -->
+	<!--  seller join buyer -->
 	<sql id="sellerJoin">
 		SELECT
 		    s.s_code, s.b_code, s.acc_name, s.acc_bank, s.acc_no
@@ -771,6 +772,33 @@
 		ORDER BY od.ORDDT_CODE DESC
 	</select>
 	
+	<delete id="deletePrdFile" parameterType="PrdFile">
+      DELETE FROM prd_file
+      <where>
+         AND prd_code = #{prdCode}
+         AND ct_pflno = #{ctPflNo}
+      </where>
+   </delete>
+   
+   <delete id="deleteDetailFile" parameterType="HashMap">
+      DELETE FROM exp_file
+      <where>
+         AND exp_code = #{expCode}
+         AND ct_pflno = 610
+           AND exp_flno NOT IN (${expFlNo})
+      </where>
+   </delete>
+
+   <insert id="insertPrdFile" parameterType="ExpFile">
+	    <selectKey order="BEFORE" keyProperty="expFlNo" resultType="int">
+	        SELECT EXP_FILE_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_File 
+	    	(exp_flNo, exp_code, ct_pflNo, origin_name, stored_name )
+	    VALUES
+	    	(#{expFlNo}, #{expCode}, #{ctPflNo}, #{originName}, #{storedName})
+	</insert>
+   
 	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
 	<select id="selectCntAllExpSch" resultType="int" parameterType="recycling.util.PagingAndCtg">
    		SELECT count(*) FROM exp_Sch

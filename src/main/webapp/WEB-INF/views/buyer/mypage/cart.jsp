@@ -121,7 +121,7 @@
 		            <h3>장바구니</h3>
 		        </div>
 				<form action="./pay" method="get" id="ord_form">
-				<table id="myTable">
+				<table id="myTable" class="b-table">
 					<thead>
 						<tr>
 							<th></th>
@@ -148,7 +148,9 @@
 											<input type="checkbox" class="checkList" name="checkList" value="${cart.cCode }">
 										</td>
 								 		<td>${cart.cCode }</td>
-								 		<td>${cart.storedName }</td>
+								 		<td>
+								 			<img alt="${cart.prdName }" src="/upload/${cart.storedName }">
+								 		</td>
 								 		<td>${cart.prdName }</td>
 								 		<td>${cart.price }</td>
 								 		<td>${cart.prdFee }</td>
@@ -163,18 +165,14 @@
 				 	</tbody>
 				</table>
 			
-				<button type="button" id="ord_btn">주문하기</button>
-				<button type="button" id="del_btn">삭제</button>
+				<button type="button" id="ord_btn" class="btn btnRight">주문하기</button>
+				<button type="button" id="del_btn" class="btn btnDel">삭제</button>
 				
 				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 				
 				</form>
 			</div>
 		</div>
-<<<<<<< HEAD
-=======
-=======
->>>>>>> TEST
 		<form action="./pay" method="get" id="ord_form">
 		<table id="cartTable">
 		
@@ -216,10 +214,6 @@
 		
 		</form>
 		
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> TEST
 	</div>
 
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>

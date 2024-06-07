@@ -138,6 +138,7 @@ public class MgrServiceImpl implements MgrService {
 	public List<ManagerJoinDe> selectAllempList(PagingAndCtg upPaging) {
 		return mgrDao.selectAllempList(upPaging);
 	}
+	
 
 	//전체사원조회 페이징[empList]
 	@Override
@@ -159,6 +160,6 @@ public class MgrServiceImpl implements MgrService {
 	public int selectCntAllNotice(PagingAndCtg upPaging) {
 		return mgrDao.selectCntAllNotice(upPaging);
 	}
-	
+
 	
 }

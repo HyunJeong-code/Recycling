@@ -222,12 +222,5 @@ public class HrServiceImpl implements HrService {
 	public void updateProfileProc(MgrFile mgrFile) {
 		hrDao.updateProfileProc(mgrFile);
 	}
-
-
-	
-
-
-
-	
 	
 }

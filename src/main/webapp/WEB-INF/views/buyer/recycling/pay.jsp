@@ -103,8 +103,8 @@
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
     <div class="full">
-        <div class="title">
-            <h1>주문하기</h1>
+        <div class="page-header">
+            <h3>주문하기</h1>
         </div>
 
         <hr class="top-hr">
@@ -123,7 +123,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>${prd.storedName }</td>
+                    <td>
+                    	<img alt="${prd.prdName }" src="/upload/${prd.storedName }">
+                    </td>
                     <td>${prd.prdName }</td>
                     <td>${prd.price }</td>
                     <td>
@@ -159,8 +161,8 @@
 
             <div class="order-info">
                 <div class="sum-price">
-                    <h3>가격: ${prd.price}</h3>
-                    <h3>총 가격: ${prd.price}</h3>
+                    <h3>가격: <span>${prd.price}</span></h3>
+                    <h3>총 가격: <span id="prdAmount">${prd.price}</span></h3>
                 </div>
 
             </div>       
@@ -173,14 +175,23 @@
         <div class="page-header">
             <h5>결제 방법</h5>
         </div>
-
-        <div id="payOption">
-            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" checked="checked"></label>
-            <label>토스페이</label><input type="radio" id="tosspay" name="payOption"></label>
-            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption"></label>
+        
+        		<table class="view-table">
+			<tr>
+				<td>결제 수단</td>
+				<td>
+			        <div id="payOption">
+			            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
+			            <label>토스페이</label><input type="radio" id="tosspay" name="payOption" value="tosspay"></label>
+			            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
+			        </div>
+		        </td>
+	        </tr>
+        </table>
+		<div class="btnBox">
+        	<button type="button" id="btnPay" class="btn btnRight" onclick="requestPay();">결제하기</button>
         </div>
-
-        <button type="button" id="btnPay" onclick="requestPay();">결제하기</button>
+        
 
     </div>
     
