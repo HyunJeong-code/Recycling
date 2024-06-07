@@ -278,7 +278,6 @@ button[type="submit"]:hover,
 		})
 	})
 </script>
- 
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
@@ -329,6 +328,5 @@ button[type="submit"]:hover,
 			</div><!-- wrap -->
 		</div><!-- full -->
 	</div>
-
 </body>
 </html>

@@ -110,12 +110,9 @@ label {
 						<div class="form-group">
 							<label for="confirmPw">새 비밀번호 확인 </label>
 							<input type="text" id="conformPw" name="confirmPw" required><br>
-<<<<<<< HEAD
-=======
 						</div>
 						<div class="button-group">
 							<button class="btn">비밀번호 변경</button>
->>>>>>> TEST
 						</div>
 					</div>
 				</form>

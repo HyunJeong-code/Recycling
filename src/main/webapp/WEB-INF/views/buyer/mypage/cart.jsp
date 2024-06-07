@@ -173,10 +173,6 @@
 				</form>
 			</div>
 		</div>
-<<<<<<< HEAD
-=======
-=======
->>>>>>> TEST
 		<form action="./pay" method="get" id="ord_form">
 		<table id="cartTable">
 		
@@ -218,10 +214,6 @@
 		
 		</form>
 		
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> TEST
 	</div>
 
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
