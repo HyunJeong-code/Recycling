@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<<<<<<< HEAD
+<link rel="stylesheet" href="../../../resources/css/manager/cs/csdetail.css">
+<link rel="stylesheet" href="../../../resources/css/manager/sls/explist.css">
+=======
+>>>>>>> b566210dc8ce8d6fb83173a439187718b35ddfdb
 <style type="text/css">
 .width-menu {
 	width: 300px;

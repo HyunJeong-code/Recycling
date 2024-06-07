@@ -44,10 +44,6 @@ $(function() {
 	    $('#fileNames').text(fileNames.join(', ')); // 이전 파일 이름에 새로운 파일 이름 추가하여 표시
 	    console.log(fileNames)
 	});
-<<<<<<< HEAD
-
-=======
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 	// 직접 입력 선택 시 입력 필드 표시
     $("#inPhone").hide();
     
@@ -487,10 +483,6 @@ button:hover {
 					</select>
 					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
 				</div>
-<<<<<<< HEAD
-			
-=======
->>>>>>> 95b25a5954ab50aeb29ea101e9c29d1d810ef2e2
 				<input type="hidden" id="empEmail" name="empEmail">
 					
 					<div class="mgrBirth_box">
