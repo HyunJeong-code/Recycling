@@ -211,12 +211,16 @@
 	<!-- 업데이트 -->
 	<update id="csUpdate" parameterType="Buyer">
 		UPDATE Buyer SET
-		, b_ct_code = #{bCtCode }
+		b_ct_code = #{bCtCode }
 		, b_name = #{bName }
 		, rank_no = #{rankNo }
-<!-- 		, b_email = #{bEmail } -->
-<!-- 		, b_phone = #{bPhone } -->
-		<where>b_code = #{bCode } </where>
+		, b_email = #{bEmail }
+		, b_phone = #{bPhone }
+		, ad_sms = #{adSms }
+		, ad_email = #{adEmail }
+		<where>
+			b_code = #{bCode } 
+		</where>
 	</update>
 	
 	<!-- 업데이트 파일조회 -->
@@ -235,8 +239,27 @@
 			origin_name = #{originName } 
 			, stored_name = #{storedName }
 		<where>
-			AND b_code = #{mgrCode }
+			AND b_code = #{bCode }
 			AND b_profno = #{bProfNo }
+		</where>
+	</update>
+	
+	<!-- 구매자 주소 조회 -->
+	<select id="buyerAdrUpdate" resultType="BuyerAdr" parameterType="BuyerAdr">
+		select * from Buyer_Adr
+		<where>
+			b_code = #{bCode }
+		</where>
+	</select>
+	
+	<!-- 구매자 주소 수정 -->
+	<update id="csUpdateAdr" parameterType="BuyerAdr">
+		UPDATE Buyer_Adr SET
+		adr_postcode = #{adrPostcode }
+		, adr_addr = #{adrAddr }
+		, adr_detail = #{adrDetail }
+		<where>
+			b_code = #{bCode }
 		</where>
 	</update>
 	

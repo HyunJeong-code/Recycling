@@ -121,27 +121,43 @@ public class CsController {
 		
 	}
 	
-	//구매자 정보 업데이트창
+	// 구매자 정보 업데이트창
 	@GetMapping("/buyerupdate")
-	public void buyerUpdate(Buyer buyer, Model model, BuyerProf buyerProf) {
+	public void buyerUpdate(Buyer buyer, Model model, BuyerProf buyerProf, BuyerAdr buyerAdr, String bCode) {
 		
-		//파일 조회
+		// 주소 조회
+		BuyerAdr buyerAdrdetail = csService.buyerAdrUpdate(buyerAdr);
+		model.addAttribute("buyerAdrdetail", buyerAdrdetail);
+		
+		// 파일 조회
 		BuyerProf buyerProfdetail = csService.buyerFileUpdate(buyerProf);
 		model.addAttribute("buyerProfdetail", buyerProfdetail);
 	
-		//정보 조회
+		// 정보 조회
 		Buyer update = csService.csUpdateView(buyer);
 		model.addAttribute("view", update);
 
 	}
 	
-	//구매자 정보 업데이트
+	// 구매자 정보 업데이트
 	@PostMapping("/buyerupdate")
-	public String updateProc(Buyer buyer, Model model, int bProfNo, String bCode, MultipartFile buyerFileUpdate) {
+	public String updateProc(
+			Buyer buyer
+			, Model model
+			, int bProfNo
+			, String bCode
+			, BuyerAdr buyerAdr
+			, @RequestParam("buyerfileUpdate") MultipartFile buyerFileUpdate
+			) {
+		logger.info("buyerFileUpdate: {}", buyerFileUpdate);
 		
 		csService.csUpdate(buyer);
+		logger.info("csUpdate: {}", buyer);
 		
-		//buyerfile 프로필 업데이트
+		csService.csUpdateAdr(buyerAdr);
+		logger.info("csUpdateAdr: {}", buyerAdr);
+		
+		// buyerfile 프로필 업데이트
 		if(buyerFileUpdate != null && !buyerFileUpdate.isEmpty()) {
 		
 			BuyerProf buyerProf = new BuyerProf();
@@ -149,16 +165,16 @@ public class CsController {
 			buyerProf.setbProfNo(bProfNo);
 			buyerProf.setbCode(bCode);
 			
-			//파일 업데이트
+			// 파일 업데이트
 			csService.updateProfileProc(buyerProf);
 		}else {
 			logger.info("프로필이 존재합니다.");
 		}
 		
-		model.addAttribute("msg", "사원정보가 변경되었습니다.");
-		model.addAttribute("url", "redirect: /manager/cs/buyerupdate?bCode=" + bCode);
+		model.addAttribute("msg", "회원정보가 변경되었습니다.");
+		model.addAttribute("url", "/manager/cs/buyerdetail?bCode=" + bCode);
 		
-		return "manager/cs/buyerdetail";
+		return "/layout/alert";
 
 	}
 	

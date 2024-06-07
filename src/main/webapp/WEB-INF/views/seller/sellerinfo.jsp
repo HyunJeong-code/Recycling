@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:if test="${sCode eq null }">
+<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 	<div class="full">
 		<div class="wrap">
 			<div class="page">
@@ -25,6 +25,7 @@
 						</p>
 					</div>
 					<div>
+					<fieldset>
 						<label>동의
 							<input type="radio" id="ok1" name="ok1" value="Y">
 						</label>
@@ -32,6 +33,7 @@
 						<label>비동의
 							<input type="radio" id="no1" name="no1" value="N">
 						</label>
+					</fieldset>
 					</div>
 					
 					
@@ -44,6 +46,7 @@
 					</div>
 					
 					<div>
+					<fieldset>
 						<label>동의
 						<input type="radio" id="ok2" name="ok2" value="Y">
 						</label>
@@ -51,6 +54,7 @@
 						<label>비동의
 						<input type="radio" id="no2" name="no2" value="N">
 						</label>
+					</fieldset>
 					</div>
 					
 				<form action="./sellerinfo" method="post">
@@ -62,7 +66,7 @@
 					<input type="text" id="accBank" name="accBank"><br>
 					
 					<label for="accNo">계좌번호</label>
-					<input type="text" id="accNo" name="accNo"><br><br>
+					<input type="text" id="accNo" name="accNo" placeholder="-를 빼고 입력해주세요."><br><br>
 					
 					<button>신청하기</button>
 					<button><a href="/buyer/main">취소하기</a></button>
@@ -71,27 +75,6 @@
 			</div>
 		</div>
 	</div>
-</c:if>
-
-<!-- html 구조 변경 -->
-<c:if test="${sChk eq 'N' }">
-	<div>
-		<p>현재 판매자 검토 중입니다.</p>
-	</div>
-</c:if>
-
-<!-- 가입 후, 안내 페이지 -->
-<c:if test="${res eq 0 }">
-	<div>
-		<p>가입 실패! 다시 시도해주세요.</p>
-	</div>
-</c:if>
-
-<c:if test="${res eq 1 }">
-	<div>
-		<p>가입 성공, 내부 검토 후 허가되면 판매가 가능합니다.</p>
-	</div>
-</c:if>
-
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 </body>
 </html>

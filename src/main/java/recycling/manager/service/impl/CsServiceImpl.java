@@ -210,4 +210,14 @@ public class CsServiceImpl implements CsService {
 		return csDao.getBuyer1(bCode);
 	}
 
+	@Override
+	public BuyerAdr buyerAdrUpdate(BuyerAdr buyerAdr) {
+		return csDao.buyerAdrUpdate(buyerAdr);
+	}
+
+	@Override
+	public void csUpdateAdr(BuyerAdr buyerAdr) {
+		csDao.csUpdateAdr(buyerAdr);
+	}
+
 }

@@ -123,6 +123,16 @@
 					 	<div>${buyerAdrdetail.adrDetail }</div>
 					</div>
 					
+					<div class="bEmail_box">
+						<label for ="buyerAdSms">SMS 수신동의</label>
+					 	<div>${buyerdetail.adSms }</div>
+					</div>
+					
+					<div class="bEmail_box">
+						<label for ="buyerAdEmail">이메일 수신동의</label>
+					 	<div>${buyerdetail.adEmail }</div>
+					</div>
+					
 					<div class="bEntDate_box">
 						<label>가 입 일</label>
 						<div>

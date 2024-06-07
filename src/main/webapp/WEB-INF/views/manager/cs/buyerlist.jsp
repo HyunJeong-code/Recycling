@@ -14,9 +14,10 @@
 </head>
 <body>
 
-	<div class="full">
-		<aside>
-		</aside>
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
 				구매자 리스트
@@ -70,6 +71,7 @@
 			<br>
 			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

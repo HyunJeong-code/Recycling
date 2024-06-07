@@ -1,5 +1,6 @@
 package recycling.manager.service.face;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,6 @@ import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 // 판매제휴팀 관련 처리
@@ -29,14 +29,6 @@ public interface SlsService {
 	public List<Seller> main(PagingAndCtg upPaging);
 
 	/**
-	 * 페이징
-	 * 
-	 * @param upPaging
-	 * @return
-	 */
-	public int selectCntAllList(PagingAndCtg upPaging);
-
-	/**
 	 * 판매자 전환 요청 전체 목록
 	 * 
 	 * @param paging
@@ -44,9 +36,9 @@ public interface SlsService {
 	 * @return 판매자 리스트
 	 */
 	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging);
-
+	
 	/**
-	 * 체험단 전체 조회하기[expList]
+	 * 체험단 전체 조회하기
 	 * 
 	 * @return - List<Exp>
 	 */
@@ -84,17 +76,6 @@ public interface SlsService {
 	 * @return
 	 */
 	public int selectCntAllExpSch(PagingAndCtg upPaging);
-
-	/**
-	 * 체혐 스케쥴 예약된 인원 조회
-	 * 
-	 * @param schNo
-	 * @param schNo
-	 * @param expCode
-	 * 
-	 * @return
-	 */
-	public List<ResSchCnt> selectByResCnt(String expCode);
 
 	/**
 	 * 체험단 등록
@@ -171,20 +152,12 @@ public interface SlsService {
 	public int expListDel(String expCode);
 
 	/**
-	 * 체험 프로필 이미지
-	 * 
-	 * @param expFile
-	 * @return
-	 */
-	public ExpFile expProImage(ExpFile expFile);
-
-	/**
 	 * 이미지 업로드 번호조회
 	 * 
 	 * @param expFile
 	 * @return
 	 */
-	public List<ExpFile> expImage(ExpFile expFile);
+	public ExpFile image(ExpFile expFile);
 
 	/**
 	 * 예약 확정, 취소버튼에 따른 예약변경
@@ -200,6 +173,16 @@ public interface SlsService {
 	 * @return
 	 */
 	public ExpSch selectExpSchbySchNo(int schNo);
+
+	/**
+	 * 체험 예약, 인원 조인
+	 * @param schNo 
+	 * @param schNo 
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ResSchCnt> selectByResCnt(String expCode);
 
 	/**
 	 * 체험단 예약인원 예약변경창 조회하기
@@ -313,11 +296,12 @@ public interface SlsService {
 
 	/**
 	 * 판매자 전환 신청 리스트 페이징
+	 * @param paging 
 	 * 
 	 * @return 총 게시물 수
 	 */
-	public int selectCntSeller();
-
+	public int selectCntSeller(PagingAndCtg paging);
+	
 	/**
 	 * 판매자 탈퇴 처리
 	 * 
@@ -393,7 +377,7 @@ public interface SlsService {
 	 * 
 	 * @return
 	 */
-	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging);
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
 
 	/**
 	 * 판매자 판매 조회[페이징]
@@ -405,11 +389,11 @@ public interface SlsService {
 
 	/**
 	 * 판매자 정보 조회
-	 * 
-	 * @param getsCode
+	 * @param seller 
+	 * @param string
 	 * @return
 	 */
-	public List<Map<String, Object>> sellerAllSeller(String getsCode);
+	public Map<String, Object> sellerAllSeller(Seller seller);
 
 	/**
 	 * 판매자 상품 세부조회
@@ -442,5 +426,42 @@ public interface SlsService {
 	 * @return
 	 */
 	public MyOrder orderdetailPrd(String orddtCode);
+
+	/**
+	 * 페이징
+	 * 
+	 * @param pagingParam
+	 * @return
+	 */
+	public int upPageSlsMain(PagingAndCtg upPaging);
+
+	/**
+	 * 멀티업로드 전 파일삭제
+	 * @param map
+	 */
+	public void deleteDetailFile(HashMap<String, String> map);
+
+	/**
+	 * 멀티업로드 파일 ㄴ
+	 * @param expCode
+	 * @param detailFile
+	 * @return
+	 */
+	public int updateDetailFile(String expCode, MultipartFile detailFile);
+	
+	/**
+	 * 체험 프로필 이미지
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expProImage(ExpFile expFile);
+	
+	/**
+	 * 이미지 업로드 번호조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public List<ExpFile> expImage(ExpFile expFile);
 
 }

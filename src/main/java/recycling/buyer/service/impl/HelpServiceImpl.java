@@ -2,7 +2,9 @@ package recycling.buyer.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -20,10 +22,12 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
+import recycling.dto.manager.Ans;
 import recycling.dto.manager.Faq;
 import recycling.dto.manager.FaqCt;
 import recycling.dto.manager.Notice;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -33,47 +37,8 @@ public class HelpServiceImpl implements HelpService {
 	@Autowired private HelpDao helpDao;
 	@Autowired private ServletContext servletContext;
 	
-	@Override
-	public Paging getPaging(int curPage) {
-		
-		int totalCount = helpDao.selectPageAll();
-		
-		Paging paging = new Paging(totalCount, curPage);
-		
-		return paging;
-	}
 
-	@Override
-	public List<Faq> selectAllFaq(Paging paging) {
-		
-		return helpDao.selectAllFaq(paging);
-	}
-
-	@Override
-	public List<FaqCt> selectAllCtFaq(Paging paging) {
-		return helpDao.selectAllCtFaq(paging);
-	}
-
-	@Override
-	public List<Notice> selectNoticeSeller() {
-		List<Notice> sellerNotices = helpDao.selectByCategory(1);
-		
-		return sellerNotices;
-	}
-
-	@Override
-	public List<Notice> selectNoticeBuyer() {
-		List<Notice> buyerNotices = helpDao.selectByCategory(0);
-		
-		return buyerNotices;
-	}
-
-	@Override
-	public Notice selectByNotice(String ntcCode) {
-		helpDao.updateNtcHit(ntcCode);
-		
-		return helpDao.selectByNotice(ntcCode);
-	}
+	
 
 	@Override
 	public int insertOto(Oto oto) {
@@ -86,16 +51,6 @@ public class HelpServiceImpl implements HelpService {
 		return helpDao.selectAllOtoCt();
 	}
 
-	@Override
-	public List<Oto> selectAllOto() {
-		
-		return helpDao.selectAllOto();
-	}
-
-	@Override
-	public List<Oto> selectByCtOto(String string) {
-		return helpDao.selectByCtOto(string);
-	}
 
 	@Override
 	public List<OtoCt> getAllOct() {
@@ -173,13 +128,80 @@ public class HelpServiceImpl implements HelpService {
 		return helpDao.getOtoFiles(otoCode);
 	}
 
+
+	@Override
+	public int selectCntAllOtoList(PagingAndCtg upPaging) {
+		
+		return helpDao.selectCntAllOtoList(upPaging);
+	}
+
+	@Override
+    public List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging) {
+        return helpDao.selectAllOto(upPaging);
+    }
+
+
+
+	@Override
+	public Ans selectAnsByOtoCode(String otoCode) {
+		return helpDao.selectAnsByOtoCode(otoCode);
+	}
+
+	@Override
+	public int selectCntAllFaq(PagingAndCtg upPaging) {
+		return helpDao.selectCntAllFaq(upPaging);
+	}
+
+	@Override
+	public List<Faq> selectAllFaq(PagingAndCtg upPaging) {
+		return helpDao.selectAllFaq(upPaging);
+	}
+
+	@Override
+	public List<FaqCt> selectAllCtFaq() {
+		return helpDao.selectAllCtFaq();
+	}
+
+	@Override
+	public int selectCntFaqByCt(Map<String, Object> params) {
+		return helpDao.selectCntFaqByCt(params);
+	}
+
+	@Override
+	public List<Faq> selectFaqByCt(PagingAndCtg upPaging) {
+		return helpDao.selectFaqByCt(upPaging);
+	}
+
+
 	@Override
 	public boolean chkSeller(String bCode) {
 		
 		return helpDao.chkSeller(bCode) > 0;
 	}
+	
+	@Override
+	public List<Notice> selectNoticeForSeller(Map<String, Object> params) {
+		return helpDao.selectNoticeForSeller(params);
+	}
+
+	@Override
+	public List<Notice> selectNoticeForBuyer(Map<String, Object> params) {
+		return helpDao.selectNoticeForBuyer(params);
+	}
+
+	@Override
+	public int selectCntAllNoticeList(PagingAndCtg upPaging, boolean isSeller) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("isSeller", isSeller);
+	    params.put("search", upPaging.getSearch());
+	    return helpDao.selectCntAllNoticeList(params);
+	}
 
 
-
-
+	@Override
+	public Notice selectByNotice(String ntcCode) {
+		helpDao.updateNtcHit(ntcCode);
+		
+		return helpDao.selectByNotice(ntcCode);
+	}
 }

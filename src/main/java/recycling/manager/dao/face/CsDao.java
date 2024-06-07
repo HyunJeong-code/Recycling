@@ -166,4 +166,8 @@ public interface CsDao {
 
 	public Buyer getBuyer1(String bCode);
 
+	public BuyerAdr buyerAdrUpdate(BuyerAdr buyerAdr);
+
+	public void csUpdateAdr(BuyerAdr buyerAdr);
+
 }
