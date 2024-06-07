@@ -10,6 +10,97 @@
 <script type="text/javascript">
 $(function() {
 	
+	var rexId = /[a-z0-9]{8, 15}/;
+	var rexPw = /[a-zA-Z0-9!@#$%]{8, 15}/;
+	
+	// 프로필
+	$("#buyerProf").blur(function() {
+		if($("#buyerProf").val() == '') {
+			$("#prof").css("display", "block");
+		} else {
+			$("#prof").css("display", "none");			
+		}
+	})
+	
+	// 아이디
+	$("#bId").blur(function() {
+		if($("#bId").val() == '') {
+			$("#id").css("display", "block");
+		} else {
+			$("#id").css("display", "none");
+			
+			if(rexId.test($("#bId"))) {
+				$("#chkId").css("display", "block");				
+			} else {
+				$("#chkId").css("display", "none");								
+			}
+		}
+	})
+	
+	// 아이디 중복 확인
+	$("#chkBid").click(function() {
+		var bId = $("#bId").val();
+		
+		$.ajax({
+			type: 'post',
+			url : './chkbid',
+			data: {bId : bId},
+			dataType: 'json',
+			success: function(res) {
+				console.log("res : " + res);
+				
+				if(res > 0) {
+					alert("중복된 아이디가 존재합니다.");
+				} else {
+					alert("사용 가능한 아이디 입니다.");					
+				}
+			}
+		}) // End Ajax
+	})
+	
+	// 비밀번호
+	$("#bPw").blur(function() {
+		if($("#bPw").val() == '') {
+			$("#pw").css("display", "block");
+		} else {
+			$("#pw").css("display", "none");
+			
+			if(rexPw.test($("#bPw"))) {
+				$("#chkPw").css("display", "block");				
+			} else {
+				$("#chkPw").css("display", "none");								
+			}
+		}
+	})
+	
+	// 비밀번호 확인
+	$("#newPw").blur(function() {
+		if($("#newPw").val() == '') {
+			$("#cfmPw").css("display", "block");			
+		} else {
+			$("#cfmPw").css("display", "none");
+			
+			// 비밀번호 일치
+			if($("#newPw").val() === $("#bPw").val()) {
+				$("#okPw").css("display", "block");				
+				$("#noPw").css("display", "none");				
+			} else {
+				$("#okPw").css("display", "none");				
+				$("#noPw").css("display", "block");				
+			}
+		}
+	})
+	
+	// 이메일
+	$("#bEmail").blur(function() {
+		if($("#bEmail").val() == '') {
+			$("#email").css("display", "block");	
+		} else {
+			$("#email").css("display", "none");
+		}
+	})
+	
+	// 이메일 직접 입력
 	$("#inEmail").hide();
 	
 	$("#bEmail2").change(function() {
@@ -22,6 +113,23 @@ $(function() {
 		}
 	})
 	
+	$("#bEmail2").blur(function() {
+		if($("#bEmail2").val() == '') {
+			$("#email").css("display", "block");				
+		} else {
+			$("#email").css("display", "none");			
+		}
+	})
+	
+	$("#bEmail2").blur(function() {
+		if($("#bEmail2").val() === 'in' || $("#inEmail").val() == '') {
+			$("#email").css("display", "block");				
+		} else {
+			$("#email").css("display", "none");			
+		}
+	})
+	
+	// 이메일 인증
 	$("#btnEmail").click(function() {
 		var email = $('#bEmail').val() + $('#bEmail2').val();
 		console.log("이메일 : " + email);
@@ -41,7 +149,7 @@ $(function() {
 		}) // End Ajax
 	}) // End 이메일 인증
 	
-	$("#emailNum").focusout(function() {
+	$("#chkEmail").click(function() {
 		var inputNum = $("#emailNum").val();
 		
 		console.log("입력 인증 번호 : " + inputNum);
@@ -59,6 +167,25 @@ $(function() {
 		}
 	})
 	
+	// 이름
+	$("#bName").blur(function() {
+		if($("#bName").val() == '') {
+			$("#name").css("display", "block");
+		} else {
+			$("#name").css("display", "none");			
+		}
+	})
+	
+	// 핸드폰 번호
+	$("#sPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	// 핸드폰 번호 직접 입력
 	$("#inPhone").hide();
 	
 	$("#sPhone").change(function() {
@@ -69,6 +196,93 @@ $(function() {
 			$("#inPhone").hide();				
 			$("#sPhone").show();		
 		}		
+	})
+	
+	$("#sPhone").blur(function() {
+		if($("#sPhone").val() === 'in' && $("#inPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	$("#mPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	$("#lPhone").blur(function() {
+		if($("#sPhone").val() == '') {
+			$("#phone").css("display", "block");
+		} else {
+			$("#phone").css("display", "none");			
+		}
+	})
+	
+	// 기업 정보
+	
+	// 상호명
+	$("#cmpNmae").blur(function() {
+		if($("#cmpName").val() == '') {
+			$("#cName").css("display", "block");
+		} else {
+			$("#cName").css("display", "none");			
+		}
+	})
+	
+	// 대표자명
+	$("#cmpCeo").blur(function() {
+		if($("#cmpCeo").val() == '') {
+			$("#ceo").css("display", "block");
+		} else {
+			$("#ceo").css("display", "none");			
+		}
+	})
+	
+	// 사업자 등록 번호
+	$("#cmpNum").blur(function() {
+		if($("#cmpNum").val() == '') {
+			$("#cNum").css("display", "block");
+		} else {
+			$("#cNum").css("display", "none");			
+		}
+	})
+	
+	// 우편 번호
+	$("#cmpPostcode").blur(function() {
+		if($("#cmpPostcode").val() == '') {
+			$("#postcode").css("display", "block");
+		} else {
+			$("#postcode").css("display", "none");			
+		}
+	})
+	
+	// 주소
+	$("#cmpAddr").blur(function() {
+		if($("#cmpAddr").val() == '') {
+			$("#addr").css("display", "block");
+		} else {
+			$("#addr").css("display", "none");			
+		}
+	})
+	
+	// 제출 서류
+	$("#cmpNum").blur(function() {
+		if($("#cmpNum").val() == '') {
+			$("#cNum").css("display", "block");
+		} else {
+			$("#cNum").css("display", "none");			
+		}
+	})
+	
+	// 동의
+	$("#btnJoin").click(function() {
+		if($("#agree1").val() === 'N' || $("#agree2").val() === 'N') {
+			alert("필수 이용약관에 동의해야 가입이 가능합니다.")
+		}
 	})
 	
 }) // End Jquery
@@ -192,7 +406,7 @@ a:link, a:visited, a:hover, a:active {
 </style>
 </head>
 <body>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
 		<div class="page">
@@ -203,7 +417,8 @@ a:link, a:visited, a:hover, a:active {
 			<form action="./cmpjoin" method="post" enctype="multipart/form-data">
 			<div id="prof">
 				<label for="buyerProf">프로필 사진</label>
-				<input type="file" id="buyerProf" name="buyerProf">
+				<input type="file" id="buyerProf" name="buyerProf"><br>
+				<div id="prof" style="display:none; color:red;">기업 회원은 프로필 사진이 필수입니다.</div>
 			</div>
 			
 			<div id="infoBuyer">
@@ -212,31 +427,40 @@ a:link, a:visited, a:hover, a:active {
 				<label for="bId">아이디</label>
 				<input type="text" id="bId" name="bId">
 				<input type="button" id="chkBid" value="중복 확인"><br>
+				<div id="id" style="display:none; color:red;">아이디는 필수입니다.</div>
+				<div id="chkId" style="display:none; color:red;">아이디는 영어소문자와 숫자로 8자리 ~ 15자리로 입력 필요</div>
 				
 				<label for="bPw">비밀번호</label>
 				<input type="text" id="bPw" name="bPw"><br>
+				<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
+				<div id="chkPw" style="display:none; color:red;">대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요</div>
 				
 				<label for="chkBpw">비밀번호 확인</label>
 				<input type="text" id="chkBpw" name="chkBpw"><br>
+				<div id="cfmPw" style="display:none; color:red;">비밀번호 확인은 필수입니다.</div>
+				<div id="okPw" style="display:none; color:green;">비밀번호가 일치합니다.</div>
+				<div id="noPw" style="display:none; color:red;">비밀번호가 일치하지 않습니다.</div>
 				
 				<div id="email">
-				<label for="bEmail">이메일</label>
-				<input type="text" id="bEmail" name="bEmail">
-				
-				<select class="bEmail2" name="bEmail2" id="bEmail2">
-					<option>@naver.com</option>
-					<option>@gmail.com</option>
-					<option>@daum.net</option>
-					<option value="in">직접 입력</option>
-				</select>
-				<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
-				<input type="button" id="btnEmail" value="이메일 인증">
-				
+					<label for="bEmail">이메일</label>
+					<input type="text" id="bEmail" name="bEmail">
+					
+					<select class="bEmail2" name="bEmail2" id="bEmail2">
+						<option>@naver.com</option>
+						<option>@gmail.com</option>
+						<option>@daum.net</option>
+						<option value="in">직접 입력</option>
+					</select>
+					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
+					<input type="button" id="btnEmail" value="이메일 인증">
+					<div id="email" style="display:none; color:red;">이메일은 필수입니다.</div>
 				</div>
 				
 				<div id="emailChk" style="display: none;">
 					<label for="emailNum">이메일 인증 번호</label>
 					<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요.">
+					<button id="chkEmail">인증번호 확인</button><br>
+					<div id="emailChk2" style="display:none; color:red;">이메일 인증은 필수입니다.</div>		
 					<div id="emailOk" style="color: green; display: none;">
 						인증번호가 일치합니다.
 					</div>
@@ -247,6 +471,7 @@ a:link, a:visited, a:hover, a:active {
 				
 				<label for="bName">이름</label>
 				<input type="text" id="bName" name="bName"><br>
+				<div id="name" style="display:none; color:red;">이름은 필수입니다.</div>
 				
 				<label for="sPhone">핸드폰 번호</label>
 				<select class="sPhone" id="sPhone" name="sPhone" required="required">
@@ -258,6 +483,7 @@ a:link, a:visited, a:hover, a:active {
 				</select>
 				<input type="text" id="inPhone" name="inPhone">-<input type="text" id="mPhone" name="mPhone" required="required">-<input type="text" id="lPhone" name="lPhone" required="required"><br>
 				<br>
+				<div id="phone" style="display:none; color:red;">핸드폰 번호는 필수입니다.</div>
 			</div>
 			
 			<div id="infoPlus">
@@ -287,34 +513,39 @@ a:link, a:visited, a:hover, a:active {
 			<div id="infoCmp">
 				<label for="cmpName">상호명</label>
 				<input type="text" id="cmpName" name="cmpName"><br>
+				<div id="cName" style="display:none; color:red;">상호명은 필수입니다.</div>
 				
 				<label for="cmpCeo">대표자명</label>
 				<input type="text" id="cmpCeo" name="cmpCeo"><br>
+				<div id="ceo" style="display:none; color:red;">대표자명은 필수입니다.</div>
 				
 				<label for="cmpNum">사업자 등록 번호</label>
 				<input type="text" id="cmpNum" name="cmpNum"><br>
+				<div id="cNum" style="display:none; color:red;">사업자 등록번호는 필수입니다. ('-'를 제외하고 입력)</div>
 				
 				<label for="cmpPostcode">사업장 우편번호</label>
 				<input type="text" id="cmpPostcode" name="cmpPostcode">
 				<input type="button" onclick="cmpDaumPostcode()" value="우편번호 찾기"><br>
+				<div id="postcode" style="display:none; color:red;">우편번호는 필수입니다.</div>
 				
 				<label for="cmpAddr">사업장 주소</label>
 				<input type="text" id="cmpAddr" name="cmpAddr"><br>
+				<div id="addr" style="display:none; color:red;">주소는 필수입니다.</div>
 				
 				<label for="cmpDetail">사업장 상세 주소</label>
 				<input type="text" id="cmpDetail" name="cmpDetail"><br>
 				
 				<label for="cmpFile">사업자 등록증 첨부</label>
 				<input type="file" id="cmpFile" name="cmpFile">
+				<div id="file" style="display:none; color:red;">주소는 필수입니다.</div>
 			</div>
 			
-				<button>가입하기</button>
-				<button><a href="./join">취소하기</a></button>			
+				<button id="btnJoin">가입하기</button>
+				<button><a href="/buyer/join">취소하기</a></button>			
 			</form>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->
-
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

@@ -12,13 +12,12 @@ public class MyOrder {
 	private int sttNo;
 	private String ordDate;
 	private String shipName;
-	private int shipNo;
+	private String shipNo;
 	
 	public MyOrder() {}
 
 	public MyOrder(String orddtCode, String ordCode, String prdCode, String ordName, int ordPrice, int ordCnt,
-			int ordSum, int sttNo, String ordDate, String shipName, int shipNo) {
-		super();
+			int ordSum, int sttNo, String ordDate, String shipName, String shipNo) {
 		this.orddtCode = orddtCode;
 		this.ordCode = ordCode;
 		this.prdCode = prdCode;
@@ -119,11 +118,11 @@ public class MyOrder {
 		this.shipName = shipName;
 	}
 
-	public int getShipNo() {
+	public String getShipNo() {
 		return shipNo;
 	}
 
-	public void setShipNo(int shipNo) {
+	public void setShipNo(String shipNo) {
 		this.shipNo = shipNo;
 	}
 }

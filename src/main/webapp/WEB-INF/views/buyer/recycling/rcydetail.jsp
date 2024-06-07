@@ -314,7 +314,7 @@
 				<hr>
 				<p class="prdSum">${prd.prdDetail}</p>
 				<hr>
-				<a href="#" class="buyBtn">바로구매</a>
+				<a href="./pay?prdCode=${prd.prdCode}" class="buyBtn">바로구매</a>
 				<a href="#" class="reportBtn">신고하기</a>
 			</div>
 		</div>

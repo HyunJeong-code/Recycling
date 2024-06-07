@@ -4,30 +4,23 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import recycling.dto.manager.Department;
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
+import recycling.dto.seller.ExpFile;
+import recycling.util.PagingAndCtg;
 import recycling.util.Paging;
 
 // 인사팀 관련 처리
 
 public interface HrService {
-
 	
 	/**
-	 * 페이징 시스템
-	 * 
-	 * @param curPage
-	 * @return
-	 */
-	public Paging getPaging(int curPage);
-	
-	/**
-	 * 전체조회
+	 * 전체조회[main]
 	 * 
 	 * @return
 	 */
-	public List<Manager> selectAll();
+	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging);
 	
 	/**
 	 * 세부사항 조회
@@ -84,14 +77,36 @@ public interface HrService {
 	 */
 	public int listDel(List<String> chBox);
 
+	/**
+	 * 세부사항 파일조회
+	 * @param manager 
+	 * 
+	 * @return
+	 */
+	public MgrFile mgrFileUpdateList(MgrFile mgrFile);
 
+	/**
+	 * 업데이트 파일 가져오기
+	 * 
+	 * @param empFileUpdate
+	 * @param manager
+	 * @return
+	 */
+	public MgrFile updateProFileGet(MultipartFile empFileUpdate, Manager manager);
 
+	/**
+	 * 업데이트 프로필 수정하기
+	 * 
+	 * @param mgrfile
+	 */
+	public void updateProfileProc(MgrFile mgrfile);
+	
+	/**
+	 * 전체조회 페이징[main]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllHr(PagingAndCtg upPaging);
 
-	
-	
-
-	
-
-	
-	
 }

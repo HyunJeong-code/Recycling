@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
@@ -14,8 +15,10 @@ import recycling.dto.manager.Manager;
 import recycling.manager.dao.face.CsDao;
 import recycling.manager.service.face.CsService;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
+@Transactional
 public class CsServiceImpl implements CsService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -24,26 +27,24 @@ public class CsServiceImpl implements CsService {
 	private CsDao csDao;
 
 	@Override
-	public List<Oto> list(Paging paging) {
+	public List<Oto> list(PagingAndCtg upPaging) {
 //		logger.info("service");
-		return csDao.list(paging);
+		return csDao.list(upPaging);
+	}
+	
+	@Override
+	public int selectCntAllotoList(PagingAndCtg upPaging) {
+		return csDao.selectCntAllotoList(upPaging);
 	}
 
 	@Override
-	public Paging getPaging(Paging pagingParam) {
-
-		// 총 게시글 수 조회
-		int totalCount = csDao.getPaging();
-
-		// 페이징 계산
-		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
-
-		return paging;
+	public int selectCntAllbuyerList(PagingAndCtg upPaging) {
+		return csDao.selectCntAllbuyerList(upPaging);
 	}
 
 	@Override
-	public List<Buyer> buyerList(Paging paging) {
-		return csDao.buyerList(paging);
+	public List<Buyer> buyerList(PagingAndCtg upPaging) {
+		return csDao.buyerList(upPaging);
 	}
 
 	@Override

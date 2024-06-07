@@ -1,7 +1,7 @@
 package recycling.dto.seller;
 
 public class Seller {
-	
+
 	private String sCode;
 	private String bCode;
 	private String accName;
@@ -14,6 +14,7 @@ public class Seller {
 	private String sChk;
 	private String sOut;
 	private String sOutDate;
+<<<<<<< HEAD
 	private String originName;
 	private String storedName;
 
@@ -28,10 +29,13 @@ public class Seller {
 				+ ", originName=" + originName + ", storedName=" + storedName + "]";
 	}
 
+=======
+	
+	public Seller() {}
+
+>>>>>>> main
 	public Seller(String sCode, String bCode, String accName, String accBank, String accNo, String sPostcode,
-			String sAddr, String sDetail, String sEntDate, String sChk, String sOut, String sOutDate, String originName,
-			String storedName, String sTier, double sRating, int totalTransaction) {
-		super();
+			String sAddr, String sDetail, String sEntDate, String sChk, String sOut, String sOutDate) {
 		this.sCode = sCode;
 		this.bCode = bCode;
 		this.accName = accName;
@@ -44,9 +48,19 @@ public class Seller {
 		this.sChk = sChk;
 		this.sOut = sOut;
 		this.sOutDate = sOutDate;
+<<<<<<< HEAD
 		this.originName = originName;
 		this.storedName = storedName;
 
+=======
+	}
+
+	@Override
+	public String toString() {
+		return "Seller [sCode=" + sCode + ", bCode=" + bCode + ", accName=" + accName + ", accBank=" + accBank
+				+ ", accNo=" + accNo + ", sPostcode=" + sPostcode + ", sAddr=" + sAddr + ", sDetail=" + sDetail
+				+ ", sEntDate=" + sEntDate + ", sChk=" + sChk + ", sOut=" + sOut + ", sOutDate=" + sOutDate + "]";
+>>>>>>> main
 	}
 
 	public String getsCode() {
@@ -144,6 +158,7 @@ public class Seller {
 	public void setsOutDate(String sOutDate) {
 		this.sOutDate = sOutDate;
 	}
+<<<<<<< HEAD
 
 	public String getOriginName() {
 		return originName;
@@ -164,4 +179,6 @@ public class Seller {
 
 	
 	
+=======
+>>>>>>> main
 }

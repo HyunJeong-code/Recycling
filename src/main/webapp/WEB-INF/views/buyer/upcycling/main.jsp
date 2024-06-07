@@ -40,7 +40,7 @@
 
 	.mainBanner {
 		max-width: 1000px;
-		height: 620px;
+		height: 650px;
 		border: 1px solid black;
 		overflow: hidden;
 		display: flex;
@@ -315,8 +315,6 @@
 	</div>
 	
 	<div class="spacer"></div>
-	
-<%--  	<footer>
 		<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/> 
 	</footer> --%>
 	
@@ -384,6 +382,105 @@
 	                sortProducts('lowPrice', this.getAttribute('data-category')); // 정렬 함수에 '낮은가격순'과 현재 중분류를 전달
 	            }
 	        });
+<<<<<<< HEAD
+	
+	        // 중분류 '전체' 활성화
+	        const allCategory = document.querySelector('.categoryMid:first-child');
+	        allCategory.classList.add('active');
+	        allCategory.style.fontWeight = 'bold';
+	        allCategory.style.color = 'black';
+	
+	        // 정렬 버튼 중 '낮은가격순' 활성화
+	        const lowPriceBtn = document.getElementById('lowPrice');
+	        lowPriceBtn.classList.add('active');
+	        lowPriceBtn.style.backgroundColor = '#007bff';
+	        lowPriceBtn.style.color = 'white';
+	
+	        
+	
+	        // 카테고리 클릭 시
+	        categoryItems.forEach(item => {
+	            item.addEventListener('click', function() {
+	                categoryItems.forEach(item => {
+	                    item.classList.remove('active');
+	                    item.style.fontWeight = 'normal';
+	                    item.style.color = '';
+	                });
+	                this.classList.add('active');
+	                this.style.fontWeight = 'bold';
+	                this.style.color = 'black';
+	            });
+	        });
+	
+	        // 정렬 버튼 클릭 시
+	        sortButtons.forEach(button => {
+	            button.addEventListener('click', function() {
+	                sortButtons.forEach(button => {
+	                    button.classList.remove('active');
+	                    button.style.backgroundColor = '';
+	                    button.style.color = '';
+	                    button.style.fontWeight = 'normal';
+	                });
+	                this.classList.add('active');
+	                this.style.backgroundColor = '#007bff';
+	                this.style.color = 'white';
+	                this.style.fontWeight = 'bold';
+	            });
+	        });
+	
+	        // 페이지 표시 함수
+	        function showPage(pageNum) {
+	            // 모든 페이지 숨기기
+	            prdLists.forEach(list => {
+	                list.style.display = 'none';
+	            });
+	            // 현재 페이지만 보이기
+	            if (prdLists[pageNum - 1]) {
+	                prdLists[pageNum - 1].style.display = 'flex';
+	            }
+	        }
+	
+	        // 다음 페이지로 이동
+	        function nextPage() {
+	            if (currentPage < prdLists.length) {
+	                currentPage++;
+	                showPage(currentPage);
+	            }
+	        }
+	
+	        // 이전 페이지로 이동
+	        function prevPage() {
+	            if (currentPage > 1) {
+	                currentPage--;
+	                showPage(currentPage);
+	            }
+	        }
+	
+	        // 초기 설정: 첫 번째 페이지 표시
+	        showPage(currentPage);
+	        
+		// footer 위치 조정 함수
+		function adjustFooterPosition() {
+			var bodyHeight = document.body.clientHeight;
+			var windowHeight = window.innerHeight;
+			var footer = document.querySelector('footer');
+
+			if (windowHeight > bodyHeight) {
+				var offset = windowHeight - bodyHeight;
+				footer.style.bottom = offset + 'px';
+			} else {
+				footer.style.bottom = '0';
+			}
+		}
+
+		// resize 이벤트 리스너 등록하여 footer 위치 조정
+		window.addEventListener('resize', adjustFooterPosition);
+
+		// 페이지 로드 후 초기에도 한 번 실행하여 화면 크기에 맞게 footer를 조정합니다.
+		adjustFooterPosition();
+	        
+=======
+>>>>>>> TEST
 	    });
 	
 	    // 카테고리에 따른 제품 로드 함수

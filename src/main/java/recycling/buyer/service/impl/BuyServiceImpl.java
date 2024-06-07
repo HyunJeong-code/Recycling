@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.BuyDao;
@@ -29,6 +30,7 @@ import recycling.dto.buyer.CmpFile;
 import recycling.dto.manager.MgrFile;
 
 @Service
+@Transactional
 public class BuyServiceImpl implements BuyService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -40,14 +42,16 @@ public class BuyServiceImpl implements BuyService {
 	public Buyer buyerProc(Buyer buyer, String sPhone, String inPhone, String mPhone, String lPhone, String bEmail2,
 			String inEmail) {	
 		// 비밀번호 암호화
-		String enPw = pwEncoder.encode(buyer.getbPw());
-		buyer.setbPw(enPw);
+		if(buyer.getbPw() != null) {
+			String enPw = pwEncoder.encode(buyer.getbPw());
+			buyer.setbPw(enPw);			
+		}
 		
 		// 핸드폰 번호 처리
 		if(inPhone.equals("")) {
-			buyer.setbPhone(sPhone+mPhone+lPhone);
+			buyer.setbPhone(sPhone + "-" + mPhone + "-" + lPhone);
 		} else {
-			buyer.setbPhone(inPhone+mPhone+lPhone);
+			buyer.setbPhone(inPhone+ "-" +mPhone+ "-" +lPhone);
 		}
 		
 		// 이메일 처리
@@ -69,6 +73,11 @@ public class BuyServiceImpl implements BuyService {
 	}
 	
 	@Override
+	public int selectCntById(String bId) {
+		return buyDao.selectCntById(bId);
+	}
+	
+	@Override
 	public int insertBuyer(Buyer buyer) {
 		return buyDao.insertBuyer(buyer);
 	}
@@ -82,9 +91,14 @@ public class BuyServiceImpl implements BuyService {
 		}
 		
 		String storedPath = servletContext.getRealPath("upload");
+//		String storedPath = System.getProperty("user.dir") + "\\src\\main\\webapp\\resources\\image\\";
+//		String storedPath = servletContext.getRealPath("/resources/image");
+		logger.info("path : {}", storedPath);
 		
 		File storedFolder = new File(storedPath);
-		storedFolder.mkdir();
+		if(!storedFolder.exists() ) {
+			storedFolder.mkdir();			
+		}
 		
 		String storedName = null;
 		
@@ -93,7 +107,7 @@ public class BuyServiceImpl implements BuyService {
 		do {
 			storedName = buyerProf.getOriginalFilename(); // 원본 파일명
 			
-			storedName += UUID.randomUUID().toString().split("-")[4]; // UUID 추가
+			storedName = UUID.randomUUID().toString().split("-")[4] + storedName; // UUID 추가
 			logger.info("storedName : {}", storedName);
 			
 			dest = new File(storedFolder, storedName);			
@@ -219,11 +233,42 @@ public class BuyServiceImpl implements BuyService {
 	
 	@Override
 	public int updatePw(Buyer buyer) {
+		buyer.setbPw(pwEncoder.encode(buyer.getbPw()));
 		return buyDao.updatePw(buyer);
 	}
 	
 	@Override
 	public List<Map<String, Object>> selectNtc() {
 		return buyDao.selectNtc();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectRcyHit() {
+		return buyDao.selectRcyHit();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectUpcyHit() {
+		return buyDao.selectUpcyHit();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectExpHit() {
+		return buyDao.selectExpHit();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectExpNew() {
+		return buyDao.selectExpNew();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectRcyNew() {
+		return buyDao.selectRcyNew();
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectUpcyNew() {
+		return buyDao.selectUpcyNew();
 	}
 }

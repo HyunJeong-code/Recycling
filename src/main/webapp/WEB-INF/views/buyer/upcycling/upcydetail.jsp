@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,6 +116,7 @@
 	}
 	
 	.review-item {
+<<<<<<< HEAD
 	    margin-bottom: 20px;
 	    padding: 10px;
 	    border: 1px solid #ddd;
@@ -240,6 +240,41 @@
 	.section4 table {
 	    width: 850px;
 	}
+=======
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+    .review-form {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+    }
+    .review-form textarea {
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .comment-textarea {
+		width: 100%;
+		max-width: 100%; 
+		min-width: 100%;
+		padding: 10px; /* 내부 여백 조정 */
+		font-size: 14px; /* 글자 크기 설정 */
+	}
+    
+    .review-form button {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .review-form button:hover {
+        background-color: #0056b3;
+    }
+>>>>>>> main
 	
 	
 </style>
@@ -339,6 +374,7 @@
 			<div class="seller-info">
 				<div class="seller-section">
 					<%-- <img src="${sellerProf.storedName}" alt="${sellerProf.originName}" class="seller-photo"> --%>
+<<<<<<< HEAD
 					<p><b>아이디: </b> ${buyer.bId}</p>
 		            <p><b>회원분류: </b>
 		                <c:choose>
@@ -352,6 +388,12 @@
 						<p><b>담당자 이메일: </b> ${buyer.bEmail}</p>
 					</c:if>
 					<p><b>총 거래 횟수: </b> ${shipCnt}</p>
+=======
+					<p>아이디: ${sellerProf.sCode}</p>
+					<p>등급: ${sellerProf.tierName}</p>
+					<p>평점: ${sellerProf.sRating}/10</p>
+					<p>총 거래 횟수: ${sellerProf.totalTransaction}</p>
+>>>>>>> main
 				</div>
 			</div>
 		</div>
@@ -363,46 +405,15 @@
 		</div>
 		
 		<div id="section4" class="section">
-		<div class="page">
-					<h3>상품 후기</h3>
-				</div>
-				
-				<div class="table">
-					<table>
-						<tr>
-							<th class="">작성자</th>
-							<th class="grade">평점</th>
-							<th class="review">후기</th>
-							<th class="entdate">작성일</th>
-						</tr>
-						
-						<c:if test="${not empty upcyvwlist }">
-						    <c:forEach var="rvw" items="${upcyvwlist }">
-						        <tr>
-						            <td class="writer">${rvw.B_CODE }</td>
-						            <td class="grade star">
-						                <c:forEach begin="1" end="${rvw.UPCY_GRADE }">
-						                    ★
-						                </c:forEach>
-						            </td>
-						            <td class="review">
-						                ${rvw.UPCY_CONTENT }
-						            </td>
-						            <td class="entdate">
-						                <fmt:parseDate value="${rvw.UPCY_DATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
-						                <fmt:formatDate value="${ENTDATE }" pattern="yyyy-MM-dd"/>
-						            </td>
-						        </tr>
-						    </c:forEach>
-						</c:if>			
-							
-						<c:if test="${empty upcyvwlist }">
-							<tr>
-								<td colspan="4" class="none">작성된 리뷰가 없습니다.</td>
-							</tr>
-						</c:if>
-					</table>
-				</div> <!-- section End -->
+			<h3>상품평</h3>
+			<div id="reviews">
+				<c:forEach var="upcyReview" items="${upcyvwlist}">
+					<div class="review-item">
+						<p><strong>${upcyReview.bCode}</strong></p>
+						<p>${upcyReview.upcyContent}</p>
+						<p>${upcyReview.upcyDate}</p>
+					</div>
+				</c:forEach>
 				
 				<div class="review-form">
 				    <form action="./upcyrvwformProc" method="post">

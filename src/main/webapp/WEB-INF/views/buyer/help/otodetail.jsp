@@ -104,6 +104,27 @@ th {
 	        </c:choose>
 	    </c:forEach>
 	</div>
+	<hr><br>
+	<!-- 답변 내용 추가 -->
+	<div class="oto_answer">
+		<c:if test="${not empty ans}">
+			<h3>답변 내용</h3>
+			<br>
+			<table>
+				<tr>
+					<th>답변 날짜</th>
+					<td>
+						<fmt:parseDate value="${ans.ansDate}" var="ansDate" pattern="yyyy-MM-dd HH:mm:ss" />
+						<fmt:formatDate value="${ansDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					</td>
+				</tr>
+				<tr>
+					<th>답변</th>
+					<td>${ans.ansContent}</td>
+				</tr>
+			</table>
+		</c:if>
+	</div>
 </div>
 
 <div>

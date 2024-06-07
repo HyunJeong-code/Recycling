@@ -5,39 +5,275 @@
   
 <mapper namespace="recycling.buyer.dao.face.MypageDao">
 
-	<select id="selectQnaBybCode" parameterType="BuyerLogin" resultType="hashmap">
+	<select id="selectQnaBybCode" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
 		SELECT * FROM (
+			SELECT rownum no, QST.* FROM (
+				SELECT * FROM (
+			        SELECT 
+			       		'OTO' ctg, O.b_code bcode, O.oto_code code, O.ct_otono ctno, O.oto_title title, O.oto_content content, O.oto_name name, O.oto_date entdate, O.oto_hit hit, 
+			            NVL(A.ans_code, '-') ans
+			        FROM oto O, ans A
+			        <where>
+				        AND O.oto_code = A.oto_code(+)
+			        </where>
+				    UNION ALL
+			        SELECT 
+			            'QST' ctg, Q.b_code bcode, Q.qst_code code, Q.ct_qstno ctno, Q.qst_title title, Q.qst_content content, Q.qst_name name, Q.qst_date entdate, Q.qst_hit hit, 
+			            NVL(A.qna_code, '-') ans
+			        FROM qst Q, qna A
+			        <where>
+				        AND Q.qst_code = A.qst_code(+)
+			        </where>
+				)
+				<where>
+					AND bcode = #{user }
+					AND (
+						title LIKE '%' || #{search } || '%'
+						OR content LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY entdate
+				) QST
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectRvwBybCode" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, RVW.*  FROM (
+				SELECT * FROM (
+				    SELECT '체험단' ctg, rvw_code code, b_code bcode, exp_code rvw, rvw_grade grade, rvw_content content, rvw_date entdate FROM exp_review
+				    UNION ALL
+				    SELECT '새활용' ctg, upcy_code code, b_code bcode, prd_code rvw, upcy_grade grade, upcy_content content, upcy_date entdate FROM upcy_review
+				)
+				<where>
+					AND bcode = #{user }
+					AND content LIKE '%' || #{search } || '%'
+				</where>
+				ORDER BY entdate
+			) RVW
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo } 
+		</where>
+	</select>
+	
+	<select id="selectCntQna" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
 		    SELECT * FROM (
 		        SELECT 
-		            'OTO' ctg, O.b_code bcode, O.oto_code code, O.ct_otono ctno, O.oto_title title, O.oto_name name, O.oto_date entdate, O.oto_hit hit, 
+		            'OTO' ctg, O.b_code bcode, O.oto_code code, O.ct_otono ctno, O.oto_title title, O.oto_content content, O.oto_name name, O.oto_date entdate, O.oto_hit hit, 
 		            NVL(A.ans_code, '-') ans
 		        FROM oto O, ans A
-		        WHERE O.oto_code = A.oto_code(+)
+		        <where>
+			        AND O.oto_code = A.oto_code(+)
+		        </where>
 		    )
-		    UNION
+		    UNION ALL
 		    SELECT * FROM (
 		        SELECT 
-		            'QST' ctg, Q.b_code bcode, Q.qst_code code, Q.ct_qstno ctno, Q.qst_title title, Q.qst_name name, Q.qst_date entdate, Q.qst_hit hit, 
+		            'QST' ctg, Q.b_code bcode, Q.qst_code code, Q.ct_qstno ctno, Q.qst_title title, Q.qst_content content, Q.qst_name name, Q.qst_date entdate, Q.qst_hit hit, 
 		            NVL(A.qna_code, '-') ans
 		        FROM qst Q, qna A
-		        WHERE Q.qst_code = A.qst_code(+)
+		        <where>
+			        AND Q.qst_code = A.qst_code(+)
+		        </where>
 		    )
 		)
 		<where>
-			AND bcode = #{bCode }
+			AND bcode = #{user }
+			AND (
+				title LIKE '%' || #{search } || '%'
+				OR content LIKE '%' || #{search } || '%'
+			)
 		</where>
 		ORDER BY entdate
 	</select>
 	
-	<select id="selectRvwBybCode" parameterType="BuyerLogin" resultType="hashmap">
-		SELECT * FROM (
-		    SELECT '체험단' ctg, rvw_code code, b_code bcode, exp_code rvw, rvw_grade grade, rvw_content content, rvw_date entdate FROM exp_review
-		    UNION
-		    SELECT '새활용' ctg, upcy_code code, b_code bcode, prd_code rvw, upcy_grade grade, upcy_content content, upcy_date entdate FROM upcy_review
+	<select id="selectCntRvw" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+			SELECT * FROM (
+			    SELECT '체험단' ctg, rvw_code code, b_code bcode, exp_code rvw, rvw_grade grade, rvw_content content, rvw_date entdate FROM exp_review
+			    UNION ALL
+			    SELECT '새활용' ctg, upcy_code code, b_code bcode, prd_code rvw, upcy_grade grade, upcy_content content, upcy_date entdate FROM upcy_review
+			)
 		)
 		<where>
-			AND bcode = #{bCode }
+			AND bcode = #{user }
+			AND content LIKE '%' || #{search } || '%'
 		</where>
 		ORDER BY entdate
+	</select>
+	
+	<!-- 1:1 문의 상세 조회 -->
+	<select id="getByOtoCode" parameterType='string' resultType="recycling.dto.buyer.Oto">
+		SELECT * FROM Oto
+		WHERE Oto_Code = #{otoCode }
+	</select>
+	
+	<!-- 1:1 문의 분류 리스트 -->
+	<select id="getAllOct" resultType="recycling.dto.buyer.OtoCt">
+		SELECT * FROM Oto_Ct
+	</select>
+	
+	<!-- 1:1 문의 첨부 파일 리스트 조회 -->
+	<select id="getOtoFiles" parameterType="string" resultType="recycling.dto.buyer.OtoFile">
+		SELECT * FROM Oto_File
+		WHERE Oto_Code = #{otoCode }
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateOtoHit" parameterType="string">
+		UPDATE Oto
+		SET
+			Oto_Hit = Oto_Hit + 1
+		WHERE Oto_Code = #{otoCode }
+	</update>
+	
+	<!-- 구매자 정보 가져오기 -->
+	<select id="getBuyerDetail" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT * FROM Buyer
+		WHERE B_Id = #{bId }
+	</select>
+	
+	<!-- 1:1 문의 작성 -->
+<!-- 	<insert id="insertOto" parameterType="recycling.dto.buyer.Oto"> -->
+<!-- 		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email) -->
+<!-- 		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail}) -->
+<!-- 	</insert> -->
+	
+	<!-- 1:1 문의 작성 파일 넣기 -->
+<!-- 	<insert id="insertOtoFiles" parameterType="recycling.dto.buyer.OtoFile"> -->
+<!-- 		INSERT INTO oto_file (oto_flno, oto_code, origin_name, stored_name) -->
+<!-- 		VALUES (oto_file_seq.nextval, #{otoCode}, #{originName}, #{storedName }) -->
+<!-- 	</insert> -->
+	
+	<!-- 1:1 문의 삭제 -->
+	<delete id="deleteOto" parameterType="string">
+		DELETE FROM Oto
+		WHERE Oto_Code = #{otoCode }
+	</delete>
+	
+	<!-- 1:1 문의 파일 삭제 -->
+	<delete id="deleteOtoFile" parameterType="string">
+		DELETE FROM Oto_File
+		WHERE Oto_Code = #{otoCode }
+	</delete>
+	
+	<!-- 판매자 문의 분류 리스트 -->
+	<select id="getAllQct" resultType="recycling.dto.buyer.QstCt">
+		SELECT * FROM Qst_Ct
+	</select>
+	
+	<!-- Qst_Code와 일치하는 Qna 조회 -->
+	<select id="getQstByqstCode" parameterType="string" resultType="recycling.dto.buyer.Qst">
+		SELECT * FROM Qst
+		WHERE Qst_Code = #{qstCode }
+	</select>
+	
+	<!-- Qst_Code와 일치하는 Qna 조회 -->
+	<select id="getQnaByqstCode" parameterType="string" resultType="recycling.dto.seller.Qna">
+		SELECT * FROM Qna
+		WHERE Qst_Code = #{qstCode }
+	</select>
+	
+	<!-- Qna 작성 -->
+<!-- 	<insert id="insertQna" parameterType='recycling.dto.seller.Qna'> -->
+<!-- 		INSERT INTO qna (qna_code, qst_code, s_code, qna_content, qna_date) -->
+<!-- 		VALUES ('QNA' || LPAD(qst_seq.nextval, 7, '0'), #{qstCode}, #{sCode}, #{qnaContent}, sysdate) -->
+<!-- 	</insert> -->
+	
+	<!-- Qna 삭제 -->
+	<delete id="deleteQna" parameterType="string">
+		DELETE FROM Qna
+		WHERE Qst_Code = #{qstCode }
+	</delete>
+	
+	<!-- Qst 삭제 -->
+	<delete id="deleteQst" parameterType="string">
+		DELETE FROM Qst
+		WHERE Qst_Code = #{qstCode }
+	</delete>
+	<select id="selectAllCnt" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+		    SELECT rownum no, OD.* FROM (
+		    SELECT O.ord_date entdate, OD.title title, OD.cnt cnt, OD.price price, OD.code code, OD.detail detail FROM orders O, (
+		        SELECT OD.ord_name title, OD.ord_cnt cnt, OD.ord_price price, P.prd_code code, P.prd_detail detail, OD.ord_code ord_code FROM order_detail OD, prd P
+		        <where>
+			        AND OD.prd_code = P.prd_code(+)
+			        AND OD.stt_no = 940
+			        AND P.prd_detail LIKE '%' || #{search } || '%'
+		        </where>
+		    ) OD
+		    <where>
+			    AND O.ord_code(+) = OD.ord_code
+			    AND O.b_code = #{user }
+		    </where>
+		    ORDER BY O.ord_date
+		    ) OD
+		    UNION ALL
+		    SELECT rownum no, EXP.* FROM (
+		        SELECT ER.res_date entdate, ER.res_expname title, ER.res_cnt cnt, ER.res_price price, ES.exp_code code, ES.exp_detail detail FROM exp_res ER, (
+		            SELECT E.exp_code, E.exp_name, E.exp_detail, ES.sch_no FROM exp E, exp_sch ES
+		            <where>
+			            AND E.exp_code = ES.exp_code(+)
+		            </where>
+		        ) ES
+		        <where>
+			        AND ER.sch_no(+) = ES.sch_no 
+	            	AND res_date &lt; sysdate
+		            AND res_cnf = 'N'
+		            AND ER.b_code = #{user }
+		            AND (
+		                ER.res_expname LIKE '%' || #{search } || '%'
+		                OR ES.exp_detail LIKE '%' || #{search } || '%'
+		            )
+		        </where>
+		        ORDER BY res_date
+		    ) EXP
+		)
+	</select>
+	
+	<select id="selectAll" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+		    SELECT rownum no, OD.* FROM (
+		    SELECT O.ord_date entdate, OD.title title, OD.cnt cnt, OD.price price, OD.code code, OD.detail detail FROM orders O, (
+		        SELECT OD.ord_name title, OD.ord_cnt cnt, OD.ord_price price, P.prd_code code, P.prd_detail detail, OD.ord_code ord_code FROM order_detail OD, prd P
+		        <where>
+			        AND OD.prd_code = P.prd_code(+)
+			        AND OD.stt_no = 940
+			        AND P.prd_detail LIKE '%' || #{search } || '%'
+		        </where> 
+		    ) OD
+		    <where>
+			    AND O.ord_code(+) = OD.ord_code
+			    AND O.b_code = #{user }
+		    </where>
+		    ORDER BY O.ord_date
+		    ) OD
+		    UNION ALL
+		    SELECT rownum no, EXP.* FROM (
+		        SELECT ER.res_date entdate, ER.res_expname title, ER.res_cnt cnt, ER.res_price price, ES.exp_code code, ES.exp_detail detail FROM exp_res ER, (
+		            SELECT E.exp_code, E.exp_name, E.exp_detail, ES.sch_no FROM exp E, exp_sch ES
+		            WHERE E.exp_code = ES.exp_code(+)
+		        ) ES
+		        <where>
+			        AND ER.sch_no(+) = ES.sch_no 
+		            AND res_date &lt; sysdate
+		            AND res_cnf = 'N'
+		            AND ER.b_code = #{user }
+		            AND (
+		                ER.res_expname LIKE '%' || #{search } || '%'
+		                OR ES.exp_detail LIKE '%' || #{search } || '%'
+		            )
+		        </where>
+		        ORDER BY res_date
+		    ) EXP
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo } 
+		</where>
 	</select>
 </mapper>

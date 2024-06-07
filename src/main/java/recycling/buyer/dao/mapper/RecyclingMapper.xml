@@ -13,11 +13,25 @@
 	    	AND S_CODE = #{sCode }
 	    </where> -->
 	</select>
+	
+	<!-- 판매자 코드로 재활용품 조회 -->
+    <select id="findRcyBySellerCode" parameterType="String" resultType="Prd">
+        SELECT *
+        FROM PRD
+        <where>
+	    	AND S_CODE = #{sCode }
+	    </where>
+    </select>
 
+<<<<<<< HEAD
 	<!-- 상품리스트 로드 -->
+=======
+	<!-- 상품 목록 조회 -->
+>>>>>>> main
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE CT_PNO = 0
+	    AND NOT PRD_CNT = 0
 	</select>
 	
 	<select id="selectLatestList" resultType="Prd">
@@ -61,6 +75,12 @@
 	    SELECT * FROM Prd
 	    WHERE PRD_CODE = #{prdCode}
 	</select>
+
+	<!-- 판매자 프로필 조회 -->
+	<select id="selectSellerProfByCode" parameterType="String" resultType="Seller">
+		SELECT * FROM SELLER
+		WHERE S_CODE = #{sCode}
+	</select>
 	
 	<select id="selectSeller" resultType="Seller">
 	    SELECT 
@@ -77,6 +97,10 @@
 	    SELECT * FROM BUYER
 	    WHERE B_CODE = #{bCode}
 	</select>
+<!-- 	<select id="selectSellerProfByCode" resultType="SellerProf"> -->
+<!-- 		SELECT * FROM SELLER_PROF -->
+<!-- 		WHERE S_CODE = #{sCode} -->
+<!-- 	</select> -->
 	
 	<select id="selectShipCnt" resultType="int">
 		SELECT count(*) FROM order_detail OD, prd P
@@ -130,8 +154,5 @@
 	    INSERT INTO Rcy (RCY_CODE, B_CODE, PRD_CODE, RCY_CMT, RCY_DATE)
 	    VALUES (#{rcyCode}, #{bCode}, #{prdCode}, #{rcyCmt}, SYSDATE)
 	</insert>
-	
-	
-
 
 </mapper>

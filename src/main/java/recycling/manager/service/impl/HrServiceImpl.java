@@ -11,15 +11,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
 import recycling.manager.dao.face.HrDao;
 import recycling.manager.service.face.HrService;
-import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 @Service
+@Transactional
 public class HrServiceImpl implements HrService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -27,26 +30,18 @@ public class HrServiceImpl implements HrService {
 	@Autowired private ServletContext servletContext;
 	@Autowired private HrDao hrDao;
 	
-	//페이징 처리
+	//전체조회[main]
 	@Override
-	public Paging getPaging(int curPage) {
-		
-		//전체 페이지수 카운팅
-		int totalCount = hrDao.getPaging();
-		
-		//전체 페이지, 현재 페이지 담기
-		Paging paging = new Paging(totalCount, curPage);
-		
-		return paging;
-	}
-	
-	
-	//전체 사원조회
-	@Override
-	public List<Manager> selectAll() {
+	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging) {
 		logger.info("service: select");
 		
-	    return hrDao.selectAll();
+	    return hrDao.selectAllHr(upPaging);
+	}
+
+	//전체조회 페이징[main]
+	@Override
+	public int selectCntAllHr(PagingAndCtg upPaging) {
+		return hrDao.selectCntAllHr(upPaging);
 	}
 
 	//사원정보 상세조회
@@ -171,12 +166,61 @@ public class HrServiceImpl implements HrService {
 		return result;
 		
 	}
+	//업데이트창 파일조회
+	@Override
+	public MgrFile mgrFileUpdateList(MgrFile mgrFile) {
+		return hrDao.mgrFileUpdateList(mgrFile);
+	}
 
+	//업데이트창 파일가져오기
+	@Override
+	public MgrFile updateProFileGet(MultipartFile empFileUpdate, Manager manager) {
+		if(empFileUpdate.getSize() <= 0) {
+			logger.info("파일 없음");
+			
+			return null;
+		}
+		
+		
+		String mgrCode = manager.getMgrCode();
 
-	
+		String storedPath = servletContext.getRealPath("upload");
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		String storedName = null;
+		File destProfile = null;
+		
+		//저장될 파일명이 중복되지 않도록 반복
+		do {
+			storedName = empFileUpdate.getOriginalFilename(); //원본 파일명
+			storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+			
+			destProfile = new File( storedFolder, storedName );
+		} while( destProfile.exists() );
+		try {
+			//업로드된 임시 파일을 upload 폴더로 옮기기
+			empFileUpdate.transferTo(destProfile);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	    //프로필 DB에 저장
+        MgrFile profileFile = new MgrFile();
+        profileFile.setMgrCode(mgrCode);
+        profileFile.setctMflNo(1000); // document 데이터 1000
+        profileFile.setOriginName(empFileUpdate.getOriginalFilename());
+        profileFile.setStoredName(storedName);
+		
+        return profileFile;
 
+	}
 
-
-	
+	//업데이트창 파일 변경하기
+	@Override
+	public void updateProfileProc(MgrFile mgrFile) {
+		hrDao.updateProfileProc(mgrFile);
+	}
 	
 }

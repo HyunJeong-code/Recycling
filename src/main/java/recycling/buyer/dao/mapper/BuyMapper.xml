@@ -14,6 +14,13 @@
 		</where> 
 	</select>
 	
+	<select id="selectCntById" parameterType="string" resultType="int">
+		SELECT count(*) FROM buyer
+		<where>
+			AND b_id = #{bId }
+		</where>
+	</select>
+	
 	<insert id="insertBuyer" parameterType="Buyer" useGeneratedKeys="true" keyProperty="bCode" keyColumn="b_code">
 		INSERT INTO buyer (b_code, b_ct_code, rank_no, b_id, b_pw, b_name, b_phone, b_email, b_entdate, ad_sms, ad_email, b_out, b_out_date)
 		VALUES(
@@ -122,18 +129,110 @@
 	</insert>
 	
 	<select id="selectNtc" resultType="hashmap">
-		SELECT NTC.rnum, NTC.ntc_code, NTC.title FROM (
-	    	SELECT rownum rnum, NTC.ntc_code, NTC.title FROM (
-		        SELECT ntc_title title, ntc_code ntc_code FROM notice
-		        <where>
-		        	AND ct_ntcno = 0
-		        </where>
-		        ORDER BY ntc_date
-	    		) NTC
-			) NTC
-		<where>
-			AND rnum BETWEEN 1 AND 5
-		</where> 
+        SELECT ntc_title title, ntc_code ntc_code FROM notice
+        <where>
+        	AND ct_ntcno = 0
+        </where>
+        ORDER BY ntc_date
 	</select>
 	
+	<select id="selectRcyHit" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, RCY.* FROM (
+				SELECT P.prd_code PrdCode, P.prd_name PrdName, P.prd_date PrdDate, F.origin_name OriginName, F.stored_name storedName FROM prd P, prd_file F
+				<where>
+					AND P.prd_code = F.prd_code(+)
+					AND F.ct_pflno = 600
+					AND P.ct_pno = 0
+				</where>
+				ORDER BY P.prd_hit DESC, P.prd_date
+			) RCY
+		)
+		<where>
+			AND no BETWEEN 1 AND 5
+		</where>
+	</select>
+	
+	<select id="selectUpcyHit" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, UPCY.* FROM (
+				SELECT P.prd_code PrdCode, P.prd_name PrdName, P.prd_date PrdDate, F.origin_name OriginName, F.stored_name storedName FROM prd P, prd_file F
+				<where>
+					AND P.prd_code = F.prd_code(+)
+					AND F.ct_pflno = 600
+					AND P.ct_pno = 1
+				</where>
+				ORDER BY P.prd_hit DESC, P.prd_date
+			) UPCY
+		)
+		<where>
+			AND no BETWEEN 1 AND 5
+		</where>
+	</select>
+	
+	<select id="selectExpHit" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, EXP.* FROM (
+				SELECT E.exp_code expCode, E.exp_name expName, E.exp_date expDate, F.origin_name originName, F.stored_name storedName FROM exp E, exp_file F
+				<where>
+					AND E.exp_code = F.exp_code(+)
+					AND F.ct_pflno = 600
+				</where>
+				ORDER BY E.exp_hit DESC, E.exp_date
+				) EXP
+			)
+		<where>
+			AND no BETWEEN 1 AND 5
+		</where>
+	</select>
+	
+	<select id="selectRcyNew" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, RCY.* FROM (
+				SELECT P.prd_code PrdCode, P.prd_name PrdName, P.prd_date PrdDate, F.origin_name OriginName, F.stored_name storedName FROM prd P, prd_file F
+				<where>
+					AND P.prd_code = F.prd_code(+)
+					AND F.ct_pflno = 600
+					AND P.ct_pno = 0
+				</where>
+				ORDER BY P.prd_date
+			) RCY
+		)
+		<where>
+			AND no BETWEEN 1 AND 5
+		</where>
+	</select>
+	
+	<select id="selectUpcyNew" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, UPCY.* FROM (
+				SELECT P.prd_code PrdCode, P.prd_name PrdName, P.prd_date PrdDate, F.origin_name OriginName, F.stored_name storedName FROM prd P, prd_file F
+				<where>
+					AND P.prd_code = F.prd_code(+)
+					AND F.ct_pflno = 600
+					AND P.ct_pno = 1
+				</where>
+				ORDER BY P.prd_date
+			) UPCY
+		)
+		<where>
+			AND no BETWEEN 1 AND 5
+		</where>
+	</select>
+	
+	<select id="selectExpNew" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, EXP.* FROM (
+				SELECT E.exp_code expCode, E.exp_name expName, E.exp_date expDate, F.origin_name originName, F.stored_name storedName FROM exp E, exp_file F
+				<where>
+					AND E.exp_code = F.exp_code(+)
+					AND F.ct_pflno = 600
+				</where>
+				ORDER BY E.exp_date
+			) EXP
+		)
+		<where>
+			AND no BETWEEN 1 AND 5
+		</where>
+	</select>
 </mapper>

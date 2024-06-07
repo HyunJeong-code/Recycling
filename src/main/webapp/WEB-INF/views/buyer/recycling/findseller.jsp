@@ -5,20 +5,22 @@
 <%
     ArrayList<Map<String, Object>> gpsList = (ArrayList<Map<String, Object>>) request.getAttribute("gpsList");
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>판매자 찾기</title>
 </head>
 <body>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
-	<h1>판매자 찾기</h1>
-	<hr>
+    <h1>판매자 찾기</h1>
+    <hr>
     
     <div style="display: flex; justify-content: center;">
-	  <div id="map" style="width:1150px;height:550px;"></div>
-	</div>
+      <div id="map" style="width:1150px;height:550px;"></div>
+    </div>
     
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41ba379def68013bd8f17aebb90337cb&libraries=services"></script>
     <script>
@@ -70,16 +72,27 @@
                     sEntDate: '<%=gpsList.get(i).get("sEntDate")%>',
                     sChk: '<%=gpsList.get(i).get("sChk")%>',
                     sOut: '<%=gpsList.get(i).get("sOut")%>',
-                    sOutDate: '<%=gpsList.get(i).get("sOutDate")%>'
+                    sOutDate: '<%=gpsList.get(i).get("sOutDate")%>',
+                    prdCode: '<%=gpsList.get(i).get("prdCode")%>'
                 }<%= i == gpsList.size() - 1 ? "" : "," %>
             <% } %>
         ];
 
         console.log(gpsList);
 
+        // 마커가 표시된 좌표를 저장할 배열
+        var displayedMarkers = [];
+
         for (let i = 0; i < gpsList.length; i++) {
             let gps = gpsList[i];
             let sCode = gps.sCode; // sCode 값을 가져옴
+            let prdCode = gps.prdCode; // prdCode 값을 가져옴
+            let sOut = gps.sOut; // sOut 값을 가져옴
+
+            // sOut이 "Y"일 경우 마커를 생성하지 않음
+            if (sOut === "Y") {
+                continue;
+            }
             
             // 주소-좌표 변환 객체를 생성합니다
             var geocoder = new kakao.maps.services.Geocoder();
@@ -92,16 +105,26 @@
 
                     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
+                    // 이미 표시된 마커가 있는지 확인하고 있으면 좌표를 조금 이동
+                    displayedMarkers.forEach(function(marker) {
+                        if (marker.getPosition().equals(coords)) {
+                            var newLat = coords.getLat() + (Math.random() - 0.5) * 0.0001;
+                            var newLng = coords.getLng() + (Math.random() - 0.5) * 0.0001;
+                            coords = new kakao.maps.LatLng(newLat, newLng);
+                        }
+                    });
+
                     // 결과값으로 받은 위치를 마커로 표시합니다
                     var marker = new kakao.maps.Marker({
                         map: map,
                         position: coords
                     });
+
+                    // 표시된 마커의 좌표를 저장
+                    displayedMarkers.push(marker);
                     
                     // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-                    // var iwContent = '<div style="padding:5px;"><a href="/buyer/recycling/rcydetail?rcyCode=' + rcyCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                    // 임의로 넣은 a태그 주소임
-                    var iwContent = '<div style="padding:5px;"><a href="/seller/details?sCode=' + sCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                    var iwContent = '<div style="padding:5px;"><a href="/buyer/recycling/rcydetail?prdcode=' + prdCode + '">' + sCode + '</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
                         iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
                     // 인포윈도우를 생성합니다
@@ -153,5 +176,7 @@
         }
         
     </script>
+    
+    <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

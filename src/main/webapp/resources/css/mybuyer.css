@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+.full {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+button {
+    border: none;
+    width: 100px;
+}
+
+input[type="button"] {
+    border: none;
+    width: 100px;
+}
+
+input[type="text"] {
+	border: none;
+	border-bottom: 1px solid black;
+}
+
+.s {
+	width: 100px;
+}
+
+.m {
+	width: 200px;
+}
+
+.l {
+	width: 300px;
+}
+
+.btn {
+	background-color: #ccc;
+    color: black;
+}
+
+.btnLeft {
+    background-color: #4CAF50;
+    color: white;
+}

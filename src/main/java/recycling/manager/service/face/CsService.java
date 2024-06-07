@@ -5,7 +5,9 @@ import java.util.List;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Oto;
 import recycling.dto.manager.Ans;
+import recycling.dto.manager.Manager;
 import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 구매 CS팀 관련 처리
 public interface CsService {
@@ -13,26 +15,34 @@ public interface CsService {
 	/**
 	 * 문의 목록
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Oto> list(Paging paging);
+	public List<Oto> list(PagingAndCtg upPaging);
+	
+	/**
+	 * 문의 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllotoList(PagingAndCtg upPaging);
 
 	/**
-	 * 페이징
+	 * 구매자 페이징
 	 * 
-	 * @param pagingParam
+	 * @param upPaging
 	 * @return
 	 */
-	public Paging getPaging(Paging pagingParam);
+	public int selectCntAllbuyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 목록
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Buyer> buyerList(Paging paging);
+	public List<Buyer> buyerList(PagingAndCtg upPaging);
 
 	/**
 	 * 구매자 상세
@@ -78,13 +88,12 @@ public interface CsService {
 	/**
 	 * 문의 답변 작성
 	 * 
-	 * @param mgrId
+	 * @param mgrCode
 	 * @param ansCode
 	 * @param ansContent
 	 * @param otoCode 
 	 * @return
 	 */
-//	public String ansFormInsert(String mgrId, String ansCode, String ansContent);
 	public void ansFormInsert(String mgrCode, String ansCode, String ansContent, String otoCode);
 
 	/**

@@ -6,12 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import recycling.buyer.dao.face.WashDao;
 import recycling.buyer.service.face.WashService;
 import recycling.dto.manager.Wash;
 
 @Service
+@Transactional
 public class WashServiceImpl implements WashService {
 
 	@Autowired private WashDao washDao;

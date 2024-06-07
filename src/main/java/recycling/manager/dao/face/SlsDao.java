@@ -1,17 +1,19 @@
 package recycling.manager.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.ExpRes;
+import recycling.dto.buyer.MyOrder;
 import recycling.dto.manager.ResSchCnt;
+import recycling.dto.manager.SellerOrderJoin;
 import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
-
-// 판매제휴팀 DB 처리
+import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
+import recycling.util.PagingAndCtg;
 
 // 판매제휴팀 DB 처리
 public interface SlsDao {
@@ -19,9 +21,10 @@ public interface SlsDao {
 	/**
 	 * 판매자 전환 요청 전체 목록
 	 * 
+	 * @param paging - 검색어
 	 * @return 판매자 리스트
 	 */
-	public List<Map<String, Object>> selectBysChk();
+	public List<Map<String, Object>> selectBysChk(PagingAndCtg paging);
 	
 	/**
 	 * 체험단 전체 조회하기
@@ -41,19 +44,34 @@ public interface SlsDao {
 	/**
 	 * 판매자 조회
 	 * 
-	 * @param paging
+	 * @param upPaging
 	 * @return
 	 */
-	public List<Seller> main(Paging paging);
+	public List<Seller> main(PagingAndCtg upPaging);
 
 	/**
 	 * 페이징
 	 * 
+	 * @param upPaging
 	 * @return
 	 */
-	public int getPaging();
-
-
+	public int upPageSlsMain(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험단 전체 조회하기[expList]
+	 * 
+	 * @return - List<Exp>
+	 */
+	public List<Exp> selectAllExp(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험단 전체 조회 페이징[expList]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllExp(PagingAndCtg upPaging);
+	
 	/**
 	 * 체험단 세부 조회하기
 	 * 
@@ -84,14 +102,14 @@ public interface SlsDao {
 	 * @return
 	 */
 	public String selectByExp(Exp exp);
-
+	
 	/**
 	 * 
 	 * 파일 업로드
 	 * 
 	 * @param expFile
 	 */
-	public void fileup(ExpFile expFile);
+	public void expFileUp(ExpFile expFile);
 
 	/**
 	 * 
@@ -189,7 +207,6 @@ public interface SlsDao {
 	public int expResCnl(String resCode);
 
 	/**
-<<<<<<< HEAD
 	 * 체험 예약 조회
 	 * 
 	 * @param schNo - 체험 일정번호로 조회
@@ -313,4 +330,178 @@ public interface SlsDao {
 	 * @return
 	 */
 	public int getResCntBySchNo(String schNo);
+	
+	/**
+	 * 판매자 전환 수락/거절
+	 * @param seller - 판매자 정보 및 수락/거절 여부
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int updateSelChk(Seller seller);
+	
+	/**
+	 * 판매자 상품 조회
+	 * @param upPaging 
+	 * 
+	 * @return
+	 */
+	public List<SellerOrderJoin> selectAllPrdList(PagingAndCtg upPaging);
+	
+	/**
+	 * 판매자 상품 조회[페이징]
+	 * @param upPaging 
+	 * 
+	 * @return
+	 */
+	public int selectCntAllPrdList(PagingAndCtg upPaging);
+
+	/**
+	 * 판매자 판매 조회
+	 * 
+	 * @param unPaging
+	 * 
+	 * @return
+	 */
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging);
+
+	/**
+	 * 판매자 판매 조회[페이징]
+	 * @param unPaging 
+	 * 
+	 * @return
+	 */
+	public int selectCntAllSellList(PagingAndCtg unPaging);
+
+	/**
+	 * 판매자 전환 신청 리스트 페이징
+	 * @param paging 
+	 * 
+	 * @return 총 게시물 수
+	 */
+	public int selectCntSeller(PagingAndCtg paging);
+	
+	/**
+	 * 판매자 탈퇴 처리
+	 * 
+	 * @param sCode - 판매자 코드
+	 * @return 0 : 실패, 1 : 성공
+	 */
+	public int updateSelOut(String sCode);
+
+	/**
+	 * 판매자 정보 조회
+	 * @param seller 
+	 * @param string
+	 * @return
+	 */
+	public Map<String, Object> sellerAllSeller(Seller seller);
+
+	/**
+	 * 판매자 상품 세부조회
+	 * 
+	 * @param prdCode
+	 * @return
+	 */
+	public Prd selectDetailPrd(String prdCode);
+	
+	/**
+	 * 판매자 상품 업데이트
+	 * 
+	 * @param prd
+	 * @return
+	 */
+	public int slsPrdUpdate(Prd prd);
+
+	/**
+	 * 판매자 상품 삭제
+	 * 
+	 * @param prdCode
+	 * @return
+	 */
+	public int slsDeletePrd(String prdCode);
+
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode
+	 * @return
+	 */
+	public MyOrder orderdetailPrd(String orddtCode);
+	
+	/**
+	 * 멀티업로드 전 파일삭제
+	 * @param map
+	 */
+	public void deleteDetailFile(HashMap<String, String> map);
+	
+	/**
+	 * 멀티업로드 파일 넣기
+	 * @param expCode
+	 * @param detailFile
+	 * @return
+	 */
+	public int insertPrdFile(ExpFile expFile);
+
+	 /* 업데이트 프로필 조회
+	 * 
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expUpdateProfile(ExpFile expFile);
+
+	/**
+	 * 업데이트 파일 조회
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpFile> expUpdateFile(ExpFile expFile);
+
+	/**
+	 * 업데이트 프로필 수정하기
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public void expUpdatefileProc(ExpFile expfile);
+
+	/**
+	 * 업데이트 파일 수정하기
+	 * 
+	 * @param expFile
+	 */
+	public void expUpdateMultiFileProc(ExpFile expFile);
+	
+	/**
+	 * 체험 프로필 이미지
+	 * @param expFile
+	 * @return
+	 */
+	public ExpFile expProImage(ExpFile expFile);
+
+	public List<ExpFile> expImage(ExpFile expFile);
+	
+	/**
+	 * 체험단 체험일정 조회페이징[expdetail]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllExpSch(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험단 세부 조회하기
+	 * 
+	 * @param upPaging - DTO 객체
+	 * @return
+	 */
+	public Exp selectDetailExp(String expCode);
+	
+	/**
+	 * 체험단 체험일정 조회[expdetail]
+	 * @param expCode 
+	 * 
+	 * @return
+	 */
+	public List<ExpSch> selectAllSch(String expCode);
 }
+

@@ -29,6 +29,7 @@ $(function() {
 </script>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
 		<div class="page">
@@ -45,7 +46,7 @@ $(function() {
 			</div>
 			
 			<div id="pri" style="display: none;">
-				<button><a href="./prijoin">개인 일반 회원가입</a></button>
+				<button><a href="/buyer/prijoin">개인 일반 회원가입</a></button>
 				
 				<div id="social">
 					<button>네이버 로그인</button>
@@ -55,10 +56,11 @@ $(function() {
 			</div>
 			
 			<div id="cmp" style="display: none;">
-				<button><a href="./cmpjoin">기업 일반 회원가입</a></button>
+				<button><a href="/buyer/cmpjoin">기업 일반 회원가입</a></button>
 			</div>
 		</div>
 	</div>
 </div>
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

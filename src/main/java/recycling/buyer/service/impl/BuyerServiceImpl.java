@@ -1,36 +1,47 @@
 package recycling.buyer.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import recycling.buyer.dao.face.BuyerDao;
 import recycling.buyer.service.face.BuyerService;
-import recycling.dto.buyer.Buyer;
-import recycling.dto.buyer.BuyerAdr;
-import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.BuyerRank;
+
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
-import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
+import recycling.dto.seller.Change;
+import recycling.util.PagingAndCtg;
+import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.BuyerProf;
+import recycling.dto.buyer.BuyerRank;
+import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 
 @Service
+@Transactional
 public class BuyerServiceImpl implements BuyerService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Autowired private BuyerDao buyerDao;
+	@Autowired private BCryptPasswordEncoder pwEncoder;
+	@Autowired private ServletContext servletContext;
 	
-	@Autowired 
-	private BuyerDao buyerDao;
-	
-	// 장바구니
-	
-	// 회원 정보
 	@Override
 	public int insertOrder(Orders order) {
 		return buyerDao.insertOrder(order);
@@ -59,7 +70,7 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public BuyerAdr selectBybCode(String bCode) {
+	public List<BuyerAdr> selectBybCode(String bCode) {
 		return buyerDao.selectBybCode(bCode);
 	}
 	
@@ -89,141 +100,288 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 	
 	@Override
-	public List<MyOrder> selectOrderDetailBybCode(String bCode) {
-		return buyerDao.selectOrderDetailBybCode(bCode);
+
+	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging) {
+		return buyerDao.buyerDaoselectOrderDetailBybCode(upPaging);
 	}
 
 	@Override
 	public Buyer getCurrentBuyer(String bId) {
-		return buyerDao.selectBuyerBybId(bId);
+		return buyerDao.getCurrentBuyer(bId);
 	}
 	
 	@Override
 	public Buyer getBuyerDetail(String bId) {
 		
-		return buyerDao.selectBuyerBybId(bId);
+		return buyerDao.getBuyerDetail(bId);
 	
 	}
 	
 	@Override
 	public BuyerRank getBuyerRank(int rankNo) {
 
-		return buyerDao.selectBuyerRank(rankNo);
+		return buyerDao.getBuyerRank(rankNo);
 	
 	}
 	
 	@Override
 	public Cmp getCmpDetail(String bCode) {
 		
-		return buyerDao.selectCmpBybCode(bCode);
+		return buyerDao.getCmpDetail(bCode);
 
 	}
 	
 	@Override
-	public boolean verifyPw(String bId, String password) {
+	public BuyerProf getBuyerProf(String bCode) {
 
-		Buyer buyer = buyerDao.selectBuyerBybId(bId);
-		
-		return buyer != null && buyer.getbPw().equals(password);
+		return buyerDao.getBuyerProf(bCode);
 	
 	}
-
+	
 	@Override
-	public void changePw(String bId, String newPw) {
+	public CmpFile getCmpFile(int cmpNo) {
+
+		return buyerDao.getCmpFile(cmpNo);
+	
+	}
+	
+	@Override
+	public int verifyPw(String bId, String currentPw) {
+
+		Buyer buyer = buyerDao.getBuyerDetail(bId);
 		
-		Buyer buyer = buyerDao.selectBuyerBybId(bId);
-		
-		if(buyer != null) {
+		if(buyer != null && pwEncoder.matches(currentPw, buyer.getbPw())) {
 			
-			buyer.setbPw(newPw);
-			
-			buyerDao.updateBuyer(buyer);
+			return 1;
 			
 		}
 		
+		return 0;
+	
 	}
 	
 	@Override
-	public Buyer updateBuyerDetail(Buyer buyer) {
-
-		int updateSuccess = buyerDao.updateBuyer(buyer);
+	public int changePw(BuyerLogin buyerLogin, String newPw) {
+	
+		buyerLogin.setbPw(newPw);
 		
-		if(updateSuccess > 0) {
+		return buyerDao.changePw(buyerLogin);
+		
+	}
+	
+	@Override
+	public int updateBuyerDetail(Buyer buyer) {
+		
+		return buyerDao.updateBuyerDetail(buyer);
+		
+	}
+	
+	@Override
+	public int updateCmpDetail(Cmp cmp) {
+		
+		return buyerDao.updateCmpDetail(cmp);
+		
+	}
+	
+	@Override
+	public int updateBuyerProf(MultipartFile buyerProf, String bCode) {
+
+		if (buyerProf.getSize() <= 0) {
 			
-			logger.info("성공적으로 업데이트 되었습니다: {}", buyer.getbId());
-			
-		} else {
-			
-			logger.info("업데이트에 실패했습니다: {}", buyer.getbId());
-			
+            return 0;
+        
 		}
-		return buyer;
-		
+
+        String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "file:///D:/uploads/";
+        File storedFolder = new File(storedPath);
+        
+        if(!storedFolder.exists()) {
+        	
+        	storedFolder.mkdir();
+        	
+        }
+        
+        String storedName = null;
+        File dest = null;
+        
+        do {
+        	
+        	storedName = buyerProf.getOriginalFilename();
+        	storedName += UUID.randomUUID().toString().split("-")[4];
+        	dest = new File(storedFolder, storedName);
+        	
+        } while (dest.exists());
+        
+        try {
+            
+            buyerProf.transferTo(dest);
+            
+        } catch (IllegalStateException e) {
+        	
+        	e.printStackTrace();
+        	
+        	return 0;
+            
+        } catch (IOException e) {
+        
+        	e.printStackTrace();
+            
+        	return 0;
+        
+        }
+        
+        BuyerProf prof = new BuyerProf();
+        
+        prof.setbCode(bCode);
+        prof.setOriginName(buyerProf.getOriginalFilename());
+        prof.setStoredName(storedName);
+        
+        return buyerDao.updateBuyerProf(prof);
+	
 	}
 	
 	@Override
-	public Cmp updateCmpDetail(Cmp cmp) {
+	public int updateCmpFile(MultipartFile cmpFile, String bCode) {
 		
-		boolean cmpUpdate = buyerDao.updateCmp(cmp);
-		
-		if(cmpUpdate) {
+		if (cmpFile.getSize() <= 0) {
 			
-			logger.info("성공적으로 업데이트 되었습니다: {}", cmp.getbCode());
-			
-		} else {
-			
-			logger.info("업데이트에 실패했습니다: {}", cmp.getbCode());
-			
+	        return 0;
+	    
 		}
 		
-		return cmp;
+		String storedPath = servletContext != null ? servletContext.getRealPath("upload") : "file:///D:/uploads/";
+	    File storedFolder = new File(storedPath);
+
+	    if (!storedFolder.exists()) {
+	    	
+	        storedFolder.mkdir();
+	    
+	    }
+	    
+	    String storedName = null;
+	    File dest = null;
+	    
+	    do {
+	    	
+	        storedName = cmpFile.getOriginalFilename();
+	        storedName += UUID.randomUUID().toString().split("-")[4];
+	        dest = new File(storedFolder, storedName);
+	    
+	    } while (dest.exists());
+	    
+	    try {
+
+	        cmpFile.transferTo(dest);
+
+	    } catch (IllegalStateException e) {
+	    	
+	    	e.printStackTrace();
+	    	
+	    	return 0;
+	        
+	    } catch (IOException e) {
+	    
+	    	e.printStackTrace();
+	        
+	    	return 0;
+	    
+	    }
+	    
+	    CmpFile file = new CmpFile();
+	    Cmp cmp = buyerDao.getCmpDetail(bCode);
+	    
+	    file.setCmpNo(cmp.getCmpNo());
+        file.setOriginName(cmpFile.getOriginalFilename());
+        file.setStoredName(storedName);
+		
+        return buyerDao.updateCmpFile(file);
+        
+	}
+
+	@Override
+	public List<BuyerAdr> getBuyerAdr(String bCode) {
+
+		return buyerDao.getBuyerAdr(bCode);
+	
+	}
+
+	@Override
+	public int registerBuyerAdr(BuyerAdr buyerAdr) {
+		
+		// 시퀀스 값 가져오기
+		String adrCode = buyerDao.getAdrCode();
+		
+		buyerAdr.setAdrCode(adrCode);
+		
+		return buyerDao.registerBuyerAdr(buyerAdr);
 		
 	}
 
 	@Override
-	public List<BuyerAdr> getBuyerAdrList(String bCode) {
+	public int updateBuyerAdr(BuyerAdr buyerAdr) {
+		
+		return buyerDao.updateBuyerAdr(buyerAdr);
+		
+	}
 
-		return buyerDao.selectBuyerAdrListBybCode(bCode);
+	@Override
+	public int deleteBuyerAdr(String adrCode) {
+		
+		return buyerDao.deleteBuyerAdr(adrCode);
+		
+	}
+	@Override
+	public int unsetDefaultAdr(String bCode) {
+		
+		return buyerDao.unsetDefaultAdr(bCode);
+		
+		
+	}
+
+	@Override
+	public int setDefaultAdr(String adrCode, String bCode) {
+		
+		BuyerAdr buyerAdr = new BuyerAdr();
+		
+		buyerAdr.setbCode(bCode);
+		buyerAdr.setAdrCode(adrCode);
+		
+		return buyerDao.setDefaultAdr(buyerAdr);
+		
+	}
+	
+	@Override
+	public int deleteBuyer(String bCode) {
+		
+		return buyerDao.deleteBuyer(bCode);
+		
+	}
+
+	@Override
+	public int deleteSeller(String sCode) {
+
+		return buyerDao.deleteSeller(sCode);
 	
 	}
 	
-	@Override
-	public void registerAdr(BuyerAdr buyerAdr) {
-		
-		buyerDao.registerAdr(buyerAdr);
-		
-	}
-
-	@Override
-	public void updateAdr(BuyerAdr buyerAdr) {
-		
-		buyerDao.updateAdr(buyerAdr); 
-		
-	}
-
-	@Override
-	public void deleteAdr(String adrCode) {
-
-		buyerDao.deleteAdr(adrCode);
-		
-	}
-	
-	@Override
-	public BuyerAdr getBuyerAdr(String bCode) {
-		
-		return buyerDao.selectBuyerAdrBybCode(bCode);
-	
-	}
-	
-	@Override
-	public void deleteBuyer(String bCode) {
-		
-		buyerDao.deleteBuyer(bCode);
-		
-	}
-
 	@Override
 	public int changePw(BuyerLogin buyerLogin) {
 		return buyerDao.changePw(buyerLogin);
 	}
+	
+	@Override
+	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging) {
+		return buyerDao.selectCntOrderDetailBybCode(upPaging);
+	}
+	
+	@Override
+	public OrderDetail selectByorddtCode(String orddtCode) {
+		return buyerDao.selectByorddtCode(orddtCode);
+	}
+	
+	@Override
+	public int insertChange(Change change) {
+		return buyerDao.insertChange(change);
+	}
+	
 }

@@ -174,11 +174,20 @@ $(document).ready(function() {
                 <option value="popular" ${category == 'popular' ? 'selected' : ''}>조회순</option>
             </select>
         </div>
+
         <div class="search">
             <input type="text" name="search" placeholder="검색어를 입력해 주세요" value="${search}">
             <button onclick="this.form.submit()" class="btn btn-primary">검색</button>
         </div>
         </form>
+        
+        <div class="search">
+            <form action="./main" method="get">
+                <input type="hidden" name="sCtg" value="UP">
+                <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+                <button>검색</button>
+            </form>
+        </div>
     </div>
     <div class="body-expList">
         <c:forEach var="exp" items="${list}">
@@ -198,7 +207,8 @@ $(document).ready(function() {
            	</a>
         </c:forEach>
     </div>
-    <c:import url="/WEB-INF/views/layout/paging.jsp"/>
 </div>
+<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

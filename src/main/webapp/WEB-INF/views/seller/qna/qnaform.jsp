@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,38 +38,45 @@ $(function() {
 </head>
 <body>
 
-<h1>고객 문의사항 답변 등록</h1>
-<hr>
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	
+	<div class="full">
+	
+		<h1>고객 문의사항 답변 등록</h1>
+		<hr>
+		
+		<div>
+			<div><img alt="" src=""></div>
+			<div>${qst.qstCode }</div>
+		</div>
+		
+		<table>
+			<tr>
+				<td>문의 분류</td>
+				<td id="ctQst"></td>
+			</tr>
+			<tr>
+				<td>문의 제목</td>
+				<td>${qst.qstTitle }</td>
+			</tr>
+			<tr>
+				<td>문의 내용</td>
+				<td>${qst.qstContent }</td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+				<td>답변 내용</td>
+				<td><textarea id="qnaContent" name="qnaContent"></textarea></td>
+			</tr>
+		</table>
+		
+		<button id="qnaBtn">등록하기</button>
+		<button><a href="./main">목록</a></button>
+	</div>
 
-<div>
-	<div><img alt="" src=""></div>
-	<div>${qst.qstCode }</div>
-</div>
-
-<table>
-	<tr>
-		<td>문의 분류</td>
-		<td id="ctQst"></td>
-	</tr>
-	<tr>
-		<td>문의 제목</td>
-		<td>${qst.qstTitle }</td>
-	</tr>
-	<tr>
-		<td>문의 내용</td>
-		<td>${qst.qstContent }</td>
-	</tr>
-</table>
-
-<table>
-	<tr>
-		<td>답변 내용</td>
-		<td><textarea id="qnaContent" name="qnaContent"></textarea></td>
-	</tr>
-</table>
-
-<button id="qnaBtn">등록하기</button>
-<button><a href="./main">목록</a></button>
-
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	
 </body>
 </html>
