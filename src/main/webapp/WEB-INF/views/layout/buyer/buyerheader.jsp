@@ -130,7 +130,7 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
-                    <button class="selected"><a href="/buyer/main">Buyer</a></button><button><a href="/seller/main">Seller</a></button>
+                    <a href="/buyer/main"><button class="selected">Buyer</button></a><a href="/seller/main"><button>Seller</button></a>
                 </div>
             </div>
             <div class="search-bar">

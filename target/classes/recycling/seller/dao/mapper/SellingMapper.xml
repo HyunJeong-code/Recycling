@@ -20,11 +20,11 @@
 					)
 				</where>
 				ORDER BY prd_code DESC
-		) PRD
-	)
-	<where>
-		AND no BETWEEN #{startNo } AND #{endNo }
-	</where>
+			) PRD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
 	<select id="selectAllupcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="Prd">
@@ -45,13 +45,11 @@
 			) PRD
 		)
 		<where>
-			AND s_code = #{sCode}
-			AND ct_pno = 0
+			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
-		ORDER BY prd_code DESC
 	</select>
 	
-	<select id="selectAllMyOrder" parameterType="String" resultType="MyOrder">
+	<select id="selectAllupcyMyOrder" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
 		SELECT 
 			*
 		FROM (
@@ -74,11 +72,36 @@
 			) ORD
 		)
 		<where>
-			AND od.ord_code = o.ord_code
-			AND od.orddt_code = s.orddt_code(+)
-			AND od.prd_code = #{prdCode}
+			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
-		ORDER BY od.ORDDT_CODE DESC
+	</select>
+	
+		<select id="selectAllrcyMyOrder" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
+		SELECT 
+			*
+		FROM (
+			SELECT rownum no, ORD.* FROM (
+				SELECT 
+					od.ORDDT_CODE, od.ORD_CODE, od.PRD_CODE, od.ORD_NAME, o.SEND_NAME
+					, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
+					, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
+				FROM 
+					order_detail od, orders o, ship s, prd p
+				<where>
+					AND od.ord_code = o.ord_code
+					AND od.orddt_code = s.orddt_code(+)
+					AND od.prd_code = p.prd_code
+				    AND p.prd_OUT = 'N'
+				    AND p.ct_pno = 0
+				    AND p.s_code = #{user }
+				</where>
+				ORDER BY
+					od.ORDDT_CODE DESC
+			) ORD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
 	<update id="deletePrd" parameterType="String">
@@ -167,6 +190,35 @@
 			AND orddt_code = #{orddtCode}
 		</where>
 	</delete>
+	
+	<select id="selectMyOrderByOrddtCode" parameterType="String" resultType="MyOrder">
+		SELECT 
+			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, o.SEND_NAME
+			, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
+			, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
+		FROM 
+			order_detail od, orders o, ship s
+		<where>
+			AND od.ord_code = o.ord_code
+			AND od.orddt_code = s.orddt_code(+)
+			AND od.orddt_code = #{orddtCode}
+		</where>
+		ORDER BY od.ORDDT_CODE DESC
+	</select>
+	
+	<update id="updateMyOrder" parameterType="MyOrder">
+		UPDATE
+			orders
+		SET
+			send_name = #{sendName}
+			, send_phone = #{sendPhone}
+			, ord_postcode = #{ordPostcode}
+			, ord_addr = #{ordAddr}
+			, ord_detail = #{ordDetail}
+		<where>
+			AND ord_code = #{ordCode}
+		</where>
+	</update>
 
 <!-- 	<select id="selectAllPrd" parameterType="BuyerLogin" resultType="AllPrd"> -->
 		
