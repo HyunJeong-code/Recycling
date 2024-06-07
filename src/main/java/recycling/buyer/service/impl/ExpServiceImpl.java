@@ -152,11 +152,20 @@ public class ExpServiceImpl implements ExpService {
 //		return expDao.selectRvwByExp(expCode, upPaging);
 //	}
 
-//	@Override
-//	public int selectCntRvwList(PagingAndCtg upPaging) {
-//		
-//		return expDao.selectCntRvwList(upPaging);
-//	}
+	@Override
+	public int selectCntRvwList(PagingAndCtg upPaging) {
+		
+		return expDao.selectCntRvwList(upPaging);
+	}
+
+	@Override
+	public int selectCntRvwList(PagingAndCtg upPaging, String expCode) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("expCode", expCode);
+	    params.put("upPaging", upPaging);
+	    
+	    return expDao.selectCntRvwList(params);
+	}
 
 //	@Override
 //	public int selectCntRvwList(PagingAndCtg upPaging, String expCode) {
@@ -166,10 +175,10 @@ public class ExpServiceImpl implements ExpService {
 //		return expDao.selectCntRvwList(upPaging, expCode);
 //	}
 //
-//@Override
-//public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params) {
-//	return expDao.selectRvwByExp(params);
-//}
+@Override
+public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params) {
+	return expDao.selectRvwByExp(params);
+}
 
 	
 	

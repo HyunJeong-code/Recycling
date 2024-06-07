@@ -234,6 +234,7 @@ function checkLoginAndRedirect(url) {
                 </tr>
             </c:if>
         </table>
+        <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
     </div>
 
     <div>

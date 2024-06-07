@@ -185,11 +185,14 @@ public interface ExpService {
 	 * @param upPaging - paging
 	 * @return paging
 	 */
-//	public int selectCntRvwList(PagingAndCtg upPaging);
+	public int selectCntRvwList(PagingAndCtg upPaging);
+
+	public int selectCntRvwList(PagingAndCtg upPaging, String expCode);
+
 
 //	public int selectCntRvwList(PagingAndCtg upPaging, String expCode);
 
-//	public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params);
+	public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params);
 
 
 	
