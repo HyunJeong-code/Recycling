@@ -198,7 +198,9 @@ function toggleAnswer(ctFaqno) {
 				</div>
 			</div>
 		</div>
+		<hr>
 	</c:forEach>
+	
 <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 </div>
 </div>

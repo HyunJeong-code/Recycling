@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,13 +28,13 @@ import recycling.buyer.service.face.UpcyclingService;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.buyer.Rcy;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
-import recycling.dto.buyer.Oto;
-import recycling.dto.buyer.OtoFile;
 
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.dto.seller.Seller;
 
 // 메뉴 - 재활용품
@@ -56,7 +54,51 @@ public class RecyclingController {
 	public String rcyMain(Model model) {
 		logger.info("/buyer/recycling/main [GET]");
 		
-		List<Prd> list = recyclingService.getPrdList();
+		//상품 정보 로드
+		List<Prd> list = recyclingService.selectPrdList();
+		List<Prd> latestList = recyclingService.selectLatestList();
+		List<Prd> hitList = recyclingService.selectHitList();
+		
+		//상품 썸네일 파일명 로드
+	    List<String> prdImageThumNames = new ArrayList<>();
+	    List<String> latestPrdImageThumNames = new ArrayList<>();
+	    List<String> hitPrdImageThumNames = new ArrayList<>();
+	    
+	    // 각각의 상품에 대한 썸네일 파일명을 매퍼를 통해 가져옴
+	    for (Prd prd : list) {
+	        List<String> prdImageThumList = recyclingService.selectPrdImageThums(prd.getPrdCode());
+	        if (!prdImageThumList.isEmpty()) {
+	            prdImageThumNames.add(prdImageThumList.get(0));
+	        } else {
+	            prdImageThumNames.add("error_400px.png"); // 기본 에러 이미지
+	        }
+	    }
+	    for (Prd prd : latestList) {
+	        List<String> latestPrdImageThumList = recyclingService.selectLatestPrdImageThums(prd.getPrdCode());
+	        if (!latestPrdImageThumList.isEmpty()) {
+	            latestPrdImageThumNames.add(latestPrdImageThumList.get(0));
+	        } else {
+	            latestPrdImageThumNames.add("error_400px.png"); // 기본 에러 이미지
+	        }
+	    }
+	    for (Prd prd : hitList) {
+	        List<String> hitPrdImageThumList = recyclingService.selectHitPrdImageThums(prd.getPrdCode());
+	        if (!hitPrdImageThumList.isEmpty()) {
+	            hitPrdImageThumNames.add(hitPrdImageThumList.get(0));
+	        } else {
+	            hitPrdImageThumNames.add("error_400px.png"); // 기본 에러 이미지
+	        }
+	    }
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("latestList", latestList);
+		model.addAttribute("hitList", hitList);
+		
+		model.addAttribute("prdImageThumNames", prdImageThumNames);
+		model.addAttribute("latestPrdImageThumNames", latestPrdImageThumNames);
+		model.addAttribute("hitPrdImageThumNames", hitPrdImageThumNames);
+		
 		
 		model.addAttribute("list", list);
 
@@ -97,44 +139,63 @@ public class RecyclingController {
 	}
 
 	@GetMapping("/rcydetail")
-	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, Authentication authentication) {
-		logger.info("/rcydetail [GET] - prdCode: {}", prdCode);
+	public String rcyDetail(@RequestParam("prdCode") String prdCode, Model model, Authentication authentication) {
+	    logger.info("/rcydetail [GET] - prdCode: {}", prdCode);
 
-		if (authentication != null && authentication.isAuthenticated()) {
-			// 세션이 존재하면 로그인 정보를 출력
-			BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-			logger.info("상세페이지 조회 - 로그인 되어 있음, BuyerLogin 정보: {}", buyerLogin);
-		} else {
-			// 세션이 존재하지 않으면 비로그인 상태임을 안내
-			logger.info("상세페이지 조회 - 비로그인 상태입니다.");
-		}
+	    if (authentication != null && authentication.isAuthenticated()) {
+	        // 세션이 존재하면 로그인 정보를 출력
+	        BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	        logger.info("상세페이지 조회 - 로그인 되어 있음, BuyerLogin 정보: {}", buyerLogin);
+	    } else {
+	        // 세션이 존재하지 않으면 비로그인 상태임을 안내
+	        logger.info("상세페이지 조회 - 비로그인 상태입니다.");
+	    }
 
-		Prd prd = recyclingService.view(prdCode);
+	    Prd prd = recyclingService.view(prdCode);
 
-		if (prd == null) {
-			return "buyer/recycling/noneprd";
-		}
+	    if (prd == null) {
+	        return "buyer/recycling/noneprd";
+	    }
 
-		Seller seller = recyclingService.selectSeller(prd.getsCode());
-//		SellerProf sellerProf = recyclingService.getSellerProf(prd.getsCode());
+	    Seller seller = recyclingService.selectSeller(prd.getsCode());
+	    Buyer buyer = recyclingService.selectBuyerByBCode(seller.getbCode());
+	    int shipCnt = recyclingService.selectShipCnt(prd.getsCode());
+	    
 
-		model.addAttribute("prd", prd);
-		model.addAttribute("seller", seller);
-//		model.addAttribute("sellerProf", sellerProf);
+	    // 상품 썸네일 파일명 로드
+	    String prdImageThumName = recyclingService.selectPrdImageThum(prdCode);
+	    if (prdImageThumName == null) {
+	        prdImageThumName = "error_400px.png"; // 기본 에러 이미지
+	    }
+	    logger.info("썸네일 이미지 파일명: {}", prdImageThumName);
+	    
+	    // 상세 이미지 파일명 로드
+	    String prdImageDetailName = recyclingService.selectPrdImageDetail(prdCode);
+	    if (prdImageDetailName == null) {
+	        prdImageDetailName = "error_860px.png"; // 기본 에러 이미지
+	    }
+	    logger.info("상세 이미지 파일명: {}", prdImageDetailName);
 
-		List<Map<String, Object>> qna = recyclingService.selectQnaList(prdCode);
+	    model.addAttribute("prd", prd);
+	    model.addAttribute("prdImageThumName", prdImageThumName);
+	    model.addAttribute("prdImageDetailName", prdImageDetailName);
+	    model.addAttribute("seller", seller);
 
-		if (qna == null || qna.isEmpty()) {
-			model.addAttribute("qnaMessage", "QnA가 존재하지 않습니다.");
-		} else {
-			model.addAttribute("qna", qna);
-			model.addAttribute("qnaSize", qna.size());
-		}
+	    List<Map<String, Object>> qna = recyclingService.selectQnaList(prdCode);
 
-		model.addAttribute("prd", prd);
-		model.addAttribute("seller", seller);
+	    if (qna == null || qna.isEmpty()) {
+	        model.addAttribute("qnaMessage", "QnA가 존재하지 않습니다.");
+	    } else {
+	        model.addAttribute("qna", qna);
+	        model.addAttribute("qnaSize", qna.size());
+	    }
 
-		return "buyer/recycling/rcydetail";
+	    model.addAttribute("prd", prd);
+	    model.addAttribute("seller", seller);
+	    model.addAttribute("buyer", buyer);
+	    model.addAttribute("shipCnt", shipCnt);
+
+	    return "buyer/recycling/rcydetail";
 	}
 
 	@GetMapping("/rcycmt")
@@ -144,93 +205,44 @@ public class RecyclingController {
 		// 판매자 문의 조회 등의 기능 수행
 		return "buyer/recycling/rcycmt";
 	}
-
-	@GetMapping("/write")
-	public String writeReviewForm(@RequestParam("prdCode") String prdCode, Authentication authentication, Model model) {
-		logger.info("/buyer/recycling/write [GET]");
-
-		// 로그인 확인
-		if (authentication == null || !authentication.isAuthenticated()) {
-			// 비로그인 상태인 경우 로그인 페이지로 리다이렉트
-			return "redirect:/buyer/login";
-		}
-
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-
-		Buyer buyer = recyclingService.selectBuyerDetail(buyerLogin.getbId());
-		model.addAttribute("buyer", buyer);
-
-		// 후기 작성 폼으로 이동
-		return "buyer/recycling/writeReview";
-	}
-
+	
+	
+	
 	@PostMapping("/writeProc")
-	public String writeReview(Authentication authentication, Model model, Oto oto,
-			@RequestParam("prdcode") String prdCode) {
-		logger.info("/buyer/recycling/writeReviewProc [POST]");
+	public String writeReview(
+	        Authentication authentication,
+	        Model model,
+	        Rcy rcy,
+	        @RequestParam("prdcode") String prdCode // 상품 코드를 직접 전달받음
+	        ) {
+	    logger.info("/buyer/recycling/writeReviewProc [POST]");
 
-		// 세션에서 로그인 정보 가져오기
-		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+	    // 세션에서 로그인 정보 가져오기
+	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
-		// 로그인 확인
-		if (buyerLogin == null) {
+	    // 로그인 확인
+	    if(buyerLogin == null) {
+	                
+	        model.addAttribute("error", "로그인 해주세요.");
+	        return "redirect:/buyer/login";
+	    }
+	    
+	    Buyer buyer = recyclingService.selectBuyerDetail(buyerLogin.getbId());
+	    
 
-			model.addAttribute("error", "로그인 해주세요.");
-			return "redirect:/buyer/login";
-		}
+	    rcy.setbCode(buyer.getbCode());
+	    
+	    // PRD_CODE 설정
+	    rcy.setPrdCode(prdCode);
+	    //날짜 초기화 및 설정
+	    
+	    int res = recyclingService.insertRcy(rcy);
 
-		Buyer buyer = recyclingService.selectBuyerDetail(buyerLogin.getbId());
-
-		oto.setCtOtoNo(200);
-		oto.setbCode(buyer.getbCode());
-		oto.setOtoName(buyer.getbName());
-		oto.setOtoEmail(buyer.getbEmail());
-
-		int res = recyclingService.insertOto(oto);
-
-		// 상품 상세 페이지로 리다이렉트
-		return "redirect:/buyer/recycling/rcydetail?prdcode=" + prdCode;
+	    // 상품 상세 페이지로 리다이렉트
+	    return "redirect:/buyer/recycling/rcydetail?prdcode=" + prdCode;
 	}
 
-//	@PostMapping("/delete")
-//	public String deleteSellerQST(@RequestParam("qstCode") String qstCode, RedirectAttributes redirectAttributes) {
-//		logger.info("/buyer/recycling/delete [POST] - qstCode: {}", qstCode);
-//		
-//		int result = recyclingService.deleteSellerQST(qstCode);
-//		redirectAttributes.addAttribute("qstCode", qstCode);
-//		
-//		return "redirect:/buyer/recycling/rcycmt";
-//	}
 
-	@PostMapping("/rcycmt/writeAnswer")
-	public String writeSellerAnswer(RedirectAttributes redirectAttributes) {
-		logger.info("/buyer/recycling/rcycmt/writeAnswer [POST]");
-
-//        int result = recyclingService.insertSellerAnswer(sellerAns);
-//        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
-//        
-		return "redirect:/buyer/recycling/rcycmt";
-	}
-
-	@PostMapping("/rcycmt/editAnswer")
-	public String editSellerAnswer(RedirectAttributes redirectAttributes) {
-		logger.info("/buyer/recycling/rcycmt/editAnswer [POST]");
-
-//        int result = recyclingService.updateSellerAnswer(sellerAns);
-//        redirectAttributes.addAttribute("qstCode", sellerAns.getQstCode());
-
-		return "redirect:/buyer/recycling/rcycmt";
-	}
-
-//	@PostMapping("/rcycmt/deleteAnswer")
-//    public String deleteSellerAnswer(@RequestParam("qnaCode") String qnaCode, @RequestParam("qstCode") String qstCode, RedirectAttributes redirectAttributes) {
-//        logger.info("/buyer/recycling/rcycmt/deleteAnswer [POST] - qnaCode: {}", qnaCode);
-//        
-//        int result = recyclingService.deleteSellerAnswer(qnaCode);
-//        redirectAttributes.addAttribute("qstCode", qstCode);
-//        
-//        return "redirect:/buyer/recycling/rcycmt";
-//    }
 	
 	@GetMapping("/pay")
 	public String pay(Authentication authentication, Model model, String prdCode) {

@@ -12,11 +12,12 @@
 <script type="text/javascript">
 
 let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중", 930: "배송 완료" 
-		, 940: "구매 확정", 950: "거래 완료", 960: "환불", 970: "반품", 980: "취소"}
+		, 940: "구매 확정", 950: "거래 완료", 960: "반품", 970: "교환", 980: "취소"}
 		
 </script>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 	<div class="full">
 		<div class="wrap">
 	
@@ -75,6 +76,6 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			</div>
 		</div>
 	</div>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

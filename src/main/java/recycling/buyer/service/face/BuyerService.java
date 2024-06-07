@@ -40,10 +40,10 @@ public interface BuyerService {
 	/**
 	 * Cart 조회하기
 	 * 
-	 * @param bCode - 조회할 아이디를 담은 session
+	 * @param upPaging - 조회할 아이디를 담은 session
 	 * @return - 아이디로 조회된 모든 Cart List
 	 */
-	public List<CartOrder> selectAllCart(String bCode);
+	public List<CartOrder> selectAllCart(PagingAndCtg upPaging);
 
 	/**
 	 * cCode로 Cart 조회하기
@@ -196,7 +196,7 @@ public interface BuyerService {
 	 * @param buyerProf - 업데이트 할 프로필 정보
 	 * @return 업데이트 결과
 	 */
-	public int updateBuyerProf(MultipartFile buyerProf, String bCode);
+	public BuyerProf updateBuyerProf(MultipartFile buyerProf, String bCode);
 	
 	/**
 	 * 사업자 등록증 업데이트
@@ -205,7 +205,23 @@ public interface BuyerService {
 	 * @param bCode - 구매자 코드
 	 * @return 업데이트 결과
 	 */
-	public int updateCmpFile(MultipartFile cmpFile, String bCode);
+	public CmpFile updateCmpFile(MultipartFile cmpFile, String bCode);
+
+	/**
+	 * 프로필 이미지 가져오기
+	 * 
+	 * @param updateProf - 업데이트 한 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProfMapper(BuyerProf updateProf);
+
+	/**
+	 * 사업자 등록증 가져오기
+	 * 
+	 * @param updateFile - 업데이트 한 사업자 등록증 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateCmpFileMapper(CmpFile updateFile);
 	
 	/**
 	 * 구매자의 모든 배송지 정보
@@ -249,11 +265,11 @@ public interface BuyerService {
 	public int unsetDefaultAdr(String bCode);	
 	
 	/**
+	 * 기본 배송지 설정
 	 * 
-	 * 
-	 * @param adrCode
-	 * @param bCode
-	 * @return
+	 * @param adrCode - 배송지 코드
+	 * @param bCode - 구매자 코드
+	 * @return 설정된 행 수
 	 */
 	public int setDefaultAdr(String adrCode, String bCode);	
 	
@@ -273,6 +289,7 @@ public interface BuyerService {
 	 */
 
 	public int changePw(BuyerLogin buyerLogin);
+	
 	/**
 	 * 판매자 탈퇴
 	 * 
@@ -304,5 +321,13 @@ public interface BuyerService {
 	 * @return INSERT 결과
 	 */
 	public int insertChange(Change change);
+	
+	/**
+	 * 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllCart(PagingAndCtg upPaging);
 
 }

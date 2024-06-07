@@ -36,6 +36,13 @@ public interface HrDao {
 	public Manager selectDetail(Manager manager);
 
 	/**
+	 * 세부사항 프로필 조회
+	 * @param mgrFile
+	 * @return
+	 */
+	public MgrFile mgrProFileList(MgrFile mgrFile);
+	
+	/**
 	 * 세부사항 파일조회
 	 * @param manager 
 	 * 
@@ -49,6 +56,13 @@ public interface HrDao {
 	 * @param manager
 	 */
 	public void insert(Manager manager);
+
+	/**
+	 * 프로필 업로드
+	 * 
+	 * @param profileFile
+	 */
+	public void profileup(MgrFile profileFile);
 	
 	/**
 	 * 파일 업로드
@@ -103,5 +117,7 @@ public interface HrDao {
 	 * @param mgrFile
 	 */
 	public void updateProfileProc(MgrFile mgrFile);
+
+
 
 }

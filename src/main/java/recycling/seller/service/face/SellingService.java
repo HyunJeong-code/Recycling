@@ -40,13 +40,6 @@ public interface SellingService {
 	 */
 	public int selectCntAllexpList(PagingAndCtg upPaging);
 	
-	/**
-	 * 체험단 체험일정 조회 페이징
-	 * 
-	 * @param upPaging - paging
-	 * @return paging 결과
-	 */
-	public int selectCntAllExpSch(PagingAndCtg upPaging);
 	
 	/**
 	 * expcode와 일치하는 체험단 조회
@@ -56,13 +49,6 @@ public interface SellingService {
 	 */
 	public Exp selectByExp(String expCode);
 	
-	/**
-	 * expCode와 일치하는 체험단 일정 조회
-	 * 
-	 * @param expCode - 체험코드
-	 * @return expSch 체험일정 List
-	 */
-	public List<ExpSch> selectAllSch(String expCode);
 
 	/**
 	 * 체험 스케쥴 예약된 인원 조회
@@ -81,30 +67,73 @@ public interface SellingService {
 	 */
 	public List<ExpFile> selectByExpFile(String expCode);
 
+	/**
+	 * 체험정보
+	 * 
+	 * @param expRes
+	 * @return
+	 */
+	public Exp expResDetail(String expCode);
+
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+	
+	/**
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes(int schNo);
+
+	
+	/**
+	 * 예약 확정, 취소버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 * @param actionType
+	 * @return
+	 */
+	public int expResUpdate(List<String> chBox, String actionType);
+	
+//	--------------------------exp END-------------------------------
 	
 	/**
 	 * sCode와 일치하는 모든 rcyPrd 조회
 	 * 
-	 * @param sCode - 조회할 sCode
+	 * @param upPaging - 조회할 sCode
 	 * @return - 모든 rcyPrd 리스트
 	 */
-	public List<Prd> selectAllrcyPrd(String sCode);
+	public List<Prd> selectAllrcyPrd(PagingAndCtg upPaging);
 
 	/**
-	 * prdCode와 일치하는 모든 orders 조회
+	 * prdCode와 일치하는 upcy orders 조회
 	 * 
-	 * @param prdCode - 조회할 prdCode
+	 * @param unPaging - 조회할 prdCode
 	 * @return - 모든 orders 리스트
 	 */
-	public List<MyOrder> selectAllMyOrder(String prdCode);
+	public List<MyOrder> selectAllupcyMyOrder(PagingAndCtg unPaging);
+	
+	/**
+	 * prdCode와 일치하는 rcy orders 조회
+	 * 
+	 * @param unPaging - 조회할 prdCode
+	 * @return - 모든 orders 리스트
+	 */
+	public List<MyOrder> selectAllrcyMyOrder(PagingAndCtg unPaging);
 
 	/**
 	 * sCode와 일치하는 모든 upcyPrd 조회
 	 * 
-	 * @param sCode - 조회할 sCode
+	 * @param upPaging - 조회할 sCode
 	 * @return - 모든 upcyPrd 리스트
 	 */
-	public List<Prd> selectAllupcyPrd(String sCode);
+	public List<Prd> selectAllupcyPrd(PagingAndCtg upPaging);
 
 	/**
 	 * prdCode와 일치하는 Prd 삭제
@@ -267,31 +296,6 @@ public interface SellingService {
 	 */
 	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
 
-	/**
-	 * 체험정보
-	 * 
-	 * @param expRes
-	 * @return
-	 */
-	public Exp expResDetail(String expCode);
-
-	/**
-	 * 체험 예약 조회
-	 * 
-	 * @param schNo - 체험 일정번호로 조회
-	 * @return
-	 */
-	public ExpSch selectExpSchbySchNo(int schNo);
-
-	/**
-	 * 체험예약 정보
-	 * 
-	 * @param expCode
-	 * @return
-	 */
-	public List<ExpRes> expResDetailRes(int schNo);
-
-	public int expResUpdate(List<String> chBox, String actionType);
 
 	/**
 	 * PRD 파일 조회 
@@ -335,5 +339,23 @@ public interface SellingService {
 	 * @param map - 삭제할 파일코드
 	 */
 	public void deleteDetailFile(HashMap<String, String> map);
+	
+	
+	/**
+	 * expCode와 일치하는 체험단 일정 조회
+	 * 
+	 * @param params - expCode
+	 * @return expSch
+	 */
+	public List<ExpSch> selectAllSch(Map<String, Object> params);
+
+	/**
+	 * 체험단 체험일정 조회 페이징
+	 * 
+	 * @param upPaging - paging
+	 * @param expCode - 체험코드
+	 * @return 체험일정 페이징 결과
+	 */
+	public int selectCntAllExpSch(PagingAndCtg upPaging, String expCode);
 
 }

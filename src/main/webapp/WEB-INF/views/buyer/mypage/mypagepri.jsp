@@ -10,64 +10,25 @@
 <title>mypagepri</title>
 
 <script type="text/javascript">
-
+    window.onload = function() {
+        var profileImg = document.getElementById('profileImg');
+        if (profileImg) {
+            console.log('Profile image path:', profileImg.src);
+        } else {
+            console.log('Profile image element not found.');
+        }
+    };
 </script>
 
 <style>
-body {
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-.container {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
-.content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 600px;
-}
-h2 {
-    margin-top: 0;
-    color: #333;
-}
-hr {
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 20px 0;
-}
-.page a {
-    display: block;
-    margin: 10px 0;
-    color: #0066cc;
-    text-decoration: none;
-}
-.page a:hover {
-    text-decoration: underline;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-table, th, td {
-    border: 1px solid #dddddd;
-}
-th, td {
-    padding: 15px;
-    text-align: left;
-}
-th {
-    background-color: #f2f2f2;
-}
+@import url("buyer.css");
 </style>
 
 </head>
 <body>
+
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+
 	<div class="full">
 		<div class="wrap">
 		
@@ -82,13 +43,13 @@ th {
 						<td>프로필 이미지</td>
 						<td>
 							<c:choose>
-								<c:when test="${buyerProf != null }">
-        							<img src="${pageContext.request.contextPath }D:/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
-    							</c:when>
-    							<c:otherwise>
-    								<img src="${pageContext.request.contextPath }/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
-    							</c:otherwise>
-    						</c:choose>
+	                            <c:when test="${buyerProf != null }">
+	                                <img src="/resources/image/${buyerProf.originName}" alt="${buyerProf.storedName}" style="width: 100px; height: 100px;">
+	                            </c:when>
+	                            <c:otherwise>
+	                                <img src="${pageContext.request.contextPath}/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
+	                            </c:otherwise>
+                        </c:choose>
 						</td>
 					</tr>
 					<tr>
@@ -103,5 +64,8 @@ th {
 			</div>
 		</div>
 	</div>
+	
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	
 </body>
 </html>

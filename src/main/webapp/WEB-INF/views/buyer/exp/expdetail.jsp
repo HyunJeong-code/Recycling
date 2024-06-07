@@ -8,60 +8,113 @@
 <head>
 <meta charset="UTF-8">
 <title>체험단 상세페이지</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
 function scrollToSection(sectionId) {
     var section = document.getElementById(sectionId);
-    if(section) {
+    if (section) {
         section.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function checkLoginAndRedirect(url) {
+    var isLoggedIn = '${isLoggedIn}';
+    if (isLoggedIn) {
+        window.location.href = url;
+    } else {
+        alert("로그인 후 이용해주세요.");
+        window.location.href = "/buyer/login";
     }
 }
 </script>
 
 <style type="text/css">
-body { font-family: Arial, sans-serif; }
-.container { width: 80%; margin: 0 auto; }
-.product-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-.exp_file_main { width: 350px; height: 250px; background-color: #e9e9e9; display: flex; justify-content: center; align-items: center; }
-.exp_file_detail {
-	width: 500px; 
-	height: 500px;
+.wrap{
+    width: 1000px;
+    margin: auto;
 }
-.product-info { flex-grow: 1; margin-left: 20px; }
-.tabs { display: flex; margin-top: 20px; }
-.tab { margin-right: 20px; cursor: pointer; }
-.tab-content { margin-top: 20px; }
-.seller-info { display: flex; align-items: center; margin-top: 20px; }
-.seller-photo { width: 50px; height: 50px; background-color: #e9e9e9; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 10px; }
+.exp_file_main {
+    width: 350px;
+    height: 250px;
+    background-color: #e9e9e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.exp_file_detail {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+.tabs {
+    display: flex;
+    margin-top: 20px;
+}
+.tab {
+    margin-right: 20px;
+    cursor: pointer;
+}
+.tab-content {
+    margin-top: 20px;
+}
+.seller-info {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
+}
+.seller-photo {
+    width: 75px;
+    height: 75px;
+    background-color: #e9e9e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+.star-rating {
+    display: inline-block;
+}
+.star-rating .filled {
+    color: gold;
+}
+.star-rating .empty {
+    color: lightgray;
+}
 </style>
 </head>
 <body>
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="wrap">
-<div class="top_section">
-	<div class="exp_header">
-		<div class="exp_file_main">
-			<c:if test="${not empty main}">
-                    <img src="${pageContext.request.contextPath}/upload/${main.storedName}" alt="${main.originName}" style="max-width: 100%;">
-            </c:if>
-		</div>
-		<div class="exp_info">
-			<h2>${exp.expName }</h2>
-			<p>${exp.expPrice }원</p>
-			<a href="./expresform?expCode=${exp.expCode }">
-			<button>예약하기</button>
-			</a>
-		</div>
-	</div>
-</div>
 
-<div class="tabs">
+    <div>
+        <div class="exp_info">
+            <h2>${exp.expName }</h2>
+            <div class="exp_file_main">
+	            <c:if test="${not empty main}">
+	                <img src="${pageContext.request.contextPath}/upload/${main.storedName}" alt="${main.originName}" style="max-width: 100%;">
+	            </c:if>
+        	</div>
+            <p>${exp.expPrice }원</p>
+            <c:choose>
+                <c:when test="${isLoggedIn}">
+                    <a href="./expresform?expCode=${exp.expCode }">
+                        <button class="btn">예약하기</button>
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <button class="btn" onclick="window.location.href='/buyer/login'">로그인 후 예약하기</button>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+
+    <div class="tabs">
         <div class="tab" onclick="scrollToSection('detail-info')">상세정보</div>
         <div class="tab" onclick="scrollToSection('seller-info')">판매자 정보</div>
         <div class="tab" onclick="scrollToSection('reviews')">후기평</div>
-<<<<<<< HEAD
     </div>
 
     <div class="tab-content" id="detail-info">
@@ -150,6 +203,7 @@ body { font-family: Arial, sans-serif; }
                 <th>작성일</th>
             </tr>
 
+		<div>
             <c:if test="${not empty expReviews}">
                 <c:forEach var="expReview" items="${expReviews}">
                     <tr>
@@ -180,57 +234,16 @@ body { font-family: Arial, sans-serif; }
                     <td colspan="5" class="none">작성한 문의글이 없습니다.</td>
                 </tr>
             </c:if>
+		</div>
+		
         </table>
-        <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
     </div>
+        <c:import url="/WEB-INF/views/layout/upperdetailpaging.jsp"/>
 
     <div>
         <button class="btn" type="button"><a href="./main">메인으로</a></button>
     </div>
-=======
->>>>>>> 3d49b70ceb3e69504b6cc1711701076f8fcf76a3
 </div>
-
-<div class="tab-content" id="detail-info">
-		<div class="exp_file_detail">
-            <c:forEach var="file" items="${detail}">
-		        <c:choose>
-		            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif')}">
-		                <img src="${pageContext.request.contextPath}/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;">
-		            </c:when>
-		            <c:otherwise>
-		                <a href="${pageContext.request.contextPath}/upload/${file.storedName}">${file.originName}</a>
-		            </c:otherwise>
-		        </c:choose>
-		    </c:forEach>
-		</div>
-            <p>${exp.expDetail }</p>
-        </div>
-        
-        
-        <div class="tab-content" id="seller-info">
-            <div class="seller-info">
-                <div class="seller-photo">
-<!--                     <img src="path/to/seller/photo" alt="판매자 사진" /> -->
-                </div>
-                <div>
-                    <p>${seller.accName }</p>
-                    <p>${buyer.bPhone }</p>
-                    <p>${buyer.bEmail }
-                    <p>판매자 유형: ${selType }</p>
-                </div>
-            </div>
-        </div>
-        
-        
-        <div class="tab-content" id="reviews">
-            <h2>후기평</h2>
-            <p>후기평 내용</p>
-        </div>
-        
-	<div>
-		<button type="button"><a href="./main">메인으로</a></button>
-	</div>
-</div>
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

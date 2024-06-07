@@ -68,6 +68,9 @@ th {
 
 </head>
 <body>
+
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+
 	<div class="full">
 		<div class="wrap">
 		
@@ -82,13 +85,13 @@ th {
 						<td>프로필 이미지</td>
 						<td>
 							<c:choose>
-								<c:when test="${buyerProf != null }">
-        							<img src="file:///D:/uploads/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
-    							</c:when>
-    							<c:otherwise>
-    								<img src="${pageContext.request.contextPath }/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
-    							</c:otherwise>
-    						</c:choose>
+	                            <c:when test="${buyerProf != null }">
+	                                <img src="/resources/image/${buyerProf.originName}" alt="${buyerProf.storedName}" style="width: 100px; height: 100px;">
+	                            </c:when>
+	                            <c:otherwise>
+	                                <img src="${pageContext.request.contextPath }/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
+	                            </c:otherwise>
+                        	</c:choose>
 						</td>
 					</tr>
 					<tr>
@@ -103,18 +106,21 @@ th {
 						<td>사업자 등록증</td>
 						<td>
 							<c:choose>
-								<c:when test="${buyerProf != null }">
-        							<img src="${pageContext.request.contextPath }/resources/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
-    							</c:when>
-    							<c:otherwise>
-    								<img src="${pageContext.request.contextPath }/resources/cmpfile/${cmpFile.storedName }" alt="사업자 등록증" style="width: 100px; height: 100px;">
-    							</c:otherwise>
-    						</c:choose>
+	                            <c:when test="${cmpFile != null }">
+	                                <img src="/resources/image/${cmpFile.originName}" alt="${cmpFile.storedName}" style="width: 100px; height: 100px;">
+	                            </c:when>
+	                            <c:otherwise>
+	                                <span>등록된 사업자 등록증이 없습니다.</span>
+	                            </c:otherwise>
+                        	</c:choose>
 						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
 	</div>
+	
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	
 </body>
 </html>
