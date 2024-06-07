@@ -98,35 +98,6 @@ $(function(){
 
 <div class="full">
 	<div class="wrap">
-		
-		<div class="page mainTitle">
-			<h3>체험단</h3>
-		</div>
-		
-		<div class="section mainContent">
-			<div class="btnBox">
-				<button id="expHit">인기순</button><button id="expNew">최신순</button>
-			</div>
-			
-			<c:forEach var="expHit" items="${expHit }">
-				<div class="mainPrd expHit">
-					<a href="/buyer/exp/expdetail?expCode=${expHit.EXPCODE }">
-					<img alt="상품 이미지"	src="/resources/image/plastic_01.jpg" class="imgSum">
-					<p>${expHit.EXPNAME }</p>
-					</a>
-				</div>
-			</c:forEach>
-		
-			<c:forEach var="expNew" items="${expNew }">
-				<div class="mainPrd expNew" style="display:none;">
-					<a href="/buyer/exp/expdetail?expCode=${expNew.EXPCODE }">
-					<img alt="상품 이미지"	src="/resources/image/plastic_01.jpg" class="imgSum">
-					<p>${expNew.EXPNAME }</p>
-					</a>
-				</div>
-			</c:forEach>
-		</div>
-		
 		<div class="page mainTitle">
 			<h3>재활용품</h3>
 		</div>
@@ -138,7 +109,7 @@ $(function(){
 			<c:forEach var="rcyHit" items="${rcyHit }">
 				<div class="mainPrd rcyHit">
 					<a href="/buyer/recycling/rcydetail?prdCode=${rcyHit.PRDCODE }">
-					<img alt="상품 이미지"	src="/resources/image/plastic_01.jpg" class="imgSum">
+					<img alt="상품 이미지"	src="/resources/image/${rcyHit.ORIGINNAME }" class="imgSum">
 					<p>${rcyHit.PRDNAME }</p>
 					</a>
 				</div>
@@ -147,7 +118,7 @@ $(function(){
 			<c:forEach var="rcyNew" items="${rcyNew }">
 				<div class="mainPrd rcyNew" style="display:none;">
 					<a href="/buyer/recycling/rcydetail?prdCode=${rcyNew.PRDCODE }">
-					<img alt="상품 이미지"	src="/resources/image/plastic_01.jpg" class="imgSum">
+					<img alt="상품 이미지"	src="/resources/image/${rcyNew.ORIGINNAME }" class="imgSum">
 					<p>${rcyNew.PRDNAME }</p>
 					</a>
 				</div>
@@ -165,7 +136,7 @@ $(function(){
 			<c:forEach var="upcyHit" items="${upcyHit }">
 				<div class="mainPrd upcyHit">
 					<a href="/buyer/upcycling/upcydetail?prdCode=${upcyHit.PRDCODE }">
-					<img alt="상품 이미지"	src="/resources/image/plastic_01.jpg" class="imgSum">
+					<img alt="상품 이미지"	src="/resources/image/${upcyHit.ORIGINNAME } class="imgSum">
 					<p>${upcyHit.PRDNAME }</p>
 					</a>
 				</div>
@@ -174,8 +145,36 @@ $(function(){
 			<c:forEach var="upcyNew" items="${upcyNew }">
 				<div class="mainPrd upcyNew" style="display:none;">
 					<a href="/buyer/upcycling/upcydetail?prdCode=${upcyNew.PRDCODE }">
-					<img alt="상품 이미지"	src="/resources/image/plastic_01.jpg" class="imgSum">
+					<img alt="상품 이미지"	src="/resources/image/${upcyNew.ORIGINNAME }" class="imgSum">
 					<p>${upcyNew.PRDNAME }</p>
+					</a>
+				</div>
+			</c:forEach>
+		</div>
+		
+		<div class="page mainTitle">
+			<h3>체험단</h3>
+		</div>
+		
+		<div class="section mainContent">
+			<div class="btnBox">
+				<button id="expHit">인기순</button><button id="expNew">최신순</button>
+			</div>
+			
+			<c:forEach var="expHit" items="${expHit }">
+				<div class="mainPrd expHit">
+					<a href="/buyer/exp/expdetail?expCode=${expHit.EXPCODE }">
+					<img alt="상품 이미지"	src="/resources/image/${expHit.ORIGINNAME }" class="imgSum">
+					<p>${expHit.EXPNAME }</p>
+					</a>
+				</div>
+			</c:forEach>
+		
+			<c:forEach var="expNew" items="${expNew }">
+				<div class="mainPrd expNew" style="display:none;">
+					<a href="/buyer/exp/expdetail?expCode=${expNew.EXPCODE }">
+					<img alt="상품 이미지"	src="/resources/image/${expNew.ORIGINNAME }" class="imgSum">
+					<p>${expNew.EXPNAME }</p>
 					</a>
 				</div>
 			</c:forEach>
