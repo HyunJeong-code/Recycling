@@ -34,14 +34,21 @@ $(function() {
 	})
 	
     // 일반 파일 이름 표시
-	$('#file').on('change', function(event) {
-		console.log(expMultiFileUpdate)
-	    var files = event.target.files;
-	    var fileNames = $('#fileNames').text().split(', '); // 이전에 선택한 파일 이름 가져오기
-	    for (var i = 0; i < files.length; i++) {
-	        fileNames.push(files[i].name);
-	    }
-	});
+  $(document).ready(function() {
+        var existingFileName = "${file.mgrFlNo}"; // 기존 파일 이름을 가져옴
+        if (existingFileName) {
+            $('#file_name').text(existingFileName);
+        }
+
+        $('#docfile').on('change', function(event) {
+            var file = event.target.files[0]; // 선택된 파일 하나만 처리
+            if (file) {
+                $('#file_name').text(file.name);
+            } else {
+                $('#file_name').text("선택된 파일 없음");
+            }
+        });
+    });
 	
 	
 	// 직접 입력 선택 시 입력 필드 표시
@@ -354,7 +361,6 @@ button:hover {
 .bot_document_filebox input[type="file"] {
 	width: 0;
 	height: 0;
-	overflow: hidden;
 	display: none;
 }
 
@@ -480,11 +486,10 @@ button:hover {
 
 					<!-- 개명, 주소지변경 등 -->
 					<div class="bot_document_filebox">
-						<label>필요서류 파일</label>		
-							<input class="document_file" type="file" id="docfile" name="docfile" value="${file.mgrFlNo }" required="required">
-							<div id="fileNames" class="file_name">선택된 파일 없음</div>
-						<label class="file_find" for="docfile">파일찾기</label>
-						
+					    <label>필요서류 파일</label>		
+					    <input class="document_file" type="file" id="docfile" name="docfile" value="${file.storedName }" required="required">
+					    <div id="file_name" class="file_name">선택된 파일 없음</div>
+					    <label class="file_find" for="docfile">파일찾기</label>
 					</div>
 				</div>
 	
@@ -493,8 +498,6 @@ button:hover {
 				</div>
 				</form>
 					<a href="./empdetail?mgrCode=${view.mgrCode }"><button class="btn_bot_return">돌아가기</button></a>
-
-	
 				
 			</div>
 		</div>
