@@ -11,126 +11,231 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <title>CS Center</title>
 
 <style type="text/css">
+
+.full{
+	background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 .wrap {
-	width: 1000px;
-	margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.page_box {
-	border-bottom: 3px solid #000;
-}
-.FAQ_Content h2 {
-	text-align: center;
-	margin-top: 15px;
-}
-.FAQ_CT_button {
-	color: gray;
-	font-size: 20px;
-	font-weight: 600;
-    background-color: white;
-    border: 0;
+.page{
+   border-bottom: 3px solid #ddd;
 }
 
-.FAQ_CT {
-	margin-top:30px;
-	margin-left: 10px;
+.page, .section {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
-.cs_center{
-	text-align: right;
+.cs_center {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.cs_center .cs_number {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.cs_center .cs_time {
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .cs_menu {
     text-align: center;
-    border-bottom: 3px solid #000;
-    
+    border-bottom: 3px solid #ddd;
+    margin-bottom: 30px;
 }
 
 .cs_menu a {
     text-decoration: none;
     color: gray;
-    text-align: center;
-    font-size: 25px;
+    font-size: 20px;
+    margin: 60px;
+    transition: color 0.3s;
 }
 
-.cs_menu_a { 
- 	margin: 60px; 
+.cs_menu a:hover {
+    color: #000;
+}
+
+.FAQ_Content h2 {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 24px;
+}
+
+.FAQ_CT {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.FAQ_CT a {
+    text-decoration: none;
+}
+
+.FAQ_CT_button {
+    color: gray;
+    font-size: 17px;
+    font-weight: 600;
+    background-color: white;
+    border: 0;
+    padding: 10px 10px;
+    cursor: pointer;
+}
+
+
+.FAQ_table {
+    margin-top: 15px;
+    border-top: 2px solid #000;
 }
 
 .FAQ_table_head {
-	display: flex;
+    display: flex;
     box-sizing: border-box;
     width: 100%;
     height: 55px;
-    border-top: 1px solid #000;
-    border-bottom: 3px solid #000;
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #000;
     align-items: center;
     justify-content: center;
 }
 
-.FAQ_table {
-	margin-top: 15px;
+.FAQ_table_head p {
+    margin: 0;
+    font-weight: bold;
 }
 
-.FAQ_table_ct{
-	width: 160px;
+.FAQ_table_ct {
+    width: 160px;
     text-align: center;
 }
 
 .FAQ_table_title {
-	text-align: center;
     flex: 1;
+    text-align: center;
+}
+
+.FAQ_table_list {
+    display: ruby-text;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+.FAQ_table_list:hover {
+    background-color: #f1f1f1;
+}
+
+.FAQ_list_ct {
+	display: flex;
+    width: 160px;
+    height:30px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 40px;
+}
+
+.FAQ_list_title {
+    flex: 1;
+    padding-left: 20px;
+    font-size: 16px;
+}
+
+.FAQ_list_toggle {
+    width: 30px;
+    text-align: center;
+    font-size: 24px;
+    transform: rotate(0);
+    transition: transform 0.3s;
+}
+
+.FAQ_table_list.open .FAQ_list_toggle {
+    transform: rotate(180deg);
+}
+
+.FAQ_table_list_box {
+    display: none;
+    width: 100%;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    box-sizing: border-box;
+    position: relative;
+    margin-top: 10px;
+}
+
+.FAQ_table_list_AnsBox {
+	display: flex;
+    padding: 10px;
+    width: 100%;
 }
 
 .FAQ_table_list_Ans {
     display: flex;
     width: 160px;
-    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 30px;
+    font-size: 16px;
     color: #6e6e6e;
-    align-items: center;
-    justify-content: center;
 }
 
 .FAQ_table_list_contents {
-    padding: 24px 10px;
     font-size: 14px;
     color: #6e6e6e;
-}
-
-
-.FAQ_table_list_box {
-    display: flex;
-    overflow: hidden;
-    height: auto;
-    background-color: #f5f5f5;
+    margin-left: 200px;
 }
 
 </style>
 
 <script type="text/javascript">
-function toggleAnswer(ctFaqno) {
-    var answerBox = ctFaqno.querySelector('.FAQ_table_list_AnsBox');
+// function toggleAnswer(ctFaqno) {
+//     var answerBox = ctFaqno.querySelector('.FAQ_table_list_AnsBox');
+//     if (answerBox.style.display === 'none' || answerBox.style.display === '') {
+//         answerBox.style.display = 'block';
+//     } else {
+//         answerBox.style.display = 'none';
+//     }
+// }
+function toggleAnswer(element) {
+    var answerBox = element.querySelector('.FAQ_table_list_box');
     if (answerBox.style.display === 'none' || answerBox.style.display === '') {
         answerBox.style.display = 'block';
+        element.querySelector('.FAQ_list_toggle').textContent = '∧';  // 펼쳐졌을 때 표시
+        element.style.height = 'auto'; // 높이를 자동으로 설정
     } else {
         answerBox.style.display = 'none';
+        element.querySelector('.FAQ_list_toggle').textContent = '∨';  // 닫혔을 때 표시
+        element.style.height = 'auto'; // 높이를 자동으로 설정
     }
 }
 
 </script>
 </head>
 <body>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+<div class="full">
 <div class="wrap">
-<div class="page_box">
+
+<div class="page">
 <h2>고객센터</h2>
 </div>
 
-<div class="menu">
+<div>
 	<div class="cs_center">
 	
 		<div>
@@ -155,19 +260,19 @@ function toggleAnswer(ctFaqno) {
 			<a href="/buyer/mypage/myboard" class="cs_menu_a">내 질문</a>
 			<a href="./main" class="cs_menu_a">자주 묻는 질문</a><br><br>
 	</nav>
-		
+</div>		
 <div class="FAQ_Content">
 	<h2>FAQ 자주 묻는 질문</h2>
 	
 	<nav class="FAQ_CT">
-			<button type="button" class="FAQ_CT_button" value="3000"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3000&sCtg=UP">회원</a></button>
-            <button type="button" class="FAQ_CT_button" value="3010"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3010&sCtg=UP">결제</a></button>
-            <button type="button" class="FAQ_CT_button" value="3020"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3020&sCtg=UP">예약</a></button>
-            <button type="button" class="FAQ_CT_button" value="3030"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3030&sCtg=UP">재활용품</a></button>
-            <button type="button" class="FAQ_CT_button" value="3040"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">업사이클링</a></button>
-            <button type="button" class="FAQ_CT_button" value="3050"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">체험단</a></button>
-            <button type="button" class="FAQ_CT_button" value="3060"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">세척</a></button>
-            <button type="button" class="FAQ_CT_button" value="3070"><a href="/buyer/help/main?curPage=${upPaging.curPage }&search=${upPaging.search}&sCtg=UP">기타</a></button>
+			<a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3000&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3000">회원</button></a>
+            <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3010&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3010">결제</button></a>
+            <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3020&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3020">예약</button></a>
+            <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3030&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3030">재활용품</button></a>
+            <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3040&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3040">업사이클링</button></a>
+            <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3050&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3050">체험단</button></a>
+            <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3060&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3060">세척</button></a>
+            <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3070&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3070">기타</button></a>
 	</nav>
 	
 
@@ -189,8 +294,9 @@ function toggleAnswer(ctFaqno) {
 				</c:forEach>
 			</em>
 			<p class="FAQ_list_title">${faq.faqTitle}</p>
+			<div class="FAQ_list_toggle">∨</div>
 			<div class="FAQ_table_list_box">
-				<div class="FAQ_table_list_AnsBox" style="display: none;">
+				<div class="FAQ_table_list_AnsBox">
 					<em class="FAQ_table_list_Ans">답변</em>
 					<div class="FAQ_table_list_contents">
 						<p>${faq.faqAns}</p>
@@ -202,6 +308,7 @@ function toggleAnswer(ctFaqno) {
 	</c:forEach>
 	
 <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+</div>
 </div>
 </div>
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>

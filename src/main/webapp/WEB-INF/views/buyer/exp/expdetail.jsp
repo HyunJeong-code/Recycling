@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -9,6 +8,189 @@
 <meta charset="UTF-8">
 <title>체험단 상세페이지</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="/resources/css/list.css">
+<style type="text/css">
+
+div.group {
+	margin-left: 20px;
+}
+
+.detailUpper {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.mainThumbnail {
+    width: 300px;
+    height: 300px; /* 고정 높이 */
+    background-color: #f0f0f0; /* 배경색 설정 */
+    margin-bottom: 20px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainThumbnail img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.prdInfo {
+    flex: 1;
+}
+
+.prdInfo p {
+    margin: 10px 0;
+}
+
+
+button {
+	cursor: pointer;
+}
+
+.prdInfo button {
+	display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+
+.section {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+.navBtn {
+    flex-grow: 1;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: gray;
+    font-weight: normal;
+    border: 1px solid #ddd;
+    border-bottom: 5px solid gray;
+    text-align: center;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navBtn.active {
+    color: black;
+    font-weight: bold;
+    background-color : #CEE741;
+    border-bottom: 5px solid black;
+}
+
+.review-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.review-form textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 100%; 
+    min-width: 100%;
+}
+
+select#rvwGrade {
+	width: 70px;
+ font-size: 15px;
+ height: 30px;
+}
+
+.seller-info {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.seller-photo {
+    width: 75px;
+    height: 75px;
+    background-color: #e9e9e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+
+.star-rating .filled {
+    color: gold;
+}
+
+.star-rating .empty {
+    color: lightgray;
+}
+
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+
+    th {
+        background-color: #CEE741;
+    }
+
+    
+</style>
 
 <script type="text/javascript">
 function scrollToSection(sectionId) {
@@ -28,96 +210,48 @@ function checkLoginAndRedirect(url) {
     }
 }
 </script>
-
-<style type="text/css">
-.wrap{
-    width: 1000px;
-    margin: auto;
-}
-.exp_file_main {
-    width: 350px;
-    height: 250px;
-    background-color: #e9e9e9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.exp_file_detail {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-}
-.tabs {
-    display: flex;
-    margin-top: 20px;
-}
-.tab {
-    margin-right: 20px;
-    cursor: pointer;
-}
-.tab-content {
-    margin-top: 20px;
-}
-.seller-info {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    
-}
-.seller-photo {
-    width: 75px;
-    height: 75px;
-    background-color: #e9e9e9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
-}
-.star-rating {
-    display: inline-block;
-}
-.star-rating .filled {
-    color: gold;
-}
-.star-rating .empty {
-    color: lightgray;
-}
-</style>
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+<header>
+    <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+</header>
+<div class="full">
 <div class="wrap">
-
-    <div>
-        <div class="exp_info">
-            <h2>${exp.expName }</h2>
-            <div class="exp_file_main">
-	            <c:if test="${not empty main}">
-	                <img src="${pageContext.request.contextPath}/upload/${main.storedName}" alt="${main.originName}" style="max-width: 100%;">
-	            </c:if>
-        	</div>
-            <p>${exp.expPrice }원</p>
+    <div class="group">
+        <p>체험단 > 상세페이지</p>
+    </div>
+    
+    <div class="detailUpper">
+        <div class="mainThumbnail">
+            <c:if test="${not empty main}">
+                <img src="${pageContext.request.contextPath}/upload/${main.storedName}" alt="${main.originName}">
+            </c:if>
+        </div>
+        
+        <div class="prdInfo">
+            <p class="prdName">${exp.expName}</p>
+            <hr>
+            <p class="prdPrice">${exp.expPrice}원</p>
+            <hr>
             <c:choose>
                 <c:when test="${isLoggedIn}">
-                    <a href="./expresform?expCode=${exp.expCode }">
-                        <button class="btn">예약하기</button>
-                    </a>
+                    <a href="./expresform?expCode=${exp.expCode}"><button class="btnRight" type="button">예약하기</button></a>
                 </c:when>
                 <c:otherwise>
-                    <button class="btn" onclick="window.location.href='/buyer/login'">로그인 후 예약하기</button>
+                    <a href="/buyer/login" ><button class="btnLeft" type="button">로그인 후 예약하기</button></a>
                 </c:otherwise>
             </c:choose>
         </div>
     </div>
 
-    <div class="tabs">
-        <div class="tab" onclick="scrollToSection('detail-info')">상세정보</div>
-        <div class="tab" onclick="scrollToSection('seller-info')">판매자 정보</div>
-        <div class="tab" onclick="scrollToSection('reviews')">후기평</div>
+    <div class="navBar">
+        <div id="btn-detail-info" class="navBtn" onclick="scrollToSection('detail-info')">상세정보</div>
+        <div id="btn-seller-info" class="navBtn" onclick="scrollToSection('seller-info')">판매자 정보</div>
+        <div id="btn-reviews" class="navBtn" onclick="scrollToSection('reviews')">후기평</div>
     </div>
-
-    <div class="tab-content" id="detail-info">
+    
+    <div id="detail-info" class="section">
+        <h3>상세정보</h3>
         <div class="exp_file_detail">
             <c:forEach var="file" items="${detail}">
                 <c:choose>
@@ -130,12 +264,11 @@ function checkLoginAndRedirect(url) {
                 </c:choose>
             </c:forEach>
         </div>
-        <p>${exp.expDetail }</p>
+        <p>${exp.expDetail}</p>
     </div>
     
-    <hr>
-
-    <div class="tab-content" id="seller-info">
+    <div id="seller-info" class="section">
+        <h3>판매자 정보</h3>
         <div class="seller-info">
             <div class="seller-photo">
                 <c:if test="${not empty buyerProf}">
@@ -143,15 +276,15 @@ function checkLoginAndRedirect(url) {
                 </c:if>
             </div>
             <div>
-                <p>${seller.accName }</p>
-                <p>${buyer.bPhone }</p>
-                <p>${buyer.bEmail }</p>
-                <p>판매자 유형: ${selType }</p>
+                <p>${seller.accName}</p>
+                <p>${buyer.bPhone}</p>
+                <p>${buyer.bEmail}</p>
+                <p>판매자 유형: ${selType}</p>
             </div>
         </div>
     </div>
     
-    <hr>
+    
 
     <div class="review-form">
         <h4>후기 작성</h4>
@@ -170,28 +303,23 @@ function checkLoginAndRedirect(url) {
                     </select>
                     <br>
                     <label for="rvwContent">후기 내용:</label>
-                    <textarea id="rvwContent" name="rvwContent" rows="4" cols="100" required></textarea>
+                    <textarea id="rvwContent" name="rvwContent" rows="4" required></textarea>
                     <br>
-                    <button type="submit" class="btn">작성하기</button>
+                    <button class="btnRight">작성하기</button>
                 </form>
             </c:when>
             <c:otherwise>
-                <textarea id="rvwContent" name="rvwContent" rows="4" cols="50" required readonly>로그인 후 작성해주세요</textarea><br>
-                <button class="btn" onclick="window.location.href='/buyer/login'">로그인</button>
+                <textarea id="rvwContent" name="rvwContent" rows="4" readonly>로그인 후 작성해주세요</textarea><br>
+                <a href="/buyer/login" class="btnLeft">로그인</a>
             </c:otherwise>
         </c:choose>
     </div>
     
-    <hr>
-
-    <div class="page">
-        <h4>후기</h4>
-    </div>
-
-    <div class="tab-content" id="reviews">
+    <div id="reviews" class="section">
+        <h3>후기</h3>
         <table>
             <colgroup>
-                <col style="width: 20%;">
+            	<col style="width: 20%;">
                 <col style="width: 20%;">
                 <col style="width: 40%;">
                 <col style="width: 20%;">
@@ -202,8 +330,6 @@ function checkLoginAndRedirect(url) {
                 <th>후기</th>
                 <th>작성일</th>
             </tr>
-
-		<div>
             <c:if test="${not empty expReviews}">
                 <c:forEach var="expReview" items="${expReviews}">
                     <tr>
@@ -231,19 +357,21 @@ function checkLoginAndRedirect(url) {
 
             <c:if test="${empty expReviews}">
                 <tr>
-                    <td colspan="5" class="none">작성한 문의글이 없습니다.</td>
+                    <td colspan="4" class="none">작성한 후기가 없습니다.</td>
                 </tr>
             </c:if>
-		</div>
-		
         </table>
-    </div>
         <c:import url="/WEB-INF/views/layout/upperdetailpaging.jsp"/>
-
+    </div>
+    <br>
+    
     <div>
-        <button class="btn" type="button"><a href="./main">메인으로</a></button>
+        <a href="./main"><button class="btnLeft">메인으로</button></a>
     </div>
 </div>
-<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+</div>
+<footer>
+    <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+</footer>
 </body>
 </html>
