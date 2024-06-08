@@ -9,8 +9,14 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerProf;
+import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.seller.Prd;
+import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
+import recycling.dto.seller.Exp;
+import recycling.dto.seller.Prd;
 
 // 메인페이지, 로그인/회원가입
 
@@ -192,6 +198,38 @@ public interface BuyService {
 	 *  @return 체험단 정보와 썸넹리 정보
 	 */
 	public List<Map<String, Object>> selectExpNew();
+	
+	/**
+	 * 상품 전체 페이지 수
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntPrd(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험 전체 페이지 수
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntExp(PagingAndCtg unPaging);
+	
+	/**
+	 * 상품 전체 리스트
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public List<Prd> selectPrd(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험 전체 리스트
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public List<Exp> selectExp(PagingAndCtg unPaging);
 
 
 }
