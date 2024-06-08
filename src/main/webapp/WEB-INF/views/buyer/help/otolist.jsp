@@ -17,7 +17,7 @@
     margin: 10px;
 }
 
-.123table td.title{
+.n-table td.title{
 	width: 400px;
     white-space: nowrap;
     overflow: hidden;
@@ -51,7 +51,7 @@
         </div>
         
         
-        <table class="123table">
+        <table class="n-table">
             <colgroup>
                 <col style="width: 5%;">
                 <col style="width: 15%;">
