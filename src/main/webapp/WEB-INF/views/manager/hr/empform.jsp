@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/hr/empform.css">
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 
 <script type="text/javascript">
 $(function() {

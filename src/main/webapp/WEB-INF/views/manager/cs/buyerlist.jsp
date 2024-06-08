@@ -10,7 +10,19 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/resources/css/manager/cs/list.css">
+<!-- <link rel="stylesheet" href="/resources/css/manager/cs/list.css"> -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
+<style type="text/css">
+	/* 상세정보보기 */
+	.btndetail {
+	    background-color: #652CB3;
+	    width: 70%;
+	}
+	
+	.btndetail:hover {
+	    background-color:#652CB3;
+	}
+</style>
 </head>
 <body>
 
@@ -59,7 +71,7 @@
 							            <td>${buyer.bName}</td>
 							            <td>                                
 							                <a href="/manager/cs/buyerdetail?bCode=${buyer.bCode}">
-							                   <button class="btn">상세조회</button>
+							                   <button class="btn btndetail">상세조회</button>
 							               </a>                                   
 							            </td>
 							        </tr>

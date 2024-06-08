@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- <link rel="stylesheet" href="/resources/css/manager/cs/buyerupdate.css"> -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -195,7 +197,137 @@
 	    }).open();
 	}
 </script>
-<!-- <link rel="stylesheet" href="/resources/css/manager/cs/buyerupdate.css"> -->
+<style type="text/css">
+/* 중단 페이지 */
+.section {
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section_top {
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 20px;
+}
+
+.section img {
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin: 20px;
+}
+
+.section .bCode_box, .section .bName_box, .section .rankNo_box {
+	margin-bottom: 15px;
+	display: flex;
+	margin-left: 20px;
+}
+
+label {
+	color: #373f57;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	width: 200px;
+	text-align: justify;
+}
+
+input[type="text"], select {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+.section h3 {
+	color: #333;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+}
+
+.section_top_privacy {
+	padding: 20px;
+	margin-left: 20px;
+	margin-top: 20px;
+	flex: 1;
+}
+
+.section_top_privacy div {
+	margin-bottom: 10px;
+}
+
+/* --------------------------------------- */
+/* 색션 하단 */
+.section_bot_title {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
+}
+
+.section_bot_itembox {
+	width: 500px;
+	margin-left: 280px;
+}
+
+.section .bPhone_box, .section .bEmail_box, .section .bEntDate_box {
+	margin-bottom: 15px;
+	display: flex;
+	margin-left: 20px;
+}
+
+/* 파일버튼 디자인 */
+.bot_document_filebox {
+	display: flex;
+	margin-left: 20px;
+	margin-bottom: 15px;
+}
+
+
+.bot_document_filebox .file_find {
+	text-align: right;
+	width: 100px;
+}
+
+.bot_document_filebox .file_name{
+	overflow: auto;
+}
+
+.bot_document_filebox input[type="file"] {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	display: none;
+}
+
+.bot_document_filebox .document_file {
+	display: inline-block;
+	height: 46px;
+	padding: 0 10px;
+	vertical-align: middle;
+	width: 79%;
+	color: #999999;
+}
+
+.btnRight{
+	margin-right: 20px;
+}
+
+.phone_box{
+	display: flex;
+}
+
+.email_box{
+	display: flex;
+}
+</style>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
@@ -256,7 +388,7 @@
 						<div class="section_bot_title">상세 정보</div>
 		
 						<div class="section_bot_itembox">
-							<div class="bphone_box">
+							<div class="phone_box">
 					            <label for="sPhone">전화 번호</label>
 					            <select class="sPhone" id="sPhone" name="sPhone">
 					               <option value="010">010</option>
@@ -274,7 +406,7 @@
 					                <input type="hidden" id="bPhone" name="bPhone">
 					                
 					               
-					            <div class="bemail_box">
+					            <div class="email_box">
 					            	<label for="bEmail1">이메일</label>   
 					            
 					               <input type="text" id="bEmail1" name="bEmail1" required="required">
@@ -331,7 +463,7 @@
 						</div>
 						
 						<div class="btn_bot_wrap">
-						    <a href="./buyerupdate"><button class="btn_bot_update">수정완료</button></a>					    
+						    <a href="./buyerupdate"><button class="btn_bot_update">수정</button></a>					    
 						</div>
 					</form>
 					<div class="btn_bot_wrap">
