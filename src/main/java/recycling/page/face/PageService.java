@@ -89,4 +89,5 @@ public interface PageService {
 	 * @return
 	 */
 	public PagingAndCtg unPageAll(int curPage, String sCtg, String search);
+	
 }
