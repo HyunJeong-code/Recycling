@@ -11,12 +11,48 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
 <script type="text/javascript">
+
+	//파일 미리보기
+	function setThumbnail(event, i) {
+	    var fileInput = event.target;
+	    var files = fileInput.files;
+	    var container = document.querySelector("div#image_container"+i);
+	
+	    // 이미지 컨테이너의 모든 자식 요소를 삭제합니다.
+	    while (container.firstChild) {
+	        container.removeChild(container.firstChild);
+	    }
+	    
+	
+	
+	    // 파일이 선택되었는지 확인하고, 선택된 파일이 있다면 이미지를 추가합니다.
+	    if (files && files.length > 0) {
+	    
+	        var reader = new FileReader();
+	
+	        // 선택한 파일의 첫 번째 파일을 읽어옵니다.
+	        reader.readAsDataURL(files[0]);
+	
+	        // 파일이 로드될 때마다 실행될 onload 함수를 설정합니다.
+	        reader.onload = function(event) {
+	        	//$("#mainImg").attr("src",event.target.result);
+	            var img = document.createElement("img");
+	            img.setAttribute("src", event.target.result);
+	            img.setAttribute("class", "col-lg-6");
+	            container.appendChild(img);
+	        };
+	    }
+	}
+	
+	
 	$(function() {
+		
 		// 해당 상품의 ctPdtNo 선택
 		$("#ctPdtNo option:eq(${prd.ctPdtNo})").attr("selected", "selected");
 		
 		//input 빈값 체크
         $("#btnUpdate").click(function(){
+        	
             var isRight = true;
             $("#detailForm").find("input[type=text]").each(function(index, item){
                 // 아무값없이 띄어쓰기만 있을 때도 빈 값으로 체크되도록 trim() 함수 호출
@@ -43,14 +79,12 @@
 	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
     <div class="full">
         <div class="wrap">
-            <div class="page">
-            
-            </div>
+            <c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
         
-            <div class="section">
-            	<h3>${prd.prdCode }</h3>
-            	<form action="./cyupdate?prdCode=${prd.prdCode}" id="detailForm" method="post">
-            		<table>
+            <div class="main-section">
+            	<h3>상품 상세</h3>
+            	<form action="./cyupdate?prdCode=${prd.prdCode}&ctPno=0" id="detailForm" method="post" enctype="multipart/form-data">
+            		<table class="view-table">
 	            		<tr>
 	            			<td>상품코드</td>
 	            			<td>${prd.prdCode }</td>
@@ -70,20 +104,54 @@
 	            		</tr>
 	            		<tr>
 	            			<td>상품명</td>
-	            			<td><input type="text" name="prdName" value="${prd.prdName }"></td>
+	            			<td><input type="text" id="prdName" name="prdName" value="${prd.prdName }" data-name="상품명"></td>
 	            		</tr>
 	            		<tr>
 	            			<td>가격</td>
-	            			<td><input type="text" name="price" value="${prd.price }"></td>
+	            			<td><input type="text" id="price" name="price" value="${prd.price }" data-name="가격"></td>
 	            		</tr>
 	            		<tr>
 	            			<td>상품 상세</td>
-	            			<td><input type="text" name="prdDetail" value="${prd.prdDetail }"></td>
+	            			<td colspan="3">
+	            				<textarea id="prdDetail" name="prdDetail" value="" rows="" cols=""  data-name="상품 상세">${prd.prdDetail }</textarea>
+	            				<%-- <input type="text" id="prdDetail" name="prdDetail" value="${prd.prdDetail }" data-name="상품 상세"> --%>
+	            			</td>
 	            		</tr>
+						<tr>
+	            			<td>메인 이미지</td>
+	            			<td>
+	            				<div class="filebox">
+									<input type="file" id="profile" name="profile" onchange="setThumbnail(event,0);" required="required">
+								</div>
+								<div id="image_container0">
+			            		<c:forEach var="file" items="${files }">
+			            			<c:if test="${file.ctPflNo == 600 }">
+										<img id="mainImg" alt="${prd.prdName }" src="/resources/image/${file.originName }">
+					            	</c:if>
+				            	</c:forEach>
+			            		</div>
+		            		</td>
+		            	</tr>
+		            	<tr>
+		            		<td>서브 이미지</td>
+			            	<c:set var="files" value="${files }"/>
+			            	<c:forEach var="i" begin="1" end="3">
+			            		<td>
+			            			<input multiple="multiple" type="file" id="file${i }" class="${files[i].prdFlNo }" name="file" onchange="setThumbnail(event,${i});"  required="required">
+			            			
+					            	<div id="image_container${i}">
+					            		<c:if test="${not empty files[i] }">
+				            				<input value="${files[i].prdFlNo }" name="fileId" hidden="hidden">
+					            			<img alt="${prd.prdName }" src="/resources/image/${files[i].originName }">
+					            		</c:if>
+					            	</div>
+				            	</td>
+			            	</c:forEach>
+		            	</tr>
 		           	</table>
-		           	<button type="button"><a href="./rcylist">목록</a></button>
-		           	<button type="button" id="btnUpdate">수정하기</button>
-		           	<button type="button"><a href="./rcydel?prdCode=${prd.prdCode}">삭제하기</a></button>
+		           	<a href="./rcylist"><button type="button" class="btn">목록</button></a>
+		           	<button type="button" id="btnUpdate" class="btn btnRight">수정하기</button>
+		           	<a href="./rcydel?prdCode=${prd.prdCode}"><button type="button" class="btn btnDel">삭제하기</button></a>
 	           	</form>
             </div>
         </div>

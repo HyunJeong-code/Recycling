@@ -7,26 +7,69 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/hr/empform.css">
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 
 <script type="text/javascript">
 $(function() {
+	// 직접 입력 선택 시 입력 필드 표시
+	$("#inEmail").hide();
 	
-	    // 직접 입력 선택 시 입력 필드 표시
-	    $("#inPhone").hide();
+	$("#mgrEmail2").change(function() {
+		if($("#mgrEmail2").val() === "in") {
+			$("#inEmail").show();
+			$("#mgrEmail2").hide();
+		} else {
+			$("#inEmail").hide();
+			$("#mgrEmail2").show();
+		}
+	})
+		
+	// 폼 제출 시 이메일 합쳐서 숨겨진 입력 필드에 설정
+	$("form").submit(function() {
+	    var mgrEmail1 = $("#mgrEmail1").val();
+	    var mgrEmail2 = $("#mgrEmail2").val();
+	    var inEmail = $("#inEmail").val();
+	    var fullEmail;
 	    
-	    $("#sPhone").change(function() {
-	        if ($("#sPhone").val() === "in") {
-	            $("#inPhone").show();      
-	            $("#sPhone").hide();    
-	        } else {
-	            $("#inPhone").hide();               
-	            $("#sPhone").show();
-	        }
-	    });
+	    // sPhone에서 직접 입력을 선택한 경우
+	    if ($("#mgrEmail2").val() === "in") {
+	    	fullEmail = mgrEmail1 + "@" + mgrEmail2;
+	    } else {
+	        // sPhone에서 직접 입력이 아닌 경우
+	        var inEmail = $("#inEmail").val();
+	        fullEmail = mgrEmail1 + "@" + mgrEmail2;
+	    }
+	    
+	    // 숨겨진 입력 필드에 값 설정
+	    $("#mgrEmail").val(fullEmail);
+	});
+	
+	
+	// 일반 파일 이름 표시
+	$('#file').on('change', function(event) {
+	    var fileName = event.target.files[0].name;
+	    $('.upload_name').val(fileName);
+	});
+	
+	$('#profile').on('change', function(event) {
+	    var profileName = event.target.files[0].name;
+	    $('.profile_name').val(profileName);
+	});
+	
+	$("#inPhone").hide();
+	
+	$("#sPhone").change(function() {
+		if($("#sPhone").val() === "in") {
+			$("#inPhone").show();		
+			$("#sPhone").hide();		
+		} else {
+			$("#inPhone").hide();				
+			$("#sPhone").show();		
+		}		
+	})
 
-	    // 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
+	// 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
 	$("form").submit(function() {
 	        var email1 = $("#inPhone").val();
 	        var mPhone = $("#mPhone").val();
@@ -45,58 +88,9 @@ $(function() {
 	        // 숨겨진 입력 필드에 값 설정
 	        $("#mgrPhone").val(fullPhone);
 	        console.log("mgrPhone : " + $("#mgrPhone").val()); // 값 확인
-	    });
-
-
-
-		// 직접 입력 선택 시 입력 필드 표시
-		$("#inEmail").hide();
-		
-		$("#mgrEmail2").change(function() {
-			if($("#mgrEmail2").val() === "in") {
-				$("#inEmail").show();
-				$("#mgrEmail2").hide();
-			} else {
-				$("#inEmail").hide();
-				$("#mgrEmail2").show();
-			}
-		})
-		
-	// 폼 제출 시 이메일 합쳐서 숨겨진 입력 필드에 설정
-	    $("form").submit(function() {
-	        var mgrEmail1 = $("#mgrEmail1").val();
-	        var mgrEmail2 = $("#mgrEmail2").val();
-	        var inEmail = $("#inEmail").val();
-	        var fullEmail;
-	        
-	        // sPhone에서 직접 입력을 선택한 경우
-	        if ($("#mgrEmail2").val() === "in") {
-	        	fullEmail = mgrEmail1 + "@" + mgrEmail2;
-	        } else {
-	            // sPhone에서 직접 입력이 아닌 경우
-	            var inEmail = $("#inEmail").val();
-	            fullEmail = mgrEmail1 + "@" + mgrEmail2;
-	        }
-	        
-	        // 숨겨진 입력 필드에 값 설정
-	        $("#mgrEmail").val(fullEmail);
-	    });
+	});
 	
-
-    // 일반 파일 이름 표시
-    $('#file').on('change', function(event) {
-        var fileName = event.target.files[0].name;
-        $('.upload_name').val(fileName);
-    });
-    
-    $('#profile').on('change', function(event) {
-        var profileName = event.target.files[0].name;
-        $('.profile_name').val(profileName);
-    });
-	
-})//end
-
-
+}) // End Jquery
 </script>
 <style type="text/css">
 /* 전체 기본 설정 */
@@ -114,12 +108,14 @@ $(function() {
 
 /* 외부 레이아웃 설정 */
 .full {
-	width: 1200px;
-	border: 1px solid #ccc;
-	margin: 0 auto;
-	display: flex;
-	border-radius: 8px;
-	overflow: hidden;
+    width: 1200px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    display: flex;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 aside {
@@ -154,6 +150,8 @@ aside {
 	float: right;
 	margin: 0 0 20px 0;
 }
+
+
 
 /* ------------------------------------- */
 
@@ -298,11 +296,11 @@ label {
 
 </head>
 <body>
-	<div class="full">
-		<aside>
-			옆에
-		</aside>
-		<div class="wrap">
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
+			<div class="wrap">
 
 			<div class="page">
 				<h3>사원 등록</h3>
@@ -391,7 +389,8 @@ label {
 				</form>
 			</div><!-- section -->
 		</div><!-- wrap -->
-	</div><!-- full -->
+		</div>
+	</div>
 
 
 </body>

@@ -9,13 +9,22 @@
 <title>새상품 재활용품 상품페이지</title>
 <style type="text/css">
 	body {
-		margin: 0;
-		padding: 0;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		margin: 0;
+		overflow-x: hidden;
+		width: 100%;
+		min-height: 100vh;
+		position: relative;
 	}
 	
-	.container {
+	header, footer {
+        width: 100%;
+        flex-shrink: 0;
+    }
+	
+	.mainContainer {
 		padding: 20px;
 		display: flex;
 		flex-direction: column;
@@ -63,7 +72,7 @@
 		display: inline-block;
 		padding: 10px 20px;
 		margin-right: 10px;
-		background-color: #007bff;
+		background-color: #4CAF50;
 		color: #fff;
 		text-decoration: none;
 		border-radius: 5px;
@@ -102,36 +111,51 @@
 	}
 	
 	.navBtn.active {
-		color: black;
-		font-weight: bold;
-		border-bottom: 5px solid black;
+	    color: black;
+	    font-weight: bold;
+	    background-color : #CEE741;
+	    border-bottom: 5px solid black;
 	}
 	
 	.review-item {
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-    .review-form {
-        display: flex;
-        flex-direction: column;
-        margin-top: 20px;
-    }
-    .review-form textarea {
-        margin-bottom: 10px;
-        padding: 10px;
-        font-size: 14px;
-    }
-    .review-form button {
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    .review-form button:hover {
-        background-color: #0056b3;
-    }
+	    margin-bottom: 20px;
+	    padding: 10px;
+	    border: 1px solid #ddd;
+	}
+	
+	.review-form {
+	    display: flex;
+	    flex-direction: column;
+	    margin-top: 20px;
+	    text-align: center;
+	}
+	
+	.review-form textarea {
+	    margin-bottom: 10px;
+	    padding: 0px;
+	    font-size: 14px;
+	    width: 100%;
+	}
+	
+	.comment-textarea {
+	    width: 100%;
+	    max-width: 100%; 
+	    min-width: 100%;
+	    padding: 10px; /* 내부 여백 조정 */
+	    font-size: 14px; /* 글자 크기 설정 */
+	}
+	
+	.review-form button {
+	    padding: 10px;
+	    background-color: #007bff;
+	    color: white;
+	    border: none;
+	    cursor: pointer;
+	}
+	
+	.review-form button:hover {
+	    background-color: #0056b3;
+	}
     
         /*------------------------ 퍼온 CSS -------------------------- */
     .page {
@@ -268,15 +292,20 @@
     };
 </script>
 </head>
+	<header>
+		<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	</header>
 <body>
-	<div class="container">
+
+	<div class="mainContainer">
 		<div class="group">
 			<p>재활용품>중분류</p>
 		</div>
 		
 		<div class="detailUpper">
 			<div class="mainThumbnail">
-				<img src="./resources/img/popular_400px.png">
+			    <img src="${pageContext.request.contextPath}/resources/image/${prdImageThumName}"
+			         onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
 			</div>
 			
 			<div class="prdInfo">
@@ -286,7 +315,7 @@
 				<hr>
 				<p class="prdSum">${prd.prdDetail}</p>
 				<hr>
-				<a href="#" class="buyBtn">바로구매</a>
+				<a href="./pay?prdCode=${prd.prdCode}" class="buyBtn">바로구매</a>
 				<a href="#" class="reportBtn">신고하기</a>
 			</div>
 		</div>
@@ -299,8 +328,9 @@
 		</div>
 		
 		<div id="section1" class="section">
-			<h3>상품상세</h3>
-			<p>상품상세 이미지</p>
+		    <h3>상품상세</h3>
+		    <img src="${pageContext.request.contextPath}/resources/image/${prdImageDetailName}"
+		         onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_860px.png';">
 		</div>
 		
 		<div id="section2" class="section">
@@ -309,10 +339,19 @@
 				<div class="seller-section">
 					
 					<%-- <img src="${seller.storedName}" alt="${seller.originName}" class="seller-photo"> --%>
-					<p>아이디: ${seller.sCode}</p>
-					<p>등급: ${seller.sTier}</p>
-					<p>평점: ${seller.sRating}/10</p>
-					<p>총 거래 횟수: ${seller.totalTransaction}</p>
+					<p><b>아이디: </b> ${buyer.bId}</p>
+		            <p><b>회원분류: </b>
+		                <c:choose>
+		                    <c:when test="${buyer.bCtCode eq 'P'}">개인회원</c:when>
+		                    <c:when test="${buyer.bCtCode eq 'C'}">기업회원</c:when>
+		                    <c:otherwise>알 수 없음</c:otherwise>
+		                </c:choose>
+		            </p>
+					<c:if test="${buyer.bCtCode eq 'C'}">
+						<p><b>담당자 연락처: </b> ${buyer.bPhone}</p>
+						<p><b>담당자 이메일: </b> ${buyer.bEmail}</p>
+					</c:if>
+					<p><b>총 거래 횟수: </b> ${shipCnt}</p>
 				</div>
 			</div>
 		</div>
@@ -329,22 +368,17 @@
 			<div class="table">
 				<table>
 					<tr>
-						<th class="title">제목</th>
+						<th class="title">질문</th>
 						<th class="ans">답변 여부</th>
 						<th class="writer">작성자</th>
 						<th class="entdate">작성일</th>
-						<th class="hit">조회수</th>
 					</tr>
 					
 					<c:if test="${not empty qna }">
 						<c:forEach var="qnaItem" items="${qna }">
 							<tr>
 								<td class="title">
-								    <c:set var="qstCode" value="${qnaItem.QST_CODE}" />
-								    <c:set var="otoCode" value="OTO${qstCode.substring(3)}" />
-								    <a href="http://localhost:8088/buyer/help/otodetail?otoCode=${otoCode}">
-								        ${qnaItem.QST_TITLE}
-								    </a>
+								        ${qnaItem.RCY_CMT}
 								</td>
 								<td class="ans">
 									<c:if test="${qnaItem.ANS eq '-' }">
@@ -358,10 +392,9 @@
 	
 								<td class="writer">${qnaItem.B_NAME }</td>
 								<td class="entdate">
-									<fmt:parseDate value="${qnaItem.QST_DATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
+									<fmt:parseDate value="${qnaItem.RCY_DATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
 		                   			<fmt:formatDate value="${ENTDATE }" pattern="yyyy-MM-dd"/>
 								</td>
-								<td class="hit">${qnaItem.QST_HIT}</td> <!-- 수정된 부분 -->
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -372,13 +405,17 @@
 						</tr>
 					</c:if>
 				</table>
+				
+				<div class="review-form">
+				    <form action="./writeProc" method="post">
+				        <input type="hidden" name="prdcode" value="${param.prdcode}">
+				        <textarea class="comment-textarea" name="rcyCmt" rows="4" placeholder="질문 작성"></textarea> 
+				        <button type="submit">질문 작성</button> 
+				    </form>
+				</div>
+				
 			</div> <!-- section End -->
-			
-			<!-- 상품 문의 글쓰기 버튼 추가 -->
-			<div style="text-align: right; margin-bottom: 10px;">
-				<a href="javascript:void(0);" class="writeBtn" onclick="window.open('/buyer/recycling/write?prdCode=${prd.prdCode}',
-				'newwindow', 'width=800,height=600')">상품 문의 작성</a>
-			</div>
+
 
 		</div>
 		

@@ -24,10 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
 import recycling.dto.manager.ManagerJoinDe;
+import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.ManagerLogin;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.manager.Notice;
 import recycling.manager.service.face.MgrService;
+import recycling.page.face.PageService;
 import recycling.util.PagingAndCtg;
 
 // 관리자 메인 페이지 + 로그인, 회원가입 + 사원 전체 조회, 공지사항
@@ -39,7 +41,7 @@ public class MgrController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private MgrService mgrService;
 	@Autowired private JavaMailSenderImpl mailSender;
-	@Autowired private recycling.page.face.PageService pageService;
+	@Autowired private PageService pageService;
 	
 	@GetMapping("/main")
 	public String main(
@@ -147,52 +149,6 @@ public class MgrController {
 		logger.info("/manager/login [GET]");		
 	}
 
-	@GetMapping("findid")
-	public void findId() {
-		logger.info("/manager/findid [GET]");
-	}
-	
-	@PostMapping("findid")
-	public void findIdProc(
-				Model model,
-				Manager manager,
-				String mgrPhone, String mPhone, String lPhone,
-				String mgrEmail, String mgrEamil2
-			) {
-		logger.info("/manager/findid [POST]");
-		
-		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
-		
-		if(manager == null) {
-			
-		} else {
-			
-		}
-	}
-	
-	@GetMapping("/findpw")
-	public void findPw() {
-		logger.info("/manager/findpw [GET]");
-	}
-	
-	@PostMapping("/findpw")
-	public String findPwProc(
-				Model model,
-				Manager manager,
-				String mgrPhone, String mPhone, String lPhone,
-				String mgrEmail, String mgrEamil2
-			) {
-		logger.info("/manager/findpw [POST]");
-		
-		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
-		
-		if(manager == null) {
-			return "";
-		} else {
-			return "";
-		}
-	}
-	
 	//전체 사원조회
 	@GetMapping("/emplist")
 	public String empList(
@@ -256,14 +212,60 @@ public class MgrController {
 		
 	}
 	
+	@GetMapping("findid")
+	public void findId() {
+		logger.info("/manager/findid [GET]");
+	}
+	
+	@PostMapping("findid")
+	public void findIdProc(
+				Model model,
+				Manager manager,
+				String mgrPhone, String mPhone, String lPhone,
+				String mgrEmail, String mgrEamil2
+			) {
+		logger.info("/manager/findid [POST]");
+		
+		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
+		
+		if(manager == null) {
+			
+		} else {
+			
+		}
+	}
+	
+	@GetMapping("/findpw")
+	public void findPw() {
+		logger.info("/manager/findpw [GET]");
+	}
+	
+	@PostMapping("/findpw")
+	public String findPwProc(
+				Model model,
+				Manager manager,
+				String mgrPhone, String mPhone, String lPhone,
+				String mgrEmail, String mgrEamil2
+			) {
+		logger.info("/manager/findpw [POST]");
+		
+		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
+		
+		if(manager == null) {
+			return "";
+		} else {
+			return "";
+		}
+	}
+	
 	//공지사항 상세 조회
 	@GetMapping("/noticedetail")
 	public void noticeDetail(
 			String ntcCode
 			, Model model
 			) {
-		//관리자 공지사항 세부조회
-		Notice mgrNoticeList = mgrService.selectDetail(ntcCode);
-		model.addAttribute("view", mgrNoticeList);
+			//관리자 공지사항 세부조회
+			Notice mgrNoticeList = mgrService.selectDetail(ntcCode);
+			model.addAttribute("view", mgrNoticeList);
 	}
 }

@@ -22,7 +22,6 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Seller;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 @Service
@@ -142,34 +141,19 @@ public class ExpServiceImpl implements ExpService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectRvwByExp(String expCode) {
-		// TODO Auto-generated method stub
-		return expDao.selectRvwByExp(expCode);
+	public int selectCntRvwList(PagingAndCtg upPaging, String expCode) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("expCode", expCode);
+	    params.put("upPaging", upPaging);
+	    
+	    return expDao.selectCntRvwList(params);
 	}
-	
-//	@Override
-//	public List<Map<String, Object>> selectRvwByExp(String expCode, PagingAndCtg upPaging) {
-//		return expDao.selectRvwByExp(expCode, upPaging);
-//	}
 
-//	@Override
-//	public int selectCntRvwList(PagingAndCtg upPaging) {
-//		
-//		return expDao.selectCntRvwList(upPaging);
-//	}
+	@Override
+	public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params) {
+		return expDao.selectRvwByExp(params);
+	}
 
-//	@Override
-//	public int selectCntRvwList(PagingAndCtg upPaging, String expCode) {
-//		Map<String, Object> params = new HashMap<>();
-//	    params.put("expCode", expCode);
-//	    params.put("search", upPaging.getSearch());
-//		return expDao.selectCntRvwList(upPaging, expCode);
-//	}
-//
-//@Override
-//public List<Map<String, Object>> selectRvwByExp(Map<String, Object> params) {
-//	return expDao.selectRvwByExp(params);
-//}
 
 	
 	

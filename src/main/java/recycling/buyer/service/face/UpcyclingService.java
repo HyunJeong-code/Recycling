@@ -1,10 +1,10 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
-import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -35,20 +35,43 @@ public interface UpcyclingService {
 	public Seller selectSeller(String getsCode);
 
 	/**
-	 * 구매자 정보 로드
+	 * 판매자 정보 상세조회
+	 * @param getbCode 구매자코드
+	 * @return 판매자 상세 정보
+	 */
+	public Buyer selectBuyerByBCode(String getbCode);
+	
+	/**
+	 * 판매자 거래 횟수 카운트 
 	 * 
-	 * @param bCode 구매자 코드
-	 * @return 구매자 정보
+	 * @param	getsCode 프라이머리키인 sCode
+	 */
+	public int selectShipCnt(String getsCode);
+	
+	
+	/**
+	 * 개인 구매자 정보 조회
+	 * 
+	 * @param bId - 구매자 아이디
+	 * @return 개인 구매자 정보
 	 */
 	public Buyer selectBuyerCode(int bCode);
+	
+	/**
+	 * 구매
+	 * 
+	 * @param getbId
+	 * @return
+	 */
+	public Buyer selectBuyerDetail(String getbId);
 
 	/**
 	 * 리뷰 DTO 로드
-	 * @param prdCode 제품번호
+	 * @param prdCode 
 	 * 
-	 * @return 제품번호에 맞는 리뷰
+	 * @return
 	 */
-	public List<Map<String, Object>> selectRvwList(String prdCode);
+	public List<UpcyReview> selectRvwList(String prdCode);
 
 	/**
 	 * 리뷰 상세 조회
@@ -58,30 +81,13 @@ public interface UpcyclingService {
 	public UpcyReview selectRvw(String upcyCode);
 
 	/**
-	 * 리뷰 작성
+	 * 리뷰 등록
 	 * 
-	 * @param upcyContent 리뷰 내용
-	 * @param prdCode 제품고유코드
-	 * @param bCode buyerLogin 로그인 정보에 필요한 프라이머리키
-	 * @param upcyGrade 상품 평점
+	 * @param rvwContent 리뷰 내용
+	 * @param prdCode 
+	 * @param buyer 작성자 로그인 정보
 	 */
-	public void insertReview(String upcyContent, String prdCode, String bCode, int upcyGrade);
-
-	
-	/**
-	 * 리뷰 업데이트 메소드
-	 * 
-	 * @param rvwCode 리뷰코드
-	 * @param rvwContent 리뷰내용
-	 */
-	public void updateReview(String upcyCode, String upcyContent);
-
-	/**
-	 * 리뷰 삭제 메소드
-	 * 
-	 * @param rvwCode 리뷰코드
-	 */
-	public void deleteReview(String upcyCode);
+	public int	insertReview(UpcyReview review);
 
 	/**
 	 * 장바구니 상품 갯수 조회
@@ -106,6 +112,16 @@ public interface UpcyclingService {
 	 * @return - INSERT 결과
 	 */
 	public int insertCart(Cart cart);
+
+	/**
+	 * 구매 상품 정보 조회
+	 * 
+	 * @param prdCode - 조회할 상품의 prdCode
+	 * @return - 조회결과
+	 */
+	public CartOrder selectCartOrder(String prdCode);
+
+
 
 
 }

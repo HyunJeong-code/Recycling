@@ -1,7 +1,7 @@
 package recycling.dto.manager;
 
 public class SellerOrderJoin {
-
+	
 	//prd
 	private String prdCode;
 	private int ctPno;
@@ -187,7 +187,4 @@ public class SellerOrderJoin {
 	public void setSttName(String sttName) {
 		this.sttName = sttName;
 	}
-
-	
-
 }

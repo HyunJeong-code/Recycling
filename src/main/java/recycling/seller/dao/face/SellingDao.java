@@ -1,8 +1,9 @@
 package recycling.seller.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.ExpRes;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
@@ -11,6 +12,7 @@ import recycling.dto.seller.Exp;
 import recycling.dto.seller.ExpFile;
 import recycling.dto.seller.ExpSch;
 import recycling.dto.seller.Prd;
+import recycling.dto.seller.PrdFile;
 import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 import recycling.dto.seller.AllPrd;
@@ -36,13 +38,6 @@ public interface SellingDao {
 	 */
 	public int selectCntAllexpList(PagingAndCtg upPaging);
 	
-	/**
-	 * 체험단 체험일정 조회 페이징
-	 * 
-	 * @param upPaging - paging
-	 * @return paging 결과
-	 */
-	public int selectCntAllExpSch(PagingAndCtg upPaging);
 
 	/**
 	 * expcode와 일치하는 체험단 조회
@@ -52,14 +47,6 @@ public interface SellingDao {
 	 */
 	public Exp selectByExp(String expCode);
 	
-	/**
-	 * expCode와 일치하는 체험단 일정 조회
-	 * 
-	 * @param expCode - 체험코드
-	 * @return expSch 체험일정 List
-	 */
-	public List<ExpSch> selectAllSch(String expCode);
-
 	/**
 	 * 체험 스케쥴 예약된 인원 조회
 	 * 
@@ -76,6 +63,44 @@ public interface SellingDao {
 	 * @return file List
 	 */
 	public List<ExpFile> selectByExpFile(String expCode);
+	
+	/**
+	 * 체험정보
+	 * 
+	 * @param expRes
+	 * @return
+	 */
+	public Exp expResDetail(String expCode);
+
+	/**
+	 * 체험 예약 조회
+	 * 
+	 * @param schNo - 체험 일정번호로 조회
+	 * @return
+	 */
+	public ExpSch selectExpSchbySchNo(int schNo);
+	
+	/**
+	 * 체험예약 정보
+	 * 
+	 * @param expCode
+	 * @return
+	 */
+	public List<ExpRes> expResDetailRes(int schNo);
+
+	/**
+	 * 예약 확정버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnf(String resCode);
+
+	/**
+	 * 예약 취소버튼에 따른 예약변경
+	 * 
+	 * @param chBox
+	 */
+	public int expResCnl(String resCode);
 
 
 	//---------------exp END---------------------
@@ -143,8 +168,6 @@ public interface SellingDao {
 	 * @return - SELECT 결과
 	 */
 	public OrderDetail selectByorddtCode(String orddtCode);
-	
-	public List<ExpRes> selectResList(Paging paging);
 	
 	/**
 	 * 모든 상품과 체험단을 조회
@@ -227,44 +250,81 @@ public interface SellingDao {
 	public int selectCntAllMyOrder(PagingAndCtg unPaging);
 
 	/**
-	 * 체험정보
+	 * PRD 파일 조회 
 	 * 
-	 * @param expRes
-	 * @return
+	 * @param prdCode - 조회할 prdCode
+	 * @return - 파일 조회 결과
 	 */
-	public Exp expResDetail(String expCode);
+	public List<PrdFile> selectPrdFile(String prdCode);
 
 	/**
-	 * 체험 예약 조회
+	 * Prd 파일 업로드
 	 * 
-	 * @param schNo - 체험 일정번호로 조회
-	 * @return
+	 * @param prdMainFile - prdfile 객체
 	 */
-	public ExpSch selectExpSchbySchNo(int schNo);
+	public int insertPrdFile(PrdFile prdFile);
+
+	/**
+	 * Prd 파일 삭제
+	 * 
+	 * @param prdFile - prdfile 객체
+	 */
+	public int deletePrdFile(PrdFile prdFile);
+
+	/**
+	 * 상세 파일 삭제
+	 * 
+	 * @param map - 삭제할 파일코드
+	 */
+	public void deleteDetailFile(HashMap<String, String> map);
+
+	 /* 판매자 전체 상품 개수 조회
+	 * 
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
+	 */
+	public int selectCntAllPrd(PagingAndCtg upPaging);
 	
 	/**
-	 * 체험예약 정보
+	 * 판매자 전체 주문 개수 조회
 	 * 
-	 * @param expCode
-	 * @return
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 개수
 	 */
-	public List<ExpRes> expResDetailRes(int schNo);
+	public int selectCntAllOrd(PagingAndCtg unPaging);
+	
+	
 
 	/**
-	 * 예약 확정버튼에 따른 예약변경
+	 * 판매자 전체 상품 조회
 	 * 
-	 * @param chBox
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 상품 리스트
 	 */
-	public int expResCnf(String resCode);
+	public List<Map<String, Object>> selectAllPrd(PagingAndCtg upPaging);
 
 	/**
-	 * 예약 취소버튼에 따른 예약변경
+	 * 판매자 전체 주문 조회
 	 * 
-	 * @param chBox
+	 * @param upPaging - 판매자 정보, 검색어
+	 * @return 주문 리스트
 	 */
-	public int expResCnl(String resCode);
+	public List<Map<String, Object>> selectAllOrd(PagingAndCtg unPaging);
 
+	/**
+	 * expCode와 일치하는 체험단 일정 조회
+	 * 
+	 * @param params - expCode
+	 * @return expSch
+	 */
+	public List<ExpSch> selectAllSch(Map<String, Object> params);
 
-
-
+	
+	/**
+	 * 체험단 체험일정 조회 페이징
+	 * 
+	 * @param params - paging, expCode
+	 * @return paging 결과
+	 */
+	public int selectCntAllExpSch(Map<String, Object> params);
 }

@@ -13,17 +13,18 @@
 				<where>
 					AND s_code = #{user }
 					AND ct_pno = 0
+					AND prd_out = 'N'
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
 					)
 				</where>
 				ORDER BY prd_code DESC
-		) PRD
-	)
-	<where>
-		AND no BETWEEN #{startNo } AND #{endNo }
-	</where>
+			) PRD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
 	<select id="selectAllupcyPrd" parameterType="recycling.util.PagingAndCtg" resultType="Prd">
@@ -34,6 +35,7 @@
 				<where>
 					AND s_code = #{user }
 					AND ct_pno = 1
+					AND prd_out = 'N'
 					AND (
 					prd_name LIKE '%' || #{search } || '%'
 					OR prd_detail LIKE '%' || #{search } || '%'
@@ -74,7 +76,7 @@
 		</where>
 	</select>
 	
-	<select id="selectAllrcyMyOrder" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
+		<select id="selectAllrcyMyOrder" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
 		SELECT 
 			*
 		FROM (
@@ -114,8 +116,16 @@
 	<select id="selectByprdCode" parameterType="String" resultType="Prd">
 		SELECT * FROM prd
 		<where>
-			prd_code = #{prdCode}
+			AND prd_code = #{prdCode}
 		</where>
+	</select>
+	
+	<select id="selectPrdFile" parameterType="String" resultType="PrdFile">
+		SELECT * FROM prd_file
+		<where>
+			AND prd_code = #{prdCode}
+		</where>
+		ORDER BY PRD_FLNO
 	</select>
 	
 	<update id="updatePrd" parameterType="Prd">
@@ -129,6 +139,30 @@
 			prd_code = #{prdCode}
 		</where>
 	</update>
+	
+	<delete id="deletePrdFile" parameterType="PrdFile">
+		DELETE FROM prd_file
+		<where>
+			AND prd_code = #{prdCode}
+			AND ct_pflno = #{ctPflNo}
+		</where>
+	</delete>
+	
+	<delete id="deleteDetailFile" parameterType="HashMap">
+		DELETE FROM prd_file
+		<where>
+			AND prd_code = #{prdCode}
+			AND ct_pflno = 610
+       		AND prd_flno NOT IN (${prdFlNo})
+		</where>
+	</delete>
+	
+	<insert id="insertPrdFile" parameterType="PrdFile">
+		INSERT INTO prd_file 
+	    	(prd_flNo, ct_pflNo, prd_code, origin_name, stored_name)
+	    VALUES
+	    	(prd_file_seq.nextval, #{ctPflNo}, #{prdCode}, #{originName}, #{storedName})
+	</insert>
 	
 	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
 		SELECT * FROM order_detail
@@ -197,6 +231,7 @@
 		<where>
 			AND s_code = #{user }
 			AND ct_pno = 0
+			AND prd_out = 'N'
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -233,6 +268,7 @@
 		<where>
 			AND s_code = #{user }
 			AND ct_pno = 1
+			AND prd_out = 'N'
 			AND (
 				prd_name LIKE '%' || #{search } || '%'
 				OR prd_detail LIKE '%' || #{search } || '%'
@@ -261,6 +297,78 @@
 				)
 		</where>
 		ORDER BY od.ORDDT_CODE DESC
+	</select>
+	
+	<select id="selectCntAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+			SELECT rownum no, ODD.* FROM (
+			    SELECT O.ord_code ordCode, OD.orddt_code orddtCode, OD.stt_no sttNo, OD.prd_code prdCode, O.ord_date ordDate, O.ord_name ordName, O.ord_phone ordPhone, OD.ord_sum ordSum, OD.price price, OD.prd_name prdName
+			    FROM orders O, (
+			        SELECT P.prd_code prdCode, P.ct_pno ctPno, P.s_code sCode, OD.ord_code ord_code, OD.orddt_code orddt_code, OD.stt_no stt_no, OD.ord_sum ord_sum, P.prd_name prd_name, P.prd_code prd_code, P.price price
+			        FROM prd P, order_detail OD
+			        <where>
+				        AND P.prd_code = OD.prd_code(+)
+				        AND P.s_code = #{user }
+				        AND (
+				        	P.prd_name LIKE '%' || #{search } || '%'
+				        	OR P.prd_detail LIKE '%' || #{search } || '%'
+				        )
+			        </where> 
+			    ) OD
+			    <where>
+			    	AND O.ord_code = OD.ord_code(+)
+			    	AND sCode = #{user }
+			    </where>
+			    ORDER BY O.ord_date
+			) ODD
+		)
+	</select>
+	
+	<select id="selectAllPrd" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+		    SELECT rownum no, P.* FROM (
+		        SELECT * FROM prd
+		        <where>
+					AND s_code = #{user }
+					AND (
+						prd_name LIKE '%' || #{search } || '%'
+						OR prd_detail LIKE '%' || #{search } || '%'
+					)
+		        </where>
+		        ORDER BY prd_date
+		    ) P
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectAllOrd" parameterType="recycling.util.PagingAndCtg" resultType="hashmap">
+		SELECT * FROM (
+			SELECT rownum no, ODD.* FROM (
+			    SELECT O.ord_code ordCode, OD.orddt_code orddtCode, OD.stt_no sttNo, OD.prd_code prdCode, O.ord_date ordDate, O.ord_name ordName, O.ord_phone ordPhone, OD.ord_sum ordSum, OD.price price, OD.prd_name prdName 
+			    FROM orders O, (
+			        SELECT P.prd_code prdCode, P.ct_pno ctPno, P.s_code sCode, OD.ord_code ord_code, OD.orddt_code orddt_code, OD.stt_no stt_no, OD.ord_sum ord_sum, P.prd_name prd_name, P.prd_code prd_code, P.price price 
+			        FROM prd P, order_detail OD
+			        <where>
+				        AND P.prd_code = OD.prd_code(+)
+				        AND P.s_code = #{user }
+				        AND (
+				        	P.prd_name LIKE '%' || #{search } || '%'
+				        	OR P.prd_detail LIKE '%' || #{search } || '%'
+				        )
+			        </where> 
+			    ) OD
+			    <where>
+				    AND O.ord_code = OD.ord_code(+)
+				    AND sCode = #{user }
+			    </where>
+			    ORDER BY O.ord_date
+			) ODD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
 	</select>
 	
 	<!-- paging Cnt end -->
@@ -329,18 +437,6 @@
 		ORDER BY exp_code DESC
 	</select>
 	
-	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
-	<select id="selectCntAllExpSch" resultType="int" parameterType="recycling.util.PagingAndCtg">
-   		SELECT count(*) FROM exp_Sch
-		<where>
-			AND (
-				exp_code LIKE '%' || #{search} || '%'
-				AND sch_no LIKE '%' || #{search } || '%'
-				)
-			AND exp_code = #{user }
-		</where>
-		ORDER BY sch_no DESC
-	</select>
 	
 	<!-- 체험단 세부 조회[expdetail] -->
 	<select id="selectByExp" parameterType="string" resultType="Exp">
@@ -350,13 +446,34 @@
 		</where>
 	</select>
 	
-	<!-- 체험단 스케쥴 조회[expdetail] -->
-	<select id="selectAllSch" resultType="ExpSch" parameterType="string">
-		SELECT * FROM exp_sch
+	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
+	<select id="selectCntAllExpSch" resultType="int" parameterType="map">
+   		SELECT count(*) FROM exp_Sch
 		<where>
-			exp_code = #{expCode }
+			AND (
+				exp_code LIKE '%' || #{search} || '%'
+				AND sch_no LIKE '%' || #{search } || '%'
+				)
+			AND exp_code = #{expCode }
 		</where>
 	</select>
+	
+	<!-- 체험단 스케쥴 조회[expdetail] -->
+	<select id="selectAllSch" resultType="ExpSch" parameterType="map">
+		SELECT * FROM (
+        SELECT rownum no, E.* FROM (
+            SELECT * FROM exp_sch
+            <where>
+                AND exp_code = #{expCode }
+            </where>
+            ORDER BY sch_no DESC
+        ) E
+    )
+    <where>
+        AND no BETWEEN #{startNo} AND #{endNo}
+    </where>
+	</select>
+	
 	
 	<!-- 체혐 스케쥴 예약된 인원 조회 -->
 	<select id="selectByResCnt" resultType="ResSchCnt" parameterType="string">
@@ -373,6 +490,21 @@
     	</where>
     </select>
 	
+	<select id="selectCntAllPrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM (
+		    SELECT rownum no, P.* FROM (
+		        SELECT * FROM prd
+		        <where>
+					AND s_code = #{user }
+					AND (
+						prd_name LIKE '%' || #{search } || '%'
+						OR prd_detail LIKE '%' || #{search } || '%'
+					)
+		        </where>
+		        ORDER BY prd_date
+		    ) P
+		)
+	</select>
 	<!-- 체험 예약페이지 정보 조회 -->
 	<select id="expResDetail" resultType="Exp" parameterType="String">
 		SELECT * FROM exp
@@ -414,4 +546,5 @@
 	    <where>res_code = #{resCode }</where>
 	</update>
 	
+
 </mapper>

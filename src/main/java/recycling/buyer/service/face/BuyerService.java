@@ -9,10 +9,10 @@ import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.BuyerRank;
-import recycling.dto.buyer.Cmp;
-import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.Cmp;
+import recycling.dto.buyer.CmpFile;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
@@ -100,7 +100,7 @@ public interface BuyerService {
 	 * @return - INSERT 결과
 	 */
 	public int insertOrderDetail(OrderDetail orderDetail);
-
+	
 	/**
 	 * 주문 상세 리스트 조회
 	 * 
@@ -108,22 +108,6 @@ public interface BuyerService {
 	 * @return - 조회 List 결과
 	 */
 	public List<MyOrder> selectOrderDetailBybCode(PagingAndCtg upPaging);
-	
-	/**
-	 * 주문 상세 조회
-	 * 
-	 * @param orddtCode - 조회할 주문상세코드
-	 * @return - 주문 상세 내역
-	 */
-	public OrderDetail selectByorddtCode(String orddtCode);
-	
-	/**
-	 * 거래 변경 사유
-	 * 
-	 * @param change - 거래 변경 DTO
-	 * @return INSERT 결과
-	 */
-	public int insertChange(Change change);
 
 	/**
 	 * 장바구니 수량 변경
@@ -157,8 +141,6 @@ public interface BuyerService {
 	 */
 	public Cmp getCmpDetail(String bCode);
 
-	
-	
 	/**
 	 * 구매자 프로필 조회
 	 * 
@@ -214,7 +196,7 @@ public interface BuyerService {
 	 * @param buyerProf - 업데이트 할 프로필 정보
 	 * @return 업데이트 결과
 	 */
-	public int updateBuyerProf(MultipartFile buyerProf, String bCode);
+	public BuyerProf updateBuyerProf(MultipartFile buyerProf, String bCode);
 	
 	/**
 	 * 사업자 등록증 업데이트
@@ -223,7 +205,23 @@ public interface BuyerService {
 	 * @param bCode - 구매자 코드
 	 * @return 업데이트 결과
 	 */
-	public int updateCmpFile(MultipartFile cmpFile, String bCode);
+	public CmpFile updateCmpFile(MultipartFile cmpFile, String bCode);
+
+	/**
+	 * 프로필 이미지 가져오기
+	 * 
+	 * @param updateProf - 업데이트 한 프로필 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateBuyerProfMapper(BuyerProf updateProf);
+
+	/**
+	 * 사업자 등록증 가져오기
+	 * 
+	 * @param updateFile - 업데이트 한 사업자 등록증 정보
+	 * @return 업데이트 결과
+	 */
+	public int updateCmpFileMapper(CmpFile updateFile);
 	
 	/**
 	 * 구매자의 모든 배송지 정보
@@ -291,6 +289,7 @@ public interface BuyerService {
 	 */
 
 	public int changePw(BuyerLogin buyerLogin);
+	
 	/**
 	 * 판매자 탈퇴
 	 * 
@@ -298,16 +297,6 @@ public interface BuyerService {
 	 * @return 처리 결과
 	 */
 	public int deleteSeller(String sCode);
-
-	
-	/**
-	 * Cart paging
-	 * 
-	 * @param upPaging - paging
-	 * @return - upPaging 결과값
-	 */
-	public int selectCntAllCart(PagingAndCtg upPaging);
-
 	
 	/**
 	 * MyOrder paging
@@ -316,7 +305,29 @@ public interface BuyerService {
 	 * @return - paging 결과
 	 */
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
-
-
+	
+	/**
+	 * 주문 상세 조회
+	 * 
+	 * @param orddtCode - 조회할 주문상세코드
+	 * @return - 주문 상세 내역
+	 */
+	public OrderDetail selectByorddtCode(String orddtCode);
+	
+	/**
+	 * 거래 변경 사유
+	 * 
+	 * @param change - 거래 변경 DTO
+	 * @return INSERT 결과
+	 */
+	public int insertChange(Change change);
+	
+	/**
+	 * 페이징
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllCart(PagingAndCtg upPaging);
 
 }

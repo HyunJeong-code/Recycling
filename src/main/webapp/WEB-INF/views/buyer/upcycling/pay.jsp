@@ -107,7 +107,11 @@
         
     }) //$ end
     
-    
+    	var amount = ${cart.cCnt * cart.price + cart.prdFee };
+    	
+    	$(function(){
+	    	$("#prdAmount").html(amount);
+	    });
 
         //가맹점 식별코드 초기화
         IMP.init('imp40731343')
@@ -177,8 +181,8 @@
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
     <div class="full">
-        <div class="title">
-            <h1>주문하기</h1>
+        <div class="page-header">
+            <h3>주문하기</h3>
         </div>
 
         <hr class="top-hr">
@@ -199,7 +203,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>${cart.storedName }</td>
+                    <td>
+                    	<img alt="${cart.prdName }" src="/image/${cart.originName }">
+                    </td>
                     <td>${cart.prdName }</td>
                     <td>${cart.price }</td>
                     <td>${cart.prdFee }</td>
@@ -292,10 +298,10 @@
                 </div>
 
                 <div class="sum-price">
-                    <h3>가격: ${cart.price}</h3>
-                    <h3>수량: ${cart.cCnt}</h3>
-                    <h3>배송비: ${cart.prdFee}</h3>
-                    <h3>총 가격: ${cart.cCnt * cart.price + cart.prdFee }</h3>
+                    <h3>가격: <span>${cart.price}</span></h3>
+                    <h3>수량: <span>${cart.cCnt}</span></h3>
+                    <h3>배송비: <span>${cart.prdFee}</span></h3>
+                    <h3>총 가격: <span id="prdAmount"></span></h3>
                 </div>
 
             </div>       
@@ -308,14 +314,22 @@
         <div class="page-header">
             <h5>결제 방법</h5>
         </div>
-
-        <div id="payOption">
-            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" checked="checked"></label>
-            <label>토스페이</label><input type="radio" id="tosspay" name="payOption"></label>
-            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption"></label>
+        
+		<table class="view-table">
+			<tr>
+				<td>결제 수단</td>
+				<td>
+			        <div id="payOption">
+			            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
+			            <label>토스페이</label><input type="radio" id="tosspay" name="payOption" value="tosspay"></label>
+			            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
+			        </div>
+		        </td>
+	        </tr>
+        </table>
+		<div class="btnBox">
+        	<button type="button" id="btnPay" class="btn btnRight" onclick="requestPay();">결제하기</button>
         </div>
-
-        <button type="button" id="btnPay" onclick="requestPay();">결제하기</button>
 
     </div>
 

@@ -25,6 +25,23 @@
 		JOIN Department d ON m.deptno = d.deptno
 	</sql>
 
+	<!--  manager join department resultMap-->	
+	<resultMap type="java.util.HashMap" id="mgrJoin">
+	<result property="mgrCode" column="mgr_code"/>
+	<result property="deptno" column="deptno"/>
+	<result property="mgrId" column="mgr_id"/>
+	<result property="mgrPw" column="mgr_pw"/>
+	<result property="mgrName" column="mgr_name"/>
+	<result property="mgrPhone" column="mgr_phone"/>
+	<result property="mgrEmail" column="mgr_email"/>
+	<result property="mgrBirth" column="mgr_birth"/>
+	<result property="mgrGender" column="mgr_gender"/>
+	<result property="mgrEntDate" column="mgr_entDate"/>
+	<result property="mgrOut" column="mgr_out"/>
+	<result property="mgrOutDate" column="mgr_out_date"/>
+	<result property="dName" column="dName"/>
+	</resultMap>
+
 	<!-- 전체조회[main] -->	
 	<select id="selectAllHr" resultType="ManagerJoinDe" parameterType="recycling.util.PagingAndCtg">	
 		SELECT *
@@ -32,6 +49,7 @@
 			SELECT rownum no, mgr.* FROM (
 				<include refid="mgrJoinDep"/>
 				<where>
+					AND mgr_out ='N'
 					AND (
 						mgr_code LIKE '%' || #{search } || '%'
 						OR mgr_name LIKE '%' || #{search } || '%'
@@ -44,16 +62,23 @@
 			AND no BETWEEN #{startNo } AND #{endNo }
 		</where>
 	</select>
-	
+
 	<!-- 전체조회 페이징[main] -->
 	<select id="selectCntAllHr" resultType="int" parameterType="recycling.util.PagingAndCtg">
    		SELECT count(*) FROM manager
 		<where>
+			AND mgr_out ='N'
 			AND (
 				mgr_code LIKE '%' || #{search } || '%'
 				OR mgr_name LIKE '%' || #{search } || '%'
 				)
 		</where>
+		ORDER BY mgr_code DESC
+	</select>
+	
+	<!-- 조회 -->	
+	<select id="selectAll" resultMap="mgrJoin">
+		<include refid="mgrJoinDep"/>
 		ORDER BY mgr_code DESC
 	</select>
 	
@@ -73,8 +98,8 @@
 			AND ct_mflno = 1000
 		</where>
 	</select>
-
-	<!-- 세부사항 파일조회 -->
+	
+<!-- 세부사항 파일조회 -->
 	<select id="mgrFileList" resultType="MgrFile" parameterType="MgrFile">
 		SELECT
 			mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name
@@ -106,6 +131,18 @@
 		)
 	</insert>
 	
+	<!-- 프로필 등록 -->
+	<insert id="profileup" parameterType="MgrFile">
+	    <selectKey order="BEFORE" keyProperty="mgrFlNo" resultType="int">
+	        SELECT MGR_FILE_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Mgr_File 
+	    	(mgr_flNo, mgr_code, ct_MflNo, origin_name, stored_name)
+	    VALUES
+	    	(#{mgrFlNo}, #{mgrCode}, #{ctMflNo}, #{originName}, #{storedName}
+	    	)
+	</insert>
+	
 	<!-- 파일 등록 -->
 	<insert id="fileup" parameterType="MgrFile">
 	    <selectKey order="BEFORE" keyProperty="mgrFlNo" resultType="int">
@@ -135,9 +172,8 @@
 	<!-- 업데이트 -->
 	<update id="hrUpdate" parameterType="Manager">
 		UPDATE Manager SET
+		mgr_code = #{mgrCode }
 		, deptno = #{deptno }
-		, mgr_id = #{mgrId }
-		, mgr_pw = #{mgrPw }
 		, mgr_name = #{mgrName }
 		, mgr_phone = #{mgrPhone }
 		, mgr_email = #{mgrEmail }
@@ -182,5 +218,6 @@
 	</update>
 	
 
+	
 
 </mapper>

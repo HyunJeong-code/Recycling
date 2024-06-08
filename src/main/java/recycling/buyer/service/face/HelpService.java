@@ -17,9 +17,6 @@ import recycling.util.PagingAndCtg;
 
 public interface HelpService {
 
-
-	
-
 	/**
 	 * 1:1문의 게시글 작성을 위한 객체
 	 * 
@@ -98,7 +95,7 @@ public interface HelpService {
 	 * @param upPaging - paging
 	 * @return oto List
 	 */
-	List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging);
+	public List<Map<String, Object>> selectAllOto(PagingAndCtg upPaging);
 
 
 
@@ -151,11 +148,28 @@ public interface HelpService {
 	 */
 	public List<Faq> selectFaqByCt(PagingAndCtg upPaging);
 
-	
+	/**
+	 * isSelller 가 true면 판매자 + 구매자 공지사항 조회
+	 * 
+	 * @param params - isSeller, ct_nctno
+	 * @return noticeList
+	 */
 	public List<Notice> selectNoticeForSeller(Map<String, Object> params);
 
+	/**
+	 * isSelller 가 false면 판매자 + 구매자 공지사항 조회
+	 * 
+	 * @param params - isSeller, ct_nctno
+	 * @return noticeList
+	 */
 	public List<Notice> selectNoticeForBuyer(Map<String, Object> params);
 
+	/**
+	 * 공지사항 페이징 개수 조회
+	 * 
+	 * @param params - 페이징 객체, ct_nctno
+	 * @return paging
+	 */
 	public int selectCntAllNoticeList(PagingAndCtg upPaging, boolean isSeller);
 
 	/**

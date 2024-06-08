@@ -22,12 +22,13 @@
 		, #{ordFee})
 	</insert>
 	
+
 	<select id="selectAllCart" parameterType="recycling.util.PagingAndCtg" resultType="CartOrder">
 		SELECT *
 		FROM (
 			SELECT rownum no, PRD.* FROM (
 				SELECT
-					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
 				FROM
 					cart c, prd p, prd_file pf
 				<where>
@@ -45,12 +46,12 @@
 	
 	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
 		SELECT
-			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, stored_name
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
 		FROM
 			cart c, prd p, prd_file pf
 		<where>
 			AND c.PRD_CODE = p.PRD_CODE
-			AND p.PRD_CODE = pf.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE(+)
 			AND C_CODE = #{cCode}
 		</where>
 		ORDER BY C_CODE
@@ -103,6 +104,7 @@
 		)
 	</insert>
 	
+
 	<select id="buyerDaoselectOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
 		SELECT *
 		FROM (
@@ -345,7 +347,6 @@
     	WHERE S_Code = #{sCode }
     </update>
     
-    
     <select id="selectCntAllCart" parameterType="recycling.util.PagingAndCtg" resultType="int">
     	SELECT count(*) FROM
 			cart c, prd p, prd_file pf
@@ -370,5 +371,5 @@
 		</where>
 		ORDER BY orddt_code DESC
     </select>
-    
+
 </mapper>

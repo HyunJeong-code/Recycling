@@ -7,5 +7,7 @@ public class Test {
 		Bucket b = new Bucket();
 		
 		System.out.println(b);
+		
+		System.out.println(System.getProperty("user.dir"));
 	}
 }

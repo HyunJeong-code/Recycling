@@ -23,17 +23,77 @@
 	    </where>
     </select>
 
-	<!-- 상품 목록 조회 -->
+	<!-- 상품리스트 로드 -->
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE CT_PNO = 0
+	</select>
+	
+	<select id="selectLatestList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 0
+	    ORDER BY PRD_DATE DESC
+	</select>
+	
+	<select id="selectHitList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 0
+	    ORDER BY PRD_HIT DESC
+	</select>
+	
+	<select id="selectPrdImageThums" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 600
+	</select>
+	
+	<select id="selectLatestPrdImageThums" resultType="String">
+	    SELECT PF.ORIGIN_NAME
+	    FROM Prd_File PF
+	    INNER JOIN (
+	        SELECT PRD_CODE
+	        FROM Prd
+	        ORDER BY PRD_DATE DESC
+	        FETCH FIRST 4 ROWS ONLY
+	    ) P ON PF.PRD_CODE = P.PRD_CODE
+	    WHERE PF.CT_PFLNO = 600
+	</select>
+	
+	<select id="selectHitPrdImageThums" resultType="String">
+	    SELECT PF.ORIGIN_NAME
+	    FROM Prd_File PF
+	    INNER JOIN (
+	        SELECT PRD_CODE
+	        FROM Prd
+	        ORDER BY PRD_HIT DESC
+	        FETCH FIRST 4 ROWS ONLY
+	    ) P ON PF.PRD_CODE = P.PRD_CODE
+	    WHERE PF.CT_PFLNO = 600
 	</select>
 	
 	<select id="selectPrd" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE PRD_CODE = #{prdCode}
 	</select>
-
+	
+	<select id="selectPrdImageThum" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 600
+	    <if test="prdCode != null">
+	        AND PRD_CODE = #{prdCode}
+	    </if>
+	</select>
+	
+	<select id="selectPrdImageDetail" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 610
+	</select>
+	
 	<!-- 판매자 프로필 조회 -->
 	<select id="selectSellerProfByCode" parameterType="String" resultType="Seller">
 		SELECT * FROM SELLER
@@ -51,16 +111,36 @@
 	        S.S_CODE = #{sCode}
 	</select>
 	
-	<select id="selectQnaList"	resultType="hashmap">
-	    SELECT qst.*, COALESCE(qst_hit, 0) AS qstHit -- qst_hit이 null인 경우 0으로 설정
-	    FROM qst
-	    WHERE PRD_CODE = #{prdCode}
-	</select>
-	
 	<select id="selectBuyerByBCode" resultType="Buyer">
-	    SELECT * FROM buyer
+	    SELECT * FROM BUYER
 	    WHERE B_CODE = #{bCode}
 	</select>
+	
+	<select id="selectShipCnt" resultType="int">
+		SELECT count(*) FROM order_detail OD, prd P
+		<where>
+			AND OD.prd_code = P.prd_code(+)
+			AND P.s_code = #{sCode }
+			AND OD.stt_no = 920
+		</where>
+	</select>
+	
+	<select id="selectQnaList" resultType="hashmap">
+	    SELECT 
+	        r.RCY_CODE, 
+	        r.B_CODE, 
+	        r.PRD_CODE, 
+	        r.RCY_CMT, 
+	        r.RCY_DATE,
+	        b.B_NAME
+	    FROM 
+	        Rcy r
+	    LEFT JOIN 
+	        Buyer b ON r.B_CODE = b.B_CODE
+	    WHERE 
+	        r.PRD_CODE = #{prdCode}
+	</select>
+	
 	
 	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
 		SELECT B_Code AS bCode,
@@ -78,9 +158,15 @@
 		</where>
 	</select>
 	
-	<insert id="insertOto" parameterType="Oto" useGeneratedKeys="true" keyProperty="otoCode" keyColumn="oto_code">
-		INSERT INTO Oto (oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email)
-		VALUES('OTO' || lpad(oto_seq.nextval, 7, '0'), #{ctOtoNo}, #{bCode}, #{otoTitle}, #{otoContent}, #{otoName}, #{otoEmail})
+	<insert id="insertRcy" parameterType="recycling.dto.buyer.Rcy">
+	    <!-- 시퀀스 값을 가져와서 rcyCode에 할당 -->
+	    <selectKey keyProperty="rcyCode" resultType="String" order="BEFORE">
+	        SELECT 'RCY' || LPAD(RCY_SEQ.NEXTVAL, 7, '0') AS rcyCode FROM DUAL
+	    </selectKey>
+	    
+	    <!-- 나머지 필드 삽입 -->
+	    INSERT INTO Rcy (RCY_CODE, B_CODE, PRD_CODE, RCY_CMT, RCY_DATE)
+	    VALUES (#{rcyCode}, #{bCode}, #{prdCode}, #{rcyCmt}, SYSDATE)
 	</insert>
 
 </mapper>

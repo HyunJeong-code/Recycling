@@ -212,8 +212,22 @@ $(function() {
 			alert("필수 이용약관에 동의해야 가입이 가능합니다.")
 		}
 	})
-	
+		
 }) // End Jquery
+
+function readUrl(input) {
+	if(input.files && input.files[0]) {
+		var reader = new FileReader();
+		
+		reader.onload = function(e) {
+			document.getElementById('preview').src = e.tartget.result;
+		};
+		
+		reader.readAsDataURL(input.file[0]);
+	} else {
+		document.getElementById('priview').src = "";
+	}
+}
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -256,9 +270,80 @@ function execDaumPostcode() {
     }).open();
 }
 </script>
+<style type="text/css">
+div .buyerCt input[type='radio'] {
+/* 	웹킷 브라우저에서 기본 스타일 제거 */
+	-webkit-appearance: none; 
+/*  	 모질라 브라우저에서 기본 스타일 제거  */
+ 	-moz-appearance: none; 
+ 	appearance: none;
+ 	width: 20px;
+ 	height: 20px;
+ 	border: 2px solid black;
+ 	border-radius: 50%;
+ 	outline: none;
+ 	cursor: pointer;
+}
+
+div .buyerCt input[type='radio']:checked {
+	background-color: #4CAF50;
+	border: 3px solid white;
+	box-shadow: 0 0 0 1.6px #4CAF50;
+}
+
+.wrap {
+	text-align: center;
+}
+
+.section label {
+	display: inline-block;
+	width: 150px;
+	height: 50px;
+	vertical-align: middle;
+}
+
+.section #bId {
+	width: 200px;
+	height: 50px;
+	border: none;
+	border-bottom: 1px solid black;
+	position: relative;
+}
+
+.section #bPw {
+	width: 200px;
+	height: 50px;
+	border: none;
+	border-bottom: 1px solid black;
+	position: relative;
+}
+
+#id {
+	position: absolute;
+	width: 200px;
+	height: 30px;
+	left: 600px;	
+} 
+
+#pw {
+	position: absolute;
+	width: 200px;
+	height: 30px;
+	left: 600px;	
+}
+
+.btn {
+	width: 150px;
+}
+
+.section fieldset {
+	margin: auto;
+	width: 800px;
+}
+</style>
 </head>
 <body>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
 		<div class="page">
@@ -269,22 +354,27 @@ function execDaumPostcode() {
 			<form action="./prijoin" method="post" enctype="multipart/form-data">
 			<div id="prof">
 				<label for="buyerProf">프로필 사진</label>
-				<input type="file" id="buyerProf" name="buyerProf"><br>
+				<input type="file" id="buyerProf" name="buyerProf" onchange="readUrl(this);"><br>
+				<img id="preview" />
 			</div>
 			
 			<div id="infoBuyer">
 				<input type="text" id="bCtCode" name="bCtCode" value="P" style="display: none;">
 				
 				<label for="bId">아이디</label>
-				<input type="text" id="bId" name="bId"><br>
-				<button type="button" id="chkBid">중복 확인</button><br>
+				<input type="text" id="bId" name="bId">
+				<button type="button" id="chkBid" class="btn btnRight">중복 확인</button><br>
 				<div id="id" style="display:none; color:red;">아이디는 필수입니다.</div>
 				<div id="chkId" style="display:none; color:red;">아이디는 영어소문자와 숫자로 8자리 ~ 15자리로 입력 필요</div>
+				
+				<br>
 				
 				<label for="bPw">비밀번호</label>
 				<input type="password" id="bPw" name="bPw"><br>
 				<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
 				<div id="chkPw" style="display:none; color:red;">대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요</div>
+				
+				<br>
 				
 				<label for="newPw">비밀번호 확인</label>
 				<input type="password" id="newPw" name="newPw"><br>
@@ -303,14 +393,14 @@ function execDaumPostcode() {
 						<option value="in">직접 입력</option>
 					</select>
 					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
-					<input type="button" id="btnEmail" value="이메일 인증"><br>
+					<input type="button" id="btnEmail" value="이메일 인증" class="btn btnRight"><br>
 					<div id="email2" style="display:none; color:red;">이메일은 필수입니다.</div>				
 				</div>
 				
 				<div id="emailChk" style="display: none;">
 					<label for="emailNum">이메일 인증 번호</label>
 					<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요.">
-					<button type="button" id="chkEmail">인증번호 확인</button><br>
+					<button type="button" id="chkEmail" class="btn btnRight">인증번호 확인</button><br>
 					<div id="emailChk2" style="display:none; color:red;">이메일 인증은 필수입니다.</div>				
 					<div id="emailOk" style="color: green; display: none;">
 						인증번호가 일치합니다.
@@ -350,7 +440,7 @@ function execDaumPostcode() {
 				<div id="infoAdr">
 					<label for="adrPostcode">우편번호</label>
 					<input type="text" id="adrPostcode" name="adrPostcode">
-					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
+					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="btn btnRight">
 					<br>
 					
 					<label for="adrAddr">배송 주소</label>
@@ -363,49 +453,53 @@ function execDaumPostcode() {
 				</div>
 			</div>
 			
-			<div id="agree1">
-				<div>
-					<h3>개인정보 이용 약관(필수)</h3>
-					<p>
-						오나셈개히나 갤볘주으고 새콈의, 혀하, 하오틋먼어 흐끙더게 온이삼길보다. 엿에군로 아왼기료구가, 운에고 여거려에 른사른길까지 지오다 롲츼이이슨당겅으면 므래비반에 니아알쩻힢에서 솔미지폰에. 여그으할 아한죄센고 너장홀, 깅기 오셔니용산톤에 히디미의 세나를 삭둨 순여름조를 져드다산이나. 붤으힙셔 그사에 치오인이가, 개나란에 가수가는 리춍하서는 솜롬기흐는. 곤으려고 에실하게 징자곳띱은 온암언학으로 팅팀부김헬어 시흔서아구긴으로. 조깐거눠의 히있품크야 바죠자다 잴아더라 챌너이러암들는비지 산산으로서 볼븜아와 완신 팔뷰우. 탄어부니 머존다 굴보순상 널덕을 아람에븐밌슈는, 가비론데가, 산멜굼즚은 마도만핱기 즈아슬렴밖에 수당기애애아길이게. 어자어쟝딤 끼건어 나킴흐갭오 느군사 기와저 야간다.
-						얀산오이면 지금으므로 아둔이 안므를 자아읐익의 수안에서 서느를, 큰귾악긍녀를 오뎔아마를 체련다. 쩌긴미을 뷔럆람먀존 렌자직아를 아운저저, 디파건븥에서 램차니누늬만 옥즈보는. 게닥이다 호과다래어야, 키과차게떼다 나욱어야 조데므얼과 낭을까. 은디는 겐근투로더히 오배콘미결의 꾕수시뵈는 얼누에 여해솔마다. 선즌비듸에 기앟을 리아 쓰든자 다듵는 여이옹자 랑하와 거제 에김잔으로 쳉곡거긔널지. 녠랑맸의 간무친앤 재숱주까지 단규사땋을 이이깬솨아스가 사거란랑 본바고압의 하하와 댜덩놀부러다. 젼가강은 눈에느바, 긱스조께서 패핸판미의 겔참여옴은 동해까지 글든스어 난칫사디젠으로 르룽죄허가. 지왜장긴 낌칱밴 앙기우사제세요, 민은지 번키의 시사는 티우긔파에 더아에. 므룐보에 증즌과 라므날킨다 홈초라고 끈하구오아 게디누이라 궈고아스이 버더그꽁이생보 예반다.
-					</p>
+			<fieldset>
+				<div id="agree1">
+					<div>
+						<h3>개인정보 이용 약관(필수)</h3>
+						<p>
+							오나셈개히나 갤볘주으고 새콈의, 혀하, 하오틋먼어 흐끙더게 온이삼길보다. 엿에군로 아왼기료구가, 운에고 여거려에 른사른길까지 지오다 롲츼이이슨당겅으면 므래비반에 니아알쩻힢에서 솔미지폰에. 여그으할 아한죄센고 너장홀, 깅기 오셔니용산톤에 히디미의 세나를 삭둨 순여름조를 져드다산이나. 붤으힙셔 그사에 치오인이가, 개나란에 가수가는 리춍하서는 솜롬기흐는. 곤으려고 에실하게 징자곳띱은 온암언학으로 팅팀부김헬어 시흔서아구긴으로. 조깐거눠의 히있품크야 바죠자다 잴아더라 챌너이러암들는비지 산산으로서 볼븜아와 완신 팔뷰우. 탄어부니 머존다 굴보순상 널덕을 아람에븐밌슈는, 가비론데가, 산멜굼즚은 마도만핱기 즈아슬렴밖에 수당기애애아길이게. 어자어쟝딤 끼건어 나킴흐갭오 느군사 기와저 야간다.
+							얀산오이면 지금으므로 아둔이 안므를 자아읐익의 수안에서 서느를, 큰귾악긍녀를 오뎔아마를 체련다. 쩌긴미을 뷔럆람먀존 렌자직아를 아운저저, 디파건븥에서 램차니누늬만 옥즈보는. 게닥이다 호과다래어야, 키과차게떼다 나욱어야 조데므얼과 낭을까. 은디는 겐근투로더히 오배콘미결의 꾕수시뵈는 얼누에 여해솔마다. 선즌비듸에 기앟을 리아 쓰든자 다듵는 여이옹자 랑하와 거제 에김잔으로 쳉곡거긔널지. 녠랑맸의 간무친앤 재숱주까지 단규사땋을 이이깬솨아스가 사거란랑 본바고압의 하하와 댜덩놀부러다. 젼가강은 눈에느바, 긱스조께서 패핸판미의 겔참여옴은 동해까지 글든스어 난칫사디젠으로 르룽죄허가. 지왜장긴 낌칱밴 앙기우사제세요, 민은지 번키의 시사는 티우긔파에 더아에. 므룐보에 증즌과 라므날킨다 홈초라고 끈하구오아 게디누이라 궈고아스이 버더그꽁이생보 예반다.
+						</p>
+					</div>
+					<div>
+						<label>동의
+							<input type="radio" id="agree1" name="agree1" value="Y">
+						</label>
+						
+						<label>비동의
+							<input type="radio" id="agree1" name="agree1" value="N" checked="checked">
+						</label>
+					</div>
 				</div>
-				<div>
-					<label>동의
-						<input type="radio" id="agree1" name="agree1" value="Y">
-					</label>
-					
-					<label>비동의
-						<input type="radio" id="agree1" name="agree1" value="N" checked="checked">
-					</label>
-				</div>
-			</div>
+			</fieldset>
 			
-			<div id="agree2">
-				<div>
-					<h3>새활용 이용약관(필수)</h3>
-					<p>
-						오나셈개히나 갤볘주으고 새콈의, 혀하, 하오틋먼어 흐끙더게 온이삼길보다. 엿에군로 아왼기료구가, 운에고 여거려에 른사른길까지 지오다 롲츼이이슨당겅으면 므래비반에 니아알쩻힢에서 솔미지폰에. 여그으할 아한죄센고 너장홀, 깅기 오셔니용산톤에 히디미의 세나를 삭둨 순여름조를 져드다산이나. 붤으힙셔 그사에 치오인이가, 개나란에 가수가는 리춍하서는 솜롬기흐는. 곤으려고 에실하게 징자곳띱은 온암언학으로 팅팀부김헬어 시흔서아구긴으로. 조깐거눠의 히있품크야 바죠자다 잴아더라 챌너이러암들는비지 산산으로서 볼븜아와 완신 팔뷰우. 탄어부니 머존다 굴보순상 널덕을 아람에븐밌슈는, 가비론데가, 산멜굼즚은 마도만핱기 즈아슬렴밖에 수당기애애아길이게. 어자어쟝딤 끼건어 나킴흐갭오 느군사 기와저 야간다.
-						얀산오이면 지금으므로 아둔이 안므를 자아읐익의 수안에서 서느를, 큰귾악긍녀를 오뎔아마를 체련다. 쩌긴미을 뷔럆람먀존 렌자직아를 아운저저, 디파건븥에서 램차니누늬만 옥즈보는. 게닥이다 호과다래어야, 키과차게떼다 나욱어야 조데므얼과 낭을까. 은디는 겐근투로더히 오배콘미결의 꾕수시뵈는 얼누에 여해솔마다. 선즌비듸에 기앟을 리아 쓰든자 다듵는 여이옹자 랑하와 거제 에김잔으로 쳉곡거긔널지. 녠랑맸의 간무친앤 재숱주까지 단규사땋을 이이깬솨아스가 사거란랑 본바고압의 하하와 댜덩놀부러다. 젼가강은 눈에느바, 긱스조께서 패핸판미의 겔참여옴은 동해까지 글든스어 난칫사디젠으로 르룽죄허가. 지왜장긴 낌칱밴 앙기우사제세요, 민은지 번키의 시사는 티우긔파에 더아에. 므룐보에 증즌과 라므날킨다 홈초라고 끈하구오아 게디누이라 궈고아스이 버더그꽁이생보 예반다.
-					</p>
+			<fieldset>
+				<div id="agree2">
+					<div>
+						<h3>새활용 이용약관(필수)</h3>
+						<p>
+							오나셈개히나 갤볘주으고 새콈의, 혀하, 하오틋먼어 흐끙더게 온이삼길보다. 엿에군로 아왼기료구가, 운에고 여거려에 른사른길까지 지오다 롲츼이이슨당겅으면 므래비반에 니아알쩻힢에서 솔미지폰에. 여그으할 아한죄센고 너장홀, 깅기 오셔니용산톤에 히디미의 세나를 삭둨 순여름조를 져드다산이나. 붤으힙셔 그사에 치오인이가, 개나란에 가수가는 리춍하서는 솜롬기흐는. 곤으려고 에실하게 징자곳띱은 온암언학으로 팅팀부김헬어 시흔서아구긴으로. 조깐거눠의 히있품크야 바죠자다 잴아더라 챌너이러암들는비지 산산으로서 볼븜아와 완신 팔뷰우. 탄어부니 머존다 굴보순상 널덕을 아람에븐밌슈는, 가비론데가, 산멜굼즚은 마도만핱기 즈아슬렴밖에 수당기애애아길이게. 어자어쟝딤 끼건어 나킴흐갭오 느군사 기와저 야간다.
+							얀산오이면 지금으므로 아둔이 안므를 자아읐익의 수안에서 서느를, 큰귾악긍녀를 오뎔아마를 체련다. 쩌긴미을 뷔럆람먀존 렌자직아를 아운저저, 디파건븥에서 램차니누늬만 옥즈보는. 게닥이다 호과다래어야, 키과차게떼다 나욱어야 조데므얼과 낭을까. 은디는 겐근투로더히 오배콘미결의 꾕수시뵈는 얼누에 여해솔마다. 선즌비듸에 기앟을 리아 쓰든자 다듵는 여이옹자 랑하와 거제 에김잔으로 쳉곡거긔널지. 녠랑맸의 간무친앤 재숱주까지 단규사땋을 이이깬솨아스가 사거란랑 본바고압의 하하와 댜덩놀부러다. 젼가강은 눈에느바, 긱스조께서 패핸판미의 겔참여옴은 동해까지 글든스어 난칫사디젠으로 르룽죄허가. 지왜장긴 낌칱밴 앙기우사제세요, 민은지 번키의 시사는 티우긔파에 더아에. 므룐보에 증즌과 라므날킨다 홈초라고 끈하구오아 게디누이라 궈고아스이 버더그꽁이생보 예반다.
+						</p>
+					</div>
+					<div>
+						<label>동의
+							<input type="radio" id="agree2" name="agree2" value="Y">
+						</label>
+						
+						<label>비동의
+							<input type="radio" id="agree2" name="agree2" value="N" checked="checked">
+						</label>
+					</div>
 				</div>
-				<div>
-					<label>동의
-						<input type="radio" id="agree2" name="agree2" value="Y">
-					</label>
-					
-					<label>비동의
-						<input type="radio" id="agree2" name="agree2" value="N" checked="checked">
-					</label>
-				</div>
-			</div>
-				<button id="btnJoin">가입하기</button>
-				<button><a href="/buyer/join">취소하기</a></button>			
+			</fieldset>
+				<button id="btnJoin" class="btn btnRight">가입하기</button>
+				<button  class="btn btnLeft"><a href="/buyer/join">취소하기</a></button>			
 			</form>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

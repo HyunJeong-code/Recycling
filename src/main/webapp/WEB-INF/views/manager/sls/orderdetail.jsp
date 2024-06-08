@@ -18,6 +18,17 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 
 $(function() {
 	$("#sttName").text(sttList[${order.sttNo }])
+	
+	//뒤로가기
+	$("#btn_rollback").click(function() {
+		history.back();
+	})
+	
+	//송장뒤로가기
+	$("#btn_rollbackShip").click(function() {
+		history.back();
+	})
+
 })
 
 	
@@ -26,9 +37,10 @@ $(function() {
 </head>
 <body>
 
-	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
-
-	<div class="full">
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 
 		<form action="./orderupdate" method="post">
 			<input name="orddtCode" value="${order.orddtCode }" style="display:none">
@@ -115,7 +127,7 @@ $(function() {
 					<td>
 						<c:if test="${order.shipNo != 0}">
 			 				${order.shipNo }
-			 				<button><a href="./delship?orddtCode=${order.orddtCode }">송장삭제</a></button>
+			 				<button type="button" id ="btn_rollbackShip"><a href="./orderdetail?orddtCode=${order.orddtCode }">송장삭제</a></button>
 			 			</c:if>
 			 			<c:if test="${order.shipNo == 0}">
 			 				<input type="text" name="shipNo">
@@ -125,15 +137,14 @@ $(function() {
 			</table>
 			
 			<div>
-				<button type="button"><a href="./sellinglist">목록으로</a></button>
-				<button >수정하기</button>
+				<button type="button" id="btn_rollback">목록으로</a></button>
+				<button type="button" id=>수정하기</button>
 			</div>
 		</form>
 	</div>
 
+</div>
 
-
-	<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 	
 </body>
 </html>

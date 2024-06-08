@@ -24,13 +24,11 @@
 
     <div class="full">
         <div class="wrap">
-            <div class="page">
-            
-            </div>
-        
-            <div class="section">
-            	<h1>미답변 문의 조회</h1>
-            	
+        	<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
+            <div class="main-section">
+         		<div class="page-header">
+		            <h3>미답변 문의 조회</h3>
+		        </div>
             	<div class="search">
 					<form action="./main" method="get">
 						<input type="hidden" name="sCtg" value="UP">
@@ -39,7 +37,7 @@
 					</form>
 				</div>
 				
-	            <table border="1">
+	            <table class="s-table">
 				    <thead>
 				        <tr>
 				            <th>번호</th>
@@ -60,7 +58,7 @@
 				                </td>
 				                <td>
 				                	<c:choose>
-					                	<c:when test="${qst.qnaCode == null}">
+					                	<c:when test="${empty qst.qnaCode}">
 					                		<a href="./qnaform?qstCode=${qst.qstCode}">${qst.qstTitle}</a>
 					                	</c:when>
 					                	<c:otherwise>
@@ -79,20 +77,20 @@
 				</table>
 				
 				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-            </div>
             
-            <div class="section">
-            	<h1>모든 문의 조회</h1>
-            	
-            	<div class="search">
+            
+	           	<div class="page-header">
+		            <h3>모든 문의 조회</h3>
+		        </div>
+	           	<div class="search">
 					<form action="./main" method="get">
 						<input type="hidden" name="sCtg" value="UN">
 						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
 						<button>검색</button>
 					</form>
 				</div>
-            	
-	            <table border="1">
+	           	
+	            <table class="s-table">
 				    <thead>
 				        <tr>
 				            <th>번호</th>
@@ -109,7 +107,7 @@
 				                <td>${qst.qstCode}</td>
 				                <td>
 				                	<c:choose>
-					                	<c:when test="${qst.qnaCode == null}">
+					                	<c:when test="${empty qst.qnaCode}">
 					                		미답변
 					                	</c:when>
 					                	<c:otherwise>
@@ -122,7 +120,7 @@
 				                </td>
 				                <td>
 				                	<c:choose>
-					                	<c:when test="${qst.qnaCode == null}">
+					                	<c:when test="${empty qst.qnaCode}">
 					                		<a href="./qnaform?qstCode=${qst.qstCode}">${qst.qstTitle}</a>
 					                	</c:when>
 					                	<c:otherwise>
@@ -141,7 +139,7 @@
 				</table>
 				
 				<c:import url="/WEB-INF/views/layout/underpaging.jsp"/>
-            </div>
+			</div>
         </div>
     </div>
     

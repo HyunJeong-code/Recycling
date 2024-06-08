@@ -3,6 +3,7 @@ package recycling.manager.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,7 +28,6 @@ import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 import recycling.manager.dao.face.SlsDao;
 import recycling.manager.service.face.SlsService;
-import recycling.util.Paging;
 import recycling.util.PagingAndCtg;
 
 @Service
@@ -40,20 +40,13 @@ public class SlsServiceImpl implements SlsService {
 	@Autowired private SlsDao slsDao;
 	
 	@Override
-	public List<Seller> main(Paging paging) {
-		return slsDao.main(paging);
+	public List<Seller> main(PagingAndCtg upPaging) {
+		return slsDao.main(upPaging);
 	}
 
 	@Override
-	public Paging getPaging(Paging pagingParam) {
-		
-		// 총 게시글 수 조회
-		int totalCount = slsDao.getPaging();
-
-		// 페이징 계산
-		Paging paging = new Paging(totalCount, pagingParam.getCurPage(), pagingParam.getSearch());
-
-		return paging;
+	public int upPageSlsMain(PagingAndCtg upPaging) {
+		return slsDao.upPageSlsMain(upPaging);
 	}
 	
 	//전체조회
@@ -63,8 +56,8 @@ public class SlsServiceImpl implements SlsService {
 	}
 	
 	@Override
-	public int selectCntSeller() {
-		return slsDao.selectCntSeller();
+	public int selectCntSeller(PagingAndCtg paging) {
+		return slsDao.selectCntSeller(paging);
 	}
 	
 	@Override
@@ -102,49 +95,19 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectCntOrd(sCode);
 	}
 	
-	//체험단 전체 조회하기[explist]
-	@Override
-	public List<Exp> selectAllExp(PagingAndCtg upPaging) {
-		return slsDao.selectAllExp(upPaging);
-	}
-	
-	//체험단 전체 조회 페이징[explist]
-	@Override
-	public int selectCntAllExp(PagingAndCtg upPaging) {
-		return slsDao.selectCntAllExp(upPaging);
-	}
-
-	//세부사항 조회[expdetail]
-	@Override
-	public Exp selectDetailExp(String expCode) {
-		return slsDao.selectDetailExp(expCode);
-	}
-	
-	//체험단 체험일정 조회[expdetail]
-	@Override
-	public List<ExpSch> selectAllSch(String expCode) {
-		return slsDao.selectAllSch(expCode);
-	}
-	
 	//체험단 체험일정 조회페이징[expdetail]
 	@Override
 	public int selectCntAllExpSch(PagingAndCtg upPaging) {
 		return slsDao.selectCntAllExpSch(upPaging);
 	}
-		
-	//체혐 스케쥴 예약된 인원 조회[expdetail]
-	@Override
-	public List<ResSchCnt> selectByResCnt(String expCode) {
-		return slsDao.selectByResCnt(expCode);
-	}
-	
+
 	//글쓰기
 	@Override
 	public void insert(Exp exp
 			, List<String> schTime
 			, ExpSch expSch
 			, MultipartFile profile
-			, List<MultipartFile> files
+			, List<MultipartFile> file
 			) {
 	
 		//게시판 글쓰기
@@ -172,6 +135,7 @@ public class SlsServiceImpl implements SlsService {
 	    // 프로필 저장
 	    String profileStoredName = saveFile(profile, storedFolder);
 	    if (profileStoredName != null) {
+	    	logger.info("service profile: {}", profile);
 	        ExpFile profileFile = new ExpFile();
 	        profileFile.setOriginName(profile.getOriginalFilename());
 	        profileFile.setStoredName(profileStoredName);
@@ -181,10 +145,10 @@ public class SlsServiceImpl implements SlsService {
 	    }
 
 	    // 메인 파일 저장
-	    for (MultipartFile mainFile : files) {
+	    for (MultipartFile mainFile : file) {
 	        String storedName = saveFile(mainFile, storedFolder);
 	        if (storedName != null) {
-	        	logger.info("service : {}", mainFile);
+	        	logger.info("service mainFile : {}", mainFile);
 	            ExpFile expFile = new ExpFile();
 	            expFile.setOriginName(mainFile.getOriginalFilename());
 	            expFile.setStoredName(storedName);
@@ -200,9 +164,6 @@ public class SlsServiceImpl implements SlsService {
 	        logger.info("exp fileup service : {}", expFile);
 	    }
 	}
-	
-	
-
 
 	//체험 수정항목 조회
 	@Override
@@ -214,6 +175,7 @@ public class SlsServiceImpl implements SlsService {
 	//체험 수정하기
 	@Override
 	public void expUpdateProc(Exp exp) {
+	    logger.info("service: expUpdateProc");
 	    slsDao.expUpdateProc(exp);
 	}
 
@@ -253,46 +215,51 @@ public class SlsServiceImpl implements SlsService {
 	    return slsDao.expListDel(expCode);
 	}
 	
-	//디테일 프로필 조회
-	@Override
-	public ExpFile expProImage(ExpFile expFile) {
-		return slsDao.expProImage(expFile);
-	}
 	
 	//디테일부분 파일 조회
 	@Override
-	public List<ExpFile> expImage(ExpFile expFile) {
-		return slsDao.expImage(expFile);
+	public ExpFile image(ExpFile expFile) {
+		return slsDao.image(expFile);
 	}
 
 	//예약 버튼에 따른 상태변경
-	@Override
-	public int expResUpdate(List<String> chBox, String actionType) {
+		@Override
+		public int expResUpdate(List<String> chBox, String actionType) {
 
-		int result = 0;
-		
-		for(int i = 0; i < chBox.size(); i++) {
-			String resCode = chBox.get(i);
+			int result = 0;
 			
-	        if ("complete".equals(actionType)) {
-	        	 // 예약완료 메서드 호출
-	            result += slsDao.expResCnf(resCode);
-	   
-	        } else if ("cancel".equals(actionType)) {
-	        
-	        	// 예약취소 메서드 호출
-	            result += slsDao.expResCnl(resCode); 
-	        }
+			for(int i = 0; i < chBox.size(); i++) {
+				String resCode = chBox.get(i);
+				
+		        if ("complete".equals(actionType)) {
+		        	 // 예약완료 메서드 호출
+		            result += slsDao.expResCnf(resCode);
+		   
+		        } else if ("cancel".equals(actionType)) {
+		        
+		        	// 예약취소 메서드 호출
+		            result += slsDao.expResCnl(resCode); 
+		        }
+			}
+			
+			return result;
+			
 		}
-		
-		return result;
-		
-	}
 
 	//체험 예약조회
 	@Override
 	public ExpSch selectExpSchbySchNo(int schNo) {
 		return slsDao.selectExpSchbySchNo(schNo);
+	}
+
+	//체험 예약,인원 조인
+	@Override
+	public List<ResSchCnt> selectByResCnt(String expCode) {
+		logger.info("ResSchCnt : service[Get]");
+		
+		
+		return slsDao.selectByResCnt(expCode);
+		
 	}
 
 	//체험단 예약인원 예약변경창
@@ -304,14 +271,11 @@ public class SlsServiceImpl implements SlsService {
 	//체험단 예약인원
 	@Override
 	public List<ExpSch> changeExpSch() {
-		
 		return slsDao.changeExpSch();
 	}
 	
 	@Override
 	public void changeExpResProc(ResSchCnt resSchCnt) {
-
-		
 		slsDao.changeExpResProc(resSchCnt);
 	}
 
@@ -491,7 +455,7 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.selectAllPrdList(upPaging);
 	}
 
-	//판매자 상품 조회 페이징
+//	판매자 상품 조회 페이징
 	@Override
 	public int selectCntAllPrdList(PagingAndCtg upPaging) {
 		return slsDao.selectCntAllPrdList(upPaging);
@@ -499,7 +463,7 @@ public class SlsServiceImpl implements SlsService {
 	
 	//판매자 판매 조회
 	@Override
-	public List<SellerOrderJoin> selectAllSellList(PagingAndCtg unPaging) {
+	public List<MyOrder> selectAllSellList(PagingAndCtg unPaging) {
 		return slsDao.selectAllSellList(unPaging);
 	}
 
@@ -510,8 +474,8 @@ public class SlsServiceImpl implements SlsService {
 	}
 	//판매자 정보 조회
 	@Override
-	public List<Map<String, Object>> sellerAllSeller(String getsCode) {
-		return slsDao.sellerAllSeller(getsCode);
+	public Map<String, Object> sellerAllSeller(Seller seller) {
+		return slsDao.sellerAllSeller(seller);
 	}
 
 	//판매자 상품세부조회
@@ -537,6 +501,93 @@ public class SlsServiceImpl implements SlsService {
 		return slsDao.orderdetailPrd(orddtCode);
 	}
 
+	//멀티파일 업데이트 전 삭제
+	@Override
+	public void deleteDetailFile(HashMap<String, String> map) {
+		slsDao.deleteDetailFile(map);
+	}
 
+	//멀티파일 업데이트 후 삽입
+	@Override
+	public int updateDetailFile(String expCode, MultipartFile detailFile) {
+		//파일이 저장될 경로 - RealPath
+	      String storedPath = servletContext.getRealPath("upload");
+	            
+	      //upload폴더가 존재하지 않으면 생성하기
+	      File storedFolder = new File(storedPath);
+	      storedFolder.mkdir();
+
+	      //업로드된 파일이 저장될 이름
+	      String storedName = null;
+	      
+	      //저장될 파일 객체
+	      File dest1 = null;
+	      
+	      //저장될 파일명이 중복되지 않도록 반복
+	      do {
+	         storedName = detailFile.getOriginalFilename(); //원본 파일명
+	         storedName += UUID.randomUUID().toString().split("-")[4]; //UUID추가
+	         
+	         dest1 = new File( storedFolder, storedName );
+	      } while( dest1.exists() );
+	      try {
+	         //업로드된 임시 파일을 upload 폴더로 옮기기
+	         detailFile.transferTo(dest1);
+	      } catch (IllegalStateException e) {
+	         e.printStackTrace();
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+	      
+	      //일반파일DB에 기록하기
+	      ExpFile expFile = new ExpFile();
+	      expFile.setOriginName(detailFile.getOriginalFilename() );
+	      expFile.setStoredName(storedName);
+	      expFile.setExpCode(expCode);
+	      expFile.setCtPflNo(610);
+	      
+	      logger.info("prdFile: {}",expFile);
+	      
+	      //파일 업로드
+	      int detailRes = slsDao.insertPrdFile(expFile);
+	      
+	      return detailRes;
+	   }
+	
+	//디테일 프로필 조회
+	@Override
+	public ExpFile expProImage(ExpFile expFile) {
+		return slsDao.expProImage(expFile);
+	}
+	
+	//디테일부분 파일 조회
+	@Override
+	public List<ExpFile> expImage(ExpFile expFile) {
+		return slsDao.expImage(expFile);
+	}
+	
+	//체험단 전체 조회하기[explist]
+	@Override
+	public List<Exp> selectAllExp(PagingAndCtg upPaging) {
+		return slsDao.selectAllExp(upPaging);
+	}
+	
+	//체험단 전체 조회 페이징[explist]
+	@Override
+	public int selectCntAllExp(PagingAndCtg upPaging) {
+		return slsDao.selectCntAllExp(upPaging);
+	}
+	
+	//세부사항 조회[expdetail]
+	@Override
+	public Exp selectDetailExp(String expCode) {
+		return slsDao.selectDetailExp(expCode);
+	}
+	
+	//체험단 체험일정 조회[expdetail]
+	@Override
+	public List<ExpSch> selectAllSch(String expCode) {
+		return slsDao.selectAllSch(expCode);
+	}
 
 }//main

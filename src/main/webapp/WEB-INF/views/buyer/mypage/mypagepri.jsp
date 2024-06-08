@@ -10,8 +10,19 @@
 <title>mypagepri</title>
 
 <script type="text/javascript">
-
+    window.onload = function() {
+        var profileImg = document.getElementById('profileImg');
+        if (profileImg) {
+            console.log('Profile image path:', profileImg.src);
+        } else {
+            console.log('Profile image element not found.');
+        }
+    };
 </script>
+
+<style>
+@import url("buyer.css");
+</style>
 
 </head>
 <body>
@@ -20,19 +31,36 @@
 
 	<div class="full">
 		<div class="wrap">
-			<h2>마이페이지</h2>
-			<hr>
+		
+			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
+		
 			<div class="page">
-				<a href="/buyer/main">메인</a><br>
-				<a href="/buyer/mypage/changepw">비밀번호 변경</a><br>
-				<a href="/buyer/mypage/mydetailpri" >개인 정보 수정</a><br>
-				<a href="/buyer/mypage/myaddr">배송지</a><br>
-				<a href="/buyer/mypage/outbuyer">회원탈퇴</a><br>
-				<c:if test="${buyerProf != null}">
-        			<img src="${pageContext.request.contextPath }/resources/image/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
-    			</c:if>
-				<h3>이름: ${buyer.bName }</h3>
-				<h3>멤버쉽 등급: ${buyerRank.rankName }</h3>
+				<table>
+					<tr>
+						<th colspan="2">프로필 정보</th>
+					</tr>
+					<tr>
+						<td>프로필 이미지</td>
+						<td>
+							<c:choose>
+	                            <c:when test="${buyerProf != null }">
+	                                <img src="/resources/image/${buyerProf.originName}" alt="${buyerProf.storedName}" style="width: 100px; height: 100px;">
+	                            </c:when>
+	                            <c:otherwise>
+	                                <img src="${pageContext.request.contextPath}/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
+	                            </c:otherwise>
+                        </c:choose>
+						</td>
+					</tr>
+					<tr>
+						<td>이름</td>
+						<td>${buyer.bName }</td>
+					</tr>
+					<tr>
+						<td>멤버쉽 등급</td>
+						<td>${buyerRank.rankName }</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

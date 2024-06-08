@@ -2,17 +2,18 @@ package recycling.buyer.dao.face;
 
 import java.util.List;
 
+import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
-import recycling.dto.buyer.BuyerRank;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cart;
 import recycling.dto.buyer.CartOrder;
+import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.MyOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
-import recycling.dto.seller.Change;
 import recycling.dto.seller.Seller;
+import recycling.dto.seller.Change;
 import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerRank;
@@ -87,13 +88,13 @@ public interface BuyerDao {
 	public int updatePrdCnt(CartOrder cart);
 
 	/**
-	 * 주문 상세 리스트 추가
+	 * 주문 상세 추가
 	 * 
 	 * @param orderDetail - 추가할 주문 상세 DTO
 	 * @return - INSERT 결과
 	 */
 	public int insertOrderDetail(OrderDetail orderDetail);
-
+	
 	/**
 	 * 주문 상세 조회
 	 * 
@@ -117,7 +118,7 @@ public interface BuyerDao {
 	 * @return INSERT 결과
 	 */
 	public int insertChange(Change change);
-	
+
 	/**
 	 * 장바구니 수량 변경
 	 * 
@@ -293,7 +294,7 @@ public interface BuyerDao {
 	 * @return
 	 */
 	public List<Seller> findSeller(String sCode);
-	
+
 	/**
 	 * Cart paging
 	 * 
@@ -311,3 +312,4 @@ public interface BuyerDao {
 	public int selectCntOrderDetailBybCode(PagingAndCtg upPaging);
 
 }
+

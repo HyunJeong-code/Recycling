@@ -9,25 +9,18 @@ import recycling.dto.manager.ManagerJoinDe;
 import recycling.dto.manager.MgrFile;
 import recycling.dto.seller.ExpFile;
 import recycling.util.PagingAndCtg;
+import recycling.util.Paging;
 
 // 인사팀 관련 처리
 
 public interface HrService {
-
+	
 	/**
 	 * 전체조회[main]
 	 * 
 	 * @return
 	 */
 	public List<ManagerJoinDe> selectAllHr(PagingAndCtg upPaging);
-	
-	/**
-	 * 전체조회 페이징[main]
-	 * 
-	 * @param upPaging
-	 * @return
-	 */
-	public int selectCntAllHr(PagingAndCtg upPaging);
 	
 	/**
 	 * 세부사항 조회
@@ -37,13 +30,6 @@ public interface HrService {
 	 */
 	public Manager selectDetail(Manager manager);
 
-	/**
-	 * 세부사항 프로필 조회
-	 * @param mgrFile
-	 * @return
-	 */
-	public MgrFile mgrProFileList(MgrFile mgrFile);
-	
 	/**
 	 * 세부사항 파일조회
 	 * @param manager 
@@ -100,7 +86,14 @@ public interface HrService {
 	public MgrFile mgrFileUpdateList(MgrFile mgrFile);
 
 	/**
-	 * 업데이트 파일 가져오기
+	 * 세부사항 프로필 조회
+	 * @param mgrFile
+	 * @return
+	 */
+	public MgrFile mgrProFileList(MgrFile mgrFile);
+	
+	/**
+	 * 업데이트 파일 가져오기[삭제]
 	 * 
 	 * @param empFileUpdate
 	 * @param manager
@@ -114,20 +107,15 @@ public interface HrService {
 	 * @param mgrfile
 	 */
 	public void updateProfileProc(MgrFile mgrfile);
-
-
 	
+	/**
+	 * 전체조회 페이징[main]
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntAllHr(PagingAndCtg upPaging);
 
-	
 
 
-
-
-	
-	
-
-	
-
-	
-	
 }

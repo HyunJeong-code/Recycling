@@ -7,18 +7,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/hr/empdetail.css">
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
+
 <script type="text/javascript">
 
 $(document).ready(function() {
-    // 전화번호를 형식에 맞게 변환하는 함수[DB 변경으로 안씀]
-//     function formatPhoneNumber(phoneNumber) {
-//         phoneNumber = phoneNumber.replace(/\D/g, ''); // 숫자 이외의 문자 제거
-//         return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'); // 형식에 맞게 번호 변환
-//     }
+	//전화번호를 형식에 맞게 변환하는 함수[DB 변경으로 안씀]
+    function formatPhoneNumber(phoneNumber) {
+        phoneNumber = phoneNumber.replace(/\D/g, ''); // 숫자 이외의 문자 제거
+        return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'); // 형식에 맞게 번호 변환
+    }
 
     // 전화번호 요소 선택 후 형식 변환
     var phoneNumberElement = $('.mgrPhone_box div');
@@ -27,59 +27,8 @@ $(document).ready(function() {
 });
 
 </script>
+
 <style type="text/css">
-/* 전체 기본 설정 */
-* {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	vertical-align: baseline;
-	box-sizing: border-box;
-	font: inherit;
-	font-size: 100%;
-	line-height: 1.5;
-	color: #333;
-	text-align: center;
-}
-
-/* 외부 레이아웃 설정 */
-.full {
-	width: 1200px;
-	border: 1px solid #ccc;
-	margin: 0 auto;
-	display: flex;
-	background-color: #f9f9f9;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-	overflow: hidden;
-}
-
-aside {
-	width: 300px;
-	background-color: #f1f1f1;
-	border-right: 1px solid #ddd;
-	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-.wrap {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-}
-
-/* 상단 페이지 */
-.page {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	color: #007BFF;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 10px;
-}
-
 /* 중단 페이지 */
 .section {
 	margin-top: 20px;
@@ -157,7 +106,7 @@ input[type="text"], select {
 
 .section_bot_itembox {
 	width: 500px;
-	margin: 0 auto;
+	margin-left: 280px;
 }
 
 .section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
@@ -165,31 +114,6 @@ input[type="text"], select {
 	margin-bottom: 15px;
 	display: flex;
 	margin-left: 20px;
-}
-
-/* 하단 페이지 버튼 스타일 */
-.btn_bot_wrap {
-	display: flex;
-	width: 500px;
-	padding-top: 20px;
-	margin: 0 auto;
-	justify-content: space-around;
-}
-
-/* 버튼 스타일 */
-button {
-	background-color: #007BFF;
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	cursor: pointer;
-	border-radius: 5px;
-	font-size: 16px;
-	margin-left: 10px;
-}
-
-button:hover {
-	background-color: #0056b3;
 }
 
 /* 파일버튼 디자인 */
@@ -224,24 +148,28 @@ button:hover {
 	width: 79%;
 	color: #999999;
 }
+
+.btnRight{
+	margin-right: 20px;
+}
+
 </style>
 
 </head>
 <body>
 
-	<div class="full">
-	<aside>
-		왼쪽
-	</aside>
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
-				<h1>사원 상세조회</h1>
-				<hr>
+				사원 상세조회
 			</div>
 
 			<div class="section">
 				<div class ="section_top">
-					<img alt=""src="${pageContext.request.contextPath}/upload/${profileList.storedName}">
+					<img alt=""src="/upload/${profileList.storedName}">
 					
 				<div class="section_top_privacy">
 					<div class="mgrCode_box">
@@ -306,13 +234,13 @@ button:hover {
 					
 
 			<div class="btn_bot_wrap">
-				<div><a href="./empupdate?mgrCode=${view.mgrCode }"><button class="btn_bot_update">수정하기</button></a> <br></div>
-				<div><a href="./main"><button class="btn_bot_return">돌아가기</button></a></div>
+				<div><a href="./empupdate?mgrCode=${view.mgrCode }"><button class="btn btnRight">수정하기</button></a> <br></div>
+				<div><a href="./main"><button class="btn btnLeft">돌아가기</button></a></div>
 			</div>
 			</div>
 		</div>
 	</div>
-
+</div>
 
 
 </body>

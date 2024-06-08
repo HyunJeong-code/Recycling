@@ -106,7 +106,7 @@ public class ExpController {
 			Authentication authentication,
 			@RequestParam(defaultValue = "0") int curPage,
 			@RequestParam(defaultValue = "") String search,
-			@RequestParam(defaultValue = "") String sCtg
+			@RequestParam(defaultValue = "UP") String sCtg
 			) {
 		
 		Exp exp = expService.selectByExpCode(expCode);
@@ -124,6 +124,7 @@ public class ExpController {
 	        	detail.add(file);
 	        }
 	    }
+		logger.info("expFiles : {}", expFiles);
 		
 		//판매자 상세정보
 		sCode = exp.getsCode();
@@ -143,28 +144,21 @@ public class ExpController {
 		
 		//체험단 후기
 		
-//		PagingAndCtg upPaging = new PagingAndCtg();
-//		upPaging = pageService.upPageAll(curPage, sCtg, search);
-//		
-//		upPaging.setSearch(search);
-//		
-//		int upPage = expService.selectCntRvwList(upPaging, expCode);
-//		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
-//		
-//		logger.info("upPaging : {}", upPaging);
-//		
-////		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode, upPaging);
-//		
-//		Map<String, Object> params = new HashMap<>();
-//	    params.put("expCode", expCode);
-//	    params.put("search", search);
-//	    
-//		List<Map<String, Object>> expReviews = expService.selectRvwByExp(params);
-//		logger.info("RVW : {}", expReviews);
-//		logger.info("RVW : {}", expReviews.size());
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
 		
-		//체험단 후기
-		List<Map<String, Object>> expReviews = expService.selectRvwByExp(expCode);
+		int upPage = expService.selectCntRvwList(upPaging, expCode);
+		upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		logger.info("upPaging : {}", upPaging);
+		
+		Map<String, Object> params = new HashMap<>();
+	    params.put("expCode", expCode);
+	    params.put("upPaging", upPaging);
+	    params.put("startNo", upPaging.getStartNo());
+	    params.put("endNo", upPaging.getEndNo());
+	    
+	    List<Map<String, Object>> expReviews = expService.selectRvwByExp(params);
 		logger.info("RVW : {}", expReviews);
 		logger.info("RVW : {}", expReviews.size());
 		
@@ -188,10 +182,9 @@ public class ExpController {
 		model.addAttribute("isLoggedIn", isLoggedIn);
 	    model.addAttribute("loggedInUser", loggedInUser);
 	    model.addAttribute("buyerProf", buyerProf);
-//	    model.addAttribute("upPaging", upPaging);
-//	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
+	    model.addAttribute("upPaging", upPaging);
+	    model.addAttribute("upUrl", "/buyer/exp/expdetail?expCode=" + expCode);
 	}
-	
 	@PostMapping("/expdetail")
 	public String expDetailRvw(
 	        @RequestParam String expCode,

@@ -1,12 +1,11 @@
 package recycling.buyer.dao.face;
 
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
+import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.UpcyReview;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
@@ -20,20 +19,17 @@ public interface UpcyclingDao {
 	public Prd selectPrd(String prdCode);
 	
 	public Seller selectSeller(String getsCode);
+	
+	public Buyer selectBuyerByBCode(String getbCode);
+
+	public int selectShipCnt(String getsCode);
 
 	public Buyer selectBcode(int bCode);
 
-	public List<Map<String, Object>> selectRvwList(String prdCode);
+	public List<UpcyReview> selectRvwList(String prdCode);
 
 	public UpcyReview selectRvw();
 
-	public void insertReview(Map<String, Object> reviewData);
-
-	public void updateReview(@Param("upcyCode") String upcyCode, @Param("upcyContent") String upcyContent);
-
-	public void deleteReview(String upcyCode);
-
-	
 	/**
 	 * 장바구니 상품 갯수 조회
 	 * 
@@ -58,10 +54,17 @@ public interface UpcyclingDao {
 	 */
 	public int insertCart(Cart cart);
 
-
-
-
-
+	/**
+	 * 구매 상품 정보 조회
+	 * 
+	 * @param prdCode - 조회할 상품의 prdCode
+	 * @return - 조회결과
+	 */
+	public CartOrder selectCartOrder(String prdCode);
 	
+	public Buyer selectBuyerBybId(String bId);
+
+	public int insertReview(UpcyReview review);
+
 
 }

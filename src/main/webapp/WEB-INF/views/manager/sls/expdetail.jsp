@@ -10,8 +10,6 @@
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>Insert title here</title>
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/manager/sls/expdetail.css">
 
 <script type="text/javascript">
 $(function() {
@@ -73,7 +71,13 @@ $(function() {
 	font-size: 100%;
 	line-height: 1.5;
 	color: #333;
-	text-align: center;
+}
+
+h3 {
+	color: #333;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
 }
 
 /* 외부 레이아웃 설정 */
@@ -109,12 +113,11 @@ aside {
 	font-weight: bold;
 	display: flex;
 	align-items: center;
-	color: #007BFF;
 	border-bottom: 2px solid #007BFF;
 	padding-bottom: 10px;
 }
 
-/* 중단 페이지 */
+/* [우]중단 페이지 */
 .section {
 	margin-top: 20px;
 	background-color: #fff;
@@ -123,122 +126,61 @@ aside {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.section .top_section_con{
-	width: 500px;
-	margin: 0 auto;
-}
-
-.section img {
-	height: 200px;
-	width: 200px;
-	border-radius: 50%;
-	object-fit: cover;
-	margin: 20px;
-}
-
-.section .expName
-, .section .expPrice
-, .section .expDetail {
-	margin-bottom: 15px;
+/* [우]하단 페이지 */
+.btn_bot_style {
 	display: flex;
-	margin-left: 20px;
-}
-.section .expName div
-, .section .expPrice div{
-	width: 300px;
-	border: 1px solid #ccc;
+	float: right;
+	margin: 0 0 20px 0;
 }
 
-.section .expDetail textarea{
-	border: 1px solid #ccc;
-	width: 300px;
-	height: 300px;
-	
+/* ------------------------------------- */
+/* 상단 */
+/* 검색 */
+.search_form_wrap {
+	padding-top: 20px;
+	margin: 0 0 20px 0;
+	display: flex;
+	border-top: 3px solid #d8d8d8;
+	flex-direction: row-reverse;
 }
-
-
-label {
-	color: #373f57;
-	font-size: 16px;
-	font-weight: bold;
-	margin-bottom: 5px;
-	width: 200px;
-	text-align: justify;
-}
-
-input[type="text"], select {
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	font-size: 14px;
-}
-
-.section h3 {
-	color: #333;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 5px;
-	margin-bottom: 20px;
-}
-
-.section_top_privacy {
-	padding: 20px;
-	margin-left: 20px;
-	margin-top: 20px;
-	flex: 1;
-}
-
-.section_top_privacy div {
-	margin-bottom: 10px;
-}
-
-/* --------------------------------------- */
-/* 색션 하단 */
-.section_bot_title {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
+/* 검색창 */
+.search_form {
 	display: flex;
 	align-items: center;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 10px;
-}
-
-.section_bot_itembox {
-	width: 500px;
-	margin: 0 auto;
-}
-
-.section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
-	.section .mgrGender_box {
-	margin-bottom: 15px;
-	display: flex;
-	margin-left: 20px;
-}
-
-/* 하단 페이지 버튼 스타일 */
-.btn_bot_wrap {
-	display: flex;
-	width: 500px;
-	padding-top: 20px;
-	margin: 0 auto;
-	justify-content: space-around;
-}
-
-/* 버튼 스타일 */
-button {
-	background-color: #007BFF;
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	cursor: pointer;
+	margin-top: 20px;
 	border-radius: 5px;
-	font-size: 16px;
-	margin-left: 10px;
 }
 
-button:hover {
+.search_form button[type="submit"] {
+	padding: 6px 15px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px; /* 버튼 둥글게 */
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.search_form button[type="submit"]:hover {
 	background-color: #0056b3;
 }
 
+/* 버튼 */
+button[type="submit"] {
+	padding: 6px 12px;
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+/* 본문 */
+/* 테이블 세팅 */
 table {
 	border-collapse: collapse;
 	border-top: 3px solid #168;
@@ -271,79 +213,6 @@ table th:last-child, .table td:last-child {
 
 table tr td:first-child {
 	text-align: center;
-}table {
-	border-collapse: collapse;
-	border-top: 3px solid #168;
-	width: 100%;
-	text-align: center;
-}
-
-table td {
-	padding: 9px;
-}
-
-table th {
-	color: #168;
-	background: #f0f6f9;
-	text-align: center;
-}
-
-table th, .table td {
-	padding: 10px;
-	border: 1px solid #ddd;
-}
-
-table th:first-child, .table td:first-child {
-	border-left: 0;
-}
-
-table th:last-child, .table td:last-child {
-	border-right: 0;
-}
-
-table tr td:first-child {
-	text-align: center;
-}
-
-table caption {
-	caption-side: bottom;
-	display: none;
-}
-
-table tr:hover {
-  background-color: #f5f5f5;
-}table {
-	border-collapse: collapse;
-	border-top: 3px solid #168;
-	width: 100%;
-	text-align: center;
-}
-
-table td {
-	padding: 9px;
-}
-
-table th {
-	color: #168;
-	background: #f0f6f9;
-	text-align: center;
-}
-
-table th, .table td {
-	padding: 10px;
-	border: 1px solid #ddd;
-}
-
-table th:first-child, .table td:first-child {
-	border-left: 0;
-}
-
-table th:last-child, .table td:last-child {
-	border-right: 0;
-}
-
-table tr td:first-child {
-	text-align: center;
 }
 
 table caption {
@@ -355,28 +224,73 @@ table tr:hover {
   background-color: #f5f5f5;
 }
 
-table caption {
-	caption-side: bottom;
-	display: none;
+
+/* 버튼세팅 */
+.btn_section_detail {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
-table tr:hover {
-  background-color: #f5f5f5;
+/* 하단 */
+.btn_bot_wrap {
+	padding-top: 10 px;
+	display: flex;
+	float: right;
+	margin:20px 0;
+	justify-content: flex-end
 }
 
-.btn_bot_box{
-	margin-top: 20px;
+/* 버튼 세팅 */
+.btn_bot_inform, .btn_bot_del {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.btn_bot_inform {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.btn_bot_inform:hover {
+	background-color: #45a049;
+}
+
+.btn_bot_del {
+	background-color: #f44336;
+	color: white;
+	margin-left: 10px;
+}
+
+.btn_bot_del:hover {
+	background-color: #da190b;
+}
+
+button[type="submit"]:hover,
+.btn_section_detail:hover,
+.btn_bot_inform:hover,
+.btn_bot_del:hover {
+  background-color: #0056b3;
 }
 </style>
+
 
 </head>
 
 <body>
-	<div class="full">
-		<aside>
-			<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-			<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-		</aside>
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
 				<h1>체험 상세조회</h1>
@@ -384,11 +298,8 @@ table tr:hover {
 			</div>
 
 			<div class="section">
-				
-				<label>프로필 이미지</label>
-				<div>
-					<img alt="없음" src="/upload/${profileimage.storedName }">
-				</div>
+			    
+	    		<img alt="없음" src="/upload/${fileimage.storedName }">
 		
 				<div class="top_section_con">
 						<div class="expName">
@@ -410,13 +321,6 @@ table tr:hover {
 							<a href="./expupdate?expCode=${view.expCode }" ><button type="button">수정하기</button></a>
 						</div>				
 					</div>
-				<label>체험상세 이미지</label>
-				<div>
-				<c:forEach var="fileImage" items="${fileImage }">
-		    		<img alt="없음" src="/upload/${fileImage.storedName }">
-				</c:forEach>
-				</div>
-
 				<div class="section">
 	<table>
 		<thead>
@@ -469,8 +373,7 @@ table tr:hover {
 			</c:forEach>
 		</tbody>
 	</table>
-		<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-	</div>
+</div>
 				
 				
 				<div class="btn_bot_box">
@@ -480,6 +383,7 @@ table tr:hover {
 				<div></div>
 			</div>
 		</div>
+	</div>
 	</div>
 </body>
 

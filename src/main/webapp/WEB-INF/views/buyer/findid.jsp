@@ -143,7 +143,7 @@ $(function() {
 </script>
 </head>
 <body>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class=wrap>
 		<div class="page">
@@ -201,6 +201,6 @@ $(function() {
 		</div>
 	</div>
 </div>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>
