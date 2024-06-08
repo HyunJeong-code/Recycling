@@ -11,6 +11,9 @@ import recycling.dto.buyer.BuyerTest;
 import recycling.dto.buyer.Buyers;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
+import recycling.dto.seller.Exp;
+import recycling.dto.seller.Prd;
+import recycling.util.PagingAndCtg;
 
 // 메인페이지, 로그인/회원가입 관련 DB 처리
 
@@ -152,5 +155,35 @@ public interface BuyDao {
 	 */
 	public List<Map<String, Object>> selectExpNew();
 
-
+	/**
+	 * 상품 전체 페이지 수
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntPrd(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험 전체 페이지 수
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public int selectCntExp(PagingAndCtg unPaging);
+	
+	/**
+	 * 상품 전체 리스트
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public List<Prd> selectPrd(PagingAndCtg upPaging);
+	
+	/**
+	 * 체험 전체 리스트
+	 * 
+	 * @param upPaging
+	 * @return
+	 */
+	public List<Exp> selectExp(PagingAndCtg unPaging);
 }
