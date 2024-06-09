@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="recycling.manager.dao.face.CsDao">
+
+	<!-- 문의 sql 아이디 -->
+	<sql id="selectOtoList">
+		SELECT
+			oto_code, ct_otono, b_code, oto_title, oto_content, oto_name, oto_email, oto_date, oto_hit
+		FROM OTO
+	</sql>
+	
+	<!-- 구매자 sql 아이디 -->
+	<sql id="selectBuyerList">
+		SELECT * FROM BUYER
+	</sql>
+	
+	<!-- 문의글 목록 -->
+	<select id="list" resultType="Oto">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectOtoList" />
+				ORDER BY oto_code DESC
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 문의글 페이징 -->
+	<select id="selectCntAllotoList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="selectOtoList"/>
+   			)
+		<where>
+			AND (
+				oto_code LIKE '%' || #{search } || '%'
+				OR oto_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY oto_code DESC
+	</select>
+	
+	<!-- 구매자 목록 -->
+	<select id="buyerList" resultType="Buyer">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectBuyerList" />
+				ORDER BY b_code DESC
+			) B
+		)
+		<where>
+			AND rnum BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 구매자 상세조회 -->
+	<select id="buyerDetail" resultType="Buyer" parameterType="Buyer">
+		<include refid="selectBuyerList" />
+		<where>B_CODE = #{bCode}</where>
+	</select>
+	
+	<!-- 구매자 주소 조회 -->
+	<select id="buyerAdrDetail" resultType="BuyerAdr" parameterType="BuyerAdr">
+		SELECT
+			adr_code, b_code, adr_name, adr_phone, adr_postcode, adr_addr, adr_detail, adr_chk
+		FROM BUYER_ADR
+		<where>
+			b_code = #{bCode }
+		</where>
+	</select>
+	
+	<!-- 구매자 프로필 조회 -->
+	<select id="buyerProfDetail" resultType="BuyerProf" parameterType="BuyerProf">
+		SELECT
+			b_profno, b_code, origin_name, stored_name
+		FROM BUYER_PROF
+		<where>
+			b_code = #{bCode }
+		</where>
+	</select>
+	
+	<!-- 세부사항 프로필조회 -->
+	<select id="buyerRankDetail" resultType="BuyerRank" parameterType="BuyerRank">
+		SELECT
+			rank_no, rank_name
+		FROM BUYER_RANK
+		<where>
+			AND rank_no = #{rankNo }
+		</where>
+	</select>
+	
+	<!-- 구매자 페이징 -->
+	<select id="selectCntAllbuyerList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*)
+   			FROM(
+		   		<include refid="selectBuyerList"/>
+   			)
+		<where>
+			AND (
+				b_code LIKE '%' || #{search } || '%'
+				OR b_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY b_code DESC
+	</select>
+
+	<!-- 구매자 수정 -->	
+	<!-- <update id="buyerUpdate" parameterType="Buyer">
+		UPDATE BUYER
+		SET b_name = #{bName },
+			b_phone = #{bPhone },
+			b_email = #{bEmail }
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</update>
+	
+	구매자 수정
+	<select id="getBuyer" parameterType="String" resultType="Buyer">
+		<include refid="selectBuyerList"/>
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</select> -->
+	
+	<!-- 구매자 삭제 -->
+	<update id="buyerDel" parameterType="Buyer">
+		UPDATE BUYER
+			SET B_OUT = 'Y'			
+			, B_OUT_DATE = sysdate			
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</update>
+	
+	<!-- 구매자 삭제 -->
+	<select id="getBuyer" parameterType="String" resultType="Buyer">
+		<include refid="selectBuyerList"/>
+		<where>
+			AND b_code = #{bCode }
+		</where>
+	</select>
+	
+	<!-- 문의글 상세조회 -->
+	<select id="ansForm" resultType="Oto" parameterType="Oto">
+		<include refid="selectOtoList" />
+		<where>OTO_CODE = #{otoCode }</where>
+	</select>
+	
+	<!-- 문의글 답변 -->
+	<insert id="ansFormInsert" parameterType="Ans">
+		<selectKey order="BEFORE" keyProperty="ansCode" resultType="String">
+			SELECT 'ANS' || LPAD(qna_seq.nextval, 7, '0') FROM dual
+		</selectKey>
+		INSERT INTO ANS (ANS_CODE, OTO_CODE, MGR_CODE, ANS_CONTENT, ANS_DATE)
+		VALUES(#{ansCode }, #{otoCode }, #{mgrCode }, #{ansContent }, sysdate)
+	</insert>
+	
+	<!-- 문의글 답변 삭제 -->
+	<delete id="otoDelAns" parameterType="String">	
+		DELETE FROM ans
+		<where> 
+			oto_code = #{otoCode } 
+		</where>
+	</delete>
+	
+	<!-- 문의글 파일 삭제 -->
+	<delete id="otoDelOtoFile" parameterType="String">	
+		DELETE FROM oto_file
+		<where> 
+			oto_code = #{otoCode } 
+		</where>
+	</delete>
+	
+	<!-- 문의글 삭제 -->
+	<delete id="otoDelOto" parameterType="String">	
+		DELETE FROM oto
+		<where> 
+			oto_code = #{otoCode } 
+		</where>
+	</delete>
+	
+	<!-- 답글 리스트 -->
+	<select id="viewCom" parameterType="String" resultType="Ans">
+		SELECT ANS_CODE, OTO_CODE, MGR_CODE, ANS_CONTENT, ANS_DATE
+		FROM ANS
+		<where>
+			OTO_CODE = #{otoCode }
+		</where>		
+		ORDER BY ANS_DATE DESC
+	</select>
+	
+	<!-- 파일 리스트 -->
+	<select id="getOtoFiles" resultType="OtoFile" parameterType="string">
+		SELECT * FROM oto_file
+		<where>
+			AND oto_code = #{otoCode}
+		</where>
+	</select>
+	
+	<!-- 업데이트 항목조회 -->
+	<select id="csUpdateView" resultType="Buyer" parameterType="Buyer">
+		<include refid="selectBuyerList"/>
+		<where>b_code = #{bCode }</where>	
+	</select>
+	
+	<!-- 업데이트 -->
+	<update id="csUpdate" parameterType="Buyer">
+		UPDATE Buyer SET
+		b_ct_code = #{bCtCode }
+		, b_name = #{bName }
+		, rank_no = #{rankNo }
+		, b_email = #{bEmail }
+		, b_phone = #{bPhone }
+		, ad_sms = #{adSms }
+		, ad_email = #{adEmail }
+		<where>
+			b_code = #{bCode } 
+		</where>
+	</update>
+	
+	<!-- 업데이트 파일조회 -->
+	<select id="buyerFileUpdate" resultType="BuyerProf" parameterType="BuyerProf">
+		SELECT
+			b_profno, b_code, origin_name, stored_name
+		FROM Buyer_Prof
+		<where>
+			b_code = #{bCode }
+		</where>
+	</select>
+		
+	<!-- 프로필 업데이트 -->	
+	<update id="updateProfileProc"  parameterType="BuyerProf">
+		UPDATE buyer_prof SET
+			origin_name = #{originName } 
+			, stored_name = #{storedName }
+		<where>
+			AND b_code = #{bCode }
+			AND b_profno = #{bProfNo }
+		</where>
+	</update>
+	
+	<!-- 구매자 주소 조회 -->
+	<select id="buyerAdrUpdate" resultType="BuyerAdr" parameterType="BuyerAdr">
+		select * from Buyer_Adr
+		<where>
+			b_code = #{bCode }
+		</where>
+	</select>
+	
+	<!-- 구매자 주소 수정 -->
+	<update id="csUpdateAdr" parameterType="BuyerAdr">
+		UPDATE Buyer_Adr SET
+		adr_postcode = #{adrPostcode }
+		, adr_addr = #{adrAddr }
+		, adr_detail = #{adrDetail }
+		<where>
+			b_code = #{bCode }
+		</where>
+	</update>
+	
+</mapper>

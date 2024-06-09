@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="recycling.manager.dao.face.SlsDao">
+	
+	<!-- 판매자 sql 아이디 -->
+	<sql id="selectSellerList">
+		SELECT * FROM SELLER
+	</sql>
+
+	
+	<!-- 판매자정보 -->
+	<sql id="SellOrderJoin">
+			SELECT 
+		    p.prd_code, p.ct_pno, p.ct_pdtno, p.s_code, p.prd_name,
+		    p.price, p.prd_cnt, p.prd_fee, p.prd_detail, p.prd_date,
+		    p.prd_hit, p.prd_out, od.orddt_code, od.ord_code, od.ord_name AS ord_detail_name,
+		    od.ord_price, od.ord_cnt, od.ord_sum AS ord_detail_sum, od.stt_no,
+		    o.b_code, o.ord_name AS order_name,
+		    o.ord_phone, o.send_name, o.send_phone, o.ord_postcode,
+		    o.ord_addr, o.ord_detail AS order_detail_addr,
+		    o.ord_memo, o.ord_date, o.ord_pay, o.ord_sum AS order_sum,
+		    o.ord_fee, os.stt_name
+		FROM order_detail od
+		JOIN prd p ON od.prd_code = p.prd_code
+		JOIN orders o ON od.ord_code = o.ord_code
+		JOIN order_stt os ON od.stt_no = os.stt_no
+	</sql>
+	
+	<!--  seller join buyer -->
+	<sql id="sellerJoin">
+		SELECT
+		    s.s_code, s.b_code, s.acc_name, s.acc_bank, s.acc_no
+		    , s.s_postcode, s.s_addr, s.s_detail, s.s_entdate, s.s_chk
+		    , s.s_out, s.s_out_date
+		FROM Seller s
+		JOIN Buyer b ON s.b_code = b.b_code
+	</sql>
+	
+	<!-- 판매자 목록 -->
+	<select id="main" resultType="Seller" parameterType="recycling.util.Paging">
+			SELECT *
+			FROM (
+			    SELECT rownum no, B.* FROM (
+			        SELECT * FROM seller
+			<where>
+				AND s_chk = 'Y'
+		        AND (
+		            s_code LIKE '%' || #{search} || '%'
+		        )
+			</where>
+				ORDER BY s_code DESC
+			) B
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 전체조회 페이징[main] -->
+	<select id="upPageSlsMain" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM seller
+			<where>
+				AND s_chk = 'Y'
+		        AND (
+		            s_code LIKE '%' || #{search} || '%'
+		        )
+			</where>
+		ORDER BY s_code DESC
+	</select>
+	
+	<!-- 체험단 조회구조[exp]  -->
+	<sql id="expBoard">
+	SELECT 
+    	exp_code, s_code, exp_name, exp_price, exp_detail, exp_hit, exp_date
+	FROM exp
+	</sql>
+	
+	<!-- 체험단 예약일정 조회구조[exp_sch] -->
+	<sql id="expSchBoard">
+	SELECT
+		sch_no, exp_code, sch_date, sch_time, sch_cnt		
+	FROM exp_sch
+	</sql>
+	
+	<!-- 체험단 예약인원 정보 조회[exp_res] -->
+	<sql id="expResBoard">
+	SELECT
+		res_code, b_code, sch_no, res_name, res_phone
+		,res_email, res_expname, res_date, res_time, res_cnt
+		,res_price, res_sum, res_pay, pay_date, res_cnf
+		,res_cnl, res_dt
+	FROM exp_res
+	</sql>
+	
+	<!-- 체험단 파일조회구조[exp_file] -->
+	<sql id="expFileBoard">
+	SELECT
+    	exp_flno, exp_code, ct_pflno, origin_name, stored_name
+	FROM exp_file
+	</sql>
+	
+	<!-- exp Join expSch  -->
+	<sql id="expAndExpSch">
+	SELECT e.exp_code, e.s_code, e.exp_name, e.exp_price
+	, e.exp_detail, e.exp_hit, e.exp_date, s.sch_no
+	, s.sch_date, s.sch_time, s.sch_cnt
+	FROM exp e
+	JOIN exp_sch s ON e.exp_code = s.exp_code
+	</sql>
+	
+	<!-- expRes Join expSch  -->
+	<sql id="expResJoinExpSch">
+	SELECT s.sch_no, s.exp_code, s.sch_date,
+           s.sch_time, s.sch_cnt,
+           r.res_code, r.b_code, r.res_name,
+           r.res_phone, r.res_email,
+           r.res_expname, r.res_date,
+           r.res_time, r.res_cnt,
+           r.res_price, r.res_sum,
+           r.res_pay, r.res_cnf,
+           r.res_cnl, r.res_dt
+    FROM exp_sch s
+    JOIN exp_res r ON s.sch_no = r.sch_no
+	</sql>
+	
+	<!-- buyer Join Seller And Cmp -->
+	<sql id="buyerJoinSellerJoinCmp">
+	SELECT 
+	B.b_code
+		, B.b_ct_code, B.rank_no, B.b_id, B.b_pw, B.b_name, B.b_phone
+		, B.b_email, B.b_entdate, B.ad_sms, B.ad_email, B.b_out, B.b_out_date
+		, S.s_code, S.b_code, S.acc_name, S.acc_bank, S.acc_no, S.s_postcode
+		, S.s_addr, S.s_detail, S.s_entdate, S.s_chk, S.s_out, S.s_out_date
+		, C.cmp_no, C.b_code, C.cmp_name, C.cmp_ceo, C.cmp_num, C.cmp_postcode
+		, C.cmp_addr, C.cmp_detail
+	FROM 
+	    buyer B
+	LEFT JOIN 
+	    seller S ON B.b_code = S.b_code
+	LEFT JOIN 
+	    cmp C ON B.b_code = C.b_code
+	</sql>
+	
+	<!-- 판매자 정보 상세 조회(개인) -->
+	<select id="selectPriSeller" parameterType="string" resultType="hashmap">
+		SELECT 
+		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.acc_no acc_no, S.s_entdate s_entdate, S.s_chk s_chk, S.s_postcode s_postcode, S.s_addr s_addr, S.s_detail s_detail, S.s_out s_out, TO_CHAR(S.s_out_date, 'YYYY-MM-DD') s_out_date,
+		    B.b_code b_code, B.b_id b_id, B.b_pw b_pw, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, TO_CHAR(B.b_entdate, 'YYYY-MM-DD') b_entdate, B.b_out b_out
+		FROM seller S, buyer B
+		<where>
+			AND S.b_code = B.b_code(+)
+		    AND B.b_out = 'N'
+		    AND B.b_code = #{bCode } 
+		</where> 
+	</select>
+	
+	<!-- 판매자 정보 상세 조회(기업) -->
+	<select id="selectCmpSeller" parameterType="string" resultType="hashmap">
+		SELECT 
+		    S.s_code s_code, S.acc_name acc_name, S.acc_bank acc_bank, S.acc_no acc_no,  S.s_entdate s_entdate, S.s_chk s_chk, S.s_postcode s_postcode, S.s_addr s_addr, S.s_detail s_detail, S.s_out s_out, TO_CHAR(S.s_out_date, 'YYYY-MM-DD') s_out_date,
+		    B.b_code b_code, B.b_id b_id, B.b_pw b_pw, B.b_ct_code ct_code, B.b_name b_name, B.b_phone b_phone, B.b_email b_email, TO_CHAR(B.b_entdate, 'YYYY-MM-DD') b_entdate,
+		    B.cmp_ceo cmp_ceo, B.cmp_name cmp_name, B.cmp_num cmp_num, B.cmp_postcode cmp_postcode, B.cmp_addr cmp_addr, B.cmp_detail cmp_detail
+		FROM seller S, (
+		    SELECT 
+		        B.b_code, B.b_ct_code, B.b_id, B.b_pw, B.b_name, B.b_phone, B.b_email, B.b_entdate, B.b_out,
+		        C.cmp_ceo, C.cmp_name, C.cmp_num, C.cmp_postcode, C.cmp_addr, C.cmp_detail
+		    FROM cmp C, buyer B
+		        <where>
+		        	AND B.b_code = C.b_code(+)
+		        </where>
+		    ) B
+		<where>
+			AND S.b_code = B.b_code(+)
+		    AND B.b_out = 'N'
+		    AND B.b_code = #{bcode }
+		</where> 
+	</select>
+	
+	<!-- 판매자 탈퇴 처리 -->
+	<update id="updateSelOut" parameterType="string">
+		UPDATE seller
+		SET s_out = 'Y',
+			s_out_date = sysdate
+		<where>
+			s_code = #{sCode }
+		</where>
+	</update>
+	
+	<!-- 총 신고 횟수 -->
+	<select id="selectCntRpt" parameterType="string" resultType="int">
+		SELECT count(*) cnt FROM (
+		    SELECT P.prd_code, P.s_code 
+		    FROM prd P, prd_rpt R
+		    <where>
+			    AND P.prd_code(+) = R.prd_code
+			    AND P.s_code = #{sCode }
+		    </where> 
+		)
+	</select>
+	
+	<!-- 총 거래 완료 건수 -->
+	<select id="selectCntOrd" parameterType="string" resultType="int">
+		SELECT count(*) cnt FROM (
+		    SELECT P.prd_code, OD.orddt_code
+		    FROM prd P, order_detail OD
+		    <where>
+		    	AND P.prd_code(+) = OD.prd_code
+		    	AND OD.stt_no = 940
+		        AND P.s_code = #{sCode }
+		    </where> 
+		)
+	</select>
+	
+	<!-- 판매자 요청 관리 -->
+	<select id="selectBysChk" resultType="Map" parameterType="recycling.util.PagingAndCtg">
+		SELECT * FROM (
+			SELECT rownum no, SEL.* FROM (
+				SELECT S.s_code s_code, B.b_ct_code ct_code, NVL(B.cmp_name, '-') cmp_name, B.b_name b_name, B.b_phone b_phone, B.b_email b_email
+					FROM seller S, (
+					    SELECT B.b_code, B.b_ct_code, B.b_name, B.b_phone, B.b_email, C.cmp_name, B.b_out FROM buyer B, cmp C
+					    WHERE B.b_code = C.b_code(+)
+					) B
+				<where>
+					AND S.b_code = B.b_code(+)
+				    AND (
+				    	S.s_chk = 'N'
+				    	OR S.s_chk IS NULL
+				    	)
+				    AND B.b_out = 'N'
+				    AND (
+				    	B.b_name LIKE '%' || #{search } || '%'
+				    	OR B.b_phone LIKE '%' || #{search } || '%'
+				    	OR B.b_email LIKE '%' || #{search } || '%'
+				    	OR B.cmp_name LIKE '%' || #{search } || '%'
+				    )
+				</where>
+				ORDER BY S.s_entdate
+			) SEL
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 판매자 요청수 -->
+	<select id="selectCntSeller" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM seller
+		<where>
+			AND (
+				s_chk = 'N'
+				OR s_chk IS NULL
+				)
+		</where>
+		ORDER BY s_entdate
+	</select>
+	
+	<!-- 구매자 코드 조회 -->
+	<select id="selectBysCode" resultType="string" parameterType="string">
+		SELECT B.b_code b_code FROM buyer B, Seller S
+		<where>
+			AND B.b_code = S.b_code(+)
+			AND S.s_code = #{sCode }
+		</where> 
+	</select>
+	
+	<!-- 판매자 요청 수락/거절 처리 -->
+	<update id="updateSelChk" parameterType="Seller">
+		UPDATE seller
+		SET s_chk = #{sChk },
+			s_entdate = CASE WHEN #{sChk } = 'Y' THEN sysdate
+				ELSE s_entdate
+    			END
+		<where>
+			AND s_code = #{sCode }
+		</where>
+	</update>
+	
+	<!-- 체험단 조회 -->
+	<select id="selectAll" resultType="Exp">
+		<include refid="expBoard"/>
+		ORDER BY exp_date DESC
+	</select>
+
+	<!-- 판매자 상품관리 -->
+	<select id="selectAllPrdList" resultType="SellerOrderJoin" parameterType="recycling.util.PagingAndCtg">
+		SELECT *
+		FROM (
+			SELECT rownum no, PRD.* FROM (
+				SELECT * FROM prd
+				<where>
+					AND s_code = #{user }
+					AND prd_out = 'N'
+					AND (
+					prd_name LIKE '%' || #{search } || '%'
+					OR prd_detail LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY prd_code DESC
+		) PRD
+	)
+	<where>
+		AND no BETWEEN #{startNo } AND #{endNo }
+	</where>
+	</select>	
+	
+	<!-- 판매자 상품관리[페이징] -->
+	<select id="selectCntAllPrdList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT count(*) FROM prd
+		<where>
+			AND s_code = #{user }
+			AND prd_out = 'N'
+			AND (
+				prd_name LIKE '%' || #{search } || '%'
+				OR prd_detail LIKE '%' || #{search } || '%'
+				)
+		</where>
+	</select>
+	
+	<!-- 판매자 판매관리 -->
+	<select id="selectAllSellList" resultType="MyOrder" parameterType="recycling.util.PagingAndCtg">
+		SELECT 
+			*
+		FROM (
+			SELECT rownum no, ORD.* FROM (
+				SELECT 
+					od.ORDDT_CODE, od.ORD_CODE, od.PRD_CODE, od.ORD_NAME, o.SEND_NAME
+					, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
+					, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
+				FROM 
+					order_detail od, orders o, ship s, prd p
+				<where>
+					AND od.ord_code = o.ord_code
+					AND od.orddt_code = s.orddt_code(+)
+					AND od.prd_code = p.prd_code
+				    AND p.prd_OUT = 'N'
+				    AND p.s_code = #{user }
+				</where>
+				ORDER BY
+					od.ORDDT_CODE DESC
+			) ORD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 판매자 판매관리[페이징] -->
+	<select id="selectCntAllSellList" resultType="int" parameterType="recycling.util.PagingAndCtg">
+		SELECT 
+			count(*)
+		FROM 
+			order_detail od, orders o, ship s, prd p
+		<where>
+			AND od.ord_code = o.ord_code
+			AND od.orddt_code = s.orddt_code(+)
+			AND od.prd_code = p.prd_code
+		    AND p.s_code = #{user }
+		    AND (
+				od.ord_name LIKE '%' || #{search } || '%'
+				OR od.ord_code LIKE '%' || #{search } || '%'
+				)
+		</where>
+	</select>
+	
+	
+	<!-- 체험단 전체 조회하기[expList] -->
+	<select id="selectAllExp" resultType="Exp">
+		SELECT *
+		FROM (
+			SELECT rownum no, exp.* FROM (
+				<include refid="expBoard"/>
+				<where>
+					AND (
+						exp_code LIKE '%' || #{search } || '%'
+						OR exp_name LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY exp_code DESC
+			) exp
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<!-- 체험단 전체 조회 페이징[expList] -->
+	<select id="selectCntAllExp" resultType="int" parameterType="recycling.util.PagingAndCtg">
+  		SELECT count(*) FROM exp
+		<where>
+			AND (
+				exp_code LIKE '%' || #{search } || '%'
+				OR exp_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY exp_code DESC
+	</select>
+	
+	<!-- 체험단 스케쥴 조회[expdetail] -->
+	<select id="selectAllSch" resultType="ExpSch" parameterType="String">
+		<include refid="expSchBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 체험단 세부 조회 -->
+	<select id="selectDetail" parameterType="String" resultType="Exp" >
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+		
+	</select>
+	
+	<!-- 체험단 스케쥴 프로필조회 -->
+	<select id="expProImage" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where> 
+				AND exp_code = #{expCode }
+				AND ct_pflno = '600'
+		</where>
+	</select>
+	
+	<!-- 체험단 파일조회 -->
+	<select id="expImage" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '610'
+		</where>
+	</select>
+	
+	<!-- 체험단 등록 -->
+	<insert id="insert" parameterType="Exp">
+	    <selectKey order="BEFORE" keyProperty="expCode" resultType="String">
+	        SELECT ('EXP'||LPAD(exp_seq.nextval, 7, '0')) FROM dual
+	    </selectKey>
+	    INSERT INTO exp
+	    ( exp_code
+	    , s_code
+	    , exp_name
+	    , exp_price
+	    , exp_detail
+	    , exp_hit
+	    , exp_date
+	    )VALUES
+	    ( #{expCode }
+	    , #{sCode }
+	    , #{expName }
+	    , #{expPrice }
+	    , #{expDetail }
+	    , #{expHit }
+	    , default
+	    )
+	</insert>
+
+	<!-- 파일 등록 -->
+	<insert id="fileup" parameterType="ExpFile">
+	    <selectKey order="BEFORE" keyProperty="expFlNo" resultType="int">
+	        SELECT EXP_FILE_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_File 
+	    	(exp_flNo
+	    	, exp_code
+	    	, ct_pflNo
+	    	, origin_name
+	     	, stored_name 
+	     	)
+	    VALUES
+	    	(#{expFlNo}
+	    	, #{expCode}
+	    	, #{ctPflNo}
+	    	, #{originName}
+	    	, #{storedName}
+	    	)
+	</insert>
+	
+	<!-- 체험 일정 등록 -->
+	<insert id="expschUp" parameterType="ExpSch">
+	    <selectKey order="BEFORE" keyProperty="schNo" resultType="int">
+	        SELECT EXP_SCH_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_Sch
+	    	(sch_no, exp_code
+	    	, sch_date , sch_time
+	     	, sch_cnt
+	     	)
+	    VALUES
+	    	(#{schNo}, #{expCode}
+	    	, #{schDate}, #{schTime}
+	    	, #{schCnt}
+	    	)
+	</insert>
+	
+	<!-- 업데이트 항목조회 -->
+	<select id="expUpdateView" parameterType="Exp" resultType="Exp" >
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 업데이트 -->
+	<update id="expUpdateProc" parameterType="Exp">
+		UPDATE Exp SET
+	    exp_code = #{expCode }
+	    , exp_name = #{expName }
+	    , exp_price = #{expPrice }
+	    , exp_detail = #{expDetail }
+	    , exp_date = default
+	    <where>exp_code = #{expCode }</where>
+	</update>
+
+	<!-- 체험 예약페이지 정보 조회 -->
+	<select id="expResDetail" resultType="Exp" parameterType="String">
+		<include refid="expBoard"/>
+		<where>exp_code = #{expCode }</where>
+	</select>
+	
+	<!-- 체험 예약페이지 예약 조회 -->	
+	<select id="expResDetailRes" resultType="ExpRes" parameterType="int">
+		<include refid="expResBoard"/>
+		<where>sch_no = #{schNo}</where>
+		ORDER BY res_date
+	</select>
+	
+	<!-- expResDetail페이지 예약일정조회 -->
+	<select id="selectExpSchbySchNo" resultType="ExpSch" parameterType="int">
+		<include refid="expSchBoard"/>
+		<where>sch_no = #{schNo}</where>
+	</select>
+	
+	<!-- 체험단 리스트 리뷰삭제 -->
+	<delete id="expReviewListDel" parameterType="int">
+		DELETE FROM exp_review
+		<where> exp_code = #{expCode }</where>
+	</delete>
+	
+	<!-- 체험단 세부 조회[expdetail] -->
+	<select id="selectDetailExp" resultType="Exp" parameterType="String" >
+		<include refid="expBoard"/>
+		<where>
+			exp_code= #{expCode}
+		</where>
+	</select>
+	
+	<!-- 체험단 리스트 파일삭제 -->
+	<delete id="expFileListDel" parameterType="int">
+		DELETE FROM exp_file
+		<where> exp_code = #{expCode }</where>
+	</delete>
+	
+	<!-- 체험단 스케쥴 삭제 -->
+	<delete id="expSchListDel" parameterType="int">
+		DELETE FROM exp_sch
+		<where> exp_code = #{expCode }</where>
+	</delete>
+	
+	<!-- 체험단 리스트 삭제 -->
+	<delete id="expListDel" parameterType="int">
+		DELETE FROM exp
+		<where> exp_code = #{expCode }</where>
+	</delete>
+
+	
+	<!-- 체험단 파일조회 -->
+	<select id="image" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"/>
+		<where> exp_code = #{expCode }</where>
+	</select>
+
+	<!-- 예약 확정 버튼에 따른 상태변경 -->
+	<update id="expResCnf" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'Y' 
+	    ,res_cnl ='N'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
+	<!-- 예약 취소 버튼에 따른 상태변경 -->
+	<update id="expResCnl" parameterType="String">
+		UPDATE exp_res SET 
+	    res_cnf = 'N' 
+	    ,res_cnl ='Y'
+	    <where>res_code = #{resCode }</where>
+	</update>
+	
+	<!-- expresdetail페이지 예약인원 변경창 조회 -->
+	<select id="changeExpRes" resultType="ResSchCnt" parameterType="ResSchCnt">
+		<include refid="expResJoinExpSch"/>
+		WHERE r.res_code = #{resCode}
+	</select>
+	
+	<!-- expresdetail페이지 예약인원 변경 조회 -->
+	<select id="changeExpSch">
+		<include refid="expSchBoard"/>
+		<where>
+			AND exp_code = #{expCode}
+			AND sch_no = #{schNo}
+		</where>
+	</select>
+	
+	
+	<!-- expresdetail페이지 예약인원 변경하기 -->
+	 <update id="changeExpResProc" parameterType="ResSchCnt">
+		UPDATE exp_res SET
+		  res_name = #{resName}
+		  , res_phone = #{resPhone}
+		  , res_email = #{resEmail}
+		  , res_cnt = #{resCnt }
+		  , res_time = #{resTime }
+		  , res_date = sysdate
+		  <where>res_code = #{resCode } </where>
+	 </update>
+	
+	<!-- expdetail페이지 예약인원조회 -->
+	<select id="selectByResCnt" resultType="ResSchCnt" parameterType="String">
+			SELECT s.sch_no, s.exp_code, s.sch_date, s.sch_time, s.sch_cnt, r.res_cnt
+				FROM exp_sch s
+				JOIN exp_res r ON s.sch_no = r.sch_no
+		WHERE s.exp_code = #{expCode}
+	</select>
+	
+	<!-- 인원 변경 -->
+	<update id="cntChangeUpdate" parameterType="ExpSch">
+		UPDATE exp_sch SET
+		sch_cnt = #{schCnt}
+		<where>
+			AND sch_no = #{schNo}
+			AND exp_code = #{expCode}
+		</where>
+	</update>
+	
+	<!-- 예약인원 총합 조회 -->
+	<!-- COALESCE 예약원이 없을경우 사용 null값반환으로 인해 0으로 변경 -->
+	<select id="getTotalResCnt" resultType="int">
+	    SELECT COALESCE(SUM(r.res_cnt), 0) AS total
+	    FROM exp_sch s
+	    JOIN exp_res r ON s.sch_no = r.sch_no
+	    WHERE s.exp_code = #{expCode} AND s.sch_no = #{schNo}
+	</select>
+	
+	<!-- 체험단 전체삭제 -->
+	<delete id="expResDetailListDel" parameterType="String">
+		DELETE FROM exp_res
+		<where> res_code = #{resCode }</where>
+	</delete>
+	
+	<!-- 체험단 expdetail 페이지 리스트삭제 -->
+	<delete id="expDetailListDel" parameterType="String">
+		DELETE FROM exp_sch
+		<where> sch_no = #{schNo }</where>
+	</delete>
+	
+	<!-- 판매자 기업조회 -->
+	<select id="sellerSelect" parameterType="String" resultType="hashmap">
+		<include refid="buyerJoinSellerJoinCmp"/>
+		ORDER BY cmp_no
+	</select>
+	
+	<!-- resCnt 조회하기 -->
+	<select id="getResCntBySchNo" parameterType="String" resultType="int">
+		SELECT COUNT(*) from(
+		<include refid="expResBoard"/>
+		)
+		<where> sch_no = #{schNo }</where>
+	</select>
+	
+	<!-- 업데이트 프로필 조회 -->
+	<select id="expUpdateProfile" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"></include>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '600'
+		</where>
+	</select>
+	
+	<!-- 업데이트 파일 조회 -->
+	<select id="expUpdateFile" resultType="ExpFile" parameterType="ExpFile">
+		<include refid="expFileBoard"></include>
+		<where>
+			AND exp_code = #{expCode }
+			AND ct_pflno = '610'
+		</where>
+	</select>
+	
+	<!-- 업데이트 프로필 수정하기 -->
+	<update id="expUpdateProfileProc" parameterType="ExpFile">
+			UPDATE exp_file SET
+				origin_name = #{originName } 
+				, stored_name = #{storedName }
+		<where>
+			AND exp_code = #{expCode }
+			AND exp_flno = #{expFlNo }
+		</where>
+	</update>
+	
+	<!-- 업데이트 프로필 수정하기 -->
+	<update id="expUpdatefileProc" parameterType="ExpFile">
+	    UPDATE exp_file
+	    SET
+	        origin_name = #{originName}
+	        , stored_name = #{storedName}
+	    <where>
+	        AND exp_code = #{expCode}
+	        AND exp_flno = #{expFlNo}
+	    </where>
+	</update>
+	
+	<!-- 업데이트 파일 수정하기 -->
+	<update id="expUpdateMultiFileProc" parameterType="ExpFile">
+	    UPDATE exp_file
+	    SET
+	        origin_name = #{originName}
+	        , stored_name = #{storedName}
+	    <where>
+	        AND exp_code = #{expCode}
+	        AND exp_flno = #{expFlNo}
+	    </where>
+	</update>
+	
+	<!-- 판매자 정보조회 -->
+		<select id="sellerAllSeller" resultType="hashmap" parameterType="Seller">
+		    <include refid="buyerJoinSellerJoinCmp"/>
+		    <where>
+		        AND S_CODE = #{sCode}
+		        AND S_CHK = 'Y'
+		    </where>
+		</select>
+	
+	<!-- 판매자 상품세부조회 -->
+	<select id="selectDetailPrd" parameterType="String" resultType="Prd">
+		SELECT * FROM prd
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</select>
+	
+	<!-- 판매자 상품업데이트 -->
+	<update id="slsPrdUpdate" parameterType="Prd">
+		UPDATE prd
+		SET ct_pdtno = #{ctPdtNo},
+			prd_name = #{prdName},
+			price = #{price},
+			prd_cnt = #{prdCnt},
+			prd_detail = #{prdDetail}
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</update>
+	
+	<!-- 판매자 상품삭제 -->
+	<update id="deletePrd" parameterType="String">
+		UPDATE prd
+		SET prd_out = 'Y',
+			prd_cnt = 0
+		<where>
+			prd_code = #{prdCode}
+		</where>
+	</update>
+	
+	<!-- 주문 상세 조회 -->
+	<select id="orderdetailPrd" parameterType="String" resultType="MyOrder">
+		SELECT 
+			od.ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, o.SEND_NAME
+			, o.SEND_PHONE, o.ORD_POSTCODE, o.ORD_ADDR, o.ORD_DETAIL, o.ORD_MEMO
+			, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE, SHIP_NAME, SHIP_NO
+		FROM 
+			order_detail od, orders o, ship s
+		<where>
+			AND od.ord_code = o.ord_code
+			AND od.orddt_code = s.orddt_code(+)
+			AND od.orddt_code = #{orddtCode}
+		</where>
+		ORDER BY od.ORDDT_CODE DESC
+	</select>
+	
+	<delete id="deletePrdFile" parameterType="PrdFile">
+      DELETE FROM prd_file
+      <where>
+         AND prd_code = #{prdCode}
+         AND ct_pflno = #{ctPflNo}
+      </where>
+   </delete>
+   
+   <delete id="deleteDetailFile" parameterType="HashMap">
+      DELETE FROM exp_file
+      <where>
+         AND exp_code = #{expCode}
+         AND ct_pflno = 610
+           AND exp_flno NOT IN (${expFlNo})
+      </where>
+   </delete>
+
+   <insert id="insertPrdFile" parameterType="ExpFile">
+	    <selectKey order="BEFORE" keyProperty="expFlNo" resultType="int">
+	        SELECT EXP_FILE_SEQ.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO Exp_File 
+	    	(exp_flNo, exp_code, ct_pflNo, origin_name, stored_name )
+	    VALUES
+	    	(#{expFlNo}, #{expCode}, #{ctPflNo}, #{originName}, #{storedName})
+	</insert>
+   
+	<!-- 체험단 스케쥴 조회페이징[expdetail] -->
+	<select id="selectCntAllExpSch" resultType="int" parameterType="recycling.util.PagingAndCtg">
+   		SELECT count(*) FROM exp_Sch
+		<where>
+			AND (
+				exp_code LIKE '%' || #{search} || '%'
+				AND sch_no LIKE '%' || #{search } || '%'
+				)
+			AND exp_code = #{user }
+		</where>
+		ORDER BY sch_no DESC
+	</select>
+	
+</mapper>

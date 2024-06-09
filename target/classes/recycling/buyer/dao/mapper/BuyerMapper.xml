@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="recycling.buyer.dao.face.BuyerDao">
+
+	<insert id="insertOrder" parameterType="Orders">
+		INSERT INTO orders (ORD_CODE,B_CODE,ORD_NAME,ORD_PHONE,SEND_NAME,SEND_PHONE,ORD_POSTCODE,ORD_ADDR,ORD_DETAIL,ORD_MEMO,ORD_DATE,ORD_PAY,ORD_SUM, ORD_FEE)
+		VALUES(#{ordCode},#{bCode},
+		(SELECT b_name FROM buyer WHERE b_code = #{bCode}),
+		(SELECT b_phone FROM buyer WHERE b_code = #{bCode})
+		, #{sendName}
+		, #{sendPhone}
+		, #{ordPostcode}
+		, #{ordAddr}
+		, #{ordDetail}
+		, #{ordMemo}
+		, sysdate
+		, #{ordPay}
+		, #{ordSum}
+		, #{ordFee})
+	</insert>
+	
+
+	<select id="selectAllCart" parameterType="recycling.util.PagingAndCtg" resultType="CartOrder">
+		SELECT *
+		FROM (
+			SELECT rownum no, PRD.* FROM (
+				SELECT
+					C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
+				FROM
+					cart c, prd p, prd_file pf
+				<where>
+					AND c.PRD_CODE =p.PRD_CODE
+					AND p.PRD_CODE = pf.PRD_CODE(+)
+					AND B_CODE = #{user}
+				</where>
+				ORDER BY C_CODE
+			) PRD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectBycCode" parameterType="String" resultType="CartOrder">
+		SELECT
+			C_CODE, S_CODE, c.PRD_CODE, C_CNT, PRD_NAME, PRICE, PRD_FEE, origin_name, stored_name
+		FROM
+			cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE = p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE(+)
+			AND C_CODE = #{cCode}
+		</where>
+		ORDER BY C_CODE
+	</select>
+	
+	<select id="selectBybCode" parameterType="String" resultType="BuyerAdr">
+		SELECT
+		    adr_name, adr_phone, adr_postcode, adr_addr, adr_detail
+		FROM buyer_adr
+		<where>
+			AND b_code = #{bCode}
+		</where>
+		ORDER BY ADR_CHK DESC
+	</select>
+	
+	<select id="selectByordCode" parameterType="String" resultType="Orders">
+		SELECT * FROM orders
+		WHERE ORD_CODE = #{ordCode}
+		ORDER BY ORD_CODE
+	</select>
+	
+	<select id="selectPrdCnt" parameterType="String" resultType="Integer">
+		SELECT prd_cnt FROM prd
+		<where>
+			PRD_CODE = #{prdCode}
+		</where>
+	</select>
+	
+	<delete id="deleteCart" parameterType="String">
+		DELETE FROM cart
+		WHERE c_code = #{cCode}
+	</delete>
+	
+	<update id="updatePrdCnt" parameterType="CartOrder">
+		UPDATE prd
+	    SET prd_cnt = prd_cnt-#{cCnt}
+	    WHERE prd_code = #{prdCode}
+	</update>
+	
+	<insert id="insertOrderDetail" parameterType="OrderDetail">
+		INSERT INTO order_detail VALUES (
+		    'ORDT' || lpad(cart_seq.nextval, '6', 0)
+		    , #{ordCode}
+		    , #{prdCode}
+		    , #{ordName}
+		    , #{ordPrice}
+		    , #{ordCnt}
+		    , #{ordSum}
+		    , #{sttNo}
+		)
+	</insert>
+	
+
+	<select id="buyerDaoselectOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="MyOrder">
+		SELECT *
+		FROM (
+			SELECT rownum no, ORD.* FROM (
+				SELECT 
+					ORDDT_CODE, od.ORD_CODE, PRD_CODE, od.ORD_NAME, ORD_PRICE, ORD_CNT, od.ORD_SUM, STT_NO, ORD_DATE
+				FROM 
+					order_detail od, orders o
+				<where>
+					AND o.ord_code = od.ord_code
+					AND o.b_code = #{user}
+					AND (
+						od.orddt_code LIKE '%' || #{search } || '%'
+						OR od.ord_name LIKE '%' || #{search } || '%'
+					)
+				</where>
+				ORDER BY orddt_code DESC
+			) ORD
+		)
+		<where>
+			AND no BETWEEN #{startNo } AND #{endNo }
+		</where>
+	</select>
+	
+	<select id="selectByorddtCode" parameterType="String" resultType="OrderDetail">
+		SELECT * FROM order_detail
+		<where>
+			AND orddt_code = #{orddtCode}
+		</where>
+	</select>
+	
+	<insert id="insertChange" parameterType="Change">
+		INSERT INTO change
+		VALUES(
+			'CHG' || lpad(cart_seq.nextval, '7', 0)
+			, #{orddtCode}
+			, #{ctChgNo}
+			, #{chgDt}
+			, sysdate
+		)
+	</insert>
+	
+	<update id="updatecCnt" parameterType="Cart">
+		UPDATE cart
+		SET c_cnt = #{cCnt}
+		<where>
+			AND c_code = #{cCode}
+		</where>
+	</update>
+
+	<!-- 현재 로그인 된 구매자 정보 조회 -->
+	<select id="getCurrentBuyer" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT * FROM Buyer
+		WHERE B_Id = #{bId }
+	</select>
+	
+	<!-- 구매자 상세 정보 조회 -->
+	<select id="getBuyerDetail" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT * FROM Buyer
+		WHERE B_Id = #{bId }
+	</select>
+	
+	<!-- 기업 상세 정보 조회 -->
+	<select id="getCmpDetail" parameterType="string" resultType="recycling.dto.buyer.Cmp">
+		SELECT * FROM Cmp
+		WHERE B_Code = #{bCode }
+	</select>
+	
+	<!-- 구매자 등급 조회 -->
+    <select id="getBuyerRank" parameterType="int" resultType="recycling.dto.buyer.BuyerRank">
+    	SELECT * FROM Buyer_Rank
+    	WHERE Rank_No = #{rankNo }
+    </select>
+    
+    <!-- 구매자 프로필 조회 -->
+    <select id="getBuyerProf" parameterType="string" resultType="recycling.dto.buyer.BuyerProf">
+    	SELECT * FROM Buyer_Prof
+    	WHERE B_Code = #{bCode }
+    </select>
+    
+    <!-- 사업자 등록증 조회 -->
+    <select id="getCmpFile" parameterType="int" resultType="recycling.dto.buyer.CmpFile">
+    	SELECT * FROM Cmp_File
+    	WHERE Cmp_No = #{cmpNo }
+    </select>
+    
+    <!-- 비밀번호 변경 -->
+    <update id="changePw" parameterType="recycling.dto.buyer.BuyerLogin">
+    	UPDATE Buyer
+    	SET B_Pw = #{bPw }
+    	WHERE B_Id = #{bId }
+    </update>
+    
+    <!-- 구매자 정보 업데이트 -->
+    <update id="updateBuyerDetail" parameterType="recycling.dto.buyer.Buyer">
+        UPDATE Buyer
+        SET 
+        	<if test="bPw != null and bPw != ''">
+        		B_Pw = #{bPw },
+        	</if>
+            B_Name = #{bName },
+            B_Phone = #{bPhone },
+            B_Email = #{bEmail },
+            Ad_Sms = #{adSms },
+            Ad_Email = #{adEmail }
+       	WHERE B_Code = #{bCode }
+    </update>
+    
+    <!-- 기업 정보 업데이트 -->
+    <update id="updateCmpDetail" parameterType="recycling.dto.buyer.Cmp">
+        UPDATE Cmp
+        SET Cmp_Name = #{cmpName },
+            Cmp_Ceo = #{cmpCeo },
+            Cmp_No = #{cmpNo },
+            Cmp_Postcode = #{cmpPostcode },
+            Cmp_Addr = #{cmpAddr },
+            Cmp_Detail = #{cmpDetail }
+        WHERE B_Code = #{bCode }
+    </update>
+    
+    <!-- 구매자 프로필 업데이트 -->
+    <update id="updateBuyerProf" parameterType="recycling.dto.buyer.BuyerProf">
+        UPDATE Buyer_Prof
+        SET 
+        	Origin_Name = #{originName }, 
+        	Stored_Name = #{storedName }
+        WHERE b_code = #{bCode }
+    </update>
+    
+    <!-- 사업자 등록증 업데이트 -->
+    <update id="updateCmpFile" parameterType="recycling.dto.buyer.CmpFile">
+        UPDATE Cmp_File
+        SET
+        	Origin_Name = #{originName }, 
+        	Stored_Name = #{storedName }
+        WHERE Cmp_No = #{cmpNo }	
+    </update>
+    
+	<!-- 시퀀스 값 가져오기 -->
+    <select id="getAdrCode" resultType="string">
+    	SELECT 'ADR' || lpad(buyer_adr_seq.nextval, 7, '0') 
+    	FROM dual
+    </select>
+	
+	<!-- 구매자의 모든 배송지 정보 가져옴 -->
+    <select id="getBuyerAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
+    	SELECT *
+    	FROM Buyer_Adr
+   		WHERE B_Code = #{bCode }
+    	ORDER BY CASE 
+		WHEN Adr_Chk ='Y' THEN 0
+		ELSE 1
+		END
+    </select>
+    
+    <!-- 구매자 배송지 개수 -->
+    <select id="cntBuyerAdr" parameterType="string" resultType="int">
+    	SELECT count(*)
+    	FROM Buyer_Adr
+   		WHERE b_Code = #{bCode }
+    </select>
+    
+    <!-- 새로운 배송지 등록 -->
+    <insert id="registerBuyerAdr" parameterType="recycling.dto.buyer.BuyerAdr">
+    	INSERT INTO Buyer_Adr (
+    		Adr_Code, B_Code, Adr_Name, Adr_Phone, Adr_Postcode, Adr_Addr, Adr_Detail, Adr_Chk
+    	) VALUES (
+    		#{adrCode }, #{bCode }, #{adrName }, #{adrPhone }, #{adrPostcode }, #{adrAddr }, #{adrDetail }, #{adrChk }
+    	)
+    </insert>
+    
+    <!-- 배송지 정보 수정 -->
+    <update id="updateBuyerAdr" parameterType="recycling.dto.buyer.BuyerAdr">
+    	UPDATE Buyer_Adr
+    	SET 
+    		Adr_Name = #{adrName }, 
+    		Adr_Phone = #{adrPhone }, 
+    		Adr_Postcode = #{adrPostcode }, 
+    		Adr_Addr = #{adrAddr }, 
+    		Adr_Detail = #{adrDetail },
+    		Adr_Chk = #{adrChk }
+   		WHERE Adr_Code = #{adrCode }
+    </update>
+    
+    <!-- 배송지 삭제 -->
+    <delete id="deleteBuyerAdr" parameterType="string">
+    	DELETE FROM Buyer_Adr
+   		WHERE Adr_Code = #{adrCode }
+    </delete>
+    
+    <!-- 기본 배송지의 Adr_Chk를 N으로 변경 -->
+    <update id="unsetDefaultAdr" parameterType="string">
+    	UPDATE Buyer_Adr
+    	SET Adr_Chk = 'N' 
+   		WHERE B_Code = #{bCode }
+    </update>
+    
+    <!-- 선택한 추가 배송지의 Adr_Chk를 Y로 변경 -->
+    <update id="setDefaultAdr" parameterType="recycling.dto.buyer.BuyerAdr">
+    	UPDATE Buyer_Adr
+    	SET Adr_Chk = 'Y'
+    	<where>
+    		AND Adr_Code = #{adrCode }
+    		AND B_Code = #{bCode }
+    	</where>
+    </update>
+    
+    <!-- 기본 배송지 조회 -->
+    <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
+    	SELECT *
+    	FROM Buyer_Adr
+    	<where>
+    		AND B_Code = #{bCode }
+    		AND Adr_Chk = 'Y'
+    	</where>
+    </select>
+    
+    <!-- Adr_Code로 배송지 정보 조회 -->
+    <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
+    	SELECT *
+    	FROM Buyer_Adr
+   		WHERE Adr_Code = #{adrCode }
+    </select>
+    
+    <!-- 구매자 탈퇴 -->
+    <update id="deleteBuyer" parameterType="string">
+    	UPDATE Buyer
+    	SET
+    		B_Out = 'Y',
+    		B_Out_Date = SYSDATE
+   		WHERE B_Code = #{bCode }
+    </update>
+    
+	<!-- 판매자 탈퇴 -->
+    <update id="deleteSeller" parameterType="string">
+    	UPDATE Seller
+    	SET
+    		S_Out = 'Y',
+    		S_Out_Date = SYSDATE
+    	WHERE S_Code = #{sCode }
+    </update>
+    
+    <select id="selectCntAllCart" parameterType="recycling.util.PagingAndCtg" resultType="int">
+    	SELECT count(*) FROM
+			cart c, prd p, prd_file pf
+		<where>
+			AND c.PRD_CODE =p.PRD_CODE
+			AND p.PRD_CODE = pf.PRD_CODE(+)
+			AND B_CODE = #{user}
+		</where>
+		ORDER BY C_CODE DESC
+    </select>
+    
+    <select id="selectCntOrderDetailBybCode" parameterType="recycling.util.PagingAndCtg" resultType="int">
+ 		SELECT count(*) FROM 
+			order_detail od, orders o
+		<where>
+			AND o.ord_code = od.ord_code
+			AND o.b_code = #{user}
+			AND (
+					od.orddt_code LIKE '%' || #{search } || '%'
+					OR od.ord_name LIKE '%' || #{search } || '%'
+				)
+		</where>
+		ORDER BY orddt_code DESC
+    </select>
+
+</mapper>

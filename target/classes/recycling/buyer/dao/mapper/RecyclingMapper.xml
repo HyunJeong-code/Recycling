@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="recycling.buyer.dao.face.RecyclingDao">
+
+	<!-- 판매자 찾기 -->
+	<select id="findSeller" parameterType="String" resultType="Seller">
+	    SELECT S_CODE, B_CODE, ACC_NAME, ACC_BANK, ACC_NO, S_POSTCODE, S_ADDR, S_DETAIL, S_ENTDATE, S_CHK, S_OUT, S_OUT_DATE
+	    FROM SELLER
+	    <!-- <where>
+	    	AND S_CODE = #{sCode }
+	    </where> -->
+	</select>
+	
+	<!-- 판매자 코드로 재활용품 조회 -->
+    <select id="findRcyBySellerCode" parameterType="String" resultType="Prd">
+        SELECT *
+        FROM PRD
+        <where>
+	    	AND S_CODE = #{sCode }
+	    </where>
+    </select>
+
+	<!-- 상품리스트 로드 -->
+	<select id="selectPrdList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 0
+	</select>
+	
+	<select id="selectLatestList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 0
+	    ORDER BY PRD_DATE DESC
+	</select>
+	
+	<select id="selectHitList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 0
+	    ORDER BY PRD_HIT DESC
+	</select>
+	
+	<!-- 해당 상품의 썸네일 이미지 로드 -->
+	<select id="selectPrdImageThums" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 600
+	</select>
+	
+	<!-- 최신 상품에 대한 썸네일 이미지 로드 -->
+	<select id="selectLatestPrdImageThums" resultType="String">
+	    SELECT PF.ORIGIN_NAME
+	    FROM Prd_File PF
+	    WHERE PRD_CODE IN (
+	        SELECT PRD_CODE
+	        FROM Prd
+	        WHERE CT_PNO = 0
+	        ORDER BY PRD_DATE DESC
+	        FETCH FIRST 4 ROWS ONLY
+	    )
+	    AND PF.CT_PFLNO = 600
+	</select>
+	
+	<!-- 조회수가 높은 상품에 대한 썸네일 이미지 로드 -->
+	<select id="selectHitPrdImageThums" resultType="String">
+	    SELECT PF.ORIGIN_NAME
+	    FROM Prd_File PF
+	    WHERE PRD_CODE IN (
+	        SELECT PRD_CODE
+	        FROM Prd
+	        WHERE CT_PNO = 0
+	        ORDER BY PRD_HIT DESC
+	        FETCH FIRST 4 ROWS ONLY
+	    )
+	    AND PF.CT_PFLNO = 600
+	</select>
+	
+	<select id="selectPrd" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE PRD_CODE = #{prdCode}
+	</select>
+	
+	<select id="selectPrdImageThum" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 600
+	</select>
+	
+	<select id="selectPrdImageDetail" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 610
+	</select>
+	
+	<!-- 판매자 프로필 조회 -->
+	<select id="selectSellerProfByCode" parameterType="String" resultType="Seller">
+		SELECT * FROM SELLER
+		WHERE S_CODE = #{sCode}
+	</select>
+	
+	<select id="selectSeller" resultType="Seller">
+	    SELECT 
+	    S.S_CODE, S.B_CODE, S.ACC_NAME, S.ACC_BANK, S.ACC_NO, 
+	    S.S_POSTCODE, S.S_ADDR, S.S_DETAIL, S.S_ENTDATE, 
+	    S.S_CHK, S.S_OUT, S.S_OUT_DATE
+	    FROM 
+	        SELLER S
+	    WHERE 
+	        S.S_CODE = #{sCode}
+	</select>
+	
+	<select id="selectBuyerByBCode" resultType="Buyer">
+	    SELECT * FROM BUYER
+	    WHERE B_CODE = #{bCode}
+	</select>
+	
+	<select id="selectShipCnt" resultType="int">
+		SELECT count(*) FROM order_detail OD, prd P
+		<where>
+			AND OD.prd_code = P.prd_code(+)
+			AND P.s_code = #{sCode }
+			AND OD.stt_no = 920
+		</where>
+	</select>
+	
+	<select id="selectQnaList" resultType="hashmap">
+	    SELECT 
+	        r.RCY_CODE, 
+	        r.B_CODE, 
+	        r.PRD_CODE, 
+	        r.RCY_CMT, 
+	        r.RCY_DATE,
+	        b.B_NAME
+	    FROM 
+	        Rcy r
+	    LEFT JOIN 
+	        Buyer b ON r.B_CODE = b.B_CODE
+	    WHERE 
+	        r.PRD_CODE = #{prdCode}
+	</select>
+	
+	
+	<select id="selectBuyerBybId" parameterType="string" resultType="recycling.dto.buyer.Buyer">
+		SELECT B_Code AS bCode,
+		       B_Ct_Code AS bCtCode,
+		       B_Id AS bId,
+		       B_Pw AS bPw,
+		       B_Name AS bName,
+		       B_Phone AS bPhone,
+		       B_Email AS bEmail,
+		       Ad_Sms AS adSms,
+		       Ad_Email AS adEmail
+		FROM Buyer
+		<where>
+			AND B_Id = #{bId }
+		</where>
+	</select>
+	
+	<insert id="insertRcy" parameterType="recycling.dto.buyer.Rcy">
+	    <!-- 시퀀스 값을 가져와서 rcyCode에 할당 -->
+	    <selectKey keyProperty="rcyCode" resultType="String" order="BEFORE">
+	        SELECT 'RCY' || LPAD(RCY_SEQ.NEXTVAL, 7, '0') AS rcyCode FROM DUAL
+	    </selectKey>
+	    
+	    <!-- 나머지 필드 삽입 -->
+	    INSERT INTO Rcy (RCY_CODE, B_CODE, PRD_CODE, RCY_CMT, RCY_DATE)
+	    VALUES (#{rcyCode}, #{bCode}, #{prdCode}, #{rcyCmt}, SYSDATE)
+	</insert>
+
+</mapper>
