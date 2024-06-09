@@ -15,52 +15,53 @@
 
 <style>
 body {
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
-.container {
+
+.full {
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    padding: 50px 20px;
     display: flex;
     justify-content: center;
-    padding: 20px;
+    align-items: center;
 }
-.content {
-    background: white;
-    padding: 20px;
+
+.wrap {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 600px;
+    padding: 20px;
 }
-h2 {
-    margin-top: 0;
+
+.page {
+    margin-top: 20px;
+    border-bottom: 3px solid #333;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+h3 {
+    margin-bottom: 20px;
     color: #333;
 }
-hr {
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 20px 0;
-}
-.page a {
-    display: block;
-    margin: 10px 0;
-    color: #0066cc;
-    text-decoration: none;
-}
-.page a:hover {
-    text-decoration: underline;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
+
 table, th, td {
     border: 1px solid #dddddd;
+    border-collapse: collapse;
+    margin: 0 auto;
 }
+
 th, td {
     padding: 15px;
     text-align: left;
 }
+
 th {
     background-color: #f2f2f2;
 }

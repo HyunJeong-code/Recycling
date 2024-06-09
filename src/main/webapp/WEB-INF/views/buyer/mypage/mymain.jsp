@@ -40,60 +40,88 @@ $(document).ready(function() {
 </script>
 
 <style>
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .full {
 	width: 1200px;
-	margin: 0 auto;
+	height: auto;
+    margin: 0 auto;
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-button {
-    border: none;
-    width: 100px;
+.wrap {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 20px;
 }
 
-input[type="button"] {
-    border: none;
-    width: 100px;
+.page {
+	margin-top: 20px;
+	border-bottom: 3px solid #333;
+	width: 100%;
+	text-align: center;
 }
 
-input[type="text"] {
+h3 {
+	margin-bottom: 20px;
+	color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 10px 15px;
+}
+
+td {
+    padding: 5px;
+}
+
+td:first-child {
+    text-align: right;
+    vertical-align: middle;
+    padding-right: 10px;
+}
+
+td:last-child {
+    text-align: left;
+    vertical-align: middle;
+}
+
+input[type="password"] {
 	border: none;
 	border-bottom: 1px solid black;
-}
-
-.s {
-	width: 100px;
-}
-
-.m {
 	width: 200px;
 }
 
-.l {
-	width: 300px;
+button {
+    padding: 0 0;
+    border: none;
+    width: 100px;
+    height: 30px;
+    margin: 20px auto;
+    display: block;
 }
 
 .btn {
 	background-color: #ccc;
     color: black;
-}
-
-.btnLeft {
-    background-color: #4CAF50;
-    color: white;
-}
-
-h3 {
-	margin-bottom: 20px; /* h3와 table 사이의 간격 조정 */
-	text-align: center;
-}
-
-.n-table {
-	margin-top: 20px; /* table과 h3 사이의 간격 조정 */
-	margin: 0 auto;
-	text-align: center;
-}
-.n-table th, .n-table td {
-	border: none; /* 테두리 제거 */
 }
 </style>
 
@@ -110,7 +138,7 @@ h3 {
 			<div class="page">
 				<h3>개인 정보 변경을 위해 비밀번호를 입력해주세요.</h3>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mymain" method="post">
-					<table class="n-table">
+					<table>
 						<tr>	
 							<td>비밀번호</td>
 							<td><input type="password" id="password" name="password" required></td>

@@ -25,73 +25,86 @@ $(document).ready(function() {
 })
 </script>
 
-<style type="text/css">
+<style>
 body {
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
+
 .full {
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    padding: 50px 20px;
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.wrap {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
     padding: 20px;
 }
-h2 {
-    margin-top: 0;
-    color: #333;
+
+.page {
+    margin-top: 20px;
+    border-bottom: 3px solid #333;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 30px;
 }
-hr {
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 20px 0;
-}
-.page a {
-    display: block;
-    margin: 10px 0;
-    color: #0066cc;
-    text-decoration: none;
-}
-.page a:hover {
-    text-decoration: underline;
-}
-.form-group {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-label {
-    margin-right: 10px;
-    width: 150px;
-    text-align: right;
-}
+
 .changepw {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    height: 100vh;
-    padding-top: 50px;
-    text-align: center;
+    width: 100%;
 }
+
 .changepw h3 {
     margin-bottom: 30px;
+    color: #333;
 }
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    margin-right: 20px;
+    text-align: right;
+    width: 150px;
+}
+
+input[type="text"] {
+    border: none;
+    border-bottom: 1px solid black;
+    width: 200px;
+}
+
 .button-group {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
+
 .button-group button {
     margin-right: 10px;
     padding: 10px 20px;
-    background-color: #0066cc;
+    background-color: #878787;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
-.button-group button:hover {
-    background-color: #005bb5;
+    width: 135px;
+    height: 39px;
 }
 </style>
 
@@ -121,7 +134,7 @@ label {
 							<input type="text" id="confirmPw" name="confirmPw" required><br>
 						</div>
 						<div class="button-group">
-							<button class="btn">비밀번호 변경</button>
+							<button type="button" class="btn">비밀번호 변경</button>
 						</div>
 					</div>
 				</form>

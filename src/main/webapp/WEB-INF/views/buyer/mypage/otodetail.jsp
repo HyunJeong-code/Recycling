@@ -12,70 +12,102 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<style type="text/css">
+<style>
 body {
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
+
+.full {
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .wrap {
-    width: 800px;
-    margin: auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.page_box {
-    border-bottom: 2px solid #444444;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-.page_box h2 {
-    margin: 0;
-    color: #333;
-}
-.detail-container {
-    margin: 20px 0;
-}
-.oto_content {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #fafafa;
-    border-radius: 4px;
-}
-table {
-    border-collapse: collapse;
+    display: flex;
     width: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+h3 {
     margin-bottom: 20px;
+    color: #333;
+    text-align: center;
 }
-th, td {
-    border: 1px solid #dddddd;
+
+.page {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.otodetail {
+    text-align: center;
+    width: 100%;
+}
+
+.otodetail table {
+    width: 85%;
+    border-collapse: collapse;
+    margin: 0 auto 20px;
+}
+
+.otodetail th, .otodetail td {
+    padding: 15px;
     text-align: left;
-    padding: 8px;
 }
-th {
+
+.otodetail th {
     background-color: #f2f2f2;
 }
+
 .button-group {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
-.button-group button {
-    margin-right: 10px;
+
+.button-group button, .button-group a button {
+    margin: 0 10px;
     padding: 10px 20px;
-    background-color: #0066cc;
+    background-color: #878787;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    display: inline-block;
 }
-.button-group button:hover {
-    background-color: #005bb5;
+
+.button-group button.btnLeft {
+    background-color: #878787;
 }
-.button-group a {
-    color: white;
-    text-decoration: none;
+
+.button-group button.btnRight {
+    background-color: #4CAF50;
+}
+
+.button-group button:hover, .button-group a button:hover {
+    background-color: #0066cc;
+}
+
+.button-group button.btnLeft:hover {
+    background-color: #bbb;
+}
+
+.button-group button.btnRight:hover {
+    background-color: #45A049;
+}
+
+.button-group form {
+    display: inline;
 }
 </style>
 
@@ -84,15 +116,11 @@ th {
 
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
-	<div class="wrap">
+		<div class="wrap">
 	
-		<div class="page_box">
-			<h2>1:1 문의 상세조회</h2>
-			<hr>
-		</div>
-	
-		<div class="detail-container">
-			<div class="oto_header">
+		<div class="page">
+		<h3>1:1 문의 상세조회</h3>
+			<div class="otodetail">
 				<table>
 					<tr>
 						<th>분류</th>
@@ -121,33 +149,35 @@ th {
 			            <th>조회수</th>
 			            <td>${oto.otoHit }</td>
 			        </tr>
+			        <tr>
+			        	<th>내용</th>
+			        	<td>${oto.otoContent }</td>
+			        </tr>
+			        <tr>
+			        	<th>첨부파일</th>
+			        	<td>
+			        		<c:forEach var="file" items="${otoFiles }">
+						        <c:choose>
+						            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') }">
+						                <img src="${pageContext.request.contextPath }/upload/${file.storedName }" alt="${file.originName }" style="max-width: 100%;">
+						            </c:when>
+						            <c:otherwise>
+						                <a href="${pageContext.request.contextPath }/upload/${file.storedName }">${file.originName }</a>
+						            </c:otherwise>
+						        </c:choose>
+			   				</c:forEach>
+			        	</td>
+			        </tr>
 		    	</table>
-			</div>
-		
-			<div class="oto_content">
-				<p>${oto.otoContent }</p>
-			</div>
-		
-			<div class="oto_file">
-				<c:forEach var="file" items="${otoFiles }">
-			        <c:choose>
-			            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') }">
-			                <img src="${pageContext.request.contextPath }/upload/${file.storedName }" alt="${file.originName }" style="max-width: 100%;">
-			            </c:when>
-			            <c:otherwise>
-			                <a href="${pageContext.request.contextPath }/upload/${file.storedName }">${file.originName }</a>
-			            </c:otherwise>
-			        </c:choose>
-			    </c:forEach>
 			</div>
 		</div>
 	
 		<div class="button-group">
 			<button class="btnLeft" type="button" onclick="history.back();">목록으로</button>
-			<button class="btn1" type="button"><a href="/buyer/help/otoform">1:1 문의 작성하기</a></button>
+			<a href="/buyer/help/otoform"><button class="btnRight" type="button">1:1 문의 작성하기</button></a>
 			<form action="/buyer/mypage/otodel" method="post" style="display: inline;">
 				<input type="hidden" name="otoCode" value="${oto.otoCode }">
-				<button class="btn2" type="submit">삭제하기</button>
+				<button class="btn" type="submit">삭제하기</button>
 			</form>
 		</div>
 	</div>

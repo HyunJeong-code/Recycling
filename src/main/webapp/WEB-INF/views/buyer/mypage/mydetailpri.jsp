@@ -182,86 +182,145 @@ function cancelUpdate() {
 
 <style>
 body {
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
+
 .full {
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    padding: 50px 20px;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+}
+
+.wrap {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 8px;
     padding: 20px;
 }
+
+.page {
+    margin-top: 20px;
+    border-bottom: 3px solid #333;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
 h2 {
     margin-top: 0;
     color: #333;
 }
+
 hr {
     border: 0;
     border-top: 1px solid #ccc;
     margin: 20px 0;
 }
+
 .page a {
     display: block;
     margin: 10px 0;
     color: #0066cc;
     text-decoration: none;
 }
+
 .page a:hover {
     text-decoration: underline;
 }
+
+.table-container {
+	text-align: center;
+}
+
 table {
-    width: 100%;
+    width: 85%;
     border-collapse: collapse;
     margin-top: 20px;
+    display: inline-block;
 }
+
 table, th, td {
     border: 1px solid #dddddd;
 }
+
 th, td {
     padding: 15px;
     text-align: left;
 }
+
 th {
     background-color: #f2f2f2;
 }
+
 .form-group {
     margin-bottom: 20px;
 }
-.custom-file-upload {
+
+.btnProf {
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
-    background-color: #0066cc;
+    background-color: #878787;
     color: white;
     border: none;
     border-radius: 4px;
     margin-top: 10px;
     text-align: center;
 }
-.button-group {
-	text-align: center;
-	margin-top: 20px;
+
+.btnEmail {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #878787;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    text-align: center;
 }
+
+.button-group {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
 .button-group button {
     margin-right: 10px;
     padding: 10px 20px;
-    background-color: #0066cc;
+    background-color: #878787;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
-.button-group button[type="btnLeft"] {
+
+.button-group button.btnRight {
+    background-color: #878787;
+}
+
+.button-group button.btnLeft {
+    background-color: #4CAF50;
+}
+
+.button-group button:hover {
     background-color: #0066cc;
 }
-.button-group button[type="btn"]:hover {
-    background-color: #005bb5;
-}
-.button-group button[type="btn"] {
-    background-color: #ccc;
-}
-.button-group button[type="btn"]:hover {
+
+.button-group button.btnRight:hover {
     background-color: #bbb;
+}
+
+.button-group button.btnLeft:hover {
+    background-color: #45A049;
 }
 </style>
 
@@ -276,6 +335,7 @@ th {
 			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
 		
 			<div class="page">
+			<h3>개인 정보 수정</h3>
 <!-- 마이페이지 버튼 -->
 <%-- 				<c:choose> --%>
 <%-- 					<c:when test="${buyerLogin.bCtCode == 'P' }"> --%>
@@ -293,9 +353,6 @@ th {
 					<div class="mydetailpri">
 						<table>
 							<tr>
-								<th colspan="2">개인 정보 수정</th>
-							</tr>
-							<tr>
 								<td>프로필</td>
 								<td>
 									<c:choose>
@@ -306,7 +363,7 @@ th {
 											<img src="${pageContext.request.contextPath}/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;"><br>
 										</c:otherwise>
 									</c:choose>
-									<label for="buyerProf" class="custom-file-upload">프로필 선택</label>
+									<button type="button" class="btnProf" onclick="document.getElementById('buyerProf').click();">프로필 선택</button>
 									<input type="file" id="buyerProf" name="buyerProf" style="display: none;">
 								</td>
 							</tr>
@@ -344,7 +401,7 @@ th {
 				                        <option value="daum.net">daum.net</option>
 				                        <option value="custom">직접입력</option>
 									</select>
-									<input type="button" id="btnEmail" value="이메일 인증">
+									<button type="button" id="btnEmail" class="btnEmail">이메일 인증</button>
 									<div id="emailChk" style="display: none;">
 										<label for="emailNum">이메일 인증 번호</label>
 										<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요.">
@@ -371,8 +428,8 @@ th {
 							</tr>
 						</table>
 						<div class="button-group">
-							<button type="btnLeft">수정하기</button>
-							<button type="btn" onclick="cancelUpdate()">취소하기</button>
+							<button type="submit" class="btnLeft">수정하기</button>
+							<button type="button" class="btnRight" onclick="cancelUpdate()">취소하기</button>
 						</div>
 					</div>
 				</form>
