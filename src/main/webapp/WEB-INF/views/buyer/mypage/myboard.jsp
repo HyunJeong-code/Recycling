@@ -33,6 +33,7 @@ $(function() {
 </script>
 <style type="text/css">
 .search {
+	align-items: center;
 	justify-content: flex-end;
 }
 
@@ -70,7 +71,7 @@ $(function() {
 					<form action="./myboard" method="get">
 						<input type="hidden" name="sCtg" value="UP">
 						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-						<button>검색</button>
+						<button class="btn btnRight">검색</button>
 					</form>
 				</div>
 	
@@ -190,7 +191,7 @@ $(function() {
 	
 			</div>
 			
-			<div class="page">
+			<div class="page-header">
 				<h4>후기 조회</h4>
 			</div>
 			

@@ -435,4 +435,9 @@ public class BuyController {
 		model.addAttribute("expList", expList);
 		model.addAttribute("expSize", expList.size());
 	}
+	
+	@GetMapping("error403")
+	public void error403() {
+		logger.info("/buyer/error403 [GET]");
+	}
 }

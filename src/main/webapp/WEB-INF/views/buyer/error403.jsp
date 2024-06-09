@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>권한 없음</title>
 </head>
 <body>
 <div class="full">
@@ -15,8 +15,8 @@
 		
 		<div class="section">
 			사용자는 해당 사이트에 대한 권한이 없습니다.
-			<button><a  href="/manager/main">돌아가기</a></button>
-			<button><a href="/manager/logout">로그아웃</a></button>
+			<a  href="/manager/main"><button>돌아가기</button></a>
+			<a href="/manager/logout"><button>로그아웃</button></a>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->

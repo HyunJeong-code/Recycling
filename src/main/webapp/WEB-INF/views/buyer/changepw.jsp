@@ -65,13 +65,13 @@ $(function() {
 					<div id="noPw" style="display: none; color: red;">비밀번호가 일치하지 않습니다.</div>
 					<br>
 					
-					<button>변경하기</button>
+					<button class="btn btnRight">변경하기</button>
 				</form>
 			</c:if>
 			<c:if test="${buyer eq null }">
 				<p>일치하는 회원정보가 없습니다.</p>
 				
-				<button><a href="/buyer/findpw">돌아가기</a></button>
+				<a href="/buyer/findpw"><button class="btn btnLeft">돌아가기</button></a>
 			</c:if>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->

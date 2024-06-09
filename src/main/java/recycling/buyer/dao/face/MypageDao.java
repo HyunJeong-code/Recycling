@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
@@ -154,5 +155,13 @@ public interface MypageDao {
 	 * @return 리스트
 	 */
 	public List<Map<String, Object>> selectAll(PagingAndCtg paging);
+	
+	/**
+	 * 마이페이지 메뉴 기본 정보
+	 * 
+	 * @param buyerLogin
+	 * @return
+	 */
+	public List<Map<String, Object>> selectBuyer(BuyerLogin buyerLogin);
 }
 
