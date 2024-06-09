@@ -9,6 +9,10 @@ import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerAdr;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerProf;
+import recycling.dto.buyer.BuyerAdr;
+import recycling.dto.buyer.BuyerLogin;
+import recycling.dto.seller.Prd;
+import recycling.util.PagingAndCtg;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
 import recycling.dto.seller.Exp;
@@ -197,33 +201,33 @@ public interface BuyService {
 	public List<Map<String, Object>> selectExpNew();
 	
 	/**
-	 * 검색 상품 페이징 개수
+	 * 상품 전체 페이지 수
 	 * 
 	 * @param upPaging
 	 * @return
 	 */
 	public int selectCntPrd(PagingAndCtg upPaging);
-
+	
 	/**
-	 * 검색 체험 페이징 개수
+	 * 체험 전체 페이지 수
 	 * 
 	 * @param upPaging
 	 * @return
 	 */
 	public int selectCntExp(PagingAndCtg unPaging);
-
+	
 	/**
-	 * 검색 상품 리스트
+	 * 상품 전체 리스트
 	 * 
 	 * @param upPaging
 	 * @return
 	 */
 	public List<Prd> selectPrd(PagingAndCtg upPaging);
-
+	
 	/**
-	 * 검색 체험 리스트
+	 * 체험 전체 리스트
 	 * 
-	 * @param unPaging
+	 * @param upPaging
 	 * @return
 	 */
 	public List<Exp> selectExp(PagingAndCtg unPaging);

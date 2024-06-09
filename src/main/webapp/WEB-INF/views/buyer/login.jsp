@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
+<title>로그인</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
@@ -154,27 +154,24 @@ div .buyerCt input[type='radio']:checked {
 					<label for="bCtCmp">기업</label>
 				</div>
 				
-				<table>
-					<div id="buyer">
-					<tr>
-						<th><label for="bId">ID</label></th>
-						<td><input id="bId" name="bId" placeholder="아이디를 입력해주세요."></td>
-						<td><div id="id" style="display:none; color:red;" class="u-info">아이디는 필수입니다.</div></td>
-					</tr>
+				<div id="buyer">
+					<label for="bId">ID</label>
+					<input id="bId" name="bId" placeholder="아이디를 입력해주세요."><br>
+					<label for="id"></label>
+					<span id="id" style="display:none; color:red;" class="u-info">아이디는 필수입니다.</span>
 
-					<tr>			
-						<th><label for="bPw">PW</label></th>
-						<td><input id="bPw" name="bPw" placeholder="비밀번호를 입력해주세요."></td>
-						<td><div id="pw" style="display:none; color:red;" class="u-info">비밀번호는 필수입니다.</div></td>
-					<tr>
-					
-					<tr>
-						<td colspan="2"><button id="btnLogin" class="btn btnRight">로그인</button></td>
-					</tr>
-					
-					</div>
-				</table>
+					<label for="bPw">PW</label>
+					<input id="bPw" name="bPw" placeholder="비밀번호를 입력해주세요."><br>
+					<label for="pw"></label>
+					<span id="pw" style="display:none; color:red;" class="u-info">비밀번호는 필수입니다.</span>
+				
+					<button id="btnLogin" class="btn btnRight">로그인</button>
+				</div>
 			</form>
+				
+				<div id="find">
+					<button class="btn btnLeft"><a href="/buyer/findid">아이디 찾기</a></button><button class="btn btnLeft"><a href="/buyer/findpw">비밀번호 찾기</a></button>
+				</div>
 				
 				<div id="pri" style="display: none;">
 				<button class="btn"><a href="/buyer/prijoin">개인 일반 회원가입</a></button>

@@ -277,21 +277,21 @@ public class BuyServiceImpl implements BuyService {
 	
 	@Override
 	public int selectCntPrd(PagingAndCtg upPaging) {
-		return 0;
+		return buyDao.selectCntPrd(upPaging);
 	}
 	
 	@Override
 	public int selectCntExp(PagingAndCtg unPaging) {
-		return 0;
+		return buyDao.selectCntExp(unPaging);
 	}
 	
 	@Override
 	public List<Prd> selectPrd(PagingAndCtg upPaging) {
-		return null;
+		return buyDao.selectPrd(upPaging);
 	}
 	
 	@Override
 	public List<Exp> selectExp(PagingAndCtg unPaging) {
-		return null;
+		return buyDao.selectExp(unPaging);
 	}
 }

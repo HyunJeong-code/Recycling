@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>새활용 메인페이지</title>
+<title>메인페이지</title>
 
 <!-- header css -->
 <link rel="stylesheet" href="/resources/css/header.css">
@@ -130,7 +130,7 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
-                    <a href="/buyer/main"><button class="selected">Buyer</button></a><a href="/seller/main"><button>Seller</button></a>
+                    <a href="/buyer/main"><button class="selected">Buyer</button></a><a href="/seller/seller"><button>Seller</button></a>
                 </div>
             </div>
             <div class="search-bar">
