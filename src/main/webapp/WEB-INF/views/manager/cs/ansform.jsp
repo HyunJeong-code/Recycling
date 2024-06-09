@@ -49,7 +49,7 @@
         });
     });
 </script>
-<!-- <link rel="stylesheet" href="/resources/css/manager/cs/ansform.css"> -->
+<link rel="stylesheet" href="/resources/css/manager/cs/ansform.css">
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
@@ -115,10 +115,12 @@
 		            <button id="btnCom" class="btn_section_detail">작성하기</button>
 		        </div>
 		
-		        <div class="btn_bot_wrap">
-		            <a href="./otodel?otoCode=${oto.otoCode }"><button class="btn_bot_del">문의글 삭제</button></a>
-		            <a href="./main"><button class="btn_bot_inform">목록</button></a>
-		        </div>
+		        <div class="section no-background">
+				    <div class="btn_bot_wrap">
+				        <a href="./otodel?otoCode=${oto.otoCode }"><button class="btn_bot_del">문의글 삭제</button></a>
+				        <a href="./main"><button class="btn_bot_inform">목록</button></a>
+				    </div>
+				</div>
 		    </div>
 		</div>
 	</div>

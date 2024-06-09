@@ -25,10 +25,10 @@
 				</div>
 				
 				<div class="search">
-					<form action="./main" method="get" style="display: flex; align-items: center;">
+					<form action="./main" method="get" class ="search_form">
 						<input type="hidden" name="sCtg" value="UP">
 						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search-input">
-						<button class="btn_search">검색</button>
+						<button class="btn btnRight">검색</button>
 					</form>
 				</div>
 				
