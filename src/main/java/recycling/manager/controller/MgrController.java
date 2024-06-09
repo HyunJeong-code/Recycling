@@ -268,4 +268,9 @@ public class MgrController {
 			Notice mgrNoticeList = mgrService.selectDetail(ntcCode);
 			model.addAttribute("view", mgrNoticeList);
 	}
+	
+	@GetMapping("/error403")
+	public void error403 () {
+		logger.info("/manager/error406 [GET]");
+	}
 }

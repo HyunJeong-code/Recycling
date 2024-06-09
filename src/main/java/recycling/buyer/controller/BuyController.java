@@ -31,6 +31,10 @@ import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
+import recycling.dto.seller.Exp;
+import recycling.dto.seller.Prd;
+import recycling.page.face.PageService;
+import recycling.util.PagingAndCtg;
 
 // 구매자 메인페이지, 로그인/회원가입
 
@@ -41,6 +45,7 @@ public class BuyController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyService buyService;
 	@Autowired private JavaMailSenderImpl mailSender;
+	@Autowired private PageService pageService;
 	
 	@GetMapping("/main")
 	public void main(
@@ -424,7 +429,38 @@ public class BuyController {
 	}
 	
 	@GetMapping("/mainsearch")
-	public void mainSearch() {
+	public void mainSearch(
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
+			Model model
+			) {
 		logger.info("/buyer/mainsearch [GET]");
+		
+		PagingAndCtg upPaging = new PagingAndCtg();
+		PagingAndCtg unPaging = new PagingAndCtg();
+		
+		logger.info("search : {}", search);
+		logger.info("sCtg : {}", sCtg);
+		upPaging = pageService.upPageBuyer(curPage, sCtg, search, "");
+		unPaging = pageService.unPageBuyer(curPage, sCtg, search, "");	
+		
+		int upPage = buyService.selectCntPrd(upPaging);
+		upPaging = new PagingAndCtg(upPage, curPage, search);
+		
+		int unPage = buyService.selectCntExp(unPaging);
+		unPaging = new PagingAndCtg(unPage, curPage, search);
+		
+		// 재활용품 + 업사이클 리스트 조회
+		List<Prd> prdList = buyService.selectPrd(upPaging);
+		// 체험단 리스트 조회
+		List<Exp> expList = buyService.selectExp(unPaging);
+		
+		
+	}
+	
+	@GetMapping("/error403")
+	public void error403 () {
+		logger.info("/buyer/error406 [GET]");
 	}
 }
