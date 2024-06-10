@@ -28,4 +28,5 @@ public class AboutController {
         return "/buyer/about/location";
     }
 	
+	
 }

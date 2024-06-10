@@ -10,59 +10,62 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/resources/css/manager/cs/list.css">
+<!-- <link rel="stylesheet" href="/resources/css/manager/cs/list.css"> -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 </head>
 <body>
 
-	<div class="full">
-		<aside>
-		</aside>
-		<div class="wrap">
-			<div class="page">
-				문의글 목록
-			</div>
-			
-			<div class="search">
-				<form action="./main" method="get" style="display: flex; align-items: center;">
-					<input type="hidden" name="sCtg" value="UP">
-					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search-input">
-					<button class="btn_search">검색</button>
-				</form>
-			</div>
-			
-			<div class="section">
-				<table>
-					<thead>
-						<tr>
-							<th>문의코드</th>
-							<th>제목</th>
-							<th>이름</th>
-							<th>조회수</th>
-							<th>작성일</th>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<c:forEach var="oto" items="${list }">
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
+			<div class="wrap">
+				<div class="page">
+					문의글 목록
+				</div>
+				
+				<div class="search">
+					<form action="./main" method="get" class ="search_form">
+						<input type="hidden" name="sCtg" value="UP">
+						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search-input">
+						<button class="btn btnRight">검색</button>
+					</form>
+				</div>
+				
+				<div class="section">
+					<table>
+						<thead>
 							<tr>
-								<td>${oto.otoCode }</td>
-								<td>
-									<a href="./ansform?otoCode=${oto.otoCode }">${oto.otoTitle }</a>
-									<%-- <a href="./ansform?otoCode=${oto.otoCode }&ansCode=${comments.ansCode }">${oto.otoTitle }</a> --%>
-								</td>
-								<td>${oto.otoName }</td>
-								<td>${oto.otoHit }</td>
-								<td>
-									<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd" />
-									<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd" />
-								</td>
+								<th>문의코드</th>
+								<th>제목</th>
+								<th>이름</th>
+								<th>조회수</th>
+								<th>작성일</th>
 							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+						</thead>
+						
+						<tbody>
+							<c:forEach var="oto" items="${list }">
+								<tr>
+									<td>${oto.otoCode }</td>
+									<td>
+										<a href="./ansform?otoCode=${oto.otoCode }">${oto.otoTitle }</a>
+										<%-- <a href="./ansform?otoCode=${oto.otoCode }&ansCode=${comments.ansCode }">${oto.otoTitle }</a> --%>
+									</td>
+									<td>${oto.otoName }</td>
+									<td>${oto.otoHit }</td>
+									<td>
+										<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd" />
+										<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd" />
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+				<br>
+				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 			</div>
-			<br>
-			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 		</div>
 	</div>
 </body>

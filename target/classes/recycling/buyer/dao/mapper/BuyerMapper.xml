@@ -34,6 +34,7 @@
 				<where>
 					AND c.PRD_CODE =p.PRD_CODE
 					AND p.PRD_CODE = pf.PRD_CODE(+)
+					AND pf.ct_pflno = 600
 					AND B_CODE = #{user}
 				</where>
 				ORDER BY C_CODE
@@ -52,6 +53,7 @@
 		<where>
 			AND c.PRD_CODE = p.PRD_CODE
 			AND p.PRD_CODE = pf.PRD_CODE(+)
+			AND pf.ct_pflno = 600
 			AND C_CODE = #{cCode}
 		</where>
 		ORDER BY C_CODE
@@ -353,6 +355,7 @@
 		<where>
 			AND c.PRD_CODE =p.PRD_CODE
 			AND p.PRD_CODE = pf.PRD_CODE(+)
+			AND pf.ct_pflno = 600
 			AND B_CODE = #{user}
 		</where>
 		ORDER BY C_CODE DESC

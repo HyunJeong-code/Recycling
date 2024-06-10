@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -27,6 +29,7 @@ function setThumbnail(event) {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
+	
 	var reader = new FileReader()
 
 	reader.onload = function(event) {
@@ -43,47 +46,20 @@ function setThumbnail2(event) {
     var fileInput = event.target;
     var files = fileInput.files;
     var container = document.querySelector("div#image_container2");
-    var formData = new FormData();
+	console.log(files)
     
-    // 파일이 선택되었는지 확인하고, 선택된 파일이 있다면 이미지를 추가합니다.
     for (var i = 0; i < files.length; i++) {
         var reader = new FileReader();
 
-        // 선택한 파일의 각각을 읽어와서 이미지로 표시합니다.
-        reader.onload = (function(file) {
-            return function(event) {
-                var img = document.createElement("img");
-                img.setAttribute("src", event.target.result);
-                img.setAttribute("class", "col-lg-6");
-                container.appendChild(img);
-            };
-        })(files[i]);
-
-        // 파일을 읽어옵니다.
-        reader.readAsDataURL(files[i]);
-        
-    }
-    
-    for (var i = 0; i < files.length; i++) {
-        formData.append('files', files[i]); // 'files'는 서버에서 해당 파일을 식별하기 위한 키값입니다.
-    }
-    
-    $.ajax({
-        url: "/manager/sls/expform",
-        type: 'POST',
-        data: formData,
-        processData: false, // FormData 객체를 전송할 때 jQuery가 데이터를 처리하지 않도록 설정
-        contentType: false, // 컨텐츠 타입을 false로 설정하여 jQuery가 데이터를 전송할 때 content-type 헤더를 설정
-        success: function(response) {
-            console.log('파일 업로드 성공');
-            // 성공적으로 파일 업로드가 완료되었을 때 실행할 코드 작성
-        },
-        error: function(xhr, status, error) {
-            console.error('파일 업로드 실패', error);
-            // 파일 업로드에 실패했을 때 실행할 코드 작성
+        reader.onload = function(event) {
+            var img = document.createElement("img");
+            img.setAttribute("src", event.target.result);
+            img.setAttribute("class", "col-lg-6");
+            container.appendChild(img);
         }
-    });
-    
+
+        reader.readAsDataURL(files[i]);
+    }
 }
 
 $(function() {
@@ -218,10 +194,11 @@ $(function() {
 	
 	//기업정보 모달창으로 보여주기
 	$("#btnSearchCmp").click(function() {
-        $.ajax({
-            type: "GET",
-            url: "./sellerselect",
-            data: {
+        console.log("실행")
+		$.ajax({
+            type: "GET"
+            , url: "./sellerselect"
+            , data: {
             	CMP_NO : $(this).attr("id") 
 				, CMP_NAME : $(this).closest('tr').find('td:eq(1)').text()
 				, CMP_CEO : $(this).closest('tr').find('td:eq(2)').text()
@@ -261,61 +238,12 @@ $(function() {
     
     
     
-    
+	}); 
     
 });
 	    
 </script>
 <style type="text/css">
-/* 전체 기본 설정 */
-* {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	vertical-align: baseline;
-	box-sizing: border-box;
-	font: inherit;
-	font-size: 100%;
-	line-height: 1.5;
-	color: #333;
-}
-
-/* 외부 레이아웃 설정 */
-.full {
-	width: 1200px;
-	border: 1px solid #ccc;
-	margin: 0 auto;
-	display: flex;
-	border-radius: 8px;
-	overflow: hidden;
-}
-
-aside {
-	width: 300px;
-	background-color: #f1f1f1;
-	border-right: 1px solid #ddd;
-	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-.wrap {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-}
-
-/* 상단 페이지 */
-.page {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	color: #007BFF;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 10px;
-}
-
 /* [우]하단 페이지 */
 .btn_bot_style {
 	display: flex;
@@ -323,7 +251,6 @@ aside {
 	margin: 0 0 20px 0;
 }
 
-/* ------------------------------------- */
 
 /* 섹션 스타일 */
 .section {
@@ -427,7 +354,7 @@ label {
 /* 모달1버튼 */
 #btnSearchCmp {
 	padding: 6px 12px;
-	background-color: #007BFF;
+	background-color: #652CB3;
 	color: #fff;
 	border: none;
 	border-radius: 4px;
@@ -436,17 +363,15 @@ label {
 }
 
 #btnSearchCmp:hover {
-	background-color: #0056b3;
+	background-color: #652CB3;
 }
 
 .modal-header {
-	margin-bottom: 20px;
 	font-size: 24px;
 	font-weight: bold;
 	display: flex;
 	align-items: center;
-	color: #007BFF;
-	border-bottom: 2px solid #007BFF;
+	border-bottom: 2px solid black;
 	padding-bottom: 10px;
 }
 
@@ -465,7 +390,7 @@ label {
 
 #btnPostcode {
 	padding: 12px 25px;
-	background-color: #007BFF;
+	background-color: #652CB3;
 	color: #fff;
 	border: none;
 	border-radius: 4px;
@@ -474,7 +399,7 @@ label {
 }
 
 #btnPostcode:hover {
-	background-color: #0056b3;
+	background-color: #652CB3;
 }
 
 #schDate {
@@ -556,39 +481,33 @@ label {
 	background-color: #da190b;
 }
 
+button[type="submit"] {
+    outline: 0;
+    border: none;
+    transition: all 0.2s ;
+   	width: 90px;
+   	height: 36px;
+    background-color: #652CB3;
+    border-radius: 5px;
+   	color: white;
+   	font-size: 15px;
+}
 
-/* 버튼 세팅 */
-.btn_inform {
-	border: 0;
-	width: 106px;
+button[type="submit"]:hover {
+	background-color: #652CB3;
+}
+
+.btn_inform{
+	margin: 0 auto;
+    display: flex;
+}
+
+.btn_bot_join{
 	margin: 0 auto;
 }
 
-.btn_bot_join, .btn_bot_cencle {
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 16px;
-}
-
-.btn_bot_join {
-	background-color: #4CAF50;
-	color: white;
-}
-
-.btn_bot_join:hover {
-	background-color: #45a049;
-}
-
-.btn_bot_cencle {
-	background-color: #f44336;
-	color: white;
-	margin-left: 10px;
-}
-
-.btn_bot_cencle:hover {
-	background-color: #da190b;
+.page{
+margin-bottom: 20px;
 }
 
 </style>
@@ -601,7 +520,7 @@ label {
 		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
-				<h1>체험단 등록</h1>
+				체험단 등록
 			</div>
 			<div class="section">
 				<form action="./expform" method="post" enctype="multipart/form-data">
@@ -657,8 +576,13 @@ label {
 					</div>
 					
 					<div>
-						이미지 첨부 <input type="file" name="file" onchange="setThumbnail(event);">
+						이미지 첨부 <input type="file" name="profile" onchange="setThumbnail(event);">
 						<div id="image_container"></div>
+					</div>
+					
+					<div>
+						파일 첨부 <input type="file" name="file" onchange="setThumbnail2(event);">
+						<div id="image_container2"></div>
 					</div>
 
 					<!-- 모달 버튼 -->
@@ -695,15 +619,10 @@ label {
 								            <h2>오전</h2>
 								            <div class="modal_time-buttons">
 								                <input type="button" name="schTime" class="hourBtnClick" value="07:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="07:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="08:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="08:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="09:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="09:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="10:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="10:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="11:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="11:30" readonly="readonly">
 								            </div>
 								        </div>
 								        <hr>
@@ -711,19 +630,12 @@ label {
 								            <h2>오후</h2>
 								            <div class="modal_time-buttons">
 								                <input type="button" name="schTime" class="hourBtnClick" value="12:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="12:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="13:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="13:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="14:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="14:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="15:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="15:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="16:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="16:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="17:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="17:30" readonly="readonly">
 								                <input type="button" name="schTime" class="hourBtnClick" value="18:00" readonly="readonly">
-								                <input type="button" name="schTime" class="hourBtnClick" value="18:30" readonly="readonly">
 								            </div>
 								        </div>
 								    </div>
@@ -754,7 +666,7 @@ label {
 					</div>
 					
 					<div class="btn_inform">
-						<button type="submit" class="btn_bot_join">등록하기</button>
+						<button type="submit" class="btn_bot_join">작성하기</button>
 					</div>
 				</form>
 

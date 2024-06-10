@@ -129,6 +129,7 @@
 			        <where>
 				        AND P.prd_code = OD.prd_code(+)
 				        AND P.s_code = #{user }
+				        AND P.prd_out = 'N'
 				        AND (
 				        	P.prd_name LIKE '%' || #{search } || '%'
 				        	OR P.prd_detail LIKE '%' || #{search } || '%'
@@ -155,6 +156,7 @@
 		            <where>
 			            AND Q.prd_code = P.prd_code(+)
 			            AND P.s_code = #{user }
+			            AND P.prd_out = 'N'
 			            AND (
 			            	Q.qst_title LIKE '%' || #{search } || '%'
 			            	OR Q.qst_content LIKE '%' || #{search } || '%'

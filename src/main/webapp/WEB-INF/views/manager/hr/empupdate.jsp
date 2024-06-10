@@ -168,6 +168,62 @@ $(function() {
       }
    })
    
+	var rexPw = /[a-zA-Z0-9!@#$%]{8, 15}/;
+	
+	// 비밀번호
+	$("#mgrPw").blur(function() {
+		if($("#mgrPw").val() == '') {
+			$("#pw").css("display", "block");
+		} else {
+			$("#pw").css("display", "none");
+			
+			if(rexPw.test($("#mgrPw"))) {
+				$("#chkPw").css("display", "block");				
+			} else {
+				$("#chkPw").css("display", "none");								
+			}
+		}
+	})
+	
+	// 비밀번호 확인
+	$("#newPw").blur(function() {
+		if($("#newPw").val() == '') {
+			$("#cfmPw").css("display", "block");			
+		} else {
+			$("#cfmPw").css("display", "none");
+			
+			// 비밀번호 일치
+			if($("#newPw").val() === $("#mgrPw").val()) {
+				$("#okPw").css("display", "block");				
+				$("#noPw").css("display", "none");				
+			} else {
+				$("#okPw").css("display", "none");				
+				$("#noPw").css("display", "block");				
+			}
+		}
+	})
+	
+	$("#newPw").blur(function() {
+		var mgrPw = $("#mgrPw").val();
+		var newPw = $("#newPw").val();
+		
+		console.log("mgrPw : " + mgrPw);
+		console.log("newPw : " + newPw);
+		
+		if(newPw == '') {
+			$("#cfmPw").css("display", "block");						
+		} else {
+			$("#cfmPw").css("display", "none");
+			
+			if(mgrPw === newPw) {
+				$("#okPw").css("display", "block");
+				$("#noPw").css("display", "none");					
+			} else {
+				$("#okPw").css("display", "none");		
+				$("#noPw").css("display", "block");					
+			}
+		}
+	})
 })
 
 //핸드폰 번호 처리
@@ -252,21 +308,13 @@ input[type="text"], select {
 }
 
 .section_bot_itembox {
-	width: 500px;
+	width: 800px;
 	margin-left: 280px;
-}
-
-.section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
-	.section .mgrGender_box {
-	margin-bottom: 15px;
-	display: flex;
-	margin-left: 20px;
 }
 
 /* 파일버튼 디자인 */
 .bot_document_filebox {
 	display: flex;
-	margin-left: 20px;
 	margin-bottom: 15px;
 }
 
@@ -302,10 +350,36 @@ input[type="text"], select {
 
 .phone_box{
 	display: flex;
+	padding-bottom: 20px
 }
 
 .email_box{
 	display: flex;
+	padding-bottom: 20px
+}
+
+.mgrBirth_box{
+	display: flex;
+	padding-bottom: 20px
+}
+
+.mgrGender_box{
+	display: flex;
+	padding-bottom: 20px
+}
+
+.mgrPw_box{
+	display: flex;
+	padding-bottom: 20px
+}
+
+.newPw_box{
+	display: flex;
+	padding-bottom: 20px
+}
+
+.btn_bot_wrap{
+
 }
 
 
@@ -321,7 +395,7 @@ input[type="text"], select {
 		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
-				<h1>사원정보 수정하기</h1>
+				사원정보 수정하기
 			</div>
 
          <div class="section">
@@ -369,7 +443,20 @@ input[type="text"], select {
 					<div class="section_bot_title">사원 정보</div>
 					
 				<div class="section_bot_itembox">
-					
+				
+				<div class="mgrPw_box">
+					<label for="mgrPw">새 비밀번호</label>
+					<input type="text" id="mgrPw" name="mgrPw"><br>
+					<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
+				</div>
+				
+				<div class ="newPw_box">
+					<label for="newPw">새 비밀번호 확인</label>
+					<input type="text" id="newPw" name="newPw"><br>
+					<div id="cfmPw" style="display: none; color: red;">비밀번호를 입력해주세요.</div>
+					<div id="okPw" style="display: none; color: green;">비밀번호가 일치합니다.</div>
+					<div id="noPw" style="display: none; color: red;">비밀번호가 일치하지 않습니다.</div>
+				</div>
 				<div class="phone_box">
 				<label for="sPhone">전화 번호</label>
 				<select class="sPhone" id="sPhone" name="sPhone">
@@ -424,7 +511,7 @@ input[type="text"], select {
 				</div>
 	
 				<div class="btn_bot_wrap">
-					<a href="./empupdate"><button class="btn btnRight">수정하기</button></a>
+						<a href="./empupdate"><button class="btn btnRight">수정하기</button></a>
 				</div>
 				</form>
 					<a href="./empdetail?mgrCode=${view.mgrCode }"><button class="btn btnLeft">돌아가기</button></a>

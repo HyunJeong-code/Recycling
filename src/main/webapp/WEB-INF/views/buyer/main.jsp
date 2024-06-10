@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>새활용 메인페이지</title>
-<link rel="stylesheet" href="/resources/css/common.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -30,32 +29,44 @@ $(function(){
 
 	$("#expHit").click(function() {
 		$(".expNew").css("display", "none");
+		$("#expNew").css("background-color", "#878787");
 		$(".expHit").css("display", "inline-block");
+		$("#expHit").css("background-color", "#4CAF50");
 	})
 	
 	$("#expNew").click(function() {
 		$(".expHit").css("display", "none");
+		$("#expHit").css("background-color", "#878787");
 		$(".expNew").css("display", "inline-block");
+		$("#expNew").css("background-color", "#4CAF50");
 	})
 	
 	$("#rcyHit").click(function() {
 		$(".rcyNew").css("display", "none");
+		$("#rcyNew").css("background-color", "#878787");
 		$(".rcyHit").css("display", "inline-block");
+		$("#rcyHit").css("background-color", "#4CAF50");
 	})
 	
 	$("#rcyNew").click(function() {
 		$(".rcyHit").css("display", "none");
+		$("#rcyHit").css("background-color", "#878787");
 		$(".rcyNew").css("display", "inline-block");
+		$("#rcyNew").css("background-color", "#4CAF50");
 	})
 	
 	$("#upcyHit").click(function() {
 		$(".upcyNew").css("display", "none");
+		$("#upcyNew").css("background-color", "#878787");
 		$(".upcyHit").css("display", "inline-block");
+		$("#upcyHit").css("background-color", "#4CAF50");
 	})
 	
 	$("#upcyNew").click(function() {
 		$(".upcyHit").css("display", "none");
+		$("#upcyHit").css("background-color", "#878787");
 		$(".upcyNew").css("display", "inline-block");
+		$("#upcyNew").css("background-color", "#4CAF50");
 	})
 	
 })
@@ -67,12 +78,12 @@ $(function(){
 
 .mainTitle {
 	text-align: center;
-	border-bottom: 3px solid black;
 }
 
 .mainContent {
 	text-align: center;
-	justify-content: space-around;
+	justify-content: center;
+	margin-bottom: 50px;
 }
 
 .imgSum {
@@ -91,6 +102,22 @@ $(function(){
 	text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.item {
+	outline: 0;
+    border: none;
+    transition: all 0.2s ;
+   	width: 90px;
+   	height: 36px;
+    background-color: #878787;
+    border-radius: 5px;
+   	color: white;
+   	font-size: 15px;
+}
+
+.item:hover {
+	background-color: #4CAF50;
+}
 </style>
 </head>
 <body>
@@ -98,13 +125,13 @@ $(function(){
 
 <div class="full">
 	<div class="wrap">
-		<div class="page mainTitle">
+		<div class="page-header mainTitle">
 			<h3>재활용품</h3>
 		</div>
 		
 		<div class="section mainContent">
 			<div class="btnBox">
-				<button id="rcyHit">인기순</button><button id="rcyNew">최신순</button>
+				<button id="rcyHit" class="item">인기순</button><button id="rcyNew" class="item">최신순</button>
 			</div>
 			<c:forEach var="rcyHit" items="${rcyHit }">
 				<div class="mainPrd rcyHit">
@@ -125,13 +152,13 @@ $(function(){
 			</c:forEach>
 		</div>
 		
-		<div class="page mainTitle">
+		<div class="page-header mainTitle">
 			<h3>새활용</h3>
 		</div>
 		
 		<div class="section mainContent">
 			<div class="btnBox">
-				<button id="upcyHit">인기순</button><button id="upcyNew">최신순</button>
+				<button id="upcyHit" class="item">인기순</button><button id="upcyNew" class="item">최신순</button>
 			</div>
 			<c:forEach var="upcyHit" items="${upcyHit }">
 				<div class="mainPrd upcyHit">
@@ -152,13 +179,13 @@ $(function(){
 			</c:forEach>
 		</div>
 		
-		<div class="page mainTitle">
+		<div class="page-header mainTitle">
 			<h3>체험단</h3>
 		</div>
 		
 		<div class="section mainContent">
 			<div class="btnBox">
-				<button id="expHit">인기순</button><button id="expNew">최신순</button>
+				<button id="expHit" class="item">인기순</button><button id="expNew" class="item">최신순</button>
 			</div>
 			
 			<c:forEach var="expHit" items="${expHit }">

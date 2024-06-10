@@ -143,7 +143,7 @@ public class SlsServiceImpl implements SlsService {
 	        profileFile.setCtPflNo(600);
 	        expFiles.add(profileFile);
 	    }
-
+	    	
 	    // 메인 파일 저장
 	    for (MultipartFile mainFile : file) {
 	        String storedName = saveFile(mainFile, storedFolder);
@@ -160,7 +160,7 @@ public class SlsServiceImpl implements SlsService {
 	    }
 
 	    for (ExpFile expFile : expFiles) {
-	        slsDao.expFileUp(expFile);
+	        slsDao.insertPrdFile(expFile);
 	        logger.info("exp fileup service : {}", expFile);
 	    }
 	}

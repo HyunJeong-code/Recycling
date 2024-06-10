@@ -3,18 +3,9 @@
 body {
 }
 
-.full {
-	width: 1200px;
-	height: auto;
-    min-height: calc(100vh - 450px);
-    margin: 0 auto;
-    padding: 50px 20px;
-}
-
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 li {

@@ -10,35 +10,49 @@
 <script type="text/javascript">
 $(function() {
 	
-	$("#mgrPw").blur(function() {
-		if($("#mgrPw").val() == '') {
-			$("#infoPw").css("display", "block");			
-		} else {
-			$("#infoPw").css("display", "none");						
-		}
-	})
+	var rexPw = /[a-zA-Z0-9!@#$%]{8,15}/;
 	
-	$("#newPw").blur(function() {
-		var mgrPw = $("#mgrPw").val();
-		var newPw = $("#newPw").val();
-		
-		console.log("mgrPw : " + mgrPw);
-		console.log("newPw : " + newPw);
-		
-		if(newPw == '') {
-			$("#cfmPw").css("display", "block");						
+	// 비밀번호
+	$("#bPw").blur(function() {
+		if($("#bPw").val() == '') {
+			$("#pw").css("display", "block");
 		} else {
-			$("#cfmPw").css("display", "none");
+			$("#pw").css("display", "none");
 			
-			if(mgrPw === newPw) {
-				$("#okPw").css("display", "block");
-				$("#noPw").css("display", "none");					
+			if(!rexPw.test($("#bPw").val())) {
+				console.log(rexPw.test($("#bPw").val()));
+				$("#chkPw").css("display", "block");				
 			} else {
-				$("#okPw").css("display", "none");		
-				$("#noPw").css("display", "block");					
+				console.log(rexPw.test($("#bPw").val()));
+				$("#chkPw").css("display", "none");								
 			}
 		}
 	})
+	
+	// 비밀번호 확인
+	$("#newPw").blur(function() {
+		if($("#newPw").val() == '') {
+			$("#cfmPw").css("display", "block");			
+		} else {
+			$("#cfmPw").css("display", "none");
+			
+			// 비밀번호 일치
+			if($("#newPw").val() === $("#bPw").val()) {
+				$("#okPw").css("display", "block");				
+				$("#noPw").css("display", "none");				
+			} else {
+				$("#okPw").css("display", "none");				
+				$("#noPw").css("display", "block");				
+			}
+		}
+	})
+	
+	$("form").submit(function(e) {
+		 if( $("#bPw").val() == '' || $("#newPw").val() == '') {
+			 alert("필수 입력 정보를 모두 입력해야합니다.");
+			 e.preventDefault();
+		 }
+	 })
 	
 })
 </script>
@@ -47,31 +61,51 @@ $(function() {
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
-		<div class="page">
+		<div class="page-header">
 			<h3>비밀번호 변경</h3>
 		</div>
 		
 		<div class="section">
 			<c:if test="${buyer ne null }">
-				<form action="./changepw" method="post">
-					<label for="mgrPw">새 비밀번호</label>
-					<input type="text" id="mgrPw" name="mgrPw"><br>
-					<div id="infoPw" style="display: none; color: red;">비밀번호를 입력해주세요.</div>
-					
-					<label for="newPw">새 비밀번호 확인</label>
-					<input type="text" id="newPw" name="newPw"><br>
-					<div id="cfmPw" style="display: none; color: red;">비밀번호를 입력해주세요.</div>
-					<div id="okPw" style="display: none; color: green;">비밀번호가 일치합니다.</div>
-					<div id="noPw" style="display: none; color: red;">비밀번호가 일치하지 않습니다.</div>
+				<form action="/buyer/changepw" method="post">
+					<label for="bPw">비밀번호<span class="ne"> *</span></label>
+					<input type="password" id="bPw" name="bPw" class="m">
+					<div class="j-info" >
+						<div id="pw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호는 필수입니다.
+							</div>
+						<div id="chkPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요
+						</div>
+					</div>
 					<br>
 					
-					<button>변경하기</button>
+					<label for="newPw">비밀번호 확인<span class="ne"> *</span></label>
+					<input type="password" id="newPw" name="newPw" class="m">
+					<div class="j-info" >
+						<div id="cfmPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호 확인은 필수입니다.
+						</div>
+						<div id="okPw" style="display:none; color:green;" class="j-info">
+							<label></label>
+							비밀번호가 일치합니다.
+						</div>
+						<div id="noPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호가 일치하지 않습니다.
+						</div>
+					</div>
+					
+					<button class="btn btnRight">변경하기</button>
 				</form>
 			</c:if>
 			<c:if test="${buyer eq null }">
 				<p>일치하는 회원정보가 없습니다.</p>
 				
-				<button><a href="/buyer/findpw">돌아가기</a></button>
+				<a href="/buyer/findpw"><button class="btn btnLeft">돌아가기</button></a>
 			</c:if>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
