@@ -90,83 +90,121 @@ function chkAdrLimit() {
 
 <style>
 body {
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
-.container {
+
+.full {
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    padding: 50px 20px;
     display: flex;
     justify-content: center;
-    padding: 20px;
+    align-items: flex-start;
 }
-.content {
-    background: white;
-    padding: 20px;
+
+.wrap {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 600px;
+    padding: 20px;
 }
+
+.page {
+    margin-top: 20px;
+    border-bottom: 3px solid #333;
+    width: 70%;
+    text-align: center;
+}
+
 h2 {
     margin-top: 0;
     color: #333;
 }
+
 hr {
     border: 0;
     border-top: 1px solid #ccc;
     margin: 20px 0;
 }
+
 .page a {
     display: block;
     margin: 10px 0;
     color: #0066cc;
     text-decoration: none;
 }
+
 .page a:hover {
     text-decoration: underline;
 }
+
+.table-container {
+	text-align: center;
+}
+
 table {
-    width: 100%;
+    width: 50%;
     border-collapse: collapse;
     margin-top: 20px;
+    display: inline-block;
 }
+
 table, th, td {
     border: 1px solid #dddddd;
 }
+
 th, td {
     padding: 15px;
     text-align: left;
 }
+
 th {
-    background-color: #f2f2f2;
+    background-color: #CEE741;
+    width: 30%;
+    text-align: center;
 }
+
 .addr-form {
     margin-bottom: 20px;
 }
+
 .addr-form input[type="text"], .addr-form input[type="button"], .addr-form input[type="submit"] {
     margin-top: 5px;
     padding: 10px;
     width: calc(100% - 22px);
     box-sizing: border-box;
 }
+
 .addr-form label {
     display: block;
     margin-top: 10px;
     font-weight: bold;
 }
+
+.button-group {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
 .button-group button {
     margin-right: 10px;
     padding: 10px 20px;
-    background-color: #0066cc;
+    background-color: #878787;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    width: 185px;
+    height: 39px;
 }
-.button-group button[type="btn"] {
-    background-color: #0066cc;
-}
-.button-group button[type="btn"]:hover {
-    background-color: #005bb5;
+
+.button-group button:hover {
+    background-color: #9e9e9e;
 }
 </style>
 
@@ -291,7 +329,7 @@ th {
 				</c:if>
 				<div class="button-group">
 					<c:if test="${fn:length(buyerAdrList) <= 2 }">
-	 					<button type="btn" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }">추가 배송지 등록하기</button><br><br>
+	 					<button type="button" class="btn" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }">추가 배송지 등록하기</button><br><br>
 					</c:if>
 				</div>
 				<div id="addForm" style="display: none;">

@@ -10,9 +10,6 @@
 <link rel="stylesheet" href="/resources/css/mgrheader.css">
 </head>
 <body>
-    <div class="notice-banner">
-        <a href="">공지사항</a>
-    </div>
 	<header class="header">
 		<div class="header-content">
 	        <div class="logo">

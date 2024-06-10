@@ -132,3 +132,9 @@
 .sum-price span {
 	margin-left: 10px
 }
+
+.order-table img {
+    padding: 10px;
+    max-width: 150px;
+    object-fit: contain;
+}

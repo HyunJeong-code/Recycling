@@ -94,6 +94,7 @@ public class MypageController {
 		model.addAttribute("unUrl", "/buyer/mypage/myboard");
 		
 		model.addAttribute("sCtg", sCtg);
+		model.addAttribute("buyerLogin", buyerLogin);
 	}
 	
 	@GetMapping("/rvwform")
