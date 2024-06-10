@@ -9,7 +9,9 @@
 <title>Insert title here</title>
 <!-- CSS -->
 <link rel="stylesheet" href="/resources/css/manager/manager.css">
+<style type="text/css">
 
+</style>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
@@ -64,9 +66,8 @@
 					</c:forEach>
 				</tbody>
 			</table>
-<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-                
             </div>
+<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 
         </div><!-- wrap -->
     	</div><!-- full -->

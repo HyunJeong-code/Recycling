@@ -11,56 +11,6 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <style type="text/css">
-/* 전체 기본 설정 */
-* {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	vertical-align: baseline;
-	box-sizing: border-box;
-	font: inherit;
-	font-size: 100%;
-	line-height: 1.5;
-	color: #333;
-	text-align: center;
-}
-
-/* 외부 레이아웃 설정 */
-.full {
-	width: 1200px;
-	border: 1px solid #ccc;
-	margin: 0 auto;
-	background-color: #f9f9f9;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-	overflow: hidden;
-}
-
-aside {
-	background-color: #f1f1f1;
-	border-right: 1px solid #ddd;
-	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-.wrap {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-}
-
-/* 상단 페이지 */
-.page {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	color: #007BFF;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 10px;
-}
-
 /* 중단 페이지 */
 .section {
 	margin-top: 20px;
@@ -68,6 +18,7 @@ aside {
 	padding: 20px;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	text-align: center;
 }
 
 .section .top_section_con{
@@ -78,7 +29,6 @@ aside {
 .section img {
 	height: 200px;
 	width: 200px;
-	border-radius: 50%;
 	object-fit: cover;
 	margin: 20px;
 }
@@ -119,41 +69,6 @@ input[type="text"], select {
 	font-size: 14px;
 }
 
-.section h3 {
-	color: #333;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 5px;
-	margin-bottom: 20px;
-}
-
-.section_top_privacy {
-	padding: 20px;
-	margin-left: 20px;
-	margin-top: 20px;
-	flex: 1;
-}
-
-.section_top_privacy div {
-	margin-bottom: 10px;
-}
-
-/* --------------------------------------- */
-/* 색션 하단 */
-.section_bot_title {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 10px;
-}
-
-.section_bot_itembox {
-	width: 500px;
-	margin: 0 auto;
-}
-
 .section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
 	.section .mgrGender_box {
 	margin-bottom: 15px;
@@ -161,210 +76,66 @@ input[type="text"], select {
 	margin-left: 20px;
 }
 
-/* 하단 페이지 버튼 스타일 */
-.btn_bot_wrap {
-	display: flex;
-	width: 500px;
-	padding-top: 20px;
-	margin: 0 auto;
-	justify-content: space-around;
-}
-
 /* 버튼 스타일 */
 button {
-	background-color: #007BFF;
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
 	cursor: pointer;
-	border-radius: 5px;
-	font-size: 16px;
-	margin-left: 10px;
-}
-
-button:hover {
-	background-color: #0056b3;
-}
-
-table {
-	border-collapse: collapse;
-	border-top: 3px solid #168;
-	width: 100%;
-	text-align: center;
-}
-
-table td {
-	padding: 9px;
-}
-
-table th {
-	color: #168;
-	background: #f0f6f9;
-	text-align: center;
-}
-
-table th, .table td {
-	padding: 10px;
-	border: 1px solid #ddd;
-}
-
-table th:first-child, .table td:first-child {
-	border-left: 0;
-}
-
-table th:last-child, .table td:last-child {
-	border-right: 0;
-}
-
-table tr td:first-child {
-	text-align: center;
-}table {
-	border-collapse: collapse;
-	border-top: 3px solid #168;
-	width: 100%;
-	text-align: center;
-}
-
-table td {
-	padding: 9px;
-}
-
-table th {
-	color: #168;
-	background: #f0f6f9;
-	text-align: center;
-}
-
-table th, .table td {
-	padding: 10px;
-	border: 1px solid #ddd;
-}
-
-table th:first-child, .table td:first-child {
-	border-left: 0;
-}
-
-table th:last-child, .table td:last-child {
-	border-right: 0;
-}
-
-table tr td:first-child {
-	text-align: center;
-}
-
-table caption {
-	caption-side: bottom;
-	display: none;
-}
-
-table tr:hover {
-  background-color: #f5f5f5;
-}table {
-	border-collapse: collapse;
-	border-top: 3px solid #168;
-	width: 100%;
-	text-align: center;
-}
-
-table td {
-	padding: 9px;
-}
-
-table th {
-	color: #168;
-	background: #f0f6f9;
-	text-align: center;
-}
-
-table th, .table td {
-	padding: 10px;
-	border: 1px solid #ddd;
-}
-
-table th:first-child, .table td:first-child {
-	border-left: 0;
-}
-
-table th:last-child, .table td:last-child {
-	border-right: 0;
-}
-
-table tr td:first-child {
-	text-align: center;
-}
-
-table caption {
-	caption-side: bottom;
-	display: none;
-}
-
-table tr:hover {
-  background-color: #f5f5f5;
-}
-
-table caption {
-	caption-side: bottom;
-	display: none;
-}
-
-table tr:hover {
-  background-color: #f5f5f5;
 }
 
 .btn_bot_box{
 	margin-top: 20px;
+	text-align: center;
 }
 </style>
 </head>
 <body>
+	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 	<div class="full">
-		<aside>
-			<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
-		</aside>
 		<div class="wrap">
-			<div class="page">
+			<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
+		
+			<div class="main-section">
 				<h1>체험 상세조회</h1>
-				<hr>
-			</div>
 		
 		<div class="section">
-			<label>프로필 이미지</label>
+			<label>썸네일 이미지</label>
 			<div>
-				<img src="/upload/${main.storedName}" alt="${main.originName}">
+				<img alt="썸네일 이미지" src="/resources/image/${main.originName}" class="imgSum">
+				
 			</div>
 			
 			<div class="top_section_con">
 				<div class="expName">
-					<label>체험제목</label>
+					<label>제목</label>
 					<div>${exp.expName}</div>
 				</div>
 				
 				<div class="expPrice">
 					<label>참가비용</label>
-					<div>${exp.expPrice}</div>
+					<div>${exp.expPrice}원</div>
 				</div>
 				
 				<div class="expDetail">
-					<label>체험설명</label>
+					<label>내용</label>
 					<textarea readonly onclick="this.blur()" >${exp.expDetail}</textarea>
 				</div>
 			</div>
 		<label>체험상세 이미지</label>
 		<div>
 			<c:forEach var="file" items="${detail}">
-                <c:choose>
-                    <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') || file.originName.endsWith('.PNG')}">
-                        <img src="/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;">
-                    </c:when>
-                    <c:otherwise>
-                        <a href="/upload/${file.storedName}">${file.originName}</a>
-                    </c:otherwise>
-                </c:choose>
+<%--                 <c:choose> --%>
+<%--                     <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') || file.originName.endsWith('.PNG')}"> --%>
+           					<img alt="상세 이미지" src="/resources/image/${file.originName}" >
+                        
+<%--                     </c:when> --%>
+<%--                     <c:otherwise> --%>
+<%--                         <a href="/upload/${file.storedName}">${file.originName}</a> --%>
+<%--                     </c:otherwise> --%>
+<%--                 </c:choose> --%>
             </c:forEach>
 		</div>
 		
 		<div class="section">
-			<table>
+			<table class="s-table">
 				<thead>
 					<tr>
 						<th>모집날짜</th>
@@ -417,13 +188,14 @@ table tr:hover {
 			</table>
 			<c:import url="/WEB-INF/views/layout/upperdetailpaging.jsp"/>
 		</div>
+		</div>
 			
 			<div class="btn_bot_box">
 				<a href="./explist"><button class="btn" type="button">목록으로</button></a>
 			</div>
-			<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 		</div>
 	</div>	
 	</div>
+<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 </body>
 </html>

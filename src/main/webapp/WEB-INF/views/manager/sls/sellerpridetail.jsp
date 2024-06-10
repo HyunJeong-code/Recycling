@@ -9,6 +9,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
+
 <script type="text/javascript">
 $(function() {
 	
@@ -123,6 +126,7 @@ $(function() {
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
 <div class="admin-container">
+<c:set var="seller" value="${seller }" />
 <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
 <div class = "full content" >
 <div class="wrap">

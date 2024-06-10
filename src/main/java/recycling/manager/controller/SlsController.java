@@ -545,7 +545,7 @@ public class SlsController {
 			Seller seller
 			, Model model
 			) {
-		
+		logger.info("seller:{}", seller);
 		List<Map<String, Object>> selList = slsService.sellerSelect(seller.getbCode());
 		model.addAttribute("selList", selList);
 		logger.info("selList:{}", selList);
@@ -661,7 +661,7 @@ public class SlsController {
 	         
 	         
 	         //파일 삭제
-	           slsService.deleteDetailFile(map);
+	          slsService.deleteDetailFile(map);
 	         for(MultipartFile detailFile : tempFiles) {
 	            logger.info("detailFile: {}", detailFile);
 	            int detailRes = slsService.updateDetailFile(expCode, detailFile);
