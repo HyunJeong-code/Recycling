@@ -9,47 +9,42 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <title>공지사항</title>
-
+<link rel="stylesheet" href="/resources/css/list.css">
 <style type="text/css">
-.wrap {
-	width: 1000px;
-	margin: auto;
-}
-
-thead{
-	text-align: center;
-}
-
-td, th {
-	border-right: 1px solid #444444;
-	height: 50px;
-}
-
-a {
-	text-decoration: none;
-	color: #444444;
+.t-title {
+	width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+<div class="full">
 <div class="wrap">
 <h1>공지사항</h1>
     	<div class="search">
             <form action="./noticelist" method="get">
                 <input type="hidden" name="sCtg" value="UP">
                 <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-                <button>검색</button>
+                <button>
+					<span class="sch_send">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</span>
+				</button>
             </form>
      	</div>
-    <table border="1" class="table table-hover table-sm" style="width: 1000px; border: 2px solid #444444;">
+     	
+     	
+    <table class="n-table">
     
     	<colgroup>
-		<col style="width: 15%;">
-		<col style="width: 55%;">
-		<col style="width: 10%;">
-		<col style="width: 20%;">
-	</colgroup>
+			<col style="width: 15%;">
+			<col style="width: 55%;">
+			<col style="width: 10%;">
+			<col style="width: 20%;">
+		</colgroup>
 	
         <thead>
             <tr>
@@ -63,7 +58,7 @@ a {
             <c:forEach items="${noticeList}" var="notice">
                 <tr>
                     <td>${notice.ntcCode}</td>
-                    <td><a href="./noticedetail?ntcCode=${notice.ntcCode}">${notice.ntcTitle}</a></td>
+                    <td class="t-title"><a href="./noticedetail?ntcCode=${notice.ntcCode}">${notice.ntcTitle}</a></td>
                     <td>${notice.ntcHit}</td>
                     <td>${notice.ntcDate}</td>
                 </tr>
@@ -71,6 +66,7 @@ a {
         </tbody>
     </table>
     <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+</div>
 </div>
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>

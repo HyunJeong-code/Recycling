@@ -10,12 +10,19 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <title>1:1 문의 전체 조회</title>
-
+<link rel="stylesheet" href="/resources/css/list.css">
 <style type="text/css">
-.wrap{
-	width:800px;
+.form-btn {
+    text-align: right;
+    margin: 10px;
 }
 
+.n-table td.title{
+	width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 </style>
 </head>
 <body>
@@ -29,25 +36,29 @@
         <div class="search">
             <form action="./otolist" method="get">
                 <input type="hidden" name="sCtg" value="UP">
-                <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-                <button>검색</button>
+                <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search_form">
+                <button>
+					<span class="sch_send">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</span>
+				</button>
             </form>
         </div>
         
         
-        <div>
-            <button class="btn" type="button" style="text-align: right;"><a href="./otoform">작성하기</a></button>
+        <div class="form-btn">
+            <a href="./otoform"><button class="btnRight">작성하기</button></a>
         </div>
         
         
-        <table border="1" class="table table-hover table-sm" style="width: 800px; border: 2px solid #444444;">
+        <table class="n-table">
             <colgroup>
+                <col style="width: 5%;">
+                <col style="width: 15%;">
+                <col style="width: 35%;">
                 <col style="width: 10%;">
                 <col style="width: 15%;">
-                <col style="width: 25%;">
-                <col style="width: 10%;">
                 <col style="width: 15%;">
-                <col style="width: 20%;">
             </colgroup>
             <thead>
                 <tr>
@@ -77,7 +88,7 @@
                                         </c:if>
                                     </c:forEach>
                                 </td>
-                                <td><a href="./otodetail?otoCode=${oto.OTOCODE}">${oto.OTOTITLE}</a></td>
+                                <td class="title"><a href="./otodetail?otoCode=${oto.OTOCODE}">${oto.OTOTITLE}</a></td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${oto.ANSSTATUS == '-'}">
@@ -99,9 +110,9 @@
                 </c:choose>
             </tbody>
         </table>
+		<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
     </div>
 </div>
-<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 
 </body>
