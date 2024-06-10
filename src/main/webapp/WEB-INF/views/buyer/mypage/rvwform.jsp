@@ -46,7 +46,15 @@
 <div class="full">
 	<div class="wrap">
 		<div class="page">
-			<h3>구매 완료, 체험 완료 목록</h3>
+			<h3>리뷰 작성 가능 제품</h3>
+		</div>
+		
+		<div class="section">
+			
+		</div> <!-- section End -->
+		
+		<div class="page">
+			<h3>리뷰 작성 가능 체험단</h3>
 		</div>
 		
 		<div class="section">

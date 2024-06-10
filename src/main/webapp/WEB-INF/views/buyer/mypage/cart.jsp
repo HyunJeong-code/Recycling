@@ -100,6 +100,17 @@
 		}
 		
 	}); //$ end
+	
+	//모두 체크 기능
+	function selectAll(selectAll, name)  {
+	  const checkboxes 
+	       = document.getElementsByName(name);
+	  
+	  checkboxes.forEach((checkbox) => {
+	    checkbox.checked = selectAll.checked;
+	  })
+	}
+	
 </script>
 </head>
 <body>
@@ -120,7 +131,7 @@
 				<table id="myTable" class="b-table">
 					<thead>
 						<tr>
-							<th></th>
+							<th><input type='checkbox' name='' value='selectall'onclick='selectAll(this, "checkList")'/></th>
 							<th>카트 코드</th>
 							<th>상품 이미지</th>
 							<th>상품 이름</th>

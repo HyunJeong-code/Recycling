@@ -397,7 +397,7 @@ public class BuyerController {
 		int updateRes = sellingService.updateOrderDetail(orderDetail);
 		
 		//orddtCode 추가
-		change.setOrdCode(orderDetail.getOrddtCode());
+		change.setOrddtCode(orderDetail.getOrddtCode());
 		
 		int insertRes = buyerService.insertChange(change);
 		

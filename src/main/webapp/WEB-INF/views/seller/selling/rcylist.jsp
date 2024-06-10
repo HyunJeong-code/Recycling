@@ -107,6 +107,16 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		
 		
 	}); //$ end
+	
+	//모두 체크 기능
+	function selectAll(selectAll, name)  {
+	  const checkboxes 
+	       = document.getElementsByName(name);
+	  
+	  checkboxes.forEach((checkbox) => {
+	    checkbox.checked = selectAll.checked;
+	  })
+	}
 </script>
 
 </head>
@@ -121,12 +131,13 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			
 			<div class="main-section">
 	
-				<h1>재활용품 상품 관리</h1>
-				
+				<div class="page-header">
+					<h3>재활용품 상품 관리</h3>
+				</div>
 				<div class="search">
 					<form action="./rcylist" method="get">
 						<input type="hidden" name="sCtg" value="UP">
-						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요.">
 						<button>검색</button>
 					</form>
 				</div>
@@ -134,7 +145,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				<table class="s-table">
 				    <thead>
 				        <tr>
-				            <th></th>
+				            <th><input type='checkbox' name='' value='selectall'onclick='selectAll(this, "checkList")'/></th>
 				            <th>상품 번호</th>
 				            <th>제품 분류</th>
 				            <th>상품 이름</th>
@@ -170,12 +181,15 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 				
 				
-				<h1>재활용 판매 관리</h1>
+				<div class="page-header">
+					<h3>재활용 판매 관리</h3>
+				</div>
+		
 				
 				<div class="search">
 					<form action="./rcylist" method="get">
 						<input type="hidden" name="sCtg" value="UN">
-						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요.">
 						<button>검색</button>
 					</form>
 				</div>
@@ -187,7 +201,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				<table class="s-table">
 					<thead>
 						<tr>
-							<th></th>
+							<th><input type='checkbox' name='' value='selectall'onclick='selectAll(this, "ordCheckList")'/></th>
 							<th>주문번호</th>
 							<th>상품 이름</th>
 							<th>가격</th>

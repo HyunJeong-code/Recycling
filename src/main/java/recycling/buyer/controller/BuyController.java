@@ -31,6 +31,10 @@ import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
+import recycling.dto.seller.Exp;
+import recycling.dto.seller.Prd;
+import recycling.page.face.PageService;
+import recycling.util.PagingAndCtg;
 
 // 구매자 메인페이지, 로그인/회원가입
 
@@ -41,10 +45,10 @@ public class BuyController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private BuyService buyService;
 	@Autowired private JavaMailSenderImpl mailSender;
+	@Autowired private PageService pageService;
 	
 	@GetMapping("/main")
 	public void main(
-//			Authentication authentication,
 			@RequestParam(defaultValue = "") String ctg,
 			Model model
 			) {
@@ -157,13 +161,6 @@ public class BuyController {
 		int resProf = 0;
 		int resAdr = 0;
 		
-		// 프로필, 주소 입력 X
-		if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
-			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
-			model.addAttribute("url", "/buyer/login");
-			return "/layout/alert";
-		}
-		
 		// 프로필 삽입
 		if(!buyerProf.isEmpty()) {
 			BuyerProf prof = buyService.fileSave(buyer, buyerProf);
@@ -182,13 +179,6 @@ public class BuyController {
 			resAdr = buyService.insertAdr(buyerAdr);
 		}
 		
-		
-		if(buyerProf.isEmpty() || buyerAdr.getAdrPostcode().equals("")) {
-			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
-			model.addAttribute("url", "/buyer/login");
-			return "/layout/alert";
-		}
-		
 		model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 로그인 페이지로 이동합니다.");
 		model.addAttribute("url", "/buyer/login");
 		return "/layout/alert";
@@ -196,6 +186,7 @@ public class BuyController {
 		
 	}
 	
+	// 아이디 중복 체크
 	@PostMapping("/chkbid")
 	@ResponseBody
 	public int chkBid(String bId) {
@@ -261,16 +252,8 @@ public class BuyController {
 		}
 
 		// 회원 가입 성공
-		
 		int resProf = 0;
 		int resAdr = 0;
-		
-		// 프로필, 주소 입력 X
-		if(buyerProf.getOriginalFilename().equals("") && buyerAdr.getAdrPostcode().equals("")) {
-			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
-			model.addAttribute("url", "/buyer/login");
-			return "/layout/alert";
-		}
 		
 		// 프로필 삽입
 		if(!buyerProf.getOriginalFilename().equals("")) {
@@ -288,12 +271,6 @@ public class BuyController {
 		if(!buyerAdr.getAdrPostcode().equals("")) {
 			buyerAdr = buyService.AdrProc(buyer, buyerAdr);
 			resAdr = buyService.insertAdr(buyerAdr);
-		}
-		
-		if(buyerProf.getOriginalFilename().equals("") || buyerAdr.getAdrPostcode().equals("")) {
-			model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 판매자 전환을 위해서는 프로필 사진 및 기본 배송지 등록이 필요합니다.");
-			model.addAttribute("url", "/buyer/login");
-			return "/layout/alert";
 		}
 		
 		model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 로그인 페이지로 이동합니다.");
@@ -424,7 +401,38 @@ public class BuyController {
 	}
 	
 	@GetMapping("/mainsearch")
-	public void mainSearch() {
+	public void mainSearch(
+			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "") String search,
+			@RequestParam(defaultValue = "") String sCtg,
+			Model model
+			) {
 		logger.info("/buyer/mainsearch [GET]");
+		
+		PagingAndCtg upPaging = new PagingAndCtg();
+		PagingAndCtg unPaging = new PagingAndCtg();
+		
+		logger.info("search : {}", search);
+		logger.info("sCtg : {}", sCtg);
+		upPaging = pageService.upPageAll(curPage, sCtg, search);
+		upPaging.setSearch(search);
+		unPaging = pageService.unPageAll(curPage, sCtg, search);
+		unPaging.setSearch(search);
+
+		int upPage = buyService.selectCntPrd(upPaging);
+		upPaging = new PagingAndCtg(upPage, curPage, search);
+
+		int unPage = buyService.selectCntExp(unPaging);
+		unPaging = new PagingAndCtg(unPage, curPage, search);
+
+		// 재활용품 + 업사이클 리스트 조회
+		List<Prd> prdList = buyService.selectPrd(upPaging);
+		// 체험단 리스트 조회
+		List<Exp> expList = buyService.selectExp(unPaging);
+		
+		model.addAttribute("prdList", prdList);
+		model.addAttribute("prdSize", prdList.size());
+		model.addAttribute("expList", expList);
+		model.addAttribute("expSize", expList.size());
 	}
 }
