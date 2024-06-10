@@ -1,13 +1,5 @@
 @charset "UTF-8";
 
-.full {
-	width: 1200px;
-	height: auto;
-    min-height: calc(100vh - 450px);
-    margin: 0 auto;
-    padding: 50px 20px;
-}
-
 .wrap {
     display: flex;
 }
