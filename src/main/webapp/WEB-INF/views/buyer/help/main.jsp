@@ -15,10 +15,6 @@
 
 <style type="text/css">
 
-.full{
-	background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 .wrap {
     background-color: #fff;
     padding: 20px;
@@ -110,6 +106,7 @@
     border-bottom: 2px solid #000;
     align-items: center;
     justify-content: center;
+    background-color: beige;
 }
 
 .FAQ_table_head p {
@@ -203,14 +200,6 @@
 </style>
 
 <script type="text/javascript">
-// function toggleAnswer(ctFaqno) {
-//     var answerBox = ctFaqno.querySelector('.FAQ_table_list_AnsBox');
-//     if (answerBox.style.display === 'none' || answerBox.style.display === '') {
-//         answerBox.style.display = 'block';
-//     } else {
-//         answerBox.style.display = 'none';
-//     }
-// }
 function toggleAnswer(element) {
     var answerBox = element.querySelector('.FAQ_table_list_box');
     if (answerBox.style.display === 'none' || answerBox.style.display === '') {

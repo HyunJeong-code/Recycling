@@ -84,13 +84,21 @@ h1 {
 
 .btnRight {
     cursor: pointer;
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-.btn:hover {
+.btnRight:hover {
     background-color: #0056b3;
 }
 
-.btn:disabled {
+.btnRight:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }

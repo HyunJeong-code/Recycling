@@ -32,11 +32,11 @@ div.group {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .mainThumbnail img {
-    max-width: 100%;
-    max-height: 100%;
+    object-fit: cover;
 }
 
 .prdInfo {
@@ -146,8 +146,13 @@ select#rvwGrade {
     align-items: center;
     margin-right: 10px;
     border-radius: 50%;
+    overflow: hidden;
 }
-
+.seller-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 컨테이너에 맞추고 잘 맞게 표시 */
+}
 
 .star-rating .filled {
     color: gold;
@@ -223,9 +228,16 @@ function checkLoginAndRedirect(url) {
     
     <div class="detailUpper">
         <div class="mainThumbnail">
-            <c:if test="${not empty main}">
-                <img src="${pageContext.request.contextPath}/upload/${main.storedName}" alt="${main.originName}">
-            </c:if>
+        	<c:choose>
+                <c:when test="${not empty main}">
+                    <img alt="썸네일 이미지" 
+                         src="/resources/image/${main.originName}" 
+                         onerror="this.onerror=null; this.src='/resources/image/basicProf.png';">
+                </c:when>
+                <c:otherwise>
+                	<img alt="기본 프로필 이미지" src="/resources/image/basicProf.png">
+                </c:otherwise>
+            </c:choose>
         </div>
         
         <div class="prdInfo">
@@ -256,10 +268,11 @@ function checkLoginAndRedirect(url) {
             <c:forEach var="file" items="${detail}">
                 <c:choose>
                     <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') || file.originName.endsWith('.PNG')}">
-                        <img src="${pageContext.request.contextPath}/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;">
+<%--                         <img src="${pageContext.request.contextPath}/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;"> --%>
+                        <img alt="상세 이미지" src="/resources/image/${file.originName}" style="max-width: 100%;">
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/upload/${file.storedName}">${file.originName}</a>
+                        <a href="/resources/image/${file.storedName}">${file.originName}</a>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
@@ -268,21 +281,30 @@ function checkLoginAndRedirect(url) {
     </div>
     
     <div id="seller-info" class="section">
-        <h3>판매자 정보</h3>
-        <div class="seller-info">
-            <div class="seller-photo">
-                <c:if test="${not empty buyerProf}">
-                    <img src="${pageContext.request.contextPath}/upload/${buyerProf.storedName}" alt="${buyerProf.originName}" style="max-width: 100%; max-height: 100%; border-radius: 100%;">
-                </c:if>
-            </div>
-            <div>
-                <p>${seller.accName}</p>
-                <p>${buyer.bPhone}</p>
-                <p>${buyer.bEmail}</p>
-                <p>판매자 유형: ${selType}</p>
-            </div>
-        </div>
-    </div>
+	    <h3>판매자 정보</h3>
+	    <div class="seller-info">
+	        <div class="seller-photo">
+	            <c:choose>
+	                <c:when test="${not empty buyerProf}">
+	                    <img alt="프로필 이미지" 
+	                         src="/resources/image/${buyerProf.originName}" 
+	                         onerror="this.onerror=null; this.src='/resources/image/basicProf.png';">
+	                </c:when>
+	                <c:otherwise>
+	                    <img alt="기본 프로필 이미지" 
+	                         src="/resources/image/basicProf.png">
+	                </c:otherwise>
+	            </c:choose>
+	        </div>
+	        <div>
+	            <p>${seller.accName}</p>
+	            <p>${buyer.bPhone}</p>
+	            <p>${buyer.bEmail}</p>
+	            <p>판매자 유형: ${selType}</p>
+	        </div>
+	    </div>
+	</div>
+
     
     
 
