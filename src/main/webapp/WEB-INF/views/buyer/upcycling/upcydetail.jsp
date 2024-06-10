@@ -116,7 +116,6 @@
 	}
 	
 	.review-item {
-<<<<<<< HEAD
 	    margin-bottom: 20px;
 	    padding: 10px;
 	    border: 1px solid #ddd;
@@ -240,7 +239,6 @@
 	.section4 table {
 	    width: 850px;
 	}
-=======
         margin-bottom: 20px;
         padding: 10px;
         border: 1px solid #ddd;
@@ -274,12 +272,64 @@
     .review-form button:hover {
         background-color: #0056b3;
     }
->>>>>>> main
-	
 	
 </style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5141af38fa883955ccca452855c2266&libraries=services"></script>
 <script>
+
+
+	$(function() {
+		
+		//수량 부족알림
+		$("#prdCnt").change(function() {
+			if ($("#prdCnt").val() > ${prd.prdCnt}) {
+		      alert("수량이 부족합니다.");
+		      $("#prdCnt").val("${prd.prdCnt}");  
+		    }
+		})
+		
+		$("#buyBtn").click(function() {
+			var prdCode = "${prd.prdCode }";
+			var prdCnt = $("#prdCnt").val();
+			location.href="./pay?prdCode=" + prdCode + "&cCnt=" + prdCnt;
+		})
+		
+		$("#cartBtn").click(function() {
+			$.ajax({
+				type: "get"
+				, url: "./cartchk"
+				, data: {
+					prdCode: "${prd.prdCode }"
+					, cCnt: $("#prdCnt").val()
+				}
+				, dataType : "Json"
+				, success: function(res) {
+					console.log("AJAX 성공");
+					
+					var prdCode = "${prd.prdCode }";
+					var prdCnt = Number($("#prdCnt").val());
+					
+					if(res.cCnt != null){
+						let isCnt = confirm("이미 카트에 같은 상품이 있습니다 추가하시겠습니까?");
+						if(isCnt){
+							prdCnt += res.cCnt;
+							location.href="./cart?prdCode=" + prdCode + "&cCnt=" + prdCnt + "&isCart=" + true;
+						}
+					} else {
+						location.href="./cart?prdCode=" + prdCode + "&cCnt=" + prdCnt + "&isCart=" + false;
+					}
+					
+				}
+				, error: function() {
+					console.log("AJAX 실패");
+				}
+			})
+		    
+		})
+		
+	}) 	//$ end
+
 	function scrollToSection(sectionId) {
 		document.querySelectorAll('.navBtn').forEach(btn => btn.classList.remove('active'));
 		document.getElementById('btn-' + sectionId).classList.add('active');
@@ -351,7 +401,10 @@
 				<hr>
 				<p class="prdSum">${prd.prdDetail}</p>
 				<hr>
-				<a href="#" class="buyBtn">바로구매</a>
+				<p>수량 : <input type="number" id="prdCnt" value="1" min="1" max="${prd.prdCnt}"></p>
+				<hr>
+				<button id="buyBtn" class="buyBtn">바로구매</button>
+				<button id="cartBtn" class="buyBtn">장바구니 추가</button>
 				<a href="#" class="reportBtn">신고하기</a>
 			</div>
 		</div>
@@ -374,7 +427,6 @@
 			<div class="seller-info">
 				<div class="seller-section">
 					<%-- <img src="${sellerProf.storedName}" alt="${sellerProf.originName}" class="seller-photo"> --%>
-<<<<<<< HEAD
 					<p><b>아이디: </b> ${buyer.bId}</p>
 		            <p><b>회원분류: </b>
 		                <c:choose>
@@ -388,12 +440,10 @@
 						<p><b>담당자 이메일: </b> ${buyer.bEmail}</p>
 					</c:if>
 					<p><b>총 거래 횟수: </b> ${shipCnt}</p>
-=======
 					<p>아이디: ${sellerProf.sCode}</p>
 					<p>등급: ${sellerProf.tierName}</p>
 					<p>평점: ${sellerProf.sRating}/10</p>
 					<p>총 거래 횟수: ${sellerProf.totalTransaction}</p>
->>>>>>> main
 				</div>
 			</div>
 		</div>

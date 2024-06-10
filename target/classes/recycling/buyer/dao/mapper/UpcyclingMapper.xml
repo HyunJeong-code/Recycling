@@ -116,6 +116,7 @@
 		    prd p, prd_file pf
 			<where>
 			 	AND p.PRD_CODE = pf.PRD_CODE(+)
+			 	AND pf.ct_pflno = 600
 		     	AND p.PRD_CODE = #{prdCode}
 	     	</where>
     </select>

@@ -192,7 +192,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button class="btn btn-primary">교환하기</button>
+                <button class="btn btnRight btn-primary">교환하기</button>
             </div>
             </form>
             </div>
@@ -240,7 +240,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button class="btn btn-primary">반품하기</button>
+                <button class="btn btnRight btn-primary">반품하기</button>
             </div>
             </form>
             </div>
