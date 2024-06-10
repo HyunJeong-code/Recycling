@@ -77,42 +77,54 @@ div .buyerCt input[type='radio']:checked {
 	vertical-align: middle;
 }
 
-.section #buyer label {
-	display: inline-block;
-	width: 200px;
-	height: 50px;
-	vertical-align: middle;
+.section #buyer {
+	text-align: center;
 }
 
-.section #bId {
-	width: 200px;
-	height: 50px;
-	border: none;
-	border-bottom: 1px solid black;
-	position: relative;
+.section table {
+	margin : 0 auto;
 }
 
-.section #bPw {
+.section th {
+	width: 200px;
+}
+
+.section input[type="text"] {
 	width: 200px;
 	height: 50px;
 	border: none;
 	border-bottom: 1px solid black;
-	position: relative;
 }
 
-#id {
-	position: absolute;
-	width: 200px;
-	height: 30px;
-	left: 850px;	
-} 
+/* .section #bId { */
+/* 	width: 200px; */
+/* 	height: 50px; */
+/* 	border: none; */
+/* 	border-bottom: 1px solid black; */
+/* 	position: relative; */
+/* } */
 
-#pw {
-	position: absolute;
-	width: 200px;
-	height: 30px;
-	left: 850px;	
-}
+/* .section #bPw { */
+/* 	width: 200px; */
+/* 	height: 50px; */
+/* 	border: none; */
+/* 	border-bottom: 1px solid black; */
+/* 	position: relative; */
+/* } */
+
+/* #id { */
+/* 	position: absolute; */
+/* 	width: 200px; */
+/* 	height: 30px; */
+/* 	left: 850px;	 */
+/* }  */
+
+/* #pw { */
+/* 	position: absolute; */
+/* 	width: 200px; */
+/* 	height: 30px; */
+/* 	left: 850px;	 */
+/* } */
 
 .btn {
 	width: 150px;
@@ -145,19 +157,21 @@ div .buyerCt input[type='radio']:checked {
 				<div id="buyer">
 					<label for="bId">ID</label>
 					<input id="bId" name="bId" placeholder="아이디를 입력해주세요."><br>
-					<div id="id" style="display:none; color:red;" class="u-info">아이디는 필수입니다.</div>
-					
-					<br>
-		
+					<label for="id"></label>
+					<span id="id" style="display:none; color:red;" class="u-info">아이디는 필수입니다.</span>
+
 					<label for="bPw">PW</label>
 					<input id="bPw" name="bPw" placeholder="비밀번호를 입력해주세요."><br>
-					<div id="pw" style="display:none; color:red;" class="u-info">비밀번호는 필수입니다.</div>
-					
-					<br>
-					
+					<label for="pw"></label>
+					<span id="pw" style="display:none; color:red;" class="u-info">비밀번호는 필수입니다.</span>
+				
 					<button id="btnLogin" class="btn btnRight">로그인</button>
 				</div>
 			</form>
+				
+				<div id="find">
+					<button class="btn btnLeft"><a href="/buyer/findid">아이디 찾기</a></button><button class="btn btnLeft"><a href="/buyer/findpw">비밀번호 찾기</a></button>
+				</div>
 				
 				<div id="pri" style="display: none;">
 				<button class="btn"><a href="/buyer/prijoin">개인 일반 회원가입</a></button>

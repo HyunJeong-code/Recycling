@@ -56,19 +56,19 @@ public interface RecyclingService {
 	 * 상품별 할당된 이미지 썸네일 로드
 	 * @return
 	 */
-	public List<String> selectPrdImageThum(String prdCode);
+	public List<String> selectPrdImageThums(String prdCode);
 
 	/**
 	 * 최신순 상품리스트 이미지 썸네일 로드
 	 * @return
 	 */
-	public List<String> selectLatestPrdImageThum(String prdCode);
+	public List<String> selectLatestPrdImageThums(String prdCode);
 
 	/**
 	 * 조회순 상품리스트 이미지 썸네일 로드
 	 * @return
 	 */
-	public List<String> selectHitPrdImageThum(String prdCode);
+	public List<String> selectHitPrdImageThums(String prdCode);
 
 	
 
@@ -80,12 +80,14 @@ public interface RecyclingService {
 	 */
 	public Prd view(String prdCode);
 	
+	public String selectPrdImageThum(String prdCode);
+	
 	/**
 	 * 제품번호를 기준으로 상품 상세이미지 로드
 	 * @param prdCode
 	 * @return
 	 */
-	public List<String> selectPrdImageDetail(String prdCode);
+	public String selectPrdImageDetail(String prdCode);
 	
 	/**
 	 * 판매자 기본 정보 로드

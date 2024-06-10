@@ -116,7 +116,6 @@
 	}
 	
 	.review-item {
-<<<<<<< HEAD
 	    margin-bottom: 20px;
 	    padding: 10px;
 	    border: 1px solid #ddd;
@@ -240,7 +239,6 @@
 	.section4 table {
 	    width: 850px;
 	}
-=======
         margin-bottom: 20px;
         padding: 10px;
         border: 1px solid #ddd;
@@ -274,8 +272,6 @@
     .review-form button:hover {
         background-color: #0056b3;
     }
->>>>>>> main
-	
 	
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5141af38fa883955ccca452855c2266&libraries=services"></script>
@@ -374,7 +370,6 @@
 			<div class="seller-info">
 				<div class="seller-section">
 					<%-- <img src="${sellerProf.storedName}" alt="${sellerProf.originName}" class="seller-photo"> --%>
-<<<<<<< HEAD
 					<p><b>아이디: </b> ${buyer.bId}</p>
 		            <p><b>회원분류: </b>
 		                <c:choose>
@@ -388,12 +383,10 @@
 						<p><b>담당자 이메일: </b> ${buyer.bEmail}</p>
 					</c:if>
 					<p><b>총 거래 횟수: </b> ${shipCnt}</p>
-=======
 					<p>아이디: ${sellerProf.sCode}</p>
 					<p>등급: ${sellerProf.tierName}</p>
 					<p>평점: ${sellerProf.sRating}/10</p>
 					<p>총 거래 횟수: ${sellerProf.totalTransaction}</p>
->>>>>>> main
 				</div>
 			</div>
 		</div>

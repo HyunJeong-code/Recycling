@@ -57,22 +57,29 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 
     @Override
-    public List<String> selectPrdImageThum(String prdCode) {
-        return recyclingDao.selectPrdImageThum(prdCode);
+    public List<String> selectPrdImageThums(String prdCode) {
+        return recyclingDao.selectPrdImageThums(prdCode);
     }
 
     @Override
-    public List<String> selectLatestPrdImageThum(String prdCode) {
-        return recyclingDao.selectLatestPrdImageThum(prdCode);
+    public List<String> selectLatestPrdImageThums(String prdCode) {
+        return recyclingDao.selectLatestPrdImageThums(prdCode);
     }
 
     @Override
-    public List<String> selectHitPrdImageThum(String prdCode) {
-        return recyclingDao.selectHitPrdImageThum(prdCode);
+    public List<String> selectHitPrdImageThums(String prdCode) {
+        return recyclingDao.selectHitPrdImageThums(prdCode);
     }
     
 	@Override
-	public List<String> selectPrdImageDetail(String prdCode) {
+	public String selectPrdImageThum(String prdCode) {
+		logger.info("selectPrdImageThum() - prdCode: {}", prdCode);
+		return recyclingDao.selectPrdImageThum(prdCode);
+	}
+    
+	@Override
+	public String selectPrdImageDetail(String prdCode) {
+		logger.info("selectPrdImageDetail() - prdCode: {}", prdCode);
 		return recyclingDao.selectPrdImageDetail(prdCode);
 	}
 
@@ -146,6 +153,8 @@ public class RecyclingServiceImpl implements RecyclingService {
 		logger.info("Inserting Rcy: {}", rcy);
 		return recyclingDao.insertRcy(rcy);
 	}
+
+
 
 
 

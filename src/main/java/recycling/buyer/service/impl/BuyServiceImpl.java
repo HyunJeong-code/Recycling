@@ -28,6 +28,9 @@ import recycling.dto.buyer.BuyerProf;
 import recycling.dto.buyer.Cmp;
 import recycling.dto.buyer.CmpFile;
 import recycling.dto.manager.MgrFile;
+import recycling.dto.seller.Exp;
+import recycling.dto.seller.Prd;
+import recycling.util.PagingAndCtg;
 
 @Service
 @Transactional
@@ -270,5 +273,25 @@ public class BuyServiceImpl implements BuyService {
 	@Override
 	public List<Map<String, Object>> selectUpcyNew() {
 		return buyDao.selectUpcyNew();
+	}
+	
+	@Override
+	public int selectCntPrd(PagingAndCtg upPaging) {
+		return buyDao.selectCntPrd(upPaging);
+	}
+	
+	@Override
+	public int selectCntExp(PagingAndCtg unPaging) {
+		return buyDao.selectCntExp(unPaging);
+	}
+	
+	@Override
+	public List<Prd> selectPrd(PagingAndCtg upPaging) {
+		return buyDao.selectPrd(upPaging);
+	}
+	
+	@Override
+	public List<Exp> selectExp(PagingAndCtg unPaging) {
+		return buyDao.selectExp(unPaging);
 	}
 }

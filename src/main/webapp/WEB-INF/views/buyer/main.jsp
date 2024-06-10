@@ -136,7 +136,7 @@ $(function(){
 			<c:forEach var="upcyHit" items="${upcyHit }">
 				<div class="mainPrd upcyHit">
 					<a href="/buyer/upcycling/upcydetail?prdCode=${upcyHit.PRDCODE }">
-					<img alt="상품 이미지"	src="/resources/image/${upcyHit.ORIGINNAME } class="imgSum">
+					<img alt="상품 이미지"	src="/resources/image/${upcyHit.ORIGINNAME }" class="imgSum">
 					<p>${upcyHit.PRDNAME }</p>
 					</a>
 				</div>
