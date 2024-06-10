@@ -16,7 +16,14 @@
 <body>
 	<div class="sidebar">
 	   	<div class="panel-heading">
-	        <a href="#">마이페이지</a>
+	        <c:choose>
+            	<c:when test="${buyerLogin.bCtCode == 'P'}">
+    		        <a href="${pageContext.request.contextPath}/buyer/mypage/mypagepri">마이페이지</a>
+                </c:when>
+                <c:when test="${buyerLogin.bCtCode == 'C'}">
+                    <a href="${pageContext.request.contextPath}/buyer/mypage/mypagecmp">마이페이지</a>
+                </c:when>
+        	</c:choose>
 	    </div>
 	    <ul>
 	        <li><a href="/buyer/mypage/cart">장바구니</a></li>

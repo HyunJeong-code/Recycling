@@ -419,15 +419,24 @@ public class BuyerController {
 
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		
-		if(session.getAttribute("authenticated") == null || !(boolean) session.getAttribute("authenticated")) {
-			
-			return "/buyer/mypage/mymain";
-			
-		}
-		
 		logger.info("/buyer/mypage/mymain [GET]");
 		
+		if (buyerLogin == null) {
+	        
+			model.addAttribute("msg", "로그인 해주세요.");
+	        model.addAttribute("url", "/buyer/login");
+	        
+	        return "/layout/alert";
+	    
+		}
+		
 		model.addAttribute("buyerLogin", buyerLogin);
+		
+		if(session.getAttribute("authenticated") == null || !(boolean) session.getAttribute("authenticated")) {
+	        
+			return "/buyer/mypage/mymain";
+	    
+		}
 
 		return "/buyer/mypage/mymain";
 
