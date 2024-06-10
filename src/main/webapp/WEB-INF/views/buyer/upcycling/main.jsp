@@ -298,14 +298,9 @@
 			<button onclick="prevPage()">이전</button>
 			<button onclick="nextPage()">다음</button>
 		</div>
-	</div>
-	
-	<div class="spacer"></div>
-		<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/> 
-	</footer> --%>
-	
-</body>
+	</div>	
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+</body>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 	    const categoryItems = document.querySelectorAll('.categoryMid');
