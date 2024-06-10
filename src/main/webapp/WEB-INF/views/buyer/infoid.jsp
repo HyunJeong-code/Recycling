@@ -11,7 +11,7 @@
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
-		<div class="page">
+		<div class="page-header">
 		<h3>아이디 찾기</h3>
 		</div>
 		

@@ -21,9 +21,11 @@ $(function() {
 		} else {
 			$("#id").css("display", "none");
 			
-			if(rexId.test($("#bId"))) {
+			if(!rexId.test($("#bId").val())) {
+				console.log(rexId.test($("#bId").val()));
 				$("#chkId").css("display", "block");				
 			} else {
+				console.log(rexId.test($("#bId").val()));
 				$("#chkId").css("display", "none");								
 			}
 		}
@@ -57,9 +59,11 @@ $(function() {
 		} else {
 			$("#pw").css("display", "none");
 			
-			if(rexPw.test($("#bPw"))) {
+			if(!rexPw.test($("#bPw").val())) {
+				console.log(rexPw.test($("#bPw").val()));
 				$("#chkPw").css("display", "block");				
 			} else {
+				console.log(rexPw.test($("#bPw").val()));
 				$("#chkPw").css("display", "none");								
 			}
 		}
@@ -207,13 +211,17 @@ $(function() {
 			$("#phone").css("display", "none");			
 		}
 	})
-	
-	// 동의
-	$("#btnJoin").hover(function() {
-		if($("#agree1").val() === 'N' || $("#agree2").val() === 'N') {
-			alert("필수 이용약관에 동의해야 가입이 가능합니다.")
-		}
-	})
+
+	$("form").submit(function(e) {
+		 if($("input[name=agree1]:checked").val() == 'N' ||  $("input[name=agree2]:checked").val() == 'N') {
+			 alert("필수 약관 동의가 필요합니다.");
+			 e.preventDefault();
+		 } else if($("#bId").val() == '' || $("#bPw").val() == '' || $("#bName").val() == '' || $("#newPw").val() == '' || $("#bEmail").val() == '' || $("#bEmail").val() == ''
+			 || $("#emailNum").val() == '' || $("#bEmail").val() == '' || $("#mPhone").val() == '' || $("#lPhone").val() == '') {
+			 alert("필수 입력 정보를 모두 입력해야합니다.");
+			 e.preventDefault();
+		 }
+	 })
 		
 }) // End Jquery
 
@@ -471,6 +479,11 @@ input[type=file]::file-selector-button {
 .ne {
 	color: red;
 }
+
+.j-info {
+	font-size: 12px;
+	height: 30px;
+}
 </style>
 </head>
 <body>
@@ -485,15 +498,10 @@ input[type=file]::file-selector-button {
 		
 		<div class="section">
 			<div class="join">
-				<form action="./prijoin" method="post" enctype="multipart/form-data">
+				<form action="/buyer/prijoin" method="post" enctype="multipart/form-data">
 				<div id="prof">
 					<label for="buyerProf">프로필 사진</label>
-<!-- 					<div class="prof"> -->
-<!-- 						<label for="buyerProf"> -->
-<!-- 							<img id="preview" alt="프로필 사진" src="/resources/image/prof_green.jpg"> -->
-<!-- 						</label> -->
-						<input type="file" id="buyerProf" name="buyerProf" onchange="readUrl(this);" accept="image/*">
-<!-- 					</div> -->
+					<input type="file" id="buyerProf" name="buyerProf" accept="image/*">
 				</div>
 				
 				<div id="infoBuyer">
@@ -502,43 +510,48 @@ input[type=file]::file-selector-button {
 					<label for="bId">아이디<span class="ne"> *</span></label>
 					<input type="text" id="bId" name="bId" class="m">
 					<button type="button" id="chkBid" class="btn btnRight">중복 확인</button>
-					<div id="id" style="display:none; color:red;" class="j-info">
-						<label></label>
-						아이디는 필수입니다.
-					</div>
-					<div id="chkId" style="display:none; color:red;" class="j-info">
-						<label></label>
-						아이디는 영어소문자와 숫자로 8자리 ~ 15자리로 입력 필요
+					<div class="j-info" >
+						<div id="id" style="display:none; color:red;" class="j-info">
+							<label></label>
+							아이디는 필수입니다.
+						</div>
+						<div id="chkId" style="display:none; color:red;" class="j-info">
+							<label></label>
+							아이디는 영어소문자와 숫자로 8자리 ~ 15자리로 입력 필요
+						</div>
 					</div>
 					
 					<br>
 					
 					<label for="bPw">비밀번호<span class="ne"> *</span></label>
-					<input type="password" id="bPw" name="bPw" class="m"><br>
-					<div id="pw" style="display:none; color:red;" class="j-info">
-						<label></label>
-						비밀번호는 필수입니다.
+					<input type="password" id="bPw" name="bPw" class="m">
+					<div class="j-info" >
+						<div id="pw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호는 필수입니다.
+							</div>
+						<div id="chkPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요
 						</div>
-					<div id="chkPw" style="display:none; color:red;" class="j-info">
-						<label></label>
-						대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요
 					</div>
-					
 					<br>
 					
 					<label for="newPw">비밀번호 확인<span class="ne"> *</span></label>
-					<input type="password" id="newPw" name="newPw" class="m"><br>
-					<div id="cfmPw" style="display:none; color:red;" class="j-info">
-						<label></label>
-						비밀번호 확인은 필수입니다.
-					</div>
-					<div id="okPw" style="display:none; color:green;" class="j-info">
-						<label></label>
-						비밀번호가 일치합니다.
-					</div>
-					<div id="noPw" style="display:none; color:red;" class="j-info">
-						<label></label>
-						비밀번호가 일치하지 않습니다.
+					<input type="password" id="newPw" name="newPw" class="m">
+					<div class="j-info" >
+						<div id="cfmPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호 확인은 필수입니다.
+						</div>
+						<div id="okPw" style="display:none; color:green;" class="j-info">
+							<label></label>
+							비밀번호가 일치합니다.
+						</div>
+						<div id="noPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호가 일치하지 않습니다.
+						</div>
 					</div>
 					
 					<div id="email">
@@ -554,37 +567,43 @@ input[type=file]::file-selector-button {
 						</select>
 						</div>
 						<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요." class="mm">
-						<input type="button" id="btnEmail" value="이메일 인증" class="btn btnRight"><br>
-						<div id="email2" style="display:none; color:red;" class="j-info">
-							<label></label>
-							이메일은 필수입니다.
-						</div>				
+						<input type="button" id="btnEmail" value="이메일 인증" class="btn btnRight">
+						<div class="j-info" >
+							<div id="email2" style="display:none; color:red;" class="j-info">
+								<label></label>
+								이메일은 필수입니다.
+							</div>
+						</div>
 					</div>
 					
 					<div id="emailChk" style="display: none;">
 						<label for="emailNum">이메일 인증 번호<span class="ne"> *</span></label>
 						<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요." class="m">
-						<button type="button" id="chkEmail" class="btn btnRight">인증번호 확인</button><br>
-						<div id="emailChk2" style="display:none; color:red;" class="j-info">
-							<label></label>
-							이메일 인증은 필수입니다.
-						</div>				
-						<div id="emailOk" style="color: green; display: none;" class="j-info">
-							<label></label>
-							인증번호가 일치합니다.
-						</div>
-						<div id="emailNo" style="color: red; display: none;" class="j-info">
-							<label></label>
-							인증번호가 불일치합니다. 다시 입력해주세요.
+						<button type="button" id="chkEmail" class="btn btnRight">인증번호 확인</button>
+						<div class="j-info" >
+							<div id="emailChk2" style="display:none; color:red;" class="j-info">
+								<label></label>
+								이메일 인증은 필수입니다.
+							</div>
+							<div id="emailOk" style="color: green; display: none;" class="j-info">
+								<label></label>
+								인증번호가 일치합니다.
+							</div>
+							<div id="emailNo" style="color: red; display: none;" class="j-info">
+								<label></label>
+								인증번호가 불일치합니다. 다시 입력해주세요.
+							</div>
 						</div>
 					</div>
 					
 					<label for="bName">이름<span class="ne"> *</span></label>
-					<input type="text" id="bName" name="bName" class="m"><br>
-					<div id="name" style="display:none; color:red;" class="j-info">
-						<label></label>
-						이름은 필수입니다.
-					</div>				
+					<input type="text" id="bName" name="bName" class="m">
+					<div class="j-info" >
+						<div id="name" style="display:none; color:red;" class="j-info">
+							<label></label>
+							이름은 필수입니다.
+						</div>				
+					</div>
 					
 					
 					<label for="sPhone">핸드폰 번호<span class="ne"> *</span></label>
@@ -597,11 +616,13 @@ input[type=file]::file-selector-button {
 						<option value="in">직접 입력</option>
 					</select>
 					</div>
-					<input type="text" id="inPhone" name="inPhone" class="s">-<input type="text" id="mPhone" name="mPhone" class="s">-<input type="text" id="lPhone" name="lPhone" class="s"><br>
-					<div id="phone" style="display:none; color:red;" class="j-info">
-						<label></label>
-						핸드폰 번호는 필수입니다.
-					</div>				
+					<input type="text" id="inPhone" name="inPhone" class="s">-<input type="text" id="mPhone" name="mPhone" class="s">-<input type="text" id="lPhone" name="lPhone" class="s">
+					<div class="j-info" >
+						<div id="phone" style="display:none; color:red;" class="j-info">
+							<label></label>
+							핸드폰 번호는 필수입니다.
+						</div>
+					</div>			
 				</div>
 				
 				<div id="infoPlus">

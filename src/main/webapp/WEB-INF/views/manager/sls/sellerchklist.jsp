@@ -65,8 +65,7 @@ $(function() {
 			</form>
 			<table border="1">
 				<tr>
-					<th><input type="checkbox" id="allChk" name="allChk"></th>
-					<th>분류</th>
+					<th>번호</th>
 					<th>판매자 번호</th>
 					<th>상호명</th>
 					<th>(담당자) 이름</th>
@@ -86,10 +85,7 @@ $(function() {
 					<c:forEach var="list" items="${sellerList }">
 						
 						<tr>
-							<td>
-								<input type="checkbox" id="${list.S_CODE }" name="chkSel">
-							</td>
-							<td>${list.CT_CODE }</td>
+							<td>${list.NO }</td>
 							<td>${list.S_CODE }</td>
 							<td>${list.CMP_NAME }</td>
 							<td>${list.B_NAME }</td>

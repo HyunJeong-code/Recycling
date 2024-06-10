@@ -13,6 +13,8 @@ $(function() {
 	
 	var rexPw = /[a-zA-Z0-9!@#$%]{8, 15}/;
 	
+var rexPw = /[a-zA-Z0-9!@#$%]{8,15}/;
+	
 	// 비밀번호
 	$("#mgrPw").blur(function() {
 		if($("#mgrPw").val() == '') {
@@ -20,9 +22,11 @@ $(function() {
 		} else {
 			$("#pw").css("display", "none");
 			
-			if(rexPw.test($("#mgrPw"))) {
+			if(!rexPw.test($("#bPw").val())) {
+				console.log(rexPw.test($("#bPw").val()));
 				$("#chkPw").css("display", "block");				
 			} else {
+				console.log(rexPw.test($("#bPw").val()));
 				$("#chkPw").css("display", "none");								
 			}
 		}
@@ -36,7 +40,7 @@ $(function() {
 			$("#cfmPw").css("display", "none");
 			
 			// 비밀번호 일치
-			if($("#newPw").val() === $("#mgrPw").val()) {
+			if($("#newPw").val() === $("#bPw").val()) {
 				$("#okPw").css("display", "block");				
 				$("#noPw").css("display", "none");				
 			} else {
@@ -46,30 +50,22 @@ $(function() {
 		}
 	})
 	
-	$("#newPw").blur(function() {
-		var mgrPw = $("#mgrPw").val();
-		var newPw = $("#newPw").val();
-		
-		console.log("mgrPw : " + mgrPw);
-		console.log("newPw : " + newPw);
-		
-		if(newPw == '') {
-			$("#cfmPw").css("display", "block");						
-		} else {
-			$("#cfmPw").css("display", "none");
-			
-			if(mgrPw === newPw) {
-				$("#okPw").css("display", "block");
-				$("#noPw").css("display", "none");					
-			} else {
-				$("#okPw").css("display", "none");		
-				$("#noPw").css("display", "block");					
-			}
-		}
-	})
+	$("form").submit(function(e) {
+		 if( $("#mgrPw").val() == '' || $("#newPw").val() == '') {
+			 alert("필수 입력 정보를 모두 입력해야합니다.");
+			 e.preventDefault();
+		 }
+	 })
 	
 })
 </script>
+<style type="text/css">
+.section input[type="text"], input[type="password"] {
+	height: 50px;
+	border: none;
+	border-bottom: 1px solid black;
+}
+</style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
@@ -97,13 +93,33 @@ $(function() {
 			<form action="./changepw" method="post">
 				<label for="mgrPw">새 비밀번호</label>
 				<input type="text" id="mgrPw" name="mgrPw"><br>
-				<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
+				<div class="j-info" >
+					<div id="pw" style="display:none; color:red;" class="j-info">
+						<label></label>
+						비밀번호는 필수입니다.
+						</div>
+					<div id="chkPw" style="display:none; color:red;" class="j-info">
+						<label></label>
+						대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요
+					</div>
+				</div>
 				
 				<label for="newPw">새 비밀번호 확인</label>
 				<input type="text" id="newPw" name="newPw"><br>
-				<div id="cfmPw" style="display: none; color: red;">비밀번호를 입력해주세요.</div>
-				<div id="okPw" style="display: none; color: green;">비밀번호가 일치합니다.</div>
-				<div id="noPw" style="display: none; color: red;">비밀번호가 일치하지 않습니다.</div>
+				<div class="j-info" >
+						<div id="cfmPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호 확인은 필수입니다.
+						</div>
+						<div id="okPw" style="display:none; color:green;" class="j-info">
+							<label></label>
+							비밀번호가 일치합니다.
+						</div>
+						<div id="noPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호가 일치하지 않습니다.
+						</div>
+					</div>
 				<br>
 				
 				<button>변경하기</button>

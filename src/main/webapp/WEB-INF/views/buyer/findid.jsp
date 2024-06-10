@@ -152,49 +152,75 @@ $(function() {
 		</div>
 		
 		<div class="section">
-			<form action="./findid" method="post">
-				<label for="bName">이름</label>
-				<input type="text" id="bName" name="bName"><br>
-				<div id="name" style="display:none; color:red;">이름은 필수입니다.</div>
-				
-				<label for="sPhone">핸드폰 번호</label>
-				<select class="sPhone" id="sPhone" name="sPhone" required="required">
-					<option>010</option>
-					<option>011</option>
-					<option>017</option>
-					<option>016</option>
-					<option value="in">직접 입력</option>
-				</select>
-				<input type="text" id="inPhone" name="inPhone">-<input type="text" id="mPhone" name="mPhone" required="required">-<input type="text" id="lPhone" name="lPhone" required="required"><br>
-				<br>
-				<div id="phone" style="display:none; color:red;">핸드폰 번호는 필수입니다.</div>
-				
-				<div id="email">
-					<label for="bEmail">이메일</label>
-					<input type="text" id="bEmail" name="bEmail">
+			<form action="/buyer/findid" method="post">
+					<label for="bName">이름<span class="ne"> *</span></label>
+					<input type="text" id="bName" name="bName" class="m">
+					<div class="j-info" >
+						<div id="name" style="display:none; color:red;" class="j-info">
+							<label></label>
+							이름은 필수입니다.
+						</div>				
+					</div>
 					
-					<select class="bEmail2" name="bEmail2" id="bEmail2">
-						<option>@naver.com</option>
-						<option>@gmail.com</option>
-						<option>@daum.net</option>
+					<div id="email">
+						<label for="bEmail">이메일<span class="ne"> *</span></label>
+						<input type="text" id="bEmail" name="bEmail" class="m">
+						
+						<div class="selectE">
+						<select class="bEmail2 select" name="bEmail2" id="bEmail2">
+							<option>@naver.com</option>
+							<option>@gmail.com</option>
+							<option>@daum.net</option>
+							<option value="in">직접 입력</option>
+						</select>
+						</div>
+						<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요." class="mm">
+						<input type="button" id="btnEmail" value="이메일 인증" class="btn btnRight">
+						<div class="j-info" >
+							<div id="email2" style="display:none; color:red;" class="j-info">
+								<label></label>
+								이메일은 필수입니다.
+							</div>
+						</div>
+					</div>
+					
+					<div id="emailChk" style="display: none;">
+						<label for="emailNum">이메일 인증 번호<span class="ne"> *</span></label>
+						<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요." class="m">
+						<button type="button" id="chkEmail" class="btn btnRight">인증번호 확인</button>
+						<div class="j-info" >
+							<div id="emailChk2" style="display:none; color:red;" class="j-info">
+								<label></label>
+								이메일 인증은 필수입니다.
+							</div>
+							<div id="emailOk" style="color: green; display: none;" class="j-info">
+								<label></label>
+								인증번호가 일치합니다.
+							</div>
+							<div id="emailNo" style="color: red; display: none;" class="j-info">
+								<label></label>
+								인증번호가 불일치합니다. 다시 입력해주세요.
+							</div>
+						</div>
+					</div>
+					
+					<label for="sPhone">핸드폰 번호<span class="ne"> *</span></label>
+					<div class="selectP">
+					<select class="sPhone select" id="sPhone" name="sPhone">
+						<option>010</option>
+						<option>011</option>
+						<option>017</option>
+						<option>016</option>
 						<option value="in">직접 입력</option>
 					</select>
-					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
-					<input type="button" id="btnEmail" value="이메일 인증">
-					<div id="email" style="display:none; color:red;">이메일은 필수입니다.</div>
-				</div>
-				
-				<div id="emailChk" style="display: none;">
-					<label for="emailNum">이메일 인증 번호</label>
-					<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요.">
-					<button id="chkEmail">인증번호 확인</button><br>
-					<div id="emailChk2" style="display:none; color:red;">이메일 인증은 필수입니다.</div>		
-					<div id="emailOk" style="color: green; display: none;">
-						인증번호가 일치합니다.
 					</div>
-					<div id="emailNo" style="color: red; display: none;">
-						인증번호가 불일치합니다. 다시 입력해주세요.
-					</div>
+					<input type="text" id="inPhone" name="inPhone" class="s">-<input type="text" id="mPhone" name="mPhone" class="s">-<input type="text" id="lPhone" name="lPhone" class="s">
+					<div class="j-info" >
+						<div id="phone" style="display:none; color:red;" class="j-info">
+							<label></label>
+							핸드폰 번호는 필수입니다.
+						</div>
+					</div>			
 				</div>
 				
 				<button class="btn btnRight">아이디 찾기</button>

@@ -52,6 +52,16 @@ div .buyerCt input[type='radio']:checked {
 	text-align: center;
 }
 
+.join {
+	width: 600px;
+	margin: 0 auto;
+	text-align: left;
+}
+
+#buyerCt {
+	text-align: center;
+}
+
 .section #buyerCt label {
 	display: inline-block;
 	width: 50px;
@@ -68,8 +78,23 @@ div .buyerCt input[type='radio']:checked {
 	color: white;
 }
 
-.btn-s {
-	width: 200px;
+.btn-list {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 50px;
+}
+
+#pri, #cmp {
+	text-align: center;
+}
+
+.line {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#btnLogin {
+	margin-top: 20px;
 }
 </style>
 </head>
@@ -77,11 +102,12 @@ div .buyerCt input[type='radio']:checked {
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
-		<div class="page">
-		<h3>회원가입</h3>
+		<div class="page-header">
+			<h3>회원가입</h3>
 		</div>
 		
 		<div class="section">
+		<div class="join">
 			<div id="buyerCt" class="buyerCt">
 				<input type="radio" name="bCtCode" id="bCtPri" value="P" checked="checked"> 
 				<label for="bCtPri">개인</label>
@@ -90,18 +116,27 @@ div .buyerCt input[type='radio']:checked {
 				<label for="bCtCmp">기업</label>	
 			</div>
 			
-			<div id="pri" style="display: none;">
-				<button class="btn btnRight btn-s"><a href="/buyer/prijoin" class="a-move">개인 일반 회원가입</a></button>
+			<div style="width: 600px;" class="line">
+					<hr>
+			</div>
 				
-				<div id="social">
-					<button>네이버 로그인</button>
-					<button>카카오 로그인</button>
-					<button>구글 로그인</button>
+			<div id="pri" style="display: none;">
+				<a href="/buyer/prijoin"><button class="btn btnRight" style="width: 150px;">개인 일반 회원가입</button></a>
+				
+				<div style="width: 600px;" class="line">
+					<hr>
+				</div>
+				
+				<div id="social" class="btn-list">
+					<button class="btn btnLeft" style="width: 120px;">네이버 로그인</button>
+					<button class="btn btnLeft" style="width: 120px;">카카오 로그인</button>
+					<button class="btn btnLeft" style="width: 120px;">구글 로그인</button>
 				</div>
 			</div>
 			
 			<div id="cmp" style="display: none;">
-				<button class="btn btnRight btn-s"><a href="/buyer/cmpjoin" class="a-move">기업 일반 회원가입</a></button>
+				<a href="/buyer/cmpjoin"><button class="btn btnRight" style="width: 150px;">기업 일반 회원가입</button></a>
+			</div>
 			</div>
 		</div>
 	</div>

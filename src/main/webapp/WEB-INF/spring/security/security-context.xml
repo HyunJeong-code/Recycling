@@ -104,10 +104,10 @@
 	<security:http pattern="/manager/**" auto-config="true" use-expressions="true" authentication-manager-ref="managerAuthManager" >
 	<security:csrf disabled="true"/>
 	
-		<security:intercept-url pattern="/manager/main" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/login" access="permitAll()"/>
 		<security:intercept-url pattern="/manager/join" access="permitAll()"/>
 		<security:intercept-url pattern="/manager/EmailAuth" access="permitAll()"/>
-		<security:intercept-url pattern="/manager/login" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/main" access="hasRole('ROLE_MANAGER')"/>
 		<security:intercept-url pattern="/manager/**" access="hasRole('ROLE_MANAGER')"/>
 		
 <!-- 		<security:http-basic entry-point-ref="MgrLoginService"/> -->
@@ -121,7 +121,7 @@
 		
 		<!-- 관리자 로그아웃 설정 -->
 		<security:logout invalidate-session="true"
-			logout-url="/manager/logout" logout-success-url="/manager/main"/>
+			logout-url="/manager/logout" logout-success-url="/manager/login"/>
 			
 		<!-- 중복 세션 관리 -->
 		<security:session-management>
