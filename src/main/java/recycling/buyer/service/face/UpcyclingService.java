@@ -1,6 +1,7 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
@@ -68,7 +69,7 @@ public interface UpcyclingService {
 	 * @param prdCode
 	 * @return
 	 */
-	public String selectPrdImageDetail(String prdCode);
+	public List<String> selectPrdImageDetail(String prdCode);
 	
 	/**
 	 * 판매자 정보을 가져오는 코드
@@ -115,7 +116,7 @@ public interface UpcyclingService {
 	 * 
 	 * @return
 	 */
-	public List<UpcyReview> selectRvwList(String prdCode);
+	public List<Map<String, Object>> selectRvwList(String prdCode);
 
 	/**
 	 * 리뷰 상세 조회

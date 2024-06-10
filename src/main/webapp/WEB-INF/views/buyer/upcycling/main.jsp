@@ -233,7 +233,7 @@
 		            <c:if test="${status.index < 4}">
 		                <c:set var="prd" value="${prdMap.prd}" />
 		                <div class="bannerContent">
-		                	<a href="${pageContext.request.contextPath}/buyer/upcycling/upcydetail?prdcode=${prd.prdCode}">
+		                	<a href="${pageContext.request.contextPath}/buyer/upcycling/upcydetail?prdCode=${prd.prdCode}">
 			                    <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[status.index]}" 
 			                        onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
 			                    <p class="bannerTitle">${prd.prdName}</p>
@@ -248,7 +248,7 @@
 		            <c:if test="${status.index < 4}">
 		                <c:set var="prd" value="${prdMap.prd}" />
 		                <div class="bannerContent">
-		                	<a href="${pageContext.request.contextPath}/buyer/upcycling/upcydetail?prdcode=${prd.prdCode}">
+		                	<a href="${pageContext.request.contextPath}/buyer/upcycling/upcydetail?prdCode=${prd.prdCode}">
 			                    <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[status.index]}" 
 			                        onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
 			                    <p class="bannerTitle">${prd.prdName}</p>
@@ -282,7 +282,7 @@
 		        <c:forEach var="prdMap" items="${prdWithImagesList}" varStatus="status">
 		            <c:set var="prd" value="${prdMap.prd}" />
 		            <div class="prd" data-ct-pdt-no="${prd.ctPdtNo}">
-		                <a href="${pageContext.request.contextPath}/buyer/upcycling/upcydetail?prdcode=${prd.prdCode}">
+		                <a href="${pageContext.request.contextPath}/buyer/upcycling/upcydetail?prdCode=${prd.prdCode}">
 		                    <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[0]}"
 		                        onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
 		                    <p class="prdTitle">${prd.prdName}</p>
@@ -329,6 +329,7 @@
 	 // 카테고리 클릭 시
 	    categoryItems.forEach((item) => {
 	        item.addEventListener('click', function() {
+	        	event.preventDefault();
 	            // 이전에 선택한 정렬 기준 버튼 가져오기
 	            const prevSortButton = document.querySelector('.sortBtn button.active');
 	            
@@ -385,6 +386,7 @@
 	 // 정렬 버튼 클릭 시
 	    sortButtons.forEach(button => {
 	        button.addEventListener('click', function() {
+	        	event.preventDefault();
 	            // 현재 선택된 중분류 가져오기
 	            const currentCategory = document.querySelector('.categoryMid.active').getAttribute('data-category');
 	            
@@ -403,6 +405,7 @@
 	            sortProducts(this.id, currentCategory); // 정렬 함수에 현재 중분류를 전달
 	        });
 	    });
+	 
 	
 	 // 제품 정렬 함수
 	    function sortProducts(criteria, category) {
@@ -464,6 +467,9 @@
 	    // 초기 설정: 첫 번째 페이지 표시
 	    let currentPage = 1;
 	    showPage(currentPage);
+	    
+	    
+	    
 	});
 </script>
 

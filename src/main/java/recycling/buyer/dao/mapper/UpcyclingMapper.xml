@@ -140,6 +140,7 @@
 	    VALUES ('UPCY' || lpad(UPCY_RVW_SEQ.nextval, 6, '0'), #{bCode}, #{prdCode}, #{upcyContent}, #{upcyGrade}, SYSDATE)
 	</insert>
 
+
 	<update id="updateReview" parameterType="map">
         UPDATE Review 
         SET RVW_TITLE = #{rvwTitle}, RVW_CONTENT = #{rvwContent}, RVW_GRADE = #{rvwGrade}

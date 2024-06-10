@@ -1,6 +1,7 @@
 package recycling.buyer.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,8 +69,7 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	}
     
 	@Override
-	public String selectPrdImageDetail(String prdCode) {
-		logger.info("selectPrdImageDetail() - prdCode: {}", prdCode);
+	public List<String> selectPrdImageDetail(String prdCode) {
 		return upcyclingDao.selectPrdImageDetail(prdCode);
 	}
 	
@@ -120,14 +120,19 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	}
 	
 	@Override
-	public List<UpcyReview> selectRvwList(String prdCode) {
-		List<UpcyReview> upcyReviewList = upcyclingDao.selectRvwList(prdCode);
-		logger.info("selectRvwList() - upcyReviewList size: {}", upcyReviewList.size());
-		for(UpcyReview upcyReview : upcyReviewList) {
-	        logger.info("selectRvwList() - UpcyReview: {}", upcyReview);
+	public List<Map<String, Object>> selectRvwList(String prdCode) {
+		
+	    List<Map<String, Object>> reviewList = upcyclingDao.selectRvwList(prdCode);
+	    if (reviewList != null && !reviewList.isEmpty()) {
+	        logger.info("selectRvwList() - Review list found for product code: {}", prdCode);
+	        for (Map<String, Object> review : reviewList) {
+	            logger.info("selectRvwList() - Review: {}", review);
+	        }
+	    } else {
+	        logger.info("selectRvwList() - No review found for product code: {}", prdCode);
 	    }
 		
-		return upcyReviewList;
+		return upcyclingDao.selectRvwList(prdCode);
 	}
 
 	@Override

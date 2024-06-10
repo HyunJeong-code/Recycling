@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -247,7 +248,11 @@
 	}
 	
 	.section4 table {
-		width: 850px;
+		width: 980px;
+	}
+	
+	.ans {
+		min-width: 200px;
 	}
 	
 	
@@ -298,6 +303,46 @@
             } 
         });
     };
+    
+    function toggleAnswerForm(rcyCode) {
+        var answerForm = document.getElementById("answerForm" + rcyCode);
+        if (answerForm.style.display === "none") {
+            answerForm.style.display = "table-row";
+        } else {
+            answerForm.style.display = "none";
+        }
+    }
+
+    function checkSeller(sellerSCode, buyerSCode) {
+        if (sellerSCode !== buyerSCode) {
+            alert("판매자만 답변을 작성할 수 있습니다.");
+            return false;
+        }
+        return true;
+    }
+    
+    function checkSellerAndBuyer(rcyCode, buyerBCode, sellerSCode, prdSCode) {
+        // Ajax 요청을 통해 서버 측의 조건 확인
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.allowAnswer) {
+                        toggleAnswerForm(rcyCode);
+                    } else {
+                        alert("판매자만 답변을 작성할 수 있습니다.");
+                    }
+                } else {
+                    console.error("요청 중 오류 발생");
+                }
+            }
+        };
+        xhr.open("GET", "/checkAnswerPermission?rcyCode=" + rcyCode + "&buyerBCode=" + buyerBCode + "&sellerSCode=" + sellerSCode + "&prdSCode=" + prdSCode, true);
+        xhr.send();
+    }
+    
+    
 </script>
 </head>
 	<header>
@@ -337,8 +382,10 @@
 		
 		<div id="section1" class="section">
 		    <h3>상품상세</h3>
-		    <img id="detail" src="${pageContext.request.contextPath}/resources/image/${prdImageDetailName}"
-		         onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_860px.png';">
+		    <c:forEach var="imageName" items="${prdImageDetails}">
+			    <img id="detail" src="${pageContext.request.contextPath}/resources/image/${imageName}"
+			         onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_860px.png';">
+			</c:forEach>
 		</div>
 		
 		<div id="section2" class="section">
@@ -372,59 +419,96 @@
 		
 		
 		<div id="section4" class="section">
-			<h3>상품문의</h3>
-			<div class="table">
-				<table>
-					<tr>
-						<th class="title">질문</th>
-						<th class="ans">답변 여부</th>
-						<th class="writer">작성자</th>
-						<th class="entdate">작성일</th>
-					</tr>
-					
-					<c:if test="${not empty qna }">
-						<c:forEach var="qnaItem" items="${qna }">
-							<tr>
-								<td class="title">
-								        ${qnaItem.RCY_CMT}
-								</td>
-								<td class="ans">
-									<c:if test="${qnaItem.ANS eq '-' }">
-										미답변
-									</c:if>
-									
-									<c:if test="${qnaItem.ANS ne '-' }">
-										답변 완료
-									</c:if>
-								</td>
-	
-								<td class="writer">${qnaItem.B_NAME }</td>
-								<td class="entdate">
-									<fmt:parseDate value="${qnaItem.RCY_DATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
-		                   			<fmt:formatDate value="${ENTDATE }" pattern="yyyy-MM-dd"/>
-								</td>
-							</tr>
-						</c:forEach>
-					</c:if>
-					
-					<c:if test="${qnaSize eq 0 }">
-						<tr>
-							<td colspan="6" class="none">작성한 문의글이 없습니다.</td>
-						</tr>
-					</c:if>
-				</table>
-				
-				<div class="review-form">
-				    <form action="./writeProc" method="post">
-				        <input type="hidden" name="prdcode" value="${param.prdcode}">
-				        <textarea class="comment-textarea" name="rcyCmt" rows="4" placeholder="질문 작성"></textarea> 
-				        <button type="submit">질문 작성</button> 
-				    </form>
-				</div>
-				
-			</div> <!-- section End -->
-
-
+		    <h3>상품문의</h3>
+		    <div class="table">
+		        <table>
+		            <tr>
+		                <th class="title">질문</th>
+		                <th class="ans">답변 여부</th>
+		                <th class="writer">작성자</th>
+		                <th class="entdate">작성일</th>
+		            </tr>
+		            
+					<c:if test="${not empty rcy}">
+							    <c:forEach var="rcyItem" items="${rcy}">
+							        <tr>
+							            <td class="title" onclick="toggleAnswerForm('${rcyItem.RCY_CODE}')">
+							                ${rcyItem.RCY_CMT}
+							            </td>
+							            <td class="ans">
+							                <c:set var="isAnswered" value="false" />
+							                <c:forEach var="cmtItem" items="${cmt}">
+							                    <c:if test="${cmtItem.RCY_CODE == rcyItem.RCY_CODE}">
+							                        <c:set var="isAnswered" value="true" />
+							                        <c:set var="cmtAns" value="${cmtItem.CMT_ANS}" />
+							                    </c:if>
+							                </c:forEach>
+							                <c:choose>
+							                    <c:when test="${isAnswered}">
+							                        답변 완료<br>
+							                        <div class="answer-content">
+							                            ${cmtAns}
+							                        </div>
+							                    </c:when>
+							                    <c:otherwise>
+							                        <c:choose>
+							                            <c:when test="${not empty buyerLogin && buyerLogin.sCode == prd.sCode}">
+							                                미답변 <button onclick="toggleAnswerForm('${rcyItem.RCY_CODE}')">답변하기</button>
+							                            </c:when>
+							                            <c:otherwise>
+							                                미답변
+							                            </c:otherwise>
+							                        </c:choose>
+							                        <c:if test="${not empty buyerLogin && (buyerLogin.bCode == rcyItem.B_CODE || buyerLogin.sCode == prd.sCode)}">
+							                            <c:choose>
+							                                <c:when test="${not empty cmtItem && cmtItem.B_CODE == buyerLogin.bCode}">
+							                                    <button onclick="viewAnswer('${rcyItem.RCY_CODE}')">답변 확인</button>
+							                                </c:when>
+							                                <c:otherwise>
+							                                    <!-- 판매자와 작성자가 같은 경우에만 버튼이 나타남 -->
+							                                    <button onclick="viewAnswer('${rcyItem.RCY_CODE}')">답변 확인</button>
+							                                </c:otherwise>
+							                            </c:choose>
+							                        </c:if>
+							                    </c:otherwise>
+							                </c:choose>
+							            </td>
+							            <td class="writer">${rcyItem.B_NAME}</td>
+							            <td class="entdate">
+							                <fmt:parseDate value="${rcyItem.RCY_DATE}" var="ENTDATE" pattern="yyyy-MM-dd" />
+							                <fmt:formatDate value="${ENTDATE}" pattern="yyyy-MM-dd"/>
+							            </td>
+							        </tr>
+							        <!-- 답변 작성 폼 (기본은 숨김) -->
+							        <tr id="answerForm${rcyItem.RCY_CODE}" style="display:none;">
+							            <td colspan="4">
+							                <form action="${pageContext.request.contextPath}/buyer/recycling/rcycmt" method="post" onsubmit="return checkSeller('${seller.sCode}', '${buyerLogin.sCode}')">
+							                    <input type="hidden" name="rcyCode" value="${rcyItem.RCY_CODE}">
+							                    <input type="hidden" name="prdCode" value="${prd.prdCode}">
+							                    <!-- 답변 내용을 작성하는 입력 폼 -->
+							                    <textarea name="cmtAns" rows="4" cols="50" placeholder="답변을 작성하세요"></textarea><br>
+							                    <button type="submit">답변 등록</button>
+							                </form>
+							            </td>
+							        </tr>
+							    </c:forEach>
+							</c:if>
+		            
+		            <c:if test="${rcySize == 0}">
+		                <tr>
+		                    <td colspan="6" class="none">작성한 문의글이 없습니다.</td>
+		                </tr>
+		            </c:if>
+		        </table>
+		        
+		        <div class="review-form">
+		            <form action="./writeProc" method="post">
+		                <input type="hidden" name="prdCode" value="${param.prdCode}">
+		                <textarea class="comment-textarea" name="rcyCmt" rows="4" placeholder="질문 작성"></textarea>
+		                <button type="submit">질문 작성</button>
+		            </form>
+		        </div>
+		    </div> <!-- section End -->
 		</div>
 		
 	</div>

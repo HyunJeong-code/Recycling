@@ -127,7 +127,7 @@
 		</where>
 	</select>
 	
-	<select id="selectQnaList" resultType="hashmap">
+	<select id="selectRcyList" resultType="hashmap">
 	    SELECT 
 	        r.RCY_CODE, 
 	        r.B_CODE, 
@@ -169,6 +169,30 @@
 	    <!-- 나머지 필드 삽입 -->
 	    INSERT INTO Rcy (RCY_CODE, B_CODE, PRD_CODE, RCY_CMT, RCY_DATE)
 	    VALUES (#{rcyCode}, #{bCode}, #{prdCode}, #{rcyCmt}, SYSDATE)
+	</insert>
+	
+	<select id="selectCmtByRcyCode" resultType="recycling.dto.seller.Cmt">
+	    SELECT 
+	        c.CMT_CODE, 
+	        c.RCY_CODE, 
+	        c.S_CODE, 
+	        c.CMT_ANS, 
+	        c.CMT_DATE
+	    FROM 
+	        Cmt c
+	    WHERE 
+	        c.RCY_CODE = #{rcyCode}
+	</select>
+	
+	<insert id="insertCmt" parameterType="recycling.dto.seller.Cmt">
+	    <!-- 시퀀스 값을 가져와서 cmtCode에 할당 -->
+	    <selectKey keyProperty="cmtCode" resultType="String" order="BEFORE">
+	        SELECT 'CMT' || LPAD(CMT_SEQ.NEXTVAL, 7, '0') AS cmtCode FROM DUAL
+	    </selectKey>
+	    
+	    <!-- 나머지 필드 삽입 -->
+	    INSERT INTO Cmt (CMT_CODE, RCY_CODE, S_CODE, CMT_ANS, CMT_DATE)
+	    VALUES (#{cmtCode}, #{rcyCode}, #{sCode}, #{cmtAns}, SYSDATE)
 	</insert>
 
 </mapper>

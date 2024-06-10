@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -162,124 +163,101 @@
 	.review-form button:hover {
 	    background-color: #0056b3;
 	}
-	
-	/*------------------------ 퍼온 CSS -------------------------- */
-	.page {
-	    border: none;
-	    border-bottom: 3px solid black;
-	    vertical-align: middle;
+    
+        /*------------------------ 퍼온 CSS -------------------------- */
+    .page {
+		border: none;
+		border-bottom: 3px solid black;
+		vertical-align: middle;
 	}
-	
+
 	h3, h4 {
-	    margin: 0;
-	    margin-bottom: 10px;
+		margin: 0;
+		margin-bottom: 10px;
 	}
 	
 	.chk {
-	    width: 50px;
+		width: 50px;
 	}
 	
 	.ctg {
-	    width: 150px;
+		width: 150px;
 	}
 	
 	.stt {
-	    width: 100px;
+		width: 100px;
 	}
 	
 	.title {
-	    width: 500px;
+		width: 500px;
 	}
 	
 	.ans {
-	    width: 150px;
+		width: 150px;
 	}
 	
 	.entdate {
-	    width: 200px;
+		width: 200px;
 	}
 	
 	.hit {
-	    width: 50px;
+		width: 50px;
 	}
 	
 	.grade {
-	    width: 150px;
+		width: 150px;
 	}
 	
 	.content {
-	    width: 400px;
+		width: 400px;
 	}
 	
 	.none {
-	    width: 900px;
+		width: 900px;
 	}
 	
 	.dropctg {
-	    display: inline;
+		display: inline;
 	}
 	
 	th {
-	    background-color:#CEE741;
+		background-color:#CEE741;
 	}
 	
 	td {
-	    border-bottom: 1px solid black;
-	    text-align: center;
+		border-bottom: 1px solid black;
+		text-align: center;
 	}
 	
 	input[type=text] {
-	    border: none;
-	    border-bottom: 1px solid black;
+		border: none;
+		border-bottom: 1px solid black;
 	}
 	
 	input[type=button] {
-	    width: 100px;
-	    border: none;
+		width: 100px;
+		border: none;
 	}
 	
 	button {
-	    width: 100px;
-	    border: none;
-	    background-color:#CEE741;
+		width: 100px;
+		border: none;
+		background-color:#CEE741;
 	}
 	
 	.section4 table {
-	    width: 850px;
+		width: 980px;
 	}
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-    .review-form {
-        display: flex;
-        flex-direction: column;
-        margin-top: 20px;
-    }
-    .review-form textarea {
-        margin-bottom: 10px;
-        padding: 10px;
-        font-size: 14px;
-    }
-    
-    .comment-textarea {
-		width: 100%;
-		max-width: 100%; 
-		min-width: 100%;
-		padding: 10px; /* 내부 여백 조정 */
-		font-size: 14px; /* 글자 크기 설정 */
+	
+	.writer{
+		min-width: 150px;
 	}
-    
-    .review-form button {
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    .review-form button:hover {
-        background-color: #0056b3;
-    }
+	
+	.review {
+	    width: calc(100% - 250px);
+	    white-space: pre-wrap;
+	    min-width: 685px;
+	}
 	
 	
 </style>
@@ -372,8 +350,10 @@
 		
 		<div id="section1" class="section">
 		    <h3>상품상세</h3>
-		    <img id="detail" src="${pageContext.request.contextPath}/resources/image/${prdImageDetailName}"
-		         onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_860px.png';">
+		    <c:forEach var="imageName" items="${prdImageDetails}">
+		        <img id="detail" src="${pageContext.request.contextPath}/resources/image/${imageName}"
+		             onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_860px.png';">
+		    </c:forEach>
 		</div>
 		
 		<div id="section2" class="section">
@@ -406,24 +386,65 @@
 		</div>
 		
 		<div id="section4" class="section">
-			<h3>상품평</h3>
-			<div id="reviews">
-				<c:forEach var="upcyReview" items="${upcyvwlist}">
-					<div class="review-item">
-						<p><strong>${upcyReview.bCode}</strong></p>
-						<p>${upcyReview.upcyContent}</p>
-						<p>${upcyReview.upcyDate}</p>
-					</div>
-				</c:forEach>
+		<div class="page">
+					<h3>상품 후기</h3>
+				</div>
+				
+				<div class="review-table">
+					<table>
+						<tr>
+							<th class="">작성자</th>
+							<th class="grade">평점</th>
+							<th class="review">후기</th>
+							<th class="entdate">작성일</th>
+						</tr>
+						
+						<c:if test="${not empty upcyvwlist }">
+						    <c:forEach var="rvw" items="${upcyvwlist }">
+						        <tr>
+						            <td class="writer">${rvw.BUYER_NAME}</td>
+						            <td class="grade star">
+						                <c:forEach begin="1" end="${rvw.UPCY_GRADE }">
+						                    ★
+						                </c:forEach>
+						            </td>
+						            <td class="review" style="max-width: 980px;
+						            	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+						                ${rvw.UPCY_CONTENT }
+						            </td>
+						            <td class="entdate">
+						                <fmt:parseDate value="${rvw.UPCY_DATE }"  var="ENTDATE" pattern="yyyy-MM-dd" />
+						                <fmt:formatDate value="${ENTDATE }" pattern="yyyy-MM-dd"/>
+						            </td>
+						        </tr>
+						    </c:forEach>
+						</c:if>			
+							
+						<c:if test="${empty upcyvwlist }">
+							<tr>
+								<td colspan="4" class="none">작성된 리뷰가 없습니다.</td>
+							</tr>
+						</c:if>
+					</table>
+				</div> <!-- section End -->
 				
 				<div class="review-form">
 				    <form action="./upcyrvwformProc" method="post">
-				        <input type="hidden" name="prdcode" value="${param.prdCode}">
+				        <input type="hidden" name="prdCode" value="${param.prdCode}">
+ 				        <textarea class="comment-textarea" name="upcyContent" rows="4" placeholder="리뷰를 작성하세요"></textarea> 
+				        <label for="upcyGrade">평점:</label>
+				        <select name="upcyGrade">
+				            <option value="1">1점</option>
+				            <option value="2">2점</option>
+				            <option value="3">3점</option>
+				            <option value="4">4점</option>
+				            <option value="5">5점</option>
+				        </select>
+				        <button type="submit">리뷰 작성</button>
 				    </form>
 				</div>
 				
 			</div>
-		</div>
 		
 		
 	</div>

@@ -233,7 +233,7 @@
 		            <c:if test="${status.index < 4}">
 		                <c:set var="prd" value="${prdMap.prd}" />
 		                <div class="bannerContent">
-		                    <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdcode=${prd.prdCode}">
+		                    <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdCode=${prd.prdCode}">
 		                        <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[status.index]}" 
 		                            onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
 		                        <p class="bannerTitle">${prd.prdName}</p>
@@ -249,7 +249,7 @@
 		            <c:if test="${status.index < 4}">
 		                <c:set var="prd" value="${prdMap.prd}" />
 		                <div class="bannerContent">
-		                    <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdcode=${prd.prdCode}">
+		                    <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdCode=${prd.prdCode}">
 		                        <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[status.index]}" 
 		                            onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
 		                        <p class="bannerTitle">${prd.prdName}</p>
@@ -284,7 +284,7 @@
 		        <c:forEach var="prdMap" items="${prdWithImagesList}" varStatus="status">
 		            <c:set var="prd" value="${prdMap.prd}" />
 		            <div class="prd" data-ct-pdt-no="${prd.ctPdtNo}">
-		                <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdcode=${prd.prdCode}">
+		                <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdCode=${prd.prdCode}">
 		                    <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[0]}"
 		                        onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
 		                    <p class="prdTitle">${prd.prdName}</p>

@@ -1,7 +1,6 @@
 package recycling.buyer.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ import recycling.dto.buyer.Rcy;
 import recycling.dto.buyer.CartOrder;
 import recycling.dto.buyer.OrderDetail;
 import recycling.dto.buyer.Orders;
-
+import recycling.dto.seller.Cmt;
 import recycling.dto.seller.Prd;
 import recycling.dto.seller.Seller;
 
@@ -162,13 +161,16 @@ public class RecyclingController {
 	}
 
 	@GetMapping("/rcydetail")
-	public String rcyDetail(@RequestParam("prdcode") String prdCode, Model model, Authentication authentication) {
+	public String rcyDetail(
+	        @RequestParam("prdCode") String prdCode,
+	        Model model, Authentication authentication) {
 	    logger.info("/rcydetail [GET] - prdCode: {}", prdCode);
 
 	    if (authentication != null && authentication.isAuthenticated()) {
-	        // 세션이 존재하면 로그인 정보를 출력
+	        // 세션이 존재하면 로그인 정보를 출력하고 모델에 추가
 	        BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 	        logger.info("상세페이지 조회 - 로그인 되어 있음, BuyerLogin 정보: {}", buyerLogin);
+	        model.addAttribute("buyerLogin", buyerLogin);
 	    } else {
 	        // 세션이 존재하지 않으면 비로그인 상태임을 안내
 	        logger.info("상세페이지 조회 - 비로그인 상태입니다.");
@@ -184,7 +186,6 @@ public class RecyclingController {
 	    Buyer buyer = recyclingService.selectBuyerByBCode(seller.getbCode());
 	    int shipCnt = recyclingService.selectShipCnt(prd.getsCode());
 	    
-
 	    // 상품 썸네일 파일명 로드
 	    String prdImageThumName = recyclingService.selectPrdImageThum(prdCode);
 	    if (prdImageThumName == null) {
@@ -193,24 +194,36 @@ public class RecyclingController {
 	    logger.info("썸네일 이미지 파일명: {}", prdImageThumName);
 	    
 	    // 상세 이미지 파일명 로드
-	    String prdImageDetailName = recyclingService.selectPrdImageDetail(prdCode);
-	    if (prdImageDetailName == null) {
-	        prdImageDetailName = "error_860px.png"; // 기본 에러 이미지
+	    List<String> prdImageDetails = upcyclingService.selectPrdImageDetail(prdCode);
+	    if (prdImageDetails == null || prdImageDetails.isEmpty()) {
+	        prdImageDetails = List.of("error_860px.png"); // 기본 에러 이미지
 	    }
-	    logger.info("상세 이미지 파일명: {}", prdImageDetailName);
+	    logger.info("상세 이미지 파일명들: {}", prdImageDetails);
 
 	    model.addAttribute("prd", prd);
 	    model.addAttribute("prdImageThumName", prdImageThumName);
-	    model.addAttribute("prdImageDetailName", prdImageDetailName);
+	    model.addAttribute("prdImageDetails", prdImageDetails);
 	    model.addAttribute("seller", seller);
 
-	    List<Map<String, Object>> qna = recyclingService.selectQnaList(prdCode);
+	    logger.info("Rcy 조회 시작 - prdCode: {}", prdCode);
+	    List<Map<String, Object>> rcy = recyclingService.selectRcyList(prdCode);
 
-	    if (qna == null || qna.isEmpty()) {
+	    if (rcy == null || rcy.isEmpty()) {
 	        model.addAttribute("qnaMessage", "QnA가 존재하지 않습니다.");
 	    } else {
-	        model.addAttribute("qna", qna);
-	        model.addAttribute("qnaSize", qna.size());
+	        for (Map<String, Object> rcyItem : rcy ) {
+	            String rcyCode = (String) rcyItem.get("rcyCode");
+
+	            // 판매자의 답변(Cmt) 가져오기
+	            Cmt cmt = recyclingService.selectCmtByRcyCode(rcyCode);
+	            if (cmt != null) {
+	                // 가져온 답변을 Rcy 객체에 추가
+	                String cmtAns = cmt.getCmtAns();
+	                rcyItem.put("cmtAns", cmtAns);
+	            }
+	        }
+	        model.addAttribute("rcy", rcy);
+	        model.addAttribute("rcySize", rcy.size());
 	    }
 
 	    model.addAttribute("prd", prd);
@@ -221,22 +234,13 @@ public class RecyclingController {
 	    return "buyer/recycling/rcydetail";
 	}
 
-	@GetMapping("/rcycmt")
-	public String sellerQST(@RequestParam("qstCode") String qstCode, Model model) {
-		logger.info("/buyer/recycling/rcycmt [GET]");
-
-		// 판매자 문의 조회 등의 기능 수행
-		return "buyer/recycling/rcycmt";
-	}
-	
-	
 	
 	@PostMapping("/writeProc")
 	public String writeReview(
 	        Authentication authentication,
 	        Model model,
 	        Rcy rcy,
-	        @RequestParam("prdcode") String prdCode // 상품 코드를 직접 전달받음
+	        @RequestParam("prdCode") String prdCode // 상품 코드를 직접 전달받음
 	        ) {
 	    logger.info("/buyer/recycling/writeReviewProc [POST]");
 
@@ -262,9 +266,41 @@ public class RecyclingController {
 	    int res = recyclingService.insertRcy(rcy);
 
 	    // 상품 상세 페이지로 리다이렉트
-	    return "redirect:/buyer/recycling/rcydetail?prdcode=" + prdCode;
+	    return "redirect:/buyer/recycling/rcydetail?prdCode=" + prdCode;
 	}
 
+	
+	@PostMapping("/rcycmt")
+	public String rcyCmt(
+	        Authentication authentication,
+	        Model model,
+	        Cmt cmt,
+	        @RequestParam("rcyCode") String rcyCode, // 해당 질문의 코드
+	        @RequestParam("prdCode") String prdCode
+	) {
+	    logger.info("/buyer/recycling/rcycmt [POST]");
+
+	    // 세션에서 판매자 로그인 정보 가져오기
+	    if (authentication == null || !authentication.isAuthenticated()) {
+	        model.addAttribute("error", "로그인 해주세요.");
+	        return "redirect:/seller/login";
+	    }
+
+	    Seller sellerLogin = (Seller) authentication.getPrincipal();
+
+	    // 판매자 코드 설정
+	    cmt.setsCode(sellerLogin.getsCode());
+	    // 질문 코드 설정
+	    cmt.setRcyCode(rcyCode);
+	    // 답변 등록 처리
+	    int res = recyclingService.insertCmt(cmt);
+	    if (res <= 0) {
+	        model.addAttribute("error", "답변 등록에 실패했습니다.");
+	    }
+
+	    // 리턴
+	    return "redirect:/buyer/recycling/rcydetail?prdCode=" + prdCode;
+	}
 
 	
 	@GetMapping("/pay")

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Rcy;
+import recycling.dto.seller.Cmt;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.PrdFile;
 import recycling.dto.seller.Seller;
 
 public interface RecyclingService {
@@ -92,7 +92,7 @@ public interface RecyclingService {
 	 * @param prdCode
 	 * @return
 	 */
-	public String selectPrdImageDetail(String prdCode);
+	public List<String> selectPrdImageDetail(String prdCode);
 	
 	/**
 	 * 판매자 기본 정보 로드
@@ -124,7 +124,26 @@ public interface RecyclingService {
 	 */
 	public Seller getSeller(String sCode);
 
-	public List<Map<String, Object>> selectQnaList(String prdCode);
+	/**
+	 * 구매자 문의글 로드
+	 * @param prdCode 제품번호
+	 * @return
+	 */
+	public List<Map<String, Object>> selectRcyList(String prdCode);
+	
+	/**
+	 * 판매자 답변글 로드
+	 * @param rcyCode 제품번호
+	 * @return
+	 */
+	public Cmt selectCmtByRcyCode(String rcyCode);
+
+	/**
+	 * 판매자 답변 작성
+	 * @param cmt 판매자 답변 DTO
+	 * @return
+	 */
+	public int insertCmt(Cmt cmt);
 
 
 	/**
@@ -143,6 +162,9 @@ public interface RecyclingService {
 	 * @return
 	 */
 	public int insertRcy(Rcy rcy);
+
+
+
 
 	
 
