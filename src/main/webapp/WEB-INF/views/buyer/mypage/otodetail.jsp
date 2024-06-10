@@ -155,10 +155,10 @@ th {
 			        		<c:forEach var="file" items="${otoFiles }">
 						        <c:choose>
 						            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') }">
-						                <img src="${pageContext.request.contextPath }/upload/${file.storedName }" alt="${file.originName }" style="max-width: 100%;">
+						                <img src="/resources/image/${file.originName }" alt="${file.storedName }" style="max-width: 100%;">
 						            </c:when>
 						            <c:otherwise>
-						                <a href="${pageContext.request.contextPath }/upload/${file.storedName }">${file.originName }</a>
+						                <a href="/resources/image/${file.originName }">${file.storedName }</a>
 						            </c:otherwise>
 						        </c:choose>
 			   				</c:forEach>
