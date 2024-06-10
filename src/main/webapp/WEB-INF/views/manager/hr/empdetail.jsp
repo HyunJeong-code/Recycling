@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
+
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -24,59 +27,8 @@ $(document).ready(function() {
 });
 
 </script>
+
 <style type="text/css">
-/* 전체 기본 설정 */
-* {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	vertical-align: baseline;
-	box-sizing: border-box;
-	font: inherit;
-	font-size: 100%;
-	line-height: 1.5;
-	color: #333;
-	text-align: center;
-}
-
-/* 외부 레이아웃 설정 */
-.full {
-	width: 1200px;
-	border: 1px solid #ccc;
-	margin: 0 auto;
-	display: flex;
-	background-color: #f9f9f9;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-	overflow: hidden;
-}
-
-aside {
-	width: 300px;
-	background-color: #f1f1f1;
-	border-right: 1px solid #ddd;
-	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-.wrap {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-}
-
-/* 상단 페이지 */
-.page {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	color: #007BFF;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 10px;
-}
-
 /* 중단 페이지 */
 .section {
 	margin-top: 20px;
@@ -154,7 +106,7 @@ input[type="text"], select {
 
 .section_bot_itembox {
 	width: 500px;
-	margin: 0 auto;
+	margin-left: 280px;
 }
 
 .section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
@@ -162,31 +114,6 @@ input[type="text"], select {
 	margin-bottom: 15px;
 	display: flex;
 	margin-left: 20px;
-}
-
-/* 하단 페이지 버튼 스타일 */
-.btn_bot_wrap {
-	display: flex;
-	width: 500px;
-	padding-top: 20px;
-	margin: 0 auto;
-	justify-content: space-around;
-}
-
-/* 버튼 스타일 */
-button {
-	background-color: #007BFF;
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	cursor: pointer;
-	border-radius: 5px;
-	font-size: 16px;
-	margin-left: 10px;
-}
-
-button:hover {
-	background-color: #0056b3;
 }
 
 /* 파일버튼 디자인 */
@@ -221,6 +148,11 @@ button:hover {
 	width: 79%;
 	color: #999999;
 }
+
+.btnRight{
+	margin-right: 20px;
+}
+
 </style>
 
 </head>
@@ -232,8 +164,7 @@ button:hover {
 		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
-				<h1>사원 상세조회</h1>
-				<hr>
+				사원 상세조회
 			</div>
 
 			<div class="section">
@@ -303,8 +234,8 @@ button:hover {
 					
 
 			<div class="btn_bot_wrap">
-				<div><a href="./empupdate?mgrCode=${view.mgrCode }"><button class="btn_bot_update">수정하기</button></a> <br></div>
-				<div><a href="./main"><button class="btn_bot_return">돌아가기</button></a></div>
+				<div><a href="./empupdate?mgrCode=${view.mgrCode }"><button class="btn btnRight">수정하기</button></a> <br></div>
+				<div><a href="./main"><button class="btn btnLeft">돌아가기</button></a></div>
 			</div>
 			</div>
 		</div>

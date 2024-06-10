@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>새활용 메인페이지</title>
+<title>메인페이지</title>
 
 <!-- header css -->
 <link rel="stylesheet" href="/resources/css/header.css">

@@ -172,6 +172,9 @@ th {
 
 </head>
 <body>
+
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+
 	<div class="full">
 		<div class="wrap">
 			
@@ -286,18 +289,11 @@ th {
 						<p>추가 배송지가 없습니다.</p>
 					</c:if>
 				</c:if>
-<<<<<<< HEAD
-				<c:if test="${fn:length(buyerAdrList) <= 2 }">
-				<input type="button" value="추가 배송지 등록하기" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }"><br><br>
-				</c:if>
-=======
-        
 				<div class="button-group">
 					<c:if test="${fn:length(buyerAdrList) <= 2 }">
 	 					<button type="btn" onclick="if(chkAdrLimit()) {toggleVisibility('addForm'); }">추가 배송지 등록하기</button><br><br>
 					</c:if>
 				</div>
->>>>>>> TEST
 				<div id="addForm" style="display: none;">
 					<div>
 						<h4>새 배송지 추가</h4>
@@ -341,5 +337,8 @@ th {
 			</div>
 		</div>
 	</div>
+	
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	
 </body>
 </html>

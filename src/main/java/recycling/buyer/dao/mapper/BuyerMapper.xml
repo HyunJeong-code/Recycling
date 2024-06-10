@@ -34,6 +34,7 @@
 				<where>
 					AND c.PRD_CODE =p.PRD_CODE
 					AND p.PRD_CODE = pf.PRD_CODE(+)
+					AND pf.ct_pflno = 600
 					AND B_CODE = #{user}
 				</where>
 				ORDER BY C_CODE
@@ -52,6 +53,7 @@
 		<where>
 			AND c.PRD_CODE = p.PRD_CODE
 			AND p.PRD_CODE = pf.PRD_CODE(+)
+			AND pf.ct_pflno = 600
 			AND C_CODE = #{cCode}
 		</where>
 		ORDER BY C_CODE
@@ -312,7 +314,7 @@
     	</where>
     </update>
     
-    <!-- 기본 배송지로 설정 -->
+    <!-- 기본 배송지 조회 -->
     <select id="getDefaultAdr" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -322,7 +324,7 @@
     	</where>
     </select>
     
-    <!-- 주소코드로 주소 가져오기 -->
+    <!-- Adr_Code로 배송지 정보 조회 -->
     <select id="getAdrByAdrCode" parameterType="string" resultType="recycling.dto.buyer.BuyerAdr">
     	SELECT *
     	FROM Buyer_Adr
@@ -353,6 +355,7 @@
 		<where>
 			AND c.PRD_CODE =p.PRD_CODE
 			AND p.PRD_CODE = pf.PRD_CODE(+)
+			AND pf.ct_pflno = 600
 			AND B_CODE = #{user}
 		</where>
 		ORDER BY C_CODE DESC

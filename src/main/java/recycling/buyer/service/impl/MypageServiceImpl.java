@@ -83,68 +83,6 @@ public class MypageServiceImpl implements MypageService {
 	
 	}
 
-//	@Override
-//	public int insertOto(Oto oto) {
-//
-//		return mypageDao.insertOto(oto);
-//	
-//	}
-//
-//	@Override
-//	public OtoFile saveFile(MultipartFile file, Oto oto) {
-//
-//		if(file.getSize() <= 0) {
-//			
-//			logger.info("파일 없음");
-//			
-//			return null;
-//			
-//		}
-//		
-//		String storedPath = servletContext.getRealPath("upload");
-//		
-//		File storedFolder = new File(storedPath);
-//		storedFolder.mkdir();
-//		
-//		String storedName = null;
-//		
-//		File dest = null;
-//		
-//		do {
-//			
-//			storedName = file.getOriginalFilename();
-//			
-//			storedName += UUID.randomUUID().toString().split("-")[4];
-//			logger.info("storedName : {}", storedName);
-//			
-//			dest = new File(storedFolder, storedName);
-//			
-//		} while(dest.exists());
-//		
-//		try {
-//			file.transferTo(dest);
-//		} catch (IllegalStateException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		OtoFile otoFile = new OtoFile();
-//		
-//		otoFile.setOtoCode(oto.getOtoCode());
-//		otoFile.setOriginName(file.getOriginalFilename());
-//		otoFile.setStoredName(file.getOriginalFilename());
-//		
-//		return otoFile;
-//	
-//	}
-//
-//	@Override
-//	public int insertOtoFiles(OtoFile otoFile) {
-//
-//		return mypageDao.insertOtoFiles(otoFile);
-//	
-//	}
 	
 	@Override
 	public int deleteOto(String otoCode) {
@@ -178,13 +116,6 @@ public class MypageServiceImpl implements MypageService {
 		return mypageDao.getQnaByqstCode(qstCode);
 
 	}
-
-//	@Override
-//	public int insertQna(Qna qna) {
-//
-//		return mypageDao.insertQna(qna);
-//	
-//	}
 
 	@Override
 	public int deleteQna(String qstCode) {

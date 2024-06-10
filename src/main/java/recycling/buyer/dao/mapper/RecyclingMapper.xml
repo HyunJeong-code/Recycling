@@ -41,14 +41,14 @@
 	    ORDER BY PRD_HIT DESC
 	</select>
 	
-	<select id="selectPrdImageThum" resultType="String">
+	<select id="selectPrdImageThums" resultType="String">
 	    SELECT ORIGIN_NAME 
 	    FROM Prd_File 
-	    WHERE PRD_CODE = #{prdCode} 
+	    WHERE PRD_CODE = #{prdCode}
 	    AND CT_PFLNO = 600
 	</select>
 	
-	<select id="selectLatestPrdImageThum" resultType="String">
+	<select id="selectLatestPrdImageThums" resultType="String">
 	    SELECT PF.ORIGIN_NAME
 	    FROM Prd_File PF
 	    INNER JOIN (
@@ -60,7 +60,7 @@
 	    WHERE PF.CT_PFLNO = 600
 	</select>
 	
-	<select id="selectHitPrdImageThum" resultType="String">
+	<select id="selectHitPrdImageThums" resultType="String">
 	    SELECT PF.ORIGIN_NAME
 	    FROM Prd_File PF
 	    INNER JOIN (
@@ -77,13 +77,23 @@
 	    WHERE PRD_CODE = #{prdCode}
 	</select>
 	
+	<select id="selectPrdImageThum" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 600
+	    <if test="prdCode != null">
+	        AND PRD_CODE = #{prdCode}
+	    </if>
+	</select>
+	
 	<select id="selectPrdImageDetail" resultType="String">
 	    SELECT ORIGIN_NAME 
 	    FROM Prd_File 
-	    WHERE PRD_CODE = #{prdCode} 
+	    WHERE PRD_CODE = #{prdCode}
 	    AND CT_PFLNO = 610
 	</select>
-
+	
 	<!-- 판매자 프로필 조회 -->
 	<select id="selectSellerProfByCode" parameterType="String" resultType="Seller">
 		SELECT * FROM SELLER

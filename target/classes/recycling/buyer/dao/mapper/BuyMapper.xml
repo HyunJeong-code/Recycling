@@ -235,4 +235,45 @@
 			AND no BETWEEN 1 AND 5
 		</where>
 	</select>
+	
+	<select id="selectCntPrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM prd
+		<where>
+			AND prd_name LIKE '%' || #{search } || '%'
+    		AND prd_detail LIKE '%' || #{search } || '%'
+		</where> 
+	</select>
+	
+	<select id="selectCntExp" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT count(*) FROM exp
+		<where>
+			AND exp_name LIKE '%' || #{search } || '%'
+    		AND exp_detail LIKE '%' || #{search } || '%'
+		</where> 
+	</select>
+	
+	<select id="selectPrd" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT * FROM (
+		    SELECT rownum no, P.* FROM (
+		        SELECT * FROM prd
+		        WHERE prd_name LIKE '%'
+		          AND prd_detail LIKE '%'
+		        ORDER BY prd_date
+		    ) P
+		)
+		WHERE no BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<select id="selectExp" parameterType="recycling.util.PagingAndCtg" resultType="int">
+		SELECT * FROM (
+		    SELECT rownum no, E.* FROM (
+		        SELECT * FROM exo
+		        WHERE exp_name LIKE '%'
+		          AND exp_detail LIKE '%'
+		        ORDER BY exp_date
+		    ) E
+		)
+		WHERE no BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
 </mapper>

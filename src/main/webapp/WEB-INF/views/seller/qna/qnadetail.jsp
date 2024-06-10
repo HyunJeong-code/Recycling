@@ -19,6 +19,8 @@ let ctQst = ctQstNo[${qst.ctQstNo }];
 console.log(ctQst);
 
 $(function() {
+	$("#ctQst").text(ctQst);
+	
 	$("#updateBtn").on("click", function() {
         $.post("./qnaupdate",
         	{ qstCode: "${qst.qstCode}"

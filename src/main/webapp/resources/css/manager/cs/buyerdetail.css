@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* 전체 기본 설정 */
 * {
 	margin: 0;
@@ -75,7 +74,7 @@ aside {
 	margin: 20px;
 }
 
-.section .bCode_box, .section .bCt_box, .section .bName_box, .section .rankNo_box {
+.section .bName_box, .section .bCode_box, .section .bEntDate_box {
 	margin-bottom: 15px;
 	display: flex;
 	margin-left: 20px;
@@ -131,7 +130,7 @@ input[type="text"], select {
 	margin: 0 auto;
 }
 
-.section .bPhone_box, .section .bEmail_box, .section .bEntDate_box {
+.section .bPhone_box, .section .bEmail_box, .section .rankNo_box {
 	margin-bottom: 15px;
 	display: flex;
 	margin-left: 20px;

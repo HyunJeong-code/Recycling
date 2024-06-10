@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
@@ -7,42 +7,50 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- css -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 
 <script type="text/javascript">
 $(function() {
-	// 이미지 클릭 시 파일 선택 창 열기
-	$("#profilePreview").on('click', function() {
-	    $("#empFileUpdate").click();
-	    console.log(profilePreview)
-	    console.log(empFileUpdate)
-	    
-	});
-	
-	// 파일 선택 시 미리보기 이미지 업데이트
-	$("#empFileUpdate").on('change', function() {
-	    if (this.files && this.files[0]) {
-	        var reader = new FileReader();
-	        reader.onload = function(e) {
-	            $("#profilePreview").attr("src", e.target.result);
-	            console.log(profilePreview)
-	        }
-	        reader.readAsDataURL(this.files[0]);
-	    }
-	})
-	
+   // 이미지 클릭 시 파일 선택 창 열기
+   $("#profilePreview").on('click', function() {
+       $("#empFileUpdate").click();
+       console.log(profilePreview)
+       console.log(empFileUpdate)
+       
+   });
+   
+   // 파일 선택 시 미리보기 이미지 업데이트
+   $("#empFileUpdate").on('change', function() {
+       if (this.files && this.files[0]) {
+           var reader = new FileReader();
+           reader.onload = function(e) {
+               $("#profilePreview").attr("src", e.target.result);
+               console.log(profilePreview)
+           }
+           reader.readAsDataURL(this.files[0]);
+       }
+   })
+   
     // 일반 파일 이름 표시
-	$('#file').on('change', function(event) {
-		console.log(expMultiFileUpdate)
-	    var files = event.target.files;
-	    var fileNames = $('#fileNames').text().split(', '); // 이전에 선택한 파일 이름 가져오기
-	    for (var i = 0; i < files.length; i++) {
-	        fileNames.push(files[i].name);
-	    }
-	});
-	
+  $(document).ready(function() {
+        var existingFileName = "${file.mgrFlNo}"; // 기존 파일 이름을 가져옴
+        if (existingFileName) {
+            $('#file_name').text(existingFileName);
+        }
+
+        $('#docfile').on('change', function(event) {
+            var file = event.target.files[0]; // 선택된 파일 하나만 처리
+            if (file) {
+                $('#file_name').text(file.name);
+            } else {
+                $('#file_name').text("선택된 파일 없음");
+            }
+        });
+    });
 	
 	// 직접 입력 선택 시 입력 필드 표시
     $("#inPhone").hide();
@@ -75,9 +83,9 @@ $(function() {
     
 
     // 폼 제출 시 핸드폰 번호를 합쳐서 숨겨진 입력 필드에 설정
-	$("form").submit(function() {
+   $("form").submit(function() {
 
-		var sPhone = $("#inPhone").val();
+      var sPhone = $("#inPhone").val();
         var email1 = $("#inPhone").val();
         var mPhone = $("#mPhone").val();
         var lPhone = $("#lPhone").val();
@@ -124,7 +132,6 @@ $(function() {
     $("#mgrEmail1").val(phoneParts[0]);
     $("#mgrEmail2").val(phoneParts[1]);
     
-	
 	// 이메일 처리
 	$("form").submit(function() {
 	    var empEmail1 = $("#mgrEmail1").val();
@@ -146,21 +153,21 @@ $(function() {
 	    $("#mgrEmail").val(fullEmail);
 	});
 
-	//부서
-	$("#update").click(function() {
-		console.log("deptno : " + $("#detpno").val());
-		
-		if($("#detpno").val() === 'CEO') {
-			$("#detpno").val(10);
-		} else if ($("#detpno").val() === '인사팀') {
-			$("#detpno").val(20);
-		} else if($("#detpno").val() === '판매제휴팀') {
-			$("#detpno").val(30);			
-		} else {
-			$("#detpno").val(40);						
-		}
-	})
-	
+   //부서
+   $("#update").click(function() {
+      console.log("deptno : " + $("#detpno").val());
+      
+      if($("#detpno").val() === 'CEO') {
+         $("#detpno").val(10);
+      } else if ($("#detpno").val() === '인사팀') {
+         $("#detpno").val(20);
+      } else if($("#detpno").val() === '판매제휴팀') {
+         $("#detpno").val(30);         
+      } else {
+         $("#detpno").val(40);                  
+      }
+   })
+   
 })
 
 //핸드폰 번호 처리
@@ -169,58 +176,6 @@ console.log("mgrPhone : " + mgrPhone);
 
 </script>
 <style type="text/css">
-/* 전체 기본 설정 */
-* {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	vertical-align: baseline;
-	box-sizing: border-box;
-	font: inherit;
-	font-size: 100%;
-	line-height: 1.5;
-	color: #333;
-	text-align: center;
-}
-
-/* 외부 레이아웃 설정 */
-.full {
-	width: 1200px;
-	border: 1px solid #ccc;
-	margin: 0 auto;
-	display: flex;
-	background-color: #f9f9f9;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-	overflow: hidden;
-}
-
-aside {
-	width: 300px;
-	background-color: #f1f1f1;
-	border-right: 1px solid #ddd;
-	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-.wrap {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-}
-
-/* 상단 페이지 */
-.page {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	color: #007BFF;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 10px;
-}
-
 /* 중단 페이지 */
 .section {
 	margin-top: 20px;
@@ -298,40 +253,14 @@ input[type="text"], select {
 
 .section_bot_itembox {
 	width: 500px;
-	margin: 0 auto;
+	margin-left: 280px;
 }
 
-.section .phone_box, .section .email_box, .section .mgrBirth_box,
+.section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
 	.section .mgrGender_box {
-	
 	margin-bottom: 15px;
 	display: flex;
 	margin-left: 20px;
-}
-
-/* 하단 페이지 버튼 스타일 */
-.btn_bot_wrap {
-	display: flex;
-	width: 500px;
-	padding-top: 20px;
-	margin: 0 auto;
-	justify-content: space-around;
-}
-
-/* 버튼 스타일 */
-button {
-	background-color: #007BFF;
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	cursor: pointer;
-	border-radius: 5px;
-	font-size: 16px;
-	margin-left: 10px;
-}
-
-button:hover {
-	background-color: #0056b3;
 }
 
 /* 파일버튼 디자인 */
@@ -367,15 +296,22 @@ button:hover {
 	color: #999999;
 }
 
-.select_img{
-	height: 200px;
-    width: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 20px;
+.btnRight{
+	margin-right: 20px;
 }
 
+.phone_box{
+	display: flex;
+}
+
+.email_box{
+	display: flex;
+}
+
+
 </style>
+
+
 </head>
 <body>
 
@@ -388,47 +324,47 @@ button:hover {
 				<h1>사원정보 수정하기</h1>
 			</div>
 
-			<div class="section">
-				<form action="./empupdate?mgrCode=${view.mgrCode }" method="post" enctype="multipart/form-data">
-					
-					<div class ="section_top">
-							
-					<input type="file" id="empFileUpdate" name="empFileUpdate" style="display: none;" />
-					<div class="select_img">
-					    <img alt="없음" id="profilePreview" src="${pageContext.request.contextPath}/upload/${profileList.storedName}" />
-						<input type="hidden" id="mgrFlNo" name="mgrFlNo" value="${profileList.mgrFlNo }"/>
-					</div>
-					
-						<div class="section_top_privacy">
-							<div class="mgrCode_box">
-								<label for ="mgrCode">사원번호</label>
-								<div>${view. mgrCode }</div>
-							</div>
-						
-							<div class="deptno_box">
-								<label for="detpno">부 서 명</label>
-								<select name="deptno" id="deptno">
-									<option value="20">인사팀</option>
-									<option value="30">판매제휴팀</option>
-									<option value="40">구매CS팀</option>
-								</select>
-							</div>
-							
-							<div class="mgrName_box">
-								<label for ="mgrName">이 름</label>
-								<input type="text" name ="mgrName" id="mgrName" value="${view.mgrName }">
-							</div>
-							
+         <div class="section">
+            <form action="./empupdate?mgrCode=${view.mgrCode }" method="post" enctype="multipart/form-data">
+               
+               <div class ="section_top">
+                     
+               <input type="file" id="empFileUpdate" name="empFileUpdate" style="display: none;" />
+               <div class="select_img">
+                   <img alt="없음" id="profilePreview" src="${pageContext.request.contextPath}/upload/${profileList.storedName}" />
+                  <input type="hidden" id="mgrFlNo" name="mgrFlNo" value="${profileList.mgrFlNo }"/>
+               </div>
+               
+                  <div class="section_top_privacy">
+                     <div class="mgrCode_box">
+                        <label for ="mgrCode">사원번호</label>
+                        <div>${view. mgrCode }</div>
+                     </div>
+                  
+                     <div class="deptno_box">
+                        <label for="detpno">부 서 명</label>
+                        <select name="deptno" id="deptno">
+                           <option value="20">인사팀</option>
+                           <option value="30">판매제휴팀</option>
+                           <option value="40">구매CS팀</option>
+                        </select>
+                     </div>
+                     
+                     <div class="mgrName_box">
+                        <label for ="mgrName">이 름</label>
+                        <input type="text" name ="mgrName" id="mgrName" value="${view.mgrName }">
+                     </div>
+                     
 
-							<div class="mgrEntDate_box">
-								<label for ="mgrEntDate">입 사 일</label>
-									<div>
-										<fmt:parseDate value="${view. mgrEntDate }" var="mgrEntDate" pattern="yyyy-MM-dd" />
-										<fmt:formatDate value="${mgrEntDate }" pattern="yyyy-MM-dd" />
-									</div>
-							</div>
-						</div>
-					</div>
+                     <div class="mgrEntDate_box">
+                        <label for ="mgrEntDate">입 사 일</label>
+                           <div>
+                              <fmt:parseDate value="${view. mgrEntDate }" var="mgrEntDate" pattern="yyyy-MM-dd" />
+                              <fmt:formatDate value="${mgrEntDate }" pattern="yyyy-MM-dd" />
+                           </div>
+                     </div>
+                  </div>
+               </div>
 
 					<div class="section_bot_title">사원 정보</div>
 					
@@ -480,21 +416,18 @@ button:hover {
 
 					<!-- 개명, 주소지변경 등 -->
 					<div class="bot_document_filebox">
-						<label>필요서류 파일</label>		
-							<input class="document_file" type="file" id="docfile" name="docfile" value="${file.mgrFlNo }" required="required">
-							<div id="fileNames" class="file_name">선택된 파일 없음</div>
-						<label class="file_find" for="docfile">파일찾기</label>
-						
+					    <label>필요서류 파일</label>		
+					    <input class="document_file" type="file" id="docfile" name="docfile" value="${file.storedName }" required="required">
+					    <div id="file_name" class="file_name">선택된 파일 없음</div>
+					    <label class="file_find" for="docfile">파일찾기</label>
 					</div>
 				</div>
 	
 				<div class="btn_bot_wrap">
-					<a href="./empupdate"><button class="btn_bot_update">수정완료</button></a>
+					<a href="./empupdate"><button class="btn btnRight">수정하기</button></a>
 				</div>
 				</form>
-					<a href="./empdetail?mgrCode=${view.mgrCode }"><button class="btn_bot_return">돌아가기</button></a>
-
-	
+					<a href="./empdetail?mgrCode=${view.mgrCode }"><button class="btn btnLeft">돌아가기</button></a>
 				
 			</div>
 		</div>

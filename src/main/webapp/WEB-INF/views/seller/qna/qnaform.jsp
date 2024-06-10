@@ -18,7 +18,7 @@ let ctQst = ctQstNo[${qst.ctQstNo }];
 console.log(ctQst);
 
 $(function() {
-	$("#ctQst").html(ctQst);
+	$("#ctQst").text(ctQst);
 	
 	$("#qnaBtn").on("click", function() {
         $.post("./qnaform",

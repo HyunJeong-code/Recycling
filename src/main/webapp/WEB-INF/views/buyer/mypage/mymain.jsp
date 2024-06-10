@@ -39,98 +39,86 @@ $(document).ready(function() {
 });
 </script>
 
-<style type="text/css">
-<<<<<<< HEAD
-.page {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-	height: 100vh;
-	padding-top: 50px;
+<style>
+.full {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+button {
+    border: none;
+    width: 100px;
+}
+
+input[type="button"] {
+    border: none;
+    width: 100px;
+}
+
+input[type="text"] {
+	border: none;
+	border-bottom: 1px solid black;
+}
+
+.s {
+	width: 100px;
+}
+
+.m {
+	width: 200px;
+}
+
+.l {
+	width: 300px;
+}
+
+.btn {
+	background-color: #ccc;
+    color: black;
+}
+
+.btnLeft {
+    background-color: #4CAF50;
+    color: white;
+}
+
+h3 {
+	margin-bottom: 20px; /* h3와 table 사이의 간격 조정 */
 	text-align: center;
 }
 
-.form-group {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin-bottom: 15px;
+.n-table {
+	margin-top: 20px; /* table과 h3 사이의 간격 조정 */
+	margin: 0 auto;
+	text-align: center;
 }
-
-label {
-	margin-right: 10px;
-	width: 150px;
-	text-align: right;
-=======
-body {
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-.full {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
-.page {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: 100vh;
-    padding-top: 50px;
-    text-align: center;
-}
-.page h3 {
-    margin-bottom: 30px;
-    color: #333;
-}
-.form-group {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 15px;
-}
-label {
-    margin-right: 10px;
-    width: 150px;
-    text-align: right;
-}
-.button-group {
-    text-align: center;
-    margin-top: 20px;
-}
-.button-group button {
-    margin-right: 10px;
-    padding: 10px 20px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.button-group button:hover {
-    background-color: #005bb5;
->>>>>>> TEST
+.n-table th, .n-table td {
+	border: none; /* 테두리 제거 */
 }
 </style>
 
 </head>
 <body>
+
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+
 	<div class="full">
 		<div class="wrap">
 		
 			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
 		
 			<div class="page">
+				<h3>개인 정보 변경을 위해 비밀번호를 입력해주세요.</h3>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mymain" method="post">
-					<h3>개인 정보 변경을 위해 비밀번호를 입력해주세요.</h3>
-					<label for="password">비밀번호 </label>
-					<input type="password" id="password" name="password" required>
-					<div class="button-group">
-						<button class="btn">확인</button>
-					</div>
+					<table class="n-table">
+						<tr>	
+							<td>비밀번호</td>
+							<td><input type="password" id="password" name="password" required></td>
+						</tr>
+						<tr>
+							<td colspan="2"><button class="btn">확인</button></td>
+						</tr>
+					</table>
 				</form>
 			</div>
 		</div>

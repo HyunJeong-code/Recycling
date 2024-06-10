@@ -68,6 +68,9 @@ th {
 
 </head>
 <body>
+
+	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+
 	<div class="full">
 		<div class="wrap">
 		
@@ -83,7 +86,7 @@ th {
 						<td>
 							<c:choose>
 	                            <c:when test="${buyerProf != null }">
-	                                <img src="${pageContext.request.contextPath }/upload/${buyerProf.storedName }" alt="프로필 이미지" style="width: 100px; height: 100px;">
+	                                <img src="/resources/image/${buyerProf.originName}" alt="${buyerProf.storedName}" style="width: 100px; height: 100px;">
 	                            </c:when>
 	                            <c:otherwise>
 	                                <img src="${pageContext.request.contextPath }/resources/image/basicProf.png" alt="기본 프로필 이미지" style="width: 100px; height: 100px;">
@@ -104,7 +107,7 @@ th {
 						<td>
 							<c:choose>
 	                            <c:when test="${cmpFile != null }">
-	                                <img src="${pageContext.request.contextPath }/upload/${cmpFile.storedName }" alt="${cmpFile.originName }" style="max-width: 100%;">
+	                                <img src="/resources/image/${cmpFile.originName}" alt="${cmpFile.storedName}" style="width: 100px; height: 100px;">
 	                            </c:when>
 	                            <c:otherwise>
 	                                <span>등록된 사업자 등록증이 없습니다.</span>
@@ -116,5 +119,8 @@ th {
 			</div>
 		</div>
 	</div>
+	
+	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	
 </body>
 </html>
