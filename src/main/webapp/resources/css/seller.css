@@ -13,6 +13,14 @@ ol, ul {
 	padding: 0;
 }
 
+.full {
+	width: 1200px;
+	height: auto;
+    min-height: calc(100vh - 384px);
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
 .notice-banner {
     width: 100%;
     height: 40px;
@@ -147,7 +155,7 @@ ol, ul {
 }
 
 .search-bar button:hover {
-    background-color: #45A049;
+    background-color: #46a9f5;
 }
 
 .header-buttons .button {
@@ -288,7 +296,7 @@ ol, ul {
 }
 
 .btnRight:hover {
-    background-color:#58c05c;
+    background-color:#46a9f5;
 }
 
 .btnDel {
@@ -469,7 +477,7 @@ ol, ul {
 }
 
 .search button:hover {
-	background-color:#58c05c;
+	background-color:#46a9f5;
 }
 
 .center-title {
