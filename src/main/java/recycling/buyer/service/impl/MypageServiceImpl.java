@@ -28,7 +28,6 @@ public class MypageServiceImpl implements MypageService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired private MypageDao mypageDao;
-	@Autowired private ServletContext servletContext;
 	
 	@Override
 	public List<Map<String, Object>> selectQnaBybCode(PagingAndCtg paging) {
