@@ -115,7 +115,6 @@
 					</table>
 				</c:if>					
 			</div>
-			
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->

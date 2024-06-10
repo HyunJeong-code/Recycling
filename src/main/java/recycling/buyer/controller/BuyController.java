@@ -129,7 +129,7 @@ public class BuyController {
 		
 		return chkNum;
 	}
-	
+
 	@GetMapping("/prijoin")
 	public void priJoin() {
 		logger.info("/buyer/prijoin [GET]");
@@ -157,7 +157,6 @@ public class BuyController {
 		int res = buyService.insertBuyer(buyer);
 		
 		// 회원 가입 성공
-		
 		int resProf = 0;
 		int resAdr = 0;
 		

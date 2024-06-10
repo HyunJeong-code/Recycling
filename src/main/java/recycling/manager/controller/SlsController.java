@@ -72,7 +72,8 @@ public class SlsController {
         
         
 		// 판매자 목록 조회
-		List<Seller> main = slsService.main(upPaging);
+		List<HashMap<String, Object>> main = slsService.main(upPaging);
+		logger.info("11111111111111111{}", main);
 
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("main", main);

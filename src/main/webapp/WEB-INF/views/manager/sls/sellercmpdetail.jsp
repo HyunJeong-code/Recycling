@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
@@ -119,19 +120,37 @@ $(function() {
 	width: 200px;
 	height: 200px;
 }
+.btn_bot_box {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-top: 20px;
+}
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-<div class="admin-container">
-<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-<div class = "full content" >
-<div class="wrap">
-<c:set var="seller" value="${seller }" />
+    <sec:authentication var="managerLogin" property="principal"/>
 
-<div class="page">
-	<h3>판매자 상세 조회</h3>
-</div>
+    <c:set var="seller" value="${seller}"/>
+    <div class="admin-container">
+        <c:if test="${managerLogin.deptno eq 10}">
+            <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+        </c:if>
+        <c:if test="${managerLogin.deptno eq 20}">
+            <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+        </c:if>
+        <c:if test="${managerLogin.deptno eq 30}">
+            <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+        </c:if>
+        <c:if test="${managerLogin.deptno eq 40}">
+            <c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+        </c:if>
+
+<div class = "full content">
+		<div class="wrap">		
+			<div class="page">
+				판매자 상세조회
+			</div>
 
 <div class="section">
 	<div id="main">
@@ -198,16 +217,15 @@ $(function() {
 				<tr>
 					<th>총 신고 횟수</th>
 					<td colspan="2">${rptCnt }</td>
-					<td><button><a href="/manager/sls/">판매-관리 조회</a></button></td>
+					<td><button><a href="/manager/sls/sellinglist=${seller.S_CODE }">판매-관리 조회</a></button></td>
 				</tr>
 			</table>	
 		</div> <!-- info End -->
-			
 	</div> <!-- main End -->
 </div> <!-- section End -->
 
 <div class="page">
-	<h3>판매자 상세 정보</h3>
+	판매자 상세 정보
 </div>
 
 <div class="section">
@@ -351,8 +369,10 @@ $(function() {
 			
 		</table>
 		
-		<button class="btnLeft">수정하기</button>
-		<button type="button" id="btnList" class="btn">목록으로</a></button>
+		<div class="btn_bot_box">
+           <button type="button" id="btnList" class="btn btnLeft">목록으로</button>
+           <button class="btn btnRight" style="margin-right: 20px">수정하기</button>
+       </div>
 	</form>
 </div> <!-- section End -->
 </div>
