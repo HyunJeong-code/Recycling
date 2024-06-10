@@ -151,3 +151,6 @@
 	object-fit: contain;
 }
 
+#main_menu .snd_menu li a:hover {
+	background-color: #e1e1e1;
+}

@@ -107,6 +107,16 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 		
 		
 	}); //$ end
+	
+	//모두 체크 기능
+	function selectAll(selectAll, name)  {
+	  const checkboxes 
+	       = document.getElementsByName(name);
+	  
+	  checkboxes.forEach((checkbox) => {
+	    checkbox.checked = selectAll.checked;
+	  })
+	}
 </script>
 
 </head>
@@ -135,7 +145,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				<table class="s-table">
 				    <thead>
 				        <tr>
-				            <th></th>
+				            <th><input type='checkbox' name='' value='selectall'onclick='selectAll(this, "checkList")'/></th>
 				            <th>상품 번호</th>
 				            <th>제품 분류</th>
 				            <th>상품 이름</th>
@@ -191,7 +201,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				<table class="s-table">
 					<thead>
 						<tr>
-							<th></th>
+							<th><input type='checkbox' name='' value='selectall'onclick='selectAll(this, "ordCheckList")'/></th>
 							<th>주문번호</th>
 							<th>상품 이름</th>
 							<th>가격</th>
