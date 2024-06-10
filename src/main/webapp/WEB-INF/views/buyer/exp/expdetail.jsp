@@ -32,11 +32,14 @@ div.group {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .mainThumbnail img {
-    max-width: 100%;
-    max-height: 100%;
+    object-fit: cover;
+    width: 300px;
+    height: 300px;
+    
 }
 
 .prdInfo {
@@ -102,6 +105,11 @@ button {
     border-bottom: 5px solid black;
 }
 
+.exp_file_detail {
+	text-align: center;
+}
+
+
 .review-item {
     margin-bottom: 20px;
     padding: 10px;
@@ -146,8 +154,17 @@ select#rvwGrade {
     align-items: center;
     margin-right: 10px;
     border-radius: 50%;
+    overflow: hidden;
+}
+.seller-photo img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover; /* 이미지를 컨테이너에 맞추고 잘 맞게 표시 */
 }
 
+.info-content {
+	margin-left: 30px;
+}
 
 .star-rating .filled {
     color: gold;
@@ -220,19 +237,29 @@ function checkLoginAndRedirect(url) {
     <div class="group">
         <p>체험단 > 상세페이지</p>
     </div>
-    
+    <br>
     <div class="detailUpper">
         <div class="mainThumbnail">
-            <c:if test="${not empty main}">
-                <img src="${pageContext.request.contextPath}/upload/${main.storedName}" alt="${main.originName}">
-            </c:if>
+        	<c:choose>
+                <c:when test="${not empty main}">
+                    <img alt="썸네일 이미지" 
+                         src="/resources/image/${main.originName}" 
+                         onerror="this.onerror=null; this.src='/resources/image/basicProf.png';">
+                </c:when>
+                <c:otherwise>
+                	<img alt="기본 프로필 이미지" src="/resources/image/basicProf.png">
+                </c:otherwise>
+            </c:choose>
         </div>
         
         <div class="prdInfo">
-            <p class="prdName">${exp.expName}</p>
+        	
+            <p class="prdName">제목 ㅣ ${exp.expName}</p>
             <hr>
-            <p class="prdPrice">${exp.expPrice}원</p>
+            <br>
+            <p class="prdPrice">1인당 체험비 ㅣ ${exp.expPrice}원</p>
             <hr>
+            <br>
             <c:choose>
                 <c:when test="${isLoggedIn}">
                     <a href="./expresform?expCode=${exp.expCode}"><button class="btnRight" type="button">예약하기</button></a>
@@ -252,37 +279,51 @@ function checkLoginAndRedirect(url) {
     
     <div id="detail-info" class="section">
         <h3>상세정보</h3>
+        <hr>
+        <br>
         <div class="exp_file_detail">
             <c:forEach var="file" items="${detail}">
                 <c:choose>
                     <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') || file.originName.endsWith('.PNG')}">
-                        <img src="${pageContext.request.contextPath}/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;">
+<%--                         <img src="${pageContext.request.contextPath}/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;"> --%>
+                        <img alt="상세 이미지" src="/resources/image/${file.originName}" style="width:700px; height:600px;">
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/upload/${file.storedName}">${file.originName}</a>
+                        <a href="/resources/image/${file.storedName}"  style="width:700px; height:600px;>${file.originName}</a>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
         </div>
-        <p>${exp.expDetail}</p>
+        <br><br>
+        <p style="margin-left: 50px;">${exp.expDetail}</p>
     </div>
     
     <div id="seller-info" class="section">
-        <h3>판매자 정보</h3>
-        <div class="seller-info">
-            <div class="seller-photo">
-                <c:if test="${not empty buyerProf}">
-                    <img src="${pageContext.request.contextPath}/upload/${buyerProf.storedName}" alt="${buyerProf.originName}" style="max-width: 100%; max-height: 100%; border-radius: 100%;">
-                </c:if>
-            </div>
-            <div>
-                <p>${seller.accName}</p>
-                <p>${buyer.bPhone}</p>
-                <p>${buyer.bEmail}</p>
-                <p>판매자 유형: ${selType}</p>
-            </div>
-        </div>
-    </div>
+	    <h3>판매자 정보</h3>
+	    <hr>
+	    <div class="seller-info">
+	        <div class="seller-photo">
+	            <c:choose>
+	                <c:when test="${not empty buyerProf}">
+	                    <img alt="프로필 이미지" 
+	                         src="/resources/image/${buyerProf.originName}" 
+	                         onerror="this.onerror=null; this.src='/resources/image/basicProf.png';">
+	                </c:when>
+	                <c:otherwise>
+	                    <img alt="기본 프로필 이미지" 
+	                         src="/resources/image/basicProf.png">
+	                </c:otherwise>
+	            </c:choose>
+	        </div>
+	        <div class="info-content">
+	            <p>${seller.accName}</p>
+	            <p>${buyer.bPhone}</p>
+	            <p>${buyer.bEmail}</p>
+	            <p>판매자 유형: ${selType}</p>
+	        </div>
+	    </div>
+	</div>
+
     
     
 

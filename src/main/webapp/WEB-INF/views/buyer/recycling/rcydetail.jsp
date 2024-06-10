@@ -408,7 +408,7 @@
 				
 				<div class="review-form">
 				    <form action="./writeProc" method="post">
-				        <input type="hidden" name="prdcode" value="${param.prdcode}">
+				        <input type="hidden" name="prdCode" value="${param.prdCode}">
 				        <textarea class="comment-textarea" name="rcyCmt" rows="4" placeholder="질문 작성"></textarea> 
 				        <button type="submit">질문 작성</button> 
 				    </form>

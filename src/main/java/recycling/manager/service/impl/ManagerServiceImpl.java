@@ -65,7 +65,7 @@ public class ManagerServiceImpl implements ManagerService {
 		do {
 			storedName = mgrProf.getOriginalFilename(); // 원본 파일명
 			
-			storedName += UUID.randomUUID().toString().split("-")[4]; // UUID 추가
+			storedName = storedName + UUID.randomUUID().toString().split("-")[4]; // UUID 추가
 			logger.info("storedName : {}", storedName);
 			
 			dest = new File(storedFolder, storedName);			

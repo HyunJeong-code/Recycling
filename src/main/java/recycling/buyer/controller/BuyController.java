@@ -166,10 +166,6 @@ public class BuyController {
 			BuyerProf prof = buyService.fileSave(buyer, buyerProf);
 			if(prof != null) {
 				resProf = buyService.insertProf(prof);
-			} else {
-				model.addAttribute("msg", "[회원가입 실패] 입력 정보 확인이 필요합니다.");
-				model.addAttribute("url", "/buyer/prijoin");
-				return "/layout/alert";
 			}
 		}
 		
@@ -179,10 +175,7 @@ public class BuyController {
 			resAdr = buyService.insertAdr(buyerAdr);
 		}
 		
-		model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 로그인 페이지로 이동합니다.");
-		model.addAttribute("url", "/buyer/login");
-		return "/layout/alert";
-		
+		return "/buyer/login";
 		
 	}
 	
@@ -260,10 +253,6 @@ public class BuyController {
 			BuyerProf prof = buyService.fileSave(buyer, buyerProf);
 			if(prof != null) {
 				resProf = buyService.insertProf(prof);
-			} else {
-				model.addAttribute("msg", "[회원가입 실패] 입력 정보 확인이 필요합니다.");
-				model.addAttribute("url", "/buyer/cmpjoin");
-				return "/layout/alert";
 			}
 		}
 		
@@ -341,7 +330,8 @@ public class BuyController {
 		if(buyer == null) {
 			session.setAttribute("chkBuyer", "false");			
 		} else {
-			session.setAttribute("chkBuyer", "true");						
+			session.setAttribute("chkBuyer", "true");
+			session.setAttribute("buyer", buyer);
 		}
 		
 		return "redirect:/buyer/changepw";
@@ -349,7 +339,8 @@ public class BuyController {
 	
 	@GetMapping("/changepw")
 	public String changePw(
-			HttpSession session
+			HttpSession session,
+			Authentication authentication
 			) {
 		logger.info("/buyer/changePw [GET]");
 		
@@ -362,12 +353,15 @@ public class BuyController {
 	
 	@PostMapping("/changepw")
 	public String changePwProc(
-			Buyer buyer,
+			HttpSession session,
+			String bPW,
 			Model model
 			) {
 		logger.info("/buyer/changePw [POST]");
 		
 		// 비밀번호 암호화 처리 필요
+		Buyer buyer = (Buyer) session.getAttribute("buyer");
+		buyer.setbPw(bPW);
 		logger.info("findPw : {}", buyer);
 		
 		int res = buyService.updatePw(buyer);
@@ -434,5 +428,10 @@ public class BuyController {
 		model.addAttribute("prdSize", prdList.size());
 		model.addAttribute("expList", expList);
 		model.addAttribute("expSize", expList.size());
+	}
+	
+	@GetMapping("error403")
+	public void error403() {
+		logger.info("/buyer/error403 [GET]");
 	}
 }

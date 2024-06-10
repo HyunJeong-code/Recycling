@@ -8,11 +8,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- CSS -->
-<link rel="stylesheet" href="/resources/css/manager/sls/manager.css">
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 
 </head>
 <body>
-	<div class="full">
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
 				<h1>체험 수정하기</h1>
@@ -58,6 +61,7 @@
 
 			</div>
 		</div>
+	</div>
 	</div>
 </body>
 

@@ -93,67 +93,12 @@ $(function() {
 }) // End Jquery
 </script>
 <style type="text/css">
-/* 전체 기본 설정 */
-* {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	vertical-align: baseline;
-	box-sizing: border-box;
-	font: inherit;
-	font-size: 100%;
-	line-height: 1.5;
-	color: #333;
-}
-
-/* 외부 레이아웃 설정 */
-.full {
-    width: 1200px;
-    border: 1px solid #ccc;
-    margin: 0 auto;
-    display: flex;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-aside {
-	width: 300px;
-	background-color: #f1f1f1;
-	border-right: 1px solid #ddd;
-	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-.wrap {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-}
-
-/* 상단 페이지 */
-.page {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	color: #007BFF;
-	border-bottom: 2px solid #007BFF;
-	padding-bottom: 10px;
-}
-
 /* [우]하단 페이지 */
 .btn_bot_style {
 	display: flex;
 	float: right;
 	margin: 0 0 20px 0;
 }
-
-
-
-/* ------------------------------------- */
 
 /* 섹션 스타일 */
 .section {
@@ -162,26 +107,27 @@ aside {
 	margin: 0 auto;
 }
 
-.section select {
-	padding: 12px;
-	text-align: center;
-	width: 100%;
-}
-
 .section input[type="date"] {
 	padding: 12px;
 	text-align: center;
+	width: 95%;
+}
+
+.section input[type="text"] {
+	border: 1px solid #ccc;
+}
+
+.section div {
+	margin-bottom: 20px;
+}
+
+.section textarea {
+	border: 1px solid #ccc;
 	width: 100%;
 }
 
-.section div {
-	margin-bottom: 20px;
-	border: 1px solid #ccc;
-}
-
-.section div {
-	margin-bottom: 20px;
-	border: 1px solid #ccc;
+.btn_modal_wrap {
+	display: flex;
 }
 
 label {
@@ -192,8 +138,7 @@ label {
 
 .section input[type="text"] {
 	padding: 12px;
-	height: 46px;
-	width: 100%;
+	width: 95%;
 }
 
 .section .hyphen {
@@ -222,7 +167,7 @@ label {
 .filebox .upload_name
 , .filebox .profile_name {
 	display: inline-block;
-	height: 46px;
+	height: 37px;
 	padding: 0 10px;
 	vertical-align: middle;
 	width: 79%;
@@ -234,10 +179,19 @@ label {
 	width: 21%;
 	padding: 10px 20px;
 	color: #fff;
+	text-align: center;
 	vertical-align: middle;
 	background-color: #999999;
 	cursor: pointer;
-	height: 46px;
+}
+
+.deptno, .mgrGender{
+	display: inline-block;
+    height: 46px;
+    padding: 0 10px;
+    vertical-align: middle;
+    width: 100%;
+    color: #999999;
 }
 
 .phone_box {
@@ -253,15 +207,110 @@ label {
 	display: flex;
 }
 
-/* 버튼 세팅 */
-.btn_inform{
-	border: 0;
-	width: 106px;
+/* 모달1버튼 */
+#btnSearchCmp {
+	padding: 6px 12px;
+	background-color: #652CB3;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+#btnSearchCmp:hover {
+	background-color: #652CB3;
+}
+
+.modal-header {
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid black;
+	padding-bottom: 10px;
+}
+
+/* 모달2버튼 */
+.btnPostcode_wrap {
+	width: 230px;
 	margin: 0 auto;
 }
 
+#postcodeWrap {
+	margin: 0 auto;
+	display: flex;
+	border-radius: 8px;
+	overflow: auto;
+}
 
-.btn_bot_join, .btn_bot_cencle {
+#btnPostcode {
+	padding: 12px 25px;
+	background-color: #652CB3;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+#btnPostcode:hover {
+	background-color: #652CB3;
+}
+
+#schDate {
+	border: 1px solid #ccc;
+}
+
+.modal_time_con {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.modal_time_section {
+	margin: 10px 0;
+}
+
+.modal_time_section h2 {
+	margin: 0;
+	font-size: 1.2em;
+	color: #333;
+}
+
+.modal_time_buttons {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.modal_time-buttons input {
+	margin: 5px;
+	padding: 10px 20px;
+	font-size: 1em;
+	background-color: #f0f0f0;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.modal_time-buttons input:hover {
+	background-color: #ddd;
+}
+
+.modal_body_title {
+	margin-bottom: 5px;
+	font-size: 20px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
+}
+
+
+#applyBtn, #time_modal_cencle{
 	padding: 10px 20px;
 	border: none;
 	border-radius: 5px;
@@ -269,29 +318,63 @@ label {
 	font-size: 16px;
 }
 
-.btn_bot_join {
+.applyBtn {
 	background-color: #4CAF50;
 	color: white;
 }
 
-.btn_bot_join:hover {
+.applyBtn:hover {
 	background-color: #45a049;
 }
 
-.btn_bot_cencle {
+.time_modal_cencle {
 	background-color: #f44336;
 	color: white;
 	margin-left: 10px;
 }
 
-.btn_bot_cencle:hover {
+.time_modal_cencle:hover {
 	background-color: #da190b;
 }
 
-#mgrEmail1{
-	border-right: 1px solid #ccc;
+button[type="submit"] {
+    outline: 0;
+    border: none;
+    transition: all 0.2s ;
+   	width: 90px;
+   	height: 36px;
+    background-color: #652CB3;
+    border-radius: 5px;
+   	color: white;
+   	font-size: 15px;
 }
-	
+
+button[type="submit"]:hover {
+	background-color: #652CB3;
+}
+
+.btn_inform{
+	margin: 0 auto;
+    display: flex;
+}
+
+.btn_bot_join{
+	margin: 0 auto;
+}
+
+.page{
+margin-bottom: 20px;
+}
+
+#btn_insert_form{
+	width: 105px;
+	margin: 0 auto;
+}
+
+.phone_box{
+	height: 46px;
+}
+
 </style>
 
 </head>
@@ -303,7 +386,7 @@ label {
 			<div class="wrap">
 
 			<div class="page">
-				<h3>사원 등록</h3>
+				사원 등록
 				<hr>
 			</div>
 
@@ -384,7 +467,7 @@ label {
 				</div>
 
 				<div class ="btn_inform">
-					<button class="btn_bot_join">등록하기</button>
+					<button class="btn btnRight" id ="btn_insert_form">등록하기</button>
 				</div>
 				</form>
 			</div><!-- section -->

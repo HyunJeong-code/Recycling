@@ -118,6 +118,7 @@ public class BuyerController {
 
 		model.addAttribute("list", list);
 		model.addAttribute("msg", msg);
+		model.addAttribute("buyerLogin", buyerLogin);
 		
 		//paging
 		model.addAttribute("upPaging", upPaging);
@@ -276,6 +277,7 @@ public class BuyerController {
 		List<MyOrder> list = buyerService.selectOrderDetailBybCode(upPaging);
 
 		model.addAttribute("list", list);
+		model.addAttribute("buyerLogin", buyerLogin);
 		
 		model.addAttribute("upPaging", upPaging);
 		model.addAttribute("upUrl", "/buyer/mypage/myorder");
@@ -397,7 +399,7 @@ public class BuyerController {
 		int updateRes = sellingService.updateOrderDetail(orderDetail);
 		
 		//orddtCode 추가
-		change.setOrdCode(orderDetail.getOrddtCode());
+		change.setOrddtCode(orderDetail.getOrddtCode());
 		
 		int insertRes = buyerService.insertChange(change);
 		
@@ -419,7 +421,22 @@ public class BuyerController {
 		
 		logger.info("/buyer/mypage/mymain [GET]");
 		
+		if (buyerLogin == null) {
+	        
+			model.addAttribute("msg", "로그인 해주세요.");
+	        model.addAttribute("url", "/buyer/login");
+	        
+	        return "/layout/alert";
+	    
+		}
+		
 		model.addAttribute("buyerLogin", buyerLogin);
+		
+		if(session.getAttribute("authenticated") == null || !(boolean) session.getAttribute("authenticated")) {
+	        
+			return "/buyer/mypage/mymain";
+	    
+		}
 
 		return "/buyer/mypage/mymain";
 
@@ -441,7 +458,7 @@ public class BuyerController {
 			return "/layout/alert";
 
 		}
-
+		
 		// 비밀번호 확인
 		if (!pwEncoder.matches(password, buyerLogin.getbPw())) {
 			
@@ -453,6 +470,7 @@ public class BuyerController {
 		}
 		
 		session.setAttribute("authenticated", true);
+		session.setAttribute("buyerLogin", buyerLogin);
 
 		if (buyerLogin.getbCtCode().equals("P")) {
 
@@ -480,6 +498,8 @@ public class BuyerController {
 		logger.info("/buyer/mypage/mypagepri [GET]");
 
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+		logger.info("buyerLogin: {}", buyerLogin);
 
 		if (buyerLogin == null) {
 
@@ -490,13 +510,10 @@ public class BuyerController {
 
 		}
 		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
+		if(session.getAttribute("authenticated") == null || !(boolean) session.getAttribute("authenticated")) {
 			
-	        model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	    
-	        return "/layout/alert";
-	    
+			return "/buyer/mypage/mymain";
+			
 		}
 
 		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
@@ -506,23 +523,11 @@ public class BuyerController {
 		logger.info("buyer: {}", buyer);
         logger.info("buyerRank: {}", buyerRank);
         logger.info("buyerProf: {}", buyerProf);
-        
-        if (buyerProf != null) {
-            logger.info("Profile image path: /upload/{}", buyerProf.getStoredName());
-        } else {
-            logger.info("Profile image is null");
-        }
 		
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("buyerRank", buyerRank);
 		model.addAttribute("buyerProf", buyerProf);
 		model.addAttribute("buyerLogin", buyerLogin);
-
-		if (buyerProf != null) {
-	        logger.info("Profile image path: /upload/{}", buyerProf.getStoredName());
-	    } else {
-	        logger.info("Profile image not found.");
-	    }
 		
 		return "/buyer/mypage/mypagepri";
 
@@ -535,6 +540,8 @@ public class BuyerController {
 		logger.info("/buyer/mypage/mypagecmp [GET]");
 
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		
+		logger.info("buyerLogin: {}", buyerLogin);
 
 		if (buyerLogin == null) {
 
@@ -545,13 +552,10 @@ public class BuyerController {
 
 		}
 		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
+		if(session.getAttribute("authenticated") == null || !(boolean) session.getAttribute("authenticated")) {
+			
+			return "/buyer/mypage/mymain";
+			
 		}
 
 		Buyer buyer = buyerService.getBuyerDetail(buyerLogin.getbId());
@@ -569,18 +573,6 @@ public class BuyerController {
 		model.addAttribute("buyerProf", buyerProf);
 		model.addAttribute("cmpFile", cmpFile);
 		model.addAttribute("buyerLogin", buyerLogin);
-
-		if (buyerProf != null) {
-	        logger.info("Profile image path: /upload/{}", buyerProf.getStoredName());
-	    } else {
-	        logger.info("Profile image not found.");
-	    }
-
-	    if (cmpFile != null) {
-	        logger.info("Cmp file path: /upload/{}", cmpFile.getStoredName());
-	    } else {
-	        logger.info("Cmp file not found.");
-	    }
 		
 		return "/buyer/mypage/mypagecmp";
 
@@ -589,7 +581,7 @@ public class BuyerController {
 	// 비밀번호 변경 페이지
 	@GetMapping("/changepw")
 	public String changePw(Authentication authentication, Model model) {
-
+		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
 		if (buyerLogin == null) {
@@ -600,12 +592,12 @@ public class BuyerController {
 			return "/layout/alert";
 
 		}
-
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        return "/layout/alert";
-	    }
+		
+		if(session.getAttribute("authenticated") == null || !(boolean) session.getAttribute("authenticated")) {
+			
+			return "/buyer/mypage/mymain";
+			
+		}
 		
 		logger.info("/buyer/mypage/changepw [GET]");
 
@@ -634,12 +626,6 @@ public class BuyerController {
 
 		}
 		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        return "/layout/alert";
-	    }
-		
 		buyerService.changePw(buyerLogin, pwEncoder.encode(newPw));
 
 		model.addAttribute("msg", "비밀번호가 변경되었습니다.");
@@ -652,7 +638,7 @@ public class BuyerController {
 	// 회원 정보 변경 (개인)
 	@GetMapping("/mydetailpri")
 	public String myDetailPri(Authentication authentication, Model model) {
-
+		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
 		logger.info("/buyer/mypage/mydetailpri [GET]");
@@ -666,13 +652,10 @@ public class BuyerController {
 
 		}
 		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
+		if(session.getAttribute("authenticated") == null || !(boolean) session.getAttribute("authenticated")) {
+			
+			return "/buyer/mypage/mymain";
+			
 		}
 
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
@@ -718,15 +701,6 @@ public class BuyerController {
 
 			return "/layout/alert";
 
-		}
-		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
 		}
 
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
@@ -824,16 +798,13 @@ public class BuyerController {
 			return "/layout/alert";
 
 		}
-
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
-		}
 		
+		if(session.getAttribute("authenticated") == null || !(boolean) session.getAttribute("authenticated")) {
+			
+			return "/buyer/mypage/mymain";
+			
+		}
+
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		Cmp currentCmp = buyerService.getCmpDetail(buyerLogin.getbCode());
 		BuyerProf buyerProf = buyerService.getBuyerProf(currentBuyer.getbCode());
@@ -882,15 +853,6 @@ public class BuyerController {
 
 		}
 		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
-		}
-
 		Buyer currentBuyer = buyerService.getBuyerDetail(buyerLogin.getbId());
 		boolean emailChanged = !fullEmail.equals(currentBuyer.getbEmail());
 
@@ -999,15 +961,6 @@ public class BuyerController {
 
 		}
 		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
-		}
-
 		List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(buyerLogin.getbCode());
 
 		model.addAttribute("buyerAdrList", buyerAdrList);
@@ -1043,15 +996,6 @@ public class BuyerController {
         
         }
         
-        if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
-		}
-
         String bCode = buyerLogin.getbCode();
         List<BuyerAdr> buyerAdrList = buyerService.getBuyerAdr(bCode);
 
@@ -1137,15 +1081,6 @@ public class BuyerController {
 
 		}
 		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
-		}
-		
 		model.addAttribute("buyerLogin", buyerLogin);
 
 		return "/buyer/mypage/outbuyer";
@@ -1169,15 +1104,6 @@ public class BuyerController {
 
 		}
 		
-		if (authentication == null || session.getAttribute("authenticated") == null) {
-	        
-			model.addAttribute("msg", "비밀번호를 인증해주세요.");
-	        model.addAttribute("url", "/buyer/mypage/mymain");
-	        
-	        return "/layout/alert";
-	    
-		}
-
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 
 		if (!pwEncoder.matches(password, buyerLogin.getbPw())) {

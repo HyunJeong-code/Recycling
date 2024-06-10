@@ -12,11 +12,13 @@
 <title>1:1 문의 전체 조회</title>
 <link rel="stylesheet" href="/resources/css/list.css">
 <style type="text/css">
-.form-btn {
-    text-align: right;
-    margin: 10px;
-}
 
+.form-section {
+	display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
 .n-table td.title{
 	width: 400px;
     white-space: nowrap;
@@ -32,23 +34,25 @@
         <div class="page">
             <h1>1:1 문의 전체 조회</h1>
         </div>
-    
-        <div class="search">
-            <form action="./otolist" method="get">
-                <input type="hidden" name="sCtg" value="UP">
-                <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search_form">
-                <button>
-					<span class="sch_send">
-						<i class="fa-solid fa-magnifying-glass"></i>
-					</span>
-				</button>
-            </form>
-        </div>
         
-        
-        <div class="form-btn">
-            <a href="./otoform"><button class="btnRight">작성하기</button></a>
-        </div>
+    	<div class="form-section">
+	        <div class="search">
+	            <form action="./otolist" method="get">
+	                <input type="hidden" name="sCtg" value="UP">
+	                <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search_form">
+	                <button>
+						<span class="sch_send">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</span>
+					</button>
+	            </form>
+	        </div>
+	        
+	        
+	        <div class="form-btn">
+	            <a href="./otoform"><button class="btnRight">작성하기</button></a>
+	        </div>
+    	</div>
         
         
         <table class="n-table">
