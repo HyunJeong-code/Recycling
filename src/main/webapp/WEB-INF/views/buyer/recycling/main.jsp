@@ -221,9 +221,7 @@
 </head>
 
 <body>
-	<header>
 		<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
-	</header>
 
 	<div class="mainContainer">
 		<div class="mainBanner">
@@ -301,7 +299,7 @@
 			<button onclick="nextPage()">다음</button>
 		</div>
 	</div>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 	    const categoryItems = document.querySelectorAll('.categoryMid');
