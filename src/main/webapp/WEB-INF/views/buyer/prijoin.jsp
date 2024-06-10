@@ -11,8 +11,8 @@
 <script type="text/javascript">
 $(function() {
 	
-	var rexId = /[a-z0-9]{8, 15}/;
-	var rexPw = /[a-zA-Z0-9!@#$%]{8, 15}/;
+	var rexId = /[a-z][a-z0-9]{8,15}/;
+	var rexPw = /[a-zA-Z0-9!@#$%]{8,15}/;
 	
 	// 아이디
 	$("#bId").blur(function() {
@@ -21,9 +21,11 @@ $(function() {
 		} else {
 			$("#id").css("display", "none");
 			
-			if(rexId.test($("#bId"))) {
+			if(!rexId.test($("#bId").val())) {
+				console.log(rexId.test($("#bId").val()));
 				$("#chkId").css("display", "block");				
 			} else {
+				console.log(rexId.test($("#bId").val()));
 				$("#chkId").css("display", "none");								
 			}
 		}
@@ -57,9 +59,11 @@ $(function() {
 		} else {
 			$("#pw").css("display", "none");
 			
-			if(rexPw.test($("#bPw"))) {
+			if(!rexPw.test($("#bPw").val())) {
+				console.log(rexPw.test($("#bPw").val()));
 				$("#chkPw").css("display", "block");				
 			} else {
+				console.log(rexPw.test($("#bPw").val()));
 				$("#chkPw").css("display", "none");								
 			}
 		}
@@ -99,8 +103,10 @@ $(function() {
 		if($("#bEmail2").val() === "in") {
 			$("#inEmail").show();
 			$("#bEmail2").hide();
+			$(".selectE").hide();
 		} else {
 			$("#inEmail").hide();
+			$(".selectE").show();
 			$("#bEmail2").show();
 		}
 	})
@@ -205,13 +211,17 @@ $(function() {
 			$("#phone").css("display", "none");			
 		}
 	})
-	
-	// 동의
-	$("#btnJoin").hover(function() {
-		if($("#agree1").val() === 'N' || $("#agree2").val() === 'N') {
-			alert("필수 이용약관에 동의해야 가입이 가능합니다.")
-		}
-	})
+
+	$("form").submit(function(e) {
+		 if($("input[name=agree1]:checked").val() == 'N' ||  $("input[name=agree2]:checked").val() == 'N') {
+			 alert("필수 약관 동의가 필요합니다.");
+			 e.preventDefault();
+		 } else if($("#bId").val() == '' || $("#bPw").val() == '' || $("#bName").val() == '' || $("#newPw").val() == '' || $("#bEmail").val() == '' || $("#bEmail").val() == ''
+			 || $("#emailNum").val() == '' || $("#bEmail").val() == '' || $("#mPhone").val() == '' || $("#lPhone").val() == '') {
+			 alert("필수 입력 정보를 모두 입력해야합니다.");
+			 e.preventDefault();
+		 }
+	 })
 		
 }) // End Jquery
 
@@ -271,7 +281,7 @@ function execDaumPostcode() {
 }
 </script>
 <style type="text/css">
-div .buyerCt input[type='radio'] {
+input[type='radio'] {
 /* 	웹킷 브라우저에서 기본 스타일 제거 */
 	-webkit-appearance: none; 
 /*  	 모질라 브라우저에서 기본 스타일 제거  */
@@ -285,7 +295,7 @@ div .buyerCt input[type='radio'] {
  	cursor: pointer;
 }
 
-div .buyerCt input[type='radio']:checked {
+input[type='radio']:checked {
 	background-color: #4CAF50;
 	border: 3px solid white;
 	box-shadow: 0 0 0 1.6px #4CAF50;
@@ -295,41 +305,85 @@ div .buyerCt input[type='radio']:checked {
 	text-align: center;
 }
 
+.join {
+	width: 600px;
+	margin: 0 auto;
+	text-align: left;
+}
+
 .section label {
 	display: inline-block;
-	width: 150px;
+	width: 200px;
 	height: 50px;
 	vertical-align: middle;
+	line-height: 50px;
 }
 
-.section #bId {
-	width: 200px;
+.section input[type="text"], input[type="password"] {
 	height: 50px;
 	border: none;
 	border-bottom: 1px solid black;
-	position: relative;
 }
 
-.section #bPw {
-	width: 200px;
-	height: 50px;
-	border: none;
-	border-bottom: 1px solid black;
+.selectE {
+	display: inline-block;
 	position: relative;
+	width: 100px;
+	height: 35px;
+	border-radius: 4px;
+	border: 2px solid #4CAF50;
 }
 
-#id {
-	position: absolute;
-	width: 200px;
-	height: 30px;
-	left: 600px;	
-} 
+.selectP {
+	display: inline-block;
+	position: relative;
+	width: 50px;
+	height: 35px;
+	border-radius: 4px;
+	border: 2px solid #4CAF50;
+}
 
-#pw {
-	position: absolute;
-	width: 200px;
-	height: 30px;
-	left: 600px;	
+select::-ms-expand { 
+	display: none;
+}
+
+.selectE .select {
+	-o-appearance: none;
+  	-webkit-appearance: none;
+  	-moz-appearance: none;
+  	appearance: none;
+  	width: inherit;
+    height: inherit;
+    background: transparent;
+    border: 0 none;
+    outline: 0 none;
+    padding: 0 5px;
+    position: relative;
+    z-index: 3;
+}
+
+.selectP .select {
+	-o-appearance: none;
+  	-webkit-appearance: none;
+  	-moz-appearance: none;
+  	appearance: none;
+  	width: inherit;
+    height: inherit;
+    background: transparent;
+    border: 0 none;
+    outline: 0 none;
+    padding: 0 5px;
+    position: relative;
+    z-index: 3;
+}
+
+.select option {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.j-info {
+	font-size: 12px;
 }
 
 .btn {
@@ -337,8 +391,98 @@ div .buyerCt input[type='radio']:checked {
 }
 
 .section fieldset {
-	margin: auto;
-	width: 800px;
+	margin: 0 auto;
+	width: 600px;
+}
+
+/* .section #infoAd { */
+/* 	width: 50px; */
+/* } */
+
+.agree {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.section .agree .ag-chk {
+	width: 100px;
+}
+
+.s {
+	width: 70px;
+}
+
+.m {
+	width: 150px;
+}
+
+.l {
+	width: 300px;
+}
+
+.mm {
+	width: 100px;
+}
+
+.btn-list {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 50px;
+}
+
+.ag-box {
+	margin-top: 50px;
+	text-align: center;
+}
+
+.ag-content {
+	width: 590px;
+	height: 200px;
+    overflow: auto;
+}
+
+.ag-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.ag-content::-webkit-scrollbar-thumb {
+    background-color: #4CAF50;
+}
+
+.ag-content::-webkit-scrollbar-track {
+    background-color: #ccc;
+}
+
+.ad-title {
+	float: left;
+}
+
+.ad-list {
+	
+}
+
+#infoAd .in-label {
+	width: 100px;
+}
+
+input[type=file]::file-selector-button {
+	width: 100px;
+   	height: 36px;
+	background: #4CAF50;
+	border: 1px solid white;
+	color: white;
+	border-radius: 5px;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.ne {
+	color: red;
+}
+
+.j-info {
+	font-size: 12px;
+	height: 30px;
 }
 </style>
 </head>
@@ -346,157 +490,220 @@ div .buyerCt input[type='radio']:checked {
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
-		<div class="page">
-		<h3>개인 회원가입</h3>
+		<div class="page-header">
+			<h3>개인 회원가입</h3>
+			<br>
+			<p><span class="ne"> *</span> 은 필수 입력정보 입니다.</p>
 		</div>
 		
 		<div class="section">
-			<form action="./prijoin" method="post" enctype="multipart/form-data">
-			<div id="prof">
-				<label for="buyerProf">프로필 사진</label>
-				<input type="file" id="buyerProf" name="buyerProf" onchange="readUrl(this);"><br>
-				<img id="preview" />
-			</div>
-			
-			<div id="infoBuyer">
-				<input type="text" id="bCtCode" name="bCtCode" value="P" style="display: none;">
+			<div class="join">
+				<form action="/buyer/prijoin" method="post" enctype="multipart/form-data">
+				<div id="prof">
+					<label for="buyerProf">프로필 사진</label>
+					<input type="file" id="buyerProf" name="buyerProf" accept="image/*">
+				</div>
 				
-				<label for="bId">아이디</label>
-				<input type="text" id="bId" name="bId">
-				<button type="button" id="chkBid" class="btn btnRight">중복 확인</button><br>
-				<div id="id" style="display:none; color:red;">아이디는 필수입니다.</div>
-				<div id="chkId" style="display:none; color:red;">아이디는 영어소문자와 숫자로 8자리 ~ 15자리로 입력 필요</div>
-				
-				<br>
-				
-				<label for="bPw">비밀번호</label>
-				<input type="password" id="bPw" name="bPw"><br>
-				<div id="pw" style="display:none; color:red;">비밀번호는 필수입니다.</div>
-				<div id="chkPw" style="display:none; color:red;">대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요</div>
-				
-				<br>
-				
-				<label for="newPw">비밀번호 확인</label>
-				<input type="password" id="newPw" name="newPw"><br>
-				<div id="cfmPw" style="display:none; color:red;">비밀번호 확인은 필수입니다.</div>
-				<div id="okPw" style="display:none; color:green;">비밀번호가 일치합니다.</div>
-				<div id="noPw" style="display:none; color:red;">비밀번호가 일치하지 않습니다.</div>
-				
-				<div id="email">
-					<label for="bEmail">이메일</label>
-					<input type="text" id="bEmail" name="bEmail">
+				<div id="infoBuyer">
+					<input type="text" id="bCtCode" name="bCtCode" value="P" style="display: none;">
 					
-					<select class="bEmail2" name="bEmail2" id="bEmail2">
-						<option>@naver.com</option>
-						<option>@gmail.com</option>
-						<option>@daum.net</option>
-						<option value="in">직접 입력</option>
-					</select>
-					<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
-					<input type="button" id="btnEmail" value="이메일 인증" class="btn btnRight"><br>
-					<div id="email2" style="display:none; color:red;">이메일은 필수입니다.</div>				
-				</div>
-				
-				<div id="emailChk" style="display: none;">
-					<label for="emailNum">이메일 인증 번호</label>
-					<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요.">
-					<button type="button" id="chkEmail" class="btn btnRight">인증번호 확인</button><br>
-					<div id="emailChk2" style="display:none; color:red;">이메일 인증은 필수입니다.</div>				
-					<div id="emailOk" style="color: green; display: none;">
-						인증번호가 일치합니다.
+					<label for="bId">아이디<span class="ne"> *</span></label>
+					<input type="text" id="bId" name="bId" class="m">
+					<button type="button" id="chkBid" class="btn btnRight">중복 확인</button>
+					<div class="j-info" >
+						<div id="id" style="display:none; color:red;" class="j-info">
+							<label></label>
+							아이디는 필수입니다.
+						</div>
+						<div id="chkId" style="display:none; color:red;" class="j-info">
+							<label></label>
+							아이디는 영어소문자와 숫자로 8자리 ~ 15자리로 입력 필요
+						</div>
 					</div>
-					<div id="emailNo" style="color: red; display: none;">
-						인증번호가 불일치합니다. 다시 입력해주세요.
-					</div>
-				</div>
-				
-				<label for="bName">이름</label>
-				<input type="text" id="bName" name="bName"><br>
-				<div id="name" style="display:none; color:red;">이름은 필수입니다.</div>				
-				
-				
-				<label for="sPhone">핸드폰 번호</label>
-				<select class="sPhone" id="sPhone" name="sPhone">
-					<option>010</option>
-					<option>011</option>
-					<option>017</option>
-					<option>016</option>
-					<option value="in">직접 입력</option>
-				</select>
-				<input type="text" id="inPhone" name="inPhone">-<input type="text" id="mPhone" name="mPhone">-<input type="text" id="lPhone" name="lPhone"><br>
-				<div id="phone" style="display:none; color:red;">핸드폰 번호는 필수입니다.</div>				
-			</div>
-			
-			<div id="infoPlus">
-				<div id="infoAd">
-					<div class="ad">광고 수신 동의</div>
-					<label for="adEmail">이메일</label>
-					<input type="checkbox" id="adEmail" name="adEmail" value="Y">
-					  
-					<label for="adSms">문자</label>
-					<input type="checkbox" id="adSms" name="adSms" value="Y">  
-				</div>
-				
-				<div id="infoAdr">
-					<label for="adrPostcode">우편번호</label>
-					<input type="text" id="adrPostcode" name="adrPostcode">
-					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="btn btnRight">
+					
 					<br>
 					
-					<label for="adrAddr">배송 주소</label>
-					<input type="text" id="adrAddr" name="adrAddr"><br>
-					
-					<label for="adrDetail">배송 상세 주소</label>
-					<input type="text" id="adrDetail" name="adrDetail"><br>
-					
-					<input type="text" id="adrChk" name="adrChke" value="Y" style="display:none;">
-				</div>
-			</div>
-			
-			<fieldset>
-				<div id="agree1">
-					<div>
-						<h3>개인정보 이용 약관(필수)</h3>
-						<p>
-							오나셈개히나 갤볘주으고 새콈의, 혀하, 하오틋먼어 흐끙더게 온이삼길보다. 엿에군로 아왼기료구가, 운에고 여거려에 른사른길까지 지오다 롲츼이이슨당겅으면 므래비반에 니아알쩻힢에서 솔미지폰에. 여그으할 아한죄센고 너장홀, 깅기 오셔니용산톤에 히디미의 세나를 삭둨 순여름조를 져드다산이나. 붤으힙셔 그사에 치오인이가, 개나란에 가수가는 리춍하서는 솜롬기흐는. 곤으려고 에실하게 징자곳띱은 온암언학으로 팅팀부김헬어 시흔서아구긴으로. 조깐거눠의 히있품크야 바죠자다 잴아더라 챌너이러암들는비지 산산으로서 볼븜아와 완신 팔뷰우. 탄어부니 머존다 굴보순상 널덕을 아람에븐밌슈는, 가비론데가, 산멜굼즚은 마도만핱기 즈아슬렴밖에 수당기애애아길이게. 어자어쟝딤 끼건어 나킴흐갭오 느군사 기와저 야간다.
-							얀산오이면 지금으므로 아둔이 안므를 자아읐익의 수안에서 서느를, 큰귾악긍녀를 오뎔아마를 체련다. 쩌긴미을 뷔럆람먀존 렌자직아를 아운저저, 디파건븥에서 램차니누늬만 옥즈보는. 게닥이다 호과다래어야, 키과차게떼다 나욱어야 조데므얼과 낭을까. 은디는 겐근투로더히 오배콘미결의 꾕수시뵈는 얼누에 여해솔마다. 선즌비듸에 기앟을 리아 쓰든자 다듵는 여이옹자 랑하와 거제 에김잔으로 쳉곡거긔널지. 녠랑맸의 간무친앤 재숱주까지 단규사땋을 이이깬솨아스가 사거란랑 본바고압의 하하와 댜덩놀부러다. 젼가강은 눈에느바, 긱스조께서 패핸판미의 겔참여옴은 동해까지 글든스어 난칫사디젠으로 르룽죄허가. 지왜장긴 낌칱밴 앙기우사제세요, 민은지 번키의 시사는 티우긔파에 더아에. 므룐보에 증즌과 라므날킨다 홈초라고 끈하구오아 게디누이라 궈고아스이 버더그꽁이생보 예반다.
-						</p>
+					<label for="bPw">비밀번호<span class="ne"> *</span></label>
+					<input type="password" id="bPw" name="bPw" class="m">
+					<div class="j-info" >
+						<div id="pw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호는 필수입니다.
+							</div>
+						<div id="chkPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							대소문자, 숫자, 특수문자(!, @, #, $, %)로 8자리 ~ 15자리로 입력 필요
+						</div>
 					</div>
-					<div>
-						<label>동의
+					<br>
+					
+					<label for="newPw">비밀번호 확인<span class="ne"> *</span></label>
+					<input type="password" id="newPw" name="newPw" class="m">
+					<div class="j-info" >
+						<div id="cfmPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호 확인은 필수입니다.
+						</div>
+						<div id="okPw" style="display:none; color:green;" class="j-info">
+							<label></label>
+							비밀번호가 일치합니다.
+						</div>
+						<div id="noPw" style="display:none; color:red;" class="j-info">
+							<label></label>
+							비밀번호가 일치하지 않습니다.
+						</div>
+					</div>
+					
+					<div id="email">
+						<label for="bEmail">이메일<span class="ne"> *</span></label>
+						<input type="text" id="bEmail" name="bEmail" class="m">
+						
+						<div class="selectE">
+						<select class="bEmail2 select" name="bEmail2" id="bEmail2">
+							<option>@naver.com</option>
+							<option>@gmail.com</option>
+							<option>@daum.net</option>
+							<option value="in">직접 입력</option>
+						</select>
+						</div>
+						<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요." class="mm">
+						<input type="button" id="btnEmail" value="이메일 인증" class="btn btnRight">
+						<div class="j-info" >
+							<div id="email2" style="display:none; color:red;" class="j-info">
+								<label></label>
+								이메일은 필수입니다.
+							</div>
+						</div>
+					</div>
+					
+					<div id="emailChk" style="display: none;">
+						<label for="emailNum">이메일 인증 번호<span class="ne"> *</span></label>
+						<input type="text" id="emailNum" name="emailNum" placeholder="인증번호 6자리를 입력해주세요." class="m">
+						<button type="button" id="chkEmail" class="btn btnRight">인증번호 확인</button>
+						<div class="j-info" >
+							<div id="emailChk2" style="display:none; color:red;" class="j-info">
+								<label></label>
+								이메일 인증은 필수입니다.
+							</div>
+							<div id="emailOk" style="color: green; display: none;" class="j-info">
+								<label></label>
+								인증번호가 일치합니다.
+							</div>
+							<div id="emailNo" style="color: red; display: none;" class="j-info">
+								<label></label>
+								인증번호가 불일치합니다. 다시 입력해주세요.
+							</div>
+						</div>
+					</div>
+					
+					<label for="bName">이름<span class="ne"> *</span></label>
+					<input type="text" id="bName" name="bName" class="m">
+					<div class="j-info" >
+						<div id="name" style="display:none; color:red;" class="j-info">
+							<label></label>
+							이름은 필수입니다.
+						</div>				
+					</div>
+					
+					
+					<label for="sPhone">핸드폰 번호<span class="ne"> *</span></label>
+					<div class="selectP">
+					<select class="sPhone select" id="sPhone" name="sPhone">
+						<option>010</option>
+						<option>011</option>
+						<option>017</option>
+						<option>016</option>
+						<option value="in">직접 입력</option>
+					</select>
+					</div>
+					<input type="text" id="inPhone" name="inPhone" class="s">-<input type="text" id="mPhone" name="mPhone" class="s">-<input type="text" id="lPhone" name="lPhone" class="s">
+					<div class="j-info" >
+						<div id="phone" style="display:none; color:red;" class="j-info">
+							<label></label>
+							핸드폰 번호는 필수입니다.
+						</div>
+					</div>			
+				</div>
+				
+				<div id="infoPlus">
+					<div id="infoAd">
+						<div class="ad-title">
+						<label for="adEmail">광고 수신 동의</label>
+						</div>
+						<div class="ad-list">
+							<label for="adEmail" class="in-label">
+							<input type="checkbox" id="adEmail" name="adEmail" value="Y">
+							이메일</label>
+							  
+							<label for="adSms" class="in-label">
+							<input type="checkbox" id="adSms" name="adSms" value="Y">  
+							문자</label>
+						</div>
+					</div>
+					
+					<div id="infoAdr">
+						<label for="adrPostcode">우편번호</label>
+						<input type="text" id="adrPostcode" name="adrPostcode" class="s">
+						<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="btn btnRight" style="width: 100px;">
+						<br>
+						
+						<label for="adrAddr">배송 주소</label>
+						<input type="text" id="adrAddr" name="adrAddr" class="m"><br>
+						
+						<label for="adrDetail">배송 상세 주소</label>
+						<input type="text" id="adrDetail" name="adrDetail" class="l"><br>
+						
+						<input type="text" id="adrChk" name="adrChke" value="Y" style="display:none;">
+					</div>
+				</div>
+				
+				<div id="agree1" class="ag-box">
+					<fieldset>
+						<div>
+							<h3>개인정보 이용 약관(필수)<span class="ne"> *</span></h3>
+							<div class="ag-content">
+								오나셈개히나 갤볘주으고 새콈의, 혀하, 하오틋먼어 흐끙더게 온이삼길보다. 엿에군로 아왼기료구가, 운에고 여거려에 른사른길까지 지오다 롲츼이이슨당겅으면 므래비반에 니아알쩻힢에서 솔미지폰에. 여그으할 아한죄센고 너장홀, 깅기 오셔니용산톤에 히디미의 세나를 삭둨 순여름조를 져드다산이나. 붤으힙셔 그사에 치오인이가, 개나란에 가수가는 리춍하서는 솜롬기흐는. 곤으려고 에실하게 징자곳띱은 온암언학으로 팅팀부김헬어 시흔서아구긴으로. 조깐거눠의 히있품크야 바죠자다 잴아더라 챌너이러암들는비지 산산으로서 볼븜아와 완신 팔뷰우. 탄어부니 머존다 굴보순상 널덕을 아람에븐밌슈는, 가비론데가, 산멜굼즚은 마도만핱기 즈아슬렴밖에 수당기애애아길이게. 어자어쟝딤 끼건어 나킴흐갭오 느군사 기와저 야간다.
+								얀산오이면 지금으므로 아둔이 안므를 자아읐익의 수안에서 서느를, 큰귾악긍녀를 오뎔아마를 체련다. 쩌긴미을 뷔럆람먀존 렌자직아를 아운저저, 디파건븥에서 램차니누늬만 옥즈보는. 게닥이다 호과다래어야, 키과차게떼다 나욱어야 조데므얼과 낭을까. 은디는 겐근투로더히 오배콘미결의 꾕수시뵈는 얼누에 여해솔마다. 선즌비듸에 기앟을 리아 쓰든자 다듵는 여이옹자 랑하와 거제 에김잔으로 쳉곡거긔널지. 녠랑맸의 간무친앤 재숱주까지 단규사땋을 이이깬솨아스가 사거란랑 본바고압의 하하와 댜덩놀부러다. 젼가강은 눈에느바, 긱스조께서 패핸판미의 겔참여옴은 동해까지 글든스어 난칫사디젠으로 르룽죄허가. 지왜장긴 낌칱밴 앙기우사제세요, 민은지 번키의 시사는 티우긔파에 더아에. 므룐보에 증즌과 라므날킨다 홈초라고 끈하구오아 게디누이라 궈고아스이 버더그꽁이생보 예반다.
+							</div>
+						</div>
+						<div class="agree">
+							<label class="ag-chk">
 							<input type="radio" id="agree1" name="agree1" value="Y">
-						</label>
-						
-						<label>비동의
+							동의</label>
+							
+							<label class="ag-chk">
 							<input type="radio" id="agree1" name="agree1" value="N" checked="checked">
-						</label>
-					</div>
+							비동의</label>
+						</div>
+					</fieldset>
 				</div>
-			</fieldset>
-			
-			<fieldset>
-				<div id="agree2">
-					<div>
-						<h3>새활용 이용약관(필수)</h3>
-						<p>
-							오나셈개히나 갤볘주으고 새콈의, 혀하, 하오틋먼어 흐끙더게 온이삼길보다. 엿에군로 아왼기료구가, 운에고 여거려에 른사른길까지 지오다 롲츼이이슨당겅으면 므래비반에 니아알쩻힢에서 솔미지폰에. 여그으할 아한죄센고 너장홀, 깅기 오셔니용산톤에 히디미의 세나를 삭둨 순여름조를 져드다산이나. 붤으힙셔 그사에 치오인이가, 개나란에 가수가는 리춍하서는 솜롬기흐는. 곤으려고 에실하게 징자곳띱은 온암언학으로 팅팀부김헬어 시흔서아구긴으로. 조깐거눠의 히있품크야 바죠자다 잴아더라 챌너이러암들는비지 산산으로서 볼븜아와 완신 팔뷰우. 탄어부니 머존다 굴보순상 널덕을 아람에븐밌슈는, 가비론데가, 산멜굼즚은 마도만핱기 즈아슬렴밖에 수당기애애아길이게. 어자어쟝딤 끼건어 나킴흐갭오 느군사 기와저 야간다.
-							얀산오이면 지금으므로 아둔이 안므를 자아읐익의 수안에서 서느를, 큰귾악긍녀를 오뎔아마를 체련다. 쩌긴미을 뷔럆람먀존 렌자직아를 아운저저, 디파건븥에서 램차니누늬만 옥즈보는. 게닥이다 호과다래어야, 키과차게떼다 나욱어야 조데므얼과 낭을까. 은디는 겐근투로더히 오배콘미결의 꾕수시뵈는 얼누에 여해솔마다. 선즌비듸에 기앟을 리아 쓰든자 다듵는 여이옹자 랑하와 거제 에김잔으로 쳉곡거긔널지. 녠랑맸의 간무친앤 재숱주까지 단규사땋을 이이깬솨아스가 사거란랑 본바고압의 하하와 댜덩놀부러다. 젼가강은 눈에느바, 긱스조께서 패핸판미의 겔참여옴은 동해까지 글든스어 난칫사디젠으로 르룽죄허가. 지왜장긴 낌칱밴 앙기우사제세요, 민은지 번키의 시사는 티우긔파에 더아에. 므룐보에 증즌과 라므날킨다 홈초라고 끈하구오아 게디누이라 궈고아스이 버더그꽁이생보 예반다.
-						</p>
-					</div>
-					<div>
-						<label>동의
+				
+				<div id="agree2" class="ag-box">
+					<fieldset>
+						<div>
+							<h3>새활용 이용약관(필수)<span class="ne"> *</span></h3>
+							<div class="ag-content">
+								오나셈개히나 갤볘주으고 새콈의, 혀하, 하오틋먼어 흐끙더게 온이삼길보다. 엿에군로 아왼기료구가, 운에고 여거려에 른사른길까지 지오다 롲츼이이슨당겅으면 므래비반에 니아알쩻힢에서 솔미지폰에. 여그으할 아한죄센고 너장홀, 깅기 오셔니용산톤에 히디미의 세나를 삭둨 순여름조를 져드다산이나. 붤으힙셔 그사에 치오인이가, 개나란에 가수가는 리춍하서는 솜롬기흐는. 곤으려고 에실하게 징자곳띱은 온암언학으로 팅팀부김헬어 시흔서아구긴으로. 조깐거눠의 히있품크야 바죠자다 잴아더라 챌너이러암들는비지 산산으로서 볼븜아와 완신 팔뷰우. 탄어부니 머존다 굴보순상 널덕을 아람에븐밌슈는, 가비론데가, 산멜굼즚은 마도만핱기 즈아슬렴밖에 수당기애애아길이게. 어자어쟝딤 끼건어 나킴흐갭오 느군사 기와저 야간다.
+								얀산오이면 지금으므로 아둔이 안므를 자아읐익의 수안에서 서느를, 큰귾악긍녀를 오뎔아마를 체련다. 쩌긴미을 뷔럆람먀존 렌자직아를 아운저저, 디파건븥에서 램차니누늬만 옥즈보는. 게닥이다 호과다래어야, 키과차게떼다 나욱어야 조데므얼과 낭을까. 은디는 겐근투로더히 오배콘미결의 꾕수시뵈는 얼누에 여해솔마다. 선즌비듸에 기앟을 리아 쓰든자 다듵는 여이옹자 랑하와 거제 에김잔으로 쳉곡거긔널지. 녠랑맸의 간무친앤 재숱주까지 단규사땋을 이이깬솨아스가 사거란랑 본바고압의 하하와 댜덩놀부러다. 젼가강은 눈에느바, 긱스조께서 패핸판미의 겔참여옴은 동해까지 글든스어 난칫사디젠으로 르룽죄허가. 지왜장긴 낌칱밴 앙기우사제세요, 민은지 번키의 시사는 티우긔파에 더아에. 므룐보에 증즌과 라므날킨다 홈초라고 끈하구오아 게디누이라 궈고아스이 버더그꽁이생보 예반다.
+							</div>
+						</div>
+						<div class="agree">
+							<label class="ag-chk">
 							<input type="radio" id="agree2" name="agree2" value="Y">
-						</label>
-						
-						<label>비동의
+							동의</label>
+							
+							<label class="ag-chk">
 							<input type="radio" id="agree2" name="agree2" value="N" checked="checked">
-						</label>
-					</div>
+							비동의</label>
+						</div>
+					</fieldset>
 				</div>
-			</fieldset>
-				<button id="btnJoin" class="btn btnRight">가입하기</button>
-				<button  class="btn btnLeft"><a href="/buyer/join">취소하기</a></button>			
-			</form>
+				<div class="btn-list">
+					<button id="btnJoin" class="btn btnRight">가입하기</button>
+					<a href="/buyer/join"><button class="btn btnLeft">취소하기</button></a>		
+				</div>
+				</form>
+			</div>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->

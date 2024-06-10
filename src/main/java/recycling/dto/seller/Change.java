@@ -3,16 +3,16 @@ package recycling.dto.seller;
 public class Change {
 	
 	private String chgCode;
-	private String ordCode;
+	private String orddtCode;
 	private int ctChgNo;
 	private String chgDt;
 	private String chgDate;
 	
 	public Change() {}
 
-	public Change(String chgCode, String ordCode, int ctChgNo, String chgDt, String chgDate) {
+	public Change(String chgCode, String orddtCode, int ctChgNo, String chgDt, String chgDate) {
 		this.chgCode = chgCode;
-		this.ordCode = ordCode;
+		this.orddtCode = orddtCode;
 		this.ctChgNo = ctChgNo;
 		this.chgDt = chgDt;
 		this.chgDate = chgDate;
@@ -20,7 +20,7 @@ public class Change {
 
 	@Override
 	public String toString() {
-		return "Change [chgCode=" + chgCode + ", ordCode=" + ordCode + ", ctChgNo=" + ctChgNo + ", chgDt=" + chgDt
+		return "Change [chgCode=" + chgCode + ", orddtCode=" + orddtCode + ", ctChgNo=" + ctChgNo + ", chgDt=" + chgDt
 				+ ", chgDate=" + chgDate + "]";
 	}
 
@@ -32,12 +32,12 @@ public class Change {
 		this.chgCode = chgCode;
 	}
 
-	public String getOrdCode() {
-		return ordCode;
+	public String getOrddtCode() {
+		return orddtCode;
 	}
 
-	public void setOrdCode(String ordCode) {
-		this.ordCode = ordCode;
+	public void setOrddtCode(String orddtCode) {
+		this.orddtCode = orddtCode;
 	}
 
 	public int getCtChgNo() {

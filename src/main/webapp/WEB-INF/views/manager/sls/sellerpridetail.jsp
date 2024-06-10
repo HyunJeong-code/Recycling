@@ -9,6 +9,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
+
 <script type="text/javascript">
 $(function() {
 	
@@ -138,10 +141,11 @@ $(function() {
 <%-- <c:import url="/layout/manager/managerheader.jsp"/> --%>
 <c:set var="seller" value="${seller }" />
 
+<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
 <div class="page">
 	<h3>판매자 상세 조회</h3>
 </div>
-
+<c:set var="seller" value="${seller }" />
 <div class="section">
 	<div id="main">
 		<div id="info">

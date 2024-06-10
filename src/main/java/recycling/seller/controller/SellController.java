@@ -32,6 +32,58 @@ public class SellController {
 	@Autowired private SellService sellService;
 	@Autowired private PageService pageService;
 	
+	@GetMapping("/seller")
+	public String seller(
+			Authentication authentication,
+			Model model
+			) {
+		logger.info("/seller/seller [GET]");
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		logger.info("{}", auth.getAuthorities());
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("seller : {}", buyerLogin);
+		
+		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_BUYER"))) {
+			if(buyerLogin.getsCode() == null) {
+				logger.info("신청 필요");
+				return "redirect:/seller/sellerinfo";
+			} else {
+				if(buyerLogin.getsChk() == null) {
+					logger.info("이미 신청");
+					model.addAttribute("msg", "담당자가 검토 중입니다. 추가 서류 요청이 있을 수 있으니, 문자/메일 확인을 수시로 부탁드립니다.");
+					model.addAttribute("url", "/buyer/main");
+					return "/layout/alert";
+				} else {
+					if(buyerLogin.getsChk().equals("Y")) {
+						if(buyerLogin.getsOut().equals("Y")) {
+							logger.info("판매자 탈퇴");
+							model.addAttribute("msg", "탈퇴한 판매자 입니다. 재가입은 고객센터에 문의 부탁드립니다.");
+							model.addAttribute("url", "/buyer/main");
+							return "/layout/alert";
+						} else {
+							return "redirect:/seller/main";
+						}
+					} else {
+						logger.info("판매자 거절");
+						model.addAttribute("msg", "판매자 신청이 거절되었습니다. \n 정보 보충 후 재신청 바랍니다. \n 자세한 사유는 판매관리팀 번호로 문의 바랍니다. \n 000-0000-0000 으로 연락바랍니다. \n 해당 메시지는 1번만 노출되고 노출되지 않습니다.");
+						model.addAttribute("url", "/buyer/main");
+						int res = sellService.deleteSeller(buyerLogin);
+						return "/layout/alert";
+					}
+				}
+				
+			}
+		}	
+//		model.addAttribute("msg", "잘못된 접근입니다. 판매자 승인된 구매자 로그인 정보가 필요합니다.");
+//		model.addAttribute("url", "/buyer/main");
+//		
+//		return "/layout/alert";
+		
+		return "redirect:/seller/main";
+		
+	}
+	
 	@GetMapping("/main")
 	public String main(
 			   Authentication authentication,
@@ -41,42 +93,11 @@ public class SellController {
 			   Model model
 			) {
 		logger.info("/seller/main [GET]");
+		
+		logger.info("search : {}", search);
   
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		logger.info("{}", auth.getAuthorities());
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("seller : {}", buyerLogin);
-		
-		logger.info("auth != null : {}", auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SELLER")));
-		// 판매자인 경우
-		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SELLER"))) {
-			logger.info("판매자");
-			return "/seller/main";
-		} else {
-			// 판매자가 아닌 경우
-//	    	  s_chk = null
-			if(buyerLogin.getsCode() == null) {
-				logger.info("신청 필요");
-				return "/seller/sellerinfo";	
-			} else if(buyerLogin.getsCode() != null && buyerLogin.getsChk() == null) {
-				logger.info("이미 신청");
-				model.addAttribute("msg", "담당자가 검토 중입니다. 추가 서류 요청이 있을 수 있으니, 문자/메일 확인을 수시로 부탁드립니다.");
-				model.addAttribute("url", "/buyer/main");
-				return "/layout/alert";
-			} else if(buyerLogin.getsCode() != null && buyerLogin.getsChk().equals("Y") && buyerLogin.getsOut().equals("N")) {
-				logger.info("판매자 탈퇴");
-				model.addAttribute("msg", "탈퇴한 판매자 입니다. 재가입은 고객센터에 문의 부탁드립니다.");
-				model.addAttribute("url", "/buyer/main");
-			} else if(buyerLogin.getsCode() != null && buyerLogin.getsChk().equals("N")) {
-				// 판매자 신청은 했으나 허가 되지 않은 경우	    		  
-				//	    	  s_chk='N'
-				logger.info("판매자 거절");
-				model.addAttribute("msg", "판매자 신청이 거절되었습니다. \n 정보 보충 후 재신청 바랍니다. \n 자세한 사유는 판매관리팀 번호로 문의 바랍니다. \n 000-0000-0000 으로 연락바랍니다. \n 해당 메시지는 1번만 노출되고 노출되지 않습니다.");
-				model.addAttribute("url", "/buyer/main");
-				int res = sellService.deleteSeller(buyerLogin);
-				return "/layout/alert";
-			}
-		}
 		
 		int prdCnt = sellService.selectPrdCnt(buyerLogin);
 		int payCnt = sellService.selectPayCnt(buyerLogin);
@@ -106,19 +127,22 @@ public class SellController {
         unPaging.setUser(buyerLogin.getsCode());
         
         List<Map<String, Object>> ordList = sellService.selectAllOrd(upPaging);
-        List<Map<String, Object>> QnaList = sellService.selectAllQna(unPaging);
+        List<Map<String, Object>> qnaList = sellService.selectAllQna(unPaging);
         
         logger.info("up : {}", upPaging);
         logger.info("ord : {}", ordList);
         logger.info("un : {}", unPaging);
-        logger.info("qna : {}", QnaList);
+        logger.info("qna : {}", qnaList);
+        
+        model.addAttribute("upUrl", "/seller/main");
+        model.addAttribute("unUrl", "/seller/main");
         
         model.addAttribute("ordList", ordList);
         model.addAttribute("ordSize", ordList.size());
         model.addAttribute("upPaging", upPaging);
                 
-        model.addAttribute("QnaList", QnaList);
-        model.addAttribute("QnaSize", QnaList.size());
+        model.addAttribute("qnaList", qnaList);
+        model.addAttribute("qnaSize", qnaList.size());
         model.addAttribute("unPaging", unPaging);
 		
         logger.info("그 외");
@@ -141,6 +165,7 @@ public class SellController {
 		
 		// 구매자 정보에서 주소 정보 가져오기
 		BuyerAdr buyeradr = sellService.selectBuyerAdr(seller);
+		logger.info("adr : {}", buyeradr);
 		
 		if(buyeradr == null) {
 			model.addAttribute("msg", "기본 배송지 정보가 없는 경우 판매자 전환 신청이 불가능 합니다.");

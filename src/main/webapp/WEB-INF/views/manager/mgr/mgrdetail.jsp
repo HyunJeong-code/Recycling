@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="/webapp/resources/css/common.css">
-<link rel="stylesheet" href="/webapp/resources/css/input.css">
-
+<title>관리자 정보 수정</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
@@ -166,12 +164,98 @@ $(function() {
 			$("#email").css("display", "none");			
 		}
 	})
+	
+	$("form").submit(function(e) {
+		 if( $("#mgrName").val() == '' || $("#mgrEmail").val() == '' || $("#mPhone").val() == '' || $("#lPhone").val() == '') {
+			 alert("필수 입력 정보를 모두 입력해야합니다.");
+			 e.preventDefault();
+		 }
+	 })
 })
 </script>
+<style type="text/css">
+.section input[type="text"], input[type="password"], input[type="date"]{
+	height: 50px;
+	border: none;
+	border-bottom: 1px solid black;
+}
+
+.selectE {
+	display: inline-block;
+	position: relative;
+	width: 100px;
+	height: 35px;
+	border-radius: 4px;
+	border: 2px solid #4CAF50;
+}
+
+.selectP {
+	display: inline-block;
+	position: relative;
+	width: 50px;
+	height: 35px;
+	border-radius: 4px;
+	border: 2px solid #4CAF50;
+}
+
+select::-ms-expand { 
+	display: none;
+}
+
+.selectE .select {
+	-o-appearance: none;
+  	-webkit-appearance: none;
+  	-moz-appearance: none;
+  	appearance: none;
+  	width: inherit;
+    height: inherit;
+    background: transparent;
+    border: 0 none;
+    outline: 0 none;
+    padding: 0 5px;
+    position: relative;
+    z-index: 3;
+}
+
+.selectP .select {
+	-o-appearance: none;
+  	-webkit-appearance: none;
+  	-moz-appearance: none;
+  	appearance: none;
+  	width: inherit;
+    height: inherit;
+    background: transparent;
+    border: 0 none;
+    outline: 0 none;
+    padding: 0 5px;
+    position: relative;
+    z-index: 3;
+}
+
+.select option {
+	background-color: #4CAF50;
+	color: white;
+}
+</style>
 </head>
 <body>
-<div class="full">
-	<div class="wrap">
+<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+<div class="admin-container">
+<sec:authentication var="managerLogin" property="principal"/>
+<c:if test="${managerLogin.deptno eq 10}">
+	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 20}">
+	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 30}">
+	<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 40}">
+	<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+</c:if>
+	<div class="full content">
+		<div class="wrap">
 		<div class="page">
 			<h3>사원 정보 변경</h3>
 		</div>
@@ -182,7 +266,8 @@ $(function() {
 			<form action="./mgrdetail" method="post" enctype="multipart/form-data">
 				<div>
 					<label for="mgrProf">사원증</label>
-					<input type="file" id="mgrProf" name="mgrProf" required="required">
+					<input type="file" id="mgrProf" name="mgrProf" required="required" value="${mgrFile.originName }">
+					<img alt="사원증 사진" src=""${mgrFile.originName }">
 					<input type="hidden" id="mgrFlNo" name="mgrFlNo" value="${mgrFile.mgrFlNo }">
 				</div>
 		
@@ -217,49 +302,58 @@ $(function() {
 				
 				<label for="mgrName">이름</label>	
 				<input type="text" class="m" id="mgrName" name="mgrName" value="${manager.mgrName }"><br>
-				<div id="name" style="display:none; color:red;">이름은 필수입니다.</div>	
 				
 				<label for="sPhone">핸드폰 번호</label>
-				<select class="sPhone" id="sPhone" name="sPhone">
+				<div class="selectP">
+				<select class="sPhone select" id="sPhone" name="sPhone">
 					<option value="010">010</option>
 					<option value="011">011</option>
 					<option value="017">017</option>
 					<option value="016">016</option>
 					<option value="in">직접 입력</option>
 				</select>
-				<input type="text" class="s" id="inPhone" name="inPhone">-<input type="text" class="s" id="mPhone" name="mPhone">-<input type="text" class="s" id="lPhone" name="lPhone"><br>
-				<div id="phone" style="display:none; color:red;">핸드폰 번호는 필수입니다.</div>
+				</div>
+				<input type="text" id="inPhone" name="inPhone" class="s">-<input type="text" id="mPhone" name="mPhone" class="s">-<input type="text" id="lPhone" name="lPhone" class="s">
+				<br>
 				
 				<label for="mgrBirth">생년월일</label>
 				<input type="date" id="mgrBirth" name="mgrBirth" value="${manager.mgrBirth }" readonly="readonly"><br>
 				
 				<label for="mgrGender">성별</label>
 				<c:if test="${manager.mgrGender eq 'W' }">
-					<input type="text" class="s" id="mgrGender" name="mgrGender" value="여성">
+					<input type="text" class="s" id="mgrGender" name="mgrG" value="여성" readonly="readonly">
+					<input type="hidden" class="s" id="mgrGender" name="mgrGender" value="W" readonly="readonly">
 				</c:if>
 				<c:if test="${manager.mgrGender eq 'M' }">
-					<input type="text" class="s" id="mgrGender" name="mgrGender" value="남성">
+					<input type="text" class="s" id="mgrGender" name="mgrGender" value="남성" readonly="readonly">
+					<input type="hidden" class="s" id="mgrGender" name="mgrGender" value="M" readonly="readonly">
 				</c:if>
 			</div>
 
 			<div>
 				<label for="mgrEmail">이메일</label>	
 				<input type="text" id="mgrEmail" name="mgrEmail" required="required">
-				
-				<select class="mgrEmail2" name="mgrEmail2" id="mgrEmail2">
+				<div class="selectE">
+				<select class="mgrEmail2 select" name="mgrEmail2" id="mgrEmail2">
 					<option>@naver.com</option>
 					<option>@gmail.com</option>
 					<option>@daum.net</option>
 					<option value="in">직접 입력</option>
 				</select>
-				<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">		
-				<div id="email" style="display:none; color:red;">이메일은 필수입니다.</div>		
+				</div>
+				<input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
+				<div>
+					<label></label>
+					<div id="email" style="display:none; color:red;">이메일은 필수입니다.</div>		
+				</div>	
 			</div>
 				
+				<br>
 				
-				<button id="update">변경하기</button>
+				<button class="btn btnRight">변경하기</button>
 			</form>
 		</div> <!-- section End -->
+		</div>
 	</div> <!-- wrap End -->
 </div> <!-- full End -->
 

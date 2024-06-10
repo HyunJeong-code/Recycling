@@ -1,6 +1,5 @@
 package recycling.buyer.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,16 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import recycling.buyer.service.face.MypageService;
-import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
@@ -49,6 +48,10 @@ public class MypageController {
 		
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
 		logger.info("buyerLogin : {}", buyerLogin);
+		
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		logger.info("{}", auth.getAuthorities());
+//		logger.info("{}", auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_BUYER")));
 		
 		// 문의글 페이지 수 계산
 		PagingAndCtg upPaging = new PagingAndCtg();
@@ -202,12 +205,48 @@ public class MypageController {
 		if(resQst > 0) {
 			
 			return "redirect:/buyer/mypage/myboard";
-			
 		} else {
 			
 			return "redirect:/buyer/mypage/qnadetail?qstCode=" + qstCode;
-			
-		}
+		}	
+	}
+	
+	@GetMapping("/myprof")
+	@ResponseBody
+	public List<Map<String, Object>> myprof(
+			Authentication authentication
+			) {
+		logger.info("/buyer/mypage/myprof [GET]");
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
+
+		// 프로필 사진 및 기본 정보
+		List<Map<String, Object>> profList = mypageService.selectBuyer(buyerLogin);
+		logger.info("myprof - ", profList == null);
+		logger.info("myprof - ", profList.isEmpty());
+		logger.info("myprof : ", profList);
+		
+		return profList;
+	}
+	
+	@GetMapping("/mypage")
+	public void mypage(
+			Authentication authentication,
+			Model model
+			) {
+		logger.info("/buyer/mypage/mypage [GET]");
+		
+		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+		logger.info("buyerLogin : {}", buyerLogin);
+		
+		// 각 거래 별 횟수
+		
+		// 1 : 1 게시글 수
+		
+		// 판매자 문의 수
+		
+		// 리뷰 수
 		
 	}
 	

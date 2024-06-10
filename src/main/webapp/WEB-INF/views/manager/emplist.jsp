@@ -87,6 +87,7 @@
 						<c:forEach var="select" items="${select }" varStatus="status">
 							<!-- mgrOut상태가 'N' 이면 보여주고 'Y'이면 숨기기 -->
 							<c:if test="${select.mgrOut eq 'N'}">
+								<c:if test="${not empty select.mgrId}">
 							<tr>
 								<td>${select.dname }</td>
 								<td>${select.mgrName }</td>
@@ -94,6 +95,7 @@
 								<td>${select.mgrPhone }</td>
 								<td>${select.mgrEmail }</td>
 							</tr>
+								</c:if>
 							</c:if>
 						</c:forEach>
 					</tbody>

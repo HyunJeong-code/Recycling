@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그인 실패</title>
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
@@ -20,7 +20,7 @@
 		</div>
 	</div>
 </div>
-<button><a href="/buyer/main">메인으로</a></button>
+<a href="/buyer/main"><button class="btn btnLeft">메인으로</button></a>
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>

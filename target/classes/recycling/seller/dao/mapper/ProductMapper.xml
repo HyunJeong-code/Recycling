@@ -6,7 +6,7 @@
 <mapper namespace="recycling.seller.dao.face.ProductDao">
 
 	<insert id="insertRcy" parameterType="Prd" useGeneratedKeys="true" keyProperty="prdCode" keyColumn="prd_code">
-		INSERT INTO prd (prd_code, ct_pno, ct_pdtno, s_code, prd_name, price, prd_cnt, prd_fee, prd_detail, prd_date, prd_hit)
+		INSERT INTO prd (prd_code, ct_pno, ct_pdtno, s_code, prd_name, price, prd_cnt, prd_fee, prd_detail, prd_date, prd_hit, prd_out)
 		VALUES(
 			'PRD' || lpad(prd_seq.nextval, 7, '0'),
 			#{ctPno },
@@ -18,8 +18,8 @@
 			DEFAULT,
 			#{prdDetail },
 			sysdate,
-			DEFAULT,
-			DEFAULT
+			0,
+			'N'
 		)
 	</insert>
 	
@@ -35,7 +35,7 @@
 	</insert>
 	
 	<insert id="insertUpcy" parameterType="Prd" useGeneratedKeys="true" keyProperty="prdCode" keyColumn="prd_code">
-		INSERT INTO prd (prd_code, ct_pno, ct_pdtno, s_code, prd_name, price, prd_cnt, prd_fee, prd_detail, prd_date, prd_hit)
+		INSERT INTO prd (prd_code, ct_pno, ct_pdtno, s_code, prd_name, price, prd_cnt, prd_fee, prd_detail, prd_date, prd_hit, prd_out)
 			VALUES(
 				'PRD' || lpad(prd_seq.nextval, 7, '0'),
 				#{ctPno },
@@ -47,8 +47,8 @@
 				#{prdFee },
 				#{prdDetail },
 				sysdate,
-				DEFAULT,
-				DEFAULT
+				0,
+				'N'
 			)
 	</insert>
 	
