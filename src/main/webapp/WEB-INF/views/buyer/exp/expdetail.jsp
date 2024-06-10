@@ -405,7 +405,7 @@ function checkLoginAndRedirect(url) {
     </div>
     <br>
     
-    <div>
+    <div style="text-align: center;">
         <a href="./main"><button class="btnLeft">메인으로</button></a>
     </div>
 </div>

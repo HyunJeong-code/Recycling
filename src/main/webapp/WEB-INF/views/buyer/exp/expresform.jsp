@@ -68,51 +68,9 @@ h1 {
 }
 
 
-#payOption {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
-
-.pay-option-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 60px;
-    margin: 5px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s, border-color 0.3s;
-    background-color: #f9f9f9;
-}
-
-.pay-option-card input[type="radio"] {
-    display: none;
-}
-
-.pay-option-card span {
-    font-size: 14px;
-    color: #333;
-}
-
-.pay-option-card input[type="radio"]:checked + span {
-    font-weight: bold;
-    color: #4CAF50;
-}
-
-.pay-option-card:hover {
-    background-color: #e9e9e9;
-    border-color: #4CAF50;
-}
-
 .btnRight {
     cursor: pointer;
     display: inline-block;
-    padding: 10px 20px;
     margin-right: 10px;
     background-color: #4CAF50;
     color: #fff;
@@ -271,28 +229,24 @@ function requestPay() {
             <input type="text" class="form-control" id="resSum" name="resSum" readonly>
         </div>
         
-        <div class="pay">
             <div class="page-header">
-                <h5>결제 방법</h5>
-            </div>
-
-			<div id="payOption">
-		        <label class="pay-option-card">
-		            <input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked">
-		            <span>신용카드</span>
-		        </label>
-		        <label class="pay-option-card">
-		            <input type="radio" id="tosspay" name="payOption" value="trans">
-		            <span>토스페이</span>
-		        </label>
-		        <label class="pay-option-card">
-		            <input type="radio" id="kakaopay" name="payOption" value="kakaopay">
-		            <span>카카오페이</span>
-		        </label>
-		    </div>
-
-            <button class="btnRight" type="button" id="btnPay" onclick="requestPay();">신청하기</button>
-            
+            <h5>결제 방법</h5>
+        </div>
+		
+		<table class="view-table">
+			<tr>
+				<td>결제 수단</td>
+				<td>
+			        <div id="payOption">
+			            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
+			            <label>토스페이</label><input type="radio" id="tosspay" name="payOption" value="tosspay"></label>
+			            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
+			        </div>
+		        </td>
+	        </tr>
+        </table>
+		<div class="btnBox">
+        	<button type="button" id="btnPay" class="btn btnRight" onclick="requestPay();">결제하기</button>
         </div>
     </form>
 </div>

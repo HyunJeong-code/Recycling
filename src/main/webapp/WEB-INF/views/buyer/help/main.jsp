@@ -260,7 +260,6 @@ function toggleAnswer(element) {
             <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3030&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3030">재활용품</button></a>
             <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3040&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3040">업사이클링</button></a>
             <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3050&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3050">체험단</button></a>
-            <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3060&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3060">세척</button></a>
             <a href="/buyer/help/main?curPage=${upPaging.curPage }&search=3070&sCtg=UP"><button type="button" class="FAQ_CT_button" value="3070">기타</button></a>
 	</nav>
 	
@@ -278,7 +277,32 @@ function toggleAnswer(element) {
 			<em class="FAQ_list_ct">
 				<c:forEach var="faqCt" items="${faqCtlist}">
 					<c:if test="${faq.ctFaqno == faqCt.ctFaqno}">
-						${faqCt.ctFaqname}
+						<c:choose>
+                        <c:when test="${faqCt.ctFaqname == 'user'}">
+                            회원
+                        </c:when>
+                        <c:when test="${faqCt.ctFaqname == 'pay'}">
+                            결제
+                        </c:when>
+                        <c:when test="${faqCt.ctFaqname == 'res'}">
+                            예약
+                        </c:when>
+                        <c:when test="${faqCt.ctFaqname == 'recycling'}">
+                            재활용품
+                        </c:when>
+                        <c:when test="${faqCt.ctFaqname == 'upcycling'}">
+                            업사이클링
+                        </c:when>
+                        <c:when test="${faqCt.ctFaqname == 'exp'}">
+                            체험단
+                        </c:when>
+                        <c:when test="${faqCt.ctFaqname == 'etc'}">
+                            기타
+                        </c:when>
+                        <c:otherwise>
+                            ${faqCt.ctFaqname} <!-- 기본 값으로 원래 텍스트 표시 -->
+                        </c:otherwise>
+                    </c:choose>
 					</c:if>
 				</c:forEach>
 			</em>
