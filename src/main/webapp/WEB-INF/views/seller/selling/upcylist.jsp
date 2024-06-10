@@ -215,12 +215,16 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 			<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
 			
 			<div class="main-section">
-				<h1>새활용 상품 관리</h1>
+			
+				<div class="page-header">
+					<h3>새활용 상품 관리</h3>
+				</div>
+		
 				
 				<div class="search">
 					<form action="./upcylist" method="get">
 						<input type="hidden" name="sCtg" value="UP">
-						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요.">
 						<button>검색</button>
 					</form>
 				</div>
@@ -265,13 +269,14 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				
 				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 				
-				
-				<h1>새활용 판매 관리</h1>
+				<div class="page-header">
+					<h3>새활용 판매 관리</h3>
+				</div>
 				
 				<div class="search">
 					<form action="./upcylist" method="get">
 						<input type="hidden" name="sCtg" value="UN">
-						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요.">
 						<button>검색</button>
 					</form>
 				</div>
