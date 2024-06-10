@@ -286,6 +286,7 @@ public class UpcyclingController {
 		 cartOrder.setPrdName(prd.getPrdName());
 		 cartOrder.setPrice(prd.getPrice());
 		 cartOrder.setPrdFee(prd.getPrdFee());
+		 cartOrder.setOriginName(prd.getOriginName());
 		 cartOrder.setStoredName(prd.getStoredName());
 		 
 		 
@@ -355,11 +356,11 @@ public class UpcyclingController {
 	 
 	 @GetMapping("/payinfo")
 	 public void payInfo(String ordCode, Model model) {
-	 logger.info("{}",ordCode);
-
-	 Orders order = buyerService.selectByordCode(ordCode);
-
-	 model.addAttribute("order", order);
+		 logger.info("{}",ordCode);
+	
+		 Orders order = buyerService.selectByordCode(ordCode);
+	
+		 model.addAttribute("order", order);
 	 }
 
 	 @GetMapping("/cartchk")

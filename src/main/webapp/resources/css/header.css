@@ -557,7 +557,7 @@ ol, ul {
     transition: background-color 0.3s ease;
 }
 
-.b-table img, .s-table img,.order-table img{
+.b-table td img, .s-table td img, .order-table td img{
     padding: 10px;
     max-width: 150px;
     object-fit: contain;
