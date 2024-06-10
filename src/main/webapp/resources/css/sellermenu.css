@@ -107,6 +107,7 @@
     width: 100%;
     border-top: 2px solid #000000;
     border-collapse: collapse;
+    box-sizing: content-box;
 }
 
 .view-table tr {
@@ -146,7 +147,7 @@
 }
 .view-table #image_container0 img, .view-table #image_container1 img, .view-table #image_container2 img, .view-table #image_container3 img {
 	padding: 10px;
-	max-width: 100%;
+	max-width: 90%;
 	object-fit: contain;
 }
 

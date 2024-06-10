@@ -456,7 +456,7 @@ ol, ul {
     font-size: 13px;
     outline: none;
     transition: background-color 0.3s ease;
-    width:95%;
+    width:80%;
     height:200px;
     margin: 5px 0;
 }
