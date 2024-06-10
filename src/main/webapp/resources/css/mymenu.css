@@ -29,6 +29,7 @@
     width: 100%;
     border-top: 2px solid #333;
     border-collapse: collapse;
+    margin-top: 5px;
     margin-bottom: 20px;
 }
 
@@ -57,22 +58,6 @@
 .main-section .s-table a:hover {
 	color: #7c7ff9;
     font-weight: 700;
-}
-
-
-.page-header {
-    margin: 0 0 10px 0;
-    padding-bottom: 10px;
-    /* border-bottom: 3px solid #333; */
-}
-
-.page-header h3 {
-	font-size: 24px;
-    font-weight: 500;
-}
-
-.page-header h5 {
-    font-size: 16px;
 }
 
 .view-table {
