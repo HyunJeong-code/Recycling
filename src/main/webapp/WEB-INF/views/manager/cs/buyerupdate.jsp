@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- <link rel="stylesheet" href="/resources/css/manager/cs/buyerupdate.css"> -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -195,87 +197,219 @@
 	    }).open();
 	}
 </script>
-<link rel="stylesheet" href="/resources/css/manager/cs/buyerupdate.css">
+<style type="text/css">
+/* 중단 페이지 */
+.section {
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section_top {
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 20px;
+}
+
+.section_top_itembox{
+	padding: 38px;
+}
+
+.section img {
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin: 20px;
+}
+
+.section .bCode_box, .section .bName_box, .section .rankNo_box {
+	margin-bottom: 15px;
+	display: flex;
+	margin-left: 20px;
+}
+
+label {
+	color: #373f57;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	width: 200px;
+	text-align: justify;
+}
+
+input[type="text"], select {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+.section h3 {
+	color: #333;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+}
+
+.section_top_privacy {
+	padding: 20px;
+	margin-left: 20px;
+	margin-top: 20px;
+	flex: 1;
+}
+
+.section_top_privacy div {
+	margin-bottom: 10px;
+}
+
+/* --------------------------------------- */
+/* 색션 하단 */
+.section_bot_title {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
+}
+
+.section_bot_itembox {
+	width: 800px;
+	margin-left: 265px;
+}
+
+.section .bPhone_box, .section .bEmail_box, .section .bEntDate_box {
+	margin-bottom: 15px;
+	display: flex;
+	margin-left: 20px;
+}
+
+/* 파일버튼 디자인 */
+.bot_document_filebox {
+	display: flex;
+	margin-left: 20px;
+	margin-bottom: 15px;
+}
+
+.bot_document_filebox .file_find {
+	text-align: right;
+	width: 100px;
+}
+
+.bot_document_filebox .file_name{
+	overflow: auto;
+}
+
+.bot_document_filebox input[type="file"] {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	display: none;
+}
+
+.bot_document_filebox .document_file {
+	display: inline-block;
+	height: 46px;
+	padding: 0 10px;
+	vertical-align: middle;
+	width: 79%;
+	color: #999999;
+}
+
+.btnRight{
+	margin-right: 20px;
+}
+
+.phone_box, .email_box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.btn_bot_wrap {
+    display: flex;
+    gap: 7px; /* 추가된 간격 */
+}
+</style>
 </head>
 <body>
-	<div class="full">
-		<aside>
-			왼쪽
-		</aside>
-		<div class="wrap">
-			<div class="page">	
-			    <h1>회원 정보 수정</h1>
-			    <hr>
-    		</div>
-    		
-    		<div class="section">
-    			<form action="./buyerupdate?bCode=${view.bCode }" method="post" enctype="multipart/form-data">
-	    			<div class ="section_top">
-	    			
-	    				<input type="file" id="buyerfileUpdate" name="buyerfileUpdate" style="display: none;" />
-						<div class="select_img">
-						    <img alt="없음" id="profilePreview" src="${pageContext.request.contextPath}/upload/${buyerProfdetail.storedName}" />
-							<input type="hidden" id="bProfNo" name="bProfNo" value="${buyerProfdetail.bProfNo }"/>
-						</div>
-	    				
-						<div class="section_bot_itembox">
-							<div class="bCode_box">
-								<label>회원번호</label>
-								<div>${view.bCode }</div>
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<div class = "full content" >
+			<div class="wrap">
+				<div class="page">	
+				    <h1>회원 정보 수정</h1>
+				    <hr>
+	    		</div>
+	    		
+	    		<div class="section">
+	    			<form action="./buyerupdate?bCode=${view.bCode }" method="post" enctype="multipart/form-data">
+		    			<div class ="section_top">
+		    			
+		    				<input type="file" id="buyerfileUpdate" name="buyerfileUpdate" style="display: none;" />
+							<div class="select_img">
+							    <img alt="없음" id="profilePreview" src="${pageContext.request.contextPath}/upload/${buyerProfdetail.storedName}" />
+								<input type="hidden" id="bProfNo" name="bProfNo" value="${buyerProfdetail.bProfNo }"/>
 							</div>
-							
-							<div class="bCode_box">
-							<!-- <div class="bCt_box"> -->
-							    <div>
+		    				
+							<div class="section_top_itembox">
+								<div class="bCode_box">
+									<label>회원번호</label>
+									<div>${view.bCode }</div>
+								</div>
+								
+								<div class="rankNo_box">
 							        <label for=rankNo>분류</label>
 									<select name="bCtCode" id="bCtCode">
 										<option value="C">기업</option>
 										<option value="P">개인</option>
 									</select>
-							    </div>
-							</div>
-							
-							<div class="bName_box">
-								<label for ="bName">이 름</label>
-								<input type="text" name ="bName" id="bName" value="${view.bName }">
-							</div>
-							
-							<div class="rankNo_box">
-							    <label for="rankNo">등급</label>
-								<select name="rankNo" id="rankNo">
-									<option value="0">씨앗</option>
-									<option value="1">새싹</option>
-									<option value="2">꽃</option>
-									<option value="3">과일</option>
-									<option value="4">나무</option>
-								</select>
+								</div>
+								
+								<div class="bName_box">
+									<label for ="bName">이 름</label>
+									<input type="text" name ="bName" id="bName" value="${view.bName }">
+								</div>
+								
+								<div class="rankNo_box">
+								    <label for="rankNo">등급</label>
+									<select name="rankNo" id="rankNo">
+										<option value="0">씨앗</option>
+										<option value="1">새싹</option>
+										<option value="2">꽃</option>
+										<option value="3">과일</option>
+										<option value="4">나무</option>
+									</select>
+								</div>
 							</div>
 						</div>
-					</div>
-				
-					<div class="section_bot_title">상세 정보</div>
-	
-					<div class="section_bot_itembox">
-						<div class="bphone_box">
-				            <label for="sPhone">전화 번호</label>
-				            <select class="sPhone" id="sPhone" name="sPhone">
-				               <option value="010">010</option>
-				               <option value="011">011</option>
-				               <option value="017">017</option>
-				               <option value="016">016</option>
-				               <option value="in">직접 입력</option>
-				            </select>
-				                  <input type="text" class="s" id="inPhone" name="inPhone" maxlength="3">
-				                  <div class="hyphen">-</div>
-				                   <input type="text" class="s" id="mPhone" name="mPhone" maxlength="4">
-				                       <div class="hyphen">-</div>
-				                   <input type="text" class="s" id="lPhone" name="lPhone" maxlength="4" >
-				                </div>
-				                <input type="hidden" id="bPhone" name="bPhone">
-				                
-				               
-				            <div class="bemail_box">
-				            	<label for="bEmail1">이메일</label>   
+					
+						<div class="section_bot_title">상세 정보</div>
+		
+						<div class="section_bot_itembox">
+							<div class="bEmail_box">
+					            <label for="bEmail_box">전화번호</label>
+					            <select class="sPhone" id="sPhone" name="sPhone">
+					               <option value="010">010</option>
+					               <option value="011">011</option>
+					               <option value="017">017</option>
+					               <option value="016">016</option>
+					               <option value="in">직접 입력</option>
+					            </select>
+					                  <input type="text" class="s" id="inPhone" name="inPhone" maxlength="3">
+					                  <div class="hyphen">-</div>
+					                   <input type="text" class="s" id="mPhone" name="mPhone" maxlength="4">
+					                       <div class="hyphen">-</div>
+					                   <input type="text" class="s" id="lPhone" name="lPhone" maxlength="4" >
+					        </div>
+					                <input type="hidden" id="bPhone" name="bPhone">
+					               
+				            <div class="bEmail_box">
+				            	<label for="bEmail_box">이메일</label>   
 				            
 				               <input type="text" id="bEmail1" name="bEmail1" required="required">
 				         
@@ -288,54 +422,55 @@
 				               <input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
 				            </div>
 				            <input type="hidden" id="bEmail" name="bEmail">
-						
-						<div class="bEmail_box">
-							<label for ="adrPostcode">우편번호</label>
-						 	<input type="text" name="adrPostcode" id="adrPostcode" value="${buyerAdrdetail.adrPostcode }">
-						 	<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
-						</div>
-						
-						<div class="bEmail_box">
-							<label for ="adrAddr">주소</label>
-						 	<input type="text" name="adrAddr" id="adrAddr" value="${buyerAdrdetail.adrAddr }">
-						</div>
-						
-						<div class="bEmail_box">
-							<label for ="buyerAdrdetail">상세주소</label>
-						 	<input type="text" name="adrDetail" id="adrDetail" value="${buyerAdrdetail.adrDetail }">
-						</div>
-						
-						<div class="bEmail_box">
-						    <label> SMS 수신동의 </label>
-						    <input type="radio" name="adSms" id="adSmsY" value="Y" ${view.adSms == 'Y' ? 'checked' : ''}>
-						    <label for="adSmsY"> Y </label>
-						    <input type="radio" name="adSms" id="adSmsN" value="N" ${view.adSms == 'N' ? 'checked' : ''}>
-						    <label for="adSmsN"> N </label>
-						</div>
-						
-						<div class="bEmail_box">
-						    <label> 이메일 수신동의 </label>
-						    <input type="radio" name="adEmail" id="adEmailY" value="Y" ${view.adEmail == 'Y' ? 'checked' : ''}>
-						    <label for="adEmailY"> Y </label>
-						    <input type="radio" name="adEmail" id="adEmailN" value="N" ${view.adEmail == 'N' ? 'checked' : ''}>
-						    <label for="adEmailN"> N </label>
-						</div>
-
-						<div class="bEntDate_box">
-							<label>가 입 일</label>
-							<div>
-								<fmt:parseDate value="${view. bEntDate }" var="bEntDate" pattern="yyyy-MM-dd" />
-								<fmt:formatDate value="${bEntDate }" pattern="yyyy-MM-dd" />
+							
+							<div class="bEmail_box">
+								<label for ="adrPostcode">우편번호</label>
+							 	<input type="text" name="adrPostcode" id="adrPostcode" value="${buyerAdrdetail.adrPostcode }">
+							 	<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
+							</div>
+							
+							<div class="bEmail_box">
+								<label for ="adrAddr">주소</label>
+							 	<input type="text" name="adrAddr" id="adrAddr" value="${buyerAdrdetail.adrAddr }">
+							</div>
+							
+							<div class="bEmail_box">
+								<label for ="buyerAdrdetail">상세주소</label>
+							 	<input type="text" name="adrDetail" id="adrDetail" value="${buyerAdrdetail.adrDetail }">
+							</div>
+							
+							<div class="bEmail_box">
+							    <label> SMS 수신동의 </label>
+							    <input type="radio" name="adSms" id="adSmsY" value="Y" ${view.adSms == 'Y' ? 'checked' : ''}>
+							    <label for="adSmsY"> Y </label>
+							    <input type="radio" name="adSms" id="adSmsN" value="N" ${view.adSms == 'N' ? 'checked' : ''}>
+							    <label for="adSmsN"> N </label>
+							</div>
+							
+							<div class="bEmail_box">
+							    <label> 이메일 수신동의 </label>
+							    <input type="radio" name="adEmail" id="adEmailY" value="Y" ${view.adEmail == 'Y' ? 'checked' : ''}>
+							    <label for="adEmailY"> Y </label>
+							    <input type="radio" name="adEmail" id="adEmailN" value="N" ${view.adEmail == 'N' ? 'checked' : ''}>
+							    <label for="adEmailN"> N </label>
+							</div>
+	
+							<div class="bEntDate_box">
+								<label>가 입 일</label>
+								<div>
+									<fmt:parseDate value="${view. bEntDate }" var="bEntDate" pattern="yyyy-MM-dd" />
+									<fmt:formatDate value="${bEntDate }" pattern="yyyy-MM-dd" />
+								</div>
 							</div>
 						</div>
-					</div>
-					
+						
+						<div class="btn_bot_wrap" style="justify-content: flex-end; align-items: center;">
+						    <a href="./buyerupdate"><button class="btn btnRight">수정하기</button></a>
+						</div>					    
+					</form>
 					<div class="btn_bot_wrap">
-					    <a href="./buyerupdate"><button class="btn_bot_update">수정완료</button></a>					    
+					    <a href="./buyerdetail?bCode=${view.bCode }"><button class="btn btnLeft">돌아가기</button></a>
 					</div>
-				</form>
-				<div class="btn_bot_wrap">
-					<a href="./buyerdetail?bCode=${view.bCode }"><button class="btn_bot_return">돌아가기</button></a>
 				</div>
 			</div>
 		</div>

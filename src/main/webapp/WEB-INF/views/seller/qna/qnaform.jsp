@@ -18,7 +18,7 @@ let ctQst = ctQstNo[${qst.ctQstNo }];
 console.log(ctQst);
 
 $(function() {
-	$("#ctQst").html(ctQst);
+	$("#ctQst").text(ctQst);
 	
 	$("#qnaBtn").on("click", function() {
         $.post("./qnaform",
@@ -38,40 +38,46 @@ $(function() {
 </head>
 <body>
 
-	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	<c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 	
 	<div class="full">
+		<div class="wrap">
 	
-		<h1>고객 문의사항 답변 등록</h1>
-		
-		<table class="view-table">
-			<tr>
-				<td>문의 분류</td>
-				<td id="ctQst"></td>
-			</tr>
-			<tr>
-				<td>문의 제목</td>
-				<td>${qst.qstTitle }</td>
-			</tr>
-			<tr>
-				<td>문의 내용</td>
-				<td>${qst.qstContent }</td>
-			</tr>
-			<tr>
-				<td>문의 이미지</td>
-				<td><img alt="문의 이미지" src="/resources/image/${img.originName }"></td>
-			</tr>
-			<tr>
-				<td>답변 내용</td>
-				<td><textarea id="qnaContent" name="qnaContent"></textarea></td>
-			</tr>
-		</table>
-		
-		<a href="./main"><button class="btn">목록</button></a>
-		<button id="qnaBtn" class="btn btnRight">등록하기</button>
+			<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
+			<div class="main-section">
+	
+				<h1>고객 문의사항 답변 등록</h1>
+				
+				<table class="view-table">
+					<tr>
+						<td>문의 분류</td>
+						<td id="ctQst"></td>
+					</tr>
+					<tr>
+						<td>문의 제목</td>
+						<td>${qst.qstTitle }</td>
+					</tr>
+					<tr>
+						<td>문의 내용</td>
+						<td>${qst.qstContent }</td>
+					</tr>
+					<tr>
+						<td>문의 이미지</td>
+						<td><img alt="문의 이미지" src="/resources/image/${img.originName }"></td>
+					</tr>
+					<tr>
+						<td>답변 내용</td>
+						<td><textarea id="qnaContent" name="qnaContent"></textarea></td>
+					</tr>
+				</table>
+				
+				<a href="./main"><button class="btn">목록</button></a>
+				<button id="qnaBtn" class="btn btnRight">등록하기</button>
+			</div>
+		</div>
 	</div>
 
-	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
+	<c:import url="/WEB-INF/views/layout/seller/sellerfooter.jsp"/>
 	
 </body>
 </html>

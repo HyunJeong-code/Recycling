@@ -49,36 +49,23 @@ $(function() {
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-
-<sec:authentication var="managerLogin" property="principal"/>
-<c:if test="${managerLogin.deptno eq 10}">
-	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
-</c:if>
-<c:if test="${managerLogin.deptno eq 20}">
-	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
-</c:if>
-<c:if test="${managerLogin.deptno eq 30}">
-	<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-</c:if>
-<c:if test="${managerLogin.deptno eq 40}">
-	<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
-</c:if>
-<div class="full">
+<div class="admin-container">
+<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+<div class = "full content" >
 	<div class="wrap">
 		<div class="page">
 			<h3>판매자 전환 요청 관리</h3>
 		</div>
 		
 		<div class="section">
-			<form action="./sellerchklist" method="get">
+			<form action="/manager/sls/sellerchklist" method="get">
 				<input type="hidden" name="sCtg" value="UP">
 				<input type="text" id="search" name="search" placeholder="검색어를 입력해주세요." class="search">
 				<button>검색</button>
 			</form>
 			<table border="1">
 				<tr>
-					<th><input type="checkbox" id="allChk" name="allChk"></th>
-					<th>분류</th>
+					<th>번호</th>
 					<th>판매자 번호</th>
 					<th>상호명</th>
 					<th>(담당자) 이름</th>
@@ -98,10 +85,7 @@ $(function() {
 					<c:forEach var="list" items="${sellerList }">
 						
 						<tr>
-							<td>
-								<input type="checkbox" id="${list.S_CODE }" name="chkSel">
-							</td>
-							<td>${list.CT_CODE }</td>
+							<td>${list.NO }</td>
 							<td>${list.S_CODE }</td>
 							<td>${list.CMP_NAME }</td>
 							<td>${list.B_NAME }</td>
@@ -109,15 +93,15 @@ $(function() {
 							<td>${list.B_EMAIL }</td>
 							<td>
 								<c:if test="${list.CT_CODE eq 'P'}">
-									<button id="sellerDt"><a href="/manager/sls/sellerpridetail?sCode=${list.S_CODE }">상세조회</a></button>
+									<a href="/manager/sls/sellerpridetail?sCode=${list.S_CODE }"><button class="btn btnRight">상세조회</button></a>
 								</c:if>
 								<c:if test="${list.CT_CODE eq 'C'}">
-									<button id="sellerDt"><a href="/manager/sls/sellercmpdetail?sCode=${list.S_CODE }">상세조회</a></button>
+									<a href="/manager/sls/sellercmpdetail?sCode=${list.S_CODE }"><button class="btn btnRight">상세조회</button></a>
 								</c:if>
 							</td>
 							<td>
-								<button id="selChk" name="selChk"><a href="/manager/sls/sellerchk?selChk=Y&sCode=${list.S_CODE }">수락</a></button>
-								<button id="selChk" name="selChk"><a href="/manager/sls/sellerchk?selChk=N&sCode=${list.S_CODE }">거절</a></button>
+								<a href="/manager/sls/sellerchk?selChk=Y&sCode=${list.S_CODE }"><button class="btn btnRight" id="selChk" name="selChk">수락</button></a>
+								<a href="/manager/sls/sellerchk?selChk=N&sCode=${list.S_CODE }"><button class="btn btnLeft" id="selChk" name="selChk">거절</button></a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -130,6 +114,6 @@ $(function() {
 		</div>
 	</div>
 </div>
-
+</div>
 </body>
 </html>

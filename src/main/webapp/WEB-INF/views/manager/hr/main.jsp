@@ -148,8 +148,15 @@
 											<fmt:formatDate value="${mgrBirth}" pattern="yyyy-MM-dd" />
 										</td>
 										<td>${select.mgrGender }</td>
-										<td><a href="./empdetail?mgrCode=${select.mgrCode }">
-												<button class="btn btndetail">상세정보 보기</button></a>
+										<td>
+											<c:choose>
+												<c:when test="${not empty select.mgrId}">
+													<a href="./empdetail?mgrCode=${select.mgrCode }"><button class="btn btndetail">상세조회</button></a>
+												</c:when>
+												<c:when test="${empty select.mgrId}">
+													<button class="btn btndetail" disabled>미가입</button>
+												</c:when>
+											</c:choose>
 										</td>
 									</tr>
 									</c:if>
@@ -157,8 +164,9 @@
 							</tbody>
 						</table>
 					</div><!-- section -->
+					<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 							<div class="btn_bot_wrap">
-									<a href="./empform"><button class="btn btnLeft">사원정보 입력</button></a>
+									<a href="./empform"><button class="btn btnLeft">사원등록</button></a>
 									<button id ="listDel" class="btn btnDel">삭제하기</button>
 							</div>
 		</div><!-- wrap -->

@@ -237,17 +237,20 @@ table {
     display: inline-block;
 }
 
-table, th, td {
+table, td {
     border: 1px solid #dddddd;
 }
 
-th, td {
+td {
     padding: 15px;
     text-align: left;
 }
 
-th {
-    background-color: #f2f2f2;
+td:first-child {
+    background-color: #CEE741;
+    font-weight: bold;
+    text-align: center;
+    width: 30%;
 }
 
 .form-group {
@@ -256,7 +259,7 @@ th {
 
 .btnProf {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 10px 20px;
     cursor: pointer;
     background-color: #878787;
     color: white;
@@ -264,6 +267,10 @@ th {
     border-radius: 4px;
     margin-top: 10px;
     text-align: center;
+}
+
+.btnProf:hover {
+    background-color: #9e9e9e;
 }
 
 .btnEmail {
@@ -276,6 +283,10 @@ th {
     border-radius: 4px;
     margin-top: 10px;
     text-align: center;
+}
+
+.btnEmail:hover {
+    background-color: #9e9e9e;
 }
 
 .button-group {
@@ -303,11 +314,11 @@ th {
 }
 
 .button-group button:hover {
-    background-color: #0066cc;
+    background-color: #58c05c;
 }
 
 .button-group button.btnRight:hover {
-    background-color: #bbb;
+    background-color: #9e9e9e;
 }
 
 .button-group button.btnLeft:hover {
@@ -327,15 +338,6 @@ th {
 		
 			<div class="page">
 			<h3>기업 정보 수정</h3>
-<!-- 마이페이지 버튼 -->
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${buyerLogin.bCtCode == 'P' }"> --%>
-<%-- 						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a> --%>
-<%-- 					</c:when> --%>
-<%-- 					<c:when test="${buyerLogin.bCtCode == 'C' }"> --%>
-<%-- 						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a> --%>
-<%-- 					</c:when> --%>
-<%-- 				</c:choose> --%>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailcmp" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
 					<input type="hidden" id="fullEmail" name="fullEmail" value="${currentBuyer.bEmail}">

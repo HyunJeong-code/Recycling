@@ -92,8 +92,8 @@
     line-height: 44px;
     padding: 13px 10px;
     margin-bottom: 20px;
-    font-weight: 300;
-    color: #797979;
+    font-weight: 500;
+    color: #000000;
 }
 
 .form-group h6 {
@@ -131,4 +131,10 @@
 
 .sum-price span {
 	margin-left: 10px
+}
+
+.order-table img {
+    padding: 10px;
+    max-width: 150px;
+    object-fit: contain;
 }

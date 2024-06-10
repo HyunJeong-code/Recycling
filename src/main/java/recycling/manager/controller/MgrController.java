@@ -44,18 +44,34 @@ public class MgrController {
 	@Autowired private PageService pageService;
 	
 	@GetMapping("/main")
-	public String main(
+	public void main(
+			Authentication authentication
+			, Model model
+			, @RequestParam(defaultValue = "0") int curPage
+			, @RequestParam(defaultValue = "") String search
+			, @RequestParam(defaultValue = "") String sCtg
 			) {
 		logger.info("/manager/main [GET]");
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		logger.info("auth : {}", auth);
+		//매니저 권한 부여
+		ManagerLogin managerLogin = (ManagerLogin) authentication.getPrincipal();
 		
-		if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"))) {
-			return "/manager/main";
-		} else {
-			return "/manager/login";
-		}
+		//페이지 수 계산
+		PagingAndCtg upPaging = new PagingAndCtg();
+		upPaging = pageService.upPageMgr(curPage, sCtg, search, managerLogin.getMgrCode());
+		
+		int upPage = mgrService.selectCntAllempList(upPaging);
+        upPaging = new PagingAndCtg(upPage, upPaging.getCurPage(), upPaging.getSearch());
+		
+		//사원 전체조회
+		List<ManagerJoinDe> select = mgrService.selectAllempList(upPaging);
+		
+		//JSP로 보내기
+		model.addAttribute("select", select);
+		
+		//페이징
+		model.addAttribute("upPaging", upPaging);
+		model.addAttribute("upUrl", "/manager/emplist");
 	}
 	
 	@GetMapping("/join")
@@ -124,24 +140,19 @@ public class MgrController {
 		int res = mgrService.selectByManager(manager);
 		logger.info("res : {}", res);
 		
-		if(res > 0 && mgrFile != null) {
-			// 회원정보 수정 및 프로필 사진 삽입
-			int resMgr = mgrService.updateManager(manager);
-			int resPic = mgrService.insertMgrProf(mgrFile);
-			
-			if(resMgr > 0 && resPic > 0) {
-				// 회원가입 성공
-				return "redirect:./main";
-			} else {
-				// 회원가입 실패
-				// 업데이트 및 삽입된 데이터 삭제
-				return "redirect:./joinfail";				
-			}
-		} else {
-			// 회원가입 실패
-			// 업데이트 및 삽입된 데이터 삭제
-			return "redirect:./joinfail";				
+		int resMgr = 0;
+		if(res > 0) {
+			resMgr = mgrService.updateManager(manager);
 		}
+		
+		// 회원정보 수정 및 프로필 사진 삽입
+		int resPic = 0;
+		if(mgrFile != null) {
+			resPic = mgrService.insertMgrProf(mgrFile);			
+		}
+		
+		return "/manager/login";
+		
 	}
 	
 	@GetMapping("/login")
@@ -267,5 +278,10 @@ public class MgrController {
 			//관리자 공지사항 세부조회
 			Notice mgrNoticeList = mgrService.selectDetail(ntcCode);
 			model.addAttribute("view", mgrNoticeList);
+	}
+	
+	@GetMapping("error403")
+	public void error403() {
+		logger.info("/manager/error403 [GET]");
 	}
 }

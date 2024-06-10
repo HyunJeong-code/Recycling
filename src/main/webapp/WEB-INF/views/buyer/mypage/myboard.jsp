@@ -33,6 +33,7 @@ $(function() {
 </script>
 <style type="text/css">
 .search {
+	align-items: center;
 	justify-content: flex-end;
 }
 
@@ -69,7 +70,7 @@ $(function() {
 				<div class="search">
 					<form action="./myboard" method="get">
 						<input type="hidden" name="sCtg" value="UP">
-						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요.">
 						<button>검색</button>
 					</form>
 				</div>
@@ -77,7 +78,6 @@ $(function() {
 				<table class="b-table">
 				
 				<colgroup>
-					<col width="5%">
 					<col width="10%">
 					<col width="10%">
 					<col width="10%">
@@ -88,7 +88,6 @@ $(function() {
 				</colgroup>
 				<thead>
 					<tr>
-						<th class="chk"><input type="checkbox" id="allQna" name="allQna"></th>
 						<th class="no">번호</th>
 						<th class="ctg">문의글 분류</th>
 						<th class="stt">문의 분류</th>
@@ -103,7 +102,6 @@ $(function() {
 					<c:if test="${qnaSize ne 0 }">
 						<c:forEach var="qna" items="${qna }">
 							<tr>
-								<td class="chk"><input type="checkbox" id="${qna.CODE }" name="chkQna"></td>
 								<td class="no">${qna.NO }</td>
 								<td class="ctg">
 								<c:if test="${qna.CTG eq 'OTO' }">
@@ -181,16 +179,16 @@ $(function() {
 				</table>
 				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 				
-				<div class="btn-list">
-				<c:if test="${qnaSize ne 0 }">
-					<button type="button" id="delQst" class="btn btnLeft">삭제하기</button>
-				</c:if>
-				<a href="/buyer/mypage/form"><button type="button" class="btn btnRight">작성하기</button></a>
-				</div>
+<!-- 				<div class="btn-list"> -->
+<%-- 				<c:if test="${qnaSize ne 0 }"> --%>
+<!-- 					<button type="button" id="delQst" class="btn btnLeft">삭제하기</button> -->
+<%-- 				</c:if> --%>
+<!-- 				<a href="/buyer/mypage/form"><button type="button" class="btn btnRight">작성하기</button></a> -->
+<!-- 				</div> -->
 	
 			</div>
 			
-			<div class="page">
+			<div class="page-header">
 				<h4>후기 조회</h4>
 			</div>
 			
@@ -198,15 +196,14 @@ $(function() {
 				<div class="search">
 					<form action="./myboard" method="get">
 						<input type="hidden" name="sCtg" value="UN">
-						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-						<button>검색</button>
+						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요.">
+						<button class="btn btnRight">검색</button>
 					</form>
 				</div>
 				<table class="b-table">
 				
 				<colgroup>
-					<col width="5%">
-					<col width="10%">
+					<col width="15%">
 					<col width="15%">
 					<col width="60%">
 					<col width="10%">
@@ -214,7 +211,6 @@ $(function() {
 				
 				<thead>
 					<tr>
-						<th class="chk"><input type="checkbox" id="allRvw" name="allRvw"></th>
 						<th class="stt">후기 분류</th>
 						<th class="grade">평점</th>
 						<th class="review">후기</th>
@@ -226,7 +222,6 @@ $(function() {
 					<c:if test="${rvwSize ne 0 }">
 						<c:forEach var="rvw" items="${rvw }">
 							<tr>
-								<td class="chk"><input type="checkbox" id="${rvw.CODE }" name="chkRvw"></td>
 								<td class="ctg">${rvw.CTG }</td>
 								
 								<td class="grade star">
@@ -236,12 +231,10 @@ $(function() {
 								</td>
 								<td class="review">
 								<c:if test="${rvw.CTG eq '새활용' }">
-									<a href="/buyer/mypage/upcyrvwupdate?upcyCode=${rvw.CODE }">
 										${rvw.CONTENT }
 									</a>
 								</c:if>
 								<c:if test="${rvw.CTG eq '체험단' }">
-									<a href="/buyer/mypage/exprvwupdate?rvwCode=${rvw.CODE }">
 										${rvw.CONTENT }
 									</a>
 								</c:if>
@@ -262,12 +255,12 @@ $(function() {
 				</tbody>
 				</table>
 				<c:import url="/WEB-INF/views/layout/underpaging.jsp"/>
-				<div class="btn-list">
-				<c:if test="${rvwSize ne 0 }">
-					<button type="button" id="delrvw" class="btn btnLeft">삭제하기</button>
-				</c:if>
-				<a href="/buyer/mypage/rvwform"><button type="button" class="btn btnRight" id="btnRvw">작성하기</button></a>
-				</div>
+<!-- 				<div class="btn-list"> -->
+<%-- 				<c:if test="${rvwSize ne 0 }"> --%>
+<!-- 					<button type="button" id="delrvw" class="btn btnLeft">삭제하기</button> -->
+<%-- 				</c:if> --%>
+<!-- 				<a href="/buyer/mypage/rvwform"><button type="button" class="btn btnRight" id="btnRvw">작성하기</button></a> -->
+<!-- 				</div> -->
 			</div> <!-- section End -->
 		</div>
 	</div>

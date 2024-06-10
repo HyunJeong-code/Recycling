@@ -18,65 +18,50 @@ body {
     padding: 0;
 }
 
-.full {
-    width: 1200px;
-    height: auto;
-    margin: 0 auto;
-    padding: 50px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .wrap {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
+    width: 800px;
+    margin: auto;
     padding: 20px;
-}
-
-h3 {
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
+    border-radius: 8px;
 }
 
 .page {
-    margin-top: 20px;
-    width: 100%;
-    text-align: center;
+    margin-bottom: 20px;
 }
 
-.otodetail {
+h3 {
+    margin: 0;
+    color: #333;
     text-align: center;
-    width: 100%;
+    margin-bottom: 20px;
 }
 
-.otodetail table {
-    width: 85%;
+table {
     border-collapse: collapse;
-    margin: 0 auto 20px;
+    width: 60%;
+    margin-bottom: 40px;
+    margin: auto;
 }
 
-.otodetail th, .otodetail td {
-    padding: 15px;
+th, td {
+    border: 1px solid #dddddd;
     text-align: left;
+    padding: 10px 10px;
 }
 
-.otodetail th {
-    background-color: #f2f2f2;
+th {
+    background-color: #CEE741;
+    text-align: center;
 }
 
 .button-group {
     text-align: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
-.button-group button, .button-group a button {
-    margin: 0 10px;
+.button-group button {
+    margin-right: 10px;
     padding: 10px 20px;
     background-color: #878787;
     color: white;
@@ -87,27 +72,37 @@ h3 {
 }
 
 .button-group button.btnLeft {
-    background-color: #878787;
+	background-color: #878787;
 }
 
 .button-group button.btnRight {
-    background-color: #4CAF50;
+	background-color: #4CAF50;
 }
 
-.button-group button:hover, .button-group a button:hover {
-    background-color: #0066cc;
+.button-group button.btnDel {
+    background-color: #db2525;
 }
 
 .button-group button.btnLeft:hover {
-    background-color: #bbb;
+    background-color: #9e9e9e;
 }
 
 .button-group button.btnRight:hover {
-    background-color: #45A049;
+	background-color: #58c05c;
 }
 
-.button-group form {
-    display: inline;
+.button-group button.btnDel:hover {
+    background-color: #f13535;
+}
+
+.button-group a {
+    color: white;
+    text-decoration: none;
+}
+
+.separator {
+    border-bottom: 2px solid #444444;
+    margin-top: 20px;
 }
 </style>
 
@@ -116,10 +111,9 @@ h3 {
 
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 
-		<div class="wrap">
-	
+	<div class="wrap">
+	<h3>1:1 문의 상세조회</h3>
 		<div class="page">
-		<h3>1:1 문의 상세조회</h3>
 			<div class="otodetail">
 				<table>
 					<tr>
@@ -135,7 +129,8 @@ h3 {
 			        <tr>
 			            <th>제목</th>
 			            <td>${oto.otoTitle }</td> 
-			        
+			        </tr>
+			        <tr>
 			            <th>작성자</th>
 			            <td>${oto.otoName }</td> 
 			        </tr>
@@ -145,7 +140,8 @@ h3 {
 		                	<fmt:parseDate value="${oto.otoDate }" var="otoDate" pattern="yyyy-MM-dd HH:mm:ss" />
 		               		<fmt:formatDate value="${otoDate }" pattern="yyyy-MM-dd HH:mm:ss"/>
 		                </td>
-			        
+			        </tr>
+			        <tr>
 			            <th>조회수</th>
 			            <td>${oto.otoHit }</td>
 			        </tr>
@@ -177,7 +173,7 @@ h3 {
 			<a href="/buyer/help/otoform"><button class="btnRight" type="button">1:1 문의 작성하기</button></a>
 			<form action="/buyer/mypage/otodel" method="post" style="display: inline;">
 				<input type="hidden" name="otoCode" value="${oto.otoCode }">
-				<button class="btn" type="submit">삭제하기</button>
+				<button class="btnDel" type="submit">삭제하기</button>
 			</form>
 		</div>
 	</div>

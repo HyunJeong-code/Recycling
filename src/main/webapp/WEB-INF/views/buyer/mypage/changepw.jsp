@@ -21,8 +21,27 @@ $(document).ready(function() {
 			alert('새 비밀번호가 일치하지 않습니다.');
 			event.preventDefault();
 		}
-	})
-})
+	});
+
+    var rexPw = /[a-zA-Z0-9!@#$%]{8,15}/; // 비밀번호 정규식
+
+    // 비밀번호
+    $("#newPw").blur(function() {
+        if($("#newPw").val() == '') {
+            $("#pw").css("display", "block");
+        } else {
+            $("#pw").css("display", "none");
+            
+            if(!rexPw.test($("#newPw").val())) {
+                console.log(rexPw.test($("#newPw").val()));
+                $("#chkPw").css("display", "block");            
+            } else {
+                console.log(rexPw.test($("#newPw").val()));
+                $("#chkPw").css("display", "none");                        
+            }
+        }
+    });
+});
 </script>
 
 <style>
@@ -65,7 +84,7 @@ body {
     width: 100%;
 }
 
-.changepw h3 {
+.changepw h2 {
     margin-bottom: 30px;
     color: #333;
 }
@@ -98,13 +117,17 @@ input[type="text"] {
 .button-group button {
     margin-right: 10px;
     padding: 10px 20px;
-    background-color: #878787;
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     width: 135px;
     height: 39px;
+}
+
+.button-group button:hover {
+    background-color: #58c05c;
 }
 </style>
 
@@ -123,7 +146,7 @@ input[type="text"] {
 				<form action="${pageContext.request.contextPath }/buyer/mypage/changepw" method="post">
 					<div class="changepw">
 						<div>
-							<h3>비밀번호 변경</h3>
+							<h2>비밀번호 변경</h2>
 						</div>
 						<div class="form-group">
 							<label for="newPw">새 비밀번호 </label>
@@ -134,7 +157,7 @@ input[type="text"] {
 							<input type="text" id="confirmPw" name="confirmPw" required><br>
 						</div>
 						<div class="button-group">
-							<button type="button" class="btn">비밀번호 변경</button>
+							<button type="submit" class="btn">비밀번호 변경</button>
 						</div>
 					</div>
 				</form>

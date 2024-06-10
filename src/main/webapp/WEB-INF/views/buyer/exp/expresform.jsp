@@ -7,12 +7,107 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>체험단 예약하기</title>
+<title>체험단 예약</title>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- 결제 API -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<link rel="stylesheet" href="/resources/css/pay.css">
+<style type="text/css">
 
+.wrap {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-control, .form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+}
+
+.mb-3 {
+    margin-bottom: 20px;
+}
+
+.pay {
+    margin-top: 30px;
+}
+
+.page-header h5 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#payOption {
+    margin-bottom: 15px;
+}
+
+#payOption label {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+#payOption input[type="radio"] {
+    margin-right: 5px;
+}
+
+.btnRight {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btnRight:hover {
+    background-color: #0056b3;
+}
+
+.btnRight:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+input[type="hidden"] {
+    display: none;
+}
+
+</style>
 <script type="text/javascript">
 function setResDateTime() {
     var selectedOption = document.getElementById('expSchList').options[document.getElementById('expSchList').selectedIndex];
@@ -106,8 +201,10 @@ function requestPay() {
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
-<div class="container">
-    <h1>체험단 예약하기</h1>
+<div class="full">
+
+<div class="wrap">
+    <h1>체험단 예약</h1>
     <form action="./expresform" method="post">
         <div class="mb-3">
             <label for="expSchList" class="form-label">예약 날짜 및 시간</label>
@@ -158,10 +255,11 @@ function requestPay() {
                 <label>카카오페이<input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
             </div>
 
-            <button class="btn" type="button" id="btnPay" onclick="requestPay();">신청하기</button>
+            <button class="btnRight" type="button" id="btnPay" onclick="requestPay();">신청하기</button>
             
         </div>
     </form>
+</div>
 </div>
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>

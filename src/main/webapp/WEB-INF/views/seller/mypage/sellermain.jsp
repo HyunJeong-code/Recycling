@@ -20,12 +20,6 @@
                   
               </div>
               
-              <div class="section">
-                  <a href="/WEB-INF/view/seller/mypage/changebank.jsp" >판매자 계좌 변경</a>
-                  <a href="/WEB-INF/view/seller/mypage/changepw.jsp" >판매자 비밀번호 변경</a>
-                  <a href="/WEB-INF/view/seller/mypage/sellerdetail.jsp" >판매자 정보 변경</a>
-                  <a href="/WEB-INF/view/seller/mypage/outseller.jsp" >판매자 회원탈퇴</a>
-              </div>
            
            </div>
        </div>

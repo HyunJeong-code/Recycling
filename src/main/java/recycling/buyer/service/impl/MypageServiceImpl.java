@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import recycling.buyer.dao.face.MypageDao;
 import recycling.buyer.service.face.MypageService;
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
@@ -146,5 +147,10 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public List<Map<String, Object>> selectAll(PagingAndCtg paging) {
 		return mypageDao.selectAll(paging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectBuyer(BuyerLogin buyerLogin) {
+		return mypageDao.selectBuyer(buyerLogin);
 	}
 }

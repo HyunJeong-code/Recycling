@@ -66,11 +66,20 @@ table, th, td {
 
 th, td {
     padding: 15px;
-    text-align: left;
+    text-align: center;
 }
 
 th {
     background-color: #f2f2f2;
+}
+
+td:first-child {
+    background-color: #CEE741;
+    font-weight: bold;
+}
+
+table {
+	width: 50%;
 }
 </style>
 

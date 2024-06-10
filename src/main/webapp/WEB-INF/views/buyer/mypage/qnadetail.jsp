@@ -44,64 +44,103 @@ function submitDeleteForm() {
 
 </script>
 
-<style type="text/css">
+<style>
 body {
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
+
 .wrap {
     width: 800px;
     margin: auto;
     padding: 20px;
-    background-color: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.page_box {
+
+.page {
     border-bottom: 2px solid #444444;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
-.page_box h2 {
+
+h3 {
     margin: 0;
     color: #333;
-}
-.detail-container {
-    margin: 20px 0;
-}
-table {
-    border-collapse: collapse;
-    width: 100%;
+    text-align: center;
     margin-bottom: 20px;
 }
+
+table {
+    border-collapse: collapse;
+    width: 60%;
+    margin-bottom: 20px;
+    margin: auto;
+}
+
 th, td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
 }
+
 th {
-    background-color: #f2f2f2;
+    background-color: #CEE741;
+    text-align: center;
 }
+
 .button-group {
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 40px;
 }
+
 .button-group button {
     margin-right: 10px;
     padding: 10px 20px;
-    background-color: #0066cc;
+    background-color: #878787;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    display: inline-block;
 }
-.button-group button:hover {
-    background-color: #005bb5;
+
+.button-group button.btnLeft {
+	background-color: #878787;
 }
+
+.button-group button.btnRight {
+	background-color: #4CAF50;
+}
+
+.button-group button.btnDel {
+    background-color: #db2525;
+}
+
+.button-group button.btnLeft:hover {
+    background-color: #9e9e9e;
+}
+
+.button-group button.btnRight:hover {
+	background-color: #58c05c;
+}
+
+.button-group button.btnDel:hover {
+    background-color: #f13535;
+}
+
 .button-group a {
     color: white;
     text-decoration: none;
+}
+
+footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    padding: 10px 0;
 }
 </style>
 
@@ -110,14 +149,9 @@ th {
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
 	
 	<div class="wrap">
-	
-		<div class="page_box">
-			<h2>고객 문의사항 상세 조회</h2>
-			<hr>
-		</div>	
-			
-		<div class="detail-container">
-			<div class="qna_header">
+	<h3>고객 문의사항 상세 조회</h3>
+		<div class="page">
+			<div class="qnadetail">
 				<table>
 					<tr>
 						<th>분류</th>
@@ -146,14 +180,15 @@ th {
 			
 			<div class="button-group">
 				<button class="btnLeft" type="button" onclick="history.back();">목록으로</button>
-				<button class="btn1" type="button"><a href="/seller/qna/qnaform">판매자 문의 작성하기</a></button>
-				<button class="btn2" id="deleteBtn"><a href="#" onclick="submitDeleteForm()">삭제하기</a></button>
+				<a href="/seller/qna/qnaform"><button class="btnRight" type="button">판매자 문의 작성하기</button></a>
+				<a href="#" onclick="submitDeleteForm()"><button class="btnDel" type="button" id="deleteBtn">삭제하기</button></a>
 				<form id="deleteForm" action="/buyer/mypage/qnadel" method="post" style="display: none;">
 				    <input type="hidden" name="qstCode" value="${qst.qstCode}">
 				    <input type="hidden" name="qnaCode" value="${qna.qnaCode}">
 				</form>
 			</div>
 		</div>
+	</div>
 	
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 	

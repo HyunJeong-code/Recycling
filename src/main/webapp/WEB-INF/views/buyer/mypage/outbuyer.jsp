@@ -66,8 +66,10 @@ th, td {
     text-align: left;
 }
 
-th {
-    background-color: #f2f2f2;
+td:first-child {
+    background-color: #CEE741;
+    text-align: center;
+    font-weight: bold;
 }
 
 .form-group {
@@ -98,12 +100,12 @@ th {
     background-color: #4CAF50;
 }
 
-.button-group button:hover {
-    background-color: #0066cc;
+.button-group button.btnRight:hover {
+    background-color: #9e9e9e;
 }
 
-.button-group button.btnRight:hover {
-    background-color: #bbb;
+.button-group button.btnLeft:hover {
+    background-color: #58c05c;
 }
 
 .button-group button.btnLeft:hover {

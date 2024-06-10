@@ -106,7 +106,7 @@ $(function() {
 			</div>
 		</div>
 		
-		<form action="./join" method="post" enctype="multipart/form-data">
+		<form action="/manager/join" method="post" enctype="multipart/form-data">
 			<div>
 				<label for="mgrProf">사원증</label>
 				<input type="file" id="mgrProf" name="mgrProf" required="required">
@@ -180,8 +180,8 @@ $(function() {
 				</div>			
 			</div>
 			
-			<button>가입하기</button>
-			<button><a href="/manager/main">취소하기</a></button>
+			<button class="btn btnRight">가입하기</button>
+			<a href="/manager/main"><button class="btn btnLeft">취소하기</button></a>
 		</form>
 		</div>
 	</div>

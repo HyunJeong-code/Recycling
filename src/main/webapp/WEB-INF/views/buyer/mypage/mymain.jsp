@@ -46,8 +46,8 @@ body {
 }
 
 .full {
-	width: 1200px;
-	height: auto;
+    width: 1200px;
+    height: auto;
     margin: 0 auto;
     padding: 50px 20px;
     display: flex;
@@ -65,63 +65,64 @@ body {
 }
 
 .page {
-	margin-top: 20px;
-	border-bottom: 3px solid #333;
-	width: 100%;
-	text-align: center;
+    margin-top: 20px;
+    border-bottom: 3px solid #333;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 30px;
 }
 
-h3 {
-	margin-bottom: 20px;
-	color: #333;
-}
-
-form {
+.mymain {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
 
-table {
-    margin: 0 auto;
-    border-collapse: separate;
-    border-spacing: 10px 15px;
+.mymain h3 {
+    margin-bottom: 30px;
+    color: #333;
 }
 
-td {
-    padding: 5px;
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-td:first-child {
-    text-align: right;
-    vertical-align: middle;
-    padding-right: 10px;
-}
-
-td:last-child {
+.form-group label {
+    margin-right: 20px;
     text-align: left;
-    vertical-align: middle;
-}
-
-input[type="password"] {
-	border: none;
-	border-bottom: 1px solid black;
-	width: 200px;
-}
-
-button {
-    padding: 0 0;
-    border: none;
     width: 100px;
-    height: 30px;
-    margin: 20px auto;
-    display: block;
 }
 
-.btn {
-	background-color: #ccc;
-    color: black;
+input[type="text"] {
+    border: none;
+    border-bottom: 1px solid black;
+    width: 200px;
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.button-group button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 135px;
+    height: 39px;
+}
+
+.button-group button:hover {
+    background-color: #58c05c;
 }
 </style>
 
@@ -136,17 +137,19 @@ button {
 			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
 		
 			<div class="page">
-				<h3>개인 정보 변경을 위해 비밀번호를 입력해주세요.</h3>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mymain" method="post">
-					<table>
-						<tr>	
-							<td>비밀번호</td>
-							<td><input type="password" id="password" name="password" required></td>
-						</tr>
-						<tr>
-							<td colspan="2"><button class="btn">확인</button></td>
-						</tr>
-					</table>
+					<div class="mymain">
+						<div>
+							<h3>개인 정보 변경을 위해 비밀번호를 입력해주세요.</h3>
+						</div>
+						<div class="form-group">
+							<label>비밀번호</label>
+							<input type="password" id="password" name="password" required>
+						</div>
+						<div class="button-group">
+							<button type="submit" class="btn">확인</button>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
