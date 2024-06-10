@@ -298,9 +298,7 @@
 			<button onclick="prevPage()">이전</button>
 			<button onclick="nextPage()">다음</button>
 		</div>
-	</div>
-	
-	
+	</div>	
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 <script>
