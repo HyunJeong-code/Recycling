@@ -227,29 +227,37 @@
 
 	<div class="mainContainer">
 		<div class="mainBanner">
-			<h3>최신 상품</h3>
+		    <h3>최신 상품</h3>
 		    <div class="bannerInfo">
-				<c:forEach var="prd" items="${latestList}" varStatus="status">
-					<c:if test="${status.index < 4}">
-						<div class="bannerContent">
-							<img src="${pageContext.request.contextPath}/resources/image/${latestPrdImageThumNames[status.index]}" 
-								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
-							<p class="bannerTitle">${prd.prdName}</p>
-							<p class="bannerPrice">${prd.price}원</p>
-		                    </div>
-		                </c:if>
-				</c:forEach>
-		            
-				<c:forEach var="prd" items="${HitList}" varStatus="status">
-					<c:if test="${status.index < 4}">
-						<div class="bannerContent">
-							<img src="${pageContext.request.contextPath}/resources/image/${hitPrdImageThumNames[status.index]}" 
-								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
-							<p class="bannerTitle">${prd.prdName}</p>
-							<p class="bannerPrice">${prd.price}원</p>
-						</div>
-					</c:if>
-				</c:forEach>
+		        <c:forEach var="prdMap" items="${latestPrdWithImagesList}" varStatus="status">
+		            <c:if test="${status.index < 4}">
+		                <c:set var="prd" value="${prdMap.prd}" />
+		                <div class="bannerContent">
+		                    <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdCode=${prd.prdCode}">
+		                        <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[status.index]}" 
+		                            onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
+		                        <p class="bannerTitle">${prd.prdName}</p>
+		                        <p class="bannerPrice">${prd.price}원</p>
+		                    </a>
+		                </div>
+		            </c:if>
+		        </c:forEach>
+		    </div>
+		    <h3>조회수가 높은 상품</h3>
+		    <div class="bannerInfo">         
+		        <c:forEach var="prdMap" items="${hitPrdWithImagesList}" varStatus="status">
+		            <c:if test="${status.index < 4}">
+		                <c:set var="prd" value="${prdMap.prd}" />
+		                <div class="bannerContent">
+		                    <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdCode=${prd.prdCode}">
+		                        <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[status.index]}" 
+		                            onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
+		                        <p class="bannerTitle">${prd.prdName}</p>
+		                        <p class="bannerPrice">${prd.price}원</p>
+		                    </a>
+		                </div>
+		            </c:if>
+		        </c:forEach>
 		    </div>
 		</div>
 		<div class="categoryContainer">
@@ -272,19 +280,19 @@
 		</div>
 		
 		<div class="prdContainer">
-			<div class="prdList">
-				<c:forEach var="prd" items="${list}">
-				    <div class="prd" data-ct-pdt-no="${prd.ctPdtNo}">
-				        <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdCode=${prd.prdCode}">
-				            <img src="${pageContext.request.contextPath}/resources/image/${prdImageThumNames[status.index]}"
-								onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
-                            <p class="prdTitle">${prd.prdName}</p>
-                            <p class="prdPrice">${prd.price}원</p>
-				        </a>
-				    </div>
-				</c:forEach>
-                
-			</div>
+		    <div class="prdList">
+		        <c:forEach var="prdMap" items="${prdWithImagesList}" varStatus="status">
+		            <c:set var="prd" value="${prdMap.prd}" />
+		            <div class="prd" data-ct-pdt-no="${prd.ctPdtNo}">
+		                <a href="${pageContext.request.contextPath}/buyer/recycling/rcydetail?prdCode=${prd.prdCode}">
+		                    <img src="${pageContext.request.contextPath}/resources/image/${prdMap.prdImageThumNames[0]}"
+		                        onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/image/error_400px.png';">
+		                    <p class="prdTitle">${prd.prdName}</p>
+		                    <p class="prdPrice">${prd.price}원</p>
+		                </a>
+		            </div>
+		        </c:forEach>
+		    </div>
 		</div>
 		
 		<!-- 페이지 이동 버튼 -->

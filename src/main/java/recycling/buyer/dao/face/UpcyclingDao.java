@@ -1,7 +1,7 @@
 package recycling.buyer.dao.face;
 
 import java.util.List;
-
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
@@ -15,8 +15,16 @@ import recycling.dto.seller.Seller;
 public interface UpcyclingDao {
 
 	public List<Prd> selectPrdList();
+	public List<Prd> selectLatestList();
+	public List<Prd> selectHitList();
+	
+	public List<String> selectPrdImageThums(String prdCode);
+	public List<String> selectLatestPrdImageThums(String prdCode);
+	public List<String> selectHitPrdImageThums(String prdCode);
 
 	public Prd selectPrd(String prdCode);
+	public String selectPrdImageThum(String prdCode);
+	public List<String> selectPrdImageDetail(String prdCode);
 	
 	public Seller selectSeller(String getsCode);
 	
@@ -26,7 +34,7 @@ public interface UpcyclingDao {
 
 	public Buyer selectBcode(int bCode);
 
-	public List<UpcyReview> selectRvwList(String prdCode);
+	public List<Map<String, Object>> selectRvwList(String prdCode);
 
 	public UpcyReview selectRvw();
 
