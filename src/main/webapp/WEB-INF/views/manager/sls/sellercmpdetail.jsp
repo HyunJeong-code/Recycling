@@ -123,9 +123,10 @@ $(function() {
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-
-<sec:authentication var="managerLogin" property="principal"/>
+<div class="admin-container">
 <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+<div class = "full content" >
+<div class="wrap">
 <c:set var="seller" value="${seller }" />
 
 <div class="page">
@@ -354,6 +355,8 @@ $(function() {
 		<button type="button" id="btnList" class="btn">목록으로</a></button>
 	</form>
 </div> <!-- section End -->
-
+</div>
+</div>
+</div>
 </body>
 </html>

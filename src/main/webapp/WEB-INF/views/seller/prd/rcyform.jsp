@@ -64,7 +64,7 @@ $(function() {
 </script>
 <style type="text/css">
 
-.wrap {
+.main-section {
 	text-align: center;
 }
 
@@ -200,7 +200,7 @@ select::-ms-expand {
 <c:import url="/WEB-INF/views/layout/seller/sellerheader.jsp"/>
 <div class="full">
 	<div class="wrap">
-		<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>	
+		<c:import url="/WEB-INF/views/layout/seller/sellermenu.jsp"/>
 		<div class="main-section">
 		
 			<div class="page-header">

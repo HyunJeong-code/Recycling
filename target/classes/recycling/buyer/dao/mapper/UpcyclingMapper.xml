@@ -111,7 +111,7 @@
     
     <select id="selectCartOrder" parameterType="String" resultType="CartOrder">
     	SELECT
-		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, stored_name
+		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, origin_name, stored_name
 		FROM
 		    prd p, prd_file pf
 			<where>
