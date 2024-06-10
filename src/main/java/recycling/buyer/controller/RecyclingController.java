@@ -73,6 +73,7 @@ public class RecyclingController {
 	            prdImageThumNames.add("error_400px.png"); // 기본 에러 이미지
 	        }
 	    }
+	    
 	    for (Prd prd : latestList) {
 	        List<String> latestPrdImageThumList = recyclingService.selectLatestPrdImageThums(prd.getPrdCode());
 	        if (!latestPrdImageThumList.isEmpty()) {
@@ -81,6 +82,7 @@ public class RecyclingController {
 	            latestPrdImageThumNames.add("error_400px.png"); // 기본 에러 이미지
 	        }
 	    }
+	    
 	    for (Prd prd : hitList) {
 	        List<String> hitPrdImageThumList = recyclingService.selectHitPrdImageThums(prd.getPrdCode());
 	        if (!hitPrdImageThumList.isEmpty()) {
@@ -167,6 +169,7 @@ public class RecyclingController {
 	    if (prdImageThumName == null) {
 	        prdImageThumName = "error_400px.png"; // 기본 에러 이미지
 	    }
+	    
 	    logger.info("썸네일 이미지 파일명: {}", prdImageThumName);
 	    
 	    // 상세 이미지 파일명 로드
@@ -174,6 +177,7 @@ public class RecyclingController {
 	    if (prdImageDetailName == null) {
 	        prdImageDetailName = "error_860px.png"; // 기본 에러 이미지
 	    }
+	    
 	    logger.info("상세 이미지 파일명: {}", prdImageDetailName);
 
 	    model.addAttribute("prd", prd);
@@ -205,8 +209,6 @@ public class RecyclingController {
 		// 판매자 문의 조회 등의 기능 수행
 		return "buyer/recycling/rcycmt";
 	}
-	
-	
 	
 	@PostMapping("/writeProc")
 	public String writeReview(
@@ -242,8 +244,6 @@ public class RecyclingController {
 	    return "redirect:/buyer/recycling/rcydetail?prdcode=" + prdCode;
 	}
 
-
-	
 	@GetMapping("/pay")
 	public String pay(Authentication authentication, Model model, String prdCode) {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();

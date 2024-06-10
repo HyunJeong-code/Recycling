@@ -125,6 +125,22 @@ $(function() {
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+<sec:authentication var="managerLogin" property="principal"/>
+<c:if test="${managerLogin.deptno eq 10}">
+	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 20}">
+	<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 30}">
+	<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+</c:if>
+<c:if test="${managerLogin.deptno eq 40}">
+	<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+</c:if>
+<%-- <c:import url="/layout/manager/managerheader.jsp"/> --%>
+<c:set var="seller" value="${seller }" />
+
 <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
 <div class="page">
 	<h3>판매자 상세 조회</h3>
