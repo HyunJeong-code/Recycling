@@ -166,8 +166,8 @@ table tr:hover {
 	padding-top: 10 px;
 	display: flex;
 	float: right;
-	margin:20px 0;
-	justify-content: flex-end
+	margin:10px;
+	justify-content: flex-end;
 }
 
 /* 버튼 세팅 */

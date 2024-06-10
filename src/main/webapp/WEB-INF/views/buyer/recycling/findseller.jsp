@@ -11,14 +11,40 @@
 <head>
 <meta charset="UTF-8">
 <title>판매자 찾기</title>
+<style>
+	/* 가운데 정렬 스타일 */
+	h1 {
+	    text-align: center;
+	    background: white;
+	}
+	/* 추가적인 스타일링을 위한 예시 */
+	body {
+	    font-family: Arial, sans-serif;
+	    background-color: #f2f2f2;
+	    color: #333;
+	    margin: 0;
+	    padding: 0;
+	}
+	/* 지도 컨테이너 스타일 */
+	#map {
+	    width: 1150px;
+	    height: 550px;
+	    margin: 0 auto; /* 가운데 정렬 */
+	    margin-top: 20px; /* 상단 여백 추가 */
+	    background-color: #fff; /* 지도 배경색 */
+	    border: 1px solid #ccc; /* 지도 테두리 */
+	    border-radius: 8px; /* 지도 테두리 둥글게 */
+	    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+	}
+</style>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+	<br>
 
     <h1>판매자 찾기</h1>
-    <hr>
     
-    <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: center; background: white;">
       <div id="map" style="width:1150px;height:550px;"></div>
     </div>
     

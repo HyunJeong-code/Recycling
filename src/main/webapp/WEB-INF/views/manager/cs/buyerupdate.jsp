@@ -213,6 +213,10 @@
 	margin-bottom: 20px;
 }
 
+.section_top_itembox{
+	padding: 38px;
+}
+
 .section img {
 	height: 200px;
 	width: 200px;
@@ -273,8 +277,8 @@ input[type="text"], select {
 }
 
 .section_bot_itembox {
-	width: 500px;
-	margin-left: 280px;
+	width: 800px;
+	margin-left: 265px;
 }
 
 .section .bPhone_box, .section .bEmail_box, .section .bEntDate_box {
@@ -289,7 +293,6 @@ input[type="text"], select {
 	margin-left: 20px;
 	margin-bottom: 15px;
 }
-
 
 .bot_document_filebox .file_find {
 	text-align: right;
@@ -320,12 +323,15 @@ input[type="text"], select {
 	margin-right: 20px;
 }
 
-.phone_box{
-	display: flex;
+.phone_box, .email_box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-.email_box{
-	display: flex;
+.btn_bot_wrap {
+    display: flex;
+    gap: 7px; /* 추가된 간격 */
 }
 </style>
 </head>
@@ -350,21 +356,18 @@ input[type="text"], select {
 								<input type="hidden" id="bProfNo" name="bProfNo" value="${buyerProfdetail.bProfNo }"/>
 							</div>
 		    				
-							<div class="section_bot_itembox">
+							<div class="section_top_itembox">
 								<div class="bCode_box">
 									<label>회원번호</label>
 									<div>${view.bCode }</div>
 								</div>
 								
-								<div class="bCode_box">
-								<!-- <div class="bCt_box"> -->
-								    <div>
-								        <label for=rankNo>분류</label>
-										<select name="bCtCode" id="bCtCode">
-											<option value="C">기업</option>
-											<option value="P">개인</option>
-										</select>
-								    </div>
+								<div class="rankNo_box">
+							        <label for=rankNo>분류</label>
+									<select name="bCtCode" id="bCtCode">
+										<option value="C">기업</option>
+										<option value="P">개인</option>
+									</select>
 								</div>
 								
 								<div class="bName_box">
@@ -388,8 +391,8 @@ input[type="text"], select {
 						<div class="section_bot_title">상세 정보</div>
 		
 						<div class="section_bot_itembox">
-							<div class="phone_box">
-					            <label for="sPhone">전화 번호</label>
+							<div class="bEmail_box">
+					            <label for="bEmail_box">전화번호</label>
 					            <select class="sPhone" id="sPhone" name="sPhone">
 					               <option value="010">010</option>
 					               <option value="011">011</option>
@@ -402,24 +405,23 @@ input[type="text"], select {
 					                   <input type="text" class="s" id="mPhone" name="mPhone" maxlength="4">
 					                       <div class="hyphen">-</div>
 					                   <input type="text" class="s" id="lPhone" name="lPhone" maxlength="4" >
-					                </div>
+					        </div>
 					                <input type="hidden" id="bPhone" name="bPhone">
-					                
 					               
-					            <div class="email_box">
-					            	<label for="bEmail1">이메일</label>   
-					            
-					               <input type="text" id="bEmail1" name="bEmail1" required="required">
-					         
-					               <select class="bEmail2" name="bEmail2" id="bEmail2" required="required">
-					                  <option value="naver.com">@naver.com</option>
-					                  <option value="gmail.com">@gmail.com</option>
-					                  <option value="daum.net">@daum.net</option>
-					                  <option value="in">직접 입력</option>
-					               </select>
-					               <input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
-					            </div>
-					            <input type="hidden" id="bEmail" name="bEmail">
+				            <div class="bEmail_box">
+				            	<label for="bEmail_box">이메일</label>   
+				            
+				               <input type="text" id="bEmail1" name="bEmail1" required="required">
+				         
+				               <select class="bEmail2" name="bEmail2" id="bEmail2" required="required">
+				                  <option value="naver.com">@naver.com</option>
+				                  <option value="gmail.com">@gmail.com</option>
+				                  <option value="daum.net">@daum.net</option>
+				                  <option value="in">직접 입력</option>
+				               </select>
+				               <input type="text" id="inEmail" name="inEmail" placeholder="@test.com 형식으로 입력하세요.">
+				            </div>
+				            <input type="hidden" id="bEmail" name="bEmail">
 							
 							<div class="bEmail_box">
 								<label for ="adrPostcode">우편번호</label>
@@ -462,12 +464,12 @@ input[type="text"], select {
 							</div>
 						</div>
 						
-						<div class="btn_bot_wrap">
-						    <a href="./buyerupdate"><button class="btn_bot_update">수정</button></a>					    
-						</div>
+						<div class="btn_bot_wrap" style="justify-content: flex-end; align-items: center;">
+						    <a href="./buyerupdate"><button class="btn btnRight">수정하기</button></a>
+						</div>					    
 					</form>
 					<div class="btn_bot_wrap">
-						<a href="./buyerdetail?bCode=${view.bCode }"><button class="btn_bot_return">돌아가기</button></a>
+					    <a href="./buyerdetail?bCode=${view.bCode }"><button class="btn btnLeft">돌아가기</button></a>
 					</div>
 				</div>
 			</div>

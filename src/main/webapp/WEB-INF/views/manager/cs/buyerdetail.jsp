@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원 정보</title>
 <!-- css -->
 <!-- <link rel="stylesheet" type="text/css" href="/resources/css/manager/cs/buyerdetail.css"> -->
 <link rel="stylesheet" href="/resources/css/manager/manager.css">
@@ -38,6 +38,11 @@
 	margin-bottom: 20px;
 }
 
+.section_top_itembox {
+	width: 800px;
+	margin-left: 70px;
+}
+
 .section img {
 	height: 200px;
 	width: 200px;
@@ -49,7 +54,6 @@
 .section .bCode_box, .section .bName_box, .section .rankNo_box {
 	margin-bottom: 15px;
 	display: flex;
-	margin-left: 20px;
 }
 
 label {
@@ -58,13 +62,6 @@ label {
 	font-weight: bold;
 	margin-bottom: 5px;
 	width: 200px;
-	text-align: justify;
-}
-
-input[type="text"], select {
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	font-size: 14px;
 }
 
 .section h3 {
@@ -85,7 +82,6 @@ input[type="text"], select {
 	margin-bottom: 10px;
 }
 
-/* --------------------------------------- */
 /* 색션 하단 */
 .section_bot_title {
 	margin-bottom: 20px;
@@ -98,7 +94,7 @@ input[type="text"], select {
 }
 
 .section_bot_itembox {
-	width: 500px;
+	width: 800px;
 	margin-left: 280px;
 }
 
@@ -115,13 +111,12 @@ input[type="text"], select {
 	margin-bottom: 15px;
 }
 
-
 .bot_document_filebox .file_find {
 	text-align: right;
 	width: 100px;
 }
 
-.bot_document_filebox .file_name{
+.bot_document_filebox .file_name {
 	overflow: auto;
 }
 
@@ -141,10 +136,21 @@ input[type="text"], select {
 	color: #999999;
 }
 
-.btnRight{
+.btnRight {
 	margin-right: 20px;
 }
 
+.btnLeft {
+	margin-right: 20px;
+}
+
+.btnDel {
+	margin-right: 20px;
+}
+
+.btn_bot_wrap {
+    display: flex;
+}
 </style>
 </head>
 <body>
@@ -152,7 +158,7 @@ input[type="text"], select {
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
 		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
-		<div class = "full content" >
+		<div class="full content">
 			<div class="wrap">
 				<div class="page">	
 				    <h1>회원 정보</h1>
@@ -160,17 +166,14 @@ input[type="text"], select {
 	    		</div>
 	    		
 	    		<div class="section">
-	    			<div class ="section_top">
-	    				<img alt=""src="${pageContext.request.contextPath}/upload/${buyerProfdetail.storedName}">
-	    				
-						<div class="section_bot_itembox">
+	    			<div class="section_top">
+	    				<img alt="" src="${pageContext.request.contextPath}/upload/${buyerProfdetail.storedName}">
+						<div class="section_top_itembox">
 							<div class="bCode_box">
 								<label>회원번호</label>
-								<div>${buyerdetail.bCode }</div>
+								<div>${buyerdetail.bCode}</div>
 							</div>
-							
 							<div class="bCode_box">
-							<!-- <div class="bCt_box"> -->
 							    <label>분류</label>
 							    <div>
 							        <c:choose>
@@ -186,12 +189,10 @@ input[type="text"], select {
 							        </c:choose>
 							    </div>
 							</div>
-							
 							<div class="bName_box">
-								<label>이 름</label>
-								<div>${buyerdetail.bName }</div>
+								<label>이름</label>
+								<div>${buyerdetail.bName}</div>
 							</div>
-							
 							<div class="rankNo_box">
 							    <label for="rankNo">등급</label>
 							    <div>
@@ -219,68 +220,55 @@ input[type="text"], select {
 							</div>
 						</div>
 					</div>
-					
 					<div class="section_bot_title">상세 정보</div>
-	
 					<div class="section_bot_itembox">
 						<div class="bPhone_box">
-							<label for ="bPhone">전화번호</label> 
-							<div>${buyerdetail.bPhone }</div>
+							<label for="bPhone">전화번호</label> 
+							<div>${buyerdetail.bPhone}</div>
 						</div>
-						
 						<div class="bEmail_box">
-							<label for ="bEmail">이메일</label>
-						 	<div>${buyerdetail.bEmail }</div>
+							<label for="bEmail">이메일</label>
+						 	<div>${buyerdetail.bEmail}</div>
 						</div>
-						
 						<div class="bEmail_box">
-							<label for ="buyerPostcode">우편번호</label>
-						 	<div>${buyerAdrdetail.adrPostcode }</div>
+							<label for="buyerPostcode">우편번호</label>
+						 	<div>${buyerAdrdetail.adrPostcode}</div>
 						</div>
-						
 						<div class="bEmail_box">
-							<label for ="buyerAdr">주소</label>
-						 	<div>${buyerAdrdetail.adrAddr }</div>
+							<label for="buyerAdr">주소</label>
+						 	<div>${buyerAdrdetail.adrAddr}</div>
 						</div>
-						
 						<div class="bEmail_box">
-							<label for ="buyerAdrdetail">상세주소</label>
-						 	<div>${buyerAdrdetail.adrDetail }</div>
+							<label for="buyerAdrdetail">상세주소</label>
+						 	<div>${buyerAdrdetail.adrDetail}</div>
 						</div>
-						
 						<div class="bEmail_box">
-							<label for ="buyerAdSms">SMS 수신동의</label>
-						 	<div>${buyerdetail.adSms }</div>
+							<label for="buyerAdSms">SMS 수신동의</label>
+						 	<div>${buyerdetail.adSms}</div>
 						</div>
-						
 						<div class="bEmail_box">
-							<label for ="buyerAdEmail">이메일 수신동의</label>
-						 	<div>${buyerdetail.adEmail }</div>
+							<label for="buyerAdEmail">이메일 수신동의</label>
+						 	<div>${buyerdetail.adEmail}</div>
 						</div>
-						
 						<div class="bEntDate_box">
-							<label>가 입 일</label>
+							<label>가입일</label>
 							<div>
-								<fmt:parseDate value="${buyerdetail. bEntDate }" var="bEntDate" pattern="yyyy-MM-dd" />
-								<fmt:formatDate value="${bEntDate }" pattern="yyyy-MM-dd" />
+								<fmt:parseDate value="${buyerdetail.bEntDate}" var="bEntDate" pattern="yyyy-MM-dd"/>
+								<fmt:formatDate value="${bEntDate}" pattern="yyyy-MM-dd"/>
 							</div>
 						</div>
 					</div>
-						
 					<div class="btn_bot_wrap">
-					    <%-- <a href="./buyerupdate?bCode=${buyer.bCode }"><button>수정</button></a> --%>
 					    <div>
-					    	<a href="./buyerupdate?bCode=${buyer.bCode }"><button class="btn btnRight">수정</button></a>
+					    	<a href="./buyerupdate?bCode=${buyer.bCode}"><button class="btn btnRight">수정하기</button></a>
 					    </div>
-					    <button class="btn btnRight" onclick="checkDelete('${buyer.bCode}')">삭제</button>
-						
-						<div><a href="./buyerlist"><button class="btn btnLeft">돌아가기</button></a></div>
-					    <!-- <a href="./buyerlist"><button>목록</button></a> -->
-					    
+					    <button class="btn btnDel" onclick="checkDelete('${buyer.bCode}')">삭제하기</button>
+						<div>
+							<a href="./buyerlist"><button class="btn btnLeft">목록으로</button></a>
+						</div>
 					    <input type="hidden" id="bOut" name="bOut" value="Y">
 					    <input type="hidden" id="bOutDate" name="bOutDate" value="">
-					    
-					    <input type="hidden" id="bCode" name="bCode" value="${buyer.bCode }">
+					    <input type="hidden" id="bCode" name="bCode" value="${buyer.bCode}">
 					</div>
 				</div>
 			</div>
