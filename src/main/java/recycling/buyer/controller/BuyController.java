@@ -129,7 +129,7 @@ public class BuyController {
 		
 		return chkNum;
 	}
-	
+
 	@GetMapping("/prijoin")
 	public void priJoin() {
 		logger.info("/buyer/prijoin [GET]");
