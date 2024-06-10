@@ -2,6 +2,7 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -226,6 +227,12 @@ $(function() {
 	})
 })
 
+function cancelUpdate() {
+      
+   window.history.back();
+      
+}
+
 //핸드폰 번호 처리
 var mgrPhone = "${manager.mgrPhone}".split("-");
 console.log("mgrPhone : " + mgrPhone);
@@ -391,7 +398,19 @@ input[type="text"], select {
 
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
+					<sec:authentication var="managerLogin" property="principal"/>
+	<c:if test="${managerLogin.deptno eq 10}">
 		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 20}">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 30}">
+		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 40}">
+		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+	</c:if>
 		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">
@@ -511,10 +530,10 @@ input[type="text"], select {
 				</div>
 	
 				<div class="btn_bot_wrap">
-						<a href="./empupdate"><button class="btn btnRight">수정하기</button></a>
+					<a href="./empupdate"><button class="btn btnRight">수정하기</button></a>
+					<button class="btn btnLeft" onclick="cancelUpdate()">돌아가기</button>
 				</div>
 				</form>
-					<a href="./empdetail?mgrCode=${view.mgrCode }"><button class="btn btnLeft">돌아가기</button></a>
 				
 			</div>
 		</div>

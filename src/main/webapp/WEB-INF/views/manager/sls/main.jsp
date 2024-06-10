@@ -18,7 +18,6 @@
         </aside>
         <div class="wrap">
             <div class="page">
-
             판매자 조회
          </div>
          

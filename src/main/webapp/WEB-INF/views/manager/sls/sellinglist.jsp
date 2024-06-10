@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -213,11 +214,27 @@ $(function() {
 }); //$ end
 
 </script>
+<style type="text/css">
+
+</style>
+
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
+			<sec:authentication var="managerLogin" property="principal"/>
+	<c:if test="${managerLogin.deptno eq 10}">
 		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 20}">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 30}">
+		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 40}">
+		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+	</c:if>
 		<div class = "full content" >
 
 		<div class="wrap">
@@ -225,11 +242,10 @@ $(function() {
 			<div class="section">
 			
 				<div class="search">
-					<form action="./sellinglist" method="get">
-						<input type="hidden" name="sCtg" value="UP"> <input
-							type="text" id="uppersearch" name="search"
+					<form action="./sellinglist" method="get" class ="search_form" style="padding-bottom: 20px;">
+						<input type="hidden" name="sCtg" value="UP"> <input type="text" id="uppersearch" name="search"
 							placeholder="검색어를 입력해주세요." class="search">
-						<button>검색</button>
+						<button class ="btn btnRight">검색</button>
 					</form>
 				</div>
 
@@ -246,18 +262,18 @@ $(function() {
 
 					<!-- 개인 -->
 					<tr>
-						<th><c:choose>
+						<td><c:choose>
 								<c:when test="${selList.B_CT_CODE eq 'P'}">
 								개인
 							</c:when>
 								<c:when test="${selList.B_CT_CODE eq 'C'}">
 								기업
 							</c:when>
-							</c:choose></th>
-						<th>${selList.S_CODE }</th>
-						<th>${selList.B_NAME }</th>
-						<th>${selList.B_PHONE }</th>
-						<th>${selList.B_EMAIL }</th>
+							</c:choose></td>
+						<td>${selList.S_CODE }</td>
+						<td>${selList.B_NAME }</td>
+						<td>${selList.B_PHONE }</td>
+						<td>${selList.B_EMAIL }</td>
 <%-- 						<th>${selList. }</th> --%>
 <%-- 						<th>${selList. }</th> --%>
 					</tr>
@@ -313,8 +329,8 @@ $(function() {
 				</table>
 				
 				<c:import url="/WEB-INF/views/layout/upperpaging.jsp" />
-				<div>
-					<button id="del_btn">삭제하기</button>
+				<div style="display: flex; flex-direction: row-reverse;">
+					<button id="del_btn" class="btn btnDel">삭제하기</button>
 				</div>
 
 
@@ -323,7 +339,7 @@ $(function() {
 				<div class="page">전체 판매관리</div>
 
 
-				<div>
+				<div style="padding:20px 0 ;">
 					<input type="hidden" class="sCode" value="${selList.S_CODE }">
 					<button class="updateSttBtn" id="900">결제 완료</button>
 					<button class="updateSttBtn" id="910">배송 준비 중</button>
