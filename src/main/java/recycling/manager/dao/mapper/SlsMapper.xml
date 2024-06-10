@@ -225,10 +225,7 @@
 					) B
 				<where>
 					AND S.b_code = B.b_code(+)
-				    AND (
-				    	S.s_chk = 'N'
-				    	OR S.s_chk IS NULL
-				    	)
+				    AND S.s_chk IS NULL
 				    AND B.b_out = 'N'
 				    AND (
 				    	B.b_name LIKE '%' || #{search } || '%'

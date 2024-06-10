@@ -47,7 +47,7 @@
 .main-section .s-table thead {
     border-top: 2px solid #252525;
     border-bottom: 1px solid #b7b7b7;
-    background-color: #CEE741;
+    background-color: #2D9BF0;
     font-size: 13px;
     font-weight: 700;
     height: 40px;
@@ -96,7 +96,7 @@
 #main_menu .sub_menu { display: none; } /* 서브메뉴들 숨김 */
 
 .selec {
-	background: #4CAF50;
+	background: #2D9BF0;
 }
 
 #main_menu > .selec > a {
@@ -135,7 +135,7 @@
 	margin: 10px 5px 0 10px;
 	width: 80px;
 	height: 30px;
-    background-color: #4CAF50;
+    background-color: #2D9BF0;
     color: #fff;
 	border: 1px solid #15a71b;
 	border-radius: 10px;

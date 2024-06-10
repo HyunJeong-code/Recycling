@@ -58,6 +58,8 @@ public class SellingController {
 		BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
         logger.info("buyerLogin : {}", buyerLogin);
         
+        logger.info("search : {}", search);
+        
         // 문의글 페이지 수 계산
   		PagingAndCtg upPaging = new PagingAndCtg();
   		PagingAndCtg unPaging = new PagingAndCtg();
@@ -72,6 +74,9 @@ public class SellingController {
         upPaging.setUser(buyerLogin.getsCode());
         unPaging = new PagingAndCtg(unPage, unPaging.getCurPage(), unPaging.getSearch());
         unPaging.setUser(buyerLogin.getsCode());
+        
+        logger.info("up : {}", upPaging);
+        logger.info("un : {}", unPaging);
         
         List<Map<String, Object>> prdList = sellingService.selectAllPrd(upPaging);
         List<Map<String, Object>> ordList = sellingService.selectAllOrd(unPaging);

@@ -258,4 +258,15 @@
 			AND no BETWEEN #{startNo } AND #{endNo } 
 		</where>
 	</select>
+	
+	<select id="selectBuyer" parameterType="BuyerLogin" resultType="hashmap">
+		SELECT 
+		    B.b_code bcode, B.b_ct_code bctcode, B.b_id id, B.b_name name, B.B_phone phone, B.b_email email, B.b_entdate entdate
+		    , BP.origin_name originname, BP.stored_name storedname
+		FROM buyer B, buyer_prof BP
+		<where> 
+			AND B.b_code = BP.b_code(+)
+			AND B.b_code = #{bCode }
+		</where>
+	</select>
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.manager.Manager;
@@ -36,6 +37,7 @@ public class ManagerController {
 	public void main(HttpSession session) {
 		logger.info("/manager/mgr/main [GET]");
 		
+		
 	}
 	
 	@PostMapping("/main")
@@ -53,6 +55,7 @@ public class ManagerController {
 				
 		if(pwEncoder.matches(mgrPw, mgr.getMgrPw())) {
 			session.setAttribute("mgrChk", true);
+			model.addAttribute("msg", "상세페이지로 이동합니다.");
 			model.addAttribute("url", "/manager/mgr/mgrdetail");
 			return "/layout/alert";
 		} else {
@@ -68,8 +71,10 @@ public class ManagerController {
 		
 		if((Boolean) session.getAttribute("mgrChk") == null) {
 			return "redirect:/manager/mgr/main";
-		} else {
+		} else if((Boolean) session.getAttribute("mgrChk")) {
 			return "/manager/mgr/changepw";
+		} else {
+			return "redirect:/manager/mgr/main";			
 		}
 	}
 	
@@ -110,7 +115,7 @@ public class ManagerController {
 		
 		if((Boolean) session.getAttribute("mgrChk") == null) {
 			return "redirect:/manager/mgr/main";
-		} else {
+		} else if((Boolean) session.getAttribute("mgrChk")) {
 			ManagerLogin mgr = (ManagerLogin) authentication.getPrincipal();
 			logger.info("mgr : {}", mgr);
 			
@@ -123,6 +128,8 @@ public class ManagerController {
 			model.addAttribute("mgrFile", mgrFile);
 			
 			return "/manager/mgr/mgrdetail";
+		} else {
+			return "redirect:/manager/mgr/main";
 		}
 	}
 	
@@ -132,7 +139,7 @@ public class ManagerController {
 				Manager manager,
 				String sPhone, String inPhone, String mPhone, String lPhone,
 				String mgrEmail2, String inEmail,
-				int mgrFlNo,
+				@RequestParam(defaultValue = "0") int mgrFlNo,
 				MultipartFile mgrProf,
 				Model model
 			) {

@@ -48,7 +48,7 @@ $(function(){
                 </ul>
             </div>
             <div class="logo">
-                <a href="/seller/main">
+                <a href="/seller/seller">
                     <img src="/resources/img/logo.png" alt="Logo">
                 </a>
             </div>
@@ -73,7 +73,7 @@ $(function(){
         <div class="container">
             <div>
                 <div class="select-page">
-                    <a href="/buyer/main"><button>Buyer</button></a><a href="/seller/main"><button class="selected">Seller</button></a>
+                    <a href="/buyer/main"><button>Buyer</button></a><a href="/seller/seller"><button class="selected">Seller</button></a>
                 </div>
             </div>
             <!-- <div class="search-bar">

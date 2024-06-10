@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>중복 로그인</title>
 </head>
 <body>
 
@@ -23,11 +23,11 @@
 					<label for="mgrPw">PW</label>
 					<input id="mgrPw" name="mgrPw" placeholder="비밀번호를 입력해주세요."><br><br>
 					
-					<button id="btnLogin">로그인</button>
+					<button class="btn btnRight">로그인</button>
 				</div>
 				
 				<div id="join">
-					<button><a href="./join">회원가입</a></button>
+					<a href="/manager/join"><button class="btn btnLeft">회원가입</button></a>
 				</div>
 			</form>
 		</div>

@@ -4,7 +4,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>권한 없음</title>
+<style type="text/css">
+.full {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+h3 {
+	font-size: 30px;
+	font-weight: bolder;
+	color: red;
+}
+
+.item {
+	outline: 0;
+    border: none;
+    transition: all 0.2s ;
+   	width: 90px;
+   	height: 36px;
+    background-color: #878787;
+    border-radius: 5px;
+   	color: white;
+   	font-size: 15px;
+}
+
+.item:hover {
+	background-color: #4CAF50;
+}
+</style>
 </head>
 <body>
 <div class="full">
@@ -15,8 +43,11 @@
 		
 		<div class="section">
 			사용자는 해당 사이트에 대한 권한이 없습니다.
-			<button><a  href="/manager/main">돌아가기</a></button>
-			<button><a href="/manager/logout">로그아웃</a></button>
+			<br><br>
+			
+			<hr>
+			<a  href="/manager/main"><button class="item">돌아가기</button></a>
+			<a href="/manager/logout"><button class="item">로그아웃</button></a>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->
