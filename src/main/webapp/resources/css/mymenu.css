@@ -87,3 +87,9 @@
     font-size: 13px;
     color: #333;
 }
+
+.b-table img, .s-table img {
+    padding: 10px;
+    max-width: 200px;
+    object-fit: contain;
+}

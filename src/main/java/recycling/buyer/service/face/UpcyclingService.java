@@ -1,6 +1,7 @@
 package recycling.buyer.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Cart;
@@ -17,6 +18,36 @@ public interface UpcyclingService {
 	 * @return
 	 */
 	public List<Prd> selectPrdList();
+	
+	/**
+	 * 최신 상품부터 조회
+	 * @return
+	 */
+	public List<Prd> selectLatestList();
+
+	/**
+	 * 조회수가 많은 상품부터 조회
+	 * @return
+	 */
+	public List<Prd> selectHitList();
+	
+	/**
+	 * 상품별 할당된 이미지 썸네일 로드
+	 * @return
+	 */
+	public List<String> selectPrdImageThums(String prdCode);
+
+	/**
+	 * 최신순 상품리스트 이미지 썸네일 로드
+	 * @return
+	 */
+	public List<String> selectLatestPrdImageThums(String prdCode);
+
+	/**
+	 * 조회순 상품리스트 이미지 썸네일 로드
+	 * @return
+	 */
+	public List<String> selectHitPrdImageThums(String prdCode);
 
 	/**
 	 * 제품번호를 기준으로 불러오면서 제품 정보를 불러온다
@@ -25,6 +56,20 @@ public interface UpcyclingService {
 	 * @return 제품번호의 상세페이지
 	 */
 	public Prd selectPrd(String prdCode);
+	
+	/**
+	 * 제품번호를 기준으로 상품 썸네일 로드
+	 * @param prdCode
+	 * @return
+	 */
+	public String selectPrdImageThum(String prdCode);
+	
+	/**
+	 * 제품번호를 기준으로 상품 상세이미지 로드
+	 * @param prdCode
+	 * @return
+	 */
+	public List<String> selectPrdImageDetail(String prdCode);
 	
 	/**
 	 * 판매자 정보을 가져오는 코드
@@ -71,7 +116,7 @@ public interface UpcyclingService {
 	 * 
 	 * @return
 	 */
-	public List<UpcyReview> selectRvwList(String prdCode);
+	public List<Map<String, Object>> selectRvwList(String prdCode);
 
 	/**
 	 * 리뷰 상세 조회

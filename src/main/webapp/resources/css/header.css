@@ -556,3 +556,9 @@ ol, ul {
     outline: none;
     transition: background-color 0.3s ease;
 }
+
+.b-table td img, .s-table td img, .order-table td img{
+    padding: 10px;
+    max-width: 150px;
+    object-fit: contain;
+}

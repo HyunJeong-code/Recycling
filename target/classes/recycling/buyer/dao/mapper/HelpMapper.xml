@@ -67,7 +67,7 @@
 
 	<select id="selectNoticeForSeller" resultType="Notice" parameterType="map">
     SELECT * FROM (
-        SELECT rownum AS no, N.* FROM (
+        SELECT rownum no, N.* FROM (
             SELECT * FROM notice
             WHERE ct_ntcno IN (0, 1)
             AND (
@@ -83,7 +83,7 @@
 	
 	<select id="selectNoticeForBuyer" resultType="Notice" parameterType="map">
     SELECT * FROM (
-        SELECT rownum AS no, N.* FROM (
+        SELECT rownum no, N.* FROM (
             SELECT * FROM notice
             WHERE ct_ntcno = 0
             AND (

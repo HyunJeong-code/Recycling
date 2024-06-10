@@ -10,22 +10,12 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <style type="text/css">
-.wrap { 
-    width: 1000px; margin: auto; 
-}
 
-.top-section { 
-    margin: 20px 0; 
-}
-
-.top-exp {
-	text-align: center;
-    margin-bottom: 30px;
-}
 
 div#topExpList{
 	display: flex;
-	    gap: 10px;
+    gap: 50px;
+    justify-content: center;
 }
 a {
 	display: contents;
@@ -37,16 +27,18 @@ div.title{
 
 .body-section {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.category, .search {
-    margin: 10px 0; 
-}
 
+button {
+	cursor: pointer;
+}
 .body-expList {
     display: flex; 
     flex-wrap: wrap; 
-    gap: 20px;
+    gap: 10px;
 }
 
 .expList {
@@ -56,8 +48,8 @@ div.title{
 }
 
 .expList img {
-    max-width: 100%; 
-    height: auto; 
+    width: 200px; 
+    height: 200px; 
     display: block; 
     margin: 0 auto 10px;
 }
@@ -65,6 +57,10 @@ div.title{
 .expList .title {
     font-weight: bold; 
     margin: 10px 0;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .expList .price {
@@ -78,9 +74,13 @@ div.title{
     box-sizing: border-box;
 }
 
+.page {
+    text-align: center;
+}
+
 .expAllList img {
-    max-width: 100%; 
-    height: auto; 
+    width: 200px; 
+    height: 200px; 
     display: block; 
     margin: 0 auto 10px;
 }
@@ -88,12 +88,52 @@ div.title{
 .expAllList .title {
     font-weight: bold; 
     margin: 10px 0;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+.mainBanner {
+		max-width: 1200px;
+		height: auto; /* 높이 자동으로 설정 */
+		border: 1px solid black;
+		overflow: hidden;
+		padding-top: 20px;
+		padding-bottom: 20px; /* 하단 패딩 추가 */
+		background-color: #f8f9fa;
+	}
+	
 .expAllList .price {
     color: #f00; 
     margin: 10px 0;
 }
+
+.category button.active {
+    background-color: #4CAF50; /* 선택된 버튼의 배경색 */
+    color: #fff;
+}
+
+.category {
+	display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+
+.category button {
+	padding: 10px 20px;
+    background-color: gray;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.
+
+
 </style>
 
 <script type="text/javascript">
@@ -119,11 +159,13 @@ $(document).ready(function() {
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
+<div class="full">
+
 <div class="wrap">
-    <h1>체험단 메인페이지</h1>
-    <div class="top-section">
+    
+    <div class="section mainBanner">
         <!-- 상단 체험단 인기, 최신 -->
-        <div class="top-exp">
+        <div class="btnBox">
             <button class="btn" id="popularButton">인기 체험</button>
             <button class="btn" id="recentButton">새 체험</button>
         </div>
@@ -131,54 +173,64 @@ $(document).ready(function() {
             <c:forEach var="exp" items="${topPopList}">
             <a href="./expdetail?expCode=${exp.expCode }">
                 <div class="expList topPopList">
-						<c:if test="${not empty main[exp.expCode]}">
-                        	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;">
-                    	</c:if>
+<%-- 						<c:if test="${not empty main[exp.expCode]}"> --%>
+<%--                         	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;"> --%>
+					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" class="imgSum">
+<%--                     	</c:if> --%>
                     <div class="title">${exp.expName}</div>
                     <div class="price">${exp.expPrice}원</div>
                     <div>조회수: ${exp.expHit}</div>
-                    <div>등록일: 
-                        <fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
-                        <fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </div>
                 </div>
             </a>
             </c:forEach>
             <c:forEach var="exp" items="${topRecList}">
            	<a href="./expdetail?expCode=${exp.expCode }">
                 <div class="expList topRecList" style="display: none;">
-               		<c:if test="${not empty main[exp.expCode]}">
-                       	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;">
-                   	</c:if>
+<%--                		<c:if test="${not empty main[exp.expCode]}"> --%>
+<%--                        	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;"> --%>
+					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" class="imgSum">
+<%--                    	</c:if> --%>
                     <div class="title">${exp.expName}</div>
                     <div class="price">${exp.expPrice}원</div>
                     <div>조회수: ${exp.expHit}</div>
-                    <div>등록일: 
-                        <fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
-                        <fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </div>
                 </div>
             </a>
             </c:forEach>
         </div>
     </div>
     <hr>
+    <br>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <div class="page">
+    	<h3>전체</h3>
+    </div>
+    <br>
 
     <div class="body-section">
         <form action="./main" method="get">
         <div class="category">
-            <select name="category" id="category" class="form-select" onchange="this.form.submit()">
-                <option value="all" ${category == 'all' ? 'selected' : ''}>전체</option>
-                <option value="recent" ${category == 'recent' ? 'selected' : ''}>최신순</option>
-                <option value="popular" ${category == 'popular' ? 'selected' : ''}>조회순</option>
-            </select>
+<!--             <select name="category" id="category" class="form-select" onchange="this.form.submit()"> -->
+<%--                 <option value="all" ${category == 'all' ? 'selected' : ''}>전체</option> --%>
+<%--                 <option value="recent" ${category == 'recent' ? 'selected' : ''}>최신순</option> --%>
+<%--                 <option value="popular" ${category == 'popular' ? 'selected' : ''}>조회순</option> --%>
+<!--             </select> -->
+			<button type="submit" name="category" value="all" class="category-btn ${category == 'all' ? 'active' : ''}">전체</button>
+            <button type="submit" name="category" value="recent" class="category-btn ${category == 'recent' ? 'active' : ''}">최신순</button>
+            <button type="submit" name="category" value="popular" class="category-btn ${category == 'popular' ? 'active' : ''}">조회순</button>
         </div>
         </form>
         <div class="search">
             <form action="./main" method="get">
                 <input type="hidden" name="sCtg" value="UP">
                 <input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-                <button>검색</button>
+                <button>
+					<span class="sch_send">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</span>
+				</button>
             </form>
         </div>
     </div>
@@ -186,22 +238,20 @@ $(document).ready(function() {
         <c:forEach var="exp" items="${list}">
            	<a href="./expdetail?expCode=${exp.expCode }">
 	            <div class="expAllList">
-	            	<c:if test="${not empty main[exp.expCode]}">
-                       	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;">
-                   	</c:if>
+<%-- 	            	<c:if test="${not empty main[exp.expCode]}"> --%>
+<%--                        	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;"> --%>
+					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" class="imgSum">
+<%--                    	</c:if> --%>
 	                <div class="title">${exp.expName}</div>
 	                <div class="price">${exp.expPrice}원</div>
 	                <div>조회수: ${exp.expHit}</div>
-	                <div>등록일:
-	                    <fmt:parseDate value="${exp.expDate}" var="expDate" pattern="yyyy-MM-dd HH:mm:ss" />
-	                    <fmt:formatDate value="${expDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-	                </div>
 	            </div>
            	</a>
         </c:forEach>
     </div>
 </div>
 <c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
+</div>
 <c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 </body>
 </html>
