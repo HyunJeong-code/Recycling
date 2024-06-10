@@ -20,6 +20,7 @@ import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstCt;
+import recycling.dto.buyer.QstFile;
 import recycling.dto.seller.Qna;
 import recycling.util.PagingAndCtg;
 
@@ -104,6 +105,13 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
+	public List<QstFile> getQstFiles(String qstCode) {
+		
+		return mypageDao.getQstFiles(qstCode);
+	
+	}
+	
+	@Override
 	public Qst getQstByqstCode(String qstCode) {
 
 		return mypageDao.getQstByqstCode(qstCode);
@@ -153,4 +161,5 @@ public class MypageServiceImpl implements MypageService {
 	public List<Map<String, Object>> selectBuyer(BuyerLogin buyerLogin) {
 		return mypageDao.selectBuyer(buyerLogin);
 	}
+
 }
