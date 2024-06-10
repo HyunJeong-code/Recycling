@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- CSS -->
-<link rel="stylesheet" href="/resources/css/manager/sls/manager.css">
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
@@ -56,9 +56,10 @@ $(function() {
 })
 
 </script>
-
-
+<style type="text/css">
 </style>
+
+
 </head>
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
@@ -68,11 +69,15 @@ $(function() {
 		<div class="wrap">
 
 			<div class="page">
-				<h1>체험단 조회</h1>
+				체험단 조회
 			</div>
-			<div class="search_form">
-			    <input type="text" id="search" name="search" placeholder="검색어를 입력하세요">
-			    <button type="submit">검색</button>
+			
+			<div class="search">
+				<form action="./noticelist" method="get" class ="search_form">
+					<input type="hidden" name="sCtg" value="UP">
+					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+					<button class ="btn btnRight">검색</button>
+				</form>
 			</div>
 						
 			<div class="section">
@@ -102,17 +107,18 @@ $(function() {
 								
 								<td>
 								<a href="./expdetail?expCode=${explist.expCode }">
-									<button class="btn_section_detail" id ="${explist.expCode }">상세조회</button></a>
+									<button class="btn btndetail" id ="${explist.expCode }">상세조회</button></a>
 								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</div><!-- section -->
+				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 				
 				    <div class="btn_bot_wrap">
-				        <a href="./expform"><button class="btn_bot_inform">체험단 등록</button></a>
-				        <button class ="btn_bot_del">삭제</button>
+				        <a href="./expform"><button class="btn btnLeft" style="margin-right: 20px;">작성하기</button></a>
+				        <button class ="btn btnDel">삭제하기</button>
 				    </div>
 				    
 		</div><!-- wrap -->

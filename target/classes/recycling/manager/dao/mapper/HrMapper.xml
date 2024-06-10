@@ -173,6 +173,7 @@
 	<update id="hrUpdate" parameterType="Manager">
 		UPDATE Manager SET
 		mgr_code = #{mgrCode }
+		, mgr_pw = #{mgrPw }
 		, deptno = #{deptno }
 		, mgr_name = #{mgrName }
 		, mgr_phone = #{mgrPhone }
