@@ -215,7 +215,7 @@
                                 <tr>
                                     <th>총 신고 횟수</th>
                                     <td colspan="2">${rptCnt}</td>
-                                    <td><button><a href="/manager/sls/sellinglist">판매-관리 조회</a></button></td>
+                                    <td><button><a href="/manager/sls/sellinglist=${seller.S_CODE }">판매-관리 조회</a></button></td>
                                 </tr>
                             </table>
                         </div> <!-- info End -->

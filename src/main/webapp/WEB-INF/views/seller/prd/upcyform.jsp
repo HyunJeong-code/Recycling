@@ -64,7 +64,7 @@ $(function() {
 </script>
 <style type="text/css">
 
-.wrap {
+.main-section {
 	text-align: center;
 }
 

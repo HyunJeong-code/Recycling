@@ -16,41 +16,32 @@
     <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
 		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
-		<div class = "full content" >
+		<div class = "full content">
 	        <div class="wrap">
 	            <div class="page">
 	            판매자 조회
 	         </div>
 	         
-	            <div class="search">
+	         <div class="search">
 					<form action="./main" method="get" class ="search_form">
 						<input type="hidden" name="sCtg" value="UP">
 						<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search-input">
 						<button class="btn btnRight">검색</button>
 					</form>
 				</div>
+	         
+            <div class="section">    
+	            <table>
+					<thead>
+						<tr>
+							<th>판매자 코드</th>
+	                        <th>구매자 코드</th>
+	                        <th>가입일</th>
+	                        <th>상세조회</th>
+	                        <th>상품판매조회</th>
+						</tr>
+					</thead>
 					
-	            <div class="section">
-	                <table class="table table-striped table-hover table-sm">
-	                    <colgroup>
-	                        <col style="width: 10%;">
-	                        <col style="width: 5%;">
-	                        <col style="width: 15%;">
-	                        <col style="width: 10%;">
-	                        <col style="width: 20%;">
-	                    </colgroup>
-	
-	                    <thead>
-	                        <tr>
-	                            <th>판매자 코드</th>
-	                            <th>구매자 코드</th>
-	                            <th>가입일</th>
-	                            <th>상세조회</th>
-	                            <th>상품판매조회</th>
-	                        </tr>
-	                    </thead>
-	
-	                    <tbody>
 	                        <c:forEach var="seller" items="${main }" varStatus="status">
 	                            <!-- sOut상태가 'N' 이면 보여주고 'Y'이면 숨기기 -->
 	                            <c:if test="${seller.S_OUT eq 'N'}">

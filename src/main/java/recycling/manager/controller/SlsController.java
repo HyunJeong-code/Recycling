@@ -130,6 +130,30 @@ public class SlsController {
 		logger.info("C : {}", seller);
 	}
 	
+	@PostMapping("/sellerpridetail")
+	public String sellerPriDetailProc(
+			Model model,
+			Seller seller
+			) {
+		
+		model.addAttribute("msg", "판매자 정보 수정이 완료되었습니다.");
+		model.addAttribute("url", "history.back()");
+		
+		return "/layout/alert";
+	}
+	
+	@PostMapping("/sellercmpdetail")
+	public String sellerCmpDetailProc(
+			Model model,
+			Seller seller
+			) {
+		
+		model.addAttribute("msg", "판매자 정보 수정이 완료되었습니다.");
+		model.addAttribute("url", "history.back()");
+		
+		return "/layout/alert";
+	}
+	
 	@PostMapping("/sellerout")
 	@ResponseBody
 	public int sellerOut(

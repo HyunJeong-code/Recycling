@@ -129,22 +129,22 @@ $(function() {
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <sec:authentication var="managerLogin" property="principal"/>
 
-<sec:authentication var="managerLogin" property="principal"/>
-<c:set var="seller" value="${seller }" />
-<div class="admin-container">
-    <c:if test="${managerLogin.deptno eq 10}">
-	<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-	</c:if>
-	<c:if test="${managerLogin.deptno eq 20}">
-		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-	</c:if>
-	<c:if test="${managerLogin.deptno eq 30}">
-		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
-	</c:if>
-	<c:if test="${managerLogin.deptno eq 40}">
-		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
-	</c:if>
+    <c:set var="seller" value="${seller}"/>
+    <div class="admin-container">
+        <c:if test="${managerLogin.deptno eq 10}">
+            <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+        </c:if>
+        <c:if test="${managerLogin.deptno eq 20}">
+            <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+        </c:if>
+        <c:if test="${managerLogin.deptno eq 30}">
+            <c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+        </c:if>
+        <c:if test="${managerLogin.deptno eq 40}">
+            <c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+        </c:if>
 
 <div class = "full content">
 		<div class="wrap">		
@@ -217,7 +217,7 @@ $(function() {
 				<tr>
 					<th>총 신고 횟수</th>
 					<td colspan="2">${rptCnt }</td>
-					<td><button><a href="/manager/sls/sellinglist">판매-관리 조회</a></button></td>
+					<td><button><a href="/manager/sls/sellinglist=${seller.S_CODE }">판매-관리 조회</a></button></td>
 				</tr>
 			</table>	
 		</div> <!-- info End -->
@@ -378,6 +378,5 @@ $(function() {
 </div>
 </div>
 </div>
-
 </body>
 </html>

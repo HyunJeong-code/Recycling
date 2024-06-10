@@ -24,6 +24,7 @@ $(function(){
 </script>
 </head>
 <body>
+<sec:authentication var="buyerLogin" property="principal"/>
 	<div class="sidebar">
 	   	<div class="panel-heading">
 	        <c:choose>
