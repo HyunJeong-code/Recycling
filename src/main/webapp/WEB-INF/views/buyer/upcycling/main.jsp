@@ -305,7 +305,7 @@
 	</footer> --%>
 	
 </body>
-
+<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 	    const categoryItems = document.querySelectorAll('.categoryMid');
