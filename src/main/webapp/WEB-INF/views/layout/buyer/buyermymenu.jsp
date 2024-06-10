@@ -38,18 +38,15 @@ $(function(){
 	        <li><a href="/buyer/mypage/cart">장바구니</a></li>
 	        <li><a href="/buyer/mypage/myorder">주문조회</a></li>
 	        <li><a href="/buyer/mypage/myboard">내 게시글</a></li>
+	        <sec:authentication var="buyerLogin" property="principal"/>
 	        <li><a href="/buyer/mypage/mymain">회원정보</a></li>
 	        <li><a href="/buyer/mypage/changepw">비밀번호 변경</a></li>
-	        <li>
-	        	<sec:authentication property="principal" var="prc"/>
-	        	<c:if test="${prc.bCtCode eq 'C' }">
-			        <a href="/buyer/mypage/mypagecmp">내 정보 변경</a>
-	        	</c:if>
-	        	
-	        	<c:if test="${prc.bCtCode eq 'P' }">
-			        <a href="/buyer/mypage/mypagepri">내 정보 변경</a>
-	        	</c:if>
-	        </li>
+	        			<c:if test="${buyerLogin.bCtCode eq 'C'}">
+				<li><a href="/buyer/mypage/mypagecmp">내 정보 변경</a></li>
+			</c:if>
+			<c:if test="${buyerLogin.bCtCode eq 'P'}">
+				<li><a href="/buyer/mypage/mypagepri">내 정보 변경</a></li>
+			</c:if>
 	    </ul>
 	</div>
 </body>

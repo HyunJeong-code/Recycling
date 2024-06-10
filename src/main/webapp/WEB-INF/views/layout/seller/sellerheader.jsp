@@ -43,8 +43,8 @@ $(function(){
         <div class="container">
             <div class="nav-ul">
                 <ul>
-                    <li><a href="">고객센터</a></li>
-                    <li><a href="">회사소개</a></li>
+                    <li><a href="/buyer/help/main">고객센터</a></li>
+                    <li><a href="/buyer/about/info">회사소개</a></li>
                 </ul>
             </div>
             <div class="logo">
@@ -76,14 +76,14 @@ $(function(){
                     <a href="/buyer/main"><button>Buyer</button></a><a href="/seller/seller"><button class="selected">Seller</button></a>
                 </div>
             </div>
-            <div class="search-bar">
+            <!-- <div class="search-bar">
                 <input type="text" placeholder="검색어를 입력해주세요.">
                 <button type="submit">
                     <span class="sch_send">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
                 </button>
-            </div>
+            </div> -->
         </div>
     </header>
 </body>
