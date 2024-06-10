@@ -24,7 +24,6 @@ table {
     	<ul>
     		<li><a href="/manager/emplist">사원 정보</a></li>
     		<li><a href="/manager/emplist">전체 사원 조회</a></li>
-    		<li><a href="/manager/cs/main">구매자 관리</a></li>
     		<li><a href="/manager/cs/buyerlist">구매자 정보 조회</a></li>
     		<li><a href="/manager/cs/main">구매자 문의글 조회</a></li>
     		<li><a href="/manager/mgr/main">관리자 정보 관리</a></li>
