@@ -261,9 +261,7 @@ public class BuyController {
 			resAdr = buyService.insertAdr(buyerAdr);
 		}
 		
-		model.addAttribute("msg", "[회원가입 완료] 가입이 완료되었습니다. \n 로그인 페이지로 이동합니다.");
-		model.addAttribute("url", "/buyer/login");
-		return "/layout/alert";
+		return "/buyer/login";
 	}
 	
 	@GetMapping("/login")

@@ -106,7 +106,7 @@ $(function() {
 			</div>
 		</div>
 		
-		<form action="./join" method="post" enctype="multipart/form-data">
+		<form action="/manager/join" method="post" enctype="multipart/form-data">
 			<div>
 				<label for="mgrProf">사원증</label>
 				<input type="file" id="mgrProf" name="mgrProf" required="required">
