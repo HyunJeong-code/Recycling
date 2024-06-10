@@ -47,7 +47,7 @@ public interface SlsDao {
 	 * @param upPaging
 	 * @return
 	 */
-	public List<Seller> main(PagingAndCtg upPaging);
+	public List<HashMap<String, Object>> main(PagingAndCtg upPaging);
 
 	/**
 	 * 페이징

@@ -40,23 +40,23 @@
 	</sql>
 	
 	<!-- 판매자 목록 -->
-	<select id="main" resultType="Seller" parameterType="recycling.util.Paging">
-			SELECT *
-			FROM (
+	<select id="main" resultType="hashmap" parameterType="recycling.util.Paging">
+			SELECT * FROM (
 			    SELECT rownum no, B.* FROM (
-			        SELECT * FROM seller
+			        SELECT S.s_code, S.s_entdate, S.s_out, B.b_code, B.b_ct_code FROM seller S, buyer B
+			        <where>
+				        AND B.b_code = S.b_code(+)
+				        AND S.s_chk = 'Y'
+				        AND (
+				            S.s_code LIKE '%' || #{search } || '%'
+				        )
+			        </where> 
+			        ORDER BY S.s_code DESC
+			    ) B
+			) 
 			<where>
-				AND s_chk = 'Y'
-		        AND (
-		            s_code LIKE '%' || #{search} || '%'
-		        )
+				AND no BETWEEN #{startNo } AND #{endNo }
 			</where>
-				ORDER BY s_code DESC
-			) B
-		)
-		<where>
-			AND no BETWEEN #{startNo } AND #{endNo }
-		</where>
 	</select>
 	
 	<!-- 전체조회 페이징[main] -->

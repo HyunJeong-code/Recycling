@@ -40,7 +40,7 @@ public class SlsServiceImpl implements SlsService {
 	@Autowired private SlsDao slsDao;
 	
 	@Override
-	public List<Seller> main(PagingAndCtg upPaging) {
+	public List<HashMap<String, Object>> main(PagingAndCtg upPaging) {
 		return slsDao.main(upPaging);
 	}
 

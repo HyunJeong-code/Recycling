@@ -26,7 +26,7 @@ public interface SlsService {
 	 * @param upPaging
 	 * @return
 	 */
-	public List<Seller> main(PagingAndCtg upPaging);
+	public List<HashMap<String, Object>> main(PagingAndCtg upPaging);
 
 	/**
 	 * 판매자 전환 요청 전체 목록
