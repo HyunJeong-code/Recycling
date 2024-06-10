@@ -163,7 +163,11 @@ ol, ul {
 }
 
 .search-bar button:hover {
+<<<<<<< HEAD
+    background-color: #2D9BF0;
+=======
     background-color: #46a9f5;
+>>>>>>> 6afae6047428eae986b02c30e56deed96d68c26c
 }
 
 .header-buttons .button {

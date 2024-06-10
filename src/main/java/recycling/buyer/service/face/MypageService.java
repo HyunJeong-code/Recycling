@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import recycling.dto.buyer.Buyer;
+import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Oto;
 import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
@@ -141,5 +142,13 @@ public interface MypageService {
 	 * @return 삭제된 행의 수
 	 */
 	public int deleteQst(String qstCode);
+	
+	/**
+	 * 마이페이지 메뉴 기본 정보
+	 * 
+	 * @param buyerLogin
+	 * @return
+	 */
+	public List<Map<String, Object>> selectBuyer(BuyerLogin buyerLogin);
 
 }

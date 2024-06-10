@@ -180,8 +180,8 @@ $(function() {
 				</div>			
 			</div>
 			
-			<button>가입하기</button>
-			<button><a href="/manager/main">취소하기</a></button>
+			<button class="btn btnRight">가입하기</button>
+			<a href="/manager/main"><button class="btn btnLeft">취소하기</button></a>
 		</form>
 		</div>
 	</div>

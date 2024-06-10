@@ -191,12 +191,12 @@ public class SlsController {
 		if(selChk.equals("Y")) {
 			res = slsService.updateSelChk(seller);
 			model.addAttribute("msg", sCode + "판매자 전환 수락에 성공했습니다.");
-			model.addAttribute("url", "/seller/sls/sellerchklist");
+			model.addAttribute("url", "/manager/sls/sellerchklist");
 			return "/layout/alert";
 		} else {
 			res = slsService.updateSelChk(seller);
 			model.addAttribute("msg", sCode + "판매자 전환 수락에 거절했습니다.");
-			model.addAttribute("url", "/seller/sls/sellerchklist");
+			model.addAttribute("url", "/manager/sls/sellerchklist");
 			
 			return "/layout/alert";
 		}
