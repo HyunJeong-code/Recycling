@@ -5,8 +5,8 @@ import java.util.Map;
 
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Rcy;
+import recycling.dto.seller.Cmt;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.PrdFile;
 
 // 재활용품 관련 DB 처리
 
@@ -41,7 +41,7 @@ public interface RecyclingDao {
 
 	public Prd selectPrd(String prdCode);
 	public String selectPrdImageThum(String prdCode);
-	public String selectPrdImageDetail(String prdCode);
+	public List<String> selectPrdImageDetail(String prdCode);
 
 	public Seller selectSellerProfByCode(String sCode);
 
@@ -51,18 +51,24 @@ public interface RecyclingDao {
 
 	public int selectShipCnt(String getsCode);
 	
-	public List<Map<String, Object>> selectQnaList(String prdCode);
+	public List<Map<String, Object>> selectRcyList(String prdCode);
 	
 	/**
 	 * 후기 작성자 이름 불러오기
 	 * @param bCode 구매자 코드
 	 * @return bName (구매자 이름)
 	 */
+	
+	public int insertRcy(Rcy rcy);
+
+	public Cmt selectCmtByRcyCode(String rcyCode);
+
+	public int insertCmt(Cmt cmt);
 
 	public Buyer selectBuyerBybId(String bId);
 	
 	
-	public int insertRcy(Rcy rcy);
+
 
 	
 

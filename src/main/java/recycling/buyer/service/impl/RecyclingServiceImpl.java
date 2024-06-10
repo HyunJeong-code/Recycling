@@ -14,8 +14,8 @@ import recycling.buyer.service.face.RecyclingService;
 import recycling.dto.seller.Seller;
 import recycling.dto.buyer.Buyer;
 import recycling.dto.buyer.Rcy;
+import recycling.dto.seller.Cmt;
 import recycling.dto.seller.Prd;
-import recycling.dto.seller.PrdFile;
 
 @Service
 @Transactional
@@ -78,7 +78,7 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
     
 	@Override
-	public String selectPrdImageDetail(String prdCode) {
+	public List<String> selectPrdImageDetail(String prdCode) {
 		logger.info("selectPrdImageDetail() - prdCode: {}", prdCode);
 		return recyclingDao.selectPrdImageDetail(prdCode);
 	}
@@ -118,30 +118,39 @@ public class RecyclingServiceImpl implements RecyclingService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> selectQnaList(String prdCode) {
+	public List<Map<String, Object>> selectRcyList(String prdCode) {
 	    
-	    List<Map<String, Object>> qnaList = recyclingDao.selectQnaList(prdCode);
-	    if (qnaList != null && !qnaList.isEmpty()) {
-	        logger.info("selectQnaList() - qna list found for product code: {}", prdCode);
-	        for (Map<String, Object> qna : qnaList) {
-	            String bCode = (String) qna.get("B_CODE");
+	    List<Map<String, Object>> rcyList = recyclingDao.selectRcyList(prdCode);
+	    if (rcyList != null && !rcyList.isEmpty()) {
+	        logger.info("selectRcyList() - rcy list found for product code: {}", prdCode);
+	        for (Map<String, Object> rcy : rcyList) {
+	            String bCode = (String) rcy.get("B_CODE");
 	            Buyer buyer = recyclingDao.selectBuyerByBCode(bCode);
 	            
 	            if (buyer != null) {
-	                qna.put("B_NAME", buyer.getbName());
+	                rcy.put("B_NAME", buyer.getbName());
 	            } else {
-	                qna.put("B_NAME", "Unknown");
+	                rcy.put("B_NAME", "Unknown");
 	            }
 	            
-	            logger.info("selectQnaList() - qna: {}", qna);
+	            logger.info("selectRcyList() - rcy: {}", rcy);
 	        }
 	    } else {
-	        logger.info("selectQnaList() - No QnA found for product code: {}", prdCode);
+	        logger.info("selectRcyList() - No Rcy found for product code: {}", prdCode);
 	    }
 	    
-	    return qnaList; // 수정된 qnaList를 반환
+	    return rcyList; // 수정된 qnaList를 반환
 	}
 
+	@Override
+	public Cmt selectCmtByRcyCode(String rcyCode) {
+		return recyclingDao.selectCmtByRcyCode(rcyCode);
+	}
+
+	@Override
+	public int insertCmt(Cmt cmt) {
+		return recyclingDao.insertCmt(cmt);
+	}
 	
 	@Override
 	public Buyer selectBuyerDetail(String bId) {
@@ -153,6 +162,8 @@ public class RecyclingServiceImpl implements RecyclingService {
 		logger.info("Inserting Rcy: {}", rcy);
 		return recyclingDao.insertRcy(rcy);
 	}
+
+
 
 
 

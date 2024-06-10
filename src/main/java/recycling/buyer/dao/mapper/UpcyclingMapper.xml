@@ -5,16 +5,79 @@
   
 <mapper namespace="recycling.buyer.dao.face.UpcyclingDao">
 
+	<!-- 상품리스트 로드 -->
 	<select id="selectPrdList" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE CT_PNO = 1
-	    AND NOT PRD_CNT = 0
+	</select>
+	
+	<select id="selectLatestList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 1
+	    ORDER BY PRD_DATE DESC
+	</select>
+	
+	<select id="selectHitList" resultType="Prd">
+	    SELECT * FROM Prd
+	    WHERE CT_PNO = 1
+	    ORDER BY PRD_HIT DESC
+	</select>
+	
+	<!-- 해당 상품의 썸네일 이미지 로드 -->
+	<select id="selectPrdImageThums" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 600
+	</select>
+	
+	<!-- 최신 상품에 대한 썸네일 이미지 로드 -->
+	<select id="selectLatestPrdImageThums" resultType="String">
+	    SELECT PF.ORIGIN_NAME
+	    FROM Prd_File PF
+	    WHERE PRD_CODE IN (
+	        SELECT PRD_CODE
+	        FROM Prd
+	        WHERE CT_PNO = 1
+	        ORDER BY PRD_DATE DESC
+	        FETCH FIRST 4 ROWS ONLY
+	    )
+	    AND PF.CT_PFLNO = 600
+	</select>
+	
+	<!-- 조회수가 높은 상품에 대한 썸네일 이미지 로드 -->
+	<select id="selectHitPrdImageThums" resultType="String">
+	    SELECT PF.ORIGIN_NAME
+	    FROM Prd_File PF
+	    WHERE PRD_CODE IN (
+	        SELECT PRD_CODE
+	        FROM Prd
+	        WHERE CT_PNO = 1
+	        ORDER BY PRD_HIT DESC
+	        FETCH FIRST 4 ROWS ONLY
+	    )
+	    AND PF.CT_PFLNO = 600
 	</select>
 	
 	<select id="selectPrd" resultType="Prd">
 	    SELECT * FROM Prd
 	    WHERE PRD_CODE = #{prdCode}
 	</select>
+	
+	<select id="selectPrdImageThum" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 600
+	</select>
+	
+	<select id="selectPrdImageDetail" resultType="String">
+	    SELECT ORIGIN_NAME 
+	    FROM Prd_File 
+	    WHERE PRD_CODE = #{prdCode}
+	    AND CT_PFLNO = 610
+	</select>
+	
 	
 	<select id="selectSeller" resultType="Seller">
 	    SELECT 
@@ -77,6 +140,7 @@
 	    VALUES ('UPCY' || lpad(UPCY_RVW_SEQ.nextval, 6, '0'), #{bCode}, #{prdCode}, #{upcyContent}, #{upcyGrade}, SYSDATE)
 	</insert>
 
+
 	<update id="updateReview" parameterType="map">
         UPDATE Review 
         SET RVW_TITLE = #{rvwTitle}, RVW_CONTENT = #{rvwContent}, RVW_GRADE = #{rvwGrade}
@@ -111,12 +175,11 @@
     
     <select id="selectCartOrder" parameterType="String" resultType="CartOrder">
     	SELECT
-		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, origin_name, stored_name
+		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, stored_name
 		FROM
 		    prd p, prd_file pf
 			<where>
 			 	AND p.PRD_CODE = pf.PRD_CODE(+)
-			 	AND pf.ct_pflno = 600
 		     	AND p.PRD_CODE = #{prdCode}
 	     	</where>
     </select>
