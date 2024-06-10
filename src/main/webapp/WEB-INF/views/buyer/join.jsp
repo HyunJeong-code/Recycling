@@ -123,15 +123,15 @@ div .buyerCt input[type='radio']:checked {
 			<div id="pri" style="display: none;">
 				<a href="/buyer/prijoin"><button class="btn btnRight" style="width: 150px;">개인 일반 회원가입</button></a>
 				
-				<div style="width: 600px;" class="line">
-					<hr>
-				</div>
+<!-- 				<div style="width: 600px;" class="line"> -->
+<!-- 					<hr> -->
+<!-- 				</div> -->
 				
-				<div id="social" class="btn-list">
-					<button class="btn btnLeft" style="width: 120px;">네이버 로그인</button>
-					<button class="btn btnLeft" style="width: 120px;">카카오 로그인</button>
-					<button class="btn btnLeft" style="width: 120px;">구글 로그인</button>
-				</div>
+<!-- 				<div id="social" class="btn-list"> -->
+<!-- 					<button class="btn btnLeft" style="width: 120px;">네이버 로그인</button> -->
+<!-- 					<button class="btn btnLeft" style="width: 120px;">카카오 로그인</button> -->
+<!-- 					<button class="btn btnLeft" style="width: 120px;">구글 로그인</button> -->
+<!-- 				</div> -->
 			</div>
 			
 			<div id="cmp" style="display: none;">

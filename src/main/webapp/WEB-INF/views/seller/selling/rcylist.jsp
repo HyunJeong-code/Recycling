@@ -176,7 +176,7 @@ let sttList = {900: "결제 완료", 910: "배송 준비 중", 920: "배송 중"
 				    </tbody>
 				</table>
 				
-				<button id="del_btn">삭제하기</button>
+				<button id="del_btn" class="btn btnDel">삭제하기</button>
 				
 				<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
 				
