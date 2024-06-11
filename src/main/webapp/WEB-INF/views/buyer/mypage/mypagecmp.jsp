@@ -52,7 +52,7 @@ h3 {
 }
 
 table, th, td {
-    border: 1px solid #999;
+    border: 1px solid #dddddd;
     border-collapse: collapse;
     margin: 0 auto;
 }

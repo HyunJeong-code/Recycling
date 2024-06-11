@@ -46,7 +46,7 @@ table {
 th, td {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding: 10px 10px;
 }
 
 th {
@@ -153,14 +153,7 @@ th {
 			        	<th>첨부파일</th>
 			        	<td>
 			        		<c:forEach var="file" items="${otoFiles }">
-						        <c:choose>
-						            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif') }">
-						                <img src="${pageContext.request.contextPath }/upload/${file.storedName }" alt="${file.originName }" style="max-width: 100%;">
-						            </c:when>
-						            <c:otherwise>
-						                <a href="${pageContext.request.contextPath }/upload/${file.storedName }">${file.originName }</a>
-						            </c:otherwise>
-						        </c:choose>
+				                <img src="/resources/image/${file.originName }" alt="문의 이미지" style="max-width: 100%;">
 			   				</c:forEach>
 			        	</td>
 			        </tr>

@@ -107,6 +107,10 @@ td:first-child {
 .button-group button.btnLeft:hover {
     background-color: #58c05c;
 }
+
+.button-group button.btnLeft:hover {
+    background-color: #45A049;
+}
 </style>
 
 </head>

@@ -23,6 +23,7 @@ import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstCt;
+import recycling.dto.buyer.QstFile;
 import recycling.dto.seller.Qna;
 import recycling.util.PagingAndCtg;
 
@@ -184,10 +185,12 @@ public class MypageController {
 		Qst qst = mypageService.getQstByqstCode(qstCode);
 		Qna qna = mypageService.getQnaByqstCode(qstCode);
 		List<QstCt> qct = mypageService.getAllQct();
+		List<QstFile> qstFiles = mypageService.getQstFiles(qstCode);
 		
 		model.addAttribute("qna", qna);
 		model.addAttribute("qst", qst);
 		model.addAttribute("qct", qct);
+		model.addAttribute("qstFiles", qstFiles);
 		
 	}
 	
