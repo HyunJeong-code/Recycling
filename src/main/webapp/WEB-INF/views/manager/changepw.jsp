@@ -78,6 +78,7 @@ var rexPw = /[a-zA-Z0-9!@#$%]{8, 15}/;
 		</div>
 		
 		<div class="section">
+		<c:if test="${mgrCode ne null }">
 			<form action="./changepw" method="post">
 				<label for="mgrPw">새 비밀번호</label>
 				<input type="text" id="mgrPw" name="mgrPw"><br>
@@ -92,6 +93,11 @@ var rexPw = /[a-zA-Z0-9!@#$%]{8, 15}/;
 				
 				<button>변경하기</button>
 			</form>
+		</c:if>
+		
+		<c:if test="${mgrCode eq null }">
+			일치하는 회원정보가 없습니다.
+		</c:if>
 		</div> <!-- section End -->
 	</div> <!-- wrap End -->
 </div> <!-- full End -->

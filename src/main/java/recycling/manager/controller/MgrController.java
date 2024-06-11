@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,9 +120,8 @@ public class MgrController {
 	@PostMapping("/join")
 	public String joinProc(
 			Manager manager, 
-			String sPhone, String inPhone, String mPhone, String lPhone,
-			String mgrEmail2, String inEmail,
-			MultipartFile mgrProf
+			String sPhone, String inPhone, String mPhone, String lPhone, String mgrEmail,
+			String mgrEmail2, String inEmail
 			) {
 		logger.info("/manager/join [POST]");
 		
@@ -129,13 +129,9 @@ public class MgrController {
 		logger.info("phone : {}, {}", sPhone, inPhone);
 		logger.info("phone : {}, {}", mPhone, lPhone);
 		logger.info("mail : {}, {}", mgrEmail2, inEmail);
-		logger.info("mgrPic : {}", mgrProf);
 		
 		manager = mgrService.mgrProc(manager, sPhone, inPhone, mPhone, lPhone, mgrEmail2, inEmail);
 		logger.info("mgr : {}", manager);
-		
-		MgrFile mgrFile = mgrService.saveFile(mgrProf, manager);
-		logger.info("mgrFile : {}", mgrFile);
 		
 		int res = mgrService.selectByManager(manager);
 		logger.info("res : {}", res);
@@ -143,12 +139,6 @@ public class MgrController {
 		int resMgr = 0;
 		if(res > 0) {
 			resMgr = mgrService.updateManager(manager);
-		}
-		
-		// 회원정보 수정 및 프로필 사진 삽입
-		int resPic = 0;
-		if(mgrFile != null) {
-			resPic = mgrService.insertMgrProf(mgrFile);			
 		}
 		
 		return "/manager/login";
@@ -229,7 +219,7 @@ public class MgrController {
 	}
 	
 	@PostMapping("findid")
-	public void findIdProc(
+	public String findIdProc(
 				Model model,
 				Manager manager,
 				String mgrPhone, String mPhone, String lPhone,
@@ -238,12 +228,19 @@ public class MgrController {
 		logger.info("/manager/findid [POST]");
 		
 		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
+		String mgrId = mgrService.selectByMgrId(manager); 
 		
-		if(manager == null) {
-			
+		
+		if(mgrId == null) {
+			model.addAttribute("msg", "회원 정보와 일치하는 아이디가 없습니다.");
+			model.addAttribute("url", "/buyer/findid");
 		} else {
-			
+			model.addAttribute("msg", "회원님의 아이디는 [ " + mgrId + " ] 입니다.");
+			model.addAttribute("url", "/buyer/findpw");
 		}
+		
+		
+		return "/layout/alert";
 	}
 	
 	@GetMapping("/findpw")
@@ -254,6 +251,7 @@ public class MgrController {
 	@PostMapping("/findpw")
 	public String findPwProc(
 				Model model,
+				HttpSession session,
 				Manager manager,
 				String mgrPhone, String mPhone, String lPhone,
 				String mgrEmail, String mgrEamil2
@@ -261,12 +259,23 @@ public class MgrController {
 		logger.info("/manager/findpw [POST]");
 		
 		manager = mgrService.mgrProc(manager, lPhone, mgrPhone, mPhone, lPhone, mgrEmail, mgrEmail);
+		String mgrCode = mgrService.selectByMgr(manager);
 		
-		if(manager == null) {
-			return "";
-		} else {
-			return "";
-		}
+		session.setAttribute("mgrCode", mgrCode);
+		return "redirect:/manager/changepw";
+	}
+	
+	@GetMapping("/changepw")
+	public void changepw() {
+		logger.info("/manager/changepw [GET]");
+		
+	}
+	
+	@PostMapping("/changepw")
+	public String changepwProc(HttpSession session) {
+		logger.info("/manager/changepw [POST]");
+		
+		return "layout/alert";
 	}
 	
 	//공지사항 상세 조회

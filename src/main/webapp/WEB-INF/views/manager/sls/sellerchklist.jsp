@@ -137,12 +137,8 @@ $(function() {
 				
 			</table>
 			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-			
-			<div class="btn_bot_wrap">
-				<button type="button" id="AllSel" name="AllSel" value="Y" class="btn btnRight" style="margin-right: 20px">수락</button>
-				<button type="button" id="AllSel" name="AllSel" value="N" class="btn btnLeft" >거절</button>
-			</div>
-		
+<!-- 			<button type="button" id="AllSel" name="AllSel" value="Y">수락</button> -->
+<!-- 			<button type="button" id="AllSel" name="AllSel" value="N">거절</button> -->
 		</div>
 	</div>
 </div>

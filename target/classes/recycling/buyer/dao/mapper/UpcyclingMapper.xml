@@ -185,4 +185,12 @@
 	     	</where>
     </select>
     
+    <update id="updateHit" parameterType="string">
+		update prd
+		set prd_hit = prd_hit + 1
+		<where>
+			AND prd_code = #{prdCode }
+		</where>
+	</update>
+    
 </mapper>

@@ -66,6 +66,8 @@ public interface RecyclingDao {
 	public int insertCmt(Cmt cmt);
 
 	public Buyer selectBuyerBybId(String bId);
+
+	public void updateHit(String prdCode);
 	
 	
 

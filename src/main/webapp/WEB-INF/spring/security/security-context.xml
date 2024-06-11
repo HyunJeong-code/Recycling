@@ -106,6 +106,9 @@
 	
 		<security:intercept-url pattern="/manager/login" access="permitAll()"/>
 		<security:intercept-url pattern="/manager/join" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/findid" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/findpw" access="permitAll()"/>
+		<security:intercept-url pattern="/manager/changepw" access="permitAll()"/>
 		<security:intercept-url pattern="/manager/EmailAuth" access="permitAll()"/>
 		<security:intercept-url pattern="/manager/main" access="hasRole('ROLE_MANAGER')"/>
 		<security:intercept-url pattern="/manager/**" access="hasRole('ROLE_MANAGER')"/>

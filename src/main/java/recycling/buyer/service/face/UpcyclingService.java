@@ -165,6 +165,12 @@ public interface UpcyclingService {
 	 * @return - 조회결과
 	 */
 	public CartOrder selectCartOrder(String prdCode);
+	
+	/**
+	 * 
+	 * @param prdCode
+	 */
+	public void updateHit(String prdCode);
 
 
 

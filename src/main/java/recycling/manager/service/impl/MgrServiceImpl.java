@@ -161,5 +161,13 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDao.selectCntAllNotice(upPaging);
 	}
 
+	@Override
+	public String selectByMgrId(Manager manager) {
+		return mgrDao.selectByMgrId(manager);
+	}
 	
+	@Override
+	public String selectByMgr(Manager manager) {
+		return mgrDao.selectByMgr(manager);
+	}
 }

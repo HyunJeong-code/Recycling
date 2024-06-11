@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>재활용품 등록</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {
@@ -14,7 +14,7 @@ $(function() {
 		 if(!$("#main").val() ||  !$("#detail1").val() || !$("#detail2").val() || !$("#detail3").val()) {
 			 alert("썸네일 1개, 상세이미지 3개를 모두 첨부해야 합니다.");
 			 e.preventDefault();
-		 } else if($("#prdName").val() == '' || $("#price").val() == '' || $("#prdCnt").val() == '' || $("#prdFee").val() == '' || $("#prdDetail").val() == '') {
+		 } else if($("#prdName").val() == '' || $("#price").val() == '' || $("#prdDetail").val() == '') {
 			 alert("필수 입력 정보를 모두 입력해야합니다.");
 			 e.preventDefault();
 		 }
@@ -204,14 +204,14 @@ select::-ms-expand {
 		<div class="main-section">
 		
 			<div class="page-header">
-			<h3>새활용 등록</h3>
+			<h3>재활용품 등록</h3>
 			</div>
 			
 			<div class="section">
 				<div class="prd">
 				<form action="./rcyform" method="post" enctype="multipart/form-data">
 					
-					<input type="hidden" id="ctPno" name="ctPno" value="1">
+					<input type="hidden" id="ctPno" name="ctPno" value="0">
 					
 					<label for="ctPdtNo">분류</label>
 					<div class="select">
