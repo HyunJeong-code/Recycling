@@ -149,6 +149,9 @@ public class RecyclingController {
 	    Buyer buyer = recyclingService.selectBuyerByBCode(seller.getbCode());
 	    int shipCnt = recyclingService.selectShipCnt(prd.getsCode());
 	    
+	    // 상품 클릭 시, 조회수 증가
+	    recyclingService.updateHit(prdCode);
+	    
 	    // 상품 썸네일 파일명 로드
 	    String prdImageThumName = recyclingService.selectPrdImageThum(prdCode);
 	    if (prdImageThumName == null) {

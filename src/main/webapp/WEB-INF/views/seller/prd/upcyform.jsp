@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>새활용 등록</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script type="text/javascript">
 $(function() {

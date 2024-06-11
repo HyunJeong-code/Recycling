@@ -68,6 +68,7 @@ $(function() {
 		<div class="section">
 			<c:if test="${buyer ne null }">
 				<form action="/buyer/changepw" method="post">
+				<input type="hidden" id="mgrCode" name="mgrCode">
 					<label for="bPw">비밀번호<span class="ne"> *</span></label>
 					<input type="password" id="bPw" name="bPw" class="m">
 					<div class="j-info" >

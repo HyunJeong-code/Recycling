@@ -163,6 +163,13 @@ public interface RecyclingService {
 	 */
 	public int insertRcy(Rcy rcy);
 
+	/**
+	 * 조회수 증가
+	 *
+	 * @param prdCode
+	 */
+	public void updateHit(String prdCode);
+
 
 
 

@@ -266,7 +266,7 @@ select::-ms-expand {
 			<form action="./mgrdetail" method="post" enctype="multipart/form-data">
 				<div>
 					<label for="mgrProf">사원증</label>
-					<input type="file" id="mgrProf" name="mgrProf" required="required" value="${mgrFile.originName }">
+					<input type="file" id="mgrProf" name="mgrProf" value="${mgrFile.originName }">
 					<img alt="사원증 사진" src=""${mgrFile.originName }">
 					<input type="hidden" id="mgrFlNo" name="mgrFlNo" value="${mgrFile.mgrFlNo }">
 				</div>

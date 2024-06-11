@@ -74,5 +74,5 @@ public interface UpcyclingDao {
 
 	public int insertReview(UpcyReview review);
 
-
+	public void updateHit(String prdCode);	
 }
