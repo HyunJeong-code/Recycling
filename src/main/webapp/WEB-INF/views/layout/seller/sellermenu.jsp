@@ -57,28 +57,20 @@
 	                </ul>
 	            </li>
 	            
-	            <li><a href="/seller/sales/main">매출 관리</a>
-	                <ul class="snd_menu sub_menu">
-	                    <li><a href="/seller/sales/">재활용품 관리</a></li>
-	                    <li><a href="/seller/sales/">새활용 관리</a></li>
-	                    <li><a href="/seller/sales/">체험단 관리</a></li>
-	                </ul>
-	            </li>
-	            
 	            <li><a href="/seller/qna/main">고객 관리</a>
 	                <ul class="snd_menu sub_menu">
 	                    <li><a href="/seller/qna/main">문의글 조회</a></li>
 	                </ul>
 	            </li>
 	            
-	            <li><a href="/seller/mypage/sellermain">판매자 정보</a>
-	                <ul class="snd_menu sub_menu">
-	                    <li><a href="/seller/mypage/changepw">비밀번호 변경</a></li>
-	                    <li><a href="/seller/mypage/changebank">계좌번호 변경</a></li>
-	                    <li><a href="/seller/mypage/sellerdetail">판매자 정보 수정</a></li>
-	                    <li><a href="/seller/mypage/outseller">판매자 탈퇴</a></li>
-	                </ul>
-	            </li>
+<!-- 	            <li><a href="/seller/mypage/sellermain">판매자 정보</a> -->
+<!-- 	                <ul class="snd_menu sub_menu"> -->
+<!-- 	                    <li><a href="/seller/mypage/changepw">비밀번호 변경</a></li> -->
+<!-- 	                    <li><a href="/seller/mypage/changebank">계좌번호 변경</a></li> -->
+<!-- 	                    <li><a href="/seller/mypage/sellerdetail">판매자 정보 수정</a></li> -->
+<!-- 	                    <li><a href="/seller/mypage/outseller">판매자 탈퇴</a></li> -->
+<!-- 	                </ul> -->
+<!-- 	            </li> -->
 	        </ul>
 	    </div>
 	</div>

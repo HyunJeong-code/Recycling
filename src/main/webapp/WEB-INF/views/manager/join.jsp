@@ -211,16 +211,13 @@ $(function() {
 		}
 	})
 
-	$("form").submit(function(e) {
-		 if($("input[name=agree1]:checked").val() == 'N' ||  $("input[name=agree2]:checked").val() == 'N') {
-			 alert("필수 약관 동의가 필요합니다.");
-			 e.preventDefault();
-		 } else if($("#mgrId").val() == '' || $("#mgrPw").val() == '' || $("#mgrName").val() == '' || $("#newPw").val() == '' || $("#mgrEmail").val() == ''
-			 || $("#emailNum").val() == ''  || $("#mPhone").val() == '' || $("#lPhone").val() == '') {
-			 alert("필수 입력 정보를 모두 입력해야합니다.");
-			 e.preventDefault();
-		 }
-	 })
+// 	$("FORM").SUBMIT(FUNCTION(E) {
+// 		 IF($("#MGRID").VAL() == '' || $("#MGRPW").VAL() == '' || $("#MGRNAME").VAL() == '' || $("#NEWPW").VAL() == '' || $("#MGREMAIL").VAL() == ''
+// 			 || $("#EMAILNUM").VAL() == ''  || $("#MPHONE").VAL() == '' || $("#LPHONE").VAL() == '') {
+// 			 ALERT("필수 입력 정보를 모두 입력해야합니다.");
+// 			 E.PREVENTDEFAULT();
+// 		 }
+// 	 })
 		
 }) // End Jquery
 </script>
@@ -559,8 +556,8 @@ input[type=file]::file-selector-button {
 				<br><br>
 				
 				<button class="btn btnRight">가입하기</button>
-				<a href="/manager/main"><button class="btn btnLeft">취소하기</button></a>
 			</form>
+				<a href="/manager/main"><button class="btn btnLeft">취소하기</button></a>
 			</div>
 		</div>
 	</div>

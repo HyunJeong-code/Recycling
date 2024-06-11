@@ -54,7 +54,7 @@
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
-		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
 		<div class = "full content" >
 	    
 		    <div class="wrap">
