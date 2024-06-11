@@ -175,11 +175,12 @@
     
     <select id="selectCartOrder" parameterType="String" resultType="CartOrder">
     	SELECT
-		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, stored_name
+		    S_CODE, p.PRD_CODE, PRD_NAME, PRICE, p.PRD_CNT cCnt, PRD_FEE, origin_name, stored_name
 		FROM
 		    prd p, prd_file pf
 			<where>
 			 	AND p.PRD_CODE = pf.PRD_CODE(+)
+			 	AND pf.CT_PFLNO = 600
 		     	AND p.PRD_CODE = #{prdCode}
 	     	</where>
     </select>
