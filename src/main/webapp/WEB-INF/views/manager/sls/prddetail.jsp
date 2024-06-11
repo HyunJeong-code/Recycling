@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +68,140 @@
 		
 	})
 </script>
+<style type="text/css">
+/* 중단 페이지 */
+.section {
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
+.section_top {
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 20px;
+}
+
+.section img {
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin: 20px;
+}
+
+.select_img{
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin: 20px;
+}
+
+.section .deptno_box, .section .mgrName_box, .section .mgrCode_box,
+	.section .mgrEntDate_box {
+	margin-bottom: 15px;
+	display: flex;
+	margin-left: 20px;
+}
+
+label {
+	color: #373f57;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	width: 200px;
+	text-align: justify;
+}
+
+input[type="text"], select {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+.section h3 {
+	color: #333;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+}
+
+.section_top_privacy {
+	padding: 20px;
+	margin-left: 20px;
+	margin-top: 20px;
+	flex: 1;
+}
+
+.section_top_privacy div {
+	margin-bottom: 10px;
+}
+
+/* --------------------------------------- */
+/* 색션 하단 */
+.section_bot_title {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #007BFF;
+	padding-bottom: 10px;
+}
+
+.section_bot_itembox {
+	width: 500px;
+	margin-left: 280px;
+}
+
+.section .mgrPhone_box, .section .mgrEmail_box, .section .mgrBirth_box,
+	.section .mgrGender_box {
+	margin-bottom: 15px;
+	display: flex;
+	margin-left: 20px;
+}
+
+/* 파일버튼 디자인 */
+.bot_document_filebox {
+	display: flex;
+	margin-left: 20px;
+	margin-bottom: 15px;
+}
+
+
+.bot_document_filebox .file_find {
+	text-align: right;
+	width: 100px;
+}
+
+.bot_document_filebox .file_name{
+	overflow: auto;
+}
+
+.bot_document_filebox input[type="file"] {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	display: none;
+}
+
+.bot_document_filebox .document_file {
+	display: inline-block;
+	height: 46px;
+	padding: 0 10px;
+	vertical-align: middle;
+	width: 79%;
+	color: #999999;
+}
+
+.btnRight{
+	margin-right: 20px;
+}
+
+</style>
 <body>
 
 
@@ -78,7 +212,19 @@
     <!-- 리사이클 -->
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
+			<sec:authentication var="managerLogin" property="principal"/>
+	<c:if test="${managerLogin.deptno eq 10}">
 		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 20}">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 30}">
+		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 40}">
+		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+	</c:if>
 		<div class = "full content" >
         <div class="wrap">
             <div class="page">
@@ -120,9 +266,9 @@
 	            			<td><input type="text" name="prdDetail" value="${prd.prdDetail }"></td>
 	            		</tr>
 		           	</table>
-		           	<button type="button"><a href="./sellinglist?sCode=${prd.sCode}">목록</a></button>
-		           	<button type="button" id="btnUpdate">수정하기</button>
-		           	<button type="button"><a href="./sellinglist?sCode=${prd.sCode}">삭제하기</a></button>
+		           	<button type="button"><a href="./sellinglist?sCode=${prd.sCode}" class="btn btnLeft">목록</a></button>
+		           	<button type="button" id="btnUpdate" class="btn btnRight">수정하기</button>
+		           	<button type="button"><a href="./sellinglist?sCode=${prd.sCode}" class="btn btnDel">삭제하기</a></button>
 	           	</form>
             </div>
         </div>

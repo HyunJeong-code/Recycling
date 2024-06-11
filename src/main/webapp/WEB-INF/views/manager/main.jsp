@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>메인페이지</title>
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>

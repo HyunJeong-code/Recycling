@@ -22,10 +22,8 @@ table {
 <div class="sidebar">
     <nav class="sidebar-nav">
     	<ul>
-    		<li><a href="/manager/emplist">사원 정보</a></li>
     		<li><a href="/manager/emplist">전체 사원 조회</a></li>
     		<li><a href="/manager/hr/main">인사팀</a></li>
-    		<li><a href="/manager/hr/main">전체 사원 조회</a></li>
     		<li><a href="/manager/hr/empform">사원 정보 등록</a></li>
     		<li><a href="/manager/mgr/main">관리자 정보 관리</a></li>
     		<li><a href="/manager/mgr/changepw">비밀번호 변경</a></li>
