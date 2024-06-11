@@ -556,8 +556,8 @@ input[type=file]::file-selector-button {
 				<br><br>
 				
 				<button class="btn btnRight">가입하기</button>
-				<a href="/manager/main"><button class="btn btnLeft">취소하기</button></a>
 			</form>
+				<a href="/manager/main"><button class="btn btnLeft">취소하기</button></a>
 			</div>
 		</div>
 	</div>

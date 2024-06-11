@@ -168,7 +168,6 @@ $(function(){
 	            </ul>
 	            <ul>
 	                <li><a href="/buyer/exp/main">체험단 예약</a></li>
-	                <li><a href="">체험단 후기</a></li>
 	            </ul>
 	            <ul>
 	                <li><a href="/buyer/help/noticelist">공지사항</a></li>

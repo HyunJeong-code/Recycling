@@ -17,10 +17,11 @@ import recycling.dto.buyer.BuyerLogin;
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstA;
 import recycling.dto.buyer.QstFile;
-import recycling.dto.buyer.QstFile;
+import recycling.dto.seller.Prd;
 import recycling.dto.seller.Qna;
 import recycling.page.face.PageService;
 import recycling.seller.service.face.QnaService;
+import recycling.seller.service.face.SellingService;
 import recycling.util.PagingAndCtg;
 
 // 고객 문의 관리
@@ -31,6 +32,7 @@ public class QnaController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired QnaService qnaService;
+    @Autowired private SellingService sellingService;
 	@Autowired private PageService pageService;
 	
 	@GetMapping("/main")
@@ -83,6 +85,10 @@ public class QnaController {
 		
 		QstFile img = qnaService.selectQstFile(qstCode);
 		
+        Prd prd = sellingService.selectByprdCode(qst.getPrdCode());
+
+        model.addAttribute("prd", prd);
+		
 		model.addAttribute("qst", qst);
 		model.addAttribute("img", img);
 	}
@@ -109,6 +115,10 @@ public class QnaController {
 		Qna qna = qnaService.selectQnaByqstCode(qstCode);
 		
 		QstFile img = qnaService.selectQstFile(qstCode);
+		
+        Prd prd = sellingService.selectByprdCode(qst.getPrdCode());
+
+        model.addAttribute("prd", prd);
 		
 		model.addAttribute("qna", qna);
 		model.addAttribute("qst", qst);

@@ -50,6 +50,10 @@ $(function() {
 						<td>문의 분류</td>
 						<td id="ctQst"></td>
 					</tr>
+	               <tr>
+	                  <td>상품 이름</td>
+	                  <td>${prd.prdName }</td>
+	               </tr>
 					<tr>
 						<td>문의 제목</td>
 						<td>${qst.qstTitle }</td>
@@ -58,10 +62,10 @@ $(function() {
 						<td>문의 내용</td>
 						<td>${qst.qstContent }</td>
 					</tr>
-					<tr>
+<%-- 					<tr>
 						<td>문의 이미지</td>
 						<td><img alt="문의 이미지" src="/resources/image/${img.originName }"></td>
-					</tr>
+					</tr> --%>
 					<tr>
 						<td>답변 내용</td>
 						<td><textarea id="qnaContent" name="qnaContent">${qna.qnaContent }</textarea></td>

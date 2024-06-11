@@ -57,14 +57,6 @@
 	                </ul>
 	            </li>
 	            
-	            <li><a href="/seller/sales/main">매출 관리</a>
-	                <ul class="snd_menu sub_menu">
-	                    <li><a href="/seller/sales/">재활용품 관리</a></li>
-	                    <li><a href="/seller/sales/">새활용 관리</a></li>
-	                    <li><a href="/seller/sales/">체험단 관리</a></li>
-	                </ul>
-	            </li>
-	            
 	            <li><a href="/seller/qna/main">고객 관리</a>
 	                <ul class="snd_menu sub_menu">
 	                    <li><a href="/seller/qna/main">문의글 조회</a></li>
