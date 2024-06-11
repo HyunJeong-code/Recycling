@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
+
 </head>
 <body>
 <c:import url="/WEB-INF/views/layout/buyer/buyerheader.jsp"/>
@@ -16,7 +17,6 @@
 		</div>
 		
 		<div class="section">
-		<c:set var="bId" value="${bId }"/>
 			<c:if test="${bId eq null }">
 				<p>회원 정보와 일치하는 아이디가 없습니다.</p>
 				<a href="/buyer/findid"><button class="btn btnLeft">돌아가기</button></a>

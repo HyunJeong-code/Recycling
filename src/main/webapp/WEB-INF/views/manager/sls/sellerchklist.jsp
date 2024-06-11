@@ -109,8 +109,8 @@ $(function() {
 				
 			</table>
 			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-			<button type="button" id="AllSel" name="AllSel" value="Y">수락</button>
-			<button type="button" id="AllSel" name="AllSel" value="N">거절</button>
+<!-- 			<button type="button" id="AllSel" name="AllSel" value="Y">수락</button> -->
+<!-- 			<button type="button" id="AllSel" name="AllSel" value="N">거절</button> -->
 		</div>
 	</div>
 </div>

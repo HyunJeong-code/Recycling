@@ -40,11 +40,6 @@
 		FROM manager
 		<where>
 			AND mgr_code = #{mgrCode }
-			AND mgr_name = #{mgrName }
-			AND mgr_phone = #{mgrPhone }
-			AND mgr_email = #{mgrEmail }
-			AND mgr_gender = #{mgrGender }
-			AND TO_CHAR(mgr_birth, 'YYYY-MM-DD') = TO_DATE(#{mgrBirth }, 'YYYY-MM-DD')
 			AND mgr_id IS NULL
 			AND mgr_pw IS NULL
 		</where>		
@@ -54,7 +49,7 @@
 		UPDATE manager
 		SET mgr_id = #{mgrId }, mgr_pw = #{mgrPw }
 		<where>
-			mgr_code = #{mgrCode }
+			AND mgr_code = #{mgrCode }
 		</where>
 	</update>
 	
@@ -177,4 +172,23 @@
 		UPDATE notice SET ntc_hit = ntc_hit + 1
 		<where>ntc_code = #{ntcCode }</where>
 	</update>
+	
+	<select id="selectByMgrId" parameterType="Manager">
+		SELECT mgr_id FROM manager
+		<where>
+			AND mgr_name = #{mgrName }
+			AND mgr_phone = #{mgrPhone }
+			AND mgr_email = #{mgrEmail }
+		</where>
+	</select>
+	
+	<select id="selectByMgr" parameterType="Manager">
+		SELECT mgr_code FROM manager
+		<where>
+			AND mgr_Id = #{mgrId }
+			AND mgr_name = #{mgrName }
+			AND mgr_phone = #{mgrPhone }
+			AND mgr_email = #{mgrEmail }
+		</where>
+	</select>
 </mapper>

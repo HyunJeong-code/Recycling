@@ -22,14 +22,12 @@
 		</where>
 	</update>
 	
-	<update id="updateMgr" parameterType="Manager">
+	<update id="updateManager" parameterType="Manager">
 		UPDATE manager
-		SET mgr_name = #{mgrName },
-			mgr_phone = #{mgrPhone },
-			mgr_email = #{mgrEmail }
+		SET mgr_id = #{mgrId },
+			mgr_pw = #{mgrPw }
 		<where>
 			AND mgr_code = #{mgrCode }
-			AND mgr_id = #{mgrId }
 		</where>
 	</update>
 	

@@ -43,6 +43,13 @@ $(function() {
 			$("#pw").css("display", "none");
 		}
 	})
+	
+	$("form").submit(function(e) {
+		 if($("#bId").val() == '' || $("#bPw").val() == '') {
+			 alert("필수 입력 정보를 모두 입력해야합니다.");
+			 e.preventDefault();
+		 }
+	 })
 })
 </script>
 <style type="text/css">

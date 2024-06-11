@@ -107,4 +107,8 @@ public interface MgrDao {
 	 * @return  List<Notice>
 	 */
 	public List<Notice> selectAllNotice(PagingAndCtg upPaging);
+	
+	public String selectByMgrId(Manager manager);
+	
+	public String selectByMgr(Manager manager);
 }

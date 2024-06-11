@@ -118,6 +118,15 @@ $(function(){
 .item:hover {
 	background-color: #4CAF50;
 }
+
+.mainContent {
+	max-width: 1200px;
+	height: auto; /* 높이 자동으로 설정 */
+	overflow: hidden;
+	padding-bottom: 20px; /* 하단 패딩 추가 */
+	background-color: #f8f9fa;
+}
+
 </style>
 </head>
 <body>

@@ -103,4 +103,8 @@ public interface MgrService {
 	 */
 	public int selectCntAllNotice(PagingAndCtg upPaging);
 
+	public String selectByMgrId(Manager manager);
+	
+	public String selectByMgr(Manager manager);
+
 }
