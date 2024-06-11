@@ -197,7 +197,7 @@ $(function() {
 					<form action="./myboard" method="get">
 						<input type="hidden" name="sCtg" value="UN">
 						<input type="text" id="undersearch" name="search" placeholder="검색어를 입력해주세요.">
-						<button class="btn btnRight">검색</button>
+						<button>검색</button>
 					</form>
 				</div>
 				<table class="b-table">

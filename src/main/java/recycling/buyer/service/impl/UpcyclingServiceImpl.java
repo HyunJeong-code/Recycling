@@ -166,4 +166,9 @@ public class UpcyclingServiceImpl implements UpcyclingService {
 	public CartOrder selectCartOrder(String prdCode) {
 		return upcyclingDao.selectCartOrder(prdCode);
 	}
+	
+	@Override
+	public void updateHit(String prdCode) {
+		upcyclingDao.updateHit(prdCode);
+	}
 }

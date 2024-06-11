@@ -293,9 +293,19 @@ public class BuyController {
 		logger.info("findId : {}", buyer);
 		
 		String bId = buyService.selectByBuyerId(buyer);
+		logger.info("bId : {}", bId);
 		model.addAttribute("bId", bId);
 		
-		return "redirect:/buyer/infoid";
+		if(bId == null) {
+			model.addAttribute("msg", "회원 정보와 일치하는 아이디가 없습니다.");
+			model.addAttribute("url", "/buyer/findid");
+		} else {
+			model.addAttribute("msg", "회원님의 아이디는 [ " + bId + " ] 입니다.");
+			model.addAttribute("url", "/buyer/findpw");
+		}
+		
+		
+		return "/layout/alert";
 	}
 	
 	@GetMapping("/infoid")
@@ -326,9 +336,9 @@ public class BuyController {
 		model.addAttribute("buyer", buyer);
 		
 		if(buyer == null) {
-			session.setAttribute("chkBuyer", "false");			
+			session.setAttribute("chkBuyer", false);			
 		} else {
-			session.setAttribute("chkBuyer", "true");
+			session.setAttribute("chkBuyer", true);
 			session.setAttribute("buyer", buyer);
 		}
 		
@@ -342,7 +352,7 @@ public class BuyController {
 			) {
 		logger.info("/buyer/changePw [GET]");
 		
-		if((Boolean) session.getAttribute("chkBuyer")) {
+		if((boolean) session.getAttribute("chkBuyer")) {
 			return "redirect:/buyer/changepw";
 		} else {
 			return "redirect:/buyer/findpw";
