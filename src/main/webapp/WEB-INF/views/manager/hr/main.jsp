@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,7 +81,19 @@
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
+			<sec:authentication var="managerLogin" property="principal"/>
+	<c:if test="${managerLogin.deptno eq 10}">
 		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 20}">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 30}">
+		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 40}">
+		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+	</c:if>
 		<div class = "full content" >
 		<div class="wrap">		
 			<div class="page">
@@ -88,10 +101,10 @@
 			</div>
 			
 			<div class="search">
-				<form action="./noticelist" method="get" class ="search_form">
+				<form action="./main" method="get" class ="search_form" >
 					<input type="hidden" name="sCtg" value="UP">
 					<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
-					<button class ="btn btnRight">검색</button>
+					<button class ="btn btnRight" >검색</button>
 				</form>
 			</div>
 			
@@ -154,7 +167,7 @@
 													<a href="./empdetail?mgrCode=${select.mgrCode }"><button class="btn btndetail">상세조회</button></a>
 												</c:when>
 												<c:when test="${empty select.mgrId}">
-													<button class="btn btndetail" disabled>미가입</button>
+													<button class="btn btndetail" disabled>미 가입</button>
 												</c:when>
 											</c:choose>
 										</td>

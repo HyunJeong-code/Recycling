@@ -23,13 +23,10 @@ table {
 <div class="sidebar">
     <nav class="sidebar-nav">
     	<ul>
-    		<li><a href="/manager/emplist">사원 정보</a></li>
     		<li><a href="/manager/emplist">전체 사원 조회</a></li>
     		<li><a href="/manager/sls/main">판매자 정보 관리</a></li>
-    		<li><a href="/manager/sls/main">판매자 정보 조회</a></li>
     		<li><a href="/manager/sls/sellerchklist">판매자 요청 관리</a></li>
     		<li><a href="/manager/sls/explist">체험단 관리</a></li>
-    		<li><a href="/manager/sls/explist">체험단 전체 조회</a></li>
     		<li><a href="/manager/sls/expform">체험단 등록</a></li>
     		<li><a href="/manager/mgr/main">관리자 정보 관리</a></li>
     		<li><a href="/manager/mgr/changepw">비밀번호 변경</a></li>

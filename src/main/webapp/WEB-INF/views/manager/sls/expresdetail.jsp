@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -184,7 +185,19 @@ $(function() {
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
+			<sec:authentication var="managerLogin" property="principal"/>
+	<c:if test="${managerLogin.deptno eq 10}">
 		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 20}">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 30}">
+		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 40}">
+		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+	</c:if>
 		<div class = "full content" >
         <div class="wrap">
             <div class="page">
@@ -252,16 +265,13 @@ $(function() {
     </tbody>
 </table>
 
-<table>
-	<tbody>
-	<tr>
-		<td>예약 관리</td>
-		<td><button id = "btn_reserve_complete">예약완료</button></td>
-		<td><button id = "btn_reserve_wait">예약대기</button></td>
-		<td><button id = "btn_reserve_cancel">예약취소</button></td>
-	</tr>
-	</tbody>
-</table>
+
+	<div class="exp_ressch" style="display: flex;">
+		<div>예약 관리</div>
+		<div><button id = "btn_reserve_complete">예약완료</button></div>
+		<div><button id = "btn_reserve_wait">예약대기</button></div>
+		<div><button id = "btn_reserve_cancel">예약취소</button></div>
+	</div>
 
 <hr>
 <h2>체험단 예약 리스트</h2>
