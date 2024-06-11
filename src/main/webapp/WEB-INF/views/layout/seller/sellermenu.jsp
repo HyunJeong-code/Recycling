@@ -63,14 +63,14 @@
 	                </ul>
 	            </li>
 	            
-	            <li><a href="/seller/mypage/sellermain">판매자 정보</a>
-	                <ul class="snd_menu sub_menu">
-	                    <li><a href="/seller/mypage/changepw">비밀번호 변경</a></li>
-	                    <li><a href="/seller/mypage/changebank">계좌번호 변경</a></li>
-	                    <li><a href="/seller/mypage/sellerdetail">판매자 정보 수정</a></li>
-	                    <li><a href="/seller/mypage/outseller">판매자 탈퇴</a></li>
-	                </ul>
-	            </li>
+<!-- 	            <li><a href="/seller/mypage/sellermain">판매자 정보</a> -->
+<!-- 	                <ul class="snd_menu sub_menu"> -->
+<!-- 	                    <li><a href="/seller/mypage/changepw">비밀번호 변경</a></li> -->
+<!-- 	                    <li><a href="/seller/mypage/changebank">계좌번호 변경</a></li> -->
+<!-- 	                    <li><a href="/seller/mypage/sellerdetail">판매자 정보 수정</a></li> -->
+<!-- 	                    <li><a href="/seller/mypage/outseller">판매자 탈퇴</a></li> -->
+<!-- 	                </ul> -->
+<!-- 	            </li> -->
 	        </ul>
 	    </div>
 	</div>
