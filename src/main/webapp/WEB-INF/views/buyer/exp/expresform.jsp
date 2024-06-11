@@ -67,25 +67,10 @@ h1 {
     color: #333;
 }
 
-#payOption {
-    margin-bottom: 15px;
-}
-
-#payOption label {
-    display: inline-block;
-    margin-right: 20px;
-    font-size: 14px;
-    color: #555;
-}
-
-#payOption input[type="radio"] {
-    margin-right: 5px;
-}
 
 .btnRight {
     cursor: pointer;
     display: inline-block;
-    padding: 10px 20px;
     margin-right: 10px;
     background-color: #4CAF50;
     color: #fff;
@@ -244,19 +229,24 @@ function requestPay() {
             <input type="text" class="form-control" id="resSum" name="resSum" readonly>
         </div>
         
-        <div class="pay">
             <div class="page-header">
-                <h5>결제 방법</h5>
-            </div>
-
-            <div id="payOption">
-                <label>신용카드<input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
-                <label>토스페이<input type="radio" id="tosspay" name="payOption" value="trans"></label>
-                <label>카카오페이<input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
-            </div>
-
-            <button class="btnRight" type="button" id="btnPay" onclick="requestPay();">신청하기</button>
-            
+            <h5>결제 방법</h5>
+        </div>
+		
+		<table class="view-table">
+			<tr>
+				<td>결제 수단</td>
+				<td>
+			        <div id="payOption">
+			            <label>신용카드</label><input type="radio" id="html5_inicis" name="payOption" value="card" checked="checked"></label>
+			            <label>토스페이</label><input type="radio" id="tosspay" name="payOption" value="tosspay"></label>
+			            <label>카카오페이</label><input type="radio" id="kakaopay" name="payOption" value="kakaopay"></label>
+			        </div>
+		        </td>
+	        </tr>
+        </table>
+		<div class="btnBox">
+        	<button type="button" id="btnPay" class="btn btnRight" onclick="requestPay();">결제하기</button>
         </div>
     </form>
 </div>

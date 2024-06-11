@@ -90,15 +90,15 @@ border-right: 1px solid #d6d6d6;
 		
 		<div class="oto_file">
 			<c:forEach var="file" items="${otoFiles}">
-<%-- 		        <c:choose> --%>
-<%-- 		            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif')}"> --%>
+		        <c:choose>
+		            <c:when test="${file.originName.endsWith('.jpg') || file.originName.endsWith('.jpeg') || file.originName.endsWith('.png') || file.originName.endsWith('.gif')}">
 <%-- 		                <img src="${pageContext.request.contextPath}/upload/${file.storedName}" alt="${file.originName}" style="max-width: 100%;"> --%>
 					<img alt="문의 이미지"	src="/resources/image/${file.originName }" class="imgSum">
-<%-- 		            </c:when> --%>
-<%-- 		            <c:otherwise> --%>
+		            </c:when>
+		            <c:otherwise>
 <%-- 		                <a href="${pageContext.request.contextPath}/upload/${file.storedName}">${file.originName}</a> --%>
-<%-- 		            </c:otherwise> --%>
-<%-- 		        </c:choose> --%>
+		            </c:otherwise>
+		        </c:choose>
 		    </c:forEach>
 		</div>
 		<hr><br>

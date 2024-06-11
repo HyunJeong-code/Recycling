@@ -17,7 +17,7 @@ div#topExpList{
     gap: 50px;
     justify-content: center;
 }
-a {
+#topExpList a {
 	display: contents;
 }
 
@@ -97,7 +97,6 @@ button {
 .mainBanner {
 		max-width: 1200px;
 		height: auto; /* 높이 자동으로 설정 */
-		border: 1px solid black;
 		overflow: hidden;
 		padding-top: 20px;
 		padding-bottom: 20px; /* 하단 패딩 추가 */
@@ -174,8 +173,7 @@ $(document).ready(function() {
             <a href="./expdetail?expCode=${exp.expCode }">
                 <div class="expList topPopList">
 <%-- 						<c:if test="${not empty main[exp.expCode]}"> --%>
-<%--                         	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;"> --%>
-					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" class="imgSum">
+					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" >
 <%--                     	</c:if> --%>
                     <div class="title">${exp.expName}</div>
                     <div class="price">${exp.expPrice}원</div>
@@ -187,8 +185,7 @@ $(document).ready(function() {
            	<a href="./expdetail?expCode=${exp.expCode }">
                 <div class="expList topRecList" style="display: none;">
 <%--                		<c:if test="${not empty main[exp.expCode]}"> --%>
-<%--                        	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;"> --%>
-					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" class="imgSum">
+					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" >
 <%--                    	</c:if> --%>
                     <div class="title">${exp.expName}</div>
                     <div class="price">${exp.expPrice}원</div>
@@ -198,7 +195,6 @@ $(document).ready(function() {
             </c:forEach>
         </div>
     </div>
-    <hr>
     <br>
     <br>
     <br>
@@ -212,11 +208,6 @@ $(document).ready(function() {
     <div class="body-section">
         <form action="./main" method="get">
         <div class="category">
-<!--             <select name="category" id="category" class="form-select" onchange="this.form.submit()"> -->
-<%--                 <option value="all" ${category == 'all' ? 'selected' : ''}>전체</option> --%>
-<%--                 <option value="recent" ${category == 'recent' ? 'selected' : ''}>최신순</option> --%>
-<%--                 <option value="popular" ${category == 'popular' ? 'selected' : ''}>조회순</option> --%>
-<!--             </select> -->
 			<button type="submit" name="category" value="all" class="category-btn ${category == 'all' ? 'active' : ''}">전체</button>
             <button type="submit" name="category" value="recent" class="category-btn ${category == 'recent' ? 'active' : ''}">최신순</button>
             <button type="submit" name="category" value="popular" class="category-btn ${category == 'popular' ? 'active' : ''}">조회순</button>
@@ -239,8 +230,7 @@ $(document).ready(function() {
            	<a href="./expdetail?expCode=${exp.expCode }">
 	            <div class="expAllList">
 <%-- 	            	<c:if test="${not empty main[exp.expCode]}"> --%>
-<%--                        	<img src="${pageContext.request.contextPath}/upload/${main[exp.expCode].storedName}" alt="${main[exp.expCode].originName}" style="width: 200px;"> --%>
-					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" class="imgSum">
+					<img alt="체험단 이미지" src="/resources/image/${main[exp.expCode].originName}" >
 <%--                    	</c:if> --%>
 	                <div class="title">${exp.expName}</div>
 	                <div class="price">${exp.expPrice}원</div>

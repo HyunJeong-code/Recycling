@@ -40,15 +40,13 @@
     <table class="n-table">
     
     	<colgroup>
-			<col style="width: 15%;">
-			<col style="width: 55%;">
+			<col style="width: 70%;">
 			<col style="width: 10%;">
 			<col style="width: 20%;">
 		</colgroup>
 	
         <thead>
             <tr>
-                <th>번호</th>
                 <th>제목</th>
                 <th>조회수</th>
                 <th>등록일</th>
@@ -57,7 +55,6 @@
         <tbody>
             <c:forEach items="${noticeList}" var="notice">
                 <tr>
-                    <td>${notice.ntcCode}</td>
                     <td class="t-title"><a href="./noticedetail?ntcCode=${notice.ntcCode}">${notice.ntcTitle}</a></td>
                     <td>${notice.ntcHit}</td>
                     <td>${notice.ntcDate}</td>
