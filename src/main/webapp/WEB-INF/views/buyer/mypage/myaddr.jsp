@@ -202,10 +202,6 @@ th {
     width: 185px;
     height: 39px;
 }
-
-.button-group button:hover {
-    background-color: #9e9e9e;
-}
 </style>
 
 </head>
@@ -219,15 +215,6 @@ th {
 			<c:import url="/WEB-INF/views/layout/buyer/buyermymenu.jsp"/>
 		
 			<div class="page">
-<!-- 마이페이지 버튼 -->
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${buyerLogin.bCtCode == 'P' }"> --%>
-<%-- 						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a> --%>
-<%-- 					</c:when> --%>
-<%-- 					<c:when test="${buyerLogin.bCtCode == 'C' }"> --%>
-<%-- 						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a> --%>
-<%-- 					</c:when> --%>
-<%-- 				</c:choose> --%>
 				
 				<c:if test="${not empty buyerAdrList }">
 					<div>

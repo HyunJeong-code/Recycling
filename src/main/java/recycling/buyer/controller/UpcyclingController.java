@@ -1,9 +1,10 @@
 package recycling.buyer.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,18 +40,47 @@ public class UpcyclingController {
 	
 	@GetMapping("/main")
 	public String upcyMain(Model model) {
-		logger.info("/buyer/upcycling/main [GET]");
-		
-		List<Prd> list = upcyclingService.selectPrdList();
-		
-		model.addAttribute("list", list);
-		
-		return "buyer/upcycling/main";
+        logger.info("/buyer/upcycling/main [GET]");
+        
+        // 상품 정보 로드
+        List<Prd> list = upcyclingService.selectPrdList();
+        
+        // 각 리스트에 대한 썸네일과 상품 정보 가져오기
+        List<Map<String, Object>> prdWithImagesList = new ArrayList<>();
+        List<Map<String, Object>> latestPrdWithImagesList = new ArrayList<>();
+        List<Map<String, Object>> hitPrdWithImagesList = new ArrayList<>();
+        
+        for (Prd prd : list) {
+            Map<String, Object> prdWithImages = new HashMap<>();
+            prdWithImages.put("prd", prd);
+            prdWithImages.put("prdImageThumNames", upcyclingService.selectPrdImageThums(prd.getPrdCode()));
+            prdWithImagesList.add(prdWithImages);
+        }
+        
+        for (Prd prd : upcyclingService.selectLatestList()) {
+            Map<String, Object> prdWithImages = new HashMap<>();
+            prdWithImages.put("prd", prd);
+            prdWithImages.put("prdImageThumNames", upcyclingService.selectLatestPrdImageThums(prd.getPrdCode()));
+            latestPrdWithImagesList.add(prdWithImages);
+        }
+        
+        for (Prd prd : upcyclingService.selectHitList()) {
+            Map<String, Object> prdWithImages = new HashMap<>();
+            prdWithImages.put("prd", prd);
+            prdWithImages.put("prdImageThumNames", upcyclingService.selectHitPrdImageThums(prd.getPrdCode()));
+            hitPrdWithImagesList.add(prdWithImages);
+        }
+        
+        model.addAttribute("prdWithImagesList", prdWithImagesList);
+        model.addAttribute("latestPrdWithImagesList", latestPrdWithImagesList);
+        model.addAttribute("hitPrdWithImagesList", hitPrdWithImagesList);
+        
+        return "buyer/upcycling/main";
 	}
 	
 	@GetMapping("/upcydetail")
 	public String  upcyDetail(
-			@RequestParam("prdcode") String prdCode,
+			@RequestParam("prdCode") String prdCode,
 			Authentication authentication, Model model) {
 		logger.info("/upcydetail [GET] - prdCode: {}", prdCode );
 		
@@ -73,7 +103,43 @@ public class UpcyclingController {
 		Buyer buyer = upcyclingService.selectBuyerByBCode(seller.getbCode());
 		int shipCnt = upcyclingService.selectShipCnt(prd.getsCode());
 		
+	    // 상품 썸네일 파일명 로드
+	    String prdImageThumName = upcyclingService.selectPrdImageThum(prdCode);
+	    if (prdImageThumName == null) {
+	        prdImageThumName = "error_400px.png"; // 기본 에러 이미지
+	    }
+	    logger.info("썸네일 이미지 파일명: {}", prdImageThumName);
+	    
+	    // 상세 이미지 파일명 로드
+	    List<String> prdImageDetails = upcyclingService.selectPrdImageDetail(prdCode);
+	    if (prdImageDetails == null || prdImageDetails.isEmpty()) {
+	        prdImageDetails = List.of("error_860px.png"); // 기본 에러 이미지
+	    }
+	    logger.info("상세 이미지 파일명들: {}", prdImageDetails);
+	    
+	    //리뷰 로드
+		List<Map<String, Object>> upcyvwlist = upcyclingService.selectRvwList(prdCode);
+		
+		if (upcyvwlist == null || upcyvwlist.isEmpty()) {
+			logger.info("리뷰가 존재하지 않습니다.");
+			model.addAttribute("reviewMessage", "리뷰가 존재하지 않습니다.");
+		} else {
+			logger.info("리뷰 조회 성공 - 개수: {}", upcyvwlist.size());
+			for (Map<String, Object> review : upcyvwlist) {
+			    String bCode = (String) review.get("B_CODE");
+			    Buyer selectedBuyer = upcyclingService.selectBuyerByBCode(bCode);
+			    if (selectedBuyer != null) {
+			        review.put("BUYER_NAME", selectedBuyer.getbName());
+			    }
+			}
+			model.addAttribute("upcyvwlist", upcyvwlist);
+			model.addAttribute("rvwSize", upcyvwlist.size());
+			
+		}
+		
 		model.addAttribute("prd", prd);
+	    model.addAttribute("prdImageThumName", prdImageThumName);
+	    model.addAttribute("prdImageDetails", prdImageDetails);
 		model.addAttribute("seller", seller);
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("shipCnt", shipCnt);
@@ -83,82 +149,84 @@ public class UpcyclingController {
 		
 	}
 	
-	@GetMapping("/upcyvwlist")
-	public String  upcyvwlist(@RequestParam("prdCode") String prdCode, Model model) {
-		logger.info("/upcyvwlist [GET] - prdCode: {}", prdCode);
-		
-		List<UpcyReview> upcyvwlist = upcyclingService.selectRvwList(prdCode);
-		
-		model.addAttribute("upcyvwlist", upcyvwlist);
-		
-		return "buyer/upcycling/upcyvwlist";
+
+	@GetMapping("/upcyrvwform")
+	public String upcyrvwform(
+	        Authentication authentication,
+	        Model model) {
+	    logger.info("/upcyrvwform [GET]");
+
+	    //로그인 정보 불러오기
+	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+
+	    // 로그인 확인
+	    if (authentication == null || !authentication.isAuthenticated()) {
+	        // 비로그인 상태인 경우 로그인 페이지로 리다이렉트
+	        return "redirect:/buyer/login";
+	    }
+
+	    Buyer buyer = upcyclingService.selectBuyerDetail(buyerLogin.getbId());
+	    model.addAttribute("buyer", buyer);
+
+	    return "/buyer/upcycling/upcyrvwform"; // 후기 작성 폼 페이지로 이동
 	}
 
-	 @GetMapping("/upcyrvwform")
-	 public String upcyrvwform(
-			 @RequestParam("prdCode") String prdCode,
-			 Authentication authentication,
-			 Model model) {
-	        logger.info("/upcyrvwform [GET]");
-	        
-	        //로그인 정보 불러오기
-			 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-			 
-			// 로그인 확인
-			 if (authentication == null || !authentication.isAuthenticated()) {
-				 	// 비로그인 상태인 경우 로그인 페이지로 리다이렉트
-				 return "redirect:/buyer/login";
-			 }
-			 
-			 Buyer buyer = upcyclingService.selectBuyerDetail(buyerLogin.getbId());
-			 model.addAttribute("buyer", buyer);
-	        
-	        return "/buyer/upcycling/upcyrvwform"; // 후기 작성 폼 페이지로 이동
-	    }
-	 
-	 @PostMapping("/upcyrvwformProc")
-	 public String upcyrvwformProc(
-			 Model model,
-			 @RequestParam("prdcode") String prdCode,
-			 @RequestParam("upcyContent") String upcyContent,
-			 @RequestParam("upcyGrade") int upcyGrade,
-			 Authentication authentication) {
-		 logger.info("/upcyrvwformProc [POST]");
+	@PostMapping("/upcyrvwformProc")
+	public String upcyrvwformProc(
+	        Model model,
+	        @RequestParam("prdCode") String prdCode,
+	        @RequestParam("upcyContent") String upcyContent,
+	        @RequestParam("upcyGrade") int upcyGrade,
+	        Authentication authentication) {
+	    logger.info("/upcyrvwformProc [POST]");
+	    logger.info("Received prdCode: " + prdCode);
 
-		 // 로그인 확인
-		 if (authentication == null || !authentication.isAuthenticated()) {
-			 // 비로그인 상태인 경우 로그인 페이지로 리다이렉트
-			 return "redirect:/buyer/login";
-		 }
-		 
-		 //로그인 정보 불러오기
-		 BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
-		 
-		 if (buyerLogin == null) {
-			 // BuyerLogin 객체가 null이면 로그인 페이지로 리다이렉트
-			 return "redirect:/buyer/login";
-		 }
-		 
-		 
-		 Buyer buyer = upcyclingService.selectBuyerDetail(buyerLogin.getbId());
-		 
-		 if (buyer == null) {
-			 // Buyer 객체가 null이면 오류 페이지로 리다이렉트
-			 return "redirect:/buyer/loginr";
-		 }
-		 
-		 logger.info("Received prdCode: " + prdCode);
-		 
-		 UpcyReview review = new UpcyReview();
-		 review.setbCode(buyer.getbCode());
-		 review.setPrdCode(prdCode);
-		 review.setUpcyContent(upcyContent);
-		 review.setUpcyGrade(upcyGrade);
-		 
-		 int res = upcyclingService.insertReview(review);
-		 
-		 return "redirect:/buyer/upcycling/upcydetail?prdcode=" + prdCode;
-	 }
+	    // 로그인 확인
+	    if (authentication == null || !authentication.isAuthenticated()) {
+	        // 비로그인 상태인 경우 로그인 페이지로 리다이렉트
+	        return "redirect:/buyer/login";
+	    }
+
+	    //로그인 정보 불러오기
+	    BuyerLogin buyerLogin = (BuyerLogin) authentication.getPrincipal();
+
+	    if (buyerLogin == null) {
+	        // BuyerLogin 객체가 null이면 로그인 페이지로 리다이렉트
+	        return "redirect:/buyer/login";
+	    }
+
+
+	    Buyer buyer = upcyclingService.selectBuyerDetail(buyerLogin.getbId());
+
+	    if (buyer == null) {
+	        // Buyer 객체가 null이면 오류 페이지로 리다이렉트
+	        return "redirect:/buyer/loginr";
+	    }
+
+	    logger.info("Received prdCode: " + prdCode);
+
+	    if (prdCode == null || prdCode.isEmpty()) {
+	        // 에러 처리 로직 추가
+	        model.addAttribute("error", "Product code is missing.");
+	        return "errorPage"; // 에러 페이지로 리다이렉트
+	    }
+
+	    UpcyReview review = new UpcyReview();
+	    review.setbCode(buyer.getbCode());
+	    review.setPrdCode(prdCode);
+	    review.setUpcyContent(upcyContent);
+	    review.setUpcyGrade(upcyGrade);
+
+	    int res = upcyclingService.insertReview(review);
+
+
+	    if (res > 0) {
+	        return "redirect:/buyer/upcycling/upcydetail?prdCode=" + prdCode;
+	    } else {
+	        model.addAttribute("error", "Failed to submit review.");
+	        return "errorPage";
+	    }
+	}
 	 
 	   @GetMapping("/cart")
 	   public String cart(Authentication authentication
@@ -218,6 +286,7 @@ public class UpcyclingController {
 		 cartOrder.setPrdName(prd.getPrdName());
 		 cartOrder.setPrice(prd.getPrice());
 		 cartOrder.setPrdFee(prd.getPrdFee());
+		 cartOrder.setOriginName(prd.getOriginName());
 		 cartOrder.setStoredName(prd.getStoredName());
 		 
 		 
@@ -287,11 +356,11 @@ public class UpcyclingController {
 	 
 	 @GetMapping("/payinfo")
 	 public void payInfo(String ordCode, Model model) {
-	 logger.info("{}",ordCode);
-
-	 Orders order = buyerService.selectByordCode(ordCode);
-
-	 model.addAttribute("order", order);
+		 logger.info("{}",ordCode);
+	
+		 Orders order = buyerService.selectByordCode(ordCode);
+	
+		 model.addAttribute("order", order);
 	 }
 
 	 @GetMapping("/cartchk")
