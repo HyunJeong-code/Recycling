@@ -237,17 +237,13 @@ table {
     display: inline-block;
 }
 
-table, th, td {
+table, td {
     border: 1px solid #dddddd;
 }
 
-th, td {
+td {
     padding: 15px;
     text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
 }
 
 td:first-child {
@@ -342,15 +338,6 @@ td:first-child {
 		
 			<div class="page">
 			<h3>기업 정보 수정</h3>
-<!-- 마이페이지 버튼 -->
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${buyerLogin.bCtCode == 'P' }"> --%>
-<%-- 						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagepri">마이페이지</a> --%>
-<%-- 					</c:when> --%>
-<%-- 					<c:when test="${buyerLogin.bCtCode == 'C' }"> --%>
-<%-- 						<a href="${pageContext.request.contextPath }/buyer/mypage/mypagecmp">마이페이지</a> --%>
-<%-- 					</c:when> --%>
-<%-- 				</c:choose> --%>
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailcmp" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
 					<input type="hidden" id="fullEmail" name="fullEmail" value="${currentBuyer.bEmail}">

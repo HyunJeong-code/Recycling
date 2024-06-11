@@ -153,13 +153,17 @@ public class ManagerController {
 		manager.setMgrCode(mgr.getMgrCode());
 		manager.setMgrId(mgr.getMgrId());
 		int res = managerService.updateMgr(manager);
-				
-		MgrFile mgrFile = new MgrFile();
-		mgrFile.setMgrFlNo(mgrFlNo);
-		mgrFile = managerService.saveFile(mgrProf, manager);
-		logger.info("mgrFile : {}", mgrFile);
 		
-		int resProf = managerService.updateMgrProf(mgrFile);
+		int resProf = 0;
+		
+		if(!mgrProf.isEmpty()) {
+			MgrFile mgrFile = new MgrFile();
+			mgrFile.setMgrFlNo(mgrFlNo);
+			mgrFile = managerService.saveFile(mgrProf, manager);
+			logger.info("mgrFile : {}", mgrFile);
+			
+			resProf = managerService.updateMgrProf(mgrFile);			
+		} 
 		
 		model.addAttribute("msg", "사원 정보가 수정되었습니다.");
 		model.addAttribute("url", "/manager/mgr/mgrdetail");

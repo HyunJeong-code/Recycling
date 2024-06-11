@@ -7,8 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/manager/manager.css">	
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
+
 	
 $(function() {
 	
@@ -46,24 +50,48 @@ $(function() {
 // 	})
 })
 </script>
+<style type="text/css">
+.search_form{
+	padding-bottom: 20px;
+}
+
+.btn_bot_wrap{
+	display: flex;
+	
+}
+
+</style>
+
 </head>
 <body>
-<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
-<div class="admin-container">
-<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
-<div class = "full content" >
+	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
+    <div class="admin-container">
+			<sec:authentication var="managerLogin" property="principal"/>
+	<c:if test="${managerLogin.deptno eq 10}">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 20}">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 30}">
+		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 40}">
+		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+	</c:if>
+		<div class = "full content" >
 	<div class="wrap">
 		<div class="page">
-			<h3>판매자 전환 요청 관리</h3>
+			판매자 전환 요청 관리
 		</div>
 		
 		<div class="section">
-			<form action="/manager/sls/sellerchklist" method="get">
-				<input type="hidden" name="sCtg" value="UP">
-				<input type="text" id="search" name="search" placeholder="검색어를 입력해주세요." class="search">
-				<button>검색</button>
+			<form action="/manager/sls/sellerchklist" method="get" class ="search_form">
+				<input type="hidden" name="sCtg" value="UP" >
+				<input type="text" id="uppersearch" name="search" placeholder="검색어를 입력해주세요." class="search">
+				<button class ="btn btnRight">검색</button>
 			</form>
-			<table border="1">
+			<table>
 				<tr>
 					<th>번호</th>
 					<th>판매자 번호</th>
@@ -100,8 +128,8 @@ $(function() {
 								</c:if>
 							</td>
 							<td>
-								<a href="/manager/sls/sellerchk?selChk=Y&sCode=${list.S_CODE }"><button class="btn btnRight" id="selChk" name="selChk">수락</button></a>
-								<a href="/manager/sls/sellerchk?selChk=N&sCode=${list.S_CODE }"><button class="btn btnLeft" id="selChk" name="selChk">거절</button></a>
+								<a href="/manager/sls/sellerchk?selChk=Y&sCode=${list.S_CODE }"><button id="selChk" name="selChk">수락</button></a>
+								<a href="/manager/sls/sellerchk?selChk=N&sCode=${list.S_CODE }"><button id="selChk" name="selChk">거절</button></a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -109,8 +137,8 @@ $(function() {
 				
 			</table>
 			<c:import url="/WEB-INF/views/layout/upperpaging.jsp"/>
-			<button type="button" id="AllSel" name="AllSel" value="Y">수락</button>
-			<button type="button" id="AllSel" name="AllSel" value="N">거절</button>
+<!-- 			<button type="button" id="AllSel" name="AllSel" value="Y">수락</button> -->
+<!-- 			<button type="button" id="AllSel" name="AllSel" value="N">거절</button> -->
 		</div>
 	</div>
 </div>

@@ -103,6 +103,9 @@ public class UpcyclingController {
 		Buyer buyer = upcyclingService.selectBuyerByBCode(seller.getbCode());
 		int shipCnt = upcyclingService.selectShipCnt(prd.getsCode());
 		
+		// 상품 클릭 시, 조회수 증가
+	    upcyclingService.updateHit(prdCode);
+		
 	    // 상품 썸네일 파일명 로드
 	    String prdImageThumName = upcyclingService.selectPrdImageThum(prdCode);
 	    if (prdImageThumName == null) {

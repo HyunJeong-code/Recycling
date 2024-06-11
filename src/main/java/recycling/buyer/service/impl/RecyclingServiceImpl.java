@@ -163,8 +163,11 @@ public class RecyclingServiceImpl implements RecyclingService {
 		return recyclingDao.insertRcy(rcy);
 	}
 
-
-
+	@Override
+	public void updateHit(String prdCode) {
+		recyclingDao.updateHit(prdCode);
+	}
+	
 
 
 

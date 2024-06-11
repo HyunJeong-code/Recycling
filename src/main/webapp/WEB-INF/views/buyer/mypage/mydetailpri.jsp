@@ -240,23 +240,19 @@ hr {
 }
 
 table {
-    width: 85%;
+    width: 80%;
     border-collapse: collapse;
     margin-top: 20px;
     display: inline-block;
 }
 
-table, th, td {
+table, td {
     border: 1px solid #dddddd;
 }
 
-th, td {
+td {
     padding: 15px;
     text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
 }
 
 td:first-child {
@@ -351,7 +347,6 @@ td:first-child {
 		
 			<div class="page">
 			<h3>개인 정보 수정</h3>
-			
 				<form action="${pageContext.request.contextPath }/buyer/mypage/mydetailpri" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="bCode" value="${currentBuyer.bCode }">
 					<input type="hidden" id="fullEmail" name="fullEmail" value="${currentBuyer.bEmail}">

@@ -67,10 +67,7 @@ h3 {
     margin: 0;
     color: #333;
     text-align: center;
-}
-
-.page {
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
 table {
@@ -176,7 +173,11 @@ footer {
 					</tr>
 					<tr>
 						<th>첨부파일</th>
-						<td><img alt="" src=""></td>
+						<td>
+							<c:forEach var="file" items="${qstFiles }">
+								<img src="/resources/image/${file.originName }" alt="문의 이미지">
+							</c:forEach>
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -191,6 +192,7 @@ footer {
 				</form>
 			</div>
 		</div>
+	</div>
 	
 	<c:import url="/WEB-INF/views/layout/buyer/buyerfooter.jsp"/>
 	

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -445,7 +446,19 @@ margin-bottom: 20px;
 <body>
 	<c:import url="/WEB-INF/views/layout/manager/managerheader.jsp"/>
     <div class="admin-container">
+			<sec:authentication var="managerLogin" property="principal"/>
+	<c:if test="${managerLogin.deptno eq 10}">
 		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 20}">
+		<c:import url="/WEB-INF/views/layout/manager/managerhrmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 30}">
+		<c:import url="/WEB-INF/views/layout/manager/managerslsmenu.jsp"/>
+	</c:if>
+	<c:if test="${managerLogin.deptno eq 40}">
+		<c:import url="/WEB-INF/views/layout/manager/managercsmenu.jsp"/>
+	</c:if>
 		<div class = "full content" >
 		<div class="wrap">
 			<div class="page">

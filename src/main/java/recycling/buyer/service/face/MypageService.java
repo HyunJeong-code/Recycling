@@ -12,6 +12,7 @@ import recycling.dto.buyer.OtoCt;
 import recycling.dto.buyer.OtoFile;
 import recycling.dto.buyer.Qst;
 import recycling.dto.buyer.QstCt;
+import recycling.dto.buyer.QstFile;
 import recycling.dto.seller.Qna;
 import recycling.util.PagingAndCtg;
 
@@ -112,6 +113,14 @@ public interface MypageService {
 	public List<QstCt> getAllQct();
 	
 	/**
+	 * qstCode에 해당하는 QstFile 조회
+	 * 
+	 * @param qstCode - 조회할 qstCode
+	 * @return 조회된 Qst 파일 리스트
+	 */
+	public List<QstFile> getQstFiles(String qstCode);
+	
+	/**
 	 * qstCode와 일치하는 Qst 조회
 	 * 
 	 * @param qstCode - 조회할 qstCode
@@ -150,5 +159,7 @@ public interface MypageService {
 	 * @return
 	 */
 	public List<Map<String, Object>> selectBuyer(BuyerLogin buyerLogin);
+
+	
 
 }

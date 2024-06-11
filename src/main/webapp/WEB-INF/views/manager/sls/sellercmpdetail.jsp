@@ -351,7 +351,7 @@ $(function() {
 			
 		</table>
 		
-		<button class="btnLeft">수정하기</button>
+<!-- 		<button class="btnLeft">수정하기</button> -->
 		<button type="button" id="btnList" class="btn">목록으로</a></button>
 	</form>
 </div> <!-- section End -->

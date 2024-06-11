@@ -155,6 +155,12 @@
 		SELECT * FROM Qst_Ct
 	</select>
 	
+	<!-- 판매자 문의 첨부 파일 리스트 조회 -->
+	<select id="getQstFiles" parameterType="string" resultType="recycling.dto.buyer.QstFile">
+		SELECT * FROM Qst_File
+		WHERE Qst_Code = #{qstCode }
+	</select>
+	
 	<!-- Qst_Code와 일치하는 Qna 조회 -->
 	<select id="getQstByqstCode" parameterType="string" resultType="recycling.dto.buyer.Qst">
 		SELECT * FROM Qst
