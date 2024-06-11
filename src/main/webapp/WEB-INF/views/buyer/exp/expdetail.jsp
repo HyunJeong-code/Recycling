@@ -241,10 +241,9 @@ function checkLoginAndRedirect(url) {
     <div class="detailUpper">
         <div class="mainThumbnail">
         	<c:choose>
-                <c:when test="${not empty main}">
-                    <img alt="썸네일 이미지" 
-                         src="/resources/image/${main.originName}" 
-                         onerror="this.onerror=null; this.src='/resources/image/basicProf.png';">
+<%--                 <c:when test="${not empty main}"> --%>
+                <c:when test="${main.originName.endsWith('.jpg') || main.originName.endsWith('.jpeg') || main.originName.endsWith('.png') || main.originName.endsWith('.gif') || main.originName.endsWith('.PNG')}">
+                    <img alt="썸네일 이미지" src="/resources/image/${main.originName}">
                 </c:when>
                 <c:otherwise>
                 	<img alt="기본 프로필 이미지" src="/resources/image/basicProf.png">
@@ -289,7 +288,7 @@ function checkLoginAndRedirect(url) {
                         <img alt="상세 이미지" src="/resources/image/${file.originName}" style="width:700px; height:600px;">
                     </c:when>
                     <c:otherwise>
-                        <a href="/resources/image/${file.storedName}"  style="width:700px; height:600px;>${file.originName}</a>
+                        <a href="/resources/image/${file.storedName}" >${file.originName}</a>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
@@ -351,7 +350,7 @@ function checkLoginAndRedirect(url) {
             </c:when>
             <c:otherwise>
                 <textarea id="rvwContent" name="rvwContent" rows="4" readonly>로그인 후 작성해주세요</textarea><br>
-                <a href="/buyer/login" class="btnLeft">로그인</a>
+                <a href="/buyer/login"><button class="btnRight" type="button">로그인</button></a>
             </c:otherwise>
         </c:choose>
     </div>
@@ -406,7 +405,7 @@ function checkLoginAndRedirect(url) {
     </div>
     <br>
     
-    <div>
+    <div style="text-align: center;">
         <a href="./main"><button class="btnLeft">메인으로</button></a>
     </div>
 </div>
