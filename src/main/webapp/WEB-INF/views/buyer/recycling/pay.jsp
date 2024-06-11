@@ -124,7 +124,7 @@
             <tbody>
                 <tr>
                     <td>
-                    	<img alt="${prd.prdName }" src="/image/${prd.originName }">
+                    	<img alt="${prd.prdName }" src="/resources/image/${prd.originName }">
                     </td>
                     <td>${prd.prdName }</td>
                     <td>${prd.price }</td>
